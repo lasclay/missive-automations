@@ -116,10 +116,49 @@ curl -s -b $CA -o /dev/null -X POST $B/ordres/$O2/items/3/fil --data 'type=note&
 [ "$(Q "SELECT COUNT(*) n FROM item_fil WHERE texte='ailleurs'")" = 0 ] \
   && ok "un item ne s'écrit pas depuis un autre ordre" || ko "cloisonnement des ordres percé"
 
+# Un message se corrige — mais seulement le sien. Un fil où l'on peut se faire
+# réécrire par quelqu'un d'autre ne vaut plus rien comme trace, et c'est comme
+# trace qu'il sert, trois semaines plus tard.
+F=$(Q "SELECT id n FROM item_fil WHERE item_id=3 AND type='question' ORDER BY id LIMIT 1")
+curl -s -b $CO -o /dev/null -X POST $B/ordres/1/items/3/fil/$F/modifier \
+  --data 'texte=Quel fil pour la doublure, le noir ou le gris ?'
+[ "$(Q "SELECT COUNT(*) n FROM item_fil WHERE id=$F AND texte LIKE '%le noir ou le gris%'")" = 1 ] \
+  && ok "l'auteur corrige son propre message" || ko "la correction n'a pas pris"
+
+[ "$(Q "SELECT COUNT(*) n FROM item_fil WHERE id=$F AND modifie_le IS NOT NULL")" = 1 ] \
+  && ok "la correction est datée — elle ne se fait pas en douce" \
+  || ko "message corrigé sans trace"
+
+# L'administration non plus : le garde-fou est dans la clause SQL, pas dans un
+# contrôle de rôle qu'une URL fabriquée contournerait.
+curl -s -b $CA -o /dev/null -X POST $B/ordres/1/items/3/fil/$F/modifier --data 'texte=RÉÉCRIT'
+[ "$(Q "SELECT COUNT(*) n FROM item_fil WHERE texte='RÉÉCRIT'")" = 0 ] \
+  && ok "personne ne réécrit le message d'un autre, pas même l'administration" \
+  || ko "un message a été réécrit par quelqu'un d'autre"
+
+curl -s -b $CA -o /dev/null -X POST $B/ordres/1/items/3/fil/$F/supprimer
+[ "$(Q "SELECT COUNT(*) n FROM item_fil WHERE id=$F")" = 1 ] \
+  && ok "personne ne supprime le message d'un autre" \
+  || ko "un message a été supprimé par quelqu'un d'autre"
+
+# Un message vide n'est pas une correction : c'est une suppression, et elle a
+# son propre bouton.
+curl -s -b $CO -o /dev/null -X POST $B/ordres/1/items/3/fil/$F/modifier --data 'texte=   '
+[ "$(Q "SELECT COUNT(*) n FROM item_fil WHERE id=$F AND texte != ''")" = 1 ] \
+  && ok "une correction vide est refusée" || ko "le message a été vidé"
+
+# Et l'auteur retire le sien — une note posée sur le mauvais lot.
+curl -s -b $CO -o /dev/null -X POST $B/ordres/1/items/3/fil --data 'type=note&texte=mauvais lot'
+D=$(Q "SELECT id n FROM item_fil WHERE texte='mauvais lot'")
+curl -s -b $CO -o /dev/null -X POST $B/ordres/1/items/3/fil/$D/supprimer
+[ "$(Q "SELECT COUNT(*) n FROM item_fil WHERE texte='mauvais lot'")" = 0 ] \
+  && ok "l'auteur retire son propre message" || ko "suppression sans effet"
+
 
 
 # ce qui compte n'est pas le poids du HTML mais ce qui part sur le réseau
-for u in / /ordres /ordres/1 /produits /produits/1 /cedule /priorites /suivi; do
+for u in / /ordres /ordres/1 /produits /produits/1 /cedule /priorites /suivi \
+         /inventaire /besoins /calendrier; do
   S=$(curl -s -b $CA "$B$u" -H 'Accept-Encoding: gzip' -o /dev/null -w '%{size_download}')
   [ "$S" -lt 12000 ] || ko "page $u trop lourde sur le réseau ($S octets compressés)"
 done
@@ -221,12 +260,123 @@ echo "$A" | grep -q 'ANTHROPIC_API_KEY' \
 echo "$A" | grep -q 'name="fil" value="[0-9a-f]\{18\}"' \
   && ok "assistant : un fil de conversation est ouvert" || ko "assistant : pas de fil"
 
-# les exemples proposés dépendent du rôle
+# ---- calendrier et cédule : le pliage, les semaines, et le domino
+curl -s -b $CO $B/calendrier | grep -q 'table class="cal"' \
+  && ok "l'atelier accède au calendrier" || ko "calendrier refusé à l'atelier"
+curl -s -b $CA "$B/calendrier?mois=2026-10" | grep -q 'octobre 2026' \
+  && ok "le calendrier suit le mois demandé" || ko "mois non honoré"
+# Un mois illisible ne doit pas casser la page : on retombe sur un mois valide.
+curl -s -o /dev/null -w '%{http_code}' -b $CA "$B/calendrier?mois=pas-un-mois" \
+  | grep -q 200 && ok "un mois illisible retombe sur un mois valide" \
+  || ko "mois illisible non filtré"
+
+# La cédule doit être pliable, sinon elle fait trois écrans sur un téléphone.
+CED=$(curl -s -b $CA $B/cedule)
+[ "$(echo "$CED" | grep -c '<summary>')" -ge 4 ] \
+  && ok "la cédule est repliable" || ko "aucun bloc repliable sur la cédule"
+echo "$CED" | grep -q 'semaine du' \
+  && ok "le Gantt porte une échelle de semaines" || ko "Gantt sans semaines"
+echo "$CED" | grep -q 'class="g-quand"' \
+  && ok "chaque ligne du Gantt porte ses dates" || ko "Gantt sans dates"
+
+# Poser une pause ou déplacer le départ relève de Québec.
+R=$(curl -s -b $CO -o /dev/null -w '%{redirect_url}' -X POST $B/cedule/pauses \
+    --data 'debut=2026-10-05&fin=2026-10-09')
+case "$R" in *err=*) ok "l'atelier ne peut pas poser de pause" ;;
+  *) ko "pause autorisée à l'atelier" ;; esac
+R=$(curl -s -b $CO -o /dev/null -w '%{redirect_url}' -X POST $B/cedule/depart \
+    --data 'depart=2026-10-05')
+case "$R" in *err=*) ok "l'atelier ne peut pas déplacer le départ" ;;
+  *) ko "départ modifiable par l'atelier" ;; esac
+
+# Le domino, mesuré à travers l'app : une fermeture recule la fin du plan.
+# La fermeture doit tomber SUR le plan, pas après : le jeu de démonstration ne
+# porte que quelques heures de charge, et une pause posée au-delà de sa fin ne
+# prouverait rien.
+PLAN=$(node -e "const{listeFabrication}=require('./db.js'),C=require('./charge.js');
+const c=C.calendrier(listeFabrication());console.log((c.debut||'')+' '+(c.fin||''))" 2>/dev/null)
+DEB0=$(echo "$PLAN" | cut -d' ' -f1); FIN0=$(echo "$PLAN" | cut -d' ' -f2)
+FERME=$(node -e "const d=new Date('$DEB0'+'T00:00:00Z');
+console.log(new Date(d.getTime()+20*864e5).toISOString().slice(0,10))" 2>/dev/null)
+curl -s -b $CA -o /dev/null -X POST $B/cedule/pauses \
+  --data "debut=$DEB0&fin=$FERME&motif=Test%20domino"
+FIN1=$(node -e "const{listeFabrication}=require('./db.js'),C=require('./charge.js');
+console.log(C.calendrier(listeFabrication()).fin||'')" 2>/dev/null)
+if [ -z "$FIN0" ]; then ok "aucune charge au plan : domino sans objet"
+elif [ "$FIN1" \> "$FIN0" ]; then ok "une fermeture recule la fin du plan ($FIN0 → $FIN1)"
+else ko "la fermeture n'a rien décalé ($FIN0 → $FIN1)"; fi
+
+PID2=$(node -e "const{db}=require('./db.js');const p=db.prepare('SELECT id FROM pauses ORDER BY id DESC LIMIT 1').get();console.log(p?p.id:'')" 2>/dev/null)
+curl -s -b $CA -o /dev/null -X POST $B/cedule/pauses/$PID2/supprimer
+FIN2=$(node -e "const{listeFabrication}=require('./db.js'),C=require('./charge.js');
+console.log(C.calendrier(listeFabrication()).fin||'')" 2>/dev/null)
+[ "$FIN2" = "$FIN0" ] && ok "retirer la fermeture rend le plan d'avant" \
+  || ko "le plan n'est pas revenu ($FIN0 → $FIN2)"
+
+# ---- inventaire : les droits ne sont pas les mêmes des deux côtés
+curl -s -b $CO $B/inventaire | grep -q 'Inventaire' \
+  && ok "l'atelier accède à l'inventaire" || ko "inventaire refusé à l'atelier"
+curl -s -b $CO $B/besoins | grep -q 'Besoins en matières' \
+  && ok "l'atelier accède aux besoins" || ko "besoins refusés à l'atelier"
+
+# créer une matière relève de Québec ; la compter relève de l'atelier.
+R=$(curl -s -b $CO -o /dev/null -w '%{redirect_url}' $B/matieres/nouveau)
+case "$R" in *err=*) ok "l'atelier ne peut pas créer de matière" ;;
+  *) ko "création de matière autorisée à l'atelier" ;; esac
+
+curl -s -b $CA -o /dev/null -X POST $B/matieres/nouveau \
+  --data 'code=tissu-test&nom=Tissu de test&categorie=tissu&unite=m&cout_unite=5,50&seuil_alerte=20&suivi_stock=1'
+MID=$(node -e "const{db}=require('./db.js');const m=db.prepare(\"SELECT id FROM matieres WHERE code='TISSU-TEST'\").get();console.log(m?m.id:'')" 2>/dev/null)
+[ -n "$MID" ] && ok "le code d'une matière est normalisé en majuscules" \
+  || ko "matière non créée ou code non normalisé"
+
+# Un prix saisi à la française doit être lu comme un nombre, pas rejeté.
+C=$(node -e "const{db}=require('./db.js');console.log(db.prepare('SELECT cout_unite c FROM matieres WHERE id=?').get($MID).c)" 2>/dev/null)
+[ "$C" = "5.5" ] && ok "« 5,50 » est lu comme 5,50" || ko "virgule décimale mal lue ($C)"
+
+# l'atelier reçoit et compte : c'est lui qui est devant la tablette
+curl -s -b $CO -o /dev/null -X POST $B/matieres/$MID/mouvements \
+  --data 'motif=reception&quantite=100'
+S=$(node -e "const{db}=require('./db.js');console.log(db.prepare('SELECT COALESCE(SUM(quantite),0) s FROM mouvements WHERE matiere_id=?').get($MID).s)" 2>/dev/null)
+[ "$S" = "100" ] && ok "l'atelier enregistre une réception" || ko "réception refusée à l'atelier ($S)"
+
+curl -s -b $CO -o /dev/null -X POST $B/matieres/$MID/mouvements \
+  --data 'motif=inventaire&quantite=88'
+S=$(node -e "const{db}=require('./db.js');console.log(db.prepare('SELECT COALESCE(SUM(quantite),0) s FROM mouvements WHERE matiere_id=?').get($MID).s)" 2>/dev/null)
+[ "$S" = "88" ] && ok "un comptage remplace le stock" || ko "comptage mal appliqué ($S)"
+
+# le code d'une matière est son identité : deux fois le même doit être refusé
+curl -s -b $CA -o /dev/null -X POST $B/matieres/nouveau \
+  --data 'code=TISSU-TEST&nom=Doublon&categorie=tissu&unite=m'
+N=$(node -e "const{db}=require('./db.js');console.log(db.prepare(\"SELECT COUNT(*) n FROM matieres WHERE code='TISSU-TEST'\").get().n)" 2>/dev/null)
+[ "$N" = "1" ] && ok "un code de matière en double est refusé" || ko "doublon de code accepté ($N)"
+
+# les gabarits proposés dépendent du rôle
 curl -s -b $CO $B/assistant | grep -q "atelier" \
   && ok "assistant : l'atelier est prévenu de ses limites" || ko "assistant : rôle non signalé"
-curl -s -b $CO $B/assistant | grep -q 'Crée un ordre « Prévente' \
-  && ko "assistant : exemples d'admin proposés à l'atelier" \
-  || ok "assistant : exemples adaptés au rôle"
+curl -s -b $CO $B/assistant | grep -q 'Crée un ordre de production' \
+  && ko "assistant : gabarits d'admin proposés à l'atelier" \
+  || ok "assistant : gabarits adaptés au rôle"
+curl -s -b $CO $B/assistant | grep -q 'class="modele"' \
+  && ok "assistant : l'atelier a des gabarits" || ko "assistant : aucun gabarit"
+
+# Un gabarit REMPLIT la boîte, il ne l'envoie pas. C'est le chemin sans
+# JavaScript : le formulaire GET revient avec la demande déjà écrite.
+PID=$(curl -s -b $CA $B/produits | grep -o '/produits/[0-9][0-9]*' | head -1 | tr -dc 0-9)
+REMPLI=$(curl -s -b $CA "$B/assistant?m=qualite&produit=$PID" | tr '\n' ' ' \
+  | grep -o '<textarea.*</textarea>')
+echo "$REMPLI" | grep -q 'contrôle qualité' \
+  && ok "gabarit : la boîte revient remplie" || ko "gabarit : boîte vide"
+echo "$REMPLI" | grep -q '__________' \
+  && ko "gabarit : le trou du produit n'a pas été rempli" \
+  || ok "gabarit : le menu a rempli son trou"
+# Un trou sans menu reste à compléter au clavier plutôt que de disparaître.
+curl -s -b $CA "$B/assistant?m=jalon" | tr '\n' ' ' | grep -o '<textarea.*</textarea>' \
+  | grep -q '______' \
+  && ok "gabarit : les trous libres restent à compléter" || ko "gabarit : trou libre perdu"
+# Remplir n'écrit rien : aucun tour ne doit être né d'un simple clic.
+curl -s -b $CA "$B/assistant?m=echeances" | grep -q 'class="tour"' \
+  && ko "gabarit : un clic a créé un tour" || ok "gabarit : remplir n'envoie rien"
 
 # on n'annule pas le tour d'un autre
 curl -s -b $CO -o /dev/null -w '%{redirect_url}' -X POST $B/assistant/1/annuler \
@@ -338,6 +488,32 @@ curl -s -b $CA -o /dev/null -X POST $B/qualite/general/$PP/supprimer
 const{db}=require('./db.js');
 console.log(db.prepare('SELECT COUNT(*) n FROM qc_points WHERE id=?').get($PP).n)" 2>/dev/null)" = 1 ] \
   && ok "la route générale ne touche pas un point de produit" || ko "suppression croisée permise"
+
+# Un point général vu depuis la fiche d'un produit ne s'y efface pas : il vaut
+# pour tous les autres. La route l'annonçait pourtant comme retiré alors que
+# son DELETE ne touchait rien — un message qui ment est pire qu'un bouton
+# absent. Ce qu'on peut faire ici, c'est l'écarter de CE produit, avec un motif.
+PT=$(node -e "const{db}=require('./db.js');console.log(db.prepare('SELECT id FROM produits LIMIT 1').get().id)" 2>/dev/null)
+GEN=$(node -e "const{db}=require('./db.js');console.log(db.prepare('SELECT id FROM qc_points WHERE produit_id IS NULL ORDER BY id LIMIT 1').get().id)" 2>/dev/null)
+
+curl -s -b $CA -o /dev/null -X POST $B/qualite/$PT/$GEN/supprimer
+[ "$(node -e "const{db}=require('./db.js');console.log(db.prepare('SELECT COUNT(*) n FROM qc_points WHERE id=$GEN').get().n)" 2>/dev/null)" = 1 ] \
+  && ok "un point général ne s'efface pas depuis la fiche d'un produit" \
+  || ko "le protocole général a été amputé depuis un produit"
+
+curl -s -b $CA -o /dev/null -X POST $B/qualite/$PT/$GEN/hors-sujet --data 'motif='
+[ "$(node -e "const{db}=require('./db.js');console.log(db.prepare('SELECT COUNT(*) n FROM qc_hors_sujet').get().n)" 2>/dev/null)" = 0 ] \
+  && ok "écarter sans motif est refusé" || ko "un point a été écarté sans motif"
+
+curl -s -b $CA -o /dev/null -X POST $B/qualite/$PT/$GEN/hors-sujet \
+  --data 'motif=Ce produit n%27a pas de fermeture'
+[ "$(node -e "const{db}=require('./db.js');console.log(db.prepare('SELECT COUNT(*) n FROM qc_hors_sujet WHERE produit_id=$PT AND point_id=$GEN').get().n)" 2>/dev/null)" = 1 ] \
+  && ok "un point général s'écarte d'un produit, avec son motif" \
+  || ko "l'écart n'a pas été enregistré"
+
+curl -s -b $CA -o /dev/null -X POST $B/qualite/$PT/$GEN/reprendre
+[ "$(node -e "const{db}=require('./db.js');console.log(db.prepare('SELECT COUNT(*) n FROM qc_hors_sujet').get().n)" 2>/dev/null)" = 0 ] \
+  && ok "un point écarté se remet au protocole" || ko "impossible de remettre le point"
 
 MRP_DB="$DB" node --no-warnings -e "
 const{db}=require('./db.js');
@@ -953,5 +1129,146 @@ G=$(MRP_DB="$CAT" node --no-warnings -e "
 [ "$G" = "300 Vert:150,Noir:150" ] \
   && ok "le sac à dos glacière est au plan : 300, 150 vert et 150 noir" \
   || ko "sac à dos glacière absent ou mal réparti ($G)"
+
+# --- les protocoles suivent le dépôt sans rien perdre ---------------------
+# L'import efface ce qu'il a lui-même posé, et RIEN d'autre. Deux façons de se
+# tromper : effacer un point écrit à la main dans l'app, ou ne pas effacer une
+# ligne qui porte sa propre provenance — elle se dupliquerait à chaque
+# redémarrage du service.
+Z(){ MRP_DB="$CAT" node --no-warnings -e "const{db}=require('./db.js');console.log(db.prepare(\"$1\").get().n)" 2>/dev/null; }
+IMP(){ MRP_DB="$CAT" node --no-warnings import_qualite.js --charte --squelettes --ecrire >/dev/null 2>&1; }
+
+# Une consigne donnée de vive voix porte la source « atelier » : elle doit
+# survivre à un import, et rester en un seul exemplaire.
+AV=$(Z "SELECT COUNT(*) n FROM qc_points WHERE source='atelier'")
+IMP
+[ "$(Z "SELECT COUNT(*) n FROM qc_points WHERE source='atelier'")" = "$AV" ] && [ "$AV" -ge 1 ] \
+  && ok "une source hors des trois fichiers ne se duplique pas à l'import" \
+  || ko "les points « atelier » se dupliquent ou ont disparu"
+
+[ "$(Z "SELECT COUNT(*) n FROM qc_points p JOIN produits q ON q.id=p.produit_id WHERE q.code='GANTS-MAGIQUES' AND p.type='critique' AND p.titre LIKE 'Porter le gant%'")" = 1 ] \
+  && ok "gants magiques : porter le gant pour l'assouplir est au protocole" \
+  || ko "le point d'assouplissement des gants manque"
+
+# Un point écrit dans l'app porte le nom de son auteur. Même s'il reprend la
+# source d'un fichier, l'import ne doit pas l'emporter.
+MRP_DB="$CAT" node --no-warnings -e "
+  const {db}=require('./db.js');
+  const u=db.prepare('SELECT id FROM utilisateurs LIMIT 1').get()
+       || {id: db.prepare(\"INSERT INTO utilisateurs (courriel,mdp_hash,nom,role) VALUES ('t@t.co','x','T','admin')\").run().lastInsertRowid};
+  const p=db.prepare(\"SELECT id FROM produits WHERE code='GANTS-MAGIQUES'\").get();
+  db.prepare(\"INSERT INTO qc_points (produit_id,type,titre,source,cree_par) VALUES (?,'critique','Point saisi à la main','atelier',?)\").run(p.id,u.id);
+" 2>/dev/null
+IMP
+[ "$(Z "SELECT COUNT(*) n FROM qc_points WHERE titre='Point saisi à la main'")" = 1 ] \
+  && ok "l'import n'efface pas un point écrit dans l'app" \
+  || ko "un point saisi à la main a été emporté par l'import"
+
+# --- une ligne du chiffrier, deux produits d'atelier ----------------------
+# Le chiffrier compte 4 665 « Semelles intérieures isolantes ». L'atelier en
+# fait deux produits : 2 min 23 la paire jusqu'au 8F, 3 min 35 à partir du 9F.
+# Tant que la ligne restait entière, les grandes pointures étaient comptées au
+# tarif des petites — une cinquantaine d'heures d'atelier qui n'existaient
+# nulle part.
+S=$(MRP_DB="$CAT" node --no-warnings -e "
+  const {db}=require('./db.js');
+  const q=(c)=>db.prepare(\"SELECT i.quantite n FROM ordre_items i JOIN produits p ON p.id=i.produit_id WHERE p.code=?\").get(c);
+  const a=q('SEMELLE-678'), b=q('SEMELLE-9');
+  console.log((a?a.n:0) + ' ' + (b?b.n:0));" 2>/dev/null)
+[ "$S" = "2179 2486" ] \
+  && ok "les semelles sont suivies séparément : 2 179 petites, 2 486 grandes" \
+  || ko "le découpage des semelles n'a pas eu lieu ($S)"
+
+# Découper ne doit RIEN ajouter au total : la ligne d'origine est retirée du
+# plan, pas laissée à côté de ses morceaux.
+[ "$(Z "SELECT SUM(quantite) n FROM ordre_items")" = 24633 ] \
+  && ok "découper une ligne du plan ne change pas le total à produire" \
+  || ko "le total a bougé — la ligne d'origine compte encore"
+
+# Chaque pointure sous son propre produit, et une seule fois.
+V=$(MRP_DB="$CAT" node --no-warnings -e "
+  const {db}=require('./db.js');
+  const v=(c)=>db.prepare(\"SELECT COUNT(*) n FROM item_variantes WHERE item_id=(SELECT i.id FROM ordre_items i JOIN produits p ON p.id=i.produit_id WHERE p.code=?)\").get(c).n;
+  console.log(v('SEMELLE-678') + ' ' + v('SEMELLE-9'));" 2>/dev/null)
+[ "$V" = "4 7" ] \
+  && ok "les onze pointures sont réparties, quatre petites et sept grandes" \
+  || ko "les pointures sont mal réparties ($V)"
+
+# Le 9F+ est plus lent que le 6-7-8 : c'est toute la raison du découpage.
+MRP_DB="$CAT" node --no-warnings -e "
+  const C=require('./charge.js');
+  const t=(c)=>C.tempsUnitaire(c).secondes;
+  process.exit(t('SEMELLE-9') > t('SEMELLE-678') ? 0 : 1);" 2>/dev/null \
+  && ok "la cédule compte les grandes pointures à leur propre temps" \
+  || ko "les deux semelles sont chiffrées au même temps"
+
+# --- une matière qu'on cesse d'employer ----------------------------------
+# `nomenclatures.tsv` recopie les fiches COGS : une matière retirée n'en est
+# pas effacée, sinon l'écart de coût avec le chiffrier devient inexplicable.
+# Elle porte une date et sort de la composition du produit.
+[ "$(Z "SELECT COUNT(*) n FROM produit_materiaux m JOIN produits p ON p.id=m.produit_id WHERE p.code='GLACIERE' AND m.nom='Chanvre'")" = 0 ] \
+  && ok "le chanvre ne fait plus partie de la composition de la glacière" \
+  || ko "le chanvre est encore dans les matériaux"
+
+[ "$(Z "SELECT COUNT(*) n FROM produit_materiaux m JOIN produits p ON p.id=m.produit_id WHERE p.code='GLACIERE'")" = 8 ] \
+  && ok "les huit autres matières de la glacière sont intactes" \
+  || ko "le retrait a emporté autre chose"
+
+[ "$(Z "SELECT COUNT(*) n FROM charte c JOIN produits p ON p.id=c.produit_id WHERE p.code='GLACIERE' AND c.section='note' AND c.texte LIKE 'Plus de chanvre%'")" = 1 ] \
+  && ok "la fiche dit pourquoi, pour que personne ne le remette" \
+  || ko "le retrait du chanvre n'est expliqué nulle part"
+
+# --- un point général qui ne veut rien dire sur CE produit ----------------
+# « Aucune tension aux emmanchures ni à l'entrejambe » est une bonne consigne
+# pour un manteau et une absurdité sur un tote bag. Le point reste juste EN
+# GÉNÉRAL : on l'écarte de ce produit, on ne l'efface pas — l'effacer le
+# retirerait de tous les autres.
+TOT=$(Z "SELECT id n FROM produits WHERE code='TOTE'")
+[ "$(Z "SELECT COUNT(*) n FROM qc_hors_sujet WHERE produit_id=$TOT")" = 3 ] \
+  && ok "les trois points hors sujet sont écartés du tote" \
+  || ko "les écarts du tote ne sont pas chargés"
+
+# Le coussin pour animaux n'avait aucun protocole. Trois points critiques,
+# dictés par l'atelier : le geste du roulage, les ganses qui portent le poids,
+# et l'intérieur, que l'animal atteint.
+[ "$(Z "SELECT COUNT(*) n FROM qc_points q JOIN produits p ON p.id=q.produit_id WHERE p.code='COUSSIN-ANIMAL' AND q.type='critique'")" = 3 ] \
+  && ok "le coussin pour animaux a ses trois points critiques" \
+  || ko "le protocole du coussin pour animaux manque"
+
+# Une tache ne se rattrape pas après coup : c'est la définition du volet
+# critique, pas celle d'un problème fréquent.
+[ "$(Z "SELECT COUNT(*) n FROM qc_points q JOIN produits p ON p.id=q.produit_id WHERE p.code='OREILLER' AND q.titre='Pas de taches' AND q.type='critique'")" = 1 ] \
+  && ok "l'oreiller : « pas de taches » est un point critique" \
+  || ko "le contrôle des taches n'est pas classé critique"
+
+MRP_DB="$CAT" node --no-warnings -e "
+  const D=require('./db.js');
+  const p=D.db.prepare(\"SELECT id FROM produits WHERE code='TOTE'\").get();
+  const t=D.protocole(p.id).points.map(q=>q.titre);
+  process.exit(t.some(x=>/Essai porté|Fermeture éclair/.test(x)) ? 1 : 0);" 2>/dev/null \
+  && ok "le protocole du tote ne demande plus d'essai porté ni de fermeture éclair" \
+  || ko "un point écarté figure encore au protocole du tote"
+
+# … mais il vaut toujours ailleurs : c'est toute la différence avec supprimer.
+MRP_DB="$CAT" node --no-warnings -e "
+  const D=require('./db.js');
+  const p=D.db.prepare(\"SELECT id FROM produits WHERE code='MANTEAU-3SAISONS'\").get();
+  const t=D.protocole(p.id).points.map(q=>q.titre);
+  process.exit(t.some(x=>/Essai porté/.test(x)) ? 0 : 1);" 2>/dev/null \
+  && ok "l'essai porté reste au protocole du manteau" \
+  || ko "écarter d'un produit a emporté le point partout"
+
+# Un point écarté ne doit pas être exigé sur la liste à cocher d'un lot :
+# une liste qu'on ne peut pas finir de cocher ne se coche jamais.
+MRP_DB="$CAT" node --no-warnings -e "
+  const D=require('./db.js');
+  const p=D.db.prepare(\"SELECT id FROM produits WHERE code='TOTE'\").get();
+  const i=D.db.prepare('SELECT id FROM ordre_items WHERE produit_id=?').get(p.id);
+  if (!i) process.exit(0);
+  const t=D.checklistItem(i.id).points.map(q=>q.titre);
+  process.exit(t.some(x=>/Fermeture éclair/.test(x)) ? 1 : 0);" 2>/dev/null \
+  && ok "la liste à cocher du lot ne demande pas ce qui est écarté" \
+  || ko "un point écarté est exigé sur la checklist"
+
 
 echo "  Tout est conforme."

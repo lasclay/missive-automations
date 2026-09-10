@@ -1296,8 +1296,40 @@
       "quand": "2026-09-08T16:09:54.310Z",
       "confirme": true,
       "texte": "Merci d'avoir pris le temps de répondre. On préfère rester prudents avec les grandes affirmations : ce qu'on peut confirmer, c'est le moment de la récolte, après la migration, et les graines qui repartent en sachets pour être semées."
+    },
+    {
+      "id": "1676622291138247_1388422230093594",
+      "reponse_id": "1676622291138247_1586845722887202",
+      "page_id": "104242204750257",
+      "quand": "2026-09-09T05:10:07.447Z",
+      "confirme": true,
+      "texte": "Merci pour le mot, ça compte. On y tient."
+    },
+    {
+      "id": "1674454204688389_28362027490094578",
+      "reponse_id": "1674454204688389_1702662277489042",
+      "page_id": "104242204750257",
+      "quand": "2026-09-09T15:12:40.644Z",
+      "confirme": true,
+      "texte": "L'intention est justement l'inverse : les graines viennent de follicules récoltés à l'automne, après la floraison et après le passage des monarques, et elles repartent pour être semées, pas pour décorer. Une graine qui finit en terre nous semble plus utile qu'un ornement."
+    },
+    {
+      "id": "1674454204688389_2112155443001405",
+      "reponse_id": "1674454204688389_1564759271254613",
+      "page_id": "104242204750257",
+      "quand": "2026-09-09T17:09:16.453Z",
+      "confirme": true,
+      "texte": "Merci pour la suggestion. Rien de tel au programme pour l'instant, mais on la met de côté."
+    },
+    {
+      "id": "1674454204688389_1111421615139981",
+      "reponse_id": "1674454204688389_920272541155480",
+      "page_id": "104242204750257",
+      "quand": "2026-09-09T23:09:17.169Z",
+      "confirme": true,
+      "texte": "Compris. On y réfléchit, rien d'annoncé pour le moment."
     }
   ],
-  "derniere_execution": "2026-09-08T16:09:54.311Z",
-  "total": 162
+  "derniere_execution": "2026-09-09T23:09:17.170Z",
+  "total": 166
 }

@@ -6,6 +6,7 @@
  * rend l'application utilisable sur une connexion lente.
  */
 'use strict';
+const { CATEGORIES: CATEGORIES_M, qte: qteFR } = require('./db.js');
 
 // ------------------------------------------------------------------ utilitaires
 const e = (s) => String(s ?? '').replace(/[&<>"']/g,
@@ -167,6 +168,9 @@ function page({ titre, user, corps, actif = '', msg = null }) {
     ${lien('/suivi', 'Suivi', 'suivi')}
     ${lienTaches}
     ${lien('/produits', 'Produits', 'produits')}
+    ${lien('/inventaire', 'Inventaire', 'inventaire')}
+    ${lien('/besoins', 'Besoins', 'besoins')}
+    ${lien('/calendrier', 'Calendrier', 'calendrier')}
     ${lien('/cedule', 'Cédule', 'cedule')}
   </nav>
   <span class="qui"><a href="/compte">${e(user.nom)}</a> · ${ROLES[user.role] || e(user.role)}
@@ -411,7 +415,7 @@ function sousNavProduits(page) {
 
 function barreAssistant({ user, ia, salut = null }) {
   if (!ia) return '';
-  const { dispo, fil, dernier, annulable, exemples = [] } = ia;
+  const { dispo, fil, dernier, annulable, gabarits = [] } = ia;
   const ecrit = dernier ? dernier.actions.filter(a => a.defaire) : [];
   const restant = ecrit.filter(a => !a.defait);
 
@@ -451,9 +455,9 @@ function barreAssistant({ user, ia, salut = null }) {
                restant.length > 1 ? 's' : ''}</button></form>` : ''}
       </div>` : ''}
     </div>`
-    : exemples.length ? `<ul class="exemples ia-ex">${exemples.slice(0, 3).map(x =>
-        `<li><button form="ia-form" name="demande" value="${e(x)}"
-             class="lien">${e(x)}</button></li>`).join('')}</ul>` : ''}
+    : gabarits.length ? `<ul class="exemples ia-ex">${gabarits.map(g =>
+        `<li><a href="/assistant?m=${e(g.cle)}">${e(g.libelle)}</a></li>`
+      ).join('')}</ul>` : ''}
   </div>
 
 <script>
@@ -584,9 +588,15 @@ function pointQC({ q, produitId, editable, action = null }) {
         return bouts.length ? `<span class="qc-pied">${bouts.join(' · ')}</span>` : '';
       })()}
     </div>
-    ${editable ? `<form method="post" action="${
-      action || `/qualite/${produitId}/${q.id}/supprimer`}">
-      <button class="lien danger">Retirer</button></form>` : ''}
+    ${editable ? (q.produit_id === null && !action
+      ? `<form method="post" action="/qualite/${produitId}/${q.id}/hors-sujet"
+           class="qc-hs-f">
+          <input type="text" name="motif" maxlength="300" required
+            placeholder="Pourquoi ça ne s'applique pas ici">
+          <button class="lien danger">Écarter d'ici</button></form>`
+      : `<form method="post" action="${
+          action || `/qualite/${produitId}/${q.id}/supprimer`}">
+        <button class="lien danger">Retirer</button></form>`) : ''}
   </li>`;
 }
 
@@ -950,7 +960,7 @@ function vueQualite({ user, msg, couverture, general = [], zones = [], nc = [] }
 }
 
 function vueProtocole({ user, p, proto, msg, photos = [], bris = null,
-                       appuis = {} }) {
+                       appuis = {}, ecartes = [] }) {
   const editable = true;   // les deux rôles écrivent : c'est l'atelier qui voit les défauts
   // Chaque point sait combien de bris l'appuient : c'est ce qui le rend
   // incontestable en atelier.
@@ -971,6 +981,23 @@ function vueProtocole({ user, p, proto, msg, photos = [], bris = null,
     <h1>${e(p.code)}</h1>
     <p class="muted">${e(p.nom)}</p>
   </div></div>
+
+  ${ecartes.length ? `<details class="carte qc-hs">
+    <summary><b>Ne s'applique pas à ce produit</b>
+      <span class="cpt">${ecartes.length}</span></summary>
+    <p class="sec">Des points du protocole général, écartés d'ici. Ils valent
+    toujours pour les autres produits — c'est sur celui-ci qu'ils ne veulent
+    rien dire. Ils ne sont pas demandés sur la liste à cocher des lots.</p>
+    <ul class="qc-liste">${ecartes.map(x => `<li class="qc qc-hs-l">
+      <div class="qc-quoi"><b>${e(x.titre)}</b>
+        <span class="ck-gen">général</span>
+        <span class="qc-pourquoi">${e(x.motif)}</span>
+        <span class="qc-pied">écarté le ${dateFR(x.cree_le)}${
+          x.auteur ? ` par ${e(x.auteur)}` : ''}</span></div>
+      <form method="post" action="/qualite/${p.id}/${x.point_id}/reprendre">
+        <button class="lien">Remettre</button></form>
+    </li>`).join('')}</ul>
+  </details>` : ''}
 
   ${photos.length ? `<div class="carte qc-photos">
     ${photos.slice(0, 4).map(ph => `<img src="${e(urlImage(ph.url, 320))}"
@@ -1232,7 +1259,7 @@ function vueOrdres({ user, ordres, msg }) {
  * produits hors de l'écran, mais une question sans réponse doit se voir sans
  * qu'on ait à cliquer, sinon elle n'appelle personne.
  */
-function filItemBloc({ o, it, f, user }) {
+function filItemBloc({ o, it, f, user, enEdition = 0 }) {
   const admin = user.role === 'admin';
   const base = `/ordres/${o.id}/items/${it.id}`;
   const lignes = f?.lignes || [];
@@ -1251,13 +1278,42 @@ function filItemBloc({ o, it, f, user }) {
         <button class="lien">Réglé</button></form>
     </div>`).join('');
 
-  const messages = lignes.map(x => `<div class="comm fil-l fil-${x.type}">
-      <div class="qui2">${e(x.auteur || 'Inconnu')} · ${dateHeureFR(x.cree_le)}
+  // On ne corrige que ses propres mots. Se faire réécrire par quelqu'un
+  // d'autre ferait du fil une trace sans valeur — et c'est justement comme
+  // trace qu'il sert, trois semaines plus tard.
+  const sien = (x) => x.utilisateur_id === user.id;
+
+  const messages = lignes.map(x => {
+    const signature = `<div class="qui2">${e(x.auteur || 'Inconnu')} · ${dateHeureFR(x.cree_le)}
         ${x.type !== 'note' ? ` · ${TYPES_FIL[x.type]}` : ''}
-        ${x.regle_le ? ` · réglée${x.regleur ? ` par ${e(x.regleur)}` : ''}` : ''}</div>
+        ${x.regle_le ? ` · réglée${x.regleur ? ` par ${e(x.regleur)}` : ''}` : ''}
+        ${x.modifie_le ? ` · <span title="${e(dateHeureFR(x.modifie_le))}">modifié</span>` : ''}
+      </div>`;
+
+    // Corriger se fait SUR PLACE, dans le fil : sans JS, c'est un aller-retour
+    // par l'URL, et la page revient avec ce message-là devenu formulaire.
+    if (x.id === enEdition && sien(x)) return `<div class="comm fil-l fil-${x.type} fil-edit">
+      ${signature}
+      <form method="post" action="${base}/fil/${x.id}/modifier" class="fil-f">
+        <textarea name="texte" rows="3" required>${e(x.texte)}</textarea>
+        <div class="fil-btn">
+          <button class="btn min">Enregistrer</button>
+          <a class="btn sec min" href="/ordres/${o.id}#i${it.id}">Annuler</a>
+        </div>
+      </form>
+      <form method="post" action="${base}/fil/${x.id}/supprimer" class="fil-sup"
+        onsubmit="return confirm('Supprimer ce message ?')">
+        <button class="lien danger">Supprimer</button></form>
+    </div>`;
+
+    return `<div class="comm fil-l fil-${x.type}">
+      ${signature}
       ${x.texte ? `<p>${e(x.texte)}</p>`
                 : `<p class="muted">— sans texte, juste la demande</p>`}
-    </div>`).join('');
+      ${sien(x) ? `<a class="fil-mod"
+        href="/ordres/${o.id}?fil=${x.id}#i${it.id}">Modifier</a>` : ''}
+    </div>`;
+  }).join('');
 
   // Deux boutons de publication, pas un menu : « noter » et « demander » ne
   // s'écrivent pas pareil, et le choix doit se faire en appuyant.
@@ -1272,8 +1328,10 @@ function filItemBloc({ o, it, f, user }) {
     </div>
   </form>`;
 
+  const corrige = lignes.some(x => x.id === enEdition && sien(x));
+
   return `${attente}
-  <details class="fil">
+  <details class="fil"${corrige ? ' open' : ''}>
     <summary>Notes et questions${lignes.length
       ? ` <span class="cpt">${lignes.length}</span>` : ''}</summary>
     ${messages || '<p class="vide">Rien n\'a encore été dit sur ce lot.</p>'}
@@ -1286,7 +1344,7 @@ function filItemBloc({ o, it, f, user }) {
 
 // =================================================== DÉTAIL D'UN ORDRE (clé)
 function vueOrdre({ user, o, items, jalons, commentaires, produits, pct, msg,
-                    qc = {}, fils = {} }) {
+                    qc = {}, fils = {}, enEdition = 0 }) {
   const admin = user.role === 'admin';
   const auj = new Date().toISOString().slice(0, 10);
 
@@ -1354,7 +1412,7 @@ function vueOrdre({ user, o, items, jalons, commentaires, produits, pct, msg,
       </td>
       <td class="note-c">
         ${it.note ? `<p class="it-note">${e(it.note)}</p>` : ''}
-        ${filItemBloc({ o, it, f: fils[it.id], user })}
+        ${filItemBloc({ o, it, f: fils[it.id], user, enEdition })}
       </td>
       ${admin ? `<td><form method="post" action="/ordres/${o.id}/items/${it.id}/supprimer"
          onsubmit="return confirm('Retirer cet item ?')">
@@ -1477,7 +1535,8 @@ function vueProduits({ user, produits, msg }) {
 }
 
 function vueProduit({ user, p, photos, materiaux, patrons, ordres, msg, qc = null,
-                      charte = null, bris = null }) {
+                      charte = null, bris = null,
+                      nomenclature = [], stock = null, coutMatiere = null }) {
   const admin = user.role === 'admin';
   const studio = photos.filter(f => f.type === 'studio');
   const contexte = photos.filter(f => f.type === 'contexte');
@@ -1552,6 +1611,55 @@ function vueProduit({ user, p, photos, materiaux, patrons, ordres, msg, qc = nul
      ${materiaux.map(m => `<tr><td style="width:34%"><b>${e(m.nom)}</b></td>
        <td class="muted">${e(m.detail)}</td></tr>`).join('')}
      </table></div></div>` : ''}
+
+  ${nomenclature.length ? `<div class="carte">
+    <h2>Nomenclature <span class="muted">— ce qu'il faut pour en faire un</span></h2>
+    <div class="tbl"><table>
+     <tr><th>Matière</th><th>Catégorie</th><th class="num">Par unité</th>
+         <th class="num">Coût</th><th class="num">En stock</th></tr>
+     ${nomenclature.map(n => `<tr>
+       <td><a href="/matieres/${n.matiere_id}"><b>${e(n.nom)}</b></a></td>
+       <td class="muted">${e(CATEGORIES_M[n.categorie] || n.categorie)}</td>
+       <td class="num">${n.consommation === null
+         ? '<span class="muted">à chiffrer</span>'
+         : qteFR(n.consommation, n.unite)}${n.source === 'a_confirmer'
+         ? ' <span class="muted" title="Le chiffrier se contredit sur cette ligne">⚠</span>' : ''}</td>
+       <td class="num">${n.cout_par_produit === null ? '<span class="muted">—</span>'
+         : n.cout_par_produit.toFixed(2) + ' $'}</td>
+       <td class="num">${!n.suivi_stock ? '<span class="muted">n/a</span>'
+         : qteFR(n.stock, n.unite)}</td>
+     </tr>`).join('')}
+     ${coutMatiere && coutMatiere.cout ? `<tr><td colspan="3"><b>Coût matière</b></td>
+       <td class="num"><b>${coutMatiere.cout.toFixed(2)} $</b></td><td></td></tr>` : ''}
+     </table></div>
+    <p class="muted" style="margin:10px 0 0">
+      <a href="/besoins?produit=${p.id}&quantite=100">Calculer pour une série</a>
+      — combien il en faut pour N unités, et si le stock suffit.</p>
+  </div>` : ''}
+
+  ${stock ? `<div class="carte">
+    <h2>Stock de produits finis</h2>
+    <p style="margin:0 0 10px">
+      <b style="font-size:1.3rem">${stock.jamais_compte ? '—' : qteFR(stock.stock)}</b>
+      prêt${stock.emplacement ? ` · ${e(stock.emplacement)}` : ''}
+      ${stock.seuil_alerte ? `<span class="muted"> · seuil ${qteFR(stock.seuil_alerte)}</span>` : ''}
+      ${stock.sous_seuil ? ' <span class="etat bas">sous le seuil</span>' : ''}
+      ${stock.jamais_compte ? ' <span class="etat inconnu">jamais compté</span>' : ''}</p>
+    <form method="post" action="/produits/${p.id}/mouvements" class="mvt">
+      <div class="champ"><label for="mp">Quoi</label>
+        <select id="mp" name="motif">
+          <option value="production">Production — il en sort de l'atelier</option>
+          <option value="expedition">Expédition — il en part</option>
+          <option value="inventaire">Comptage — je déclare ce qu'il y a</option>
+          <option value="perte">Perte, rebut</option>
+        </select></div>
+      <div class="champ"><label for="qp">Quantité</label>
+        <input id="qp" name="quantite" type="number" min="0" step="1" required></div>
+      <div class="champ"><label for="rp">Référence</label>
+        <input id="rp" name="reference" type="text" maxlength="60"></div>
+      <button class="btn primaire">Enregistrer</button>
+    </form>
+  </div>` : ''}
 
   ${patrons.length ? `<div class="carte"><h2>Patrons</h2><div class="tbl"><table>
      <tr><th>Nom</th><th>Format</th><th>Dimensions</th><th>Note</th></tr>
@@ -1691,6 +1799,29 @@ function vueProduitForm({ user, p = null, photos = [], materiaux = [], patrons =
   return page({ titre: t, user, corps, actif: 'produits', msg });
 }
 
+/**
+ * Un bloc repliable.
+ *
+ * La cédule empile six sections dont trois sont des réglages qu'on touche une
+ * fois par saison. Les laisser dépliées, c'est faire défiler trois écrans
+ * avant d'atteindre le diagramme — et l'atelier consulte cette page sur un
+ * téléphone.
+ *
+ * Le résumé reste lisible replié : un titre seul n'apprend rien, « 20 postes
+ * × 8 h = 160 h/jour » dit déjà l'essentiel et évite d'ouvrir pour vérifier.
+ *
+ * `<details>` fait tout le travail — aucun script, et l'état de pliage n'a pas
+ * à survivre au rechargement : ce qui doit être ouvert par défaut l'est.
+ */
+function pli({ titre, resume = '', corps, ouvert = false, id = '', classe = '' }) {
+  return `<details class="carte pli${classe ? ' ' + classe : ''}"${
+    ouvert ? ' open' : ''}${id ? ` id="${id}"` : ''}>
+    <summary><span class="pli-t">${e(titre)}</span>${resume
+      ? `<span class="pli-r">${resume}</span>` : ''}</summary>
+    <div class="pli-c">${corps}</div>
+  </details>`;
+}
+
 // ==================================================================== cédule
 /* --------------------------------------------------------------------- Gantt
  * Un diagramme de charge : chaque item occupe l'atelier pendant le temps que
@@ -1719,7 +1850,10 @@ function gantt({ cal, jalons = [], admin = false }) {
   const total = Math.max(1, (d1 - d0) / jourMs);
   const pos = (iso) => ((new Date(iso + 'T00:00:00Z') - d0) / jourMs / total) * 100;
 
-  // Un repère par mois : plus fin serait illisible sur six mois.
+  // Deux échelles superposées. Les mois donnent le repère large, les semaines
+  // donnent la précision dont l'atelier a besoin : « la semaine du 15 » est
+  // une consigne, « en octobre » n'en est pas une. Le cadre défile
+  // horizontalement, donc la largeur ne coûte rien à la page.
   const mois = [];
   {
     const c = new Date(d0);
@@ -1727,10 +1861,28 @@ function gantt({ cal, jalons = [], admin = false }) {
     while (c <= d1) {
       const iso = c.toISOString().slice(0, 10);
       if (c >= d0) mois.push({ iso, x: pos(iso),
-        nom: c.toLocaleDateString('fr-CA', { month: 'short', timeZone: 'UTC' }) });
+        nom: c.toLocaleDateString('fr-CA', { month: 'long', timeZone: 'UTC' }) });
       c.setUTCMonth(c.getUTCMonth() + 1);
     }
   }
+
+  const semaines = [];
+  {
+    // On part du lundi de la semaine du départ, même s'il précède la fenêtre :
+    // sinon la première colonne serait une semaine tronquée sans repère.
+    const c = new Date(d0);
+    c.setUTCDate(c.getUTCDate() - ((c.getUTCDay() + 6) % 7));
+    while (c <= d1) {
+      const iso = c.toISOString().slice(0, 10);
+      semaines.push({ iso, x: pos(iso), jour: c.getUTCDate(),
+        libelle: c.toLocaleDateString('fr-CA',
+          { day: 'numeric', month: 'short', timeZone: 'UTC' }) });
+      c.setUTCDate(c.getUTCDate() + 7);
+    }
+  }
+  const aujIso = new Date().toISOString().slice(0, 10);
+  const xAuj = aujIso >= cal.debut && aujIso <= d1.toISOString().slice(0, 10)
+    ? pos(aujIso) : null;
 
   const SRC = {
     'deux':         'prép. + assemblage',
@@ -1749,6 +1901,19 @@ function gantt({ cal, jalons = [], admin = false }) {
     if (t.assemblage) bouts.push(m(t.assemblage) + " d'assemblage");
     return bouts.join(' + ') || 'aucun temps connu';
   };
+  // Les pauses, en bandes : une journée fermée au milieu d'une barre explique
+  // pourquoi elle est plus longue qu'on ne l'attendait.
+  const fermetures = (cal.pauses || []).map(pz => {
+    const x = pos(pz.debut);
+    // La fin d'une pause est inclusive : on ajoute un jour pour que la bande
+    // couvre bien le dernier jour fermé.
+    const finPlus = new Date(new Date(pz.fin + 'T00:00:00Z').getTime() + jourMs)
+      .toISOString().slice(0, 10);
+    return { x, l: Math.max(0.4, pos(finPlus) - x),
+             motif: (pz.motif || 'atelier fermé') + ' — du ' + dateFR(pz.debut)
+                    + ' au ' + dateFR(pz.fin) };
+  }).filter(f => f.l > 0 && f.x < 100);
+
   const dernier = jalons.length
     ? jalons.map(j => j.date).sort()[0] : null;   // la première échéance compte
 
@@ -1757,33 +1922,49 @@ function gantt({ cal, jalons = [], admin = false }) {
     const dehors = dernier && x.fin > dernier;
     return `<tr class="${dehors ? 'g-dehors' : ''}">
       <th scope="row"><a href="/produits/${x.produit_id}">${e(x.code)}</a>
-        <span class="g-h">${Math.round(x.heures).toLocaleString('fr-CA')} h</span>
+        <span class="g-h">${Math.round(x.heures).toLocaleString('fr-CA')} h
+          · ${x.jours} j</span>
+        <span class="g-quand">${dateFR(x.debut)} → ${dateFR(x.fin)}</span>
         <span class="g-tags"><span class="g-src g-src-${x.temps.source}"
               title="${e(detail(x.temps))}">${SRC[x.temps.source] || x.temps.source}</span
         >${x.temps.divergent ? `<span class="g-src g-src-alerte"
           title="${e(x.temps.divergent)}">⚠ sources</span>` : ''}</span></th>
       <td><div class="g-piste">
+        ${semaines.map(w => `<i class="g-sem" style="left:${w.x}%"></i>`).join('')}
         ${mois.map(m => `<i class="g-mois" style="left:${m.x}%"></i>`).join('')}
+        ${fermetures.map(f => `<i class="g-ferme"
+           style="left:${f.x}%;width:${f.l}%" title="${e(f.motif)}"></i>`).join('')}
+        ${xAuj !== null ? `<i class="g-auj" style="left:${xAuj}%"
+           title="aujourd'hui"></i>` : ''}
         ${jalons.map(j => `<i class="g-jalon" style="left:${pos(j.date)}%"
            title="${e(j.titre)} — ${dateFR(j.date)}"></i>`).join('')}
         <i class="g-barre" style="left:${g}%;width:${l}%"
-           title="${e(x.code)} — ${dateFR(x.debut)} au ${dateFR(x.fin)}"></i>
+           title="${e(x.code)} — ${dateFR(x.debut)} au ${dateFR(x.fin)}, ${
+             x.jours} jour${x.jours > 1 ? 's' : ''} d'atelier"></i>
       </div></td>
     </tr>`;
   };
 
-  return `<div class="carte">
-    <h2>Charge de l'atelier</h2>
+  return `
     <p class="sec">Chaque item occupe l'atelier le temps que sa quantité
-    demande, dans l'ordre de fabrication. Le trait rouge est l'expédition.</p>
+    demande, dans l'ordre de fabrication. Le trait rouge est l'expédition,
+    le vert est aujourd'hui.</p>
 
     <div class="tbl g-cadre"><table class="gantt">
-      <thead><tr><th></th><td><div class="g-echelle">
-        ${mois.map(m => `<span style="left:${m.x}%">${m.nom}</span>`).join('')}
-      </div></td></tr></thead>
+      <thead>
+        <tr><th></th><td><div class="g-echelle g-mois-band">
+          ${mois.map(m => `<span style="left:${m.x}%">${m.nom}</span>`).join('')}
+        </div></td></tr>
+        <tr><th><span class="g-leg">semaine du</span></th>
+          <td><div class="g-echelle g-sem-band">
+          ${semaines.map(w => `<span style="left:${w.x}%">${w.libelle}</span>`).join('')}
+        </div></td></tr>
+      </thead>
       <tbody>${t.map(ligne).join('')}</tbody>
     </table></div>
-  </div>`;
+    ${fermetures.length ? `<p class="sec" style="margin:8px 0 0">Les bandes
+      hachurées sont les fermetures d'atelier. Elles ne suspendent pas le
+      travail sur place : elles le repoussent, et tout ce qui suit avec.</p>` : ''}`;
 }
 
 function vueCedule({ user, jalons, msg, cal = null }) {
@@ -1806,17 +1987,27 @@ function vueCedule({ user, jalons, msg, cal = null }) {
    * rentre », et elle se répond en trois nombres.
    */
   const perim = C.perimetre();
+  const cap = C.capacite();
+  const dep = C.depart();
+  const pz = C.pauses();
+  const joursDePause = (x) => Math.round(
+    (new Date(x.fin + 'T00:00:00Z') - new Date(x.debut + 'T00:00:00Z')) / 864e5) + 1;
+  // Les jours réellement retirés à l'atelier : une fermeture du samedi au
+  // dimanche ne coûte rien quand on travaille cinq jours.
+  const joursFermes = [...C.joursEnPause(pz).keys()].filter(k => {
+    const j = new Date(k + 'T00:00:00Z').getUTCDay();
+    return j !== 0 && j <= cap.jours_semaine;
+  }).length;
   const verdict = () => {
     if (!cal || !cal.taches.length) return '';
     const echeance = jalons.filter(j => j.date >= auj).map(j => j.date).sort()[0];
     const c = cal.cap;
     let dispo = null, jours = 0;
     if (echeance) {
-      const d = new Date(auj + 'T00:00:00Z'), f = new Date(echeance + 'T00:00:00Z');
-      for (let x = new Date(d); x < f; x = new Date(x.getTime() + 864e5)) {
-        const j = x.getUTCDay();
-        if (j !== 0 && j <= c.jours_semaine) jours++;
-      }
+      // Les fermetures se déduisent : « 42 jours ouvrés d'ici l'expédition »
+      // est faux si l'atelier ferme deux semaines au milieu, et c'est
+      // exactement le genre de faux qui fait dire « ça rentre ».
+      jours = C.joursOuvres(auj, echeance, c, C.joursEnPause(pz));
       dispo = jours * c.postes * c.heures_jour;
     }
     const manque = dispo !== null && cal.heuresTotal > dispo;
@@ -1836,7 +2027,8 @@ function vueCedule({ user, jalons, msg, cal = null }) {
       <div class="chiffres">
         <div class="c"><b>${Math.round(cal.heuresTotal).toLocaleString('fr-CA')}</b>heures de travail</div>
         ${dispo !== null ? `<div class="c"><b>${dispo.toLocaleString('fr-CA')}</b>heures disponibles
-          <span class="sec">${jours} jours ouvrés d'ici le ${dateFR(echeance)}</span></div>` : ''}
+          <span class="sec">${jours} jours ouvrés d'ici le ${dateFR(echeance)}${
+            joursFermes ? `, ${joursFermes} retiré${joursFermes > 1 ? 's' : ''} par les pauses` : ''}</span></div>` : ''}
         <div class="c"><b>${c.postes}</b>postes ${c.defaut
           ? '<span class="sec">équipe annoncée · non confirmée ici</span>' : ''}</div>
         <div class="c"><b style="font-size:15px;line-height:1.3">${
@@ -1870,28 +2062,34 @@ function vueCedule({ user, jalons, msg, cal = null }) {
       signale les sources qui se contredisent.</p>
     </div>
 
-    ${admin ? `<div class="carte">
-      <h2>Capacité de l'atelier</h2>
-      <p class="sec">Aucune source ne la donne : c'est ce réglage qui transforme
-      des heures en dates. Le changer redessine tout le calendrier.
-      ${c.defaut ? '<b>Les 20 postes viennent de l\'équipe annoncée — 20 couturières, donc bien 20 postes de couture — pas d\'une mesure de ce qui sort par jour.</b> Confirmer ici.' : ''}</p>
+`;
+  };
+
+  /** Les hypothèses qui transforment des heures en dates. */
+  const reglages = () => `${admin ? pli({
+      titre: "Capacité de l'atelier",
+      resume: `${cap.postes} postes × ${cap.heures_jour} h × ${cap.jours_semaine} j `
+            + `= ${cap.heures_semaine.toLocaleString('fr-CA')} h/semaine`
+            + (cap.defaut ? ' · à confirmer' : ''),
+      corps: `<p class="sec">Aucune source ne la donne : c'est ce réglage qui
+      transforme des heures en dates. Le changer redessine tout le calendrier.
+      ${cap.defaut ? '<b>Les 20 postes viennent de l\'équipe annoncée — 20 couturières, donc bien 20 postes de couture — pas d\'une mesure de ce qui sort par jour.</b> Confirmer ici.' : ''}</p>
       <form method="post" action="/cedule/capacite" class="cap-form">
         <div class="champ"><label for="cp">Postes</label>
           <input id="cp" type="number" name="postes" min="1" max="200"
-                 value="${c.postes}" required></div>
+                 value="${cap.postes}" required></div>
         <div class="champ"><label for="ch">Heures par jour</label>
           <input id="ch" type="number" name="heures_jour" min="1" max="24"
-                 value="${c.heures_jour}" required></div>
+                 value="${cap.heures_jour}" required></div>
         <div class="champ"><label for="cj">Jours par semaine</label>
           <input id="cj" type="number" name="jours_semaine" min="1" max="7"
-                 value="${c.jours_semaine}" required></div>
+                 value="${cap.jours_semaine}" required></div>
         <button class="btn">Recalculer</button>
-      </form>
-    </div>
-
-    <div class="carte">
-      <h2>Ce que l'atelier fait</h2>
-      <p class="sec">Aucune source ne dit si l'atelier planifié fait la
+      </form>` })
+    + pli({
+      titre: "Ce que l'atelier fait",
+      resume: C.PERIMETRES[perim.valeur] + (perim.defaut ? ' · non confirmé' : ''),
+      corps: `<p class="sec">Aucune source ne dit si l'atelier planifié fait la
       préparation, l'assemblage, ou les deux — et l'écart entre les trois
       lectures dépasse le simple au double. Par défaut « les deux » : c'est la
       lecture prudente. ${perim.defaut
@@ -1901,28 +2099,85 @@ function vueCedule({ user, jalons, msg, cal = null }) {
           <label for="pe">Périmètre</label>
           <select id="pe" name="perimetre">
             ${Object.entries(C.PERIMETRES).map(([k, lib]) =>
-              `<option value="${k}"${k === perim.valeur ? ' selected' : ''}>${lib}</option>`).join('')}
+              `<option value="${k}"${k === perim.valeur ? ' selected' : ''}>${e(lib)}</option>`).join('')}
           </select></div>
         <button class="btn">Recalculer</button>
+      </form>` })
+    + pli({
+      titre: 'Date de départ du plan', id: 'depart',
+      resume: dep.defaut ? "aujourd'hui" : dateFR(dep.valeur)
+              + (dep.passe ? ' · passée, le calcul part d\'aujourd\'hui' : ''),
+      corps: `<p class="sec">Le plan commence à consommer de la capacité ce
+      jour-là. La déplacer décale <b>tout</b> le calendrier d'un bloc — c'est le
+      levier le plus simple quand la saison démarre plus tard qu'espéré.</p>
+      <form method="post" action="/cedule/depart" class="cap-form">
+        <div class="champ"><label for="dp">Premier jour de production</label>
+          <input id="dp" type="date" name="depart" value="${
+            dep.defaut ? '' : e(dep.valeur)}"></div>
+        <button class="btn">Recalculer</button>
       </form>
-    </div>` : ''}`;
-  };
+      <p class="sec" style="margin:8px 0 0">Vider le champ remet le départ à
+      aujourd'hui.</p>` })
+    + pli({
+      titre: "Pauses d'atelier", id: 'pauses',
+      resume: pz.length
+        ? `${pz.length} pause${pz.length > 1 ? 's' : ''} · ${
+            joursFermes} jour${joursFermes > 1 ? 's' : ''} fermé${
+            joursFermes > 1 ? 's' : ''}`
+        : 'aucune',
+      corps: `<p class="sec">Les jours où l'atelier ne produit pas : Aïd,
+      congés, une rupture de matière, un déménagement. C'est le vrai moyen de
+      <b>repousser</b> du travail — on ne déplace aucune tâche à la main, on
+      retire de la capacité, et tout ce qui suit se recale sans trou ni
+      chevauchement.</p>
+      ${pz.length ? `<ul class="pauses">${pz.map(x => `<li>
+        <span class="p-d">${dateFR(x.debut)}${x.fin !== x.debut
+          ? ` → ${dateFR(x.fin)}` : ''}</span>
+        <span class="p-n">${e(x.motif) || 'atelier fermé'}
+          <span class="sec">· ${joursDePause(x)} jour${
+            joursDePause(x) > 1 ? 's' : ''}</span></span>
+        <form method="post" action="/cedule/pauses/${x.id}/supprimer">
+          <button class="btn dgr min">×</button></form>
+      </li>`).join('')}</ul>` : ''}
+      <form method="post" action="/cedule/pauses" class="cap-form">
+        <div class="champ"><label for="pd">Du</label>
+          <input id="pd" type="date" name="debut" required></div>
+        <div class="champ"><label for="pf">Au <span class="sec">inclus</span></label>
+          <input id="pf" type="date" name="fin"></div>
+        <div class="champ" style="flex:2"><label for="pm">Motif</label>
+          <input id="pm" type="text" name="motif" maxlength="120"
+                 placeholder="Aïd, congés, rupture de molleton…"></div>
+        <button class="btn">Ajouter</button>
+      </form>` }) : ''}`;
 
+  const moisCourant = auj.slice(0, 7);
   const corps = `
   <div class="entete"><div><h1>Cédule</h1>
-    <p class="muted">La charge de l'atelier et les dates clés</p></div></div>
+    <p class="muted">La charge de l'atelier et les dates clés</p></div>
+    <a class="btn sec" href="/calendrier">Voir le calendrier →</a></div>
   ${verdict()}
-  ${cal ? gantt({ cal, jalons: jalons.filter(j => j.date >= auj), admin }) : ''}
-  ${Object.keys(parMois).length ? Object.entries(parMois).map(([mois, liste]) => `
-    <div class="carte"><h2 style="text-transform:capitalize">${nomMois(mois)}</h2>
-      ${liste.map(j => `<div class="jalon${j.date < auj ? ' passe' : ''}">
+  ${cal ? pli({ titre: "Charge de l'atelier", ouvert: true,
+      resume: cal.debut
+        ? `${cal.taches.filter(x => x.heures > 0).length} items · du ${
+            dateFR(cal.debut)} au ${dateFR(cal.fin)}` : '',
+      corps: gantt({ cal, jalons: jalons.filter(j => j.date >= auj), admin }) }) : ''}
+  ${reglages()}
+  ${Object.keys(parMois).length ? Object.entries(parMois).map(([mois, liste]) => {
+    // Un mois écoulé se replie : il ne se passera plus rien dedans, mais on
+    // veut pouvoir y revenir — c'est l'historique des dates promises.
+    const passe = mois < moisCourant;
+    return pli({
+      titre: nomMois(mois), ouvert: !passe, classe: 'mois',
+      resume: `${liste.length} date${liste.length > 1 ? 's' : ''}${
+        passe ? ' · écoulé' : ''}`,
+      corps: liste.map(j => `<div class="jalon${j.date < auj ? ' passe' : ''}">
         <span class="d">${dateFR(j.date)}</span>
         <span class="et et-${j.type}">${TYPES_JALON[j.type]}</span>
         <span style="flex:1">${e(j.titre)}
           <a class="muted" href="/ordres/${j.ordre_id}">· ${e(j.numero)} ${e(j.ordre_titre)}</a>
           ${j.note ? `<br><span class="muted">${e(j.note)}</span>` : ''}</span>
-      </div>`).join('')}
-    </div>`).join('')
+      </div>`).join('') });
+  }).join('')
    : `<div class="carte"><p class="vide">Aucune date enregistrée.</p></div>`}`;
   return page({ titre: 'Cédule', user, corps, actif: 'cedule', msg });
 }
@@ -1937,7 +2192,61 @@ function vueCedule({ user, jalons, msg, cal = null }) {
  * dans le navigateur et n'envoie que du texte au serveur. Sans elle — vieux
  * navigateur, micro refusé — le champ de saisie fonctionne normalement.
  */
-function vueAssistant({ user, msg, tours, fil, dispo, exemples, annulable }) {
+/**
+ * Les gabarits de demande, rendus comme des phrases à trous.
+ *
+ * Chaque gabarit est un formulaire GET : sans JavaScript, le clic recharge la
+ * page avec la boîte de saisie déjà remplie. C'est un aller-retour, mais la
+ * page fait 5 Ko et ça marche partout — y compris sur un téléphone d'atelier
+ * dont on ne choisit pas le navigateur. Le script en bas de page court-circuite
+ * l'aller-retour quand il peut.
+ *
+ * Le menu déroulant est DANS la phrase, à la place du trou, plutôt qu'à côté :
+ * on lit ce qu'on est en train de demander.
+ */
+function gabarits({ modeles, produits, fil }) {
+  if (!modeles || !modeles.length) return '';
+
+  const options = {
+    produit: () => produits.map(p =>
+      `<option value="${p.id}">${e(p.nom)}</option>`).join(''),
+    pct: () => Array.from({ length: 11 }, (_, i) => i * 10)
+      .map(n => `<option value="${n}"${n === 100 ? ' selected' : ''}>${n} %</option>`).join(''),
+    jours: () => [7, 14, 30].map(n =>
+      `<option value="${n}"${n === 7 ? ' selected' : ''}>${n} jours</option>`).join(''),
+  };
+  const LIBELLE = { produit: 'Produit', pct: 'Avancement', jours: 'Délai' };
+
+  const ligne = (m) => {
+    // La phrase se découpe sur ses trous : le texte reste du texte, chaque
+    // trou devient son menu, à sa place.
+    const morceaux = m.texte.split(/(\{\w+\})/).map(t => {
+      const c = t.match(/^\{(\w+)\}$/);
+      if (!c) return e(t);
+      const champ = c[1];
+      if (!options[champ]) return e(t);
+      const mot = champ === 'produit' ? ' data-mot="texte"' : '';
+      return `<label class="sr" for="${m.cle}-${champ}">${LIBELLE[champ] || champ}</label>
+        <select id="${m.cle}-${champ}" name="${champ}"${mot}>${options[champ]()}</select>`;
+    }).join('');
+
+    return `<li><form method="get" action="/assistant" class="modele"
+        data-texte="${e(m.texte)}">
+      <input type="hidden" name="fil" value="${e(fil)}">
+      <input type="hidden" name="m" value="${e(m.cle)}">
+      <span class="phrase">${morceaux}</span>
+      <button class="lien inserer">Insérer</button>
+    </form></li>`;
+  };
+
+  return `<details class="gabarits" open>
+    <summary>Gabarits — remplissent la boîte, n'envoient rien</summary>
+    <ul>${modeles.map(ligne).join('')}</ul>
+  </details>`;
+}
+
+function vueAssistant({ user, msg, tours, fil, dispo, modeles, brouillon,
+                       produits, annulable }) {
   const bulle = (t) => {
     const ecrit = t.actions.filter(a => a.defaire);
     const restant = ecrit.filter(a => !a.defait);
@@ -1964,27 +2273,25 @@ function vueAssistant({ user, msg, tours, fil, dispo, exemples, annulable }) {
     il manque <code>ANTHROPIC_API_KEY</code> côté serveur. La page reste
     consultable, mais aucune demande ne partira.</div>`}
 
-  <p class="intro">Donne un ordre, il l'exécute. « Mets les cache-cous à 70 % »,
-  « crée un ordre pour 500 tuques sport livrables le 15 novembre »,
-  « qu'est-ce qui s'en vient le mois prochain ». ${user.role === 'atelier'
+  <p class="intro">Donne un ordre, il l'exécute. Choisis un gabarit ci-dessous
+  pour remplir la boîte, complète-le, puis envoie. ${user.role === 'atelier'
     ? `Tu es à l'atelier en Tunisie : l'assistant peut mettre à jour les avancements et
        commenter, pas créer d'ordres.`
     : ''}</p>
 
   <div class="fil">${tours.length
     ? tours.map(bulle).join('')
-    : `<p class="vide">Rien encore. Essaie une de ces phrases :</p>
-       <ul class="exemples">${exemples.map(x =>
-         `<li><button form="demande" name="demande" value="${e(x)}"
-              class="lien">${e(x)}</button></li>`).join('')}</ul>`}
+    : `<p class="vide">Rien encore.</p>`}
   </div>
+
+  ${gabarits({ modeles, produits, fil })}
 
   <form method="post" action="/assistant" id="demande" class="saisie">
     <input type="hidden" name="fil" value="${e(fil)}">
     <label for="q" class="sr">Ta demande</label>
     <textarea id="q" name="demande" rows="3" required
       placeholder="Ce que tu veux faire, en une phrase…"${dispo ? '' : ' disabled'}
-      ></textarea>
+      >${e(brouillon || '')}</textarea>
     <div class="actions-saisie">
       <button type="button" id="micro" hidden class="micro"
         aria-label="Dicter">🎙 Dicter</button>
@@ -2004,6 +2311,30 @@ function vueAssistant({ user, msg, tours, fil, dispo, exemples, annulable }) {
   var f = document.getElementById('demande'),
       q = document.getElementById('q'),
       env = document.getElementById('envoi');
+
+  // Un gabarit REMPLIT la boîte, il ne l'envoie pas. Sans ce script, chaque
+  // gabarit reste un formulaire GET qui fait le même travail en un
+  // aller-retour : la fonction ne dépend pas de lui, seulement sa vitesse.
+  Array.prototype.forEach.call(document.querySelectorAll('form.modele'), function (g) {
+    g.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      q.value = g.getAttribute('data-texte').replace(/\{(\w+)\}/g, function (_, cle) {
+        var sel = g.querySelector('[name="' + cle + '"]');
+        if (!sel) return '__________';
+        // Le produit s'insère par son nom, le reste par sa valeur : la phrase
+        // porte déjà « % » et « jours ».
+        return sel.getAttribute('data-mot') === 'texte'
+          ? sel.options[sel.selectedIndex].text : sel.value;
+      });
+      q.focus();
+      // Le curseur va au premier trou restant s'il y en a un, sinon à la fin :
+      // ce qui manque est ce qu'on veut taper tout de suite.
+      var trou = q.value.indexOf('______');
+      if (trou >= 0) q.setSelectionRange(trou, trou + q.value.slice(trou).match(/^_+/)[0].length);
+      else q.setSelectionRange(q.value.length, q.value.length);
+      q.scrollIntoView({ block: 'center' });
+    });
+  });
 
   // Sur une connexion lente, une demande peut prendre dix secondes : on le dit
   // plutôt que de laisser croire que le clic n'a pas pris.

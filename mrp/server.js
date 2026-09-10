@@ -29,12 +29,19 @@ const { db, prochainNumero, avancementOrdre, listeFabrication, dernieresMaj,
         taches, tache, compteTaches, equipe,
         protocole, couvertureQC, TYPES_QC, charteProduit,
         checklistItem, blocageQC, etatQCOrdre,
+        horsSujet, poserHorsSujet, retirerHorsSujet,
         filOrdre, filEnAttente, demandeOuverte, reglerDemandes, reglerFil,
+        modifierFil, supprimerFil,
         protocoleGeneral, echantillon, lireTableauTailles,
         brisProduit, brisParPoint, zonesFragiles, nonConformites,
-        murDesBris } = require('./db.js');
+        murDesBris,
+        etatMatieres, etatProduits, alertesStock,
+        nomenclatureProduit, produitsUtilisant, detailBesoin, coutMatiere,
+        mouvements, stocksMatieres, CATEGORIES, UNITES } = require('./db.js');
 const auth = require('./auth.js');
 const V = require('./vues.js');
+const V2 = require('./vues_inventaire.js');
+const V3 = require('./vues_calendrier.js');
 const assistant = require('./assistant.js');
 const outils = require('./outils.js');
 const charge = require('./charge.js');
@@ -163,25 +170,201 @@ const STATIQUES = {
 const nouveauFil = () => require('node:crypto').randomBytes(9).toString('hex');
 const filValide = (f) => typeof f === 'string' && /^[0-9a-f]{18}$/.test(f);
 
-const EXEMPLES = {
-  admin: [
-    "Qu'est-ce qui presse cette semaine ?",
-    'Où en est la production automne 2026 ?',
-    'Passe les cache-cous adultes en priorité haute',
-    "Qu'est-ce qui ne bouge plus depuis 10 jours ?",
-    'Mets les cache-cous adultes à 70 %',
-    "Crée un ordre « Prévente hiver » avec 500 tuques sport et 300 bandeaux",
-    "Ajoute une deadline « Départ conteneur » le 2 octobre sur l'ordre en cours",
-    "Le bandeau se coupe dans le sens de la longueur — note-le dans sa fiche",
-  ],
-  atelier: [
-    "Qu'est-ce que je fais en premier ?",
-    'Les cache-cous adultes sont rendus à 70 %',
-    "Qu'est-ce qui s'en vient le mois prochain ?",
-    'Montre-moi la fiche du bandeau amovible',
-    "Note sur l'ordre en cours qu'il manque du molleton noir",
-  ],
-};
+/**
+ * Les gabarits de demande.
+ *
+ * Cliquer sur un gabarit REMPLIT la boîte de saisie, il ne l'envoie pas. La
+ * différence n'est pas cosmétique : une phrase toute faite est presque jamais
+ * la bonne phrase — il manque la quantité, la date, la précision qui compte.
+ * L'ancienne version envoyait directement, et la boîte étant obligatoire et
+ * vide, le navigateur refusait le clic avec « Please fill out this field ».
+ *
+ * `{produit}`, `{pct}` et `{jours}` sont des trous. Le menu déroulant les
+ * remplit avant que la phrase n'arrive dans la boîte ; un trou laissé vide
+ * devient une ligne à compléter au clavier plutôt que de disparaître.
+ *
+ * Sans JavaScript, chaque gabarit est un formulaire GET : la page revient avec
+ * la boîte déjà remplie. Avec, le remplissage est immédiat et sans aller-retour
+ * — décisif sur la connexion tunisienne.
+ */
+const MODELES = [
+  { cle: 'questions', roles: ['admin', 'atelier'],
+    texte: "J'ai des questions sur ce produit : {produit}.",
+    champs: ['produit'] },
+
+  { cle: 'qualite', roles: ['admin', 'atelier'],
+    texte: "J'ai terminé la production des {produit}. "
+         + "Indique-moi la procédure de contrôle qualité.",
+    champs: ['produit'] },
+
+  { cle: 'echeances', roles: ['admin', 'atelier'],
+    texte: "Quels sont les prochains événements et échéances pour Lasclay ? "
+         + "Qu'est-ce qui doit être prêt ?" },
+
+  // Les trois questions que l'atelier repose à chaque nouveau produit. Elles
+  // viennent des notes de Gabriel telles quelles : c'est le va-et-vient
+  // Québec–Tunisie qu'on cherche à tarir.
+  { cle: 'coupe', roles: ['admin', 'atelier'],
+    texte: "Pour les {produit} : quel tissu, dans quel sens se coupe-t-il, "
+         + "et quelles couleurs ou variantes sont prévues ?",
+    champs: ['produit'] },
+
+  { cle: 'matieres', roles: ['admin', 'atelier'],
+    texte: "Quelles matières faut-il pour finir les {produit}, "
+         + "et est-ce qu'il y en a assez en stock ?",
+    champs: ['produit'] },
+
+  { cle: 'avancement', roles: ['admin', 'atelier'],
+    texte: "Les {produit} sont rendus à {pct} %.",
+    champs: ['produit', 'pct'] },
+
+  { cle: 'premier', roles: ['atelier'],
+    texte: "Qu'est-ce que je fabrique en premier aujourd'hui, et pourquoi ?" },
+
+  { cle: 'blocage', roles: ['admin', 'atelier'],
+    texte: "Il me manque quelque chose pour avancer les {produit} : "
+         + "note le blocage sur l'ordre en cours.",
+    champs: ['produit'] },
+
+  { cle: 'etat', roles: ['admin'],
+    texte: "Où en est la production ? Donne-moi l'état global, "
+         + "ordre par ordre, et ce qui risque de ne pas rentrer." },
+
+  { cle: 'immobile', roles: ['admin'],
+    texte: "Qu'est-ce qui ne bouge plus depuis {jours} jours ?",
+    champs: ['jours'] },
+
+  { cle: 'ordre', roles: ['admin'],
+    texte: "Crée un ordre de production pour {produit} : "
+         + "quantité ______, à livrer le ______.",
+    champs: ['produit'] },
+
+  { cle: 'priorite', roles: ['admin'],
+    texte: "Passe les {produit} en priorité haute.",
+    champs: ['produit'] },
+
+  { cle: 'jalon', roles: ['admin'],
+    texte: "Ajoute une échéance « ______ » le ______ sur l'ordre en cours." },
+
+  { cle: 'reception', roles: ['admin'],
+    texte: "J'ai reçu ______ de ______ : note la réception en stock." },
+];
+
+const modelesPour = (role) => MODELES.filter(m => m.roles.includes(role));
+
+/**
+ * Le gabarit résumé en une phrase, pour la barre de l'accueil : les trous
+ * deviennent des points de suspension. On n'y met pas de menu déroulant —
+ * l'accueil est une barre, pas un formulaire — le clic emmène sur la page de
+ * l'assistant avec la boîte déjà remplie, là où les menus vivent.
+ */
+const libelleGabarit = (m) => m.texte
+  .replace(/\{\w+\}/g, '…').replace(/_{3,}/g, '…')
+  .replace(/\s+/g, ' ').trim();
+
+/** Remplit les trous d'un gabarit. Un trou sans valeur reste à compléter. */
+function composer(modele, valeurs) {
+  return modele.texte.replace(/\{(\w+)\}/g, (_, cle) => {
+    const v = valeurs[cle];
+    return v ? v : '__________';
+  }).replace(/\s+/g, ' ').trim();
+}
+
+/** « 45,5 » ou « 45.5 » → 45.5 ; refuse ce qui n'est pas un nombre. */
+function nombreSaisi(t, { defaut = null } = {}) {
+  const s = String(t ?? '').trim().replace(/\s| /g, '').replace(',', '.');
+  if (!s) return defaut;
+  const n = Number(s);
+  if (!Number.isFinite(n)) throw new Error(`« ${t} » n'est pas un nombre.`);
+  return n;
+}
+
+/**
+ * Crée ou met à jour une matière. Le code est son identité : on le normalise
+ * plutôt que de refuser une minuscule ou un espace, mais il reste unique.
+ */
+function enregistrerMatiere(id, f) {
+  const code = String(f.code || '').trim().toUpperCase().replace(/\s+/g, '-');
+  const nom = String(f.nom || '').trim();
+  if (!code || !nom) throw new Error('Le code et le nom sont obligatoires.');
+  const jumeau = db.prepare(`SELECT id FROM matieres WHERE code = ?`).get(code);
+  if (jumeau && jumeau.id !== id)
+    throw new Error(`Le code ${code} est déjà pris.`);
+
+  const champs = {
+    code, nom,
+    nom_ar: String(f.nom_ar || '').trim().slice(0, 120),
+    categorie: CATEGORIES[f.categorie] ? f.categorie : 'autre',
+    description: String(f.description || '').trim().slice(0, 300),
+    unite: UNITES.includes(f.unite) ? f.unite : 'unite',
+    cout_unite: nombreSaisi(f.cout_unite),
+    fournisseur: String(f.fournisseur || '').trim().slice(0, 120),
+    delai_jours: f.delai_jours ? Math.max(0, Math.round(nombreSaisi(f.delai_jours))) : null,
+    seuil_alerte: Math.max(0, nombreSaisi(f.seuil_alerte, { defaut: 0 })),
+    emplacement: String(f.emplacement || '').trim().slice(0, 80),
+    suivi_stock: f.suivi_stock ? 1 : 0,
+    photo_url: V.urlAcceptable(f.photo_url) ? String(f.photo_url).trim() : '',
+    note: String(f.note || '').trim().slice(0, 1000),
+  };
+
+  if (!id) {
+    const cols = Object.keys(champs);
+    return db.prepare(`INSERT INTO matieres (${cols.join(',')})
+      VALUES (${cols.map(() => '?').join(',')})`)
+      .run(...cols.map(k => champs[k])).lastInsertRowid;
+  }
+  const cols = Object.keys(champs);
+  db.prepare(`UPDATE matieres SET ${cols.map(c => c + '=?').join(', ')},
+      actif=?, maj_le=datetime('now') WHERE id=?`)
+    .run(...cols.map(k => champs[k]), f.actif ? 1 : 0, id);
+  return id;
+}
+
+/**
+ * Enregistre un mouvement de stock.
+ *
+ * Le SIGNE vient du motif, pas de la saisie : personne ne devrait avoir à
+ * taper « -12 » pour dire qu'il a consommé douze mètres. Une consommation, une
+ * perte et une expédition sortent ; une réception et une production entrent.
+ *
+ * Le comptage est à part. Il ne s'ajoute pas au stock, il le REMPLACE : c'est
+ * le geste de l'inventaire physique — « il y en a 42 », pas « il en est arrivé
+ * 42 ». On enregistre donc l'écart entre ce qu'on trouve et ce que la base
+ * croyait, ce qui laisse une trace lisible de la dérive.
+ */
+const SORTIES = new Set(['consommation', 'perte', 'expedition']);
+
+function poserMouvement({ matiereId = null, produitId = null, f, user }) {
+  const motif = ['reception', 'consommation', 'ajustement', 'production',
+                 'expedition', 'perte', 'inventaire'].includes(f.motif)
+    ? f.motif : 'ajustement';
+  const saisie = nombreSaisi(f.quantite);
+  if (saisie === null) throw new Error('Quantité manquante.');
+
+  let quantite = saisie, note = String(f.note || '').trim().slice(0, 200);
+  if (motif === 'inventaire') {
+    if (saisie < 0) throw new Error('Un comptage ne peut pas être négatif.');
+    const actuel = db.prepare(`SELECT COALESCE(SUM(quantite), 0) AS s FROM mouvements
+        WHERE ${matiereId ? 'matiere_id' : 'produit_id'} = ?`)
+      .get(matiereId || produitId).s;
+    quantite = saisie - actuel;
+    if (quantite === 0) throw new Error(
+      'Le comptage confirme le stock enregistré : rien à corriger.');
+    note = [`comptage à ${saisie} (la base disait ${Number(actuel.toFixed(3))})`, note]
+      .filter(Boolean).join(' · ');
+  } else if (SORTIES.has(motif)) {
+    // On accepte le signe si l'utilisateur l'a mis, sinon on le pose.
+    quantite = -Math.abs(saisie);
+  } else {
+    quantite = Math.abs(saisie);
+  }
+
+  return db.prepare(`INSERT INTO mouvements
+      (matiere_id, produit_id, quantite, motif, reference, note, utilisateur_id)
+      VALUES (?,?,?,?,?,?,?)`)
+    .run(matiereId, produitId, quantite, motif,
+         String(f.reference || '').trim().slice(0, 60), note, user.id).lastInsertRowid;
+}
 
 // --------------------------------------------------------------------- routes
 async function router(req, res, url, user) {
@@ -209,7 +392,11 @@ async function router(req, res, url, user) {
         fil: filCourant,
         dernier: assistant.dernierTour(user.id, filCourant),
         annulable: outils.dernierTourAnnulable(user.id),
-        exemples: EXEMPLES[user.role] || EXEMPLES.atelier,
+        // Quatre gabarits, en liens vers la page de l'assistant : un bouton
+        // qui poste la phrase se heurterait au textarea vide et obligatoire —
+        // c'est exactement le « Please fill out this field » qu'on a corrigé.
+        gabarits: modelesPour(user.role).slice(0, 4)
+          .map(m => ({ cle: m.cle, libelle: libelleGabarit(m) })),
       } }));
   }
 
@@ -347,15 +534,35 @@ async function router(req, res, url, user) {
     // l'atelier écrit : lui interdire de répondre à une question rendrait la
     // question inutile.
     {
-      const mf = reste.match(/^\/items\/(\d+)\/fil(?:\/(\d+)\/regler)?$/);
+      const mf = reste.match(
+        /^\/items\/(\d+)\/fil(?:\/(\d+)\/(regler|modifier|supprimer))?$/);
       if (mf && req.method === 'POST') {
         const it = R.item.get(+mf[1], id);
         if (!it) return vers(res, `/ordres/${id}?err=`
           + encodeURIComponent('Item introuvable.'));
 
-        if (mf[2]) {                       // clore une entrée précise
-          reglerFil(+mf[2], it.id, user.id);
-          return vers(res, `/ordres/${id}#i${it.id}`);
+        // Agir sur UNE entrée : la clore, la corriger, la retirer.
+        if (mf[2]) {
+          const fid = +mf[2];
+          if (mf[3] === 'regler') {
+            reglerFil(fid, it.id, user.id);
+            return vers(res, `/ordres/${id}#i${it.id}`);
+          }
+          if (mf[3] === 'supprimer') {
+            // `user.id` est dans la clause SQL, pas seulement ici : une URL
+            // fabriquée à la main ne retire pas le message d'un autre.
+            const n = supprimerFil(fid, it.id, user.id);
+            return vers(res, `/ordres/${id}?${n ? 'ok=' + encodeURIComponent('Message retiré.')
+              : 'err=' + encodeURIComponent("Ce message n'est pas le vôtre.")}#i${it.id}`);
+          }
+          const f = await corpsFormulaire(req);
+          const texte = String(f.texte || '').trim();
+          if (!texte) return vers(res, `/ordres/${id}?err=`
+            + encodeURIComponent('Un message vide, c\'est une suppression : le bouton est là pour ça.')
+            + `#i${it.id}`);
+          const n = modifierFil(fid, it.id, user.id, texte.slice(0, 2000));
+          return vers(res, `/ordres/${id}?${n ? 'ok=' + encodeURIComponent('Message corrigé.')
+            : 'err=' + encodeURIComponent("Ce message n'est pas le vôtre.")}#i${it.id}`);
         }
 
         const f = await corpsFormulaire(req);
@@ -460,6 +667,9 @@ async function router(req, res, url, user) {
       jalons: R.jalons.all(id),
       commentaires: R.commentaires.all(id), produits: R.produitsActifs.all(),
       qc: etatQCOrdre(id), fils: filOrdre(id),
+      // `?fil=<id>` demande à corriger CE message : la page revient avec lui
+      // devenu formulaire, à sa place dans le fil.
+      enEdition: Number(q.get('fil')) || 0,
       pct: avancementOrdre(id).pct }));
   }
 
@@ -513,6 +723,19 @@ async function router(req, res, url, user) {
           photos: R.photos.all(id), materiaux: R.materiaux.all(id),
           patrons: R.patrons.all(id) }));
       }
+      // Le stock de produits finis se déclare comme celui des matières :
+      // l'atelier produit, Québec expédie, chacun saisit ce qu'il constate.
+      if (reste === '/mouvements' && req.method === 'POST') {
+        const f = await corpsFormulaire(req);
+        try {
+          poserMouvement({ produitId: id, f, user });
+          return vers(res, `/produits/${id}?ok=`
+            + encodeURIComponent('Mouvement enregistré.'));
+        } catch (err) {
+          return vers(res, `/produits/${id}?err=` + encodeURIComponent(err.message));
+        }
+      }
+
       if (reste === '/photos' && req.method === 'POST') {
         const f = await corpsFormulaire(req);
         if (!V.urlAcceptable(f.url))
@@ -557,7 +780,101 @@ async function router(req, res, url, user) {
     return html(res, V.vueProduit({ user, p: pr, msg,
       photos: R.photos.all(id), materiaux: R.materiaux.all(id),
       patrons: R.patrons.all(id), ordres: R.ordresDuProduit.all(id),
-      qc: protocole(id), charte: charteProduit(id), bris: brisProduit(id) }));
+      qc: protocole(id), charte: charteProduit(id), bris: brisProduit(id),
+      nomenclature: nomenclatureProduit(id),
+      coutMatiere: coutMatiere(id),
+      stock: etatProduits().find(x => x.id === id) || null }));
+  }
+
+  // ---- inventaire
+  if (p === '/inventaire') {
+    const cat = CATEGORIES[q.get('categorie')] ? q.get('categorie') : '';
+    const toutes = etatMatieres();
+    return html(res, V2.vueInventaire({ user, msg, categorie: cat,
+      matieres: cat ? toutes.filter(m => m.categorie === cat) : toutes,
+      alertes: alertesStock(), produits: etatProduits() }));
+  }
+
+  // ---- besoins : le calculateur
+  if (p === '/besoins') {
+    const produits = R.produitsActifs.all();
+    const choix = q.get('produit')
+      ? produits.find(x => String(x.id) === q.get('produit')) : null;
+    const quantite = Math.min(1e6, Math.max(1, Number(q.get('quantite')) || 100));
+    const stocks = stocksMatieres();
+    const calcul = choix ? nomenclatureProduit(choix.id).map(n => ({
+      ...n,
+      requis: n.consommation === null ? null : n.consommation * quantite,
+      jamais_compte: !stocks.has(n.matiere_id),
+    })) : [];
+    return html(res, V2.vueBesoins({ user, msg, produits, choix, quantite, calcul,
+      engages: etatMatieres()
+        .filter(m => m.besoin > 0 || m.produits_flous > 0)
+        .sort((a, b) => b.cout_manque - a.cout_manque
+                     || b.manque - a.manque
+                     || (b.besoin * (b.cout_unite || 0)) - (a.besoin * (a.cout_unite || 0))) }));
+  }
+
+  // ---- matières
+  if (p === '/matieres/nouveau') {
+    if (!admin) return refus();
+    if (req.method === 'POST') {
+      const f = await corpsFormulaire(req);
+      try {
+        const id = enregistrerMatiere(null, f);
+        return vers(res, `/matieres/${id}?ok=` + encodeURIComponent('Matière créée.'));
+      } catch (err) {
+        return vers(res, '/matieres/nouveau?err=' + encodeURIComponent(err.message));
+      }
+    }
+    return html(res, V2.vueMatiereForm({ user, msg }));
+  }
+  {
+    const mm = p.match(/^\/matieres\/(\d+)(\/[a-z]+)?$/);
+    if (mm) {
+      const id = Number(mm[1]), reste = mm[2] || '';
+      const brute = db.prepare(`SELECT * FROM matieres WHERE id = ?`).get(id);
+      if (!brute) return vers(res, '/inventaire?err='
+        + encodeURIComponent('Matière introuvable.'));
+
+      if (reste === '/modifier') {
+        if (!admin) return refus();
+        if (req.method === 'POST') {
+          const f = await corpsFormulaire(req);
+          try {
+            enregistrerMatiere(id, f);
+            return vers(res, `/matieres/${id}?ok=`
+              + encodeURIComponent('Fiche enregistrée.'));
+          } catch (err) {
+            return vers(res, `/matieres/${id}/modifier?err=`
+              + encodeURIComponent(err.message));
+          }
+        }
+        return html(res, V2.vueMatiereForm({ user, m: brute, msg }));
+      }
+
+      // Un mouvement est ouvert aux deux rôles : c'est l'atelier qui reçoit
+      // les rouleaux et qui les consomme. Lui refuser la saisie reviendrait à
+      // demander à Québec de deviner ce qui se passe à six mille kilomètres.
+      if (reste === '/mouvements' && req.method === 'POST') {
+        const f = await corpsFormulaire(req);
+        try {
+          poserMouvement({ matiereId: id, f, user });
+          return vers(res, `/matieres/${id}?ok=`
+            + encodeURIComponent('Mouvement enregistré.'));
+        } catch (err) {
+          return vers(res, `/matieres/${id}?err=` + encodeURIComponent(err.message));
+        }
+      }
+
+      if (!reste) {
+        const etat = etatMatieres({ inclureInactives: true }).find(x => x.id === id)
+                  || { ...brute, stock: 0, besoin: 0, manque: 0, jamais_compte: true };
+        return html(res, V2.vueMatiere({ user, msg, m: etat,
+          mouvements: mouvements({ matiereId: id, limite: 40 }),
+          besoin: detailBesoin(id), produits: produitsUtilisant(id) }));
+      }
+    }
   }
 
   // ---- assistant : il exécute, il ne fait pas que répondre
@@ -578,11 +895,25 @@ async function router(req, res, url, user) {
     }
     let fil = q.get('fil');
     if (!filValide(fil)) fil = nouveauFil();
+
+    // Un gabarit choisi revient ici en GET : on compose la phrase et on la
+    // pose dans la boîte. C'est le chemin sans JavaScript ; avec, le
+    // remplissage s'est déjà fait dans le navigateur et on ne passe pas ici.
+    const modeles = modelesPour(user.role);
+    const choisi = modeles.find(m => m.cle === q.get('m'));
+    const produit = q.get('produit')
+      ? R.produitsActifs.all().find(x => String(x.id) === q.get('produit')) : null;
+    const brouillon = choisi ? composer(choisi, {
+      produit: produit ? produit.nom : '',
+      pct: /^\d+$/.test(q.get('pct') || '') ? q.get('pct') : '',
+      jours: /^\d+$/.test(q.get('jours') || '') ? q.get('jours') : '',
+    }) : '';
+
     return html(res, V.vueAssistant({ user, msg, fil,
       dispo: assistant.disponible(),
       tours: assistant.fil(fil, user.id),
       annulable: outils.dernierTourAnnulable(user.id),
-      exemples: EXEMPLES[user.role] || EXEMPLES.atelier }));
+      modeles, brouillon, produits: R.produitsActifs.all() }));
   }
   {
     const m = p.match(/^\/assistant\/(\d+)\/annuler$/);
@@ -790,7 +1121,8 @@ async function router(req, res, url, user) {
       }
       return html(res, V.vueProtocole({ user, msg, p: prod,
         proto: protocole(prod.id), photos: R.photos.all(prod.id),
-        bris: brisProduit(prod.id), appuis: brisParPoint(prod.id) }));
+        bris: brisProduit(prod.id), appuis: brisParPoint(prod.id),
+        ecartes: horsSujet(prod.id) }));
     }
   }
 
@@ -799,9 +1131,42 @@ async function router(req, res, url, user) {
     if (m && req.method === 'POST') {
       // Le point appartient au produit de l'URL : sans ce test, un id valide
       // ailleurs effacerait le protocole d'un autre produit.
-      db.prepare(`DELETE FROM qc_points WHERE id = ? AND produit_id = ?`)
-        .run(Number(m[2]), Number(m[1]));
-      return vers(res, `/qualite/${m[1]}?ok=` + encodeURIComponent('Point retiré.'));
+      const n = db.prepare(`DELETE FROM qc_points WHERE id = ? AND produit_id = ?`)
+        .run(Number(m[2]), Number(m[1])).changes;
+      // Un point général ne tombe pas sous ce test : il n'appartient à aucun
+      // produit. Le dire, plutôt que d'annoncer un retrait qui n'a pas eu lieu
+      // — c'est ce que faisait cette route, et le message mentait.
+      return vers(res, `/qualite/${m[1]}?${n ? 'ok=' + encodeURIComponent('Point retiré.')
+        : 'err=' + encodeURIComponent("Ce point appartient au protocole général : "
+          + "il vaut pour tous les produits. Écartez-le d'ici plutôt que de l'effacer.")}`);
+    }
+  }
+
+  // ---- écarter un point général d'un produit, ou l'y remettre
+  {
+    const m = p.match(/^\/qualite\/(\d+)\/(\d+)\/(hors-sujet|reprendre)$/);
+    if (m && req.method === 'POST') {
+      const prodId = Number(m[1]), pointId = Number(m[2]);
+      if (m[3] === 'reprendre') {
+        retirerHorsSujet(prodId, pointId);
+        return vers(res, `/qualite/${prodId}?ok=`
+          + encodeURIComponent('Point remis au protocole de ce produit.'));
+      }
+      // Seul un point GÉNÉRAL s'écarte : un point propre au produit se retire,
+      // c'est un autre geste et il a son propre bouton.
+      const pt = db.prepare(
+        `SELECT id FROM qc_points WHERE id = ? AND produit_id IS NULL`).get(pointId);
+      if (!pt) return vers(res, `/qualite/${prodId}?err=`
+        + encodeURIComponent("Ce point n'est pas un point du protocole général."));
+      const f = await corpsFormulaire(req);
+      const motif = String(f.motif || '').trim();
+      // Le motif est exigé : sans lui, dans six mois, personne ne saura si
+      // c'était un jugement ou un clic de trop.
+      if (!motif) return vers(res, `/qualite/${prodId}?err=`
+        + encodeURIComponent("Dites pourquoi : un point écarté sans motif ne se relit pas."));
+      poserHorsSujet(prodId, pointId, motif.slice(0, 300), user.id);
+      return vers(res, `/qualite/${prodId}?ok=`
+        + encodeURIComponent("Point écarté de ce produit — il vaut toujours pour les autres."));
     }
   }
 
@@ -882,6 +1247,55 @@ async function router(req, res, url, user) {
     const jalons = R.jalonsTous.all();
     return html(res, V.vueCedule({ user, jalons, msg,
       cal: charge.calendrier(listeFabrication()) }));
+  }
+
+  // ---- calendrier : la grille du mois
+  if (p === '/calendrier') {
+    const cal = charge.calendrier(listeFabrication());
+    const m = /^\d{4}-\d{2}$/.test(q.get('mois') || '')
+      ? q.get('mois')
+      // Sans mois demandé, on ouvre là où il se passe quelque chose : le mois
+      // du plan plutôt que le mois courant, sinon un plan qui démarre en
+      // novembre s'ouvre sur une grille vide.
+      : (cal.debut && cal.debut > new Date().toISOString().slice(0, 10)
+          ? cal.debut.slice(0, 7) : new Date().toISOString().slice(0, 7));
+
+    // Une teinte par item, attribuée dans l'ordre de fabrication : la couleur
+    // ne signifie rien, elle sert à suivre un même item de case en case.
+    const teintes = new Map();
+    cal.taches.forEach((t, i) => { if (!teintes.has(t.code)) teintes.set(t.code, i); });
+
+    return html(res, V3.vueCalendrier({ user, msg, mois: m, cal, teintes,
+      jalons: R.jalonsTous.all() }));
+  }
+
+  // ---- pauses d'atelier : le levier du domino
+  if (p === '/cedule/pauses' && req.method === 'POST') {
+    if (!admin) return refus();
+    const f = await corpsFormulaire(req);
+    const r = charge.poserPause(f);
+    if (r.erreur) return vers(res, '/cedule?err=' + encodeURIComponent(r.erreur));
+    return vers(res, '/cedule?ok=' + encodeURIComponent(
+      'Pause posée. Tout ce qui suit a reculé d\'autant.') + '#pauses');
+  }
+  {
+    const mp = p.match(/^\/cedule\/pauses\/(\d+)\/supprimer$/);
+    if (mp && req.method === 'POST') {
+      if (!admin) return refus();
+      charge.retirerPause(Number(mp[1]));
+      return vers(res, '/cedule?ok=' + encodeURIComponent(
+        'Pause retirée. Le plan se resserre d\'autant.') + '#pauses');
+    }
+  }
+
+  if (p === '/cedule/depart' && req.method === 'POST') {
+    if (!admin) return refus();
+    const f = await corpsFormulaire(req);
+    const r = charge.poserDepart(f.depart);
+    if (r.erreur) return vers(res, '/cedule?err=' + encodeURIComponent(r.erreur));
+    return vers(res, '/cedule?ok=' + encodeURIComponent(r.depart.defaut
+      ? 'Départ remis à aujourd\'hui.'
+      : `Le plan démarre le ${r.depart.valeur}.`) + '#depart');
   }
 
   if (p === '/cedule/capacite' && req.method === 'POST') {

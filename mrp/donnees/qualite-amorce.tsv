@@ -14,8 +14,11 @@
 #   mesure    une cote à vérifier
 #   cyclage   un test : lavage, compression, tenue de l'isolant
 #
-# La source « notes techniques » dit d'où vient la phrase. Un point ajouté dans
-# l'app porte le nom de qui l'a écrit — c'est plus fort qu'un fichier.
+# La colonne « source » dit d'où vient la phrase. Vide = « notes techniques »,
+# la relecture décrite plus haut. « atelier » = une consigne donnée de vive
+# voix par ceux qui font le geste, notée ici pour qu'elle ne se reperde pas.
+# Un point ajouté dans l'app porte le nom de qui l'a écrit — c'est plus fort
+# qu'un fichier, et l'import n'y touche jamais.
 #
 # Importer : node mrp/import_qualite.js --ecrire
 produit	volet	titre	detail	consequence	valeur	tolerance	unite	frequence	source
@@ -23,6 +26,10 @@ CACHE-COU	critique	Viseline pour solidifier les boutonnières		Les boutonnières
 CACHE-COU	critique	Billes pour bloquer le cord-lock noir							notes techniques
 CACHE-COU-ENF-5A13A	critique	Viseline pour solidifier les boutonnières							notes techniques
 GANTS-MAGIQUES	mesure	Fibre d'asclépiade par gant	Avec mesh. Balance fournie dans le conteneur pour l'uniformité	Gants inégaux d'une paire à l'autre	4 à 5		g	chaque gant	notes techniques
+GANTS-MAGIQUES	critique	Porter le gant pour l'assouplir	Après le remplissage, enfiler le gant et plier les doigts. C'est ce qui assouplit le gant et laisse l'asclépiade se replacer d'elle-même là où elle doit être.	Un gant qui n'a jamais été porté reste raide, et la fibre demeure tassée là où elle est tombée au remplissage — pas là où elle isole.				chaque gant	atelier
+COUSSIN-ANIMAL	critique	Rouler, dérouler, attacher	Rouler le coussin serré, attacher les ganses, puis dérouler. Le geste doit se faire d'une main et les attaches doivent tenir le rouleau fermé.	Un coussin qui ne se roule pas ou dont l'attache lâche ne se transporte pas — c'est tout l'argument du produit qui tombe.				chaque lot	atelier
+COUSSIN-ANIMAL	critique	Ganses solidement cousues	Tirer fermement sur chaque ganse. Couture renforcée aux deux extrémités, aucun jeu, aucun fil qui glisse.	La ganse porte tout le poids du coussin roulé, et un chien tire dessus. Elle cède à la couture, jamais au milieu.				chaque coussin	atelier
+COUSSIN-ANIMAL	critique	Finition des coutures intérieures	Retourner et passer la main à l'intérieur. Coutures propres, surjetées, aucun bout de fil ni excédent qui traîne.	Un animal gratte et mordille : un fil qui dépasse à l'intérieur se défait en premier, et il peut être avalé.				chaque coussin	atelier
 ETUI-TEL	critique	Les 2 rubans de ganses à la même hauteur		L'étui pend de travers					notes techniques
 ETUI-TEL	mesure	Crochet métallique pour ganse	Selon échantillon. 1 étui = 1 ganse		2,5		cm		notes techniques
 ETUI-TEL	critique	Utiliser le gabarit du conteneur	Gabarit réutilisable						notes techniques
