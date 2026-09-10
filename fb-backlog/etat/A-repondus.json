@@ -1328,8 +1328,16 @@
       "quand": "2026-09-09T23:09:17.169Z",
       "confirme": true,
       "texte": "Compris. On y réfléchit, rien d'annoncé pour le moment."
+    },
+    {
+      "id": "1678623234271486_1637662164380606",
+      "reponse_id": "1678623234271486_1584325576490276",
+      "page_id": "104242204750257",
+      "quand": "2026-09-10T13:15:17.255Z",
+      "confirme": true,
+      "texte": "Merci. Ça fait du bien à lire aujourd'hui."
     }
   ],
-  "derniere_execution": "2026-09-09T23:09:17.170Z",
-  "total": 166
+  "derniere_execution": "2026-09-10T13:15:17.256Z",
+  "total": 167
 }
