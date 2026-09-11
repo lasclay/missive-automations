@@ -1,0 +1,1122 @@
+<title>Saison forte Lasclay 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;800&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=JetBrains+Mono:wght@400;700&display=swap">
+<style>
+:root{
+  --ground:#F6F6F2; --panel:#FFFFFF; --sunk:#EDEDE6;
+  --ink:#191C1A; --ink-2:#414640; --ink-3:#6E736A;
+  --line:#D9DAD1; --line-2:#C3C5B9;
+  --monarque:#C2521C; --monarque-soft:#F5E3D7;
+  --champ:#3A6349; --champ-soft:#DFE9E0;
+  --alerte:#8A2E2E;
+  --shadow:0 1px 2px rgba(25,28,26,.06),0 8px 24px -16px rgba(25,28,26,.25);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#141715; --panel:#1C201D; --sunk:#101312;
+    --ink:#E9EBE4; --ink-2:#B6BBB2; --ink-3:#868C82;
+    --line:#2C312D; --line-2:#3C433D;
+    --monarque:#E8763C; --monarque-soft:#33211A;
+    --champ:#7FAE8C; --champ-soft:#1B2620;
+    --alerte:#D97070;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -16px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#141715; --panel:#1C201D; --sunk:#101312;
+  --ink:#E9EBE4; --ink-2:#B6BBB2; --ink-3:#868C82;
+  --line:#2C312D; --line-2:#3C433D;
+  --monarque:#E8763C; --monarque-soft:#33211A;
+  --champ:#7FAE8C; --champ-soft:#1B2620;
+  --alerte:#D97070;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -16px rgba(0,0,0,.8);
+}
+*{box-sizing:border-box}
+body{
+  background:var(--ground); color:var(--ink);
+  font-family:Literata,Georgia,'Times New Roman',serif;
+  font-size:16.5px; line-height:1.62; margin:0;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:20px;padding-block:0}
+h1,h2,h3,h4,.eyebrow,.num,.mono{font-family:Archivo,'Helvetica Neue',Arial,sans-serif}
+h1,h2,h3{text-wrap:balance;margin:0}
+.mono,code,kbd{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace}
+a{color:var(--monarque)}
+
+/* ---------- en-tête ---------- */
+header.hero{border-bottom:1px solid var(--line);background:var(--panel)}
+.hero-in{display:grid;gap:28px;padding-block:56px 44px}
+.eyebrow{font-size:11.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--monarque)}
+h1{font-size:clamp(2.3rem,6.4vw,4.1rem);font-weight:800;line-height:.98;letter-spacing:-.025em}
+h1 em{font-style:normal;color:var(--monarque)}
+.lede{font-size:1.12rem;color:var(--ink-2);max-width:62ch}
+.hero-meta{display:flex;flex-wrap:wrap;gap:10px}
+.chip{font-family:Archivo,sans-serif;font-size:12px;font-weight:600;letter-spacing:.02em;
+  border:1px solid var(--line-2);border-radius:100px;padding:5px 12px;color:var(--ink-2)}
+.chip.live{border-color:var(--monarque);color:var(--monarque);background:var(--monarque-soft)}
+
+/* ---------- structure ---------- */
+main{display:grid;grid-template-columns:196px minmax(0,1fr);gap:52px;padding-block:44px 0;align-items:start}
+nav.rail{position:sticky;top:20px;display:grid;gap:2px;font-family:Archivo,sans-serif;font-size:13px}
+nav.rail a{display:block;padding:6px 10px;border-left:2px solid var(--line);color:var(--ink-3);
+  text-decoration:none;border-radius:0 4px 4px 0}
+nav.rail a:hover{color:var(--ink);background:var(--sunk);border-left-color:var(--monarque)}
+section{scroll-margin-top:16px;padding-block:0 52px}
+section > h2{font-size:clamp(1.5rem,3.4vw,2rem);font-weight:800;letter-spacing:-.02em;
+  padding-bottom:10px;border-bottom:2px solid var(--ink);margin-bottom:22px}
+section > h2 .k{color:var(--ink-3);font-weight:500;margin-right:.5em;font-variant-numeric:tabular-nums}
+h3{font-size:1.17rem;font-weight:700;letter-spacing:-.01em;margin-top:34px;margin-bottom:8px}
+h4{font-size:.93rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-3);margin:26px 0 6px}
+p{margin:0 0 14px;max-width:68ch}
+ul,ol{margin:0 0 16px;padding-left:1.15em;max-width:66ch}
+li{margin-bottom:6px}
+strong{font-weight:600}
+
+/* ---------- citations ---------- */
+blockquote{margin:18px 0;padding:2px 0 2px 18px;border-left:3px solid var(--monarque);
+  color:var(--ink);font-size:1.02rem;max-width:64ch}
+blockquote p:last-child{margin-bottom:0}
+blockquote cite{display:block;margin-top:8px;font-style:normal;font-family:'JetBrains Mono',monospace;
+  font-size:11px;color:var(--ink-3);letter-spacing:.02em}
+
+/* ---------- bloc Lasclay ---------- */
+.lasclay{background:var(--champ-soft);border:1px solid var(--champ);border-left-width:4px;
+  border-radius:3px;padding:16px 18px;margin:20px 0;max-width:66ch}
+.lasclay h5{font-family:Archivo,sans-serif;font-size:11.5px;font-weight:700;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--champ);margin:0 0 7px}
+.lasclay p:last-child,.lasclay ul:last-child{margin-bottom:0}
+
+/* ---------- captures ---------- */
+figure{margin:22px 0}
+figure img{display:block;width:100%;max-width:100%;border:1px solid var(--line-2);border-radius:3px;background:var(--sunk)}
+figcaption{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline;margin-top:8px;
+  font-size:13.5px;color:var(--ink-2);line-height:1.45}
+figcaption .src{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--ink-3);
+  white-space:nowrap;letter-spacing:.01em}
+.duo{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px}
+.duo figure{margin:0}
+
+/* ---------- tableaux ---------- */
+.tw{overflow-x:auto;margin:18px 0;border:1px solid var(--line);border-radius:3px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;font-size:14px;font-family:Archivo,sans-serif}
+th,td{text-align:left;padding:9px 13px;border-bottom:1px solid var(--line);vertical-align:top}
+thead th{background:var(--sunk);font-size:11px;font-weight:700;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--ink-3);white-space:nowrap}
+tbody tr:last-child td{border-bottom:none}
+tbody tr.total td{font-weight:700;background:var(--sunk)}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+td .mono{font-size:12.5px}
+
+/* ---------- entonnoir ---------- */
+.funnel{display:grid;gap:9px;margin:20px 0}
+.fstage{display:grid;grid-template-columns:74px minmax(0,1fr) 62px;gap:16px;align-items:center;
+  background:var(--panel);border:1px solid var(--line);border-radius:3px;padding:13px 15px}
+.fstage .tag{font-family:Archivo,sans-serif;font-weight:800;font-size:15px;letter-spacing:-.01em}
+.fstage .desc{font-size:14px;color:var(--ink-2);line-height:1.45}
+.fstage .desc b{color:var(--ink);font-weight:600}
+.fstage .pct{font-family:Archivo,sans-serif;font-weight:800;font-size:24px;text-align:right;
+  font-variant-numeric:tabular-nums}
+.fstage:nth-child(1){border-left:4px solid var(--monarque)} .fstage:nth-child(1) .tag,.fstage:nth-child(1) .pct{color:var(--monarque)}
+.fstage:nth-child(2){border-left:4px solid var(--champ)} .fstage:nth-child(2) .tag,.fstage:nth-child(2) .pct{color:var(--champ)}
+.fstage:nth-child(3){border-left:4px solid var(--ink-3)} .fstage:nth-child(3) .tag,.fstage:nth-child(3) .pct{color:var(--ink-2)}
+
+/* ---------- framework 6 cases ---------- */
+.grid6{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1px;
+  background:var(--line);border:1px solid var(--line);border-radius:3px;overflow:hidden;margin:20px 0}
+.cell{background:var(--panel);padding:16px 17px}
+.cell .num{font-size:26px;font-weight:800;color:var(--line-2);line-height:1;font-variant-numeric:tabular-nums}
+.cell h6{font-family:Archivo,sans-serif;font-size:15px;font-weight:700;margin:5px 0 6px}
+.cell p{font-size:13.5px;color:var(--ink-2);margin:0;line-height:1.5}
+.cell.win{background:var(--monarque-soft)}
+.cell.win .num{color:var(--monarque)}
+
+/* ---------- formats ---------- */
+.format{border-top:1px solid var(--line);padding-top:26px;margin-top:30px}
+.format:first-of-type{border-top:none}
+.fhead{display:flex;flex-wrap:wrap;align-items:baseline;gap:12px;margin-bottom:6px}
+.fhead h3{margin:0}
+.badge{font-family:Archivo,sans-serif;font-size:10.5px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;padding:3px 8px;border-radius:3px;background:var(--sunk);color:var(--ink-3)}
+.badge.tof{background:var(--monarque-soft);color:var(--monarque)}
+.badge.mof{background:var(--champ-soft);color:var(--champ)}
+
+/* ---------- calendrier ---------- */
+.phases{display:grid;gap:14px;margin:22px 0}
+.phase{display:grid;grid-template-columns:96px minmax(0,1fr);gap:20px;background:var(--panel);
+  border:1px solid var(--line);border-radius:3px;padding:16px 18px}
+.phase.now{border-color:var(--monarque);box-shadow:var(--shadow)}
+.pdate{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--ink-3);line-height:1.5}
+.pdate b{display:block;font-family:Archivo,sans-serif;font-size:22px;font-weight:800;color:var(--ink);
+  letter-spacing:-.02em;margin-bottom:3px}
+.phase.now .pdate b{color:var(--monarque)}
+.phase h3{margin:0 0 7px;font-size:1.06rem}
+.phase ul{margin:0;font-size:14.5px}
+.nowtag{display:inline-block;font-family:Archivo,sans-serif;font-size:10px;font-weight:700;
+  letter-spacing:.12em;text-transform:uppercase;background:var(--monarque);color:#fff;
+  padding:2px 7px;border-radius:3px;margin-left:8px;vertical-align:2px}
+
+/* ---------- tuiles métriques ---------- */
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin:20px 0}
+.tile{background:var(--panel);border:1px solid var(--line);border-top:3px solid var(--monarque);
+  border-radius:3px;padding:15px 16px}
+.tile .v{font-family:Archivo,sans-serif;font-size:31px;font-weight:800;letter-spacing:-.03em;
+  line-height:1;font-variant-numeric:tabular-nums}
+.tile .l{font-family:Archivo,sans-serif;font-size:11px;font-weight:600;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--ink-3);margin-top:7px}
+.tile .n{font-size:12.5px;color:var(--ink-2);margin-top:6px;line-height:1.45}
+
+/* ---------- avertissement ---------- */
+.warn{border:1px solid var(--alerte);border-left-width:4px;border-radius:3px;padding:14px 17px;
+  margin:20px 0;max-width:66ch}
+.warn h5{font-family:Archivo,sans-serif;font-size:11.5px;font-weight:700;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--alerte);margin:0 0 6px}
+.warn p:last-child{margin-bottom:0}
+
+/* ---------- checklist ---------- */
+ul.check{list-style:none;padding:0;max-width:70ch}
+ul.check li{position:relative;padding-left:27px;margin-bottom:9px;font-size:15px}
+ul.check li::before{content:"";position:absolute;left:0;top:.42em;width:13px;height:13px;
+  border:1.5px solid var(--line-2);border-radius:2px}
+
+/* ---------- code ---------- */
+pre{background:var(--sunk);border:1px solid var(--line);border-radius:3px;padding:13px 15px;
+  overflow-x:auto;font-size:12.5px;line-height:1.75;margin:16px 0}
+pre code{font-family:'JetBrains Mono',monospace}
+code:not(pre code){background:var(--sunk);border-radius:3px;padding:1px 5px;font-size:.86em}
+
+footer{border-top:1px solid var(--line);margin-top:20px;padding-block:30px 48px;
+  font-size:13.5px;color:var(--ink-3);max-width:70ch}
+
+@media (max-width:860px){
+  main{grid-template-columns:1fr;gap:0}
+  nav.rail{position:static;display:flex;flex-wrap:wrap;gap:4px;margin-bottom:26px;
+    padding-bottom:18px;border-bottom:1px solid var(--line)}
+  nav.rail a{border-left:none;border:1px solid var(--line);border-radius:3px;padding:5px 9px;font-size:12px}
+  .phase{grid-template-columns:1fr;gap:10px}
+  .pdate b{display:inline;margin-right:8px}
+  .fstage{grid-template-columns:60px minmax(0,1fr);}
+  .fstage .pct{grid-column:1/-1;text-align:left;font-size:19px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+:focus-visible{outline:2px solid var(--monarque);outline-offset:2px}
+</style>
+
+<header class="hero">
+  <div class="wrap hero-in">
+    <div>
+      <div class="eyebrow">Conférence « Le paid ads en 2026 » → plan d'exécution</div>
+      <h1>Saison forte<br><em>Lasclay 2026</em></h1>
+    </div>
+    <p class="lede">79 minutes de conférence dépouillées image par image : deux decks, un compte
+      Meta ouvert en direct, et la méthode complète pour monter la saison de septembre à janvier.
+      Chaque capture renvoie au fichier et à l'horodatage d'origine.</p>
+    <div class="hero-meta">
+      <span class="chip live" id="today">—</span>
+      <span class="chip">6 fichiers · 79 min</span>
+      <span class="chip">2 decks · 75 diapos</span>
+      <span class="chip">Compte démo : 86 campagnes, 802 pubs</span>
+      <span class="chip">Vendredi fou : 27 nov 2026</span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+<main>
+<nav class="rail" aria-label="Sections">
+  <a href="#bascule">La bascule 2026</a>
+  <a href="#calendrier">Le calendrier</a>
+  <a href="#fondations">Fondations</a>
+  <a href="#squelette">Squelette de compte</a>
+  <a href="#formats">Les 10 formats</a>
+  <a href="#hook">Hook &amp; tests</a>
+  <a href="#ecrans">Écran par écran</a>
+  <a href="#dashboard">Tableau de bord</a>
+  <a href="#fails">Les fails</a>
+  <a href="#decisions">Décisions</a>
+</nav>
+
+<div>
+
+<section id="bascule">
+  <h2><span class="k">01</span>La bascule de 2026 : le créatif est devenu le ciblage</h2>
+  <p>C'est le fil conducteur des deux présentations. Depuis <strong>Andromeda</strong>, le moteur de
+  diffusion de Meta, l'algorithme trouve l'acheteur tout seul <strong>à partir du créatif</strong>.
+  Le ciblage manuel ne fait plus que l'empêcher de travailler.</p>
+
+  <figure>
+    <img src="img/05-audience.jpg" alt="Diapositive comparant Broad, Lookalike et Intérêts : le broad est marqué « Recommandé post-Andromeda », le lookalike « Pertinence en baisse », les intérêts « Signal en déclin ».">
+    <figcaption><span>La diapositive d'arbitrage. Le verdict est écrit en bas :
+      <strong>« Tester l'audience <em>après</em> le créatif. Avec Andromeda, le broad gagne la
+      majorité du temps. »</strong></span><span class="src">IMG_3744.MOV · 10:19 · deck B p.43</span></figcaption>
+  </figure>
+
+  <div class="tw"><table>
+    <thead><tr><th>Option</th><th>Ce que la diapo en dit</th><th>Verdict affiché</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Broad</strong></td><td>Aucune restriction d'audience. L'algorithme trouve les bons utilisateurs tout seul grâce au créatif.</td><td><span class="badge tof">Recommandé post-Andromeda</span></td></tr>
+      <tr><td><strong>Lookalike</strong></td><td>Basé sur tes meilleurs clients. 1 %, 3 %, 5 %. De moins en moins utile avec Andromeda.</td><td><span class="badge">Pertinence en baisse</span></td></tr>
+      <tr><td><strong>Intérêts</strong></td><td>Ciblage par centres d'intérêt. Signal de plus en plus dilué.</td><td><span class="badge">Signal en déclin</span></td></tr>
+    </tbody>
+  </table></div>
+
+  <p>La démonstration en direct le confirme par l'absurde : dans l'interface, les intérêts affichent
+  désormais des fourchettes inutilisables pendant que les titres de poste précis s'effondrent.</p>
+
+  <figure>
+    <img src="img/31-ciblage-detaille.jpg" alt="Panneau de ciblage détaillé de Meta montrant les tailles d'audience : Vacation rental (lodging) 139 569 722 à 164 133 994, Business Owner 1 972 à 2 320.">
+    <figcaption><span><span class="mono">Vacation rental (lodging)</span> = <strong>139 à 164 millions</strong> de
+      personnes. <span class="mono">Business Owner</span> = <strong>1 972 à 2 320</strong>. Aucun des
+      deux ne cible quoi que ce soit d'utile.</span><span class="src">IMG_8415.MOV · 12:07</span></figcaption>
+  </figure>
+
+  <div class="lasclay">
+    <h5>Chez Lasclay</h5>
+    <p>Arrêter de bâtir des audiences d'intérêts « plein air / jardinage / monarque ». Le signal
+    « qui achète de l'asclépiade » n'existe pas chez Meta — mais une pub qui montre la fibre en gros
+    plan le fabrique. Le budget de réflexion passe du ciblage vers le tournage.</p>
+  </div>
+
+  <h3>Le volume, c'est la vraie variable</h3>
+  <blockquote><p>Chez Omy : environ <strong>50 nouveaux créatifs par mois.</strong></p>
+    <cite>IMG_3744.MOV · 8:12</cite></blockquote>
+  <div class="lasclay">
+    <h5>Chez Lasclay</h5>
+    <p>50 par mois n'est pas réaliste. 12 à 15 l'est, si on accepte la recette : un tournage
+    d'atelier, un tournage terrain, trois UGC — puis du remontage. Même script, fond différent.
+    Même fond, hook différent.</p>
+  </div>
+</section>
+
+<section id="calendrier">
+  <h2><span class="k">02</span>Le calendrier — 11 septembre 2026 → 5 janvier 2027</h2>
+  <p>Repères fixes : <strong>Vendredi fou le 27 novembre</strong>, <strong>Cyber Monday le
+  30 novembre</strong>, <strong>Boxing Day le 26 décembre</strong>. Les dates limites d'expédition
+  de Postes Canada sont à confirmer en octobre, elles bougent chaque année.</p>
+
+  <div class="phases">
+    <div class="phase" data-start="2026-09-11" data-end="2026-09-21">
+      <div class="pdate"><b>0</b>11 → 21 sept</div>
+      <div>
+        <h3>Les fondations<span class="nowtag" hidden>Nous sommes ici</span></h3>
+        <p style="font-size:14.5px;color:var(--ink-2);margin-bottom:8px">Aucune dépense nouvelle. Dix jours de plomberie qui décident du reste.</p>
+        <ul class="check">
+          <li>Vérifier pixel + Conversions API, et la qualité des événements <span class="mono">Purchase</span>.</li>
+          <li>Brancher ou rafraîchir le catalogue produits Shopify dans Meta.</li>
+          <li>Créer les exclusions <span class="mono">Acheteurs - 180J</span> et <span class="mono">Acheteurs - 365J</span>.</li>
+          <li>Créer les audiences de reciblage — elles ont besoin de septembre et octobre pour se remplir.</li>
+          <li>Pousser les audiences d'acheteurs à <strong>730 jours</strong>.</li>
+          <li>Créer la vue de colonnes avec <strong>Hook rate</strong> et <strong>Hold rate</strong>.</li>
+          <li>Ouvrir l'onglet quotidien du chiffrier dépense / ventes / profit.</li>
+          <li>Aller décider des <em>creative enhancements</em> dans <em>Advertising settings</em>.</li>
+          <li><strong>Gain rapide :</strong> classer les publications organiques des 12 derniers mois par engagement, passer les trois meilleures en payant cette semaine.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="phase" data-start="2026-09-22" data-end="2026-10-31">
+      <div class="pdate"><b>1</b>22 sept → 31 oct</div>
+      <div>
+        <h3>Produire et tester<span class="nowtag" hidden>Nous sommes ici</span></h3>
+        <p style="font-size:14.5px;color:var(--ink-2);margin-bottom:8px">La phase qui décide de la saison. En novembre, il est trop tard pour découvrir un créatif.</p>
+        <ul>
+          <li><strong>Tournage atelier</strong> : banque de 20-30 plans (défibrage, isolant, découpe, insertion des coussinets, étiquetage). Réutilisables en fond toute la saison.</li>
+          <li><strong>Tournage terrain</strong> : froid réel, sentier, champ. Le décor fait la preuve.</li>
+          <li><strong>Studio / podcast</strong> : une demi-journée, dix phrases chocs.</li>
+          <li><strong>5 à 8 UGC</strong> commandés : 100 $ + produit, droits illimités, fichiers bruts, whitelisting prévu.</li>
+          <li>Structure minimale : <span class="mono">TOF_Prospection_CBO_QC</span> en broad, budget modeste. On ne cherche pas le ROAS ici, on cherche le <strong>hook rate</strong>.</li>
+        </ul>
+        <p style="font-size:14.5px;margin:10px 0 0"><strong>Sortie de phase :</strong> 3 à 5 créatifs avec un hook rate au-dessus de 12 %.</p>
+      </div>
+    </div>
+
+    <div class="phase" data-start="2026-11-01" data-end="2026-11-20">
+      <div class="pdate"><b>2</b>1 → 20 nov</div>
+      <div>
+        <h3>Monter en puissance<span class="nowtag" hidden>Nous sommes ici</span></h3>
+        <ul>
+          <li>Basculer le budget vers les gagnants, répartition <strong>70 / 20 / 10</strong>.</li>
+          <li>Activer <span class="mono">MOF_Retargeting_ABO_QC</span> (éducation, social proof, avant/après).</li>
+          <li>Activer <span class="mono">BOF_AbandonPanier_ABO_QC</span>.</li>
+          <li>Injecter 3 à 5 nouveaux créatifs par semaine. Surveiller la <strong>fréquence</strong> : au-delà de 3-4, c'est le signal de fatigue.</li>
+          <li>Ne pas faire monter une pub sur un produit qui va rupturer.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="phase" data-start="2026-11-21" data-end="2026-12-01">
+      <div class="pdate"><b>3</b>21 nov → 1<sup>er</sup> déc</div>
+      <div>
+        <h3>Le Vendredi fou<span class="nowtag" hidden>Nous sommes ici</span></h3>
+        <ul>
+          <li><strong>TOF : on laisse rouler les meilleures pubs</strong>, avec la mention de la vente ajoutée dessus. Pas de créatif promo pur sur froid.</li>
+          <li><strong>MOF et BOF : promo assumée</strong>, urgence, dates limites.</li>
+          <li>Se rappeler que Meta peut dépenser <strong>175 %</strong> du budget d'une journée.</li>
+          <li>Format <em>faux billboard</em> pour annoncer, plutôt qu'une bannière de rabais de plus.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="phase" data-start="2026-12-02" data-end="2026-12-20">
+      <div class="pdate"><b>4</b>2 → 20 déc</div>
+      <div>
+        <h3>Le cadeau<span class="nowtag" hidden>Nous sommes ici</span></h3>
+        <ul>
+          <li>Angle cadeau : fabriqué au Québec, utile, l'histoire derrière — les profils <em>Suzanne et Gilbert</em>, <em>Alexandra</em>.</li>
+          <li>Angle corporatif, qui se décide justement en décembre.</li>
+          <li>Compte à rebours sur les dates limites d'expédition.</li>
+          <li>Pousser les combos et les cartes-cadeaux quand l'expédition devient risquée.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="phase" data-start="2026-12-26" data-end="2027-01-05">
+      <div class="pdate"><b>5</b>26 déc → 5 janv</div>
+      <div>
+        <h3>Boxing week<span class="nowtag" hidden>Nous sommes ici</span></h3>
+        <ul>
+          <li>Reciblage lourd sur toute l'audience accumulée depuis septembre.</li>
+          <li>« Les Imparfaits » et les fins de série : le moment où le rabais est cohérent avec le récit de la marque plutôt qu'en contradiction avec lui.</li>
+          <li>Capter pour le printemps : semences et infolettre, sur les gens touchés en novembre.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="fondations">
+  <h2><span class="k">03</span>Les fondations, avant de dépenser un dollar</h2>
+  <p>Le premier deck tient en trois étapes. L'étape 2 est celle que tout le monde saute.</p>
+
+  <div class="duo">
+    <figure>
+      <img src="img/46-deck-etape2.jpg" alt="Diapositive : « 2. Installer du tracking et faire un audit de la compétition »">
+      <figcaption><span>L'étape que tout le monde saute.</span><span class="src">IMG_8413.MOV · 2:11</span></figcaption>
+    </figure>
+    <figure>
+      <img src="img/41-stape-pixel.jpg" alt="Diapositive : Facebook Ads = Facebook Pixel + serveurs via Stape ; Google Ads = Google Tag Manager via Stape.">
+      <figcaption><span>La recommandation, des deux côtés : <strong>Stape</strong>.</span><span class="src">IMG_8413.MOV · 3:19</span></figcaption>
+    </figure>
+  </div>
+
+  <blockquote><p>« Avant de lancer la première pub Facebook, il faut mettre du tracking sur le site.
+    Sinon, on est une grosse mitraillette qui tire partout, mais on n'a aucune idée où ça tombe. »</p>
+    <cite>IMG_8413.MOV · 2:20</cite></blockquote>
+  <blockquote><p>« Des fois, c'est pour ça que ça ne fonctionne pas : le tracking est mal installé. »</p>
+    <cite>IMG_8413.MOV · 3:25</cite></blockquote>
+
+  <h3>La progression conseillée, en deux temps</h3>
+  <blockquote><p>« Commencez quand même à faire de la pub même si vous avez juste un Facebook Pixel,
+    c'est correct, commencez là. Et dès que vous mettez un peu plus de budget, là vous voulez avoir
+    vos données sur un <strong>vrai serveur</strong> — parce que vos données, c'est ça qui va faire
+    en sorte que votre compte va être de plus en plus performant. »</p>
+    <cite>IMG_8413.MOV · 5:09</cite></blockquote>
+
+  <figure>
+    <img src="img/45-stape-capi.jpg" alt="Page d'accueil de Stape : Meta Conversions API Gateway Hosting, fait en collaboration avec Meta.">
+    <figcaption><span><span class="mono">stape.io/fb-capi-gateway</span> — « The easy way to implement
+      Facebook Conversions API with no manual tagging. No need to hire a tracking specialist. »
+      Fait en collaboration avec Meta. Essai 7 jours.</span><span class="src">IMG_8413.MOV · 7:09</span></figcaption>
+  </figure>
+
+  <div class="warn">
+    <h5>Le piège de l'attribution</h5>
+    <p>« Si quelqu'un a vu une pub dans les derniers jours ou a cliqué dedans dans les 7 jours,
+    Facebook va dire que <strong>100 % de la vente vient de lui</strong>. » Entre Facebook, Google
+    et l'infolettre, le présentateur raconte avoir « compté 4 ventes alors que j'en avais 3 ».
+    Chaque plateforme réclame la même commande.</p>
+    <p>Conséquence : le ROAS affiché dans Meta est un <strong>indice</strong>, pas un résultat
+    comptable. La seule vérité est le rapprochement quotidien dépense totale / ventes réelles.</p>
+  </div>
+
+  <h3>Les fenêtres de rétention, telles que Meta les propose</h3>
+  <div class="duo">
+    <figure>
+      <img src="img/24-audience-site-30j.jpg" alt="Création d'une audience personnalisée de site web : source = pixel, événements = tous les visiteurs, rétention 30 jours.">
+      <figcaption><span>Visiteurs du site : <strong>30 jours</strong> par défaut. L'encadré précise
+        qu'on peut monter à <strong>730 jours</strong> sur les événements d'achat.</span><span class="src">IMG_8414.MOV · 3:35</span></figcaption>
+    </figure>
+    <figure>
+      <img src="img/25-audience-video-365j.jpg" alt="Création d'une audience d'engagement vidéo avec une rétention de 365 jours.">
+      <figcaption><span>Engagement vidéo : <strong>365 jours</strong> par défaut. On garde bien plus
+        longtemps un spectateur qu'un visiteur.</span><span class="src">IMG_8414.MOV · 4:33</span></figcaption>
+    </figure>
+  </div>
+
+  <div class="lasclay">
+    <h5>Chez Lasclay</h5>
+    <p>Le cycle d'achat est saisonnier : quelqu'un qui a regardé une vidéo de mitaines en février
+    est un excellent prospect en novembre. Créer <span class="mono">MOF_Video_Viewers_365d</span>
+    <strong>aujourd'hui</strong>, et pousser les audiences d'acheteurs à 730 jours. Une audience
+    créée en novembre est une audience vide.</p>
+  </div>
+
+  <figure>
+    <img src="img/23-audience-sources.jpg" alt="Dialogue Meta listant les sources d'audience personnalisée : site web, activité d'app, catalogue, liste clients, activité hors ligne, vidéo, formulaire, Instant Experience, Shopping, profil Instagram, événements, page Facebook, annonces On-Facebook.">
+    <figcaption><span>Les treize sources disponibles. <em>Your sources</em> à gauche (site, app,
+      catalogue, liste clients, hors ligne), <em>Meta sources</em> à droite (vidéo, formulaire,
+      Instant Experience, Shopping, profil Instagram, événements, Page, annonces).</span><span class="src">IMG_8414.MOV · 7:21</span></figcaption>
+  </figure>
+</section>
+
+<section id="squelette">
+  <h2><span class="k">04</span>Le squelette de compte</h2>
+
+  <h3>L'entonnoir et la répartition du budget</h3>
+  <div class="funnel">
+    <div class="fstage"><span class="tag">TOFU</span>
+      <span class="desc"><b>Awareness.</b> Broad targeting + UGC. Objectif : CPM bas, hook rate élevé.</span>
+      <span class="pct">70 %</span></div>
+    <div class="fstage"><span class="tag">MOFU</span>
+      <span class="desc"><b>Considération.</b> Retargeting des engagés. Éducation produit, social proof, avant/après.</span>
+      <span class="pct">20 %</span></div>
+    <div class="fstage"><span class="tag">BOFU</span>
+      <span class="desc"><b>Conversion.</b> Retargeting visiteurs + abandons panier. Offres limitées, urgence.</span>
+      <span class="pct">10 %</span></div>
+  </div>
+  <p>Le 70 / 20 / 10 est contre-intuitif quand on panique en novembre. C'est justement le point.</p>
+
+  <figure>
+    <img src="img/01-funnel.jpg" alt="Diapositive de l'entonnoir TOFU / MOFU / BOFU avec les créatifs réels d'Omy à chaque étage.">
+    <figcaption><span>L'entonnoir tel qu'il est présenté, avec les vrais créatifs à chaque étage.
+      En bas de l'entonnoir : « Nouveaux clients ».</span><span class="src">IMG_3744.MOV · 6:53 · deck B p.27</span></figcaption>
+  </figure>
+
+  <h3>La nomenclature, à copier telle quelle</h3>
+  <figure>
+    <img src="img/20-campagnes.jpg" alt="Vue des campagnes dans Ads Manager montrant la nomenclature TOF_Corpo_CBO_QC, MOF_Retargeting_ABO_QC, TOF_Prospection_CBO_QC, BOOST_Chalets_ABO_QC.">
+    <figcaption><span>Le compte de démonstration, 86 campagnes, fenêtre de 30 jours.
+      La nomenclature se lit d'un coup d'œil : étape, type, structure de budget, marché.</span><span class="src">IMG_8414.MOV · 2:51</span></figcaption>
+  </figure>
+
+  <p><strong>Campagnes</strong> — <span class="mono">[ÉTAPE]_[TYPE]_[STRUCTURE]_[MARCHÉ]</span> ·
+  <strong>Publicités</strong> — <span class="mono">[ÉTAPE]_[FORMAT]_[sujet]_[placement]</span>
+  (<span class="mono">VID</span> vidéo, <span class="mono">CAR</span> carrousel,
+  <span class="mono">IMG</span> statique).</p>
+
+  <div class="lasclay">
+    <h5>Chez Lasclay — la transposition directe</h5>
+<pre><code>TOF_Prospection_CBO_QC        TOF_Prospection_CBO_CA_EN
+TOF_Prospection_CBO_US        MOF_Retargeting_ABO_QC
+BOF_AbandonPanier_ABO_QC      BOF_Retargeting_ABO_US
+
+MOF_Site_Visitors_30d         MOF_Video_Viewers_365d
+BOF_AddToCart_14d             BOF_InitiateCheckout_7d
+CLIENT_Acheteurs_180d         CLIENT_Acheteurs_365d
+SEASONAL_Mitaines_2025        SEASONAL_Semences_Printemps
+KLAVIYO_Infolettre_Actifs     LAL1_Acheteurs_365d</code></pre>
+  </div>
+
+  <figure>
+    <img src="img/22-audiences-liste.jpg" alt="Bibliothèque d'audiences du compte de démonstration avec les noms MOF_Site_Visitors_30d, SEASONAL_Winter_Bookers_Prep, INT_Quebec_Local_Explorers, GEO_Montreal_Metro_FR, Lookalike 1% RT_Abandon_Cart_30d.">
+    <figcaption><span>La bibliothèque d'audiences. Noter les préfixes
+      <span class="mono">MOF_</span>, <span class="mono">SEASONAL_</span>,
+      <span class="mono">INT_</span>, <span class="mono">GEO_</span> — et les audiences
+      saisonnières préparées des mois d'avance.</span><span class="src">IMG_8414.MOV · 5:01</span></figcaption>
+  </figure>
+
+  <h3>Ce que le compte de démo fait mal</h3>
+  <figure>
+    <img src="img/43-802-pubs-learning.jpg" alt="Vue des publicités : 1-200 sur 802, la plupart avec le statut « Learning limited ».">
+    <figcaption><span><strong>802 publicités</strong>, presque toutes en
+      <em>« Learning limited »</em>. C'est le symptôme classique : trop de pubs pour le budget.
+      Mieux vaut 6 pubs qui sortent du learning que 60 qui n'en sortent jamais.</span><span class="src">IMG_8413.MOV · 18:19</span></figcaption>
+  </figure>
+</section>
+
+<section id="formats">
+  <h2><span class="k">05</span>Les dix formats</h2>
+  <p>Le deuxième deck consacre une dizaine de pages aux formats, sous le titre
+  <strong>« Des incontournables qui fonctionnent (presque) toujours »</strong>. Chacun est illustré
+  de vrais créatifs.</p>
+
+  <div class="format">
+    <div class="fhead"><h3>1 · UGC — User Generated Content</h3><span class="badge tof">TOFU</span></div>
+    <figure>
+      <img src="img/10-ugc.jpg" alt="Diapositive UGC montrant trois créateurs face caméra en format vertical avec sous-titres brûlés.">
+      <figcaption><span>Créateur face caméra, vertical, sous-titres brûlés. Accroches visibles :
+        « If you care about clean water… », « Si j'avais un seul produit… »,
+        « If you're using ChatGPT… »</span><span class="src">IMG_3744.MOV · 1:09 · deck B p.29</span></figcaption>
+    </figure>
+    <p>Le passage le plus utile est l'économie du format :</p>
+    <blockquote><p>Il ne faut pas viser le créateur à 200 000 abonnés. « Elle va demander 5 000 $,
+      elle va dire que tu as juste le droit de l'utiliser 6 mois, et je ne veux pas que tu fasses
+      ci, ça. Moi j'ai besoin de flexibilité : si ça marche, je ne veux pas me faire bloquer. »
+      À la place : des petits créateurs, payés <strong>~100 $ plus le produit</strong>, dont la
+      face n'est pas connue — et ce n'est pas grave.</p>
+      <cite>IMG_3744.MOV · 0:18 → 0:41 · IMG_8416.MOV · 1:30</cite></blockquote>
+    <blockquote><p>« Au lieu de les rouler sur le compte d'Omy, ça roule sur le compte de
+      Marie-Pierre. »</p><cite>IMG_3744.MOV · 0:57 — le whitelisting</cite></blockquote>
+    <p>La pub est diffusée depuis le compte du créateur. Elle n'a plus l'air d'une pub de marque.
+    Dans l'interface, ça se branche au niveau publicité, section <em>Partnership ad</em>.</p>
+    <div class="lasclay">
+      <h5>Chez Lasclay</h5>
+      <p>Recruter 5 à 8 micro-créateurs québécois — plein air, jardinage, jeunes parents,
+      chasse-pêche pour le profil <em>Pascal</em>. 100 $ + produit. <strong>Droits d'usage illimités
+      en durée négociés d'avance</strong> : c'est la clause qui compte. Demander le fichier brut
+      sans musique, pour pouvoir remonter le hook. Prévoir le whitelisting dès l'entente.</p>
+    </div>
+    <div class="warn">
+      <h5>Une remarque à noter, pas à importer</h5>
+      <p>La présentation dit franchement que leur apprentissage est que « ça prend une belle
+      fille », et que la diversité, chez eux, ne performait pas. C'est <strong>leur</strong> donnée
+      sur <strong>leur</strong> produit (soins du visage), sur un public précis. Ce n'est pas une
+      règle, et la transposer à Lasclay serait à la fois faux et contraire à la marque.</p>
+    </div>
+  </div>
+
+  <div class="format">
+    <div class="fhead"><h3>2 · EGC — Employee Generated Content</h3><span class="badge tof">TOFU</span></div>
+    <div class="duo">
+      <figure><img src="img/11-egc.jpg" alt="Diapositive EGC montrant des employés filmés en vertical, dont une vidéo TikTok @monsieurchalets.">
+        <figcaption><span>Le contenu tourné par les employés, assumé comme tel.</span><span class="src">IMG_3744.MOV · 1:51 · p.30</span></figcaption></figure>
+      <figure><img src="img/12-egc-omy.jpg" alt="Diapositive EGC chez Omy : six employés différents, même gabarit, tournés au laboratoire, à l'entrepôt et au bureau.">
+        <figcaption><span>Six employés différents, même gabarit, tournés au labo, à l'entrepôt, au bureau.</span><span class="src">IMG_3744.MOV · 2:55 · p.31</span></figcaption></figure>
+    </div>
+    <blockquote><p>« Ça marche super bien. Quand on fait des ventes chez Omy, on fait un vidéo :
+      salut, on a une vente en fin de semaine. Juste d'avoir du contenu fait par vos employés,
+      ça fonctionne toujours super bien. »</p><cite>IMG_3744.MOV · 2:00</cite></blockquote>
+    <blockquote><p>Ce qui marche le mieux à l'interne : <strong>une personne qui explique les
+      produits.</strong> « Quand on lance un produit, elle fait toujours une vidéo pour expliquer
+      c'est quoi le produit, pourquoi il est là, qu'est-ce qu'il y a dedans. Ça prend quelqu'un de
+      naturel, qui est habitué de parler devant la caméra. »</p><cite>IMG_3744.MOV · 3:05</cite></blockquote>
+    <div class="lasclay">
+      <h5>Chez Lasclay</h5>
+      <p>Le format le moins cher et le plus défendable. Gabriel explique l'asclépiade ;
+      l'équipe d'atelier montre l'isolant. Le discours de marque existe déjà — il suffit de le
+      filmer à l'horizontale du quotidien plutôt qu'en production léchée.</p>
+    </div>
+  </div>
+
+  <div class="format">
+    <div class="fhead"><h3>3 · Installations et coulisses de fabrication</h3><span class="badge tof">TOFU</span></div>
+    <figure>
+      <img src="img/14-installations.jpg" alt="Diapositive « Installations » montrant trois vidéos tournées au laboratoire et à l'entrepôt d'Omy.">
+      <figcaption><span>« The secret to personalized skincare », « Omy Lab offers personalized care » —
+        tournés au labo et dans l'entrepôt.</span><span class="src">IMG_3744.MOV · 4:41 · p.33</span></figcaption>
+    </figure>
+    <blockquote><p>« Tout ce qui est behind the scenes, la fabrication des produits… ça marche
+      vraiment bien, et ça m'a surpris, je ne peux pas expliquer pourquoi. Le monde, quand on
+      brasse de la crème, quand il y a une machine qui étiquette des trucs — ça marche vraiment
+      bien. »</p><cite>IMG_3744.MOV · 4:45</cite></blockquote>
+    <blockquote><p>« Il y avait vraiment une résistance à l'interne au début, parce que ce n'est pas
+      assez haut de gamme, ça ne fait pas premium. Mais ça marche. »</p><cite>IMG_3744.MOV · 5:01</cite></blockquote>
+    <h4>Le raccourci de production qui en découle</h4>
+    <blockquote><p>« Peu importe ce qu'on dit par-dessus, le visuel en background, ça marche bien.
+      On lance un produit, on a une version qui ressemble à la précédente, tu changes juste le
+      vidéo derrière et tu mets l'étiqueteuse à la place. Ça marche toujours super bien. »</p>
+      <cite>IMG_3744.MOV · 5:08</cite></blockquote>
+    <div class="lasclay">
+      <h5>Chez Lasclay — l'actif le plus sous-exploité de l'entreprise</h5>
+      <p>Le défibrage, l'isolant qui sort de la machine, la découpe laser, les coussinets qu'on
+      insère dans un manteau, les gousses qui s'ouvrent. Personne d'autre au Québec ne peut filmer
+      ça, et le pivot manufacturier en fait un stock d'images qui se renouvelle tout seul.</p>
+      <p><strong>Méthode :</strong> tourner une banque de 20-30 plans d'atelier, puis les recycler
+      derrière tous les scripts de la saison.</p>
+    </div>
+  </div>
+
+  <div class="format">
+    <div class="fhead"><h3>4 · Us vs Them</h3><span class="badge mof">MOFU</span></div>
+    <figure>
+      <img src="img/13-us-vs-them.jpg" alt="Diapositive « US VS THEM » montrant cinq créatifs comparatifs côte à côte.">
+      <figcaption><span>Un eye-liner « then / us », une boisson sportive contre « autre boisson pour
+        sportifs », un sérum contre un sérum, « 6 à 10 semaines vs 7 jours », des jeans « other
+        brands vs us ».</span><span class="src">IMG_3744.MOV · 4:35 · p.32</span></figcaption>
+    </figure>
+    <div class="lasclay">
+      <h5>Chez Lasclay</h5>
+      <p>Asclépiade vs duvet : chaleur à poids égal, comportement à l'humidité, origine, prix.
+      Ou asclépiade vs polyester. Garde-fou de marque : comparer sur des faits vérifiables, sans
+      dénigrer nommément un concurrent local.</p>
+    </div>
+  </div>
+
+  <div class="format">
+    <div class="fhead"><h3>5 · Volume quantifiable</h3><span class="badge tof">TOFU</span></div>
+    <figure>
+      <img src="img/16-volume.jpg" alt="Diapositive « Volume quantifiable » : 75 612 particules de microplastique, vendu et adoré 10 000 fois, 40 000 fois, sold &amp; loved 10k times.">
+      <figcaption><span>« We ingest up to <strong>75,612</strong> microplastic particles each year
+        by drinking bottled water » · « Vendu et adoré <strong>40 000 fois</strong> » ·
+        « Sold &amp; loved <strong>10k</strong> times »</span><span class="src">IMG_3744.MOV · 5:41 · p.35</span></figcaption>
+    </figure>
+    <blockquote><p>« À chaque fois qu'on mettait des chiffres… “aimé par 50 000 Québécoises”,
+      “aimé par 100 000 Canadiens”… ça a toujours bien fonctionné. C'était tout le temps un winner,
+      ce genre de messaging-là. »</p><cite>IMG_3744.MOV · 5:55</cite></blockquote>
+    <div class="lasclay">
+      <h5>Chez Lasclay</h5>
+      <p>Les chiffres existent déjà et sont plus forts que la moyenne du marché : ~10 millions de
+      graines distribuées, plus de 40 produits, une fibre récoltée dans des champs québécois, le
+      nombre de mitaines vendues depuis 2020. Un chiffre vrai, gros, dans le premier tiers de
+      l'image.</p>
+    </div>
+  </div>
+
+  <div class="format">
+    <div class="fhead"><h3>6 · Avant / après</h3><span class="badge mof">MOFU</span></div>
+    <figure>
+      <img src="img/17-avant-apres.jpg" alt="Diapositive « Avant après » : peau avant/après, cuisine « BEFORE », profil de barbe avec étiquettes avant et après.">
+      <figcaption><span>« Not Overnight, But in 28 Days ». Le format marche aussi hors cosmétique :
+        une rénovation de cuisine, un profil de barbe.</span><span class="src">IMG_3744.MOV · 6:21 · p.36</span></figcaption>
+    </figure>
+    <blockquote><p>« Les avant-après, ça marche bien aussi. C'est d'avoir quelque chose à montrer.
+      Ce n'est pas possible pour tout le monde, mais ça marche toujours bien. »</p>
+      <cite>IMG_3744.MOV · 6:20</cite></blockquote>
+    <div class="lasclay">
+      <h5>Chez Lasclay</h5>
+      <p>Pas un avant/après de corps — un avant/après de <strong>matière et de terrain</strong> :
+      la gousse → la fibre → l'isolant → le produit fini. Ou le champ en juin → le champ en
+      septembre. Ou la caméra thermique : main nue / main en mitaine.</p>
+    </div>
+  </div>
+
+  <div class="format">
+    <div class="fhead"><h3>7 · Dans la voiture ou dehors</h3><span class="badge tof">TOFU</span></div>
+    <figure>
+      <img src="img/18-voiture.jpg" alt="Diapositive « Dans la voiture ou dehors » : trois vidéos tournées au volant et en marchant.">
+      <figcaption><span>« Je travaille souvent sur la route » · « Everything is moving! Go! Go! Go! »</span><span class="src">IMG_3744.MOV · 6:33 · p.37</span></figcaption>
+    </figure>
+    <blockquote><p>« Des trucs dans des contextes différents — dans la voiture, être à l'extérieur —
+      <strong>ça casse les codes de la pub, pour que ça n'ait pas l'air d'une pub.</strong> Ça
+      marche bien. Encore une fois, dès qu'il y a une twist qui fait plus organique, ça marche
+      bien. »</p><cite>IMG_3744.MOV · 6:31</cite></blockquote>
+    <div class="lasclay">
+      <h5>Chez Lasclay</h5>
+      <p>Le terrain est le décor naturel de la marque : le champ, le sentier, le stationnement à
+      −20 °C, le quai en novembre. Filmer dehors coûte zéro et donne la preuve d'usage.</p>
+    </div>
+  </div>
+
+  <div class="format">
+    <div class="fhead"><h3>8 · Faux billboard</h3><span class="badge tof">TOFU</span></div>
+    <figure>
+      <img src="img/15-faux-billboard.jpg" alt="Diapositive « Faux billboard » : trois créatifs qui imitent des panneaux d'affichage extérieurs.">
+      <figcaption><span>Une annonce de vente d'entrepôt (« Trois-Rivières — jusqu'à 50 % de rabais,
+        24-25 octobre »), un panneau protéine, un panneau « Summer moments in linen ».</span><span class="src">IMG_3744.MOV · 5:39 · p.34</span></figcaption>
+    </figure>
+    <div class="lasclay">
+      <h5>Chez Lasclay</h5>
+      <p>Parfait pour annoncer la prévente ou le Vendredi fou sans faire une énième bannière de
+      rabais.</p>
+    </div>
+  </div>
+
+  <div class="format">
+    <div class="fhead"><h3>9 · Le podcast</h3><span class="badge tof">Le format le plus vanté</span></div>
+    <blockquote><p>« L'autre chose qui marche, du feu de Dieu, c'est des podcasts. […] Il faut
+      absolument qu'on en fasse, ça marche tellement bien, c'est fou. »</p><cite>IMG_3744.MOV · 3:25</cite></blockquote>
+    <blockquote><p>Le mécanisme est le segment choc : « Elle disait <em>on a plus de crème chez Omy
+      que chez Sephora</em> — et ça a explosé. »</p><cite>IMG_3744.MOV · 3:50</cite></blockquote>
+    <blockquote><p>« Vous louez un studio, et vous parlez dans le vide en disant des phrases chocs
+      mais qui sont en lien avec votre produit. Ça marche vraiment bien. »</p><cite>IMG_3744.MOV · 4:05</cite></blockquote>
+    <div class="lasclay">
+      <h5>Chez Lasclay</h5>
+      <p>Gabriel a déjà le matériel : l'effondrement de la filière en 2018, le pivot manufacturier,
+      pourquoi un manteau d'asclépiade coûtait 1 000 $ avant et pourquoi il ne le coûte plus,
+      pourquoi les monarques disparaissent. Une demi-journée de studio, dix phrases chocs, et on a
+      de quoi alimenter le haut de l'entonnoir jusqu'en février.</p>
+    </div>
+  </div>
+
+  <div class="format">
+    <div class="fhead"><h3>10 · Booster ce qui marche déjà</h3><span class="badge">Gain immédiat</span></div>
+    <blockquote><p>« Si vous avez des posts qui marchent bien en organique, ils vont bien marcher en
+      payant aussi. L'algorithme est quand même assez similaire. »</p><cite>IMG_3744.MOV · 5:44</cite></blockquote>
+    <div class="lasclay">
+      <h5>Chez Lasclay</h5>
+      <p>Avant de produire du neuf : reprendre les publications organiques Facebook et Instagram des
+      12 derniers mois, classer par taux d'engagement, passer les trois meilleures en payant dès
+      cette semaine. C'est le gain le plus rapide de tout ce document.</p>
+    </div>
+  </div>
+
+  <h3>Une note sur les formats : ils fonctionnent par vagues</h3>
+  <blockquote><p>« C'est un peu tout, ça vient vraiment par vagues. Il y a des statiques qui
+    fonctionnent bien, des vidéos, des carrousels. Il y a un an on ne roulait aucun carrousel ;
+    on a retesté six mois après, ça performait super bien. »</p><cite>IMG_3744.MOV · 7:23</cite></blockquote>
+  <blockquote><p>« Quand les reels sont sortis, Facebook voulait vraiment les pousser, donc ça ne
+    coûtait pas cher sur ce format-là pour que les gens l'adoptent. Et maintenant que c'est adopté,
+    le prix est monté. »</p><cite>IMG_3744.MOV · 7:48</cite></blockquote>
+  <p>Deux conséquences pratiques : <strong>retester les formats abandonnés tous les six mois</strong>,
+  et <strong>aller là où Meta pousse</strong> — en ce moment, la vidéo générée, les placements
+  Advantage+ et le catalogue.</p>
+</section>
+
+<section id="hook">
+  <h2><span class="k">06</span>Le hook, l'angle, l'audience — dans cet ordre</h2>
+
+  <figure>
+    <img src="img/03-hook.jpg" alt="Diapositive « Élément de tests en ordre de priorisation : le hook » détaillant ce qu'est un hook et à quoi il sert.">
+    <figcaption><span>La diapositive complète. Exemples à l'écran : « Winter in Canada = skin in
+      crisis », « I love winter but my skin throws a fit every year. »</span><span class="src">IMG_3744.MOV · 7:03 · deck B p.40</span></figcaption>
+  </figure>
+
+  <blockquote>
+    <p><strong>« Le hook (3 premières sec.) — le facteur #1 de performance. Tester en premier,
+    toujours. »</strong></p>
+    <p><strong>C'est souvent :</strong> une question provocante · un problème ciblé · une phrase
+    forte qui pique la curiosité ou génère une émotion.</p>
+    <p><strong>À quoi ça sert :</strong> stopper le scroll · faire en sorte que l'audience reste
+    pour voir la suite · booster les performances (vues, clics, conversions) · favoriser
+    l'algorithme — un bon hook → meilleure rétention → meilleure diffusion.</p>
+    <cite>deck B p.40</cite>
+  </blockquote>
+
+  <blockquote><p>« On écoute nos vidéos en défilant. Si tu ne me stimules pas après une seconde,
+    j'ai skippé ta vidéo. Ça peut être un hook visuel, une phrase, quelque chose d'écrit — mais
+    <strong>une vidéo ne peut pas commencer par deux secondes de silence puis “bonjour”.</strong> »</p>
+    <cite>IMG_3744.MOV · 8:42</cite></blockquote>
+
+  <div class="lasclay">
+    <h5>Chez Lasclay — dix hooks à tester, gratuits</h5>
+    <ul>
+      <li>« L'asclépiade, c'est de la mauvaise herbe. On en fait des manteaux. »</li>
+      <li>« Cette fibre est plus chaude que le duvet et elle pousse dans un champ à Québec. »</li>
+      <li>« Pourquoi les monarques disparaissent, en 20 secondes. »</li>
+      <li>« Regarde ce qui sort de cette machine. »</li>
+      <li>« On a failli fermer en 2018. »</li>
+      <li>« Ce manteau se démonte. »</li>
+      <li>« 10 millions de graines plus tard. »</li>
+      <li>« Tout le monde jette ça. »</li>
+      <li>« −27 °C, mains nues, 30 secondes. »</li>
+      <li>« Il y a une raison pour laquelle ça coûtait 1 000 $ avant. »</li>
+    </ul>
+  </div>
+
+  <h3>Puis l'angle, et seulement après, l'audience</h3>
+  <figure>
+    <img src="img/04-angle.jpg" alt="Diapositive « Élément de tests : l'angle / le message » — bénéfice, problème, social proof, urgence, éducation.">
+    <figcaption><span>« Bénéfice, problème, social proof, urgence, éducation… » Le visuel de droite
+      est un sablier : « Derniers jours pour une livraison avant Noël ». Le format à garder pour
+      décembre.</span><span class="src">IMG_3744.MOV · 9:13 · deck B p.41</span></figcaption>
+  </figure>
+
+  <h3>Le framework de tests</h3>
+  <figure>
+    <img src="img/02-framework-tests.jpg" alt="Diapositive « Framework de tests » en six cases : hypothèse, isolation, budget, durée, analyse, scale.">
+    <figcaption><span>Les six cases, telles quelles. En bas : « Gagnant → Scaling » ·
+      « Perdant → Apprentissage ».</span><span class="src">IMG_3744.MOV · 6:49 · deck B p.39</span></figcaption>
+  </figure>
+
+  <div class="grid6">
+    <div class="cell"><div class="num">01</div><h6>Hypothèse</h6><p>Quel angle créatif tester ? Définir une hypothèse claire avant de lancer quoi que ce soit.</p></div>
+    <div class="cell"><div class="num">02</div><h6>Isolation</h6><p>Une seule variable à la fois. Hook, angle, format ou audience — jamais tout en même temps.</p></div>
+    <div class="cell"><div class="num">03</div><h6>Budget</h6><p>Minimum <strong>5× le CPA cible</strong> par test. En dessous, les résultats ne sont pas fiables.</p></div>
+    <div class="cell"><div class="num">04</div><h6>Durée</h6><p><strong>3 à 7 jours minimum</strong> avant de conclure. Laisser l'algorithme sortir du learning phase.</p></div>
+    <div class="cell"><div class="num">05</div><h6>Analyse</h6><p>Significativité statistique requise. On ne kill pas un test sur du bruit — on attend la data.</p></div>
+    <div class="cell win"><div class="num">06</div><h6>Scale</h6><p>Les gagnants passent en scaling. Les perdants nourrissent les apprentissages pour le prochain cycle.</p></div>
+  </div>
+
+  <div class="lasclay">
+    <h5>Ce que « 5× le CPA cible » veut dire concrètement</h5>
+    <p>Si le coût d'acquisition visé est de 30 $, chaque test a besoin de <strong>150 $</strong>
+    avant qu'on ait le droit d'en tirer une conclusion. Avec 4 créatifs à tester, c'est 600 $ sur
+    3 à 7 jours. C'est cette contrainte qui décide du nombre de tests qu'on peut vraiment mener —
+    pas l'envie.</p>
+  </div>
+
+  <h3>Le CAC maximal</h3>
+  <figure>
+    <img src="img/07-cac-ltv.jpg" alt="Diapositive « CAC et LTV » définissant le coût d'acquisition client et posant la question : comment calculer son CAC maximal ?">
+    <figcaption><span>La diapositive pose la définition et la question, sans donner la réponse à
+      l'écran.</span><span class="src">IMG_3744.MOV · 10:27 · deck B p.56</span></figcaption>
+  </figure>
+  <pre><code>CAC maximal = marge brute par commande × part de la marge cédée à l'acquisition</code></pre>
+  <div class="lasclay">
+    <h5>Chez Lasclay, avec une marge brute autour de 73 % (chiffre interne, à revalider)</h5>
+    <div class="tw"><table>
+      <thead><tr><th>Panier moyen</th><th class="n">Marge brute</th><th class="n">CAC max à 50 % de la marge</th><th class="n">CAC max à 70 % (mode conquête)</th></tr></thead>
+      <tbody>
+        <tr><td>80 $</td><td class="n">58 $</td><td class="n"><strong>29 $</strong></td><td class="n">41 $</td></tr>
+        <tr><td>120 $</td><td class="n">88 $</td><td class="n"><strong>44 $</strong></td><td class="n">61 $</td></tr>
+        <tr><td>200 $</td><td class="n">146 $</td><td class="n"><strong>73 $</strong></td><td class="n">102 $</td></tr>
+      </tbody>
+    </table></div>
+    <p>Deux mises en garde. Le CAC max se calcule sur le <strong>premier achat</strong> tant qu'on
+    ne sait pas mesurer la LTV ; dès qu'on sait qu'un client réachète (semences au printemps,
+    accessoire l'hiver suivant), on peut monter le plafond — avec la donnée en main, pas par
+    optimisme. Et en pleine saison, monter le CAC accepté est une décision de trésorerie autant que
+    de marketing : avec un modèle qui passe de la prévente à l'inventaire, le cash encaissé
+    aujourd'hui ne finance plus la production de demain.</p>
+  </div>
+</section>
+
+<section id="ecrans">
+  <h2><span class="k">07</span>Monter la campagne, écran par écran</h2>
+  <p>Ce qui suit suit exactement l'ordre de la démonstration en direct.</p>
+
+  <h3>Niveau campagne</h3>
+  <div class="duo">
+    <figure><img src="img/21-objectifs.jpg" alt="Dialogue Meta de création de campagne : type d'achat Auction, objectifs Awareness, Traffic, Engagement, Leads, App promotion, Sales.">
+      <figcaption><span>Buying type <strong>Auction</strong>, objectif <strong>Sales</strong>.</span><span class="src">IMG_8414.MOV · 1:57</span></figcaption></figure>
+    <figure><img src="img/26-campagne-advantage.jpg" alt="Écran de configuration de campagne avec Advantage+ catalog activé et budget de campagne sélectionné, score de campagne 100.">
+      <figcaption><span><strong>Advantage+ catalog ON</strong>, budget de campagne (CBO). Score 100.</span><span class="src">IMG_8414.MOV · 11:13</span></figcaption></figure>
+  </div>
+
+  <div class="tw"><table>
+    <thead><tr><th>Champ</th><th>Valeur</th><th>Remarque de la démo</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">Buying type</td><td><strong>Auction</strong></td><td><em>Reservation</em> existe (« buy in advance for more predictable outcomes ») mais n'est pas le chemin ici</td></tr>
+      <tr><td class="mono">Campaign objective</td><td><strong>Sales</strong></td><td>Les autres : Awareness, Traffic, Engagement, Leads, App promotion</td></tr>
+      <tr><td class="mono">Advantage+ catalog</td><td><strong>ON</strong></td><td>C'est la recommandation qui pèse le plus lourd dans le score — <strong>+53 points</strong> à elle seule</td></tr>
+      <tr><td class="mono">Budget strategy</td><td><strong>Campaign budget</strong> (CBO)</td><td><em>Ad set budget</em> (ABO) sert au reciblage, où on veut forcer la répartition</td></tr>
+      <tr><td class="mono">Campaign name</td><td>selon nomenclature</td><td>Bouton <strong>Create template</strong> : à utiliser, ça évite de tout reconfigurer à chaque campagne</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="warn">
+    <h5>Le « Campaign score » n'est pas une note de qualité</h5>
+    <p>Il affiche 100 quand <em>Advantage+ sales campaign</em> est ON (« You're using our recommended
+    setup »), puis chute — 77, 74, 69, 50 — au fil de la démonstration, dès qu'on s'écarte des
+    réglages recommandés. Chaque recommandation est chiffrée en points. <strong>C'est une mesure de
+    conformité aux réglages que Meta veut pousser</strong>, à lire comme une information, pas comme
+    un ordre.</p>
+  </div>
+
+  <h3>Niveau ensemble de publicités</h3>
+  <figure>
+    <img src="img/27-adset-lifecycle.jpg" alt="Écran d'ensemble de publicités : Customer lifecycle strategy réglée sur Acquire new customers, avec exclusion des audiences Acheteurs 180J et 365J.">
+    <figcaption><span><strong>Customer lifecycle strategy → Acquire new customers</strong>,
+      pré-sélectionné par Meta. « This helps you prioritize conversions from new customers by
+      excluding custom audiences of your existing customers. » C'est ici que servent les exclusions
+      <span class="mono">Acheteurs - 180J</span> / <span class="mono">365J</span>.</span><span class="src">IMG_8414.MOV · 13:59</span></figcaption>
+  </figure>
+
+  <figure>
+    <img src="img/28-locations.jpg" alt="Section Audience d'un ensemble de publicités : Controls, Locations avec Québec + 25 milles sur une carte.">
+    <figcaption><span>La section <strong>Controls</strong> porte la phrase qui compte :
+      « We won't reach people beyond these settings, <strong>even with Advantage+ on</strong>. »
+      C'est le seul vrai garde-fou. Tout le reste est suggestion.</span><span class="src">IMG_8415.MOV · 3:05</span></figcaption>
+  </figure>
+
+  <ul>
+    <li><strong>Locations</strong> — inclusion pays, puis ville + rayon si besoin. Deux cases
+      exclusives : <em>Reach more people likely to respond</em>, ou <em>Reach people interested in
+      your selected cities or regions</em>, que Meta annonce à <strong>6,7 % lower cost per
+      result</strong>, « based on our experiment ».</li>
+    <li><strong>Languages</strong> — ne mettre <span class="mono">French (All)</span> que si on veut
+      limiter. <em>Chez Lasclay, c'est le champ qui sépare proprement les campagnes FR et EN sur un
+      même territoire canadien.</em></li>
+    <li><strong>Detailed targeting</strong> — à laisser vide (voir section 01).</li>
+  </ul>
+
+  <figure>
+    <img src="img/29-placements.jpg" alt="Section Placements avec Advantage+ activé et l'encadré « Changes to placement settings are coming soon ».">
+    <figcaption><span>L'encadré à lire : <strong>exclure des placements ou des plateformes ne sera
+      plus possible</strong> au niveau de l'ensemble de pubs. Il restera les <em>Placement value
+      rules</em>, le <em>créatif par placement</em>, et les exclusions au niveau du
+      compte.</span><span class="src">IMG_8415.MOV · 6:31</span></figcaption>
+  </figure>
+  <p>Conséquence : la maîtrise des placements se déplace vers le <strong>créatif par
+  placement</strong>. Il faut commencer à produire en 9:16 et en 1:1 plutôt qu'à exclure.</p>
+
+  <figure>
+    <img src="img/30-budget.jpg" alt="Section Budget : budget quotidien de 20 $ CAD, avec la mention que la dépense quotidienne maximale est de 35 $ et la dépense hebdomadaire maximale de 140 $.">
+    <figcaption><span>Budget quotidien de 20 $ → Meta annonce une <strong>dépense quotidienne
+      maximale de 35 $</strong> et hebdomadaire de 140 $. Le lissage peut dépenser
+      <strong>175 %</strong> du budget d'une journée. À savoir avant le Vendredi fou, quand on met
+      un gros budget pour 24 h.</span><span class="src">IMG_8415.MOV · 13:17</span></figcaption>
+  </figure>
+
+  <h3>Niveau publicité — l'assistant créatif 2026</h3>
+  <p>Sept onglets : <span class="mono">Creative setup → Media → Text → Image generation →
+  Video generation → Enhancements → Translation</span>.</p>
+
+  <figure>
+    <img src="img/32-creative-setup.jpg" alt="Onglet Creative setup avec les extensions Branding, Site links et Website highlights, toutes désactivées.">
+    <figcaption><span>Les quatre extensions, toutes <strong>OFF par défaut</strong> :
+      <em>Website summaries</em>, <em>Branding</em>, <em>Site links</em>,
+      <em>Website highlights</em>.</span><span class="src">IMG_8415.MOV · 17:29</span></figcaption>
+  </figure>
+
+  <div class="lasclay">
+    <h5>Remplir <em>Branding</em> une seule fois</h5>
+    <p>Logo, police, couleurs, <em>Text tone</em>, <em>Visual style</em> — « Set brand defaults for
+    this ad <strong>and future ads</strong> ». Toutes les générations IA ultérieures en héritent.
+    Sans ça, l'IA de Meta invente une identité visuelle à la place de la vôtre.</p>
+  </div>
+
+  <div class="duo">
+    <figure><img src="img/33-texte.jpg" alt="Onglet Text : primary text, headline, description, call to action.">
+      <figcaption><span>« <strong>Add multiple text options</strong> and we'll show the one we predict
+        will perform best. » Mettre plusieurs variantes, pas une seule.</span><span class="src">IMG_8415.MOV · 17:45</span></figcaption></figure>
+    <figure><img src="img/35-image-ia.jpg" alt="Onglet Image generation : grilles d'images générées par IA classées en « Refined original look », « Popular in Furniture » et « High return on ad spend ».">
+      <figcaption><span><em>Advantage+ creative image generation</em> — annoncé à
+        <strong>+10 % CTR</strong> et <strong>+6 % CVR</strong>. Trois familles : <em>Refined
+        original look</em>, <em>Popular in [catégorie]</em>, <em>High return on ad
+        spend</em>.</span><span class="src">IMG_8415.MOV · 19:11</span></figcaption></figure>
+  </div>
+
+  <figure>
+    <img src="img/36-enhancements.jpg" alt="Onglet Enhancements : Advantage+ creative enhancements avec Enhance CTA, Add animation, Show spotlights, Add product tags.">
+    <figcaption><span>« <strong>You've been enrolled</strong> in testing new creative and AI
+      enhancements, which you can edit in Advertising settings. » C'est <strong>opt-out, pas
+      opt-in</strong>.</span><span class="src">IMG_8415.MOV · 18:33</span></figcaption>
+  </figure>
+
+  <div class="warn">
+    <h5>Le paragraphe à lire deux fois</h5>
+    <p>Parmi les « essential enhancements » activés par défaut :
+    <strong>Adjust brightness and contrast</strong>. Un ajustement automatique de luminosité et de
+    contraste sur une photo de produit <strong>change la couleur de la fibre et du tissu</strong>.
+    Aller vérifier dans <em>Advertising settings</em> ce qui est activé sur le compte, et décider
+    sciemment — pas par défaut.</p>
+  </div>
+
+  <figure>
+    <img src="img/38-identity-publish.jpg" alt="Dernier écran au niveau publicité : nom de la pub, Partnership ad, Identity avec page Facebook, profil Instagram, profil Threads, et aperçu de la publicité.">
+    <figcaption><span>Le dernier écran. <strong>Partnership ad</strong> est l'endroit où se branche
+      le whitelisting du format UGC. <em>Identity</em> demande désormais aussi le
+      <strong>profil Threads</strong>.</span><span class="src">IMG_8415.MOV · 20:17</span></figcaption>
+  </figure>
+</section>
+
+<section id="dashboard">
+  <h2><span class="k">08</span>Le tableau de bord</h2>
+  <p>La démonstration travaille dans une vue de colonnes personnalisée. Les deux colonnes qui
+  comptent ne sont pas là par défaut.</p>
+
+  <figure>
+    <img src="img/42-colonnes-hookrate.jpg" alt="Vue de colonnes personnalisée « MonsieurChalets Ecommerce » montrant valeur de conversion, ajouts au panier, achats, coût par achat, ROAS, hold rate et hook rate.">
+    <figcaption><span>La vue <span class="mono">MonsieurChalets Ecommerce</span>. Tout à droite :
+      <strong>Hold rate</strong> et <strong>Hook rate</strong>.</span><span class="src">IMG_8413.MOV · 12:33</span></figcaption>
+  </figure>
+
+  <div class="tiles">
+    <div class="tile"><div class="v">18 – 23 %</div><div class="l">Hook rate en prospection</div>
+      <div class="n">La proportion qui ne part pas dans les 3 premières secondes. C'est la note du hook, isolée du reste.</div></div>
+    <div class="tile"><div class="v">3 – 5 %</div><div class="l">Hold rate en prospection</div>
+      <div class="n">La proportion qui reste jusqu'à la fin utile. C'est la note du contenu.</div></div>
+    <div class="tile"><div class="v">51,47 $</div><div class="l">Coût par achat, compte entier</div>
+      <div class="n">Sur 5 662 $ dépensés et 110 achats, 30 jours.</div></div>
+    <div class="tile"><div class="v">3,73</div><div class="l">Fréquence moyenne</div>
+      <div class="n">Au-delà de 3-4, c'est le signal de fatigue créative.</div></div>
+  </div>
+
+  <div class="tw"><table>
+    <thead><tr><th>Campagne</th><th class="n">Coût/achat</th><th class="n">ROAS</th><th class="n">Hold rate</th><th class="n">Hook rate</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">TOF_Corpo_CBO_QC</td><td class="n">38,09 $</td><td class="n">65,18</td><td class="n">4,23 %</td><td class="n"><strong>18,26 %</strong></td></tr>
+      <tr><td class="mono">TOF_Prospection_CBO_QC</td><td class="n">~55 $</td><td class="n">26,31</td><td class="n">4,95 %</td><td class="n"><strong>23,18 %</strong></td></tr>
+      <tr><td class="mono">BOOST_Chalets_ABO_QC</td><td class="n">56,84 $</td><td class="n">43,34</td><td class="n">2,93 %</td><td class="n"><strong>12,49 %</strong></td></tr>
+      <tr><td class="mono">MOF_Retargeting_ABO_QC</td><td class="n">26,58 $</td><td class="n">84,78</td><td class="n">0,59 %</td><td class="n">2,4 %</td></tr>
+      <tr class="total"><td>Compte entier — 86 campagnes</td><td class="n">51,47 $</td><td class="n">45,96</td><td class="n">3,30 %</td><td class="n">~9,2 %</td></tr>
+    </tbody>
+  </table></div>
+
+  <p>Lecture : en prospection froide, un hook rate de 12 à 23 % et un hold rate de 3 à 5 %. Le
+  reciblage a des ratios beaucoup plus bas parce que l'audience connaît déjà la marque — c'est
+  normal, et c'est pour ça qu'on ne compare jamais TOF et MOF sur les mêmes seuils.</p>
+
+  <div class="warn">
+    <h5>Ne pas transposer le ROAS</h5>
+    <p>Un ROAS de 26 à 85 est propre à un panier de ~2 400 $ (location de chalet). Les
+    <strong>ratios de rétention vidéo</strong>, eux, se transposent. Les valeurs absolues, non.</p>
+  </div>
+
+  <h3>Le pilotage réel se fait hors de Meta</h3>
+  <figure>
+    <img src="img/44-budget-sheet.jpg" alt="Chiffrier Google Sheets « Budget Marketing » avec une ligne par jour et des colonnes coût Google Ads, coût Facebook Ads, coûts totaux, ventes, ROAS et profit.">
+    <figcaption><span>Une ligne par <strong>jour</strong>, un onglet par <strong>mois</strong>, plus
+      un onglet <em>Dashboard Marketing</em>. Colonnes : coût Google Ads, coût Facebook Ads, coûts
+      total publicités, ventes, ROAS, profit, commission − publicités.</span><span class="src">IMG_8413.MOV · 21:35</span></figcaption>
+  </figure>
+  <div class="lasclay">
+    <h5>Chez Lasclay</h5>
+    <p>L'équivalent existe déjà à moitié — le chiffrier PRÉVISIONS et QuickBooks via le Finance
+    Proxy. Il manque la ligne quotidienne dépense pub / ventes / profit pendant la saison. Une
+    colonne <span class="mono">Coût Meta</span> et une colonne <span class="mono">Ventes
+    Shopify</span> par jour, du 1<sup>er</sup> octobre au 5 janvier, suffisent à voir venir le
+    décrochage avant que le mois soit fini.</p>
+  </div>
+</section>
+
+<section id="fails">
+  <h2><span class="k">09</span>Les fails — la diapositive la plus utile du deck</h2>
+  <figure>
+    <img src="img/06-fails.jpg" alt="Diapositive « Nos apprentissages… nos fails » : contenu promotionnel sur audience froide = pouce vers le bas ; meilleures pubs avec mention de la vente = pouce vers le haut.">
+    <figcaption><span>La règle qui contredit le réflexe de novembre.</span><span class="src">IMG_3744.MOV · 10:25 · deck B p.49</span></figcaption>
+  </figure>
+  <blockquote>
+    <p>👎 Contenu promotionnel sur une audience <strong>froide</strong> lors d'une vente<br>
+       👍 Nos meilleures pubs <strong>avec des mentions de la vente</strong></p>
+    <p><strong>TOF : laisser rouler nos meilleures pubs.<br>
+       MOF : convertir notre audience réchauffée avec du contenu promotionnel.</strong></p>
+    <cite>deck B p.49</cite>
+  </blockquote>
+  <p>Le Vendredi fou ne se gagne pas en passant tout le compte en « −30 % ». On garde les créatifs
+  qui performent en haut de l'entonnoir, et on ajoute simplement la mention de la vente dessus.
+  La promo pure est réservée aux gens qui connaissent déjà la marque.</p>
+</section>
+
+<section id="decisions">
+  <h2><span class="k">10</span>Les décisions, résumées</h2>
+  <div class="tw"><table>
+    <thead><tr><th>Question</th><th>Réponse de la conférence</th></tr></thead>
+    <tbody>
+      <tr><td>Qu'est-ce qu'on teste en premier ?</td><td>Le hook. Toujours.</td></tr>
+      <tr><td>Combien de budget par test ?</td><td>5× le CPA cible, minimum.</td></tr>
+      <tr><td>Combien de temps avant de conclure ?</td><td>3 à 7 jours. Pas moins.</td></tr>
+      <tr><td>Combien de variables à la fois ?</td><td>Une.</td></tr>
+      <tr><td>Quel ciblage ?</td><td>Broad. Le créatif fait le ciblage.</td></tr>
+      <tr><td>Quelle répartition de budget ?</td><td>70 TOFU / 20 MOFU / 10 BOFU.</td></tr>
+      <tr><td>Quelle métrique sur un créatif ?</td><td>Hook rate, puis hold rate. Le ROAS vient après.</td></tr>
+      <tr><td>Que faire des perdants ?</td><td>Ils nourrissent l'apprentissage du prochain cycle. On ne les efface pas sans noter pourquoi.</td></tr>
+      <tr><td>Promo sur audience froide ?</td><td>Non. TOF = meilleures pubs + mention de la vente. MOF/BOF = promo.</td></tr>
+      <tr><td>Combien de créatifs par mois ?</td><td>Chez Omy, ~50. Le débit est la vraie variable.</td></tr>
+      <tr><td>Quel outil de tracking ?</td><td>Pixel + Conversions API côté serveur (Stape). Attribution : Triple Whale.</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Les livres cités</h3>
+  <figure>
+    <img src="img/40-livres.jpg" alt="Photo de la salle de conférence, diapositive 13 sur 14 montrant les couvertures de $100M Offers, Sell Like Crazy et Expert Secrets.">
+    <figcaption><span><strong>$100M Offers</strong> (Alex Hormozi) · <strong>Sell Like Crazy</strong>
+      (Sabri Suby) · <strong>Expert Secrets</strong> (Russell Brunson)</span><span class="src">IMG_8412.JPG · deck A p.13</span></figcaption>
+  </figure>
+</section>
+
+<footer>
+  <p>Notes établies à partir des six fichiers du dossier Drive, par extraction des diapositives
+  (trames recadrées sur l'écran, haute résolution) et transcription audio locale. La transcription
+  québécoise est imparfaite : les citations ont été recoupées avec les diapositives avant d'être
+  retenues, et celles qui restaient ambiguës ont été écartées plutôt que devinées.</p>
+  <p>Les captures montrent le compte publicitaire d'un tiers tel que présenté en conférence. Elles
+  servent de référence de méthode à usage interne. Ne pas rediffuser publiquement les chiffres de
+  ce compte.</p>
+</footer>
+
+</div>
+</main>
+</div>
+
+<script>
+(function(){
+  var MOIS=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+  var now=new Date();
+  var el=document.getElementById('today');
+  if(el){el.textContent='Aujourd’hui : '+now.getDate()+' '+MOIS[now.getMonth()]+' '+now.getFullYear();}
+  var iso=now.toISOString().slice(0,10);
+  var phases=document.querySelectorAll('.phase');
+  var marked=false;
+  phases.forEach(function(p){
+    var s=p.dataset.start,e=p.dataset.end;
+    if(!marked && s && e && iso>=s && iso<=e){
+      p.classList.add('now');
+      var t=p.querySelector('.nowtag'); if(t){t.hidden=false;}
+      marked=true;
+    }
+  });
+  if(!marked){
+    for(var i=0;i<phases.length;i++){
+      if(iso < phases[i].dataset.start){
+        phases[i].classList.add('now');
+        var tag=phases[i].querySelector('.nowtag');
+        if(tag){tag.hidden=false;tag.textContent='Prochaine étape';}
+        break;
+      }
+    }
+  }
+})();
+</script>
