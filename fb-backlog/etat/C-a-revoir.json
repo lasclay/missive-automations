@@ -9596,6 +9596,36 @@
    "motif": "« Please save the Monarch butterflies- plant Milkweed! » Slogan d'appui, sans question.",
    "ecarte_le": "2026-09-11",
    "tir": "C"
+  },
+  {
+   "id": "775946415144439_1337965314433836",
+   "page_id": "262382158951470",
+   "date": "2025-09-23T19:32:48+0000",
+   "message": "Not at my mother's house! She's hatched and released hundreds of them on her property.",
+   "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=1337965314433836",
+   "motif": "« She's hatched and released hundreds of them on her property. » ELEVAGE EN CAPTIVITE, SEPTIEME occurrence. Notre position complete (aucune source ni pour ni contre) a ete publiee avant-hier; la redire serait de la repetition.",
+   "ecarte_le": "2026-09-11",
+   "tir": "C"
+  },
+  {
+   "id": "800160532723027_1687429405263557",
+   "page_id": "262382158951470",
+   "date": "2025-09-23T18:34:40+0000",
+   "message": "Karen Fraser last year I had no eggs, this I was able to collect 50! I got egg bombed!",
+   "lien": "https://www.facebook.com/1067098316029246/posts/800160532723027?comment_id=802084048875609&reply_comment_id=1687429405263557",
+   "motif": "« Last year I had no eggs, this year I collected 50! I got egg bombed! » TROISIEME temoignage independant d'un meme jardin qui bascule d'une annee a l'autre — et le plus net des trois (zero a cinquante). Ecarte UNIQUEMENT parce que j'ai publie cette observation il y a cinq heures dans ce meme sous-fil, sous ce meme billet, en reponse a une autre abonnee. A SIGNALER : trois temoignages convergents (3 ans, 10 ans, zero-a-cinquante) sur la variation temporelle d'une meme talle. C'est la lacune la plus documentee par les abonnes et la plus vide de notre cote.",
+   "ecarte_le": "2026-09-11",
+   "tir": "C"
+  },
+  {
+   "id": "775946415144439_721494837599601",
+   "page_id": "262382158951470",
+   "date": "2025-09-23T17:53:10+0000",
+   "message": "I planted milkweed last year and it came back this Spring, but then inexplicably it died back. I mean, I can’t even explicate it.",
+   "lien": "https://www.facebook.com/1067098316029246/posts/775946415144439?comment_id=721494837599601",
+   "motif": "« Planted milkweed last year, it came back this Spring, but then inexplicably it died back. » LACUNE NEUVE : le deperissement en cours de saison. Rien dans faits-verifies.json sur les maladies, le deperissement estival ou ses causes. Le mot « inexplicably » appelle une explication assuree que nous ne pouvons pas donner, et je n'avais meme pas de demi-reponse a offrir comme pour les pucerons. A REPRENDRE si un fait sur la sante du plant entre dans faits-verifies.json.",
+   "ecarte_le": "2026-09-11",
+   "tir": "C"
   }
  ]
 }
