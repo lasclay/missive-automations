@@ -1416,8 +1416,16 @@
       "quand": "2026-09-11T12:27:16.779Z",
       "confirme": true,
       "texte": "Yes. All eleven species on our list are North American natives — there is no tropical milkweed among them."
+    },
+    {
+      "id": "122142471404483418_26889769293949085",
+      "reponse_id": "122142471404483418_1585494016396014",
+      "page_id": "368305119707866",
+      "quand": "2026-09-11T18:26:22.469Z",
+      "confirme": true,
+      "texte": "With nursery stock it is worth asking whether the plant was treated with neonicotinoids. The treatment stays inside the plant rather than washing off, so it can look perfectly healthy on the bench and still be no use to anything that feeds on it."
     }
   ],
-  "derniere_execution": "2026-09-11T12:27:16.780Z",
-  "total": 177
+  "derniere_execution": "2026-09-11T18:26:22.470Z",
+  "total": 178
 }
