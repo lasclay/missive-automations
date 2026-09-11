@@ -762,8 +762,24 @@ C'est la phase qui décide de la saison. En novembre, il est trop tard pour déc
 ## 13. Livres cités (diapo p.13 du deck A)
 
 - **$100M Offers** — Alex Hormozi
-- **Sell Like Crazy** — Sabri Suby
+- **Sell Like Crazy** — Sabri Suby → **lu en entier, voir
+  [`sell-like-crazy-methode-et-adaptation.md`](sell-like-crazy-methode-et-adaptation.md)**
 - **Expert Secrets** — Russell Brunson
+
+Le livre de Suby couvre précisément ce que la conférence ne couvre pas : **l'offre, la garantie,
+les formules de titre, la séquence de nurturing et le courriel.** Il complète ce guide sur trois
+points concrets pour la saison :
+
+1. **Pourquoi 70 % du budget va en haut de l'entonnoir** — la formule du marché élargi :
+   3 % achètent aujourd'hui, 17 % cherchent de l'information, 20 % sont conscients du problème,
+   **60 % ne savent pas qu'ils ont un besoin**.
+2. **Comment construire l'offre du Vendredi fou** autrement qu'en « −25 % sur tout » —
+   les sept composantes de l'offre du Parrain, et la garantie de force.
+3. **Le courriel**, dont la conférence ne parle pratiquement pas, et qui est le seul canal
+   que l'entreprise possède réellement.
+
+⚠️ Son chapitre sur le ciblage date de 2019 et vante les critères ultra-ciblés que la conférence
+de 2026 déclare morts. Sur ce point, c'est la conférence qui a raison.
 
 ---
 
