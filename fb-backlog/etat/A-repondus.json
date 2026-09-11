@@ -1360,8 +1360,16 @@
       "quand": "2026-09-11T12:16:14.275Z",
       "confirme": true,
       "texte": "Merci beaucoup. Ça nous porte pour la suite."
+    },
+    {
+      "id": "1674454204688389_1815800419609306",
+      "reponse_id": "1674454204688389_1380778646998010",
+      "page_id": "104242204750257",
+      "quand": "2026-09-11T14:11:29.597Z",
+      "confirme": true,
+      "texte": "Merci du mot. On travaille à plusieurs là-dessus, mais le compliment fait plaisir."
     }
   ],
-  "derniere_execution": "2026-09-11T12:16:14.276Z",
-  "total": 170
+  "derniere_execution": "2026-09-11T14:11:29.598Z",
+  "total": 171
 }
