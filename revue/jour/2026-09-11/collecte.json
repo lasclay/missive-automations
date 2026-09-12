@@ -1,0 +1,1527 @@
+{
+ "jour": "2026-09-11",
+ "fuseau": "America/Toronto",
+ "fenetre_utc": {
+  "debut": "2026-09-11T04:00:00.000Z",
+  "fin": "2026-09-12T04:00:00.000Z",
+  "decalage_minutes": -240
+ },
+ "genere_le": "2026-09-12T01:42:22.756Z",
+ "branches_connues": [
+  "origin/claude/a2x-app-replacement-9i93wy",
+  "origin/claude/audit-apm-unanswered-messages-wo3zo1",
+  "origin/claude/audit-lasclay-shopify-pages-mb7a5t",
+  "origin/claude/audit-previsions-pari-ywoalj",
+  "origin/claude/auto-merge-false-positives-mcbsc3",
+  "origin/claude/batch-packing-slip-analysis-ju72hk",
+  "origin/claude/bookkeeping-built-in-browser-8t3ye8",
+  "origin/claude/bypass-permissions-code-cloud-l0qxy3",
+  "origin/claude/chief",
+  "origin/claude/composio-facebook-moderation-9czg82",
+  "origin/claude/concis-output-mode-5qa1md",
+  "origin/claude/daily-review-routine-hbxozc",
+  "origin/claude/dazzling-pasteur-6fw08h",
+  "origin/claude/doc-taches-illustre-ksdvr0",
+  "origin/claude/ecommerce-optimization-videos-k2c1dt",
+  "origin/claude/facebook-ads-video-guide-o4xaku",
+  "origin/claude/finance-skill-review-xvq8u4",
+  "origin/claude/gourmet-sauvage-discount-code-1e2t71",
+  "origin/claude/happy-returns-proxy-skill-4dvipj",
+  "origin/claude/hermes-agent-lasclay-l4fdk1",
+  "origin/claude/jobs-mit-transcript-analysis-yvftwo",
+  "origin/claude/klaviyo-audit-alternatives-awlhbf",
+  "origin/claude/klaviyo-dragons-den-newsletter-ilibqo",
+  "origin/claude/lasclay-ad-performance-audit-7qz8p7",
+  "origin/claude/lasclay-bimi-setup-amiamh",
+  "origin/claude/lasclay-faq-redesign-fmqy81",
+  "origin/claude/lasclay-funding-programs-aiwetn",
+  "origin/claude/lasclay-infolettre-rechauffement-fs8srr",
+  "origin/claude/lasclay-negative-reviews-outreach-g2ddoc",
+  "origin/claude/lasclay-retail-expansion-v6jay7",
+  "origin/claude/lasclay-support-email-skill-zqqcmp",
+  "origin/claude/lasclay-viral-video-plan-94y6kk",
+  "origin/claude/meta-mcp-servers-8ynr89",
+  "origin/claude/milkweed-seeds-redirects-j1k0xf",
+  "origin/claude/missive-corpo-opportunities-1r3xaw",
+  "origin/claude/missive-email-filter-script-gkyxya",
+  "origin/claude/missive-g6xc72",
+  "origin/claude/missive-proxy-generic-setup-614cpz",
+  "origin/claude/missive-proxy-shipment-notification-l1eh8z",
+  "origin/claude/missive-t438gw",
+  "origin/claude/missive-work-l9u2p6",
+  "origin/claude/mobile-menu-boutique-hidden-rwx5pg",
+  "origin/claude/mrpeasy-audit-lasclay-krdpnh",
+  "origin/claude/new-session-ux8sdv",
+  "origin/claude/omniroute-evaluation-s166ig",
+  "origin/claude/press-release-dragons-itdcbp",
+  "origin/claude/reload-skills-3jpj6r",
+  "origin/claude/reload-skills-5xcm2o",
+  "origin/claude/reload-skills-ottbp3",
+  "origin/claude/reload-skills-pck94t",
+  "origin/claude/reload-skills-r1ve6i",
+  "origin/claude/reload-skills-tsf447",
+  "origin/claude/reload-skills-xiwvf0",
+  "origin/claude/revue-quotidienne",
+  "origin/claude/scripts-render-deploy-bug-w0d1kf",
+  "origin/claude/shipstation-audit-clone-0gwmgr",
+  "origin/claude/shipstation-lasclay-access-k7rydf",
+  "origin/claude/shopify-admin-optimization-awtp7d",
+  "origin/claude/shopify-clients-postal-analysis-ka80yv",
+  "origin/claude/shopify-newsletter-saturday-6i6svk",
+  "origin/claude/shopify-shipping-skill-vqxg2a",
+  "origin/claude/tarifs-douaniers-us-admissibilite-gryvqo",
+  "origin/claude/tax-data-bc-sask-manitoba-3p6hol",
+  "origin/claude/tiktok-copywriting-technique-y1kmo0",
+  "origin/claude/unique-plastique-research-jujoqk",
+  "origin/claude/video-analysis-capability-cd681q",
+  "origin/main"
+ ],
+ "git": {
+  "commits": 39,
+  "lignes_ajoutees": 6396,
+  "lignes_retirees": 56,
+  "par_branche": {
+   "claude/revue-quotidienne": [
+    "a181c1f8",
+    "c6a8c872",
+    "633760e2",
+    "5ff2479c",
+    "f7d9e76c",
+    "c3673c0f",
+    "7f44500d",
+    "69c2c17b",
+    "8f90cb70",
+    "e9973437",
+    "43e93f59",
+    "5728e392",
+    "cdcefbfd",
+    "87c10450",
+    "7556a974",
+    "cf491cd9",
+    "94d09f4a",
+    "3fa7f4d4",
+    "66c6f46d",
+    "a1c62d22",
+    "24b0ca70",
+    "9783d2f8",
+    "547b92ce",
+    "0cdbf819",
+    "c4022f5b",
+    "ac622cc5",
+    "7aa773ea",
+    "1d4a833b",
+    "7fe05685",
+    "a8314953",
+    "0392ee44",
+    "04f03227",
+    "bef1bb5d",
+    "4cab6108"
+   ],
+   "origin/claude/facebook-ads-video-guide-o4xaku": [
+    "e647b50a",
+    "0541a262",
+    "bf447606",
+    "2623feb8"
+   ],
+   "origin/claude/chief": [
+    "7c076a4b"
+   ]
+  },
+  "liste": [
+   {
+    "sha": "a181c1f8",
+    "date": "2026-09-11T20:59:50-04:00",
+    "auteur": "Claude",
+    "sujet": "Backlog Facebook tir C: 3 reponses publiees, 7 ecartees (11 sept, 20 h)",
+    "ajouts": 99,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/C-a-revoir.json",
+      "ajouts": 70,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/C-journal.jsonl",
+      "ajouts": 3,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/C-repondus.json",
+      "ajouts": 26,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "c6a8c872",
+    "date": "2026-09-11T20:39:24-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog: tir D — 1 réponse publiée, 7 écartées (20h)",
+    "ajouts": 60,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/D-a-revoir.json",
+      "ajouts": 49,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/D-journal.jsonl",
+      "ajouts": 1,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/D-repondus.json",
+      "ajouts": 10,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "633760e2",
+    "date": "2026-09-11T20:26:24-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog: tir B, 0 publiee (20 h Est), 9 ecartes",
+    "ajouts": 90,
+    "retraits": 0,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/B-a-revoir.json",
+      "ajouts": 90,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "5ff2479c",
+    "date": "2026-09-11T19:55:14-04:00",
+    "auteur": "Claude",
+    "sujet": "Backlog Facebook tir C: 4 reponses publiees, 16 ecartees (11 sept, 19 h)",
+    "ajouts": 198,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/C-a-revoir.json",
+      "ajouts": 160,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/C-journal.jsonl",
+      "ajouts": 4,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/C-repondus.json",
+      "ajouts": 34,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "f7d9e76c",
+    "date": "2026-09-11T19:39:24-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog: tir D — 1 réponse publiée, 1 écartée (19h)",
+    "ajouts": 18,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/D-a-revoir.json",
+      "ajouts": 7,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/D-journal.jsonl",
+      "ajouts": 1,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/D-repondus.json",
+      "ajouts": 10,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "c3673c0f",
+    "date": "2026-09-11T19:31:43-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog: tir B, 2 publiees (19 h Est), 18 ecartes",
+    "ajouts": 200,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/B-a-revoir.json",
+      "ajouts": 180,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/B-journal.jsonl",
+      "ajouts": 2,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/B-repondus.json",
+      "ajouts": 18,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "7f44500d",
+    "date": "2026-09-11T18:52:17-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog: tir D — 4 réponses publiées, 8 écartées (18h)",
+    "ajouts": 94,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/D-a-revoir.json",
+      "ajouts": 56,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/D-journal.jsonl",
+      "ajouts": 4,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/D-repondus.json",
+      "ajouts": 34,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "69c2c17b",
+    "date": "2026-09-11T18:26:36-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog: tir B, 0 publiee (18 h Est), 8 ecartes",
+    "ajouts": 80,
+    "retraits": 0,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/B-a-revoir.json",
+      "ajouts": 80,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "8f90cb70",
+    "date": "2026-09-11T17:49:37-04:00",
+    "auteur": "Claude",
+    "sujet": "Backlog Facebook tir C: 1 reponse publiee, 3 ecartees (11 sept, 17 h)",
+    "ajouts": 41,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/C-a-revoir.json",
+      "ajouts": 30,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/C-journal.jsonl",
+      "ajouts": 1,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/C-repondus.json",
+      "ajouts": 10,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "e9973437",
+    "date": "2026-09-11T17:39:23-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog: tir D — 1 réponse publiée, 2 écartées (17h)",
+    "ajouts": 25,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/D-a-revoir.json",
+      "ajouts": 14,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/D-journal.jsonl",
+      "ajouts": 1,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/D-repondus.json",
+      "ajouts": 10,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "43e93f59",
+    "date": "2026-09-11T17:27:15-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog: tir B, 0 publiee (17 h Est), 5 ecartes",
+    "ajouts": 50,
+    "retraits": 0,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/B-a-revoir.json",
+      "ajouts": 50,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "5728e392",
+    "date": "2026-09-11T16:57:34-04:00",
+    "auteur": "Claude",
+    "sujet": "Backlog Facebook tir C: 4 reponses publiees, 10 ecartees (11 sept, 16 h)",
+    "ajouts": 138,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/C-a-revoir.json",
+      "ajouts": 100,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/C-journal.jsonl",
+      "ajouts": 4,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/C-repondus.json",
+      "ajouts": 34,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "cdcefbfd",
+    "date": "2026-09-11T16:55:35-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog: tir D — 6 réponses publiées, 14 écartées (16h)",
+    "ajouts": 154,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/D-a-revoir.json",
+      "ajouts": 98,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/D-journal.jsonl",
+      "ajouts": 6,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/D-repondus.json",
+      "ajouts": 50,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "e647b50a",
+    "date": "2026-09-11T16:44:24-04:00",
+    "auteur": "Gabriel Gouveia",
+    "sujet": "Intègre Sell Like Crazy : l'offre, la garantie et le courriel",
+    "ajouts": 1160,
+    "retraits": 5,
+    "fichiers": [
+     {
+      "fichier": "docs/meta-ads-saison-forte-2026.md",
+      "ajouts": 17,
+      "retraits": 1
+     },
+     {
+      "fichier": "docs/sell-like-crazy-methode-et-adaptation.md",
+      "ajouts": 509,
+      "retraits": 0
+     },
+     {
+      "fichier": "docs/sources/saison-forte-2026.html",
+      "ajouts": 287,
+      "retraits": 4
+     },
+     {
+      "fichier": "docs/sources/sell-like-crazy-notes-brutes.md",
+      "ajouts": 347,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "0541a262",
+    "date": "2026-09-11T16:33:20-04:00",
+    "auteur": "Gabriel Gouveia",
+    "sujet": "Ajoute les transcriptions brutes horodatées de la conférence",
+    "ajouts": 634,
+    "retraits": 0,
+    "fichiers": [
+     {
+      "fichier": "docs/sources/transcriptions/IMG_3744.md",
+      "ajouts": 131,
+      "retraits": 0
+     },
+     {
+      "fichier": "docs/sources/transcriptions/IMG_8413.md",
+      "ajouts": 454,
+      "retraits": 0
+     },
+     {
+      "fichier": "docs/sources/transcriptions/IMG_8416.md",
+      "ajouts": 32,
+      "retraits": 0
+     },
+     {
+      "fichier": "docs/sources/transcriptions/README.md",
+      "ajouts": 17,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "bf447606",
+    "date": "2026-09-11T16:32:51-04:00",
+    "auteur": "Gabriel Gouveia",
+    "sujet": "Guide visuel : corrige le débordement horizontal sur mobile",
+    "ajouts": 6,
+    "retraits": 5,
+    "fichiers": [
+     {
+      "fichier": "docs/sources/saison-forte-2026.html",
+      "ajouts": 6,
+      "retraits": 5
+     }
+    ]
+   },
+   {
+    "sha": "2623feb8",
+    "date": "2026-09-11T16:27:08-04:00",
+    "auteur": "Gabriel Gouveia",
+    "sujet": "Guide Meta Ads de saison forte, tiré de la conférence « Le paid ads en 2026 »",
+    "ajouts": 2218,
+    "retraits": 0,
+    "fichiers": [
+     {
+      "fichier": "docs/meta-ads-saison-forte-2026.md",
+      "ajouts": 784,
+      "retraits": 0
+     },
+     {
+      "fichier": "docs/sources/conference-paid-ads-2026-notes-brutes.md",
+      "ajouts": 312,
+      "retraits": 0
+     },
+     {
+      "fichier": "docs/sources/saison-forte-2026.html",
+      "ajouts": 1122,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "87c10450",
+    "date": "2026-09-11T15:49:54-04:00",
+    "auteur": "Claude",
+    "sujet": "Backlog Facebook tir C: 1 reponse publiee, 1 ecartee (11 sept, 15 h)",
+    "ajouts": 21,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/C-a-revoir.json",
+      "ajouts": 10,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/C-journal.jsonl",
+      "ajouts": 1,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/C-repondus.json",
+      "ajouts": 10,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "7556a974",
+    "date": "2026-09-11T15:26:17-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog: tir B, 0 publiee (15 h Est), 12 ecartes",
+    "ajouts": 120,
+    "retraits": 0,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/B-a-revoir.json",
+      "ajouts": 120,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "cf491cd9",
+    "date": "2026-09-11T14:52:21-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog: tir D — 3 réponses publiées, 9 écartées (14h)",
+    "ajouts": 92,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/D-a-revoir.json",
+      "ajouts": 63,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/D-journal.jsonl",
+      "ajouts": 3,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/D-repondus.json",
+      "ajouts": 26,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "94d09f4a",
+    "date": "2026-09-11T14:26:27-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog: tir B, 1 publiee (14 h Est), 2 ecartes",
+    "ajouts": 31,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/B-a-revoir.json",
+      "ajouts": 20,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/B-journal.jsonl",
+      "ajouts": 1,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/B-repondus.json",
+      "ajouts": 10,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "3fa7f4d4",
+    "date": "2026-09-11T13:50:07-04:00",
+    "auteur": "Claude",
+    "sujet": "Backlog Facebook tir C: 0 reponse publiee, 1 ecartee (11 sept, 13 h)",
+    "ajouts": 10,
+    "retraits": 0,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/C-a-revoir.json",
+      "ajouts": 10,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "66c6f46d",
+    "date": "2026-09-11T12:51:27-04:00",
+    "auteur": "Claude",
+    "sujet": "Backlog Facebook tir C: 2 reponses publiees, 1 ecartee (11 sept, 12 h)",
+    "ajouts": 30,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/C-a-revoir.json",
+      "ajouts": 10,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/C-journal.jsonl",
+      "ajouts": 2,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/C-repondus.json",
+      "ajouts": 18,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "a1c62d22",
+    "date": "2026-09-11T11:51:11-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog: tir D — 3 réponses publiées (11h)",
+    "ajouts": 29,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/D-journal.jsonl",
+      "ajouts": 3,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/D-repondus.json",
+      "ajouts": 26,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "24b0ca70",
+    "date": "2026-09-11T11:26:37-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog: tir B, 0 publiee (11 h Est), 9 ecartes",
+    "ajouts": 90,
+    "retraits": 0,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/B-a-revoir.json",
+      "ajouts": 90,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "9783d2f8",
+    "date": "2026-09-11T10:50:39-04:00",
+    "auteur": "Claude",
+    "sujet": "Backlog Facebook tir C: 1 reponse publiee, 2 ecartees (11 sept, 10 h)",
+    "ajouts": 31,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/C-a-revoir.json",
+      "ajouts": 20,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/C-journal.jsonl",
+      "ajouts": 1,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/C-repondus.json",
+      "ajouts": 10,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "547b92ce",
+    "date": "2026-09-11T10:38:31-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog: tir D — 0 réponse, 1 écartée (10h)",
+    "ajouts": 7,
+    "retraits": 0,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/D-a-revoir.json",
+      "ajouts": 7,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "0cdbf819",
+    "date": "2026-09-11T10:26:57-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog: tir B, 0 publiee (10 h Est), 18 ecartes",
+    "ajouts": 180,
+    "retraits": 0,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/B-a-revoir.json",
+      "ajouts": 180,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "c4022f5b",
+    "date": "2026-09-11T10:11:53-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog tir A: 1 publiee (10 h Est)",
+    "ajouts": 11,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/A-journal.jsonl",
+      "ajouts": 1,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/A-repondus.json",
+      "ajouts": 10,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "ac622cc5",
+    "date": "2026-09-11T09:38:58-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog: tir D — 0 réponse, 4 écartées (9h)",
+    "ajouts": 28,
+    "retraits": 0,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/D-a-revoir.json",
+      "ajouts": 28,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "7aa773ea",
+    "date": "2026-09-11T09:26:14-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog: tir B, 0 publiee (9 h Est), 10 ecartes",
+    "ajouts": 100,
+    "retraits": 0,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/B-a-revoir.json",
+      "ajouts": 100,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "1d4a833b",
+    "date": "2026-09-11T08:42:23-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog: tir D — 2 réponses publiées, 6 écartées (8h)",
+    "ajouts": 62,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/D-a-revoir.json",
+      "ajouts": 42,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/D-journal.jsonl",
+      "ajouts": 2,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/D-repondus.json",
+      "ajouts": 18,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "7fe05685",
+    "date": "2026-09-11T08:27:21-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog: tir B, 1 publiee (8 h Est), 19 ecartes",
+    "ajouts": 201,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/B-a-revoir.json",
+      "ajouts": 190,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/B-journal.jsonl",
+      "ajouts": 1,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/B-repondus.json",
+      "ajouts": 10,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "a8314953",
+    "date": "2026-09-11T08:16:38-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog tir A: 1 publiee, 1 ecartee (8 h Est)",
+    "ajouts": 21,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/A-a-revoir.json",
+      "ajouts": 10,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/A-journal.jsonl",
+      "ajouts": 1,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/A-repondus.json",
+      "ajouts": 10,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "0392ee44",
+    "date": "2026-09-11T07:50:35-04:00",
+    "auteur": "Claude",
+    "sujet": "Backlog Facebook tir C: 1 reponse publiee, 0 ecartee (11 sept, 7 h)",
+    "ajouts": 11,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/C-journal.jsonl",
+      "ajouts": 1,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/C-repondus.json",
+      "ajouts": 10,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "04f03227",
+    "date": "2026-09-11T07:38:46-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog: tir D — 1 réponse publiée, 2 écartées (7h)",
+    "ajouts": 25,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/D-a-revoir.json",
+      "ajouts": 14,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/D-journal.jsonl",
+      "ajouts": 1,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/D-repondus.json",
+      "ajouts": 10,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "bef1bb5d",
+    "date": "2026-09-11T07:26:37-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog: tir B, 0 publiee (7 h Est), 1 ecarte",
+    "ajouts": 10,
+    "retraits": 0,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/B-a-revoir.json",
+      "ajouts": 10,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "7c076a4b",
+    "date": "2026-09-11T07:16:05-04:00",
+    "auteur": "Claude",
+    "sujet": "Chief : deux rapports d'achat impossible le meme jour, escalades non lues",
+    "ajouts": 1,
+    "retraits": 0,
+    "fichiers": [
+     {
+      "fichier": "memoire/journal.jsonl",
+      "ajouts": 1,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "4cab6108",
+    "date": "2026-09-11T06:51:08-04:00",
+    "auteur": "Claude",
+    "sujet": "Backlog Facebook tir C: 2 reponses publiees, 0 ecartee (11 sept, 6 h)",
+    "ajouts": 20,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/C-journal.jsonl",
+      "ajouts": 2,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/C-repondus.json",
+      "ajouts": 18,
+      "retraits": 2
+     }
+    ]
+   }
+  ],
+  "tete_main": "a181c1f"
+ },
+ "facebook": {
+  "presents": true,
+  "tirs": {
+   "A": {
+    "page": "Lasclay",
+    "publiees": 2,
+    "confirmees": 2,
+    "non_confirmees": 0,
+    "erreurs": [],
+    "ecartes_du_jour": 1,
+    "dernier_journal": "2026-09-11T14:11:29.599Z",
+    "ecartes_total": 437,
+    "motifs_du_jour": [
+     "offre ou boutade de collaboration (« viens travailler avec moi, je grind pres de 10 000 kg par jour ») : sens ambigu, on ignore de quel broyage il s'agit et s'il s'agit d'une proposition d'affaires ou d'une blague. Rien de verifie a repondre, et une reponse legere risquerait de passer a cote d'une vraie offre — merite un coup d'oeil humain"
+    ],
+    "heures_sans_publication": [
+     "09",
+     "11",
+     "13",
+     "14",
+     "15",
+     "16",
+     "17"
+    ],
+    "repartition": [
+     {
+      "heure": "09",
+      "n": 0
+     },
+     {
+      "heure": "10",
+      "n": 1
+     },
+     {
+      "heure": "11",
+      "n": 0
+     },
+     {
+      "heure": "13",
+      "n": 0
+     },
+     {
+      "heure": "14",
+      "n": 0
+     },
+     {
+      "heure": "15",
+      "n": 0
+     },
+     {
+      "heure": "16",
+      "n": 0
+     },
+     {
+      "heure": "17",
+      "n": 0
+     }
+    ]
+   },
+   "B": {
+    "page": "The Milkweed Company",
+    "publiees": 4,
+    "confirmees": 4,
+    "non_confirmees": 0,
+    "erreurs": [],
+    "ecartes_du_jour": 118,
+    "dernier_journal": "2026-09-11T23:31:38.307Z",
+    "ecartes_total": 1506,
+    "motifs_du_jour": [
+     "photo sans texte",
+     "echec de germination apres stratification correcte de trente jours dans le sud-ouest de la Floride, huit semaines sans levee. Plainte produit, regle 7 ; enieme signalement du meme probleme",
+     "cliente de la cote du Golfe au Texas qui a lu la liste des especes et conclut quaucune ne convient a sa region, et qui demande conseil. Intention dachat nette et critique directe du catalogue ; la seule reponse possible (renvoi a une source locale) vient detre publiee il y a trois heures sous le meme billet, donc quasi-doublon. Troisieme signal texan reste sans reponse : a traiter par un humain",
+     "demande de semences gratuites, rien a repondre dans les faits verifies",
+     "remerciement entre abonnes",
+     "constat sans question",
+     "photo sans texte",
+     "constat admiratif sans question, rien a corriger",
+     "aptitude regionale du sud du Nouveau-Mexique et presence locale de monarques, hors des faits verifies",
+     "comte de Kern en Californie, zone 9 a 300 metres : aptitude regionale fine, hors des faits verifies",
+     "indigenat plus aptitude pour la Californie : le volet indigenat est traite ce tour-ci sous un autre commentaire, le volet californien reste hors des faits verifies",
+     "quoi, ou et quand planter en Floride : aptitude regionale, hors des faits verifies",
+     "zone 8 : la plage 3 a 9 a deja ete publiee trois fois plus une reponse zone 9b cette semaine, quasi-doublon",
+     "Caroline du Sud, soleil et ombre : le fait plein soleil a deja ete publie quatre fois dont une reponse a une question ombre cette semaine",
+     "les chardons comme plante hote, hors des faits verifies",
+     "region de Seattle sans monarques : aptitude regionale, et le renvoi a une source locale vient detre publie",
+     "abonne qui interpelle un ami au sujet de haies a arracher, pas une question adressee a la Page",
+     "abonne qui partage a un autre un guide des asclepiades de lOhio, rien a corriger",
+     "recit du Vermont a la Californie : follicules qui ne souvrent pas apres six ans, sujet hors des faits verifies",
+     "conseil darrosage entre abonnes ; larrosage reste non documente",
+     "attente enthousiaste, sans question",
+     "constat sans question",
+     "long recit : chenilles, lezards, et semis morts au repiquage apres stratification. Le repiquage et la predation restent hors des faits verifies, et le volet mortalite au repiquage touche le produit",
+     "remerciement entre abonnes",
+     "constat sans question",
+     "demande si les semences sont gratuites : regle 3, aucun prix",
+     "constat sans question",
+     "exhortation sans question",
+     "constat sans question",
+     "recit de reussite, rien a corriger",
+     "abonne qui donne seulement sa localisation (Red Hook, vallee de lHudson) : il repond a une demande de precision et attend visiblement une suite. Aptitude regionale, hors des faits verifies ; conversation ouverte par la Page et laissee sans suite",
+     "abonne qui rappelle justement que la rusticite ne vaut pas indigenat, rien a corriger",
+     "recit dune asclepiade commune devenue envahissante puis arrachee : le theme agressive nest pas envahissante et le renvoi vers tuberosa ont deja ete publies trois fois, et il ny a pas de question",
+     "commande passee et jamais recue : plainte de commande, regle 7. Enieme signalement de livraison",
+     "plants sans fleurs : correspond au fait floraison en deuxieme annee, deja publie trois fois, et le commentaire ne pose pas de question",
+     "reponse a notre propre commentaire donnant seulement la localisation (panhandle de la Floride) : la personne attend une recommandation regionale que les faits verifies ne permettent pas. Conversation ouverte par la Page et laissee sans suite",
+     "abonne qui conseille correctement des plantes nectariferes a un autre, rien a corriger",
+     "demande explicite dun guide de zones ou dune fiche de reference regionale sur le site, avec intention dachat nette (nord-est de la Georgie), plus une question dallergie a lhuile de semence. Les deux volets sont hors des faits verifies ; cest la formulation la plus claire du besoin documentaire signale depuis des jours",
+     "veut commander une dizaine de sachets pour le sud de lArizona, zones 7b a 8b, et demande lesquels : intention dachat forte, aptitude regionale hors des faits verifies",
+     "pourquoi on ne vend pas de chenilles de monarque comme des belles-dames : hors des faits verifies"
+    ],
+    "heures_sans_publication": [
+     "09",
+     "10",
+     "11",
+     "13",
+     "15",
+     "16",
+     "17"
+    ],
+    "repartition": [
+     {
+      "heure": "09",
+      "n": 0
+     },
+     {
+      "heure": "10",
+      "n": 0
+     },
+     {
+      "heure": "11",
+      "n": 0
+     },
+     {
+      "heure": "13",
+      "n": 0
+     },
+     {
+      "heure": "14",
+      "n": 1
+     },
+     {
+      "heure": "15",
+      "n": 0
+     },
+     {
+      "heure": "16",
+      "n": 0
+     },
+     {
+      "heure": "17",
+      "n": 0
+     }
+    ]
+   },
+   "C": {
+    "page": "Milkweed & Monarchs",
+    "publiees": 19,
+    "confirmees": 19,
+    "non_confirmees": 0,
+    "erreurs": [],
+    "ecartes_du_jour": 41,
+    "dernier_journal": "2026-09-12T00:59:41.552Z",
+    "ecartes_total": 985,
+    "motifs_du_jour": [
+     "DOUBLON EXACT : la meme enseignante, le meme texte (« I would love some seeds to start a project at my elementary school »), adresse cette fois a un autre abonne qui offrait des semences. J'ai repondu a sa demande identique il y a trois heures sous ce meme billet; elle a deja notre reponse sur le calendrier de la premiere annee. Repondre deux fois le meme texte est exactement ce que REGLES.md interdit. A NOTER : le tirage peut ressortir des doublons textuels quand une personne poste la meme demande a plusieurs offreurs.",
+     "Suite des paroles de « Big Yellow Taxi » (« take all the trees and put them in a tree museum »). Fil de chanson-diatribe deja ecarte plusieurs fois cette semaine; aucune question, aucun fait.",
+     "« I'll try to find milkweed… I have lavender and other things for bees. » La distinction nectar (adultes) / asclepiade (chenilles) s'applique, mais le fait du nectar tardif a ete publie il y a deux heures sous ce meme billet, a propos des topinambours. Ecarte pour repetition — la personne cherche deja de l'asclepiade, donc rien d'urgent a corriger.",
+     "« So is intelligence! » — trois mots, commentaire de premier niveau sur le billet du declin (637384692333946), donc une pique cynique sur le mode « l'intelligence aussi est en voie de disparition ». Aucune question, aucun fait, et le registre est celui de la raillerie generale. Repondre reviendrait soit a faire semblant de ne pas comprendre, soit a entrer dans le sarcasme; ni l'un ni l'autre ne sert la Page.",
+     "« Farmers are killing all the bees and the rest of the bugs. We will lose an awful lot of birds next. » Mise en accusation generale de l'agriculture. Nous n'avons rien de sourcé sur les pesticides agricoles, les abeilles ou les oiseaux; notre seul fait proche (eviter les plants traites aux neonicotinoides) porte sur l'achat de plants, pas sur les pratiques agricoles. Et le registre est celui du requisitoire. A SIGNALER : c'est le meme angle herbicides-agriculture deja ecarte pour les OGM et le Roundup — un theme recurrent que nous ne pouvons ni appuyer ni nuancer.",
+     "« We have milk weed all around our yard growing wild. » Une phrase heureuse, aucune question, aucun fait a apporter.",
+     "Bonne marche a suivre pour recolter les gousses en Nouvelle-Angleterre (cueillir, suspendre a l'envers, laisser ouvrir seules). Le seul appui sourcé disponible — notre propre pratique de recolte a l'automne apres la floraison et apres la migration — a ete publie hier sur l'autre billet, et nous n'avons rien sur la technique du sechage suspendu. Ecarte pour repetition de structure; A REPRENDRE si un fait sur la recolte entre dans faits-verifies.json.",
+     "« so tiny » — deux mots en reponse a notre commentaire, sans question.",
+     "« you are very fortunate » — sous-fil entre abonnes, trois mots.",
+     "« Semences eparpillees il y a 10 ans, 40 ou 50 plants chaque annee. » Excellente donnee sur la duree — c'est la version longue de l'arc sur trois ans publie il y a quatre heures. Ecarte precisement pour cela : redire la meme observation le meme jour serait de la repetition. A NOTER : deux temoignages independants (3 ans et 10 ans) vont dans le meme sens sur l'installation progressive d'une talle.",
+     "« We have a lot! » — sous-fil entre abonnes, trois mots.",
+     "Vraie question (« how do you attain registered way station? ») mais deux obstacles : nous n'avons AUCUN fait verifie sur les programmes d'enregistrement (Monarch Waystation, National Wildlife Federation), deja signale hier; et le commentaire enchaine sur un long copier-coller au sujet des premieres dames americaines (Rosalynn Carter, Laura Bush), ce qui rend toute reponse politiquement adjacente. A SIGNALER : la question de l'enregistrement revient et nous ne pouvons pas y repondre.",
+     "« Plus it kills the lantern fly » — affirmation non verifiable : nous n'avons rien sur l'asclepiade et le fulgore tachete. A SIGNALER : c'est une allegation qui circule et qui pourrait faire planter pour une mauvaise raison; nous ne pouvons ni la confirmer ni la corriger.",
+     "« If you send me some, I will plant it all over the place! » Demande de semences gratuites adressee a la Page. REGLES.md interdit toute promesse d'envoi, et nous avons deja decline des demandes identiques. Ecarte sans reponse plutot que de promettre quoi que ce soit.",
+     "« Please save the Monarch butterflies- plant Milkweed! » Slogan d'appui, sans question.",
+     "« She's hatched and released hundreds of them on her property. » ELEVAGE EN CAPTIVITE, SEPTIEME occurrence. Notre position complete (aucune source ni pour ni contre) a ete publiee avant-hier; la redire serait de la repetition.",
+     "« Last year I had no eggs, this year I collected 50! I got egg bombed! » TROISIEME temoignage independant d'un meme jardin qui bascule d'une annee a l'autre — et le plus net des trois (zero a cinquante). Ecarte UNIQUEMENT parce que j'ai publie cette observation il y a cinq heures dans ce meme sous-fil, sous ce meme billet, en reponse a une autre abonnee. A SIGNALER : trois temoignages convergents (3 ans, 10 ans, zero-a-cinquante) sur la variation temporelle d'une meme talle. C'est la lacune la plus documentee par les abonnes et la plus vide de notre cote.",
+     "« Planted milkweed last year, it came back this Spring, but then inexplicably it died back. » LACUNE NEUVE : le deperissement en cours de saison. Rien dans faits-verifies.json sur les maladies, le deperissement estival ou ses causes. Le mot « inexplicably » appelle une explication assuree que nous ne pouvons pas donner, et je n'avais meme pas de demi-reponse a offrir comme pour les pucerons. A REPRENDRE si un fait sur la sante du plant entre dans faits-verifies.json.",
+     "Un abonne colle une conversation ChatGPT entiere (« Hi, Byte… ChatGPT said: ») sur la destruction d'habitat. Le fond rejoint notre source, mais nous avons deja refuse publiquement de traiter un resume d'IA comme une source le 6 et le 10 septembre — y compris quand il allait dans notre sens. Faire exception ici annulerait ce precedent. Ecarte pour coherence, pas pour desaccord.",
+     "URGENT, TROISIEME SIGNALEMENT : « i makes it too hard to order the seeds ». Apres « the link doesn't work » et « my order wouldn't go through » hier. Plainte de commande selon REGLES.md, donc pas de reponse de ma part — mais TROIS rapports independants d'achat impossible en deux jours, sur deux billets differents, ne sont plus une coincidence. Verification humaine du tunnel d'achat requise.",
+     "« No measures are in place to protect their host plants… Seems kinda American. » Vraie question de politique publique (pourquoi proteger l'animal sans proteger sa plante hote), mais nous n'avons rien de sourcé sur le droit de l'environnement ni sur les designations d'especes, et la pique nationale rend toute reponse politiquement chargee.",
+     "« We have a milkweed plant. » Cinq mots.",
+     "Talle qui s'etend, aucune chenille en 3 ans, mais PLUS de papillons cette annee, sans produits chimiques. Exactement la meme configuration (adultes sans chenilles) que le commentaire auquel j'ai repondu il y a deux heures. Ecarte pour repetition.",
+     "« I have a great spot for it » — sous-fil, six mots.",
+     "Conseil d'une abonnee : deplacer l'incarnata hors des plates-bandes car « it spread like wildfire ». Juste sur le fond et conforme a notre fait (agressive, pas envahissante), mais ce fait a ete publie avant-hier soir sur l'autre billet et la photo de la cloture debordee ce matin l'a illustre. Repetition.",
+     "« Send me some seeds and we will plant them » — demande directe a la Page. REGLES.md interdit toute promesse d'envoi; demande identique deja declinee hier.",
+     "Une abonnee explique correctement qu'il faut semer par temps froid, l'automne etant un bon moment. J'ai ajoute la moitie manquante (froid ET humide) a une abonnee du meme billet ce matin a 6 h. Repeter serait du spam.",
+     "« We've planted 3 in our flower patch and enjoy seeing the Monarchs flit from bloom to bloom! » Recit heureux sans question.",
+     "Temoignage exact et utile : semis a l'ete 2024, germination au printemps 2025, « they need to go through a cold period ». Meme fait que le commentaire precedent du meme sous-fil, deja traite ce matin. Repetition.",
+     "« me, too » — deux mots.",
+     "« I have not had success growing this. » Sans aucun detail (semence ou plant, quelle annee, quel symptome), impossible de distinguer la germination ratee du deperissement. Le rappel sur la stratification a ete publie ce matin. A REPRENDRE si la personne precise.",
+     "LACUNE NEUVE : « We ended up with too many and they stripped our milkweed before they could fully mature. » Surpopulation de chenilles et defoliation — les chenilles manquent de nourriture avant la chrysalide. Rien dans faits-verifies.json sur la capacite de charge d'une talle, le nombre de chenilles qu'un plant peut nourrir, ni sur quoi faire. A SIGNALER : c'est le probleme inverse de tous les autres commentaires de la semaine, et il touche les gens qui ont le mieux reussi.",
+     "« we had lots of these in north florida! » — sous-fil, sept mots.",
+     "PHOTO EXAMINEE : plate-bande fraichement plantee le long d'un mur de stuc, jeunes plants, paillis neuf, poteau a mangeoires. « I have a giant milkweed and all swamp milkweeds. » Le « giant milkweed » (Calotropis) est NON INDIGENE en Amerique du Nord et un abonne tres actif le recommande de facon repetee sur cette Page — deja signale. Mais nous n'avons AUCUN fait verifie sur le Calotropis, donc impossible de la mettre en garde sans inventer, et elle vient de planter son jardin avec fierte. A SIGNALER : deuxieme lacune sur une espece non indigene qu'on voit promue ici.",
+     "A REMONTER A UN HUMAIN, PRIORITAIRE. « I got some seed last fall. Waited to sow the seed as stated. I planted probably 20 or more seed. None came up. I'll try again this year. » Une CLIENTE qui a suivi nos instructions et dont la vingtaine de semences n'a rien donne. Elle ne se plaint pas et ne demande rien. Je ne reponds pas : toute reponse de ma part reviendrait soit a diagnostiquer un echec que je ne peux pas diagnostiquer, soit a laisser entendre un defaut de produit ou un remplacement, ce que REGLES.md interdit. Un humain, lui, peut lui poser des questions et agir. C'est le genre de commentaire ou notre silence est correct mais insuffisant.",
+     "« Kills lantern flies too! » DEUXIEME affirmation du genre en deux tirs (apres « Plus it kills the lantern fly »). Nous n'avons rien sur l'asclepiade et le fulgore tachete, ni pour ni contre. A SIGNALER : l'allegation se repand sur nos billets et nous ne pouvons ni l'appuyer ni la corriger.",
+     "« Milkweed & Monarchs thank you !! » — remerciement pour un lien vers lasclay.com/en-us/milkweed-seeds que la Page avait donne. Rien a ajouter. A NOTER tout de meme, vu les trois plaintes d'achat impossible signalees aujourd'hui : ce lien-la, au moins, a rendu quelqu'un content.",
+     "« I planted 200 milkweed seeds along my creek bed last week. » Semis d'automne a bonne echelle, mais le rappel froid-et-humide a ete publie ce matin et hier soir. Repetition.",
+     "Un simple nom d'abonne, aucun contenu.",
+     "« that makes sense! Thank you!! » — sous-fil, quatre mots."
+    ],
+    "heures_sans_publication": [
+     "09",
+     "11",
+     "13",
+     "14"
+    ],
+    "repartition": [
+     {
+      "heure": "09",
+      "n": 0
+     },
+     {
+      "heure": "10",
+      "n": 1
+     },
+     {
+      "heure": "11",
+      "n": 0
+     },
+     {
+      "heure": "13",
+      "n": 0
+     },
+     {
+      "heure": "14",
+      "n": 0
+     },
+     {
+      "heure": "15",
+      "n": 1
+     },
+     {
+      "heure": "16",
+      "n": 4
+     },
+     {
+      "heure": "17",
+      "n": 1
+     }
+    ]
+   },
+   "D": {
+    "page": "Asclepiade & papillons monarques",
+    "publiees": 22,
+    "confirmees": 22,
+    "non_confirmees": 0,
+    "erreurs": [],
+    "ecartes_du_jour": 0,
+    "dernier_journal": "2026-09-12T00:39:08.746Z",
+    "ecartes_total": 828,
+    "motifs_du_jour": [],
+    "heures_sans_publication": [
+     "09",
+     "10",
+     "13",
+     "15"
+    ],
+    "repartition": [
+     {
+      "heure": "09",
+      "n": 0
+     },
+     {
+      "heure": "10",
+      "n": 0
+     },
+     {
+      "heure": "11",
+      "n": 3
+     },
+     {
+      "heure": "13",
+      "n": 0
+     },
+     {
+      "heure": "14",
+      "n": 3
+     },
+     {
+      "heure": "15",
+      "n": 0
+     },
+     {
+      "heure": "16",
+      "n": 6
+     },
+     {
+      "heure": "17",
+      "n": 1
+     }
+    ]
+   }
+  },
+  "total_publiees": 47,
+  "total_non_confirmees": 0
+ },
+ "routines": {
+  "present": true,
+  "total": 9,
+  "perimees": [
+   "Campagne points de vente"
+  ],
+  "inverifiables": [
+   "Ramassages Lasclay — resynchro de l'artefact",
+   "Ramassages Lasclay — lot d'étiquettes du mardi"
+  ],
+  "fiches": [
+   {
+    "id": "trig_01LP9vqvuYF6D8gcGoCaCKYo",
+    "nom": "Backlog Facebook — tir A (Lasclay)",
+    "cron_utc": "6 * * * *",
+    "horaire": "9 h à 17 h Est, pause à midi",
+    "note": "Chaque tir peut sauter volontairement (1 chance sur 6, 2 sur 6 la fin de semaine). Un trou d'une heure n'est pas un incident ; une journée entière sans ligne en est un.",
+    "trace": "jsonl",
+    "entrees_total": 178,
+    "derniere_trace": "2026-09-11T14:11:29.599Z",
+    "age_h": 11.5,
+    "seuil_h": 30,
+    "verdict": "à jour"
+   },
+   {
+    "id": "trig_017dWSszcNm3FirksENWC2ZX",
+    "nom": "Backlog Facebook — tir B (The Milkweed Company)",
+    "cron_utc": "24 * * * *",
+    "horaire": "9 h à 17 h Est, pause à midi",
+    "note": "Page à faible volume : plusieurs heures sans publication sont normales, l'écart se lit dans B-a-revoir.json.",
+    "trace": "jsonl",
+    "entrees_total": 180,
+    "derniere_trace": "2026-09-11T23:31:38.307Z",
+    "age_h": 2.2,
+    "seuil_h": 48,
+    "verdict": "à jour"
+   },
+   {
+    "id": "trig_01CV6P1ik7jjZ8B7dXcTP2D5",
+    "nom": "Backlog Facebook — tir C (Milkweed & Monarchs)",
+    "cron_utc": "47 * * * *",
+    "horaire": "9 h à 17 h Est, pause à midi",
+    "note": "Le plus gros débit des quatre tirs.",
+    "trace": "jsonl",
+    "entrees_total": 670,
+    "derniere_trace": "2026-09-12T00:59:41.552Z",
+    "age_h": 0.7,
+    "seuil_h": 30,
+    "verdict": "à jour"
+   },
+   {
+    "id": "trig_012UUNPBDS9xYrw93aBCCpwB",
+    "nom": "Backlog Facebook — tir D (Asclépiade & papillons monarques)",
+    "cron_utc": "36 * * * *",
+    "horaire": "9 h à 17 h Est, pause à midi",
+    "note": null,
+    "trace": "jsonl",
+    "entrees_total": 503,
+    "derniere_trace": "2026-09-12T00:39:08.746Z",
+    "age_h": 1.1,
+    "seuil_h": 30,
+    "verdict": "à jour"
+   },
+   {
+    "id": "trig_01MpfDwYo8AMsBc5GC3SgQvf",
+    "nom": "Campagne points de vente",
+    "cron_utc": "0 13 * * 2-4",
+    "horaire": "mardi, mercredi, jeudi le matin",
+    "note": "Ne tourne pas le lundi ni le vendredi. Quand la file est vide, elle ne produit plus rien : vérifier file_attente.json avant d'appeler ça une panne.",
+    "trace": "git",
+    "chemin": "retail-expansion/",
+    "derniere_trace": "2026-08-24T18:50:21.000Z",
+    "age_h": 438.9,
+    "seuil_h": 192,
+    "verdict": "PÉRIMÉE"
+   },
+   {
+    "id": "trig_014uVrxtQCEYJHfepum5czgv",
+    "nom": "Sync skills claude.ai → repo",
+    "cron_utc": "23 10 * * *",
+    "horaire": "tous les jours",
+    "note": "Ne committe QUE s'il y a un changement. L'absence de commit est le cas normal — cette trace ne prouve rien à elle seule.",
+    "trace": "git",
+    "chemin": ".claude/skills/",
+    "derniere_trace": "2026-09-08T21:59:19.000Z",
+    "age_h": 75.7,
+    "seuil_h": 1440,
+    "verdict": "à jour"
+   },
+   {
+    "id": "trig_01UKZahS3efWGPqGWR5L9cht",
+    "nom": "Ramassages Lasclay — resynchro de l'artefact",
+    "cron_utc": "0 13,16,19,22,1 * * *",
+    "horaire": "cinq fois par jour",
+    "note": "Ne laisse aucune trace dans le dépôt : elle republie un artefact. Sans outils mcp__*, la revue ne peut pas la vérifier — le dire au lieu de la déclarer saine.",
+    "trace": "aucune",
+    "verdict": "invérifiable",
+    "detail": "cette routine ne laisse aucune trace dans le dépôt ; sans outils mcp__* la revue ne peut pas se prononcer"
+   },
+   {
+    "id": "trig_016Bq8cq3sQjpCoSFYKJmWiH",
+    "nom": "Ramassages Lasclay — lot d'étiquettes du mardi",
+    "cron_utc": "0 11 * * 2",
+    "horaire": "mardi matin",
+    "note": "Livre des fichiers dans la session, rien dans le dépôt. Même angle mort que la précédente.",
+    "trace": "aucune",
+    "verdict": "invérifiable",
+    "detail": "cette routine ne laisse aucune trace dans le dépôt ; sans outils mcp__* la revue ne peut pas se prononcer"
+   },
+   {
+    "id": "trig_017tFgWR75UBgBu5FhwJQ9Bh",
+    "nom": "Revue quotidienne — contrôle qualité",
+    "cron_utc": "41 1 * * *",
+    "horaire": "21 h 40 Est",
+    "note": "La revue se surveille elle-même : un tour qui ne committe rien est un tour raté.",
+    "trace": "git",
+    "chemin": "revue/",
+    "derniere_trace": "2026-09-11T01:43:48.000Z",
+    "age_h": 24,
+    "seuil_h": 48,
+    "verdict": "à jour"
+   }
+  ]
+ },
+ "sante": [
+  {
+   "service": "missive-proxy",
+   "url": "https://proxy-missive.onrender.com/health",
+   "statut": 200,
+   "ok": true,
+   "ms": 458,
+   "extrait": "{\"ok\":true,\"service\":\"missive-proxy\"}"
+  },
+  {
+   "service": "general-proxy",
+   "url": "https://general-proxy-5muf.onrender.com/connectors",
+   "statut": 200,
+   "ok": true,
+   "ms": 311,
+   "extrait": "{\"connectors\":{\"shipstation\":{\"description\":\"ShipStation v1 (commandes, expéditions, suivi) — accès complet (lecture + écriture; les étiquettes débitent le wallet).\",\"enabled\":true,\"actions\":[\"orders\",\"order\",\"shipments\",\"fulfillments\",\"carriers\",\"stores\",\"warehouses\",\"listtags\",\"carrier\",\"listservi"
+  },
+  {
+   "service": "finance-proxy",
+   "url": "https://qbo-proxy-0jhc.onrender.com/health",
+   "statut": 200,
+   "ok": true,
+   "ms": 279,
+   "extrait": "{\"ok\":true,\"service\":\"finance-proxy\"}"
+  }
+ ],
+ "registre": {
+  "present": true,
+  "total": 12,
+  "par_etat": {
+   "proposee": 10,
+   "reportee": 2
+  },
+  "a_appliquer": [],
+  "en_attente": [
+   {
+    "id": "R-20260905-01",
+    "titre": "Faire entrer les echecs 502 et les doublons dans la mesure de qualite",
+    "gravite": "majeur",
+    "propose_le": "2026-09-05"
+   },
+   {
+    "id": "R-20260903-01",
+    "titre": "Compter le reproche d'inauthenticite sur des formes multi-mots, validees sur trois cas connus",
+    "gravite": "majeur",
+    "propose_le": "2026-09-03"
+   },
+   {
+    "id": "R-20260831-04",
+    "titre": "Recolter les trous de faits-verifies.json que les motifs d'ecart nomment deja",
+    "gravite": "mineur",
+    "propose_le": "2026-08-31"
+   },
+   {
+    "id": "R-20260831-03",
+    "titre": "Compter les brouillons non envoyes et leur age dans la collecte",
+    "gravite": "majeur",
+    "propose_le": "2026-08-31"
+   },
+   {
+    "id": "R-20260831-02",
+    "titre": "Router les ecarts marques « a traiter par un humain » hors du fichier a-revoir",
+    "gravite": "majeur",
+    "propose_le": "2026-08-31"
+   },
+   {
+    "id": "R-20260831-01",
+    "titre": "Reconcilier l'inventaire des routines, et cesser de supposer mcp__* absent",
+    "gravite": "majeur",
+    "propose_le": "2026-08-31"
+   },
+   {
+    "id": "R-20260830-03",
+    "titre": "Trancher dans REGLES.md le cas des felicitations generiques sur un billet deja repondu",
+    "gravite": "mineur",
+    "propose_le": "2026-08-30"
+   },
+   {
+    "id": "R-20260830-02",
+    "titre": "Compter les ecarts du tir D, qui n'entrent dans aucun total",
+    "gravite": "majeur",
+    "propose_le": "2026-08-30"
+   },
+   {
+    "id": "R-20260830-01",
+    "titre": "Mesurer la campagne points de vente sur ses envois, pas sur ses commits",
+    "gravite": "majeur",
+    "propose_le": "2026-08-30"
+   },
+   {
+    "id": "R-20260829-01",
+    "titre": "Rendre les journaux Render lisibles par la revue",
+    "gravite": "majeur",
+    "propose_le": "2026-08-29"
+   }
+  ]
+ },
+ "revues_precedentes": [
+  {
+   "jour": "2026-09-10",
+   "revue": "revue/jour/2026-09-10/revue.md"
+  },
+  {
+   "jour": "2026-09-09",
+   "revue": "revue/jour/2026-09-09/revue.md"
+  },
+  {
+   "jour": "2026-09-08",
+   "revue": "revue/jour/2026-09-08/revue.md"
+  },
+  {
+   "jour": "2026-09-07",
+   "revue": "revue/jour/2026-09-07/revue.md"
+  },
+  {
+   "jour": "2026-09-06",
+   "revue": "revue/jour/2026-09-06/revue.md"
+  },
+  {
+   "jour": "2026-09-05",
+   "revue": "revue/jour/2026-09-05/revue.md"
+  },
+  {
+   "jour": "2026-09-04",
+   "revue": "revue/jour/2026-09-04/revue.md"
+  }
+ ],
+ "non_collecte": [
+  "Statut déclaré des routines (last_run) : MCP list_triggers, indisponible dans une session de Routine — la section routines ci-dessus juge sur la trace, pas sur le statut.",
+  "Sessions Claude du jour : MCP list_sessions, indisponible dans une session de Routine — leur trace exploitable est faite de commits, branches et artefacts.",
+  "Conversations Missive : node missive_client.js — l'agent le fait.",
+  "Journaux Render : aucune RENDER_API_KEY dans l'environnement, seules les sondes HTTP ci-dessus sont possibles."
+ ]
+}
