@@ -6373,6 +6373,41 @@
       "motif": "Interpellation d'une abonnee a une amie.",
       "page_id": "114311920399404",
       "quand": "2026-09-12T20:39:15.200Z"
+    },
+    {
+      "id": "617494610081130_1728437904189493",
+      "extrait": "ah c'est plate ca",
+      "motif": "Reaction laconique dans le fil sur la repartition regionale.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-12T21:39:45.226Z"
+    },
+    {
+      "id": "617494610081130_1467745480372578",
+      "extrait": "je ne croyais pas qu'ils se rendaient aussi haut. Je n'en ai jamais vu encore.",
+      "motif": "Discussion de repartition regionale (jusqu'ou montent les monarques en Abitibi) entre abonnees : on n'a aucun fait verifie sur la repartition et on ne s'y prononce jamais.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-12T21:39:45.226Z"
+    },
+    {
+      "id": "617494610081130_2331609717004490",
+      "extrait": "Oui il y a des monarques qui se rendent jusqu'ici (Val-d'Or, Senneterre etc.)",
+      "motif": "Discussion de repartition regionale (jusqu'ou montent les monarques en Abitibi) entre abonnees : on n'a aucun fait verifie sur la repartition et on ne s'y prononce jamais.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-12T21:39:45.226Z"
+    },
+    {
+      "id": "617494610081130_873498386966162",
+      "extrait": "en effet toxique mais goute pas bon, produit un latex blanc [lien Wikipedia cardenolide]",
+      "motif": "Neuvieme commentaire sur la toxicite dans le fil du CPE. Le contenu est juste et rejoint ce qu'on a deja publie deux fois dans ce fil ; rien a corriger, rien a ajouter. (La piece jointe est l'apercu du lien, pas une photo : fichier vide de 68 octets.)",
+      "page_id": "114311920399404",
+      "quand": "2026-09-12T21:39:45.226Z"
+    },
+    {
+      "id": "617494610081130_1760505677655801",
+      "extrait": "Lynda Varney Emilie Berube 🦋",
+      "motif": "Simples identifications.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-12T21:39:45.226Z"
     }
   ]
 }
