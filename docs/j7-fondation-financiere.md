@@ -2,7 +2,8 @@
 
 Formation de J7 Media (agence Meta Ads), spécialisation e-commerce, 39 min 46 s.
 Fichier Drive `1YrsnrSJZT8CBk7oApWZ2slr6VR3wPikm`, enregistrement d'écran de novembre 2023.
-Dépouillée image par image (160 écrans extraits) et transcrite en local.
+Dépouillée image par image (160 écrans extraits) et transcrite en local (modèle `medium`).
+Formateur : **Antoine**. Les citations datées viennent de la transcription, recoupées avec l'écran.
 
 > **Comment lire ce document.** Les tableaux et les formules viennent de la formation, relevés
 > directement à l'écran, formules comprises. Les blocs « **Chez Lasclay** » sont l'adaptation.
@@ -68,6 +69,60 @@ Profit per customer       = (AOV × marge brute %) − Blended NCAC
 ⭐ **Le NCAC idéal pour scaler au maximum, c'est exactement le profit brut de la première
 commande.** Autrement dit : on accepte de sortir à zéro sur la première vente, et on fait son
 argent sur la suivante. Au-dessus de ce seuil, le profit par client devient négatif.
+
+La transcription confirme la règle mot pour mot, et le calcul est fait à voix haute devant la
+caméra (18:25) : `78 $ × 0,53 = 41,34 $`.
+
+> « Notre mandat avec eux est simple : si vous cherchez de la profitabilité sur la première
+> transaction, dans un objectif que vous avez une organisation qui a des ventes répétitives […]
+> **on veut que le client soit uniquement profitable sur la première transaction ou à peine
+> profitable, breakeven**, pour que par la suite ce soit la deuxième, la troisième, la quatrième
+> transaction qui fasse du profit. De cette manière-là, ça nous donne plus de marge de manœuvre
+> pour aller chercher des nouveaux clients. »
+> — *Fondation Financière, 19:15 → 19:45*
+
+### ⚠️ La condition d'application, que les diapositives ne montrent pas
+
+La règle n'est **pas universelle**, et la formation le dit explicitement — c'est l'audio qui le
+révèle, pas le chiffrier :
+
+> « Vous ne vendez pas nécessairement des matelas — **des matelas, on va en acheter un au dix
+> ans**, donc on n'a pas vraiment de ventes répétitives. Mais dans un objectif que les gens vont
+> racheter vos produits quelques fois par année… »
+> — *19:24*
+
+**Le breakeven sur la première commande n'est valide que si le réachat existe.** Sans réachat
+mesuré, le NCAC idéal cesse d'être un plafond soutenable et devient simplement une perte. C'est le
+premier chiffre à établir chez Lasclay, avant d'utiliser quelque plafond que ce soit.
+
+### L'erreur symétrique : faire trop de profit sur la première commande
+
+Point contre-intuitif, énoncé deux fois dans la formation. Un profit par client **trop élevé** est
+un signal de sous-investissement, pas de bonne santé :
+
+> « Si on fait trop d'argent sur la première transaction, **on aurait dû investir beaucoup plus**
+> pour aller chercher plus de clients, parce qu'il y a trop de profit. […] Ici, on devrait voir
+> 1 $ de profit sur les premières transactions. »
+> — *20:02 → 20:11*
+
+> « Si vous faites trop de profit, ça veut dire que **vous passez à côté d'une opportunité**
+> d'aller chercher plus de clients. »
+> — *24:54*
+
+Les lignes d'août (+32,03 $) et de septembre (+43,46 $) du tableau ci-dessous ne sont donc pas les
+bons mois : ce sont des mois où on a laissé des clients sur la table. Septembre surtout — 1 748 $
+de dépense seulement, pour un NCAC de 3,97 $ contre un plafond de 47,43 $.
+
+### Un plancher de marge, au passage
+
+> « Si on ne fait pas **au moins 50 à 60 % de profit brut** sur la première transaction, on est
+> également dans le trouble. »
+> — *25:12*
+
+C'est un seuil de viabilité du modèle lui-même, distinct du NCAC. En dessous, la marge ne laisse
+pas assez de place pour acheter un client. **Chez Lasclay**, avec une marge annoncée autour de
+73 %, on est confortablement au-dessus — mais c'est un chiffre interne à revalider produit par
+produit, pas une moyenne à invoquer.
 
 ### Les données réelles du compte client montré (12 mois, 2022-2023)
 | Mois | Nouveaux clients | Blended NCAC | Marge brute | NCAC idéal | Dépense | AOV nouveau | Profit/client |
@@ -224,9 +279,10 @@ C'est le plafond au-dessus duquel le profit par client devient négatif. Il est 
 débloque une saison — à condition de le tenir avec la donnée, pas avec l'espoir.
 
 ⚠️ **Deux gardes-fous.**
-1. Le NCAC idéal suppose qu'on se rattrape sur le réachat. Dans le compte montré, **59 % du chiffre
-   d'affaires vient des clients déjà acquis**. Tant qu'on n'a pas mesuré ce ratio chez Lasclay, on
-   ne peut pas dépenser jusqu'au plafond.
+1. Le NCAC idéal suppose qu'on se rattrape sur le réachat — c'est une **condition, pas une
+   hypothèse de confort** (« des matelas, on va en acheter un au dix ans »). Dans le compte montré,
+   **59 % du chiffre d'affaires vient des clients déjà acquis**. Tant qu'on n'a pas mesuré ce ratio
+   chez Lasclay, on ne peut pas dépenser jusqu'au plafond.
 2. Avec le passage de la prévente à l'inventaire, **le plafond théorique et le plafond supportable
    ne sont pas le même nombre.** Le cash encaissé aujourd'hui ne finance plus la production de
    demain : c'est une décision de trésorerie autant que de marketing.
