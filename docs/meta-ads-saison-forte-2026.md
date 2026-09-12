@@ -24,13 +24,14 @@ Deux intervenants : une marque D2C (**Omy Laboratoires**, soins personnalisés) 
 ce qui a marché chez elle, et un praticien qui ouvre en direct un vrai compte Meta
 (**MonsieurChalets**, 86 campagnes, 802 publicités).
 
-Deux sources se sont ajoutées depuis, et forment avec la conférence un trépied :
+Trois sources se sont ajoutées depuis :
 
 | Source | Répond à | Document |
 | --- | --- | --- |
 | Cette conférence | **Comment acheter l'attention** | ce document |
 | *Sell Like Crazy*, Sabri Suby | **Quoi dire** — offre, garantie, titres, courriel | [`sell-like-crazy-methode-et-adaptation.md`](sell-like-crazy-methode-et-adaptation.md) |
 | J7 Media, « Fondation financière » | **Combien dépenser** — NCAC, cohortes, budget | [`j7-fondation-financiere.md`](j7-fondation-financiere.md) |
+| Manuel Meta sur les conversions | **Les planchers techniques** — la règle des 50 | [`meta-conversions-playbook-officiel.md`](meta-conversions-playbook-officiel.md) |
 
 ---
 
@@ -464,6 +465,19 @@ Six cases, telles quelles :
 Si le coût d'acquisition visé est de 30 $, chaque test a besoin de **150 $** avant qu'on ait le
 droit d'en tirer une conclusion. Avec 4 créatifs à tester, c'est 600 $ sur 3 à 7 jours. C'est la
 contrainte qui décide du nombre de tests qu'on peut vraiment mener — pas l'envie.
+
+> **⚠️ Ce 5× ne suffit pas à faire vivre un ensemble de publicités.** Le manuel officiel de Meta
+> pose un second plancher, dix fois plus haut : **CPA cible × 50 par semaine et par ensemble**,
+> parce que l'optimiseur a besoin d'environ 50 conversions hebdomadaires pour sortir de la phase
+> d'apprentissage. Sur un CPA de 30 $, c'est 1 500 $ par semaine et par ensemble.
+>
+> Les deux règles ne se contredisent pas, elles ne mesurent pas la même chose : le 5× classe des
+> **créatifs**, le 50× fait fonctionner un **ensemble**. La résolution est structurelle —
+> **on teste les créatifs à l'intérieur d'un ensemble unique bien alimenté**, jamais un ensemble
+> par hypothèse. 1 500 $ / 150 $ = 10 créatifs lisibles par semaine dans un seul ensemble.
+>
+> Détail et conséquences sur le nombre d'ensembles finançables :
+> [`meta-conversions-playbook-officiel.md`](meta-conversions-playbook-officiel.md).
 
 ---
 

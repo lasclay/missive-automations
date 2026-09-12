@@ -210,15 +210,17 @@ footer{border-top:1px solid var(--line);margin-top:20px;padding-block:30px 48px;
       <div class="eyebrow">Conférence « Le paid ads en 2026 » → plan d'exécution</div>
       <h1>Saison forte<br><em>Lasclay 2026</em></h1>
     </div>
-    <p class="lede">79 minutes de conférence dépouillées image par image : deux decks, un compte
-      Meta ouvert en direct, et la méthode complète pour monter la saison de septembre à janvier.
-      Chaque capture renvoie au fichier et à l'horodatage d'origine.</p>
+    <p class="lede">79 minutes de conférence dépouillées image par image, plus trois sources qui
+      la complètent : le modèle financier de J7 Media, l'offre selon <em>Sell Like Crazy</em>, et
+      les planchers techniques du manuel officiel de Meta. La méthode complète pour monter la
+      saison de septembre à janvier — chaque capture renvoie à sa source et à son horodatage.</p>
     <div class="hero-meta">
       <span class="chip live" id="today">—</span>
       <span class="chip">6 fichiers · 79 min</span>
       <span class="chip">2 decks · 75 diapos</span>
       <span class="chip">+ Sell Like Crazy, 393 p.</span>
       <span class="chip">+ J7 Media, 40 min</span>
+      <span class="chip">+ Manuel Meta, 12 p.</span>
       <span class="chip">Compte démo : 86 campagnes, 802 pubs</span>
       <span class="chip">Vendredi fou : 27 nov 2026</span>
     </div>
@@ -230,6 +232,7 @@ footer{border-top:1px solid var(--line);margin-top:20px;padding-block:30px 48px;
 <nav class="rail" aria-label="Sections">
   <a href="#bascule">La bascule 2026</a>
   <a href="#fondation">Fondation financière</a>
+  <a href="#planchers">La règle des 50</a>
   <a href="#calendrier">Le calendrier</a>
   <a href="#fondations">Tracking</a>
   <a href="#squelette">Squelette de compte</a>
@@ -487,8 +490,177 @@ Profit par client   = (AOV × marge brute %) − Blended NCAC</code></pre>
   </div>
 </section>
 
+<section id="planchers">
+  <h2><span class="k">03</span>La règle des 50 — le budget décide du nombre d'ensembles</h2>
+
+  <p>Quatrième source, et la plus courte : le <strong>« Manuel sur les conversions »</strong> de
+  Meta, 12 pages, document officiel. Sa valeur n'est pas d'avoir raison — c'est la recommandation
+  du vendeur, écrite par le vendeur, et la capture de l'étape 7 est datée du
+  <strong>24 février 2022</strong>. Sa valeur, c'est de donner les <strong>planchers techniques</strong> :
+  les seuils sous lesquels la machine ne fonctionne simplement pas. Aucune des trois autres sources
+  ne les donne.</p>
+
+  <h3>La même règle, dite deux fois</h3>
+
+  <figure>
+    <img src="img/60-budget-50.jpg" alt="Étape 3 du manuel Meta : la formule de budget — prendre le coût moyen par résultat et le multiplier par 50 pour obtenir le budget hebdomadaire minimal par ensemble de publicités.">
+    <figcaption><span>Étape 3 : « prenez le coût moyen par résultat […] et <strong>multipliez-le par
+      50</strong>. Le produit […] correspond à votre budget hebdomadaire minimal recommandé […]
+      <strong>pour chaque ensemble de publicités</strong>. »</span><span class="src">Manuel sur les conversions · p.5</span></figcaption>
+  </figure>
+
+  <figure>
+    <img src="img/61-pixel-50.jpg" alt="Étape 4 du manuel Meta : choisir un évènement de conversion qui a déclenché le pixel au moins 50 fois par semaine ; le menu déroulant montre Achat, Ajout au panier, Affichage du contenu, Inscription terminée.">
+    <figcaption><span>Étape 4, l'autre bout de la même règle : « Essayez de choisir un évènement qui
+      a déclenché <strong>au moins 50 fois le pixel</strong> sur votre site Web
+      <strong>chaque semaine</strong>. »</span><span class="src">Manuel sur les conversions · p.7</span></figcaption>
+  </figure>
+
+<pre><code>Plancher hebdomadaire par ensemble de publicités = CPA cible × 50</code></pre>
+
+  <p>Les deux phrases disent la même chose vue des deux bouts : <strong>l'optimiseur a besoin
+  d'environ 50 conversions par semaine et par ensemble pour sortir de la phase d'apprentissage.</strong>
+  En dessous, on paie le plein tarif sans obtenir l'optimisation — on achète de la diffusion, pas
+  de la performance.</p>
+
+  <div class="tw"><table>
+    <thead><tr><th>CPA cible</th><th class="n">Plancher hebdo / ensemble</th><th class="n">Par jour</th></tr></thead>
+    <tbody>
+      <tr><td>20 $</td><td class="n">1 000 $</td><td class="n">~143 $</td></tr>
+      <tr><td><strong>30 $</strong></td><td class="n"><strong>1 500 $</strong></td><td class="n"><strong>~214 $</strong></td></tr>
+      <tr><td>40 $</td><td class="n">2 000 $</td><td class="n">~286 $</td></tr>
+      <tr><td>60 $</td><td class="n">3 000 $</td><td class="n">~429 $</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="warn">
+    <h5>La conséquence qui fait mal</h5>
+    <p>Le nombre d'ensembles de publicités n'est pas une décision créative.
+    <strong>C'est une division.</strong></p>
+<pre><code>Ensembles finançables = budget hebdo ÷ (CPA × 50)</code></pre>
+    <p>On ouvre six ensembles parce qu'on a six idées, et on se retrouve avec six ensembles qui
+    n'apprennent jamais. Un ensemble sous-alimenté ne coûte pas moins cher : il coûte autant et
+    n'optimise pas.</p>
+  </div>
+
+  <div class="tiles">
+    <div class="tile"><div class="v">1</div><div class="l">ensemble à 1 500 $/sem</div>
+      <div class="n">Le minimum viable, sur un CPA de 30 $.</div></div>
+    <div class="tile"><div class="v">2</div><div class="l">ensembles à 3 000 $/sem</div>
+      <div class="n">Prospection + reciblage.</div></div>
+    <div class="tile"><div class="v">5</div><div class="l">ensembles à 7 500 $/sem</div>
+      <div class="n">La structure complète du squelette de compte.</div></div>
+  </div>
+
+  <h3>Le conflit avec le framework de tests, et sa résolution</h3>
+
+  <p>Deux planchers coexistent, et ils ont l'air de se contredire d'un facteur dix :</p>
+
+  <div class="tw"><table>
+    <thead><tr><th>Source</th><th>Règle</th><th class="n">Sur un CPA de 30 $</th></tr></thead>
+    <tbody>
+      <tr><td>Conférence 2026</td><td><strong>5 × CPA cible par test</strong>, 3 à 7 jours</td><td class="n">150 $ par créatif</td></tr>
+      <tr><td>Manuel Meta</td><td><strong>50 × CPA par semaine et par ensemble</strong></td><td class="n">1 500 $ par ensemble</td></tr>
+    </tbody>
+  </table></div>
+
+  <p>Ils ne mesurent pas la même chose. Le 5× sert à <strong>classer des créatifs</strong> entre
+  eux — c'est une lecture de signal. Le 50× sert à faire <strong>fonctionner un ensemble</strong> —
+  c'est une condition de l'algorithme.</p>
+
+  <div class="lasclay">
+    <h5>La résolution est structurelle</h5>
+    <p><strong>On ne met pas un test par ensemble de publicités.</strong> On teste les créatifs
+    <em>à l'intérieur</em> d'un ensemble unique, correctement alimenté : l'ensemble franchit ses
+    50 conversions, chaque créatif reçoit son 5× à l'intérieur.</p>
+<pre><code>1 500 $/sem ÷ 150 $ = 10 créatifs
+                dans UN seul ensemble</code></pre>
+    <p>C'est exactement la structure que la conférence recommande par ailleurs — broad, CBO,
+    plusieurs créatifs dans le même ensemble. Les deux sources se rejoignent sans le dire. La
+    structure en « un ensemble par hypothèse » est le fail le plus coûteux, parce qu'il a l'air
+    rigoureux.</p>
+  </div>
+
+  <h3>Sur quoi optimiser, et quand en changer</h3>
+
+  <p>Le bon évènement de conversion n'est pas le plus proche de l'argent : c'est
+  <strong>le plus proche de l'argent qui franchit encore 50 par semaine</strong>. C'est donc une
+  décision de calendrier autant que de configuration.</p>
+
+  <div class="tw"><table>
+    <thead><tr><th>Période</th><th>Volume d'<span class="mono">Achat</span> attendu</th><th>Évènement d'optimisation</th></tr></thead>
+    <tbody>
+      <tr><td>Septembre, début de saison</td><td>probablement <strong>&lt; 50/sem</strong></td><td><span class="mono">Ajout au panier</span> ou <span class="mono">Début de paiement</span></td></tr>
+      <tr><td>Novembre, pleine saison</td><td>largement &gt; 50/sem</td><td><span class="badge mof"><span class="mono">Achat</span></span></td></tr>
+      <tr><td>Janvier, après-saison</td><td>retombe</td><td>resurveiller, quitte à redescendre d'un cran</td></tr>
+    </tbody>
+  </table></div>
+
+  <ul class="check">
+    <li>Compter les évènements <span class="mono">Achat</span> de la semaine dernière dans le Gestionnaire d'évènements — <strong>avant</strong> de lancer quoi que ce soit.</li>
+    <li>Sous 50 par semaine, optimiser sur <span class="mono">Ajout au panier</span> sans se raconter d'histoires.</li>
+    <li>Planifier le passage à <span class="mono">Achat</span> comme une <strong>date du calendrier</strong> — jamais la semaine du Vendredi fou : changer d'évènement redémarre la phase d'apprentissage.</li>
+  </ul>
+
+  <h3>Les sept recommandations de Meta, et leur verdict en 2026</h3>
+
+  <figure>
+    <img src="img/62-checklist.jpg" alt="Dernière page du manuel Meta : la liste des sept recommandations essentielles — optimisation du budget de la campagne, stratégie d'enchère au coût le plus bas, évènement de pixel déclenché au moins 50 fois par semaine, contenu dynamique, optimisation de la diffusion à conversions, attribution 7 jours après le clic, placements automatiques.">
+    <figcaption><span>La page de rappel : les sept ★ du manuel, celles que Meta marque
+      « Recommandation essentielle ».</span><span class="src">Manuel sur les conversions · p.12</span></figcaption>
+  </figure>
+
+  <div class="tw"><table>
+    <thead><tr><th>★ Recommandation Meta</th><th>Verdict 2026</th></tr></thead>
+    <tbody>
+      <tr><td>Optimisation du budget de la campagne (CBO)</td><td><span class="badge mof">Tient</span> Appliqué en TOF ; ABO reste pour le reciblage.</td></tr>
+      <tr><td>Stratégie d'enchère au coût le plus bas</td><td><span class="badge mof">Tient</span> Non contredit.</td></tr>
+      <tr><td>Évènement de pixel ≥ 50 fois/semaine</td><td><span class="badge mof">Tient — l'apport net</span> Aucune autre source ne le dit.</td></tr>
+      <tr><td>Contenu dynamique</td><td><span class="badge">Renommé</span> Devenu <em>Advantage+ creative</em>.</td></tr>
+      <tr><td>Optimisation de la diffusion → conversions</td><td><span class="badge mof">Tient</span></td></tr>
+      <tr><td>Attribution 7 jours après le clic</td><td><span class="badge tof">Tient, avec réserve</span> La fenêtre sous-déclare — voir Tracking.</td></tr>
+      <tr><td>Placements automatiques</td><td><span class="badge mof">Tient</span> Devenu <em>Advantage+ placements</em>.</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Ce qui a vieilli — à ne pas appliquer tel quel</h3>
+
+  <figure>
+    <img src="img/63-audience-2022.jpg" alt="Étape 8 du manuel Meta : conserver la taille d'audience entre deux et dix millions, considérer une audience similaire, activer l'extension du ciblage détaillé.">
+    <figcaption><span>Le conseil de 2022 : restreindre l'audience « entre deux à dix millions »,
+      utiliser une audience similaire, activer l'extension du ciblage détaillé.
+      <strong>Les trois sont contredits en 2026.</strong></span><span class="src">Manuel sur les conversions · p.8</span></figcaption>
+  </figure>
+
+  <div class="warn">
+    <h5>Un renversement complet, pas une nuance</h5>
+    <p>Meta recommandait en 2022 de <strong>restreindre</strong> l'audience pour aider la diffusion.
+    Meta recommande en 2026 de <strong>ne rien restreindre du tout</strong>. La raison est celle de
+    la section 01 : Andromeda a déplacé le ciblage dans le créatif.
+    <strong>Suivre le manuel sur ce point, aujourd'hui, c'est brider l'algorithme.</strong></p>
+    <p>Même chose pour les audiences similaires (« de moins en moins utiles avec Andromeda ») et
+    pour l'extension du ciblage détaillé. Sur ces quatre points, et sur le nom de l'objectif
+    — <span class="mono">Conversions</span> est devenu <span class="mono">Ventes</span> —
+    <strong>c'est la conférence qui prime.</strong></p>
+  </div>
+
+  <p>Reste un garde-fou, et il vient de la conférence, pas du manuel : le champ <strong>Controls</strong>
+  au niveau de l'ensemble — <em>« We won't reach people beyond these settings, even with
+  Advantage+ on. »</em> C'est le seul réglage réellement respecté. Tout le reste est suggestion.</p>
+
+  <div class="lasclay">
+    <h5>Comment lire toute la documentation du vendeur</h5>
+    <p>Le <strong>Campaign score</strong> relevé pendant la conférence — 100 quand
+    <em>Advantage+ sales</em> est activé, puis 77, 74, 69, 50 à mesure qu'on s'en écarte — n'est pas
+    une note de qualité. <strong>C'est une mesure de conformité aux réglages que Meta veut
+    pousser.</strong> Ce manuel est la même chose en PDF. Ses planchers techniques sont bons parce
+    qu'ils décrivent le fonctionnement de la machine ; ses conseils de ciblage étaient de la
+    politique produit, et ils ont changé.</p>
+  </div>
+</section>
+
 <section id="calendrier">
-  <h2><span class="k">03</span>Le calendrier — 11 septembre 2026 → 5 janvier 2027</h2>
+  <h2><span class="k">04</span>Le calendrier — 11 septembre 2026 → 5 janvier 2027</h2>
   <p>Repères fixes : <strong>Vendredi fou le 27 novembre</strong>, <strong>Cyber Monday le
   30 novembre</strong>, <strong>Boxing Day le 26 décembre</strong>. Les dates limites d'expédition
   de Postes Canada sont à confirmer en octobre, elles bougent chaque année.</p>
@@ -584,7 +756,7 @@ Profit par client   = (AOV × marge brute %) − Blended NCAC</code></pre>
 </section>
 
 <section id="fondations">
-  <h2><span class="k">04</span>Les fondations, avant de dépenser un dollar</h2>
+  <h2><span class="k">05</span>Les fondations, avant de dépenser un dollar</h2>
   <p>Le premier deck tient en trois étapes. L'étape 2 est celle que tout le monde saute.</p>
 
   <div class="duo">
@@ -659,7 +831,7 @@ Profit par client   = (AOV × marge brute %) − Blended NCAC</code></pre>
 </section>
 
 <section id="squelette">
-  <h2><span class="k">05</span>Le squelette de compte</h2>
+  <h2><span class="k">06</span>Le squelette de compte</h2>
 
   <h3>L'entonnoir et la répartition du budget</h3>
   <div class="funnel">
@@ -724,7 +896,7 @@ KLAVIYO_Infolettre_Actifs     LAL1_Acheteurs_365d</code></pre>
 </section>
 
 <section id="formats">
-  <h2><span class="k">06</span>Les dix formats</h2>
+  <h2><span class="k">07</span>Les dix formats</h2>
   <p>Le deuxième deck consacre une dizaine de pages aux formats, sous le titre
   <strong>« Des incontournables qui fonctionnent (presque) toujours »</strong>. Chacun est illustré
   de vrais créatifs.</p>
@@ -942,7 +1114,7 @@ KLAVIYO_Infolettre_Actifs     LAL1_Acheteurs_365d</code></pre>
 </section>
 
 <section id="hook">
-  <h2><span class="k">07</span>Le hook, l'angle, l'audience — dans cet ordre</h2>
+  <h2><span class="k">08</span>Le hook, l'angle, l'audience — dans cet ordre</h2>
 
   <figure>
     <img src="img/03-hook.jpg" alt="Diapositive « Élément de tests en ordre de priorisation : le hook » détaillant ce qu'est un hook et à quoi il sert.">
@@ -1026,7 +1198,7 @@ KLAVIYO_Infolettre_Actifs     LAL1_Acheteurs_365d</code></pre>
   </section>
 
 <section id="offre">
-  <h2><span class="k">08</span>L'offre du Parrain — ce que la conférence ne dit pas</h2>
+  <h2><span class="k">09</span>L'offre du Parrain — ce que la conférence ne dit pas</h2>
 
   <p>La conférence explique comment <em>acheter</em> l'attention. Elle ne dit presque rien sur
   <em>quoi dire</em> une fois qu'on l'a. C'est la moitié manquante, et c'est le sujet de
@@ -1193,7 +1365,7 @@ KLAVIYO_Infolettre_Actifs     LAL1_Acheteurs_365d</code></pre>
 </section>
 
 <section id="ecrans">
-  <h2><span class="k">09</span>Monter la campagne, écran par écran</h2>
+  <h2><span class="k">10</span>Monter la campagne, écran par écran</h2>
   <p>Ce qui suit suit exactement l'ordre de la démonstration en direct.</p>
 
   <h3>Niveau campagne</h3>
@@ -1323,7 +1495,7 @@ KLAVIYO_Infolettre_Actifs     LAL1_Acheteurs_365d</code></pre>
 </section>
 
 <section id="dashboard">
-  <h2><span class="k">10</span>Le tableau de bord</h2>
+  <h2><span class="k">11</span>Le tableau de bord</h2>
   <p>La démonstration travaille dans une vue de colonnes personnalisée. Les deux colonnes qui
   comptent ne sont pas là par défaut.</p>
 
@@ -1383,7 +1555,7 @@ KLAVIYO_Infolettre_Actifs     LAL1_Acheteurs_365d</code></pre>
 </section>
 
 <section id="courriel">
-  <h2><span class="k">11</span>Le courriel — le canal que la conférence a oublié</h2>
+  <h2><span class="k">12</span>Le courriel — le canal que la conférence a oublié</h2>
 
   <p>Les 79 minutes de conférence ne parlent pratiquement pas de courriel. Le livre lui consacre
   sa dernière phase et ouvre par une phrase qui vaut la peine d'être prise au sérieux :</p>
@@ -1496,7 +1668,7 @@ KLAVIYO_Infolettre_Actifs     LAL1_Acheteurs_365d</code></pre>
 </section>
 
 <section id="fails">
-  <h2><span class="k">12</span>Les fails — la diapositive la plus utile du deck</h2>
+  <h2><span class="k">13</span>Les fails — la diapositive la plus utile du deck</h2>
   <figure>
     <img src="img/06-fails.jpg" alt="Diapositive « Nos apprentissages… nos fails » : contenu promotionnel sur audience froide = pouce vers le bas ; meilleures pubs avec mention de la vente = pouce vers le haut.">
     <figcaption><span>La règle qui contredit le réflexe de novembre.</span><span class="src">IMG_3744.MOV · 10:25 · deck B p.49</span></figcaption>
@@ -1514,9 +1686,9 @@ KLAVIYO_Infolettre_Actifs     LAL1_Acheteurs_365d</code></pre>
 </section>
 
 <section id="decisions">
-  <h2><span class="k">13</span>Les décisions, résumées</h2>
+  <h2><span class="k">14</span>Les décisions, résumées</h2>
   <div class="tw"><table>
-    <thead><tr><th>Question</th><th>Réponse de la conférence</th></tr></thead>
+    <thead><tr><th>Question</th><th>Réponse des quatre sources</th></tr></thead>
     <tbody>
       <tr><td>Qu'est-ce qu'on teste en premier ?</td><td>Le hook. Toujours.</td></tr>
       <tr><td>Combien de budget par test ?</td><td>5× le CPA cible, minimum.</td></tr>
@@ -1533,6 +1705,11 @@ KLAVIYO_Infolettre_Actifs     LAL1_Acheteurs_365d</code></pre>
       <tr><td>Comment fixe-t-on le budget ?</td><td>On ne le fixe pas. Objectif de nouveaux clients × NCAC soutenable = budget.</td></tr>
       <tr><td>Quelle métrique de rentabilité ?</td><td>Le <strong>POAS</strong> (profit sur la dépense), pas le ROAS.</td></tr>
       <tr><td>Sur quel produit acquérir ?</td><td>Celui dont la cohorte prend de la valeur à 6 mois — pas celui au plus gros panier d'entrée.</td></tr>
+      <tr><td>Combien d'ensembles de publicités ouvrir ?</td><td>Budget hebdo ÷ (CPA cible × 50). Pas un de plus — un ensemble sous-alimenté coûte autant et n'apprend pas.</td></tr>
+      <tr><td>Un ensemble par test ?</td><td><strong>Non.</strong> Les créatifs se testent à l'intérieur d'un ensemble bien alimenté. Le 5× classe les créatifs, le 50× fait vivre l'ensemble.</td></tr>
+      <tr><td>Sur quel évènement optimiser ?</td><td>Le plus proche de l'argent qui franchit <strong>50 déclenchements par semaine</strong>. Sous ce seuil, descendre à <span class="mono">Ajout au panier</span>.</td></tr>
+      <tr><td>Quand passer à <span class="mono">Achat</span> ?</td><td>Dès que le volume le permet, et <strong>jamais en semaine de pointe</strong> : le changement redémarre l'apprentissage.</td></tr>
+      <tr><td>Faut-il suivre le Campaign score ?</td><td>Non. C'est une mesure de conformité aux réglages que Meta pousse, pas une note de qualité.</td></tr>
     </tbody>
   </table></div>
 

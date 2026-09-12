@@ -9,6 +9,7 @@ sort une affirmation du guide.
 | `conference-paid-ads-2026-notes-brutes.md` | Relevé écran par écran des six enregistrements de la conférence (dossier Drive `1YGCY0JO0d-jyUYEeljF33zQNRWdJbuAd`) |
 | `sell-like-crazy-notes-brutes.md` | Relevé de lecture du PDF *Sell Like Crazy* (Sabri Suby) |
 | `j7-fondation-financiere-notes-brutes.md` | Relevé écran par écran de la formation J7 Media « Fondation financière » (160 trames extraites) |
+| `meta-conversions-playbook-notes-brutes.md` | Relevé page par page du « Manuel sur les conversions » de Meta (PDF officiel, 12 p.) |
 | `transcriptions/` | Transcriptions audio horodatées, produites en local — voir l'avertissement dans `transcriptions/README.md` |
 | `saison-forte-2026.html` | Copie du guide visuel publié (Artifact), pour garder le contenu dans le dépôt |
 
@@ -28,3 +29,6 @@ perceptuel, recadrage sur l'écran puis agrandissement).
 Les captures et les chiffres démontrés viennent de **comptes publicitaires tiers**
 (MonsieurChalets pour la conférence, un compte client anonyme pour J7 Media). Ce sont des
 références internes de méthode : ne pas republier ces documents à l'extérieur de Lasclay.
+
+Seule exception : le manuel Meta est un document **public**, sans donnée de compte. Son relevé
+peut circuler librement.
