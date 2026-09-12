@@ -24,6 +24,14 @@ Deux intervenants : une marque D2C (**Omy Laboratoires**, soins personnalisés) 
 ce qui a marché chez elle, et un praticien qui ouvre en direct un vrai compte Meta
 (**MonsieurChalets**, 86 campagnes, 802 publicités).
 
+Deux sources se sont ajoutées depuis, et forment avec la conférence un trépied :
+
+| Source | Répond à | Document |
+| --- | --- | --- |
+| Cette conférence | **Comment acheter l'attention** | ce document |
+| *Sell Like Crazy*, Sabri Suby | **Quoi dire** — offre, garantie, titres, courriel | [`sell-like-crazy-methode-et-adaptation.md`](sell-like-crazy-methode-et-adaptation.md) |
+| J7 Media, « Fondation financière » | **Combien dépenser** — NCAC, cohortes, budget | [`j7-fondation-financiere.md`](j7-fondation-financiere.md) |
+
 ---
 
 ## 1. La thèse de 2026 : le créatif est devenu le ciblage
@@ -488,6 +496,14 @@ Deux mises en garde :
 - En pleine saison, monter le CAC accepté est une décision de trésorerie autant que de marketing.
   Avec un modèle qui passe de la prévente à l'inventaire, le cash encaissé aujourd'hui ne
   finance plus la production de demain.
+
+> **Cette section est la plus faible du guide, et une troisième source la corrige.**
+> La formation J7 Media « Fondation financière » démontre le modèle complet sur un vrai compte,
+> formules à l'écran : le **NCAC** (coût d'acquisition d'un *nouveau* client) plutôt que le CAC
+> mélangé, le plafond posé comme **NCAC idéal = panier moyen nouveau client × marge brute %**,
+> et le budget obtenu comme *résultat* d'un objectif de nouveaux clients, pas choisi à l'avance.
+> Voir [`j7-fondation-financiere.md`](j7-fondation-financiere.md) — à lire **avant** de fixer le
+> budget de la saison.
 
 ---
 
