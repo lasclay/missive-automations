@@ -1,7 +1,7 @@
 ---
 name: proxygen
-description: General Proxy de Lasclay — le service Render des opérations, qui expose ShipStation en accès complet (19 actions), Omnisend (10) et Klaviyo en lecture seule (21). Couvre les commandes et expéditions, le suivi, les tarifs, les tags, la mise en attente, le marquage expédié, l'achat et l'annulation d'étiquettes, les contacts et campagnes courriel, et l'export exhaustif Klaviyo pour migration.
-when_to_use: Déclenche dès qu'il est question du proxy général, de ShipStation, d'Omnisend, de Klaviyo, d'une expédition, d'un numéro de suivi, d'une étiquette d'envoi, d'un transporteur, d'un entrepôt, d'un contact ou d'une campagne courriel. Déclenche même sans nommer le service — « où est le colis de la commande 12345 », « mets cette commande en attente », « combien coûterait l'envoi vers les États-Unis », « exporte les profils pour la migration », « cette cliente est-elle désabonnée ».
+description: General Proxy de Lasclay — le service Render des opérations, qui expose ShipStation en accès complet (19 actions), Omnisend (10), Klaviyo en lecture seule (21) et Shopify Admin pour les cartes-cadeaux et les clients (9). Couvre les commandes et expéditions, le suivi, les tarifs, les tags, la mise en attente, le marquage expédié, l'achat et l'annulation d'étiquettes, les contacts et campagnes courriel, l'export exhaustif Klaviyo pour migration, et l'émission d'une carte-cadeau Shopify — que le connecteur Shopify MCP, lui, refuse.
+when_to_use: Déclenche dès qu'il est question du proxy général, de ShipStation, d'Omnisend, de Klaviyo, d'une expédition, d'un numéro de suivi, d'une étiquette d'envoi, d'un transporteur, d'un entrepôt, d'un contact ou d'une campagne courriel. Déclenche aussi sur une carte-cadeau Lasclay — « crée une carte-cadeau de 25 $ », « envoie un chèque-cadeau à ce client », « désactive cette carte » — et chaque fois que le connecteur Shopify MCP refuse une écriture. Déclenche même sans nommer le service — « où est le colis de la commande 12345 », « mets cette commande en attente », « combien coûterait l'envoi vers les États-Unis », « exporte les profils pour la migration », « cette cliente est-elle désabonnée ».
 argument-hint: [ce que tu veux faire côté expédition ou marketing]
 allowed-tools:
   - Bash(node connectors_client.js:*)
@@ -181,6 +181,45 @@ Deux limites du compte, constatées à l'usage : les **identifiants secondaires*
 (`meta.patch_identifiers`) ne sont pas activés — impossible de garder l'ancienne adresse rattachée
 au profil — et `subscribe_profile_to_marketing` **exige une confirmation humaine explicite** avant
 de s'exécuter. C'est voulu : un consentement ne se pose pas à la place de quelqu'un.
+
+## Shopify — cartes-cadeaux et clients, 9 actions
+
+Auth par l'app **« Render connector »** en client credentials (`SHOPIFY_STORE` +
+`SHOPIFY_CLIENT_ID` + `SHOPIFY_CLIENT_SECRET` côté Render, ou le jeton fixe hérité
+`SHOPIFY_ADMIN_TOKEN`). API GraphQL Admin.
+
+Ce connecteur existe pour une raison précise : le **connecteur Shopify MCP refuse par politique
+toute écriture sur les cartes-cadeaux** (« gift card operations are not permitted via AI tools —
+they expose spendable store value »), remboursements inclus. L'API Admin expose `giftCardCreate`
+depuis toujours. C'est exactement le piège des trois couches décrit plus haut : le refus venait de
+l'outil, pas de Shopify. Pour lire une commande ou un client, le MCP reste plus commode ; pour
+émettre une carte, c'est ce chemin.
+
+**Lecture (5).** `diag`, `giftcards` (`query`, `first`, `after`), `giftcard` (**id**), `customers`
+(`query`, ex. `email:x@y.com`), `customer` (**id**). Les id acceptent le GID complet ou le nombre nu.
+
+**Écriture (4).**
+
+| Risque | Action | Détail |
+| --- | --- | --- |
+| 🟡 | `createcustomer` | **email**, plus firstName, lastName, note. Ne pose aucun consentement marketing |
+| 🔴 | `giftcardcreate` | **initialValue** (ex. `"25.00"`, en CAD), **customerId** ou **email**, plus message, preferredName, note, expiresOn, code, send (défaut `true`) |
+| 🟡 | `giftcardsend` | **id** — (ré)envoie la carte, un vrai courriel part |
+| 🔴 | `giftcarddeactivate` | **id** — rend le solde inutilisable |
+
+`giftcardcreate` **émet de l'argent réel** : une carte-cadeau est de la valeur dépensable sur
+lasclay.com. Elle ne se supprime pas, elle se désactive — et le courriel parti ne se rappelle pas.
+Jamais sans confirmation explicite dans le tour courant. Quand le montant ou le destinataire sort
+de l'ordinaire, émets avec `send:false`, relis la carte, puis `giftcardsend`.
+
+Le connecteur ne crée jamais le client en douce : si l'adresse est inconnue de Shopify, l'appel
+échoue en le disant et c'est `createcustomer` qu'il faut lancer d'abord.
+
+**Sur un `ACCESS_DENIED`, lance `diag` avant toute autre hypothèse.** Il affiche les portées que le
+jeton porte réellement et celles qui manquent. Les cartes-cadeaux exigent `read_gift_cards`,
+`write_gift_cards`, `read_customers`, `write_customers` — à ajouter dans le Dev Dashboard **puis à
+publier (Release)**. Les portées historiques de l'app sont en lecture seule : le jeton s'obtient
+sans erreur, et seules les mutations échouent. C'est une étape humaine, tu ne peux pas la faire.
 
 ## Vérifier un envoi — règle ferme
 

@@ -25,6 +25,15 @@
  *   node connectors_client.js omnisend campaigns '{"limit":10}'
  *   node connectors_client.js omnisend triggerevent '{"body":{"systemName":"mon-evenement","email":"client@exemple.com"}}'
  *
+ * Exemples Shopify (cartes-cadeaux) :
+ *   node connectors_client.js shopify diag
+ *   node connectors_client.js shopify customers '{"query":"email:client@exemple.com"}'
+ *   node connectors_client.js shopify createcustomer '{"email":"client@exemple.com"}'
+ *   node connectors_client.js shopify giftcards '{"first":10}'
+ *   ⚠️ giftcardcreate ÉMET DE LA VALEUR DÉPENSABLE (argent réel) et l'envoie par courriel :
+ *   node connectors_client.js shopify giftcardcreate '{"initialValue":"25.00","email":"client@exemple.com","message":"Un petit cadeau de la part de Lasclay."}'
+ *   Une carte émise ne se supprime pas — elle se désactive : shopify giftcarddeactivate '{"id":"..."}'.
+ *
  * QuickBooks : service dédié (isolation des finances) → utiliser finance_client.js
  * avec FINANCE_PROXY_URL + FINANCE_PROXY_SECRET. Voir finance-proxy/FINANCE_PROXY.md.
  */

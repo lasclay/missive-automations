@@ -109,6 +109,47 @@ varient par endpoint (429 + `Retry-After`, gérés par le proxy).
 (consentements email/SMS + horodatages — preuve LCAP) en CSV réimportable, avec reprise sur
 interruption (fichier `.cursor`). Aussi : `list <ID>`, `segment <ID>`, `suppressed`.
 
+### Actions Shopify (cartes-cadeaux + clients)
+
+Auth : l'app **« Render connector »** du Dev Dashboard, en *client credentials* — le proxy échange
+`SHOPIFY_CLIENT_ID` + `SHOPIFY_CLIENT_SECRET` contre un jeton de ~24 h qu'il garde **en mémoire**
+et ne renvoie jamais. Voie héritée acceptée : un jeton Admin fixe `SHOPIFY_ADMIN_TOKEN`. Ce sont
+exactement les variables de `shopify_check.js` et `support.js`. API GraphQL Admin, version
+`SHOPIFY_API_VERSION` (défaut `2026-01`).
+
+**Pourquoi ce connecteur existe.** Le connecteur **Shopify MCP** refuse par politique *toute*
+écriture sur les cartes-cadeaux — « *gift card operations are not permitted via AI tools — they
+expose spendable store value* » — au même titre que les remboursements. L'API Admin, elle, expose
+`giftCardCreate` depuis toujours. Le plafond n'était pas celui de Shopify, mais celui de l'outil.
+
+> **Portées à publier** dans le Dev Dashboard (API access → Scopes), puis **Release** :
+> `read_gift_cards`, `write_gift_cards`, `read_customers`, `write_customers`. Les portées
+> actuelles de l'app sont en lecture seule (plus `write_merchant_managed_fulfillment_orders`) :
+> sans ajout, le jeton s'obtient très bien mais les mutations répondent `ACCESS_DENIED`.
+> `shopify diag` dit exactement quelles portées le jeton porte — à lancer en premier sur un refus.
+
+| Action | Params | Effet |
+|---|---|---|
+| `diag` | — | 🟢 variables posées (booléens, aucun secret), portées réelles du jeton, portées manquantes, versions d'API acceptées |
+| `giftcards` | `query` (ex. `status:enabled`), `first` (défaut 25, max 250), `after` | 🟢 cartes-cadeaux |
+| `giftcard` | **id** (GID ou numérique) | 🟢 une carte |
+| `customers` | `query` (ex. `email:x@y.com`), `first`, `after` | 🟢 clients |
+| `customer` | **id** | 🟢 un client |
+| `createcustomer` | **email**, `firstName`, `lastName`, `note` | 🟡 crée un client. **Aucun consentement marketing n'est posé** — un client créé ici n'est pas abonné, et ne doit pas l'être à son insu |
+| `giftcardcreate` | **initialValue** (ex. `"25.00"`, en **CAD**), **customerId** *ou* **email**, `message`, `preferredName`, `note`, `expiresOn`, `code`, `templateSuffix`, `send` (défaut `true`) | 🔴 **ARGENT RÉEL** — émet de la valeur dépensable et, par défaut, l'envoie au destinataire |
+| `giftcardsend` | **id** | 🟡 (ré)envoie la carte au destinataire — un vrai courriel part |
+| `giftcarddeactivate` | **id** | 🔴 rend le solde inutilisable |
+
+`giftcardcreate` ne crée **jamais** le client implicitement : si l'adresse n'existe pas encore dans
+Shopify, l'appel échoue en le disant, et c'est `createcustomer` qu'il faut lancer d'abord. Un envoi
+de carte ne doit pas fabriquer une fiche client en douce.
+
+**Irréversibilité.** Une carte-cadeau émise ne se supprime pas : elle se *désactive*
+(`giftcarddeactivate`), ce qui laisse la trace. Et le courriel parti ne se rappelle pas. Émettre
+d'abord avec `send:false` puis vérifier la carte avant `giftcardsend` est la manœuvre prudente
+quand le montant ou le destinataire sort de l'ordinaire. Confirmation explicite exigée dans le tour
+courant, comme pour l'achat d'étiquettes.
+
 > **QuickBooks** : actions, mise en place et rotation du refresh token → `finance-proxy/FINANCE_PROXY.md`.
 
 ---
@@ -139,7 +180,16 @@ Limite de débit v1 : **40 requêtes / minute**. Le proxy respecte l'en-tête `X
 | `OMNISEND_API_KEY` | clé API Omnisend (Store settings → Integrations & API → API keys) |
 | `KLAVIYO_API_KEY` | clé privée Klaviyo `pk_...` (Settings → Account → API keys). Créer une clé **lecture seule** (scopes read) : le connecteur n'expose que des lectures. |
 | `KLAVIYO_REVISION` | (optionnel) révision d'API Klaviyo, défaut `2025-04-15` |
+| `SHOPIFY_STORE` | `lasclay.myshopify.com` |
+| `SHOPIFY_CLIENT_ID` | Client ID de l'app « Render connector » (Dev Dashboard) |
+| `SHOPIFY_CLIENT_SECRET` | Client Secret de la même app. Portées à publier pour les cartes-cadeaux : `read_gift_cards`, `write_gift_cards`, `read_customers`, `write_customers` |
+| `SHOPIFY_ADMIN_TOKEN` | (optionnel, voie héritée) jeton Admin fixe `shpat_…` — prioritaire s'il est présent, dispense de `CLIENT_ID`/`CLIENT_SECRET` |
+| `SHOPIFY_API_VERSION` | (optionnel) version de l'API Admin, défaut `2026-01` |
 | `PORT` | (auto, fourni par Render) |
+
+> Les variables `SHOPIFY_*` existent déjà sur le service Render qui exécute `support.js` (voir
+> `SHOPIFY_SETUP.md`). Le **General Proxy est un autre service** : il faut les y recopier, sinon le
+> connecteur reste `enabled: false`. La même app « Render connector » sert les deux.
 
 > QuickBooks : variables déménagées dans le service dédié — voir `finance-proxy/FINANCE_PROXY.md`.
 > Retirer de ce service les anciennes `QBO_*`, `RENDER_API_KEY` et `RENDER_SERVICE_ID` une fois

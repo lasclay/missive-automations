@@ -59,6 +59,17 @@
  *                           lui-même les jetons de Page ; ceux-ci ne sortent
  *                           jamais du serveur.
  *   FB_GRAPH_VERSION        version de l'API Graph (défaut v23.0).            [optionnel]
+ *   SHOPIFY_STORE           domaine myshopify, ex. lasclay.myshopify.com       [connecteur Shopify]
+ *   SHOPIFY_CLIENT_ID       Client ID de l'app « Render connector »            [connecteur Shopify]
+ *   SHOPIFY_CLIENT_SECRET   Client Secret de la même app. Le proxy les échange [connecteur Shopify]
+ *                           contre un jeton de ~24 h (client credentials).
+ *   SHOPIFY_ADMIN_TOKEN     voie héritée : jeton Admin fixe shpat_…, prioritaire [optionnel]
+ *                           s'il est présent (dispense de CLIENT_ID/SECRET).
+ *   SHOPIFY_API_VERSION     version de l'API Admin (défaut 2026-01).          [optionnel]
+ *                           PORTÉES à publier côté Dev Dashboard pour les
+ *                           cartes-cadeaux : read_gift_cards, write_gift_cards,
+ *                           read_customers, write_customers. Sans elles le jeton
+ *                           s'obtient mais les mutations répondent ACCESS_DENIED.
  *   (QuickBooks : service dédié finance-proxy/ — voir finance-proxy/FINANCE_PROXY.md)
  *   PORT                    port d'écoute (fourni par Render)               [auto]
  *
@@ -789,6 +800,336 @@ const klaviyo = (() => {
 })();
 
 // ==========================================================================
+// CONNECTEUR : Shopify Admin (GraphQL — {STORE}/admin/api/{VER}/graphql.json)
+// Auth : app « Render connector » du Dev Dashboard, en CLIENT CREDENTIALS
+// (SHOPIFY_CLIENT_ID + SHOPIFY_CLIENT_SECRET échangés contre un jeton ~24 h,
+// renouvelé ici et gardé EN MÉMOIRE seulement), ou jeton Admin fixe hérité
+// SHOPIFY_ADMIN_TOKEN. Mêmes variables que shopify_check.js / support.js.
+//
+// Pourquoi ce connecteur existe : le connecteur Shopify MCP refuse par
+// politique TOUTE écriture sur les cartes-cadeaux (« gift card operations are
+// not permitted via AI tools — they expose spendable store value »), les
+// remboursements inclus. L'API Admin, elle, expose giftCardCreate depuis
+// toujours. Le blocage était celui de l'outil, pas de Shopify.
+//
+// PORTÉES OAuth requises, à ajouter dans le Dev Dashboard PUIS à publier
+// (« Release ») — sans quoi le jeton est émis mais les mutations répondent
+// ACCESS_DENIED :
+//   read_gift_cards, write_gift_cards   (cartes-cadeaux)
+//   read_customers,  write_customers    (destinataire d'une carte)
+// L'action « diag » affiche les portées réellement portées par le jeton : à
+// lancer en premier quand une mutation est refusée.
+//
+// ⚠️ ARGENT RÉEL : une carte-cadeau est de la valeur dépensable en boutique.
+// giftcardcreate est irréversible au sens strict — une carte émise ne se
+// supprime pas, elle se DÉSACTIVE (giftcarddeactivate), et son envoi courriel
+// au destinataire, lui, ne se rappelle pas.
+// ==========================================================================
+const shopify = (() => {
+  const STORE = process.env.SHOPIFY_STORE || "";
+  const TOKEN = process.env.SHOPIFY_ADMIN_TOKEN || "";
+  const CLIENT_ID = process.env.SHOPIFY_CLIENT_ID || "";
+  const CLIENT_SECRET = process.env.SHOPIFY_CLIENT_SECRET || "";
+  const VER = process.env.SHOPIFY_API_VERSION || "2026-01";
+
+  // Jeton de client credentials : valable ~24 h. Gardé en mémoire, jamais
+  // renvoyé à l'appelant. Renouvelé 5 min avant l'échéance annoncée.
+  let cache = { token: "", exp: 0, scope: "" };
+  async function jeton() {
+    if (TOKEN) return TOKEN;
+    if (cache.token && Date.now() < cache.exp) return cache.token;
+    const body = new URLSearchParams({
+      grant_type: "client_credentials",
+      client_id: CLIENT_ID,
+      client_secret: CLIENT_SECRET,
+    });
+    const res = await fetch(`https://${STORE}/admin/oauth/access_token`, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body,
+    });
+    const text = await res.text();
+    if (!res.ok) throw new Error(`client_credentials → ${res.status} ${caviarder(text).slice(0, 400)}`);
+    const j = JSON.parse(text);
+    cache = {
+      token: j.access_token,
+      exp: Date.now() + Math.max(60, (Number(j.expires_in) || 86400) - 300) * 1000,
+      scope: j.scope || "",
+    };
+    return cache.token;
+  }
+
+  // Un appel GraphQL. Shopify répond 200 même quand la requête échoue : les
+  // erreurs de requête vivent dans `errors`, les refus métier dans les
+  // `userErrors` de chaque mutation. Les deux doivent lever, sinon l'appelant
+  // croit avoir réussi.
+  async function gql(query, variables) {
+    const t = await jeton();
+    const r = await httpJson({
+      method: "POST",
+      url: `https://${STORE}/admin/api/${VER}/graphql.json`,
+      headers: { "X-Shopify-Access-Token": t },
+      body: { query, variables: variables || {} },
+      rateReset: "retry-after",
+    });
+    if (r && Array.isArray(r.errors) && r.errors.length) {
+      throw new Error("GraphQL: " + r.errors.map((e) => e.message).join(" | ").slice(0, 600));
+    }
+    return r.data || {};
+  }
+
+  // Lève sur les userErrors d'une mutation, en gardant le champ fautif.
+  function verifier(payload, nom) {
+    const p = (payload || {})[nom] || {};
+    const errs = p.userErrors || [];
+    if (errs.length) {
+      throw new Error(
+        `${nom}: ` +
+          errs
+            .map((e) => `${(e.field || []).join(".") || "—"} ${e.code ? "[" + e.code + "] " : ""}${e.message}`)
+            .join(" | ")
+            .slice(0, 600)
+      );
+    }
+    return p;
+  }
+
+  const requis = (p, ...champs) => {
+    for (const c of champs) if (!p || p[c] === undefined || p[c] === null || p[c] === "") throw new Error(`${c} requis`);
+    return p;
+  };
+
+  // Accepte un GID complet ou un identifiant numérique nu.
+  const gid = (v, type) =>
+    String(v).startsWith("gid://") ? String(v) : `gid://shopify/${type}/${String(v).replace(/\D/g, "")}`;
+
+  const CHAMPS_CARTE = `
+    id
+    maskedCode
+    lastCharacters
+    enabled
+    createdAt
+    expiresOn
+    note
+    initialValue { amount currencyCode }
+    balance { amount currencyCode }
+    customer { id displayName }
+    recipientAttributes { preferredName message sendNotificationAt }`;
+
+  return {
+    name: "shopify",
+    description:
+      "Shopify Admin GraphQL (boutique Lasclay) — cartes-cadeaux (lecture + émission, ⚠️ valeur dépensable) et clients. Auth client credentials de l'app « Render connector ».",
+    enabled: () => !!(STORE && (TOKEN || (CLIENT_ID && CLIENT_SECRET))),
+    actions: {
+      // ---- DIAGNOSTIC ----
+      // Quelles variables sont posées, quelles PORTÉES porte réellement le
+      // jeton, et quelles versions d'API la boutique accepte. Aucun secret ne
+      // sort : uniquement des booléens et le champ `scope` public du jeton.
+      // À lancer en premier quand une mutation répond ACCESS_DENIED.
+      diag: async () => {
+        const conf = {
+          store: STORE || null,
+          apiVersion: VER,
+          auth: TOKEN
+            ? "SHOPIFY_ADMIN_TOKEN (jeton fixe)"
+            : "client credentials (SHOPIFY_CLIENT_ID + SHOPIFY_CLIENT_SECRET)",
+          SHOPIFY_STORE: !!STORE,
+          SHOPIFY_ADMIN_TOKEN: !!TOKEN,
+          SHOPIFY_CLIENT_ID: !!CLIENT_ID,
+          SHOPIFY_CLIENT_SECRET: !!CLIENT_SECRET,
+        };
+        try {
+          await jeton();
+          const d = await gql(`{
+            shop { name myshopifyDomain currencyCode }
+            publicApiVersions { handle supported }
+          }`);
+          const portees = (cache.scope || "").split(",").filter(Boolean);
+          return {
+            config: conf,
+            shop: d.shop,
+            portees: portees.length ? portees : ["(jeton fixe : portées non annoncées)"],
+            manquantes: ["read_gift_cards", "write_gift_cards", "read_customers", "write_customers"].filter(
+              (s) => portees.length && !portees.includes(s)
+            ),
+            versionsSupportees: (d.publicApiVersions || []).filter((v) => v.supported).map((v) => v.handle),
+          };
+        } catch (e) {
+          return { config: conf, erreur: String(e.message || e).slice(0, 600) };
+        }
+      },
+
+      // ---- LECTURE ----
+      // Cartes-cadeaux. Params : query (syntaxe de recherche Shopify, ex.
+      // "status:enabled"), first (défaut 25), after (curseur).
+      giftcards: (p) =>
+        gql(
+          `query($first:Int!,$after:String,$query:String){
+             giftCards(first:$first, after:$after, query:$query){
+               pageInfo { hasNextPage endCursor }
+               nodes { ${CHAMPS_CARTE} }
+             }
+           }`,
+          {
+            first: Math.min(Number((p && p.first) || 25), 250),
+            after: (p && p.after) || null,
+            query: (p && p.query) || null,
+          }
+        ),
+      // Une carte par son id (GID ou numérique).
+      giftcard: (p) => {
+        requis(p, "id");
+        return gql(`query($id:ID!){ giftCard(id:$id){ ${CHAMPS_CARTE} } }`, { id: gid(p.id, "GiftCard") });
+      },
+      // Clients. Params : query (ex. "email:x@y.com"), first (défaut 25), after.
+      customers: (p) =>
+        gql(
+          `query($first:Int!,$after:String,$query:String){
+             customers(first:$first, after:$after, query:$query){
+               pageInfo { hasNextPage endCursor }
+               nodes { id displayName firstName lastName defaultEmailAddress { emailAddress } createdAt }
+             }
+           }`,
+          {
+            first: Math.min(Number((p && p.first) || 25), 250),
+            after: (p && p.after) || null,
+            query: (p && p.query) || null,
+          }
+        ),
+      // Un client par son id (GID ou numérique).
+      customer: (p) => {
+        requis(p, "id");
+        return gql(
+          `query($id:ID!){ customer(id:$id){ id displayName firstName lastName defaultEmailAddress { emailAddress } createdAt note } }`,
+          { id: gid(p.id, "Customer") }
+        );
+      },
+
+      // ---- ÉCRITURE ----
+      // 🟡 Crée un client. Params : email (requis), firstName, lastName, note.
+      // Aucun consentement marketing n'est posé : un client créé ici n'est PAS
+      // abonné, et ne doit pas l'être à son insu.
+      createcustomer: async (p) => {
+        requis(p, "email");
+        const d = await gql(
+          `mutation($input:CustomerInput!){
+             customerCreate(input:$input){
+               customer { id displayName defaultEmailAddress { emailAddress } }
+               userErrors { field message }
+             }
+           }`,
+          {
+            input: {
+              email: p.email,
+              firstName: p.firstName || null,
+              lastName: p.lastName || null,
+              note: p.note || null,
+            },
+          }
+        );
+        return verifier(d, "customerCreate");
+      },
+
+      // 🔴 ARGENT RÉEL — émet une carte-cadeau, c'est-à-dire de la valeur
+      // dépensable sur lasclay.com. Irréversible au sens strict : une carte
+      // émise se désactive, ne se supprime pas, et le courriel parti ne se
+      // rappelle pas. Ne jamais lancer sans confirmation explicite.
+      //
+      // Params : initialValue (requis, ex. "25.00", dans la devise de la
+      // boutique — CAD), puis le destinataire par customerId OU email (le
+      // client doit DÉJÀ exister : pas de création implicite, appeler
+      // createcustomer d'abord), message, preferredName, note (interne),
+      // expiresOn (AAAA-MM-JJ), code (8-20 alphanumériques), templateSuffix,
+      // et send (défaut true : envoie la carte au destinataire tout de suite ;
+      // false = carte émise mais aucun courriel, à distribuer à la main).
+      giftcardcreate: async (p) => {
+        requis(p, "initialValue");
+        if (!p.customerId && !p.email) throw new Error("customerId ou email requis (le destinataire de la carte)");
+
+        let cid = p.customerId ? gid(p.customerId, "Customer") : null;
+        if (!cid) {
+          const d = await gql(
+            `query($q:String!){ customers(first:2, query:$q){ nodes { id defaultEmailAddress { emailAddress } } } }`,
+            { q: `email:${p.email}` }
+          );
+          const trouves = ((d.customers || {}).nodes) || [];
+          if (!trouves.length)
+            throw new Error(`aucun client Shopify avec le courriel ${p.email} — créer d'abord avec createcustomer`);
+          if (trouves.length > 1)
+            throw new Error(`plusieurs clients avec le courriel ${p.email} — passer customerId explicitement`);
+          cid = trouves[0].id;
+        }
+
+        const envoyer = p.send === undefined ? true : !!p.send;
+        const input = {
+          initialValue: String(p.initialValue),
+          customerId: cid,
+          note: p.note || null,
+          expiresOn: p.expiresOn || null,
+          code: p.code || null,
+          templateSuffix: p.templateSuffix || null,
+        };
+        if (envoyer || p.message || p.preferredName) {
+          input.recipientAttributes = {
+            id: cid,
+            message: p.message || null,
+            preferredName: p.preferredName || null,
+            // Shopify envoie « dans l'heure » suivant cette date : maintenant = tout de suite.
+            sendNotificationAt: envoyer ? new Date().toISOString() : null,
+          };
+        }
+
+        const d = await gql(
+          `mutation($input:GiftCardCreateInput!){
+             giftCardCreate(input:$input){
+               giftCard { ${CHAMPS_CARTE} }
+               giftCardCode
+               userErrors { field message code }
+             }
+           }`,
+          { input }
+        );
+        return verifier(d, "giftCardCreate");
+      },
+
+      // 🟡 (Ré)envoie la carte à son destinataire — un vrai courriel part.
+      // Params : id (requis).
+      giftcardsend: async (p) => {
+        requis(p, "id");
+        const d = await gql(
+          `mutation($id:ID!){
+             giftCardSendNotificationToRecipient(id:$id){
+               giftCard { id lastCharacters }
+               userErrors { field message code }
+             }
+           }`,
+          { id: gid(p.id, "GiftCard") }
+        );
+        return verifier(d, "giftCardSendNotificationToRecipient");
+      },
+
+      // 🔴 Désactive une carte-cadeau : son solde devient inutilisable. C'est
+      // le seul recours après une émission erronée — une carte ne se supprime
+      // pas. Params : id (requis).
+      giftcarddeactivate: async (p) => {
+        requis(p, "id");
+        const d = await gql(
+          `mutation($id:ID!){
+             giftCardDeactivate(id:$id){
+               giftCard { id lastCharacters enabled deactivatedAt }
+               userErrors { field message }
+             }
+           }`,
+          { id: gid(p.id, "GiftCard") }
+        );
+        return verifier(d, "giftCardDeactivate");
+      },
+    },
+  };
+})();
+
+// ==========================================================================
 // REGISTRE DES CONNECTEURS — ajouter un nouveau connecteur = ajouter une entrée.
 // ==========================================================================
 const CONNECTEURS = {
@@ -796,6 +1137,7 @@ const CONNECTEURS = {
   [shipstation2.name]: shipstation2,
   [omnisend.name]: omnisend,
   [klaviyo.name]: klaviyo,
+  [shopify.name]: shopify,
   [facebook.name]: facebook,
   [composio.name]: composio,
 };
