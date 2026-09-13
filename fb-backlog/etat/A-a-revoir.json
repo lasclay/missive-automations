@@ -4372,6 +4372,16 @@
       "motif": "offre ou boutade de collaboration (« viens travailler avec moi, je grind pres de 10 000 kg par jour ») : sens ambigu, on ignore de quel broyage il s'agit et s'il s'agit d'une proposition d'affaires ou d'une blague. Rien de verifie a repondre, et une reponse legere risquerait de passer a cote d'une vraie offre — merite un coup d'oeil humain",
       "ecarte_le": "2026-09-11",
       "tir": "A"
+    },
+    {
+      "id": "1674454204688389_1129102466292680",
+      "page_id": "104242204750257",
+      "date": "2026-09-13T01:00:16+0000",
+      "message": "Nicolas Gignac same…",
+      "lien": "https://www.facebook.com/reel/939615099187539/?comment_id=1441519637941260&reply_comment_id=1129102466292680",
+      "motif": "Appui (« same… ») a une critique sur l'enrobage de plastique des bombes semencieres, adresse a un autre abonne et non a la Page. Rien de verifie dans faits-verifies.json sur la composition de l'enrobage : impossible de repondre sans inventer. Merite une reponse humaine, ou une ligne verifiee a ajouter aux faits.",
+      "ecarte_le": "2026-09-12",
+      "tir": "A"
     }
   ]
 }
