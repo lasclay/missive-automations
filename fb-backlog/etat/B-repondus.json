@@ -1456,8 +1456,24 @@
       "quand": "2026-09-13T10:27:14.422Z",
       "confirme": true,
       "texte": "Milkweed wants full sun — shade is not the place for it. Give it the most open, sunniest spot you have."
+    },
+    {
+      "id": "122142471404483418_937267485440476",
+      "reponse_id": "122142471404483418_4247227295410485",
+      "page_id": "368305119707866",
+      "quand": "2026-09-13T12:27:24.238Z",
+      "confirme": true,
+      "texte": "Eleven, all North American natives: Asclepias syriaca, tuberosa, incarnata, speciosa, exaltata, verticillata, fascicularis, sullivantii, viridis, labriformis and angustifolia. No tropical milkweed among them."
+    },
+    {
+      "id": "122142471404483418_912553648036146",
+      "reponse_id": "122142471404483418_1081169374546167",
+      "page_id": "368305119707866",
+      "quand": "2026-09-13T12:29:05.454Z",
+      "confirme": true,
+      "texte": "Deer generally leave it alone. The latex in the leaves and stems is bitter, and grazing animals give it a wide berth."
     }
   ],
-  "derniere_execution": "2026-09-13T10:27:14.422Z",
-  "total": 182
+  "derniere_execution": "2026-09-13T12:29:05.454Z",
+  "total": 184
 }
