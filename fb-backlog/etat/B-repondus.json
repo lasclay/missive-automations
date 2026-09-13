@@ -1440,8 +1440,16 @@
       "quand": "2026-09-11T23:31:38.295Z",
       "confirme": true,
       "texte": "The website is lasclay.com — you can pass that along on its own, no Facebook account needed at their end."
+    },
+    {
+      "id": "122142471404483418_2011805016034438",
+      "reponse_id": "122142471404483418_1120913737276635",
+      "page_id": "368305119707866",
+      "quand": "2026-09-12T14:28:07.324Z",
+      "confirme": true,
+      "texte": "Whatever you read there had it wrong. The range runs through zone 9, which takes in northern California comfortably."
     }
   ],
-  "derniere_execution": "2026-09-11T23:31:38.295Z",
-  "total": 180
+  "derniere_execution": "2026-09-12T14:28:07.325Z",
+  "total": 181
 }
