@@ -6863,6 +6863,34 @@
       "motif": "Remerciement laconique.",
       "page_id": "114311920399404",
       "quand": "2026-09-13T22:39:44.940Z"
+    },
+    {
+      "id": "500400911790501_1264959994153602",
+      "extrait": "moi aussi !",
+      "motif": "Approbation laconique entre abonnees.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-13T23:38:17.354Z"
+    },
+    {
+      "id": "500400911790501_1404639740486080",
+      "extrait": "vous etes dans quel secteur",
+      "motif": "Question de localisation posee a une autre abonnee.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-13T23:38:17.354Z"
+    },
+    {
+      "id": "500400911790501_159195823882052",
+      "extrait": "Je fais ma petite part",
+      "motif": "Message laconique sans question.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-13T23:38:17.354Z"
+    },
+    {
+      "id": "500400911790501_3530415907170161",
+      "extrait": "je plante aussi! Bienvenue a elles dans le chemin du vide!",
+      "motif": "Echange enthousiaste entre abonnees ; rien a ajouter.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-13T23:38:17.354Z"
     }
   ]
 }
