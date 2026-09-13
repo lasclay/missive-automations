@@ -4382,6 +4382,16 @@
       "motif": "Appui (« same… ») a une critique sur l'enrobage de plastique des bombes semencieres, adresse a un autre abonne et non a la Page. Rien de verifie dans faits-verifies.json sur la composition de l'enrobage : impossible de repondre sans inventer. Merite une reponse humaine, ou une ligne verifiee a ajouter aux faits.",
       "ecarte_le": "2026-09-12",
       "tir": "A"
+    },
+    {
+      "id": "1674454204688389_912719608264072",
+      "page_id": "104242204750257",
+      "date": "2026-09-13T19:17:30+0000",
+      "message": "Vivianne Fournier avec ses graines???",
+      "lien": "https://www.facebook.com/reel/939615099187539/?comment_id=1651506083101070&reply_comment_id=912719608264072",
+      "motif": "Question adressee a un autre abonne (Vivianne Fournier) dans un sous-fil sur le passage a Dragon : « avec ses graines??? ». Y repondre obligerait a confirmer ou detailler le contenu de l'emission, ce qu'on ne fait pas. Rien de verifie la-dessus dans faits-verifies.json. A laisser a un humain si on veut cadrer une ligne publique sur l'emission.",
+      "ecarte_le": "2026-09-13",
+      "tir": "A"
     }
   ]
 }
