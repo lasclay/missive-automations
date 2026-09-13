@@ -5,13 +5,23 @@ la source est `revue/registre.json`, et tout changement d'état passe par le scr
 
 | État | Nombre |
 | --- | --- |
-| proposee | 10 |
+| proposee | 11 |
 | approuvee | 0 |
 | appliquee | 0 |
 | refusee | 0 |
 | reportee | 2 |
 
-## En attente d'approbation (10)
+## En attente d'approbation (11)
+
+### R-20260912-01 — Juger les tirs du backlog sur le travail qui reste, pas sur le temps ecoule
+
+- **Gravité** : majeur · **Effort** : 1 h 30 · **Proposé le** : 2026-09-12
+- **Source** : revue 2026-09-12
+- **Constat** : Le seuil de fraicheur en heures s'est trompe dans les deux sens sur le meme tir en neuf jours. Du 4 au 9 septembre il a affiche « a jour » pendant que je croyais le tir A en panne — et il avait raison, mais pour une mauvaise raison : le tir avait simplement fini de vider un arriere historique. Le 12 septembre il affiche « PERIMEE (35,5 h) » alors que le tir n'a rien laisse derriere lui. Un seuil en heures mesure le temps ; la question utile est : reste-t-il du travail non fait ?
+- **Preuve** : Verifications manuelles concordantes, faites trois fois par lecture directe de l'API Meta. 10 septembre : sur les deux dernieres publications de la page Lasclay, 20 commentaires du public, 17 connus du tir A, 3 inconnus qui sont « Bravo! », « Bravo! » et « Fais du gaz ». 12 septembre : publication du 10 septembre, 3 commentaires du public, 3 traites, 0 inconnu ; publication du 8 septembre, 7 du public, 5 traites, 2 inconnus qui sont « Bravo! » et « Bravo! ». Age median des commentaires traites avant le 4 septembre : 182 jours, le plus vieux 2153 jours — l'arriere historique. Verdict de la collecte ce soir : PERIMEE 35,5 h, seuil 30 h.
+- **Proposition** : Remplacer dans collecte.js le verdict de fraicheur des quatre tirs par une mesure de reste-a-faire : pour chaque tir, lire les commentaires du public des trois dernieres publications de sa page via l'action facebook comments du General Proxy, retirer ceux qui figurent deja dans -repondus.json ou -a-revoir.json, et rendre le compte des non traites. Un tir sans rien a faire est sain quel que soit son silence ; un tir avec des commentaires non traites qui s'accumulent est en retard meme s'il a ecrit une ligne il y a une heure.
+- **Portée** : revue/collecte.js, revue/routines.json
+- **Risque** : La mesure consomme trois appels Meta par tir a chaque tour, soit douze : il faut la borner et la degrader proprement en disant « non collecte » si le proxy ne repond pas, sans faire echouer le tour. Elle ne voit que les publications recentes, donc elle ne dira rien d'un arriere sur d'anciennes publications — c'est acceptable, puisque c'est precisement l'arriere que le tir A vient de finir de vider. Et le compte des non traites inclura toujours les felicitations sans question que REGLES.md ecarte a juste titre : le seuil d'alerte doit donc etre fixe apres observation, pas devine, sinon la revue criera au retard sur des « Bravo! ».
 
 ### R-20260905-01 — Faire entrer les echecs 502 et les doublons dans la mesure de qualite
 
