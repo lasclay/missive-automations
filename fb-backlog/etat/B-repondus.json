@@ -1472,8 +1472,16 @@
       "quand": "2026-09-13T12:29:05.454Z",
       "confirme": true,
       "texte": "Deer generally leave it alone. The latex in the leaves and stems is bitter, and grazing animals give it a wide berth."
+    },
+    {
+      "id": "122142471404483418_1486440596334382",
+      "reponse_id": "122142471404483418_1402806897931678",
+      "page_id": "368305119707866",
+      "quand": "2026-09-13T15:27:57.003Z",
+      "confirme": true,
+      "texte": "Milkweed puts its first season into roots and flowers in its second year, so no blooms this year whatever the planting date. The wait is only the once."
     }
   ],
-  "derniere_execution": "2026-09-13T12:29:05.454Z",
-  "total": 184
+  "derniere_execution": "2026-09-13T15:27:57.004Z",
+  "total": 185
 }
