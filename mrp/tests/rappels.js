@@ -96,9 +96,13 @@ C2.envoyerRappel({ courriel: 'x@y.z', nom: 'Test', echeance: '2026-09-18', aujou
     t('le message dit qu\'il est automatique',
       /automatique/i.test(r.apercu.corps));
     t('il dit où répondre — pas dans la boîte support',
-      /dans l'app plutôt qu'ici/.test(r.apercu.corps));
+      /écris la note dans l'app/.test(r.apercu.corps));
+    // Un rappel hebdomadaire se lit en diagonale dès la deuxième fois : ce qui
+    // dépasse six lignes utiles ne sera pas lu.
+    t('le corps tient en douze lignes',
+      r.apercu.corps.split('\n').length <= 14);
     t('le pied de page annonce le bon jour',
-      /chaque vendredi matin/.test(r.apercu.corps));
+      /chaque vendredi/.test(r.apercu.corps));
     console.log(`\n  ${ok} réussites, ${ko} échecs`);
     process.exit(ko ? 1 : 0);
   });
