@@ -1450,6 +1450,25 @@ if (require.main === module) {
     // quelques secondes plus tard. Sur une base déjà peuplée — le cas normal
     // d'un redéploiement — rien ne change à l'écran pendant ce temps.
     setImmediate(() => require('./amorce.js').amorcerDonnees());
+
+    // Le rappel hebdomadaire de l'atelier. Une minuterie horaire plutôt qu'un
+    // cron : le service tourne déjà en continu, et un cron externe serait une
+    // pièce de plus à configurer, à surveiller, et à oublier. Poser la tâche
+    // est idempotent — repasser toutes les heures ne crée rien de neuf.
+    //
+    // `unref()` pour que la minuterie n'empêche jamais le processus de sortir :
+    // un service qu'on ne peut pas arrêter proprement est un service qu'on tue.
+    if (process.env.MRP_SANS_RAPPELS !== '1') {
+      const rappels = require('./rappels.js');
+      const tour = () => rappels.verifierRappels().then(r => {
+        for (const l of r.journal) console.log(`[mrp] rappel : ${l}`);
+        for (const c of r.courriels)
+          console.log(`[mrp] rappel courriel ${c.nom} : ${
+            c.envoye ? 'envoyé' : 'non envoyé — ' + c.pourquoi}`);
+      }).catch(e => console.error('[mrp] rappel : échec —', String(e.message || e)));
+      setImmediate(tour);
+      setInterval(tour, 3600e3).unref();
+    }
   });
 }
 
