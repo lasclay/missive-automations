@@ -12,10 +12,12 @@ ko(){ printf "  [ÉCHEC] %s\n" "$1"; kill $SRV 2>/dev/null; exit 1; }
 # lignes qu'ils écrivent EUX-MÊMES : trente-quatre produits et cent trente-trois
 # points de contrôle arrivant sous leurs pieds feraient échouer des assertions
 # justes. D'où MRP_SANS_AMORCE=1 sur chaque lancement de serveur ci-dessous.
+# MRP_SANS_RAPPELS=1 pour la même raison : le rappel hebdomadaire crée une tâche
+# par compte d'atelier, et les tests comptent les tâches qu'ils écrivent eux-mêmes.
 node mrp.js demo >/dev/null 2>&1
 node mrp.js utilisateur:creer a@test.com motdepasse1 "Admin" admin >/dev/null 2>&1
 node mrp.js utilisateur:creer o@test.com motdepasse2 "Atelier" atelier >/dev/null 2>&1
-PORT=$PORT MRP_SANS_AMORCE=1 node --no-warnings server.js >/dev/null 2>&1 & SRV=$!
+PORT=$PORT MRP_SANS_AMORCE=1 MRP_SANS_RAPPELS=1 node --no-warnings server.js >/dev/null 2>&1 & SRV=$!
 trap 'kill $SRV 2>/dev/null' EXIT
 sleep 1.5
 B="http://localhost:$PORT"; CA=$(mktemp); CO=$(mktemp)
@@ -952,7 +954,7 @@ curl -s -b $CO2 -o /dev/null -w '%{redirect_url}' -X POST $B/compte/nom \
 kill $SRV 2>/dev/null; wait $SRV 2>/dev/null || true
 NEUVE=$(mktemp -d)/neuve.db
 MRP_DB="$NEUVE" MRP_ADMIN_COURRIEL=chef@test.com MRP_ADMIN_MDP=motdepasse9 \
-  PORT=$((PORT+1)) MRP_SANS_AMORCE=1 node --no-warnings server.js >/dev/null 2>&1 & SRV=$!
+  PORT=$((PORT+1)) MRP_SANS_AMORCE=1 MRP_SANS_RAPPELS=1 node --no-warnings server.js >/dev/null 2>&1 & SRV=$!
 sleep 1.5
 [ "$(MRP_DB="$NEUVE" node --no-warnings mrp.js utilisateur:liste | grep -c 'chef@test.com .*Admin QC')" = 1 ] \
   && ok "amorce : le premier compte est créé sur une base neuve" \
@@ -961,7 +963,7 @@ kill $SRV 2>/dev/null; wait $SRV 2>/dev/null || true
 
 # relance avec d'autres identifiants : la base n'est plus vide, rien ne bouge
 MRP_DB="$NEUVE" MRP_ADMIN_COURRIEL=intrus@test.com MRP_ADMIN_MDP=motdepasse9 \
-  PORT=$((PORT+1)) MRP_SANS_AMORCE=1 node --no-warnings server.js >/dev/null 2>&1 & SRV=$!
+  PORT=$((PORT+1)) MRP_SANS_AMORCE=1 MRP_SANS_RAPPELS=1 node --no-warnings server.js >/dev/null 2>&1 & SRV=$!
 sleep 1.5
 [ "$(MRP_DB="$NEUVE" node --no-warnings mrp.js utilisateur:liste | grep -c intrus)" = 0 ] \
   && ok "amorce : sans effet sur une base déjà peuplée" \
@@ -973,7 +975,7 @@ kill $SRV 2>/dev/null; wait $SRV 2>/dev/null || true
 # mot de passe trop court : refusé, et le service démarre quand même
 COURT=$(mktemp -d)/court.db
 MRP_DB="$COURT" MRP_ADMIN_COURRIEL=x@test.com MRP_ADMIN_MDP=court \
-  PORT=$((PORT+2)) MRP_SANS_AMORCE=1 node --no-warnings server.js >/dev/null 2>&1 & SRV=$!
+  PORT=$((PORT+2)) MRP_SANS_AMORCE=1 MRP_SANS_RAPPELS=1 node --no-warnings server.js >/dev/null 2>&1 & SRV=$!
 sleep 1.5
 [ "$(curl -s -o /dev/null -w '%{http_code}' http://localhost:$((PORT+2))/sante)" = 200 ] \
   && [ "$(MRP_DB="$COURT" node --no-warnings mrp.js utilisateur:liste | grep -c .)" = 0 ] \
