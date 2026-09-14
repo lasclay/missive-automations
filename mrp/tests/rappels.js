@@ -81,7 +81,10 @@ t('lundi matin : on n\'envoie pas',      !R.estMomentEnvoi(new Date('2026-09-14T
 t('samedi : la semaine est finie',      !R.estMomentEnvoi(new Date('2026-09-19T08:00:00Z')));
 t('jeudi soir : pas encore',            !R.estMomentEnvoi(new Date('2026-09-17T20:00:00Z')));
 
-C2.envoyerRappel({ courriel: 'x@y.z', nom: 'Test', echeance: '2026-09-18', aujourdhui: true })
+// Le message est STANDARD : le même tous les vendredis, sans chiffre qui
+// vieillit. C'est ce qui le rend aussi planifiable ailleurs.
+C2.envoyerRappel({ courriel: 'x@y.z', nom: 'Test', echeance: '2026-09-18',
+                   restants: 12, aujourdhui: true })
   .then(r => {
     t('sans armement, rien ne part', r.envoye === false);
     t('mais le message est composé et lisible',
@@ -103,6 +106,8 @@ C2.envoyerRappel({ courriel: 'x@y.z', nom: 'Test', echeance: '2026-09-18', aujou
       r.apercu.corps.split('\n').length <= 14);
     t('le pied de page annonce le bon jour',
       /chaque vendredi/.test(r.apercu.corps));
+    t("aucun chiffre vivant : le texte ne vieillit pas",
+      !/12/.test(r.apercu.corps) && !/lots? à 0/.test(r.apercu.corps));
     console.log(`\n  ${ok} réussites, ${ko} échecs`);
     process.exit(ko ? 1 : 0);
   });

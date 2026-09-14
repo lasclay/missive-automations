@@ -95,14 +95,22 @@ const enFrancais = (iso) => new Date(iso + 'T00:00:00Z').toLocaleDateString('fr-
  * qui ressemble à une relance personnelle de Gabriel. Et il dit où répondre :
  * une réponse à ce courriel atterrit dans la boîte support, au milieu des
  * clients.
+ *
+ * AUCUN CHIFFRE VIVANT DEDANS
+ *
+ * Le texte a un temps porté « il reste 12 lots à 0 % ». C'était plus utile, et
+ * ça rendait le message impossible à planifier ailleurs : un envoi programmé
+ * dans Missive fige son texte au moment où on le programme, et le compte
+ * aurait menti dès la semaine suivante. Le message est donc STANDARD — le même
+ * tous les vendredis, valable qu'il parte du MRP ou d'un envoi planifié. Le
+ * chiffre qui bouge est à un clic, dans l'app, où il est juste.
  */
 const TEXTE = ({ nom, echeance, restants, aujourdhui }) => `Bonjour ${nom},
 
 Où en est chaque lot ? À déclarer ${aujourdhui ? "aujourd'hui" : `avant ${enFrancais(echeance)}`} :
 ${APP}/ordres
 
-Mets le pourcentage partout, même là où rien n'a bougé.${
-  restants ? ` Il reste ${restants} lot${restants > 1 ? 's' : ''} à 0 %.` : ''}
+Mets le pourcentage partout, même là où rien n'a bougé.
 
 Un blocage ? Écris-le en note sur le lot.
 
