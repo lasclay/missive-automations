@@ -116,7 +116,8 @@ Tirées de `VOLCANO/PHOTOS/` dans le Drive (`02_Mai 2026` et `03_Saguenay`).
 | --- | --- | --- |
 | `lasclay-monarque-asclepiade.jpg` | `Monarque_Lasclay_Volcano-11` | le monarque sur l'asclépiade |
 | `lasclay-asclepiade-graine-soie.jpg` | `Photos_Mai2026_..._11` | la graine et sa soie en parachute |
-| `lasclay-producteurs-asclepiade.jpg` | `Sabin_Lasclay_Volcano-2` | les producteurs dans leur champ |
+| `lasclay-producteur-asclepiade-main.jpg` | `Sabin_Lasclay_Volcano-4` | la main d'un producteur sur une tige |
+| `lasclay-producteurs-asclepiade.jpg` | `Sabin_Lasclay_Volcano-2` | téléversée puis écartée (la conjointe ne veut pas être photographiée) |
 | `lasclay-champ-asclepiade.jpg` | `Asclepiade_Lasclay_Volcano-53` | un champ en fleur |
 | `lasclay-atelier-soie-asclepiade.jpg` | `Photos_Mai2026_..._45` | la soie brute à l'atelier |
 | `lasclay-asclepiade-coucher-soleil.jpg` | `Asclepiade_Lasclay_Volcano-29` | image de fermeture |
@@ -143,26 +144,45 @@ Recommandation : voir la section « Où pointer le bandeau » ci-dessous.
 
 ## 5b. Passe de copywriting (skills `copywriting-lasclay` + `lasclay-master`)
 
-Le texte a été réécrit contre la grille du skill. Ce qui a changé :
+Deux passes. La seconde applique les corrections de Gabriel.
+
+### Retenu
 
 - **Cadratins retirés.** La convention Lasclay les interdit ; il y en avait partout.
 - **Nouvelle accroche.** Le texte ouvrait sur une date. Il part maintenant d'un
   frottement réel : en anglais la plante s'appelle *milkweed*, le mot contient
   déjà *weed*.
-- **Section « Ce qui se fait ici, et ce qui ne s'y fait pas » ajoutée.** Une page
-  qui va recevoir du trafic pancanadien sans dire où les produits sont assemblés,
-  c'est du localwashing par omission. Elle reprend les faits de la page
-  Transparence et y renvoie.
-- **Retrait de « 25 % plus chaud que le duvet ».** `lasclay-master` donne ~10 %
-  (Knudsen et Zeller, 1993) et demande d'expliquer le mécanisme plutôt que de
-  promettre. Le texte décrit maintenant le tube creux, la cire hydrophobe et
-  l'air emprisonné. **À trancher avec Gabriel** : la planche d'échantillons et les
-  publications Facebook affichent 25 %.
-- **Correction factuelle.** La transformation de la soie se fait à **Cowansville,
-  en Estrie**, pas à Limoilou. Limoilou, c'est la conception, la R et D et le
-  contrôle qualité.
+- **Titres réécrits.** Les « Ce qu'on est allés faire là », « Ce qu'on a apporté
+  sur le plateau », « Ce qu'on ne peut pas vous dire » étaient peu évocateurs.
+  Remplacés par : « La plante qu'on arrache entre deux rangs de maïs »,
+  « Un plant d'asclépiade sur le tableau de bord », « Rendez-vous le
+  17 septembre ». « Une filière qui revient de loin » est conservé.
+- **Phrases de prudence supprimées.** « Acheter une paire de mitaines ne sauve
+  pas un papillon en particulier » et « notre raisonnement est économique avant
+  d'être militant » étaient des tournures antithétiques malhabiles. Remplacées
+  par une formulation affirmative : « L'asclépiade a disparu des champs parce
+  qu'elle ne rapportait rien. C'est exactement là-dessus qu'on travaille. »
+- **Section « Ce qu'on ne peut pas vous dire » supprimée.** Elle occupait une
+  section pour ne rien dire. La page se termine maintenant sur une invitation à
+  regarder l'émission et à commander.
 - **Coût nommé** (« aller en reparler à la télévision nationale nous rend un peu
-  nerveux »), antithèses ramenées à une seule choisie, fin sur un fait.
+  nerveux »), fin sur un fait.
+
+### Écarté après relecture de Gabriel
+
+- **Section sur le lieu de fabrication : retirée.** Le pivot manufacturier n'a
+  pas besoin d'être abordé sur cette page-ci. Il reste documenté sur la page
+  Transparence et dans les articles du blogue, vers lesquels la page ne pointe
+  plus directement pour cette raison.
+- **« 25 % plus chaud que le duvet » : conservé.** C'est prouvé. La mention
+  figure dans le paragraphe sur le mécanisme de la fibre.
+- **Cowansville et Limoilou : retirés.** Le détail des lieux de transformation
+  n'est pas pertinent ici. La page dit simplement que l'isolant est cultivé et
+  transformé au Québec, ce qui est vrai de toute la transformation
+  d'asclépiade.
+- **Photo des producteurs : remplacée.** La première montrait le couple ; la
+  conjointe ne souhaite pas être photographiée. Remplacée par
+  `Sabin_Lasclay_Volcano-4` (la main d'un producteur sur une tige), sans visage.
 
 ### Liens vers le blogue
 
@@ -172,9 +192,16 @@ Le texte a été réécrit contre la grille du skill. Ce qui a changé :
 | `/blogs/journal/recolte-asclepiade` | « la récolte était trop complexe » |
 | `/blogs/journal/soie-amerique-nouvelle-france` | les essais antérieurs |
 | `/blogs/journal/asclepiade-seconde-guerre-mondiale` | « deux sacs sauvent une vie » |
-| `/blogs/transparence/manteaux-asclepiade-delocalisation-quebec` | le virage manufacturier |
 
 Les versions anglaises pointent vers les mêmes articles préfixés `/en/`.
+
+### Structure finale
+
+1. Accroche (*milkweed* contient *weed*) et annonce
+2. La plante qu'on arrache entre deux rangs de maïs
+3. Une filière qui revient de loin
+4. Un plant d'asclépiade sur le tableau de bord
+5. Rendez-vous le 17 septembre (diffusion, code DRAGONS15, bouton boutique)
 
 ## 6. À faire avant la diffusion
 
