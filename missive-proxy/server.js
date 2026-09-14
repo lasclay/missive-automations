@@ -40,7 +40,7 @@
  *   POST /contacts   {search, book, limit} → retrouve un contact déjà connu de la boîte.
  *                                       `search` porte sur nom, courriel, téléphone,
  *                                       organisation. Sans `book`, balaie tous les carnets.
- *   POST /send       {from, to[], cc[], bcc[], subject, body, send,
+ *   POST /send       {from, to[], cc[], bcc[], subject, body, send, send_at,
  *                     attachments[]}  → COURRIEL NEUF, hors de tout fil existant.
  *                                       Même endpoint Missive que /reply, sans
  *                                       `conversation` : ouvre un nouveau fil.
@@ -501,7 +501,8 @@ async function findContacts({ search, book, limit }) {
 // apparaît dans Missive et attend qu'un humain appuie sur envoyer. C'est le
 // garde-fou principal de cette route, un courriel envoyé ne se rappelle pas.
 const MAX_DEST = 5; // barrière anti-envoi de masse : cette route sert au contact ciblé
-async function sendNew({ from, to, cc, bcc, subject, body, send, attachments, signature }) {
+async function sendNew({ from, to, cc, bcc, subject, body, send, attachments, signature,
+                         send_at: sendAt }) {
   const dest = [...(to || []), ...(cc || []), ...(bcc || [])];
   if (dest.length > MAX_DEST) {
     throw new Error(`${dest.length} destinataires demandés, maximum ${MAX_DEST}. Cette route sert au contact ciblé, pas à l'envoi de masse.`);
@@ -522,6 +523,25 @@ async function sendNew({ from, to, cc, bcc, subject, body, send, attachments, si
       .map((a) => ({ base64_data: a.base64_data, filename: String(a.filename).slice(0, 255) }));
   }
   if (send) draft.send = true;
+  // Envoi différé. Missive accepte `send_at`, un horodatage Unix en SECONDES,
+  // et ne l'honore qu'avec `send: true` — un brouillon planifié qui attendrait
+  // aussi qu'on appuie sur envoyer ne partirait jamais. On refuse donc une
+  // date sans envoi plutôt que de créer ce brouillon fantôme, et une date
+  // passée plutôt que de laisser Missive décider ce que ça veut dire.
+  if (sendAt !== undefined && sendAt !== null && sendAt !== "") {
+    const t = Number(sendAt);
+    if (!Number.isFinite(t) || !Number.isInteger(t)) {
+      throw new Error("send_at doit être un horodatage Unix en secondes.");
+    }
+    if (!send) {
+      throw new Error("send_at sans send:true ne part jamais — Missive ne planifie que les envois.");
+    }
+    const maintenant = Math.floor(Date.now() / 1000);
+    if (t <= maintenant) {
+      throw new Error(`send_at est dans le passé (${new Date(t * 1000).toISOString()}).`);
+    }
+    draft.send_at = t;
+  }
   return mSend("POST", "/drafts", { drafts: draft });
 }
 
@@ -638,6 +658,10 @@ const server = http.createServer(async (req, res) => {
       return json(res, 200, {
         ok: true,
         sent: !!body.send,
+        // Planifié : le message existe mais n'est pas encore parti. Le dire,
+        // sinon « sent: true » laisse croire qu'il est déjà chez le
+        // destinataire.
+        scheduled_at: body.send_at ? new Date(Number(body.send_at) * 1000).toISOString() : null,
         draft: r.drafts?.id || null,
         conversation: r.drafts?.conversation || null,
       });
