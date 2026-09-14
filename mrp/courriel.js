@@ -73,6 +73,11 @@ function poste(chemin, charge) {
   });
 }
 
+/** L'objet dit la même chose que la première phrase, et il la dit court. */
+const objetPour = (echeance, aujourdhui) => aujourdhui
+  ? "Avancement à déclarer aujourd'hui"
+  : `Avancement à déclarer avant ${enFrancais(echeance)}`;
+
 /** « 2026-09-18 » ne se lit pas. « vendredi 18 septembre », oui. */
 const enFrancais = (iso) => new Date(iso + 'T00:00:00Z').toLocaleDateString('fr-CA',
   { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC' });
@@ -81,14 +86,16 @@ const enFrancais = (iso) => new Date(iso + 'T00:00:00Z').toLocaleDateString('fr-
  * Le message. Court exprès : un rappel qui explique longuement pourquoi il
  * existe se lit comme un reproche, et celui-ci revient toutes les semaines.
  *
- * Il dit qu'il est automatique. Sans ça, Montassar reçoit chaque lundi ce qui
+ * Il dit qu'il est automatique. Sans ça, Montassar reçoit chaque vendredi ce qui
  * ressemble à un rappel personnel de Gabriel — et ça, au bout d'un mois, c'est
  * insultant. Il dit aussi où répondre : une réponse à ce courriel atterrit
  * dans la boîte support, au milieu des clients.
  */
-const TEXTE = ({ nom, echeance, restants }) => `Bonjour ${nom},
+const TEXTE = ({ nom, echeance, restants, aujourdhui }) => `Bonjour ${nom},
 
-Rappel de la semaine : déclarer où en est chaque lot, avant ${enFrancais(echeance)}.
+Rappel de la semaine : déclarer où en est chaque lot${
+  aujourdhui ? ", aujourd'hui avant la fin de la journée"
+             : `, avant ${enFrancais(echeance)}`}.
 
 ${APP}/ordres
 
@@ -100,7 +107,7 @@ Merci,
 Lasclay
 
 —
-Message automatique du MRP, envoyé chaque lundi. Pour répondre, écris la note
+Message automatique du MRP, envoyé chaque vendredi matin. Pour répondre, écris la note
 dans l'app plutôt qu'ici : ce courriel arrive dans la boîte support, au milieu
 des clients.`;
 
@@ -108,7 +115,8 @@ des clients.`;
  * Envoie le rappel hebdomadaire à une personne.
  * Renvoie { envoye:true } ou { envoye:false, pourquoi }.
  */
-async function envoyerRappel({ courriel, nom, echeance, restants = 0 }) {
+async function envoyerRappel({ courriel, nom, echeance, restants = 0,
+                               aujourdhui = false }) {
   if (!courriel) return { envoye: false, pourquoi: 'aucune adresse au compte' };
   const off = coupure();
   if (off) {
@@ -116,15 +124,15 @@ async function envoyerRappel({ courriel, nom, echeance, restants = 0 }) {
     // message sans avoir à l'envoyer pour le lire.
     console.log(`[mrp] courriel non armé (${off}) — rappel non envoyé à ${courriel}`);
     return { envoye: false, pourquoi: off,
-             apercu: { a: courriel, objet: `Avancement à déclarer avant ${enFrancais(echeance)}`,
-                       corps: TEXTE({ nom: nom || '', echeance, restants }) } };
+             apercu: { a: courriel, objet: objetPour(echeance, aujourdhui),
+                       corps: TEXTE({ nom: nom || '', echeance, restants, aujourdhui }) } };
   }
   try {
     await poste('/send', {
       from: EXPEDITEUR,
       to: [courriel],
-      subject: `Avancement à déclarer avant ${enFrancais(echeance)}`,
-      body: TEXTE({ nom: nom || '', echeance, restants }),
+      subject: objetPour(echeance, aujourdhui),
+      body: TEXTE({ nom: nom || '', echeance, restants, aujourdhui }),
       // `send: true` : un rappel qui attend qu'un humain appuie sur envoyer
       // n'est pas un rappel. C'est la seule route du MRP qui sort vers
       // quelqu'un, et elle n'écrit qu'à des comptes de l'équipe.

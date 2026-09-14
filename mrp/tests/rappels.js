@@ -71,19 +71,34 @@ const C2 = require('../courriel.js');
 t("un secret présent n'arme PAS l'envoi",
   C2.coupure() === 'MRP_COURRIEL_ARME absent');
 
-C2.envoyerRappel({ courriel: 'x@y.z', nom: 'Test', echeance: '2026-09-18' })
+// ------------------------------------------------------- le moment de l'envoi
+// Vendredi matin, heure de Tunis. La tâche est posée le lundi et reste visible
+// toute la semaine ; le courriel sonne le jour de l'échéance, quand il reste
+// une journée pour agir.
+t('vendredi 9 h à Tunis : on envoie',    R.estMomentEnvoi(new Date('2026-09-18T08:00:00Z')));
+t('vendredi 5 h : trop tôt',            !R.estMomentEnvoi(new Date('2026-09-18T04:00:00Z')));
+t('lundi matin : on n\'envoie pas',      !R.estMomentEnvoi(new Date('2026-09-14T08:00:00Z')));
+t('samedi : la semaine est finie',      !R.estMomentEnvoi(new Date('2026-09-19T08:00:00Z')));
+t('jeudi soir : pas encore',            !R.estMomentEnvoi(new Date('2026-09-17T20:00:00Z')));
+
+C2.envoyerRappel({ courriel: 'x@y.z', nom: 'Test', echeance: '2026-09-18', aujourdhui: true })
   .then(r => {
     t('sans armement, rien ne part', r.envoye === false);
     t('mais le message est composé et lisible',
       !!r.apercu && /déclarer/i.test(r.apercu.corps) && r.apercu.a === 'x@y.z');
     // L'objet porte une date LISIBLE : « 2026-09-18 » ne se lit pas dans une
     // liste de courriels, et c'est là que la date doit sauter aux yeux.
-    t("l'objet porte la date en toutes lettres, pas en ISO",
-      /vendredi 18 septembre/.test(r.apercu.objet) && !/2026-09-18/.test(r.apercu.objet));
+    // Envoyé LE jour de l'échéance : « avant vendredi », un vendredi matin,
+    // se lit comme une erreur.
+    t("envoyé le jour même, le message dit « aujourd'hui »",
+      /aujourd'hui/.test(r.apercu.objet) && /aujourd'hui/.test(r.apercu.corps));
+    t("aucune date ISO nulle part", !/2026-09-18/.test(r.apercu.objet + r.apercu.corps));
     t('le message dit qu\'il est automatique',
       /automatique/i.test(r.apercu.corps));
     t('il dit où répondre — pas dans la boîte support',
       /dans l'app plutôt qu'ici/.test(r.apercu.corps));
+    t('le pied de page annonce le bon jour',
+      /chaque vendredi matin/.test(r.apercu.corps));
     console.log(`\n  ${ok} réussites, ${ko} échecs`);
     process.exit(ko ? 1 : 0);
   });

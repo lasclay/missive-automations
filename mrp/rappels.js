@@ -38,6 +38,36 @@ const { envoyerRappel, coupure } = require('./courriel.js');
 
 const FUSEAU = 'Africa/Tunis';
 
+/**
+ * Le courriel part le VENDREDI MATIN, heure de Tunis.
+ *
+ * La tâche, elle, est posée le lundi : l'obligation reste visible toute la
+ * semaine dans l'app. Le courriel n'est pas l'obligation, c'est le coup de
+ * sonnette — et il sonne le jour de l'échéance, quand il reste une journée
+ * pour agir. Sonner le lundi pour quelque chose qui est dû vendredi, c'est
+ * garantir qu'on le remette à plus tard.
+ *
+ * `HEURE_ENVOI` est l'heure locale à partir de laquelle la minuterie horaire a
+ * le droit de partir. 7 h : la journée d'atelier a commencé, la boîte est
+ * ouverte. Si le service dort tout le vendredi matin, l'envoi se fait au
+ * premier passage de l'après-midi — tard vaut mieux que jamais, mais on ne
+ * déborde pas sur samedi.
+ */
+const HEURE_ENVOI = Number(process.env.MRP_RAPPEL_HEURE) || 7;
+
+/** L'heure locale à Tunis, 0-23. */
+function heureTunis(maintenant = new Date()) {
+  const p = new Intl.DateTimeFormat('en-GB', { timeZone: FUSEAU,
+    hour: 'numeric', hourCycle: 'h23' }).formatToParts(maintenant);
+  return Number(p.find(x => x.type === 'hour').value);
+}
+
+/** Vendredi, à Tunis, et l'atelier est ouvert. */
+function estMomentEnvoi(maintenant = new Date()) {
+  const jour = new Date(aujourdhuiTunis(maintenant) + 'T00:00:00Z').getUTCDay();
+  return jour === 5 && heureTunis(maintenant) >= HEURE_ENVOI;
+}
+
 /** La date du jour à Tunis, en AAAA-MM-JJ. */
 function aujourdhuiTunis(maintenant = new Date()) {
   const p = new Intl.DateTimeFormat('en-CA', { timeZone: FUSEAU,
@@ -130,6 +160,9 @@ async function verifierRappels(maintenant = new Date()) {
   const journal = [];
   if (r.poses.length) journal.push(`tâche posée pour ${r.poses.join(', ')}`);
 
+  if (!estMomentEnvoi(maintenant))
+    return { ...r, journal, courriels: [], attente: 'pas vendredi matin à Tunis' };
+
   const cle = `rappel_courriel_${r.echeance}`;
   const deja = db.prepare(`SELECT 1 FROM amorce_etat WHERE cle = ?`).get(cle);
   if (deja) return { ...r, journal, courriels: [] };
@@ -145,7 +178,11 @@ async function verifierRappels(maintenant = new Date()) {
   let auMoinsUn = false;
   for (const g of gens) {
     const rep = await envoyerRappel({ courriel: g.courriel, nom: g.nom,
-                                      echeance: r.echeance, restants });
+                                      echeance: r.echeance, restants,
+                                      // Sonner le jour même change la phrase :
+                                      // « avant vendredi » un vendredi matin
+                                      // se lit comme une erreur.
+                                      aujourdhui: r.echeance === aujourdhuiTunis(maintenant) });
     courriels.push({ nom: g.nom, ...rep });
     if (rep.envoye) auMoinsUn = true;
   }
@@ -161,4 +198,5 @@ async function verifierRappels(maintenant = new Date()) {
 }
 
 module.exports = { poserRappelHebdo, verifierRappels, silenceAtelier,
-                   semaineDe, aujourdhuiTunis, titrePour, coupure };
+                   semaineDe, aujourdhuiTunis, heureTunis, estMomentEnvoi,
+                   titrePour, coupure, HEURE_ENVOI };
