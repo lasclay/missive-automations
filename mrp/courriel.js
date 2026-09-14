@@ -83,33 +83,34 @@ const enFrancais = (iso) => new Date(iso + 'T00:00:00Z').toLocaleDateString('fr-
   { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC' });
 
 /**
- * Le message. Court exprès : un rappel qui explique longuement pourquoi il
- * existe se lit comme un reproche, et celui-ci revient toutes les semaines.
+ * Le message. Six lignes, pas une de plus.
  *
- * Il dit qu'il est automatique. Sans ça, Montassar reçoit chaque vendredi ce qui
- * ressemble à un rappel personnel de Gabriel — et ça, au bout d'un mois, c'est
- * insultant. Il dit aussi où répondre : une réponse à ce courriel atterrit
- * dans la boîte support, au milieu des clients.
+ * Un rappel qui revient chaque semaine se lit en diagonale dès la deuxième
+ * fois. Tout ce qui n'est pas l'action à faire — l'explication de pourquoi la
+ * règle existe, les exemples, la pédagogie — se fait sauter par le lecteur et
+ * finit par donner au message l'air d'un formulaire. Ce qui reste : quoi, où,
+ * pour quand, et où dire qu'on est bloqué.
+ *
+ * Il dit qu'il est automatique. Sans ça, Montassar reçoit chaque vendredi ce
+ * qui ressemble à une relance personnelle de Gabriel. Et il dit où répondre :
+ * une réponse à ce courriel atterrit dans la boîte support, au milieu des
+ * clients.
  */
 const TEXTE = ({ nom, echeance, restants, aujourdhui }) => `Bonjour ${nom},
 
-Rappel de la semaine : déclarer où en est chaque lot${
-  aujourdhui ? ", aujourd'hui avant la fin de la journée"
-             : `, avant ${enFrancais(echeance)}`}.
-
+Où en est chaque lot ? À déclarer ${aujourdhui ? "aujourd'hui" : `avant ${enFrancais(echeance)}`} :
 ${APP}/ordres
 
-Mets le pourcentage sur chaque lot, même ceux qui n'ont pas bougé — « toujours à 60 % » nous dit quelque chose, le silence non.
-${restants ? `\nIl reste ${restants} lot${restants > 1 ? 's' : ''} à 0 %. Ceux-là en premier.\n` : ''}
-Un blocage ? Une matière qui manque, une machine, un patron pas clair : écris-le en note sur le lot. C'est lu.
+Mets le pourcentage partout, même là où rien n'a bougé.${
+  restants ? ` Il reste ${restants} lot${restants > 1 ? 's' : ''} à 0 %.` : ''}
+
+Un blocage ? Écris-le en note sur le lot.
 
 Merci,
 Lasclay
 
 —
-Message automatique du MRP, envoyé chaque vendredi matin. Pour répondre, écris la note
-dans l'app plutôt qu'ici : ce courriel arrive dans la boîte support, au milieu
-des clients.`;
+Message automatique, chaque vendredi. Pour répondre, écris la note dans l'app.`;
 
 /**
  * Envoie le rappel hebdomadaire à une personne.

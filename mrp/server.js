@@ -1356,6 +1356,11 @@ const serveur = http.createServer(async (req, res) => {
     if (p === '/sante') { res.writeHead(200, {'content-type':'application/json'});
       return res.end(JSON.stringify({ ok: true, service: 'lasclay-mrp' })); }
 
+    // L'état réel de la production, en lecture seule, pour qu'une analyse
+    // faite de loin cesse de partir d'une copie morte du dépôt. Avant la
+    // session : elle a son propre jeton, et n'existe pas sans lui.
+    if (require('./export.js').servir(req, res, url)) return;
+
     if (STATIQUES[p]) {
       const [type, rel] = STATIQUES[p];
       const buf = fs.readFileSync(path.join(__dirname, rel));
