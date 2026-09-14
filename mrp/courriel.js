@@ -73,18 +73,36 @@ function poste(chemin, charge) {
   });
 }
 
+/** « 2026-09-18 » ne se lit pas. « vendredi 18 septembre », oui. */
+const enFrancais = (iso) => new Date(iso + 'T00:00:00Z').toLocaleDateString('fr-CA',
+  { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC' });
+
+/**
+ * Le message. Court exprès : un rappel qui explique longuement pourquoi il
+ * existe se lit comme un reproche, et celui-ci revient toutes les semaines.
+ *
+ * Il dit qu'il est automatique. Sans ça, Montassar reçoit chaque lundi ce qui
+ * ressemble à un rappel personnel de Gabriel — et ça, au bout d'un mois, c'est
+ * insultant. Il dit aussi où répondre : une réponse à ce courriel atterrit
+ * dans la boîte support, au milieu des clients.
+ */
 const TEXTE = ({ nom, echeance, restants }) => `Bonjour ${nom},
 
-C'est le rappel de la semaine : il faut déclarer où en est chaque lot de l'ordre de production, d'ici ${echeance}.
+Rappel de la semaine : déclarer où en est chaque lot, avant ${enFrancais(echeance)}.
 
 ${APP}/ordres
 
-Poser le pourcentage de chaque lot, même s'il n'a pas bougé. « Toujours à 60 % » est une information ; le silence, non — vu de Québec, un lot qui ne bouge pas et un lot dont personne ne parle se ressemblent, et on finit par planifier un conteneur sur des chiffres périmés.
-
-${restants ? `Il reste ${restants} lot${restants > 1 ? 's' : ''} à ${'0 %'} dans l'ordre en cours.\n\n` : ''}S'il y a un blocage — une matière qui manque, une machine, un patron pas clair — écris-le en note sur le lot concerné. C'est lu.
+Mets le pourcentage sur chaque lot, même ceux qui n'ont pas bougé — « toujours à 60 % » nous dit quelque chose, le silence non.
+${restants ? `\nIl reste ${restants} lot${restants > 1 ? 's' : ''} à 0 %. Ceux-là en premier.\n` : ''}
+Un blocage ? Une matière qui manque, une machine, un patron pas clair : écris-le en note sur le lot. C'est lu.
 
 Merci,
-Lasclay`;
+Lasclay
+
+—
+Message automatique du MRP, envoyé chaque lundi. Pour répondre, écris la note
+dans l'app plutôt qu'ici : ce courriel arrive dans la boîte support, au milieu
+des clients.`;
 
 /**
  * Envoie le rappel hebdomadaire à une personne.
@@ -98,14 +116,14 @@ async function envoyerRappel({ courriel, nom, echeance, restants = 0 }) {
     // message sans avoir à l'envoyer pour le lire.
     console.log(`[mrp] courriel non armé (${off}) — rappel non envoyé à ${courriel}`);
     return { envoye: false, pourquoi: off,
-             apercu: { a: courriel, objet: `Avancement de la semaine — à déclarer d'ici ${echeance}`,
+             apercu: { a: courriel, objet: `Avancement à déclarer avant ${enFrancais(echeance)}`,
                        corps: TEXTE({ nom: nom || '', echeance, restants }) } };
   }
   try {
     await poste('/send', {
       from: EXPEDITEUR,
       to: [courriel],
-      subject: `Avancement de la semaine — à déclarer d'ici ${echeance}`,
+      subject: `Avancement à déclarer avant ${enFrancais(echeance)}`,
       body: TEXTE({ nom: nom || '', echeance, restants }),
       // `send: true` : un rappel qui attend qu'un humain appuie sur envoyer
       // n'est pas un rappel. C'est la seule route du MRP qui sort vers

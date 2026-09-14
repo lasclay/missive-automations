@@ -76,7 +76,14 @@ C2.envoyerRappel({ courriel: 'x@y.z', nom: 'Test', echeance: '2026-09-18' })
     t('sans armement, rien ne part', r.envoye === false);
     t('mais le message est composé et lisible',
       !!r.apercu && /déclarer/i.test(r.apercu.corps) && r.apercu.a === 'x@y.z');
-    t("l'aperçu porte l'échéance dans l'objet", /2026-09-18/.test(r.apercu.objet));
+    // L'objet porte une date LISIBLE : « 2026-09-18 » ne se lit pas dans une
+    // liste de courriels, et c'est là que la date doit sauter aux yeux.
+    t("l'objet porte la date en toutes lettres, pas en ISO",
+      /vendredi 18 septembre/.test(r.apercu.objet) && !/2026-09-18/.test(r.apercu.objet));
+    t('le message dit qu\'il est automatique',
+      /automatique/i.test(r.apercu.corps));
+    t('il dit où répondre — pas dans la boîte support',
+      /dans l'app plutôt qu'ici/.test(r.apercu.corps));
     console.log(`\n  ${ok} réussites, ${ko} échecs`);
     process.exit(ko ? 1 : 0);
   });
