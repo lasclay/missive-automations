@@ -195,6 +195,82 @@ ANGLO = {
     "pollinator.",
     "fashionunited.ca/contact"),
 
+
+"viewercontacttoronto@globalnews.ca": (
+    "Global Toronto", "Pupitre de Toronto",
+    "A Canadian company goes on Dragons' Den this Thursday with a winter coat insulated by a weed most farmers spray — and that same weed is the only thing monarch caterpillars can eat. We grow it, we process the floss into insulation ourselves in Quebec City, and we sell the finished garments across the country.",
+    "globalnews.ca/pages/contact-us"),
+
+"calgary@globalnews.ca": (
+    "Global Calgary", "Pupitre de Calgary",
+    "A Canadian company goes on Dragons' Den this Thursday with a winter coat insulated by a weed most farmers spray — and that same weed is the only thing monarch caterpillars can eat. We grow it, we process the floss into insulation ourselves in Quebec City, and we sell the finished garments across the country.",
+    "globalnews.ca/pages/contact-us"),
+
+"edmonton@globalnews.ca": (
+    "Global Edmonton", "Pupitre d'Edmonton",
+    "A Canadian company goes on Dragons' Den this Thursday with a winter coat insulated by a weed most farmers spray — and that same weed is the only thing monarch caterpillars can eat. We grow it, we process the floss into insulation ourselves in Quebec City, and we sell the finished garments across the country.",
+    "globalnews.ca/pages/contact-us"),
+
+"winnipeg@globalnews.ca": (
+    "Global Winnipeg", "Pupitre de Winnipeg",
+    "A Canadian company goes on Dragons' Den this Thursday with a winter coat insulated by a weed most farmers spray — and that same weed is the only thing monarch caterpillars can eat. We grow it, we process the floss into insulation ourselves in Quebec City, and we sell the finished garments across the country.",
+    "globalnews.ca/pages/contact-us"),
+
+"halifax@globalnews.ca": (
+    "Global Halifax", "Pupitre d'Halifax",
+    "A Canadian company goes on Dragons' Den this Thursday with a winter coat insulated by a weed most farmers spray — and that same weed is the only thing monarch caterpillars can eat. We grow it, we process the floss into insulation ourselves in Quebec City, and we sell the finished garments across the country.",
+    "globalnews.ca/pages/contact-us"),
+
+"regina@globalnews.ca": (
+    "Global Regina", "Pupitre de Regina",
+    "A Canadian company goes on Dragons' Den this Thursday with a winter coat insulated by a weed most farmers spray — and that same weed is the only thing monarch caterpillars can eat. We grow it, we process the floss into insulation ourselves in Quebec City, and we sell the finished garments across the country.",
+    "globalnews.ca/pages/contact-us"),
+
+"saskatoon@globalnews.ca": (
+    "Global Saskatoon", "Pupitre de Saskatoon",
+    "A Canadian company goes on Dragons' Den this Thursday with a winter coat insulated by a weed most farmers spray — and that same weed is the only thing monarch caterpillars can eat. We grow it, we process the floss into insulation ourselves in Quebec City, and we sell the finished garments across the country.",
+    "globalnews.ca/pages/contact-us"),
+
+"okanagan@globalnews.ca": (
+    "Global Okanagan", "Pupitre de l'Okanagan",
+    "A Canadian company goes on Dragons' Den this Thursday with a winter coat insulated by a weed most farmers spray — and that same weed is the only thing monarch caterpillars can eat. We grow it, we process the floss into insulation ourselves in Quebec City, and we sell the finished garments across the country.",
+    "globalnews.ca/pages/contact-us"),
+
+"consumermatters@globalnews.ca": (
+    "Global — Consumer Matters", "Chronique consommation",
+    'A $300 winter coat insulated with a farm weed instead of down or polyester — the consumer question is whether it actually keeps you warm, and that is a fair thing to test on air.',
+    "globalnews.ca/pages/contact-us"),
+
+"vancouver@dailyhive.com": (
+    "Daily Hive Vancouver", "Pupitre de Vancouver",
+    'Your readers can watch it Thursday night, and the coat itself is Canadian all the way down: milkweed grown by Quebec farmers, floss processed into insulation in Quebec City, sold from coast to coast.',
+    "dailyhive.com/page/contact"),
+
+"toronto@dailyhive.com": (
+    "Daily Hive Toronto", "Pupitre de Toronto",
+    'Your readers can watch it Thursday night, and the coat itself is Canadian all the way down: milkweed grown by Quebec farmers, floss processed into insulation in Quebec City, sold from coast to coast.',
+    "dailyhive.com/page/contact"),
+
+"calgary@dailyhive.com": (
+    "Daily Hive Calgary", "Pupitre de Calgary",
+    'Your readers can watch it Thursday night, and the coat itself is Canadian all the way down: milkweed grown by Quebec farmers, floss processed into insulation in Quebec City, sold from coast to coast.',
+    "dailyhive.com/page/contact"),
+
+"edmonton@dailyhive.com": (
+    "Daily Hive Edmonton", "Pupitre d'Edmonton",
+    'Your readers can watch it Thursday night, and the coat itself is Canadian all the way down: milkweed grown by Quebec farmers, floss processed into insulation in Quebec City, sold from coast to coast.',
+    "dailyhive.com/page/contact"),
+
+"info@taproot.ca": (
+    "Taproot Edmonton", "Rédaction",
+    'Your readers can watch it Thursday night, and the coat itself is Canadian all the way down: milkweed grown by Quebec farmers, floss processed into insulation in Quebec City, sold from coast to coast.',
+    "taproot.ca/contact"),
+
+"jdavis@textileworld.com": (
+    "Textile World", "Rédaction",
+    'Milkweed floss is a hollow, naturally water-repellent fibre that behaves like down without an animal. A Quebec filière has been trying to industrialise it since 2013; we process it ourselves and sell finished garments, which is the part nobody had managed to hold.',
+    "textileworld.com/contact"),
+
 "editor@betterfarming.com": (
     "Better Farming", "Rédaction",
     "The farm side: milkweed is a weed most growers spray, and a Quebec filière has been trying "
