@@ -116,7 +116,8 @@ Tirées de `VOLCANO/PHOTOS/` dans le Drive (`02_Mai 2026` et `03_Saguenay`).
 | --- | --- | --- |
 | `lasclay-monarque-asclepiade.jpg` | `Monarque_Lasclay_Volcano-11` | le monarque sur l'asclépiade |
 | `lasclay-asclepiade-graine-soie.jpg` | `Photos_Mai2026_..._11` | la graine et sa soie en parachute |
-| `lasclay-producteur-asclepiade-main.jpg` | `Sabin_Lasclay_Volcano-4` | la main d'un producteur sur une tige |
+| `lasclay-producteur-champ-asclepiade.jpg` | `Sabin_Lasclay_Volcano-6.dng` | un producteur seul dans son champ |
+| `lasclay-producteur-asclepiade-main.jpg` | `Sabin_Lasclay_Volcano-4` | téléversée puis écartée |
 | `lasclay-producteurs-asclepiade.jpg` | `Sabin_Lasclay_Volcano-2` | téléversée puis écartée (la conjointe ne veut pas être photographiée) |
 | `lasclay-champ-asclepiade.jpg` | `Asclepiade_Lasclay_Volcano-53` | un champ en fleur |
 | `lasclay-atelier-soie-asclepiade.jpg` | `Photos_Mai2026_..._45` | la soie brute à l'atelier |
@@ -181,8 +182,14 @@ Deux passes. La seconde applique les corrections de Gabriel.
   transformé au Québec, ce qui est vrai de toute la transformation
   d'asclépiade.
 - **Photo des producteurs : remplacée.** La première montrait le couple ; la
-  conjointe ne souhaite pas être photographiée. Remplacée par
-  `Sabin_Lasclay_Volcano-4` (la main d'un producteur sur une tige), sans visage.
+  conjointe ne souhaite pas être photographiée. Le producteur seul, lui, peut
+  paraître. Les six JPEG livrés le montrent toujours accompagné ; la bonne prise
+  (`Sabin_Lasclay_Volcano-6`) n'existait qu'en DNG dans `1.RAW_Photos`. Elle a
+  été développée avec `rawpy` (`pip install rawpy`), puis étalonnée à la main
+  (remontée des ombres en gamma 0,82, contraste +10 %, saturation +12 %, léger
+  réchauffement) pour se rapprocher du rendu des JPEG livrés par Volcano.
+  **Si un jour vous ressortez cette photo de Lightroom, remplacez-la : le
+  développement maison reste approximatif.**
 
 ### Liens vers le blogue
 
