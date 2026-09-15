@@ -17,6 +17,8 @@ import sys
 
 import openpyxl
 
+from voix_gabriel import en_html
+
 DE = "media@lasclay.com"
 ICI = os.path.dirname(os.path.abspath(__file__))
 CLIENT = os.path.join(os.path.dirname(ICI), "missive_client.js")
@@ -55,7 +57,7 @@ def main(envoyer):
                 continue
             pieces = [photo] + ([deck] if titre.startswith("Ajouts FR") else [])
             charge = {"from": DE, "to": [adresse], "subject": r[h["Objet"]],
-                      "body": texte, "attachments": pieces}
+                      "body": en_html(texte), "attachments": pieces}
             if envoyer:
                 charge["send"] = True
             res = appel(charge)

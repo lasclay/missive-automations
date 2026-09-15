@@ -72,6 +72,8 @@ def appel(commande, charge):
 
 def main(envoyer):
     import openpyxl
+
+from voix_gabriel import en_html
     ws = openpyxl.load_workbook(os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                              "Lasclay_v2.xlsx"))["Liste chaude (34)"]
     h = [c.value for c in ws[1]]
@@ -87,7 +89,7 @@ def main(envoyer):
         fil = FILS.get(courriel)
         if fil:
             charge = {"id": fil["id"], "from": DE, "to": [courriel],
-                      "subject": OBJET, "body": texte + "\n\n" + SIGNATURE,
+                      "subject": OBJET, "body": en_html(texte + "\n\n" + SIGNATURE),
                       "attachments": piece}
             if envoyer:
                 charge["send"] = True
@@ -95,7 +97,7 @@ def main(envoyer):
             mode = f"réponse · {fil['pourquoi']}"
         else:
             charge = {"from": DE, "to": [courriel], "subject": OBJET,
-                      "body": texte + "\n\n" + SIGNATURE, "attachments": piece}
+                      "body": en_html(texte + "\n\n" + SIGNATURE), "attachments": piece}
             if envoyer:
                 charge["send"] = True
             res = appel("send", charge)

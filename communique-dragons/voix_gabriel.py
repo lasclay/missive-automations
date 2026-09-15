@@ -48,8 +48,9 @@ def media_kit(registre="vous"):
     dans une salle de nouvelles, c'est souvent quelqu'un d'autre qui le prend.
     """
     p = "t'" if tu(registre) else "vous "
-    return (f"Si ça {p}intéresse de couvrir (ou un.e collègue?), notre média kit est ici, "
-            f"avec les images de notre passage à Dragons' Den et de l'entreprise : {DRIVE}")
+    return (f"Si ça {p}intéresse de couvrir (ou un.e collègue?), "
+            + lien("notre média kit est ici", DRIVE)
+            + ", avec les images de notre passage à Dragons' Den et de l'entreprise.")
 
 
 MEDIA_KIT = None  # remplace par media_kit(registre) : la ligne depend du registre
@@ -164,3 +165,25 @@ def deplier(texte):
     """
     return "\n\n".join(" ".join(l.strip() for l in par.splitlines() if l.strip())
                        for par in texte.split("\n\n"))
+
+
+def lien(texte, url):
+    """Un lien ecrit en markdown dans les constantes, converti en HTML a l'envoi.
+
+    Le chiffrier reste lisible pour Gabriel, et Missive recoit une vraie balise
+    plutot qu'une adresse nue de deux cents caracteres qui casse la mise en page.
+    """
+    return f"[{texte}]({url})"
+
+
+def en_html(texte):
+    """Prepare un corps pour Missive : echappe, puis pose les liens.
+
+    Le proxy convertit ensuite les sauts de ligne en <br>. On echappe AVANT de
+    poser les balises, sinon on echapperait ses propres chevrons.
+    """
+    import html
+    import re
+    t = html.escape(texte, quote=False)
+    return re.sub(r'\[([^\]]+)\]\((https?://[^)\s]+)\)',
+                  r'<a href="\2">\1</a>', t)

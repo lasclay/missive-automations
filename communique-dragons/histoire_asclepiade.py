@@ -25,11 +25,15 @@ Chaque fait ci-dessous vient d'un article date, dont l'adresse est jointe. On ne
 paraphrase pas un chiffre sans pouvoir le montrer.
 """
 
+from voix_gabriel import lien
+
 RC_FAILLITE = ("https://ici.radio-canada.ca/nouvelle/1061543/"
                "asclepiade-soyer-producteurs-industries-encore3-faillite-monark")
 NOUVELLISTE_RELANCE = ("https://lenouvelliste.ca/affaires/asclepiade-les-activites-reprennent-"
                        "a-lusine-de-saint-tite-9a7c0d08d77c81c7ab22fdfc8e47a922")
 HEBDO_FAILLITE = "https://www.lhebdodustmaurice.com/actualite/protec-style-en-faillite/"
+FAILLITE_2017 = "la faillite d'octobre 2017"
+
 RC_PROMESSES = ("https://ici.radio-canada.ca/recit-numerique/2072/"
                 "asclepiade-agriculture-amerique-textile-production-vetements-quebec")
 
@@ -54,18 +58,19 @@ FAITS = {
 MAURICIE = (
     "Je vous écris parce que l'asclépiade a commencé chez vous, à Saint-Tite et dans Mékinac. "
     "Le groupe Protec-Style, qui exploitait l'usine de Saint-Tite sous le nom d'Encore 3, avait "
-    "réservé 90 % de la récolte québécoise quand il a fait faillite le 11 octobre 2017 "
-    f"({RC_FAILLITE}), emportant Saint-Tite et son atelier de Granby. Les 125 producteurs de la "
+    "réservé 90 % de la récolte québécoise quand il a fait faillite "
+    f"{lien('le 11 octobre 2017', RC_FAILLITE)}, emportant Saint-Tite et son atelier de "
+    "Granby. Les 125 producteurs de la "
     "Coopérative Monark ont pris le choc. "
-    f"Six semaines plus tard, la MRC de Mékinac a fait pencher la relance ({NOUVELLISTE_RELANCE}).\n\n"
+    f"Six semaines plus tard, {lien('la MRC de Mékinac a fait pencher la relance', NOUVELLISTE_RELANCE)}.\n\n"
     "Neuf ans après, on achète encore de l'asclépiade québécoise et on la transforme nous-mêmes "
     "à Québec. Ce jeudi, c'est cette plante-là que je vais défendre à la télévision nationale.")
 
 ESTRIE = (
     "Je vous écris parce que la transformation de la fibre se faisait à Granby, rue Bernard. "
     "L'atelier appartenait au groupe Protec-Style, qui exploitait aussi l'usine de Saint-Tite, "
-    "et les deux sont tombées le 11 octobre 2017 avec une dette de plus de 1,4 M$ "
-    f"({HEBDO_FAILLITE}). L'Estrie compte encore "
+    f"et les deux sont tombées {lien('le 11 octobre 2017', HEBDO_FAILLITE)} avec une dette "
+    "de plus de 1,4 M$. L'Estrie compte encore "
     "des producteurs d'asclépiade, et on continue d'acheter de la fibre québécoise.")
 
 SAGUENAY = (
@@ -76,7 +81,7 @@ SAGUENAY = (
 CENTRE = (
     "Je vous écris parce que l'asclépiade se cultive chez vous depuis la première vague de 2013, "
     "celle de la Coopérative Monark et de ses 125 producteurs. Plusieurs de ceux qui ont tenu bon "
-    f"après la faillite d'octobre 2017 ({RC_FAILLITE}) nous vendent encore leur récolte.")
+    f"après {lien(FAILLITE_2017, RC_FAILLITE)} nous vendent encore leur récolte.")
 
 MONTEREGIE = (
     "Je vous écris parce que la Montérégie est une des régions où l'asclépiade se cultive encore, "

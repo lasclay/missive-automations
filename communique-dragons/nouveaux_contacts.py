@@ -22,8 +22,8 @@ import sys
 import openpyxl
 from openpyxl.styles import Alignment, Font, PatternFill
 
-from histoire_asclepiade import PAR_REGION
-from voix_gabriel import BENEFICE, media_kit
+from histoire_asclepiade import PAR_REGION, RC_FAILLITE
+from voix_gabriel import BENEFICE, en_html, lien, media_kit
 
 DRIVE = "https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr"
 
@@ -43,9 +43,9 @@ SIGNATURE = "Chaleureusement,\n__\nGabriel Gouveia\nCo-fondateur\n+1 (581) 982-5
 AGRICOLE = (
     "Je vous écris parce que l'asclépiade est une histoire agricole avec une date de rupture. "
     "Le groupe Protec-Style, qui exploitait l'usine de Saint-Tite sous le nom d'Encore 3 et "
-    "avait réservé 90 % de la récolte québécoise, a fait faillite le 11 octobre 2017 "
-    "(https://ici.radio-canada.ca/nouvelle/1061543/asclepiade-soyer-producteurs-industries-"
-    "encore3-faillite-monark). Les 125 producteurs de la Coopérative Monark se sont retrouvés "
+    "avait réservé 90 % de la récolte québécoise, a fait faillite "
+    + lien("le 11 octobre 2017", RC_FAILLITE) +
+    ". Les 125 producteurs de la Coopérative Monark se sont retrouvés "
     "sans acheteur, et la question n'a pas changé depuis : y a-t-il quelqu'un au bout du champ.\n\n"
     "Nous, on achète encore. Sabin Tremblay, à L'Ascension-de-Notre-Seigneur, cultive pour nous "
     "depuis nos tout débuts, et je vais l'aider à récolter le 4 octobre. S'il y a un reportage à "
@@ -109,8 +109,9 @@ EN_MATIERE = ("Its pods are filled with a hollow floss, very light and naturally
               "cooler bags sold across Canada and the United States.")
 EN_ANNONCE = ("This Thursday, September 17, Lasclay is in the first episode of season 21 of "
               "Dragons' Den, on CBC and CBC Gem at 8 p.m. (8:30 NT).")
-EN_OFFRE = (f"If you'd like to cover it, or a colleague might, our media kit is here, with "
-            f"images from the Dragons' Den floor and of the company: {DRIVE}")
+EN_OFFRE = ("If you'd like to cover it, or a colleague might, "
+            + lien("our media kit is here", DRIVE)
+            + ", with images from the Dragons' Den floor and of the company.")
 EN_BENEFICE = ("I'm hoping this visibility moves sales, which more broadly is very good "
                "news for the Quebec milkweed growers we keep buying from, and for the threatened "
                "monarchs that keep breeding in their fields.")
@@ -173,7 +174,7 @@ ANGLO = {
     "Innovation in Textiles", "Rédaction",
     "You covered Vegeto's milkweed insulation last February. We're the other end of that same "
     "Quebec filière: we buy the harvest, process the floss into insulation ourselves, and sell "
-    "finished garments. As far as we know, nobody else holds the whole chain. The Quebec filière collapsed on October 11, 2017 when the group that had reserved 90 per cent of the crop went bankrupt (https://ici.radio-canada.ca/nouvelle/1061543/asclepiade-soyer-producteurs-industries-encore3-faillite-monark), which is the context for anything written about milkweed insulation today.",
+    "finished garments. As far as we know, nobody else holds the whole chain. The Quebec filière collapsed " + lien("on October 11, 2017", "https://ici.radio-canada.ca/nouvelle/1061543/asclepiade-soyer-producteurs-industries-encore3-faillite-monark") + " when the group that had reserved 90 per cent of the crop went bankrupt, which is the context for anything written about milkweed insulation today.",
     "innovationintextiles.com/contact"),
 
 "editor@knittingindustry.com": (
@@ -312,8 +313,7 @@ ANGLO = {
     "The farm side: milkweed is a weed most growers spray, and a Quebec filière has been trying "
     "since 2013 to make it pay at the field gate. It stopped on October 11, 2017, when the group "
     "that had reserved 90 per cent of the Quebec crop went bankrupt and 125 growers lost their "
-    "buyer overnight (https://ici.radio-canada.ca/nouvelle/1061543/asclepiade-soyer-producteurs-"
-    "industries-encore3-faillite-monark). We still buy the harvest, and that is the part that "
+    "buyer overnight" + lien(", as Radio-Canada reported at the time", "https://ici.radio-canada.ca/nouvelle/1061543/asclepiade-soyer-producteurs-industries-encore3-faillite-monark") + ". We still buy the harvest, and that is the part that "
     "decides whether anyone plants it again.",
     "betterfarming.com/contact"),
 }
