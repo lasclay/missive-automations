@@ -25,6 +25,13 @@
  *   node connectors_client.js omnisend campaigns '{"limit":10}'
  *   node connectors_client.js omnisend triggerevent '{"body":{"systemName":"mon-evenement","email":"client@exemple.com"}}'
  *
+ * Exemples Buffer (trois comptes : main | 2 | 3 — un jeton ne voit QU'UN compte) :
+ *   node connectors_client.js buffer comptes
+ *   node connectors_client.js buffer channels '{"compte":"2"}'
+ *   node connectors_client.js buffer posts '{"compte":"2","status":["scheduled"],"first":10}'
+ *   node connectors_client.js buffer createpost '{"compte":"2","channelId":"...","text":"...","saveToDraft":true}'
+ *   ⚠️ createpost sans saveToDraft entre dans la vraie file; mode "shareNow" PUBLIE immédiatement.
+ *
  * QuickBooks : service dédié (isolation des finances) → utiliser finance_client.js
  * avec FINANCE_PROXY_URL + FINANCE_PROXY_SECRET. Voir finance-proxy/FINANCE_PROXY.md.
  */

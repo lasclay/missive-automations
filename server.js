@@ -789,6 +789,343 @@ const klaviyo = (() => {
 })();
 
 // ==========================================================================
+// CONNECTEUR : Buffer (API publique GraphQL — https://api.buffer.com)
+// Auth : une clé API personnelle par COMPTE Buffer, en Bearer. Lasclay a trois
+// comptes gratuits (trois canaux chacun, c'est la limite du forfait gratuit) :
+//   BUFFER_MAIN_API_KEY  compte principal (LinkedIn Gabriel, FB + IG Lasclay)
+//   BUFFER_2_API_KEY     deuxième compte
+//   BUFFER_3_API_KEY     troisième compte
+// Chaque clé ne voit QUE son compte : Buffer n'a pas de notion de « plusieurs
+// comptes » dans un jeton. D'où le paramètre `compte` sur chaque action
+// (« main » | « 2 » | « 3 », défaut BUFFER_COMPTE_DEFAUT ou « main »).
+//
+// L'API est du GraphQL : UN seul endpoint POST /, et des `query`/`mutation`.
+// Les actions ci-dessous sont des requêtes préécrites (allowlist) ; `query` et
+// `mutation` restent disponibles pour tout ce qui n'est pas couvert.
+//
+// LIMITES DE DÉBIT (par clé, donc par compte) : 100 requêtes / 15 min, et sur
+// 24 h : 100 (gratuit), 250 (Essentials), 500 (Team). Les comptes de Lasclay
+// sont gratuits → 100 appels par JOUR et par compte. Le connecteur met donc en
+// cache l'identifiant d'organisation (résolu une fois, gardé 6 h) pour ne pas
+// gaspiller un appel sur deux à redemander la même chose.
+//
+// ERREURS : GraphQL répond 200 même en cas d'erreur (tableau `errors`), et les
+// mutations renvoient une union Succès|MutationError. Les deux cas sont
+// convertis en vraie erreur ici, sinon un échec passerait pour un succès.
+// ==========================================================================
+const bufferConn = (() => {
+  const CLES = {
+    main: process.env.BUFFER_MAIN_API_KEY || process.env.BUFFER_API_KEY || "",
+    2: process.env.BUFFER_2_API_KEY || "",
+    3: process.env.BUFFER_3_API_KEY || "",
+  };
+  const ALIAS = { 1: "main", principal: "main", primaire: "main", deux: "2", trois: "3", buffer2: "2", buffer3: "3" };
+  const DEFAUT = process.env.BUFFER_COMPTE_DEFAUT || "main";
+  const BASE = process.env.BUFFER_BASE || "https://api.buffer.com";
+  const TTL_ORG = 6 * 60 * 60 * 1000;
+  const orgCache = new Map(); // compte → { id, name, exp }
+
+  // Résout le compte demandé → { nom, cle }. Ne renvoie JAMAIS la clé au client.
+  function compte(p) {
+    const brut = String((p && (p.compte ?? p.account ?? p.cle)) ?? DEFAUT).toLowerCase().trim();
+    const nom = ALIAS[brut] || brut;
+    if (!(nom in CLES)) throw new Error(`compte inconnu : « ${brut} » (attendus : ${Object.keys(CLES).join(", ")})`);
+    if (!CLES[nom]) throw new Error(`compte « ${nom} » non configuré (variable BUFFER_${nom === "main" ? "MAIN" : nom}_API_KEY absente côté Render)`);
+    return { nom, cle: CLES[nom] };
+  }
+
+  async function gql(p, query, variables) {
+    const { nom, cle } = compte(p);
+    const r = await httpJson({
+      method: "POST",
+      url: BASE,
+      headers: { Authorization: `Bearer ${cle}` },
+      body: { query, variables: variables || {} },
+    });
+    if (r && Array.isArray(r.errors) && r.errors.length) {
+      throw new Error(`buffer/${nom} : ${caviarder(r.errors.map((e) => e && e.message).filter(Boolean).join(" | ")).slice(0, 900)}`);
+    }
+    return r && r.data !== undefined ? r.data : r;
+  }
+
+  // Les mutations renvoient une union { ...Succès | MutationError }. Un
+  // `message` dans la réponse = un échec, même si le HTTP est 200.
+  function verifier(resultat, nomChamp) {
+    const v = resultat && resultat[nomChamp];
+    if (v && typeof v === "object" && typeof v.message === "string" && !v.post && !v.idea) {
+      throw new Error(`buffer ${nomChamp} refusé : ${v.message}`);
+    }
+    return resultat;
+  }
+
+  const requis = (p, ...champs) => {
+    for (const c of champs) if (!p || p[c] === undefined || p[c] === null || p[c] === "") throw new Error(`${c} requis`);
+    return p;
+  };
+
+  const CH = "id name service serviceId type descriptor displayName avatar externalLink organizationId timezone isDisconnected isLocked isQueuePaused";
+  const POST_F = "id text status dueAt sentAt createdAt updatedAt shareMode schedulingType isCustomScheduled externalLink channelId channelService";
+
+  // L'identifiant d'organisation est requis par presque toutes les requêtes.
+  // On le résout une fois par compte, puis on le garde en mémoire (6 h) : sur
+  // un forfait à 100 appels/jour, le redemander à chaque fois coûterait la
+  // moitié du quota.
+  async function orgId(p) {
+    if (p && p.organizationId) return p.organizationId;
+    const { nom } = compte(p);
+    const hit = orgCache.get(nom);
+    if (hit && hit.exp > Date.now()) return hit.id;
+    const d = await gql(p, "query { account { id organizations { id name } } }");
+    const orgs = (d && d.account && d.account.organizations) || [];
+    if (!orgs.length) throw new Error(`buffer/${nom} : aucune organisation sur ce compte`);
+    orgCache.set(nom, { id: orgs[0].id, name: orgs[0].name, exp: Date.now() + TTL_ORG });
+    return orgs[0].id;
+  }
+
+  return {
+    name: "buffer",
+    description:
+      "Buffer (API publique GraphQL) — trois comptes distincts (main, 2, 3), canaux, file de publication, création/édition/suppression de posts, idées, métriques agrégées.",
+    // Actif dès qu'au moins un des trois comptes a sa clé.
+    enabled: () => Object.values(CLES).some(Boolean),
+    actions: {
+      // ---- MÉTA ----
+      // Quels comptes sont configurés côté Render (aucune clé n'est renvoyée).
+      comptes: () => ({
+        defaut: DEFAUT,
+        comptes: Object.entries(CLES).map(([nom, k]) => ({ compte: nom, configure: !!k })),
+        note: "Passer { \"compte\": \"2\" } sur n'importe quelle action pour viser un autre compte.",
+      }),
+
+      // ---- LECTURE ----
+      // Le compte Buffer et ses organisations.
+      account: (p) => gql(p, "query { account { id name email timezone createdAt organizations { id name channelCount } } }"),
+      // Raccourci : juste les organisations.
+      organisations: (p) => gql(p, "query { account { organizations { id name channelCount ownerEmail } } }"),
+      // Les canaux du compte (3 par compte gratuit). Params : organizationId
+      // (sinon résolu tout seul), filtre isLocked.
+      channels: async (p) => {
+        const organizationId = await orgId(p);
+        const filter = p && p.isLocked !== undefined ? { isLocked: !!p.isLocked } : null;
+        return gql(p, `query($input: ChannelsInput!) { channels(input: $input) { ${CH} } }`, {
+          input: { organizationId, ...(filter ? { filter } : {}) },
+        });
+      },
+      // Un canal par son id.
+      channel: (p) => {
+        requis(p, "id");
+        return gql(p, `query($input: ChannelInput!) { channel(input: $input) { ${CH} } }`, { input: { id: p.id } });
+      },
+      // Les posts (file d'attente, brouillons, envoyés). Params : first (défaut 20),
+      // after (curseur), status (["scheduled"]|["sent"]|["draft"]...), channelIds,
+      // startDate/endDate (ISO), sort ("dueAt"|"createdAt"), direction ("asc"|"desc").
+      posts: async (p) => {
+        const organizationId = await orgId(p);
+        const filter = {};
+        if (p && p.status) filter.status = Array.isArray(p.status) ? p.status : [p.status];
+        if (p && p.channelIds) filter.channelIds = Array.isArray(p.channelIds) ? p.channelIds : [p.channelIds];
+        if (p && p.startDate) filter.startDate = p.startDate;
+        if (p && p.endDate) filter.endDate = p.endDate;
+        const input = { organizationId };
+        if (Object.keys(filter).length) input.filter = filter;
+        if (p && p.sort) input.sort = [{ field: p.sort, direction: (p.direction || "asc") }];
+        return gql(
+          p,
+          `query($input: PostsInput!, $first: Int, $after: String) {
+             posts(input: $input, first: $first, after: $after) {
+               edges { cursor node { ${POST_F} channel { id name service } } }
+               pageInfo { hasNextPage endCursor }
+             }
+           }`,
+          { input, first: (p && p.first) || 20, after: (p && p.after) || null },
+        );
+      },
+      // Un post par son id (avec ses métriques quand il est publié).
+      post: (p) => {
+        requis(p, "id");
+        return gql(
+          p,
+          `query($input: PostInput!) {
+             post(input: $input) { ${POST_F} channel { id name service }
+               metrics { name value unit } metricsUpdatedAt }
+           }`,
+          { input: { id: p.id } },
+        );
+      },
+      // Métriques agrégées sur une fenêtre (365 jours max). Params :
+      // startDateTime, endDateTime (ISO UTC, requis), channelIds (optionnel).
+      metrics: async (p) => {
+        requis(p, "startDateTime", "endDateTime");
+        const organizationId = await orgId(p);
+        const input = { organizationId, startDateTime: p.startDateTime, endDateTime: p.endDateTime };
+        if (p.channelIds) input.channelIds = Array.isArray(p.channelIds) ? p.channelIds : [p.channelIds];
+        return gql(
+          p,
+          `query($input: AggregatedPostMetricsInput!) {
+             aggregatedPostMetrics(input: $input) { metrics { name description type unit value } metricsUpdatedAt }
+           }`,
+          { input },
+        );
+      },
+      // Limites de publication du jour pour des canaux (params : channelIds, date ISO).
+      limits: (p) => {
+        requis(p, "channelIds");
+        const channelIds = Array.isArray(p.channelIds) ? p.channelIds : [p.channelIds];
+        return gql(
+          p,
+          `query($input: DailyPostingLimitsInput!) { dailyPostingLimits(input: $input) { channelId isAtLimit limit scheduled } }`,
+          { input: { channelIds, ...(p.date ? { date: p.date } : {}) } },
+        );
+      },
+      // Idées (le tableau « Create » de Buffer) et leurs colonnes.
+      ideagroups: async (p) => {
+        const organizationId = await orgId(p);
+        return gql(p, `query($input: IdeaGroupsInput!) { ideaGroups(input: $input) { id name isLocked } }`, {
+          input: { organizationId },
+        });
+      },
+      ideas: async (p) => {
+        const organizationId = await orgId(p);
+        return gql(
+          p,
+          `query($input: IdeasInput!, $first: Int, $after: String) {
+             ideas(input: $input, first: $first, after: $after) {
+               edges { cursor node { id groupId position createdAt updatedAt content { title text date services } } }
+               pageInfo { hasNextPage endCursor }
+             }
+           }`,
+          { input: { organizationId }, first: (p && p.first) || 20, after: (p && p.after) || null },
+        );
+      },
+
+      // ---- ÉCRITURE ----
+      // Crée un post. Params : channelId (requis), text (requis),
+      //   mode : addToQueue (défaut) | customScheduled | shareNext | shareNow
+      //   schedulingType : automatic (défaut) | notification
+      //   dueAt : ISO UTC — bascule automatiquement en customScheduled
+      //   saveToDraft : true pour un brouillon (rien n'est publié)
+      //   imageUrl (+ altText) : raccourci pour une image ; sinon assets[]
+      //   metadata : objet spécifique au réseau (linkAttachment, firstComment…)
+      // ⚠️ mode "shareNow" PUBLIE IMMÉDIATEMENT. Un post créé sans
+      // saveToDraft entre dans la vraie file de publication du compte.
+      createpost: (p) => {
+        requis(p, "channelId", "text");
+        const input = {
+          channelId: p.channelId,
+          text: p.text,
+          mode: p.mode || (p.dueAt ? "customScheduled" : "addToQueue"),
+          schedulingType: p.schedulingType || "automatic",
+          needsApproval: p.needsApproval === true,
+          assets: [],
+        };
+        if (p.dueAt) input.dueAt = p.dueAt;
+        if (p.saveToDraft !== undefined) input.saveToDraft = !!p.saveToDraft;
+        if (p.metadata) input.metadata = p.metadata;
+        if (Array.isArray(p.assets)) input.assets = p.assets;
+        else if (p.imageUrl) input.assets = [{ image: { url: p.imageUrl, metadata: { altText: p.altText || "" } } }];
+        return gql(
+          p,
+          `mutation($input: CreatePostInput!) {
+             createPost(input: $input) {
+               __typename
+               ... on PostActionSuccess { post { ${POST_F} } }
+               ... on MutationError { message }
+             }
+           }`,
+          { input },
+        ).then((d) => verifier(d, "createPost"));
+      },
+      // Modifie un post existant (id requis ; les champs omis sont conservés).
+      editpost: (p) => {
+        requis(p, "id");
+        const input = { id: p.id };
+        for (const c of ["text", "dueAt", "mode", "schedulingType", "metadata", "assets", "saveToDraft"]) {
+          if (p[c] !== undefined) input[c] = p[c];
+        }
+        return gql(
+          p,
+          `mutation($input: EditPostInput!) {
+             editPost(input: $input) {
+               __typename
+               ... on PostActionSuccess { post { ${POST_F} } }
+               ... on MutationError { message }
+             }
+           }`,
+          { input },
+        ).then((d) => verifier(d, "editPost"));
+      },
+      // Supprime un post (file d'attente ou brouillon). Irréversible.
+      deletepost: (p) => {
+        requis(p, "id");
+        return gql(
+          p,
+          `mutation($input: DeletePostInput!) {
+             deletePost(input: $input) {
+               __typename
+               ... on DeletePostSuccess { id }
+               ... on MutationError { message }
+             }
+           }`,
+          { input: { id: p.id } },
+        ).then((d) => verifier(d, "deletePost"));
+      },
+      // Crée une IDÉE (rien n'est publié — c'est le tableau « Create »).
+      // Params : text et/ou title, date, services (["linkedin"...]), groupId.
+      createidea: async (p) => {
+        if (!p || (!p.text && !p.title)) throw new Error("text ou title requis");
+        const organizationId = await orgId(p);
+        const content = {};
+        if (p.title) content.title = p.title;
+        if (p.text) content.text = p.text;
+        if (p.date) content.date = p.date;
+        if (p.services) content.services = Array.isArray(p.services) ? p.services : [p.services];
+        if (p.media) content.media = p.media;
+        const input = { organizationId, content };
+        if (p.groupId) input.group = { groupId: p.groupId };
+        return gql(
+          p,
+          `mutation($input: CreateIdeaInput!) {
+             createIdea(input: $input) {
+               __typename
+               ... on IdeaResponse { idea { id content { title text } } }
+               ... on MutationError { message }
+             }
+           }`,
+          { input },
+        ).then((d) => verifier(d, "createIdea"));
+      },
+
+      // ---- ÉCHAPPATOIRE ----
+      // Tout ce que l'allowlist ne couvre pas : GraphQL brut.
+      // params : { query: "...", variables: {...}, compte: "2" }
+      query: (p) => {
+        requis(p, "query");
+        if (/\bmutation\b/i.test(p.query)) throw new Error("utiliser l'action « mutation » pour une mutation");
+        return gql(p, p.query, p.variables);
+      },
+      mutation: (p) => {
+        requis(p, "query");
+        return gql(p, p.query, p.variables);
+      },
+      // Introspection : liste des types, ou les champs d'un type (params : type).
+      introspect: (p) => {
+        if (p && p.type) {
+          return gql(
+            p,
+            `query($n: String!) { __type(name: $n) { name kind description
+               fields { name description type { name kind ofType { name kind } } }
+               inputFields { name description type { name kind ofType { name kind } } }
+               enumValues { name description } } }`,
+            { n: p.type },
+          );
+        }
+        return gql(p, "query { __schema { types { name kind } } }");
+      },
+    },
+  };
+})();
+
+// ==========================================================================
 // REGISTRE DES CONNECTEURS — ajouter un nouveau connecteur = ajouter une entrée.
 // ==========================================================================
 const CONNECTEURS = {
@@ -798,6 +1135,7 @@ const CONNECTEURS = {
   [klaviyo.name]: klaviyo,
   [facebook.name]: facebook,
   [composio.name]: composio,
+  [bufferConn.name]: bufferConn,
 };
 
 // ---- Serveur HTTP ----

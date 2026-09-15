@@ -72,7 +72,11 @@
       "Bash(node finance_client.js update:*)",
       "Bash(node finance_client.js remove:*)",
       "Bash(node missive_client.js reply:*)",
-      "Bash(node connectors_client.js omnisend triggerevent:*)"
+      "Bash(node connectors_client.js omnisend triggerevent:*)",
+      "Bash(node connectors_client.js buffer createpost:*)",
+      "Bash(node connectors_client.js buffer editpost:*)",
+      "Bash(node connectors_client.js buffer deletepost:*)",
+      "Bash(node connectors_client.js buffer mutation:*)"
     ]
   }
 }

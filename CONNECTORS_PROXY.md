@@ -109,6 +109,42 @@ varient par endpoint (429 + `Retry-After`, gérés par le proxy).
 (consentements email/SMS + horodatages — preuve LCAP) en CSV réimportable, avec reprise sur
 interruption (fichier `.cursor`). Aussi : `list <ID>`, `segment <ID>`, `suppressed`.
 
+### Actions Buffer — trois comptes, API GraphQL
+
+Buffer plafonne le forfait gratuit à **trois canaux par compte** : Lasclay en a donc trois, et
+**un jeton ne voit qu'un compte**. Toutes les actions acceptent `compte` (`main` | `2` | `3`,
+défaut `BUFFER_COMPTE_DEFAUT` ou `main`) et résolvent l'`organizationId` toutes seules (cache 6 h).
+
+| Action | Params | Effet |
+|---|---|---|
+| `comptes` | — | 🟢 quels comptes ont leur clé (aucun appel à Buffer, aucun quota) |
+| `account` / `organisations` | — | 🟢 compte, fuseau, organisations |
+| `channels` / `channel` | `isLocked` / **id** | 🟢 les trois canaux du compte |
+| `posts` | `status[]`, `channelIds[]`, `startDate`, `endDate`, `first`, `after`, `sort`, `direction` | 🟢 file, brouillons, envoyés (pagination Relay) |
+| `post` | **id** | 🟢 un post + métriques s'il est publié |
+| `metrics` | **startDateTime**, **endDateTime**, `channelIds[]` | 🟢 métriques agrégées (fenêtre ≤ 365 j) |
+| `limits` | **channelIds[]**, `date` | 🟢 quota de publication du jour, par canal |
+| `ideagroups` / `ideas` | — / `first`, `after` | 🟢 tableau « Create » |
+| `createidea` | `text` et/ou `title`, `date`, `services[]`, `groupId` | 🟢 une idée — rien n'est publié |
+| `createpost` | **channelId**, **text**, `mode`, `schedulingType`, `dueAt`, `saveToDraft`, `imageUrl`+`altText`, `assets[]`, `metadata` | 🟠 entre dans la **vraie file** — 🔴 avec `mode:"shareNow"` (publie séance tenante) |
+| `editpost` | **id** + champs à changer | 🟡 les champs omis sont conservés |
+| `deletepost` | **id** | 🔴 irréversible |
+| `query` / `mutation` | **query**, `variables` | GraphQL brut — tout ce que l'allowlist ne couvre pas |
+| `introspect` | `type` | schéma : liste des types, ou champs d'un type |
+
+`mode` : `addToQueue` (défaut), `customScheduled`, `shareNext`, `shareNow`. Fournir `dueAt`
+(ISO UTC) bascule tout seul en `customScheduled`. `schedulingType` : `automatic` (Buffer publie) ou
+`notification` (rappel à un humain). `status` : `scheduled`, `draft`, `sent`, `sending`, `error`,
+`needs_approval`.
+
+**Limite de débit, par clé donc par compte** : 100 requêtes / 15 min, et sur 24 h **100 sur le
+forfait gratuit**. Cent appels par jour : relève les `channelId` une fois et réutilise-les.
+
+**GraphQL répond 200 même en cas d'échec** (tableau `errors`, ou union `Succès|MutationError`
+sur les mutations). Le connecteur convertit les deux en vraie erreur — un échec ne peut pas passer
+pour un succès. Un `channelId` d'un autre compte remonte « canal introuvable », pas « mauvais
+compte » : quand un id valide « n'existe pas », vérifie d'abord `compte`.
+
 > **QuickBooks** : actions, mise en place et rotation du refresh token → `finance-proxy/FINANCE_PROXY.md`.
 
 ---
@@ -139,6 +175,10 @@ Limite de débit v1 : **40 requêtes / minute**. Le proxy respecte l'en-tête `X
 | `OMNISEND_API_KEY` | clé API Omnisend (Store settings → Integrations & API → API keys) |
 | `KLAVIYO_API_KEY` | clé privée Klaviyo `pk_...` (Settings → Account → API keys). Créer une clé **lecture seule** (scopes read) : le connecteur n'expose que des lectures. |
 | `KLAVIYO_REVISION` | (optionnel) révision d'API Klaviyo, défaut `2025-04-15` |
+| `BUFFER_MAIN_API_KEY` | clé API du compte Buffer principal (Settings → API → Personal Access → + New Key, `publish.buffer.com/settings/api`) |
+| `BUFFER_2_API_KEY` | idem, deuxième compte Buffer |
+| `BUFFER_3_API_KEY` | idem, troisième compte Buffer |
+| `BUFFER_COMPTE_DEFAUT` | (optionnel) compte visé sans paramètre `compte`, défaut `main` |
 | `PORT` | (auto, fourni par Render) |
 
 > QuickBooks : variables déménagées dans le service dédié — voir `finance-proxy/FINANCE_PROXY.md`.
