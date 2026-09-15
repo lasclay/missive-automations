@@ -1424,8 +1424,16 @@
       "quand": "2026-09-15T14:08:39.995Z",
       "confirme": true,
       "texte": "Content de lire ça. Les mitaines, c'est souvent le premier morceau que les gens adoptent — merci du retour."
+    },
+    {
+      "id": "1678623234271486_2951200028593300",
+      "reponse_id": "1678623234271486_27931822673181156",
+      "page_id": "104242204750257",
+      "quand": "2026-09-15T16:08:24.923Z",
+      "confirme": true,
+      "texte": "Les cœurs sont bien reçus. Merci de suivre ça d'aussi près."
     }
   ],
-  "derniere_execution": "2026-09-15T14:08:39.996Z",
-  "total": 178
+  "derniere_execution": "2026-09-15T16:08:24.924Z",
+  "total": 179
 }
