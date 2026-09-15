@@ -22,6 +22,7 @@ import sys
 import openpyxl
 from openpyxl.styles import Alignment, Font, PatternFill
 
+from histoire_asclepiade import PAR_REGION
 from voix_gabriel import BENEFICE, media_kit
 
 DRIVE = "https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr"
@@ -40,12 +41,15 @@ CLOTURE = "Au plaisir et n'hésitez pas à me contacter si vous avez des questio
 SIGNATURE = "Chaleureusement,\n__\nGabriel Gouveia\nCo-fondateur\n+1 (581) 982-5857\nLasclay.com"
 
 AGRICOLE = (
-    "Je vous écris parce que l'asclépiade est d'abord une histoire agricole. La filière s'est "
-    "cassée en 2018 quand l'usine de Saint-Tite a fermé, et la question n'a pas changé depuis : "
-    "y a-t-il un acheteur stable au bout du champ. Nous, on achète encore. Sabin Tremblay, à "
-    "L'Ascension-de-Notre-Seigneur au Lac-Saint-Jean, cultive pour nous depuis nos tout débuts, "
-    "et je vais l'aider à récolter le 4 octobre. S'il y a un reportage à faire, il est là autant "
-    "qu'ici.")
+    "Je vous écris parce que l'asclépiade est une histoire agricole avec une date de rupture. "
+    "Le groupe Protec-Style, qui exploitait l'usine de Saint-Tite sous le nom d'Encore 3 et "
+    "avait réservé 90 % de la récolte québécoise, a fait faillite le 11 octobre 2017 "
+    "(https://ici.radio-canada.ca/nouvelle/1061543/asclepiade-soyer-producteurs-industries-"
+    "encore3-faillite-monark). Les 125 producteurs de la Coopérative Monark se sont retrouvés "
+    "sans acheteur, et la question n'a pas changé depuis : y a-t-il quelqu'un au bout du champ.\n\n"
+    "Nous, on achète encore. Sabin Tremblay, à L'Ascension-de-Notre-Seigneur, cultive pour nous "
+    "depuis nos tout débuts, et je vais l'aider à récolter le 4 octobre. S'il y a un reportage à "
+    "faire, il est là autant qu'ici.")
 
 def fr(pourquoi, offre=None):
     bl = [QUI, MATIERE, pourquoi, ANNONCE,
@@ -76,14 +80,11 @@ TVA = {
  "nouvelles.quebec@tva.ca": ("TVA Québec", "Pupitre de Québec",
     "Notre atelier est à Québec, et c'est là que la soie d'asclépiade devient de l'isolant."),
  "nouvelles.cjpm@tva.ca": ("TVA Saguenay", "Pupitre du Saguenay",
-    "Notre fournisseur du Lac-Saint-Jean, Sabin Tremblay de L'Ascension-de-Notre-Seigneur, "
-    "cultive pour nous depuis nos tout débuts."),
+PAR_REGION["Saguenay–Lac-Saint-Jean"]),
  "nouvelles.chem@tva.ca": ("TVA Trois-Rivières", "Pupitre de la Mauricie",
-    "L'asclépiade a eu son grand moment industriel chez vous : l'usine de Saint-Tite achetait "
-    "90 % des récoltes du Québec avant que la filière se casse en 2018."),
+PAR_REGION["Mauricie"]),
  "nouvelles.sherbrooke@tva.ca": ("TVA Sherbrooke", "Pupitre de l'Estrie",
-    "Une des premières usines de transformation de la fibre était à Granby, et l'Estrie compte "
-    "encore des producteurs d'asclépiade."),
+PAR_REGION["Estrie"]),
  "nouvelles.cfer@tva.ca": ("TVA Est-du-Québec", "Pupitre de l'Est-du-Québec", None),
  "quebec@quebecormedia.com": ("Québecor Québec", "Salle de nouvelles", None),
  "montreal@quebecormedia.com": ("Québecor Montréal", "Salle de nouvelles", None),
@@ -172,7 +173,7 @@ ANGLO = {
     "Innovation in Textiles", "Rédaction",
     "You covered Vegeto's milkweed insulation last February. We're the other end of that same "
     "Quebec filière: we buy the harvest, process the floss into insulation ourselves, and sell "
-    "finished garments. As far as we know, nobody else holds the whole chain.",
+    "finished garments. As far as we know, nobody else holds the whole chain. The Quebec filière collapsed on October 11, 2017 when the group that had reserved 90 per cent of the crop went bankrupt (https://ici.radio-canada.ca/nouvelle/1061543/asclepiade-soyer-producteurs-industries-encore3-faillite-monark), which is the context for anything written about milkweed insulation today.",
     "innovationintextiles.com/contact"),
 
 "editor@knittingindustry.com": (
@@ -272,11 +273,48 @@ ANGLO = {
     'Milkweed floss is a hollow, naturally water-repellent fibre that behaves like down without an animal. A Quebec filière has been trying to industrialise it since 2013; we process it ourselves and sell finished garments, which is the part nobody had managed to hold.',
     "textileworld.com/contact"),
 
+"news@huddle.today": (
+    "Huddle", "Nouvelles d'affaires du Nouveau-Brunswick",
+    "The business angle from the Atlantic side: we built our own processing because no "
+    "subcontractor would touch the fibre, and we are about to pitch it on national television. "
+    "Atlantic Canada has the same problem we had, a raw material with no processing chain.",
+    "huddle.today/contact"),
+
+"editors@nunatsiaq.com": (
+    "Nunatsiaq News", "Rédaction",
+    "Your readers buy winter coats to work in, not to walk to the car. Ours is insulated with a plant fibre instead of down or polyester, and I would rather have it judged by people who actually need it to hold at forty below than by anyone in a city. I'll send one to a reporter who wants to try it and say publicly what they found, good or bad.",
+    "nunatsiaq.com/contact"),
+
+"sarah@cabinradio.ca": (
+    "Cabin Radio", "Rédaction, T.N.-O.",
+    "Your readers buy winter coats to work in, not to walk to the car. Ours is insulated with a plant fibre instead of down or polyester, and I would rather have it judged by people who actually need it to hold at forty below than by anyone in a city. I'll send one to a reporter who wants to try it and say publicly what they found, good or bad.",
+    "cabinradio.ca/contact"),
+
+"newsroom@nnsl.com": (
+    "NNSL Media", "Salle de nouvelles, T.N.-O. et Nunavut",
+    "Your readers buy winter coats to work in, not to walk to the car. Ours is insulated with a plant fibre instead of down or polyester, and I would rather have it judged by people who actually need it to hold at forty below than by anyone in a city. I'll send one to a reporter who wants to try it and say publicly what they found, good or bad.",
+    "nnsl.com/contact-us"),
+
+"newstips@yukon-news.com": (
+    "Yukon News", "Ligne de nouvelles",
+    "Your readers buy winter coats to work in, not to walk to the car. Ours is insulated with a plant fibre instead of down or polyester, and I would rather have it judged by people who actually need it to hold at forty below than by anyone in a city. I'll send one to a reporter who wants to try it and say publicly what they found, good or bad.",
+    "yukon-news.com/contact-us"),
+
+"info@nbmediacoop.org": (
+    "NB Media Co-op", "Rédaction",
+    "The farm side of it: milkweed is a weed most growers spray, and a Quebec cooperative of "
+    "125 producers lost its only buyer overnight in 2017. We still buy the harvest. That "
+    "question, whether anyone is waiting at the end of the field, is not specific to Quebec.",
+    "nbmediacoop.org/contact"),
+
 "editor@betterfarming.com": (
     "Better Farming", "Rédaction",
     "The farm side: milkweed is a weed most growers spray, and a Quebec filière has been trying "
-    "since 2013 to make it pay at the field gate. We still buy the harvest, that's the part that "
-    "collapsed in 2018 and the part that decides whether anyone plants it again.",
+    "since 2013 to make it pay at the field gate. It stopped on October 11, 2017, when the group "
+    "that had reserved 90 per cent of the Quebec crop went bankrupt and 125 growers lost their "
+    "buyer overnight (https://ici.radio-canada.ca/nouvelle/1061543/asclepiade-soyer-producteurs-"
+    "industries-encore3-faillite-monark). We still buy the harvest, and that is the part that "
+    "decides whether anyone plants it again.",
     "betterfarming.com/contact"),
 }
 

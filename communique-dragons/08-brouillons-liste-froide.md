@@ -4,9 +4,9 @@ Même squelette que la liste chaude, mais l'ouverture part de ce qui concerne la
 
 Salutation « Bonjour Prénom » : deviner M. ou Mme sur 219 personnes qu'on ne connaît pas produirait des erreurs.
 
-## Angle B — 35 contacts
+## Angle B, 35 contacts
 
-### Marie-Émélie Bernier — Le Charlevoisien — `ebernier@lecharlevoisien.com`
+### Marie-Émélie Bernier, Le Charlevoisien, `ebernier@lecharlevoisien.com`
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
@@ -31,7 +31,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Louise Bourbonnais — Le Journal de Montréal — `lbourbonnais@videotron.ca`
+### Louise Bourbonnais, Le Journal de Montréal, `lbourbonnais@videotron.ca`
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
@@ -56,7 +56,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Gilbert Bégin — Radio-Canada (Québec) — `gilbert.begin@radio-canada.ca`
+### Gilbert Bégin, Radio-Canada (Québec), `gilbert.begin@radio-canada.ca`
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
@@ -81,7 +81,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Victor Carré — Le Charlevoisien — `vcarre@lecharlevoisien.com`
+### Victor Carré, Le Charlevoisien, `vcarre@lecharlevoisien.com`
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
@@ -106,7 +106,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Tristan Champagne-Lessard — Radio-Canada — `tristanchampagnelessard@gmail.com`
+### Tristan Champagne-Lessard, Radio-Canada, `tristanchampagnelessard@gmail.com`
 *Priorité A · Montérégie*
 
 ```
@@ -116,7 +116,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
+Je vous écris parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme à Québec.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -131,7 +131,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Maxime Corneau — Radio-Canada (Québec) — `maxime.corneau@radio-canada.ca`
+### Maxime Corneau, Radio-Canada (Québec), `maxime.corneau@radio-canada.ca`
 *Priorité A · Saguenay - Lac-Saint-Jean*
 
 ```
@@ -141,7 +141,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris entre autres parce qu'un de nos fournisseurs d'asclépiade cultive au Lac-Saint-Jean depuis nos tout débuts, et qu'il l'est encore aujourd'hui. La fibre de chez vous se retrouve dans nos produits.
+Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -156,7 +156,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Gabriel Delisle — Le Nouvelliste — `gabriel.delisle@lenouvelliste.qc.ca` — **écrit à la main**
+### Gabriel Delisle, Le Nouvelliste, `gabriel.delisle@lenouvelliste.qc.ca`, **écrit à la main**
 *Priorité A · Mauricie*
 
 ```
@@ -179,7 +179,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### André Fauteux — La Maison du 21e siècle — `andre@maisonsaine.ca`
+### André Fauteux, La Maison du 21e siècle, `andre@maisonsaine.ca`
 *Priorité A · Laurentides*
 
 ```
@@ -204,7 +204,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Johanne Fournier — Le Soleil — `j.fournier@telus.net`
+### Johanne Fournier, Le Soleil, `j.fournier@telus.net`
 *Priorité A · Est-du-Québec*
 
 ```
@@ -229,7 +229,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Mikaël Lalancette — Le Soleil — `mlalancette@lesoleil.com`
+### Mikaël Lalancette, Le Soleil, `mlalancette@lesoleil.com`
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
@@ -254,7 +254,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Olivier Mougeot — Le Soleil — `omougeot@lesoleil.com`
+### Olivier Mougeot, Le Soleil, `omougeot@lesoleil.com`
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
@@ -279,7 +279,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Jean-Hugues Roy — Université du Québec à Montréal — `jh@jhroy.ca`
+### Jean-Hugues Roy, Université du Québec à Montréal, `jh@jhroy.ca`
 *Priorité A · Laurentides*
 
 ```
@@ -304,7 +304,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Martin Roy — Université Laval — `martin.roy@uc.ulaval.ca`
+### Martin Roy, Université Laval, `martin.roy@uc.ulaval.ca`
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
@@ -329,7 +329,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Karine Tremblay — La Tribune — `karine.tremblay@latribune.qc.ca`
+### Karine Tremblay, La Tribune, `karine.tremblay@latribune.qc.ca`
 *Priorité A · Estrie*
 
 ```
@@ -339,7 +339,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris entre autres parce qu'une des premières usines de transformation de la fibre était à Granby, et que l'Estrie compte encore des producteurs d'asclépiade.
+Je vous écris parce que la transformation de la fibre se faisait à Granby, rue Bernard. L'atelier appartenait au groupe Protec-Style, qui exploitait aussi l'usine de Saint-Tite, et les deux sont tombées le 11 octobre 2017 avec une dette de plus de 1,4 M$ (https://www.lhebdodustmaurice.com/actualite/protec-style-en-faillite/). L'Estrie compte encore des producteurs d'asclépiade, et on continue d'acheter de la fibre québécoise.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -354,7 +354,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Godefroy Macaire Chabi — Radio-Canada Winnipeg — `godefroy.chabi@radio-canada.ca`
+### Godefroy Macaire Chabi, Radio-Canada Winnipeg, `godefroy.chabi@radio-canada.ca`
 *Priorité B · Canada anglais*
 
 ```
@@ -379,7 +379,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Laurence Dami-Houle — C F I M - 92,7 FM — `laurencedami@cfim.ca`
+### Laurence Dami-Houle, C F I M - 92,7 FM, `laurencedami@cfim.ca`
 *Priorité B · Est-du-Québec*
 
 ```
@@ -404,7 +404,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Dominique Degré — Radio-Canada — `dominique.degre@radio-canada.ca`
+### Dominique Degré, Radio-Canada, `dominique.degre@radio-canada.ca`
 *Priorité B · Montérégie*
 
 ```
@@ -414,7 +414,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
+Je vous écris parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme à Québec.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -429,7 +429,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Michel Fortier — Journal des Citoyens — `mfortier@edprev.com`
+### Michel Fortier, Journal des Citoyens, `mfortier@edprev.com`
 *Priorité B · Laurentides*
 
 ```
@@ -454,7 +454,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Raymond Fournier — Agence Science Presse — `cosmos_management@hotmail.com`
+### Raymond Fournier, Agence Science Presse, `cosmos_management@hotmail.com`
 *Priorité B · Montérégie*
 
 ```
@@ -464,7 +464,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
+Je vous écris parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme à Québec.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -479,7 +479,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Jacinthe Lafrance — Le Nouvelliste — `jlafrance@lenouvelliste.qc.ca`
+### Jacinthe Lafrance, Le Nouvelliste, `jlafrance@lenouvelliste.qc.ca`
 *Priorité B · Mauricie*
 
 ```
@@ -489,7 +489,9 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris entre autres parce que l'asclépiade a eu son grand moment industriel chez vous : l'usine de Saint-Tite achetait 90 % des récoltes du Québec avant que la filière se casse en 2018. Des producteurs de la Mauricie cultivent encore, et on continue d'acheter leur récolte.
+Je vous écris parce que l'asclépiade a commencé chez vous, à Saint-Tite et dans Mékinac. Le groupe Protec-Style, qui exploitait l'usine de Saint-Tite sous le nom d'Encore 3, avait réservé 90 % de la récolte québécoise quand il a fait faillite le 11 octobre 2017 (https://ici.radio-canada.ca/nouvelle/1061543/asclepiade-soyer-producteurs-industries-encore3-faillite-monark), emportant Saint-Tite et son atelier de Granby. Les 125 producteurs de la Coopérative Monark ont pris le choc. Six semaines plus tard, la MRC de Mékinac a fait pencher la relance (https://lenouvelliste.ca/affaires/asclepiade-les-activites-reprennent-a-lusine-de-saint-tite-9a7c0d08d77c81c7ab22fdfc8e47a922).
+
+Neuf ans après, on achète encore de l'asclépiade québécoise et on la transforme nous-mêmes à Québec. Ce jeudi, c'est cette plante-là que je vais défendre à la télévision nationale.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -504,7 +506,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Stéphanie Mac Farlane — Le Canada Français — `smacfarlane@canadafrancais.com`
+### Stéphanie Mac Farlane, Le Canada Français, `smacfarlane@canadafrancais.com`
 *Priorité B · Montérégie*
 
 ```
@@ -514,7 +516,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
+Je vous écris parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme à Québec.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -529,7 +531,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Louis-Xavier Michaud — TopoLocal — `lxm@topolocal.ca`
+### Louis-Xavier Michaud, TopoLocal, `lxm@topolocal.ca`
 *Priorité B · Laurentides*
 
 ```
@@ -554,7 +556,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Karianne Nepton-Philippe — Journal Le Manic — `knphilippe@lemanic.ca`
+### Karianne Nepton-Philippe, Journal Le Manic, `knphilippe@lemanic.ca`
 *Priorité B · Est-du-Québec*
 
 ```
@@ -579,7 +581,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Geneviève Normand — Agence France Presse — `genevieve.normand@afp.com`
+### Geneviève Normand, Agence France Presse, `genevieve.normand@afp.com`
 *Priorité B · Montérégie*
 
 ```
@@ -589,7 +591,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
+Je vous écris parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme à Québec.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -604,7 +606,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Mario Boulianne — Le Droit — `mboulianne@ledroit.com`
+### Mario Boulianne, Le Droit, `mboulianne@ledroit.com`
 *Priorité C · Outaouais*
 
 ```
@@ -629,7 +631,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Kathleen Couillard — Agence Science Presse — `kcouillard@gmail.com`
+### Kathleen Couillard, Agence Science Presse, `kcouillard@gmail.com`
 *Priorité C · Montérégie*
 
 ```
@@ -639,7 +641,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
+Je vous écris parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme à Québec.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -654,7 +656,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Thomas Deshaies — Radio-Canada (QC) — `thomas.deshaies@radio-canada.ca`
+### Thomas Deshaies, Radio-Canada (QC), `thomas.deshaies@radio-canada.ca`
 *Priorité C · Estrie*
 
 ```
@@ -664,7 +666,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris entre autres parce qu'une des premières usines de transformation de la fibre était à Granby, et que l'Estrie compte encore des producteurs d'asclépiade.
+Je vous écris parce que la transformation de la fibre se faisait à Granby, rue Bernard. L'atelier appartenait au groupe Protec-Style, qui exploitait aussi l'usine de Saint-Tite, et les deux sont tombées le 11 octobre 2017 avec une dette de plus de 1,4 M$ (https://www.lhebdodustmaurice.com/actualite/protec-style-en-faillite/). L'Estrie compte encore des producteurs d'asclépiade, et on continue d'acheter de la fibre québécoise.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -679,7 +681,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Marie-Claude Di Lillo — Châtelaine — `mcdilillo@videotron.ca`
+### Marie-Claude Di Lillo, Châtelaine, `mcdilillo@videotron.ca`
 *Priorité C · Laval*
 
 ```
@@ -704,7 +706,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### MELISSA PELLETIER — Radio-Canada — `melissa.pelletier@radio-canada.ca`
+### MELISSA PELLETIER, Radio-Canada, `melissa.pelletier@radio-canada.ca`
 *Priorité C · Montérégie*
 
 ```
@@ -714,7 +716,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
+Je vous écris parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme à Québec.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -729,7 +731,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Isaac Peltz — Pivot — `isaacapeltz@protonmail.com`
+### Isaac Peltz, Pivot, `isaacapeltz@protonmail.com`
 *Priorité C · Centre-du-Québec*
 
 ```
@@ -739,7 +741,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris entre autres parce que l'asclépiade se cultive dans votre région depuis la première vague de 2013, et que plusieurs des producteurs qui ont tenu bon nous vendent encore leur récolte.
+Je vous écris parce que l'asclépiade se cultive chez vous depuis la première vague de 2013, celle de la Coopérative Monark et de ses 125 producteurs. Plusieurs de ceux qui ont tenu bon après la faillite d'octobre 2017 (https://ici.radio-canada.ca/nouvelle/1061543/asclepiade-soyer-producteurs-industries-encore3-faillite-monark) nous vendent encore leur récolte.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -754,7 +756,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Francis Plourde — Radio-Canada — `francis.plourde@radio-canada.ca`
+### Francis Plourde, Radio-Canada, `francis.plourde@radio-canada.ca`
 *Priorité C · Canada anglais*
 
 ```
@@ -779,7 +781,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Louis-Philippe Samson — L'Express (Drummondville) — `louis-philippe.samson@journalexpress.ca`
+### Louis-Philippe Samson, L'Express (Drummondville), `louis-philippe.samson@journalexpress.ca`
 *Priorité C · Centre-du-Québec*
 
 ```
@@ -789,7 +791,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris entre autres parce que l'asclépiade se cultive dans votre région depuis la première vague de 2013, et que plusieurs des producteurs qui ont tenu bon nous vendent encore leur récolte.
+Je vous écris parce que l'asclépiade se cultive chez vous depuis la première vague de 2013, celle de la Coopérative Monark et de ses 125 producteurs. Plusieurs de ceux qui ont tenu bon après la faillite d'octobre 2017 (https://ici.radio-canada.ca/nouvelle/1061543/asclepiade-soyer-producteurs-industries-encore3-faillite-monark) nous vendent encore leur récolte.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -804,7 +806,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Jacques Sennechael — Vélo Québec Éditions - Vélo Mag — `jsennechael@velo.qc.ca`
+### Jacques Sennechael, Vélo Québec Éditions - Vélo Mag, `jsennechael@velo.qc.ca`
 *Priorité C · Lanaudière*
 
 ```
@@ -829,7 +831,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Paule Vermot-Desroches — Le Nouvelliste — `paule.vermot-desroches@lenouvelliste.qc.ca`
+### Paule Vermot-Desroches, Le Nouvelliste, `paule.vermot-desroches@lenouvelliste.qc.ca`
 *Priorité C · Mauricie*
 
 ```
@@ -839,7 +841,9 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris entre autres parce que l'asclépiade a eu son grand moment industriel chez vous : l'usine de Saint-Tite achetait 90 % des récoltes du Québec avant que la filière se casse en 2018. Des producteurs de la Mauricie cultivent encore, et on continue d'acheter leur récolte.
+Je vous écris parce que l'asclépiade a commencé chez vous, à Saint-Tite et dans Mékinac. Le groupe Protec-Style, qui exploitait l'usine de Saint-Tite sous le nom d'Encore 3, avait réservé 90 % de la récolte québécoise quand il a fait faillite le 11 octobre 2017 (https://ici.radio-canada.ca/nouvelle/1061543/asclepiade-soyer-producteurs-industries-encore3-faillite-monark), emportant Saint-Tite et son atelier de Granby. Les 125 producteurs de la Coopérative Monark ont pris le choc. Six semaines plus tard, la MRC de Mékinac a fait pencher la relance (https://lenouvelliste.ca/affaires/asclepiade-les-activites-reprennent-a-lusine-de-saint-tite-9a7c0d08d77c81c7ab22fdfc8e47a922).
+
+Neuf ans après, on achète encore de l'asclépiade québécoise et on la transforme nous-mêmes à Québec. Ce jeudi, c'est cette plante-là que je vais défendre à la télévision nationale.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -854,7 +858,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Paul Émile d'Entremont — Radio-Canada — `paul.emile.dentremont@radio-canada.ca`
+### Paul Émile d'Entremont, Radio-Canada, `paul.emile.dentremont@radio-canada.ca`
 *Priorité C · Canada anglais*
 
 ```
@@ -879,9 +883,9 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-## Angle C — 32 contacts
+## Angle C, 32 contacts
 
-### Marie Allard — Publications BLD inc — `marie.allard@laesdebrouillards.com` — **écrit à la main**
+### Marie Allard, Publications BLD inc, `marie.allard@laesdebrouillards.com`, **écrit à la main**
 *Priorité A · Montréal*
 
 ```
@@ -906,7 +910,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Zoé Allemand — Pigiste — `zoe.allemand@hotmail.com`
+### Zoé Allemand, Pigiste, `zoe.allemand@hotmail.com`
 *Priorité A · Est-du-Québec*
 
 ```
@@ -916,7 +920,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -931,7 +935,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Normand Blouin — Pigiste — `normandblouin@gmail.com`
+### Normand Blouin, Pigiste, `normandblouin@gmail.com`
 *Priorité A · Laurentides*
 
 ```
@@ -941,7 +945,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -956,7 +960,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Jean-Marc Chevalier — Pigiste — `info@photojmc.ca`
+### Jean-Marc Chevalier, Pigiste, `info@photojmc.ca`
 *Priorité A · Montérégie*
 
 ```
@@ -966,7 +970,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
+Je vous écris parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme à Québec.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -981,7 +985,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Simon Chrétien — Pigiste — `schretien@alliancepolymeres.org`
+### Simon Chrétien, Pigiste, `schretien@alliancepolymeres.org`
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
@@ -991,7 +995,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -1006,7 +1010,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Catherine Dallaire — Pigiste — `dallai.redaction@gmail.com`
+### Catherine Dallaire, Pigiste, `dallai.redaction@gmail.com`
 *Priorité A · Estrie*
 
 ```
@@ -1016,7 +1020,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris entre autres parce qu'une des premières usines de transformation de la fibre était à Granby, et que l'Estrie compte encore des producteurs d'asclépiade.
+Je vous écris parce que la transformation de la fibre se faisait à Granby, rue Bernard. L'atelier appartenait au groupe Protec-Style, qui exploitait aussi l'usine de Saint-Tite, et les deux sont tombées le 11 octobre 2017 avec une dette de plus de 1,4 M$ (https://www.lhebdodustmaurice.com/actualite/protec-style-en-faillite/). L'Estrie compte encore des producteurs d'asclépiade, et on continue d'acheter de la fibre québécoise.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -1031,7 +1035,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Simon Dominé — Pigiste — `sdomine@chga.fm`
+### Simon Dominé, Pigiste, `sdomine@chga.fm`
 *Priorité A · Outaouais*
 
 ```
@@ -1041,7 +1045,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -1056,7 +1060,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Myriam Fimbry — Radio-Canada (QC) — `myriam.fimbry@radio-canada.ca`
+### Myriam Fimbry, Radio-Canada (QC), `myriam.fimbry@radio-canada.ca`
 *Priorité A · Montréal*
 
 ```
@@ -1066,7 +1070,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -1081,7 +1085,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Pauline Gravel — Le Devoir — `pgravel@ledevoir.com`
+### Pauline Gravel, Le Devoir, `pgravel@ledevoir.com`
 *Priorité A · Montréal*
 
 ```
@@ -1091,7 +1095,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -1106,7 +1110,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Leïla Jolin-Dahel — Le Devoir — `leila.jolindahel@gmail.com`
+### Leïla Jolin-Dahel, Le Devoir, `leila.jolindahel@gmail.com`
 *Priorité A · Montréal*
 
 ```
@@ -1116,7 +1120,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -1131,7 +1135,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Annie Labrecque — Québec Science — `alabrecque@live.ca`
+### Annie Labrecque, Québec Science, `alabrecque@live.ca`
 *Priorité A · Montréal*
 
 ```
@@ -1141,7 +1145,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -1156,7 +1160,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Sophie Lachapelle — Nouveau Projet — `sophiela8@me.com`
+### Sophie Lachapelle, Nouveau Projet, `sophiela8@me.com`
 *Priorité A · Montréal*
 
 ```
@@ -1166,7 +1170,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -1181,7 +1185,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Annie Martin — Pigiste — `amartin@chga.fm`
+### Annie Martin, Pigiste, `amartin@chga.fm`
 *Priorité A · Outaouais*
 
 ```
@@ -1191,7 +1195,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -1206,7 +1210,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Réjean Martin — Pigiste — `redaction.mekinac@lebulletindeschenaux.com` — **écrit à la main**
+### Réjean Martin, Pigiste, `redaction.mekinac@lebulletindeschenaux.com`, **écrit à la main**
 *Priorité A · Mauricie*
 
 ```
@@ -1214,7 +1218,7 @@ Bonjour Réjean,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Vous couvrez Mékinac, donc Saint-Tite, donc l'endroit où l'asclépiade a eu son grand moment industriel au Québec. L'usine achetait 90 % des récoltes de la province avant que la filière se casse en 2018.
+Vous couvrez Mékinac, donc Saint-Tite, donc l'endroit où l'asclépiade a eu son grand moment industriel au Québec. L'usine achetait 90 % des récoltes de la province avant que la filière se casse le 11 octobre 2017.
 
 On a démarré après. Six ans plus tard, on achète encore de l'asclépiade québécoise et on la transforme nous-mêmes à Québec.
 
@@ -1231,7 +1235,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Clara Matthey-Jonais — Pigiste — `journaliste@tvbl.qc.ca`
+### Clara Matthey-Jonais, Pigiste, `journaliste@tvbl.qc.ca`
 *Priorité A · Montréal*
 
 ```
@@ -1241,7 +1245,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -1256,7 +1260,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Valérian Mazataud — Le Devoir — `vmazataud@ledevoir.com`
+### Valérian Mazataud, Le Devoir, `vmazataud@ledevoir.com`
 *Priorité A · Montréal*
 
 ```
@@ -1266,7 +1270,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -1281,7 +1285,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Nicolas Mesly — Pigiste — `nicolasmesly@gmail.com`
+### Nicolas Mesly, Pigiste, `nicolasmesly@gmail.com`
 *Priorité A · Montréal*
 
 ```
@@ -1291,7 +1295,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -1306,7 +1310,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Nicolas Michaud — Pigiste — `nicolas.michaud.1@umontreal.ca`
+### Nicolas Michaud, Pigiste, `nicolas.michaud.1@umontreal.ca`
 *Priorité A · Lanaudière*
 
 ```
@@ -1316,7 +1320,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -1331,7 +1335,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Véronique Morin — Quebecor Média — `veronique.morin@quebecormedia.com`
+### Véronique Morin, Quebecor Média, `veronique.morin@quebecormedia.com`
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
@@ -1341,7 +1345,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -1356,7 +1360,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Josée Panet-Raymond — Pigiste — `jopanray@videotron.ca`
+### Josée Panet-Raymond, Pigiste, `jopanray@videotron.ca`
 *Priorité A · Laval*
 
 ```
@@ -1366,7 +1370,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -1381,7 +1385,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Yannick Patelli — Pigiste — `ypatelli@lavieagricole.com`
+### Yannick Patelli, Pigiste, `ypatelli@lavieagricole.com`
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
@@ -1391,7 +1395,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -1406,7 +1410,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Marie-Hélène Proulx — L’actualité — `mhproulx@lactualite.com`
+### Marie-Hélène Proulx, L’actualité, `mhproulx@lactualite.com`
 *Priorité A · Montréal*
 
 ```
@@ -1416,7 +1420,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -1431,7 +1435,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Scott Stevenson — Pigiste — `direction@journalhsf.com`
+### Scott Stevenson, Pigiste, `direction@journalhsf.com`
 *Priorité A · Estrie*
 
 ```
@@ -1441,7 +1445,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris entre autres parce qu'une des premières usines de transformation de la fibre était à Granby, et que l'Estrie compte encore des producteurs d'asclépiade.
+Je vous écris parce que la transformation de la fibre se faisait à Granby, rue Bernard. L'atelier appartenait au groupe Protec-Style, qui exploitait aussi l'usine de Saint-Tite, et les deux sont tombées le 11 octobre 2017 avec une dette de plus de 1,4 M$ (https://www.lhebdodustmaurice.com/actualite/protec-style-en-faillite/). L'Estrie compte encore des producteurs d'asclépiade, et on continue d'acheter de la fibre québécoise.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -1456,7 +1460,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Michèle Tanganika — Pigiste — `mtanganika@chga.fm`
+### Michèle Tanganika, Pigiste, `mtanganika@chga.fm`
 *Priorité A · Outaouais*
 
 ```
@@ -1466,7 +1470,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -1481,7 +1485,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### MARC-OLIVIER BISSON — Pigiste — `mobisson@ledroit.com`
+### MARC-OLIVIER BISSON, Pigiste, `mobisson@ledroit.com`
 *Priorité B · Laurentides*
 
 ```
@@ -1491,7 +1495,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -1506,7 +1510,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Gilles Bérubé — Pigiste — `gilles-berube@hotmail.com`
+### Gilles Bérubé, Pigiste, `gilles-berube@hotmail.com`
 *Priorité B · Montérégie*
 
 ```
@@ -1516,7 +1520,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
+Je vous écris parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme à Québec.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -1531,7 +1535,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Daphné Cameron — La Presse — `dcameron@lapresse.ca`
+### Daphné Cameron, La Presse, `dcameron@lapresse.ca`
 *Priorité B · Montréal*
 
 ```
@@ -1541,7 +1545,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -1556,7 +1560,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Sarah Champagne — Le Devoir — `schampagne@ledevoir.com`
+### Sarah Champagne, Le Devoir, `schampagne@ledevoir.com`
 *Priorité B · Montréal*
 
 ```
@@ -1566,7 +1570,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -1581,7 +1585,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Ève Dumas — La Presse — `edumas@lapresse.ca`
+### Ève Dumas, La Presse, `edumas@lapresse.ca`
 *Priorité B · Montréal*
 
 ```
@@ -1591,7 +1595,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -1606,7 +1610,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Chloé Germain-Thérien — Le Devoir — `cgermain@ledevoir.com`
+### Chloé Germain-Thérien, Le Devoir, `cgermain@ledevoir.com`
 *Priorité B · Mauricie*
 
 ```
@@ -1616,7 +1620,9 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris entre autres parce que l'asclépiade a eu son grand moment industriel chez vous : l'usine de Saint-Tite achetait 90 % des récoltes du Québec avant que la filière se casse en 2018. Des producteurs de la Mauricie cultivent encore, et on continue d'acheter leur récolte.
+Je vous écris parce que l'asclépiade a commencé chez vous, à Saint-Tite et dans Mékinac. Le groupe Protec-Style, qui exploitait l'usine de Saint-Tite sous le nom d'Encore 3, avait réservé 90 % de la récolte québécoise quand il a fait faillite le 11 octobre 2017 (https://ici.radio-canada.ca/nouvelle/1061543/asclepiade-soyer-producteurs-industries-encore3-faillite-monark), emportant Saint-Tite et son atelier de Granby. Les 125 producteurs de la Coopérative Monark ont pris le choc. Six semaines plus tard, la MRC de Mékinac a fait pencher la relance (https://lenouvelliste.ca/affaires/asclepiade-les-activites-reprennent-a-lusine-de-saint-tite-9a7c0d08d77c81c7ab22fdfc8e47a922).
+
+Neuf ans après, on achète encore de l'asclépiade québécoise et on la transforme nous-mêmes à Québec. Ce jeudi, c'est cette plante-là que je vais défendre à la télévision nationale.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -1631,7 +1637,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Gildas Meneu — Radio-Canada (Montréal) — `gildas.meneu@radio-canada.ca`
+### Gildas Meneu, Radio-Canada (Montréal), `gildas.meneu@radio-canada.ca`
 *Priorité B · Montréal*
 
 ```
@@ -1641,7 +1647,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -1656,7 +1662,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Pierre St-Arnaud — La Presse Canadienne — `pierre.st-arnaud@lapressecanadienne.com`
+### Pierre St-Arnaud, La Presse Canadienne, `pierre.st-arnaud@lapressecanadienne.com`
 *Priorité B · Montréal*
 
 ```
@@ -1666,7 +1672,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -1681,9 +1687,9 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-## Angle D — 45 contacts
+## Angle D, 45 contacts
 
-### Ariane Boyer — Pigiste — `ariane.boyer@tva.ca`
+### Ariane Boyer, Pigiste, `ariane.boyer@tva.ca`
 *Priorité A · Est-du-Québec*
 
 ```
@@ -1708,7 +1714,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Anaïs Desjardins — Radio-Canada (Ottawa) — `anais.desjardins@radio-canada.ca`
+### Anaïs Desjardins, Radio-Canada (Ottawa), `anais.desjardins@radio-canada.ca`
 *Priorité A · Montréal*
 
 ```
@@ -1733,7 +1739,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Jean Garon — Pigiste — `jeangaron@videotron.ca`
+### Jean Garon, Pigiste, `jeangaron@videotron.ca`
 *Priorité A · Montréal*
 
 ```
@@ -1758,7 +1764,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Kodjo Edjinam Nulagnon LOGO — Pigiste — `alphonse@flofm.ca`
+### Kodjo Edjinam Nulagnon LOGO, Pigiste, `alphonse@flofm.ca`
 *Priorité A · Est-du-Québec*
 
 ```
@@ -1783,7 +1789,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Charles Mathieu — Quebecor Média — `charles.mathieu@quebecormedia.com`
+### Charles Mathieu, Quebecor Média, `charles.mathieu@quebecormedia.com`
 *Priorité A · Montréal*
 
 ```
@@ -1808,7 +1814,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Félix Pedneault — Le Devoir — `felix.pedneault21@gmail.com`
+### Félix Pedneault, Le Devoir, `felix.pedneault21@gmail.com`
 *Priorité A · Montréal*
 
 ```
@@ -1833,7 +1839,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Jean-Francois Venne — Pigiste — `jf_venne@videotron.ca`
+### Jean-Francois Venne, Pigiste, `jf_venne@videotron.ca`
 *Priorité A · Montréal*
 
 ```
@@ -1858,7 +1864,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Yahia Arkat — Agence QMI — `dayenkan@yahoo.fr`
+### Yahia Arkat, Agence QMI, `dayenkan@yahoo.fr`
 *Priorité B · Montréal*
 
 ```
@@ -1883,7 +1889,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Maïté Belmir — Pigiste — `belmirmaitepro@gmail.com`
+### Maïté Belmir, Pigiste, `belmirmaitepro@gmail.com`
 *Priorité B · Montréal*
 
 ```
@@ -1908,7 +1914,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### André Bernard — Radio-Canada (Montréal) — `andre.bernard_tv@radio-canada.ca`
+### André Bernard, Radio-Canada (Montréal), `andre.bernard_tv@radio-canada.ca`
 *Priorité B · Montréal*
 
 ```
@@ -1933,7 +1939,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Didier Bert — Pigiste — `didier@didierbert.com`
+### Didier Bert, Pigiste, `didier@didierbert.com`
 *Priorité B · France*
 
 ```
@@ -1958,7 +1964,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Sara Champagne — La Presse — `schampagne@lapresse.ca`
+### Sara Champagne, La Presse, `schampagne@lapresse.ca`
 *Priorité B · Montréal*
 
 ```
@@ -1983,7 +1989,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Éric-Pierre Champagne — La Presse — `echampagne@lapresse.ca`
+### Éric-Pierre Champagne, La Presse, `echampagne@lapresse.ca`
 *Priorité B · Montréal*
 
 ```
@@ -2008,7 +2014,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Marine Corniou — Québec Science — `m.corniou@quebecscience.qc.ca`
+### Marine Corniou, Québec Science, `m.corniou@quebecscience.qc.ca`
 *Priorité B · Montréal*
 
 ```
@@ -2033,7 +2039,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Catherine Crépeau — Protégez-Vous — `ccrepeau@protegez-vous.ca`
+### Catherine Crépeau, Protégez-Vous, `ccrepeau@protegez-vous.ca`
 *Priorité B · Montréal*
 
 ```
@@ -2058,7 +2064,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Amélie Daoust-Boisvert — Pigiste — `amelie.daoust-boisvert@concordia.ca`
+### Amélie Daoust-Boisvert, Pigiste, `amelie.daoust-boisvert@concordia.ca`
 *Priorité B · Montérégie*
 
 ```
@@ -2068,7 +2074,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
+Je vous écris parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme à Québec.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -2083,7 +2089,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Quentin Dufranne — Pigiste — `quentin.dufranne@gmail.com`
+### Quentin Dufranne, Pigiste, `quentin.dufranne@gmail.com`
 *Priorité B · Montréal*
 
 ```
@@ -2108,7 +2114,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Ahmed Kouaou — Radio-Canada (Montréal) — `ahmed.kouaou@radio-canada.ca`
+### Ahmed Kouaou, Radio-Canada (Montréal), `ahmed.kouaou@radio-canada.ca`
 *Priorité B · Montréal*
 
 ```
@@ -2133,7 +2139,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Tania Krywiak — Bell Média — `tania.krywiak@bellmedia.ca`
+### Tania Krywiak, Bell Média, `tania.krywiak@bellmedia.ca`
 *Priorité B · Montréal*
 
 ```
@@ -2158,7 +2164,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Boris Proulx — Le Devoir — `bproulx@ledevoir.com`
+### Boris Proulx, Le Devoir, `bproulx@ledevoir.com`
 *Priorité B · Ontario*
 
 ```
@@ -2183,7 +2189,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Philippe Robitaille-Grou — Radio-Canada — `philippe.robitaille-grou@radio-canada.ca`
+### Philippe Robitaille-Grou, Radio-Canada, `philippe.robitaille-grou@radio-canada.ca`
 *Priorité B · Montréal*
 
 ```
@@ -2208,7 +2214,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Gwen Roley — Agence France Presse — `gwen.roley@afp.com`
+### Gwen Roley, Agence France Presse, `gwen.roley@afp.com`
 *Priorité B · Montréal*
 
 ```
@@ -2233,7 +2239,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Mathieu-Robert Sauvé — Le Journal de Montréal — `mathieu-robert.sauve@umontreal.ca`
+### Mathieu-Robert Sauvé, Le Journal de Montréal, `mathieu-robert.sauve@umontreal.ca`
 *Priorité B · Montréal*
 
 ```
@@ -2258,7 +2264,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Yanick Villedieu — Radio-Canada (QC) — `villedieu.yanick@videotron.ca`
+### Yanick Villedieu, Radio-Canada (QC), `villedieu.yanick@videotron.ca`
 *Priorité B · Montréal*
 
 ```
@@ -2283,7 +2289,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Jonathan Allard — Le Devoir — `jallard@ledevoir.com`
+### Jonathan Allard, Le Devoir, `jallard@ledevoir.com`
 *Priorité C · Montréal*
 
 ```
@@ -2308,7 +2314,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Anick Baribeau — Pigiste — `anick.baribeau.1@ulaval.ca`
+### Anick Baribeau, Pigiste, `anick.baribeau.1@ulaval.ca`
 *Priorité C · Mauricie*
 
 ```
@@ -2318,7 +2324,9 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris entre autres parce que l'asclépiade a eu son grand moment industriel chez vous : l'usine de Saint-Tite achetait 90 % des récoltes du Québec avant que la filière se casse en 2018. Des producteurs de la Mauricie cultivent encore, et on continue d'acheter leur récolte.
+Je vous écris parce que l'asclépiade a commencé chez vous, à Saint-Tite et dans Mékinac. Le groupe Protec-Style, qui exploitait l'usine de Saint-Tite sous le nom d'Encore 3, avait réservé 90 % de la récolte québécoise quand il a fait faillite le 11 octobre 2017 (https://ici.radio-canada.ca/nouvelle/1061543/asclepiade-soyer-producteurs-industries-encore3-faillite-monark), emportant Saint-Tite et son atelier de Granby. Les 125 producteurs de la Coopérative Monark ont pris le choc. Six semaines plus tard, la MRC de Mékinac a fait pencher la relance (https://lenouvelliste.ca/affaires/asclepiade-les-activites-reprennent-a-lusine-de-saint-tite-9a7c0d08d77c81c7ab22fdfc8e47a922).
+
+Neuf ans après, on achète encore de l'asclépiade québécoise et on la transforme nous-mêmes à Québec. Ce jeudi, c'est cette plante-là que je vais défendre à la télévision nationale.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -2333,7 +2341,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Karim Benessaieh — La Presse — `kbenessaieh@lapresse.ca`
+### Karim Benessaieh, La Presse, `kbenessaieh@lapresse.ca`
 *Priorité C · Montréal*
 
 ```
@@ -2358,7 +2366,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Julien Cayouette — Pigiste — `julien@francopresse.ca`
+### Julien Cayouette, Pigiste, `julien@francopresse.ca`
 *Priorité C · Ontario*
 
 ```
@@ -2383,7 +2391,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Sarah Collardey — Le Devoir — `sarah.collardey1@gmail.com`
+### Sarah Collardey, Le Devoir, `sarah.collardey1@gmail.com`
 *Priorité C · Montréal*
 
 ```
@@ -2408,7 +2416,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Marcelin Delice — Pigiste — `marcelindelice@gmail.com`
+### Marcelin Delice, Pigiste, `marcelindelice@gmail.com`
 *Priorité C · Montréal*
 
 ```
@@ -2433,7 +2441,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Martine Deslauriers — Pigiste — `mdeslauriersmba@gmail.com`
+### Martine Deslauriers, Pigiste, `mdeslauriersmba@gmail.com`
 *Priorité C · Montréal*
 
 ```
@@ -2458,7 +2466,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Maxim Fauteux — Pigiste — `2433413@etu.cegepjonquiere.ca`
+### Maxim Fauteux, Pigiste, `2433413@etu.cegepjonquiere.ca`
 *Priorité C · Saguenay - Lac-Saint-Jean*
 
 ```
@@ -2468,7 +2476,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris entre autres parce qu'un de nos fournisseurs d'asclépiade cultive au Lac-Saint-Jean depuis nos tout débuts, et qu'il l'est encore aujourd'hui. La fibre de chez vous se retrouve dans nos produits.
+Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -2483,7 +2491,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Zacharie Goudreault — Le Devoir — `zgoudreault@ledevoir.com`
+### Zacharie Goudreault, Le Devoir, `zgoudreault@ledevoir.com`
 *Priorité C · Montréal*
 
 ```
@@ -2508,7 +2516,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### ANGELO JEAN-BAPTISTE — Pigiste — `iciangegoal@yahoo.ca`
+### ANGELO JEAN-BAPTISTE, Pigiste, `iciangegoal@yahoo.ca`
 *Priorité C · Montréal*
 
 ```
@@ -2533,7 +2541,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Angie Landry — L'actualité — `angie.landry@lactualite.com`
+### Angie Landry, L'actualité, `angie.landry@lactualite.com`
 *Priorité C · Montréal*
 
 ```
@@ -2558,7 +2566,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Camille Langlade — Pigiste — `camille@francopresse.ca`
+### Camille Langlade, Pigiste, `camille@francopresse.ca`
 *Priorité C · Montréal*
 
 ```
@@ -2583,7 +2591,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Étienne Leblanc — Radio-Canada (Montréal) — `etienne.leblanc@radio-canada.ca`
+### Étienne Leblanc, Radio-Canada (Montréal), `etienne.leblanc@radio-canada.ca`
 *Priorité C · Montréal*
 
 ```
@@ -2608,7 +2616,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Colin McGregor — Pigiste — `colin.mcgregor@tse2015.ca`
+### Colin McGregor, Pigiste, `colin.mcgregor@tse2015.ca`
 *Priorité C · Montréal*
 
 ```
@@ -2633,7 +2641,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Marie-Paul Rouleau — Pigiste — `mprouleau100@gmail.com`
+### Marie-Paul Rouleau, Pigiste, `mprouleau100@gmail.com`
 *Priorité C · Montréal*
 
 ```
@@ -2658,7 +2666,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Alexandre Shields — Le Devoir — `ashields@ledevoir.com`
+### Alexandre Shields, Le Devoir, `ashields@ledevoir.com`
 *Priorité C · Montréal*
 
 ```
@@ -2683,7 +2691,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Chloé Sondervorst — Radio-Canada (QC) — `chloe.sondervorst@radio-canada.ca`
+### Chloé Sondervorst, Radio-Canada (QC), `chloe.sondervorst@radio-canada.ca`
 *Priorité C · Montréal*
 
 ```
@@ -2708,7 +2716,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Martin Tremblay — La Presse — `martin.tremblay@lapresse.ca`
+### Martin Tremblay, La Presse, `martin.tremblay@lapresse.ca`
 *Priorité C · Montréal*
 
 ```
@@ -2733,7 +2741,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Raymond Viger — Reflet de société — `raymondviger@hotmail.com`
+### Raymond Viger, Reflet de société, `raymondviger@hotmail.com`
 *Priorité C · Montréal*
 
 ```
@@ -2758,7 +2766,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Augustin de Baudinière — Le Devoir — `adebaudiniere@ledevoir.com`
+### Augustin de Baudinière, Le Devoir, `adebaudiniere@ledevoir.com`
 *Priorité C · Montréal*
 
 ```
@@ -2783,7 +2791,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Ivan de Jacquelin-Dulphe — Radio-Canada — `ivan.de.jacquelin-dulphe@radio-canada.ca`
+### Ivan de Jacquelin-Dulphe, Radio-Canada, `ivan.de.jacquelin-dulphe@radio-canada.ca`
 *Priorité C · Montréal*
 
 ```
@@ -2808,9 +2816,9 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-## Angle E — 26 contacts
+## Angle E, 26 contacts
 
-### Francois Bourque — Pigiste — `franbour2@videotron.ca`
+### Francois Bourque, Pigiste, `franbour2@videotron.ca`
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
@@ -2835,7 +2843,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Jean-Luc Lavallée — Protégez-Vous — `jllavallee@protegez-vous.ca`
+### Jean-Luc Lavallée, Protégez-Vous, `jllavallee@protegez-vous.ca`
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
@@ -2860,7 +2868,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Marie-Eve Fournier — La Presse — `mfournier@lapresse.ca`
+### Marie-Eve Fournier, La Presse, `mfournier@lapresse.ca`
 *Priorité B · Montréal*
 
 ```
@@ -2885,7 +2893,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Marie-Pier Frappier — Les Affaires — `marie-pier.frappier@groupecontex.ca`
+### Marie-Pier Frappier, Les Affaires, `marie-pier.frappier@groupecontex.ca`
 *Priorité B · Montréal*
 
 ```
@@ -2910,7 +2918,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Annie Hudon — Radio-Canada (Montréal) — `annie.hudon-friceau@radio-canada.ca`
+### Annie Hudon, Radio-Canada (Montréal), `annie.hudon-friceau@radio-canada.ca`
 *Priorité B · Montréal*
 
 ```
@@ -2935,7 +2943,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Yvan Lamontagne — Radio-Canada (Montréal) — `yvan.lamontagne@radio-canada.ca`
+### Yvan Lamontagne, Radio-Canada (Montréal), `yvan.lamontagne@radio-canada.ca`
 *Priorité B · Estrie*
 
 ```
@@ -2945,7 +2953,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris entre autres parce qu'une des premières usines de transformation de la fibre était à Granby, et que l'Estrie compte encore des producteurs d'asclépiade.
+Je vous écris parce que la transformation de la fibre se faisait à Granby, rue Bernard. L'atelier appartenait au groupe Protec-Style, qui exploitait aussi l'usine de Saint-Tite, et les deux sont tombées le 11 octobre 2017 avec une dette de plus de 1,4 M$ (https://www.lhebdodustmaurice.com/actualite/protec-style-en-faillite/). L'Estrie compte encore des producteurs d'asclépiade, et on continue d'acheter de la fibre québécoise.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -2960,7 +2968,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Anne Marie Lecomte — Radio-Canada (Montréal) — `anne-marie.lecomte@radio-canada.ca`
+### Anne Marie Lecomte, Radio-Canada (Montréal), `anne-marie.lecomte@radio-canada.ca`
 *Priorité B · Montréal*
 
 ```
@@ -2985,7 +2993,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Katherine Tremblay — Radio-Canada (Montréal) — `katherine.tremblay@radio-canada.ca`
+### Katherine Tremblay, Radio-Canada (Montréal), `katherine.tremblay@radio-canada.ca`
 *Priorité B · Montérégie*
 
 ```
@@ -2995,7 +3003,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
+Je vous écris parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme à Québec.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -3010,7 +3018,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Martin Vallières — La Presse — `mvallier@lapresse.ca`
+### Martin Vallières, La Presse, `mvallier@lapresse.ca`
 *Priorité B · Montréal*
 
 ```
@@ -3035,7 +3043,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Félix-Antoine Beauchemin — Pigiste — `editor@theconcordian.com`
+### Félix-Antoine Beauchemin, Pigiste, `editor@theconcordian.com`
 *Priorité C · Montérégie*
 
 ```
@@ -3045,7 +3053,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
+Je vous écris parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme à Québec.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -3060,7 +3068,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Karine Boivin Forcier — Pigiste — `kbforcier@informeaffaires.com`
+### Karine Boivin Forcier, Pigiste, `kbforcier@informeaffaires.com`
 *Priorité C · Saguenay - Lac-Saint-Jean*
 
 ```
@@ -3070,7 +3078,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris entre autres parce qu'un de nos fournisseurs d'asclépiade cultive au Lac-Saint-Jean depuis nos tout débuts, et qu'il l'est encore aujourd'hui. La fibre de chez vous se retrouve dans nos produits.
+Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -3085,7 +3093,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Pierre Brisson — Université de Montréal — `brissonp@hotmail.com`
+### Pierre Brisson, Université de Montréal, `brissonp@hotmail.com`
 *Priorité C · Montréal*
 
 ```
@@ -3110,7 +3118,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Diane Bérard — Pigiste — `diane_berard@hotmail.com`
+### Diane Bérard, Pigiste, `diane_berard@hotmail.com`
 *Priorité C · Montréal*
 
 ```
@@ -3135,7 +3143,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Ivanoh Demers — Radio-Canada — `ivanoh.demers@radio-canada.ca`
+### Ivanoh Demers, Radio-Canada, `ivanoh.demers@radio-canada.ca`
 *Priorité C · Montréal*
 
 ```
@@ -3160,7 +3168,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Claude Desjardins — Pigiste — `jardinsclaudes@gmail.com`
+### Claude Desjardins, Pigiste, `jardinsclaudes@gmail.com`
 *Priorité C · Lanaudière*
 
 ```
@@ -3185,7 +3193,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Richard Dupaul — Pigiste — `richard.dupaul@gmail.com`
+### Richard Dupaul, Pigiste, `richard.dupaul@gmail.com`
 *Priorité C · Montréal*
 
 ```
@@ -3210,7 +3218,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Stéphane Giroux — Bell Média — `stephane.giroux@bellmedia.ca`
+### Stéphane Giroux, Bell Média, `stephane.giroux@bellmedia.ca`
 *Priorité C · Montréal*
 
 ```
@@ -3235,7 +3243,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Matthieu Hains — Les Affaires — `matthieu.hains@groupecontex.ca`
+### Matthieu Hains, Les Affaires, `matthieu.hains@groupecontex.ca`
 *Priorité C · Montréal*
 
 ```
@@ -3260,7 +3268,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Hugo Joncas — La Presse — `hjoncas@lapresse.ca`
+### Hugo Joncas, La Presse, `hjoncas@lapresse.ca`
 *Priorité C · Montréal*
 
 ```
@@ -3285,7 +3293,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Guillaume Longuépée — Pigiste — `longuepeeguillaume04@gmail.com`
+### Guillaume Longuépée, Pigiste, `longuepeeguillaume04@gmail.com`
 *Priorité C · Montréal*
 
 ```
@@ -3310,7 +3318,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Roxane Léouzon — Le Devoir — `rleouzon@ledevoir.com`
+### Roxane Léouzon, Le Devoir, `rleouzon@ledevoir.com`
 *Priorité C · Montréal*
 
 ```
@@ -3335,7 +3343,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Timothy Morson — Pigiste — `tim.morson@videotron.ca`
+### Timothy Morson, Pigiste, `tim.morson@videotron.ca`
 *Priorité C · Centre-du-Québec*
 
 ```
@@ -3345,7 +3353,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris entre autres parce que l'asclépiade se cultive dans votre région depuis la première vague de 2013, et que plusieurs des producteurs qui ont tenu bon nous vendent encore leur récolte.
+Je vous écris parce que l'asclépiade se cultive chez vous depuis la première vague de 2013, celle de la Coopérative Monark et de ses 125 producteurs. Plusieurs de ceux qui ont tenu bon après la faillite d'octobre 2017 (https://ici.radio-canada.ca/nouvelle/1061543/asclepiade-soyer-producteurs-industries-encore3-faillite-monark) nous vendent encore leur récolte.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -3360,7 +3368,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Olivier Schmouker — Les Affaires — `olivier.schmouker@groupecontex.ca`
+### Olivier Schmouker, Les Affaires, `olivier.schmouker@groupecontex.ca`
 *Priorité C · Montréal*
 
 ```
@@ -3385,7 +3393,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### William Thériault — La Presse — `williamtheriault1@gmail.com`
+### William Thériault, La Presse, `williamtheriault1@gmail.com`
 *Priorité C · Montérégie*
 
 ```
@@ -3395,7 +3403,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
+Je vous écris parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme à Québec.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -3410,7 +3418,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Katia Tobar — Les Affaires — `katia.tobar@groupecontex.ca`
+### Katia Tobar, Les Affaires, `katia.tobar@groupecontex.ca`
 *Priorité C · Montréal*
 
 ```
@@ -3435,7 +3443,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Pierre-Luc Trudel — Avantages — `pierre-luc.trudel@groupecontex.ca`
+### Pierre-Luc Trudel, Avantages, `pierre-luc.trudel@groupecontex.ca`
 *Priorité C · Montréal*
 
 ```
@@ -3460,9 +3468,9 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-## Angle F — 20 contacts
+## Angle F, 20 contacts
 
-### Eric Chabot — Pigiste — `info@ericchabot.com`
+### Eric Chabot, Pigiste, `info@ericchabot.com`
 *Priorité A · Montréal*
 
 ```
@@ -3487,7 +3495,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Aurélia Crémoux — Pigiste — `aurelia.cremoux@gmail.com`
+### Aurélia Crémoux, Pigiste, `aurelia.cremoux@gmail.com`
 *Priorité A · Montréal*
 
 ```
@@ -3512,7 +3520,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Marieke Glorieux-Stryckman — Le Devoir — `mariekestryckman@gmail.com`
+### Marieke Glorieux-Stryckman, Le Devoir, `mariekestryckman@gmail.com`
 *Priorité A · Montréal*
 
 ```
@@ -3537,7 +3545,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Maude Goyer — Pigiste — `maude.goyer@hec.ca`
+### Maude Goyer, Pigiste, `maude.goyer@hec.ca`
 *Priorité A · Montréal*
 
 ```
@@ -3562,7 +3570,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Jean-Francois Leblanc — Pigiste — `jfleblanc@agencestockphoto.com`
+### Jean-Francois Leblanc, Pigiste, `jfleblanc@agencestockphoto.com`
 *Priorité A · Laurentides*
 
 ```
@@ -3587,7 +3595,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Julie Leduc — Naître et Grandir — `julie.leduc@cgocable.ca`
+### Julie Leduc, Naître et Grandir, `julie.leduc@cgocable.ca`
 *Priorité A · Montréal*
 
 ```
@@ -3612,7 +3620,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Emmanuelle Mozayan-Verschaeve — Pigiste — `ecritsur@gmail.com`
+### Emmanuelle Mozayan-Verschaeve, Pigiste, `ecritsur@gmail.com`
 *Priorité A · Laurentides*
 
 ```
@@ -3637,7 +3645,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Jean-Benoît Nadeau — L’actualité — `jean-benoit@nadeaubarlow.com`
+### Jean-Benoît Nadeau, L’actualité, `jean-benoit@nadeaubarlow.com`
 *Priorité A · Montréal*
 
 ```
@@ -3662,7 +3670,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Yves Ouellet — Pigiste — `y.ouellet@videotron.ca`
+### Yves Ouellet, Pigiste, `y.ouellet@videotron.ca`
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
@@ -3687,7 +3695,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Marie-Eve Poulin — Pigiste — `mepoulin@lenord-cotier.com`
+### Marie-Eve Poulin, Pigiste, `mepoulin@lenord-cotier.com`
 *Priorité A · Est-du-Québec*
 
 ```
@@ -3712,7 +3720,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Sylvain Sarrazin — La Presse — `ssarrazin@lapresse.ca`
+### Sylvain Sarrazin, La Presse, `ssarrazin@lapresse.ca`
 *Priorité A · Montréal*
 
 ```
@@ -3737,7 +3745,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Pierre Sormany — Pigiste — `sormanyp@gmail.com`
+### Pierre Sormany, Pigiste, `sormanyp@gmail.com`
 *Priorité A · Montréal*
 
 ```
@@ -3762,7 +3770,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Shahram Yazdanpanah — Medad — `shram.yazd@gmail.com`
+### Shahram Yazdanpanah, Medad, `shram.yazd@gmail.com`
 *Priorité A · Montréal*
 
 ```
@@ -3787,7 +3795,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Charlotte Glorieux — Pigiste — `glorieux.charlotte@gmail.com`
+### Charlotte Glorieux, Pigiste, `glorieux.charlotte@gmail.com`
 *Priorité B · Montréal*
 
 ```
@@ -3812,7 +3820,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Bruno Lamolet — Québec Science — `blamolet@quebecscience.qc.ca`
+### Bruno Lamolet, Québec Science, `blamolet@quebecscience.qc.ca`
 *Priorité B · Montérégie*
 
 ```
@@ -3822,7 +3830,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
+Je vous écris parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme à Québec.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -3837,7 +3845,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Yves Langlois — Pigiste — `yves@lany.ca`
+### Yves Langlois, Pigiste, `yves@lany.ca`
 *Priorité B · Estrie*
 
 ```
@@ -3847,7 +3855,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris entre autres parce qu'une des premières usines de transformation de la fibre était à Granby, et que l'Estrie compte encore des producteurs d'asclépiade.
+Je vous écris parce que la transformation de la fibre se faisait à Granby, rue Bernard. L'atelier appartenait au groupe Protec-Style, qui exploitait aussi l'usine de Saint-Tite, et les deux sont tombées le 11 octobre 2017 avec une dette de plus de 1,4 M$ (https://www.lhebdodustmaurice.com/actualite/protec-style-en-faillite/). L'Estrie compte encore des producteurs d'asclépiade, et on continue d'acheter de la fibre québécoise.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -3862,7 +3870,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Anne Montplaisir — Pigiste — `anne.montplaisir@radio-canada.ca`
+### Anne Montplaisir, Pigiste, `anne.montplaisir@radio-canada.ca`
 *Priorité B · Montréal*
 
 ```
@@ -3887,7 +3895,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Michel Tremblay — Pigiste — `miczoom@gmail.com`
+### Michel Tremblay, Pigiste, `miczoom@gmail.com`
 *Priorité B · Centre-du-Québec*
 
 ```
@@ -3897,7 +3905,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris entre autres parce que l'asclépiade se cultive dans votre région depuis la première vague de 2013, et que plusieurs des producteurs qui ont tenu bon nous vendent encore leur récolte.
+Je vous écris parce que l'asclépiade se cultive chez vous depuis la première vague de 2013, celle de la Coopérative Monark et de ses 125 producteurs. Plusieurs de ceux qui ont tenu bon après la faillite d'octobre 2017 (https://ici.radio-canada.ca/nouvelle/1061543/asclepiade-soyer-producteurs-industries-encore3-faillite-monark) nous vendent encore leur récolte.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -3912,7 +3920,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Bernard Brault — Pigiste — `photobro@videotron.ca`
+### Bernard Brault, Pigiste, `photobro@videotron.ca`
 *Priorité C · Montérégie*
 
 ```
@@ -3922,7 +3930,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
+Je vous écris parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme à Québec.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -3937,7 +3945,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Alain Demers — Pigiste — `alain.demers@quebecormedia.com`
+### Alain Demers, Pigiste, `alain.demers@quebecormedia.com`
 *Priorité C · Montréal*
 
 ```
@@ -3962,9 +3970,9 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-## Angle G — 21 contacts
+## Angle G, 21 contacts
 
-### Victoria Bakos — Pigiste — `victoria_bakos@hotmail.com`
+### Victoria Bakos, Pigiste, `victoria_bakos@hotmail.com`
 *Priorité A · Laval*
 
 ```
@@ -3989,7 +3997,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Malika Alaoui — Pigiste — `alaoui.malika514@gmail.com`
+### Malika Alaoui, Pigiste, `alaoui.malika514@gmail.com`
 *Priorité B · Montréal*
 
 ```
@@ -4014,7 +4022,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Julia Bernier — Pigiste — `julia.bernier@mamh.gouv.qc.ca`
+### Julia Bernier, Pigiste, `julia.bernier@mamh.gouv.qc.ca`
 *Priorité C · Centre-du-Québec*
 
 ```
@@ -4024,7 +4032,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris entre autres parce que l'asclépiade se cultive dans votre région depuis la première vague de 2013, et que plusieurs des producteurs qui ont tenu bon nous vendent encore leur récolte.
+Je vous écris parce que l'asclépiade se cultive chez vous depuis la première vague de 2013, celle de la Coopérative Monark et de ses 125 producteurs. Plusieurs de ceux qui ont tenu bon après la faillite d'octobre 2017 (https://ici.radio-canada.ca/nouvelle/1061543/asclepiade-soyer-producteurs-industries-encore3-faillite-monark) nous vendent encore leur récolte.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -4039,7 +4047,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Luc Boulanger — La Presse — `lboulanger@lapresse.ca`
+### Luc Boulanger, La Presse, `lboulanger@lapresse.ca`
 *Priorité C · Montréal*
 
 ```
@@ -4064,7 +4072,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Marie-France Bélanger — Radio-Canada (QC) — `marie-france.belanger@radio-canada.ca`
+### Marie-France Bélanger, Radio-Canada (QC), `marie-france.belanger@radio-canada.ca`
 *Priorité C · Montréal*
 
 ```
@@ -4089,7 +4097,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Oumou DIAKITÉ — Pigiste — `oumoudiakitepro@gmail.com`
+### Oumou DIAKITÉ, Pigiste, `oumoudiakitepro@gmail.com`
 *Priorité C · Montréal*
 
 ```
@@ -4114,7 +4122,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Agnès Delavault — Protégez-Vous — `adelavault@pv.ca`
+### Agnès Delavault, Protégez-Vous, `adelavault@pv.ca`
 *Priorité C · Montréal*
 
 ```
@@ -4139,7 +4147,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Claude Deschênes — Avenues.ca — `claude.deschenes3@gmail.com`
+### Claude Deschênes, Avenues.ca, `claude.deschenes3@gmail.com`
 *Priorité C · Montréal*
 
 ```
@@ -4164,7 +4172,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Stéphanie Dupuis — Radio-Canada (Montréal) — `dupuis.stephanie@outlook.com`
+### Stéphanie Dupuis, Radio-Canada (Montréal), `dupuis.stephanie@outlook.com`
 *Priorité C · Montréal*
 
 ```
@@ -4189,7 +4197,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Isabelle Grégoire — Pigiste — `gregisa@gmail.com`
+### Isabelle Grégoire, Pigiste, `gregisa@gmail.com`
 *Priorité C · Montréal*
 
 ```
@@ -4214,7 +4222,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Chantal Guy — La Presse — `cguy@lapresse.ca`
+### Chantal Guy, La Presse, `cguy@lapresse.ca`
 *Priorité C · Montréal*
 
 ```
@@ -4239,7 +4247,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Andréanne Joly — Pigiste — `andreannejoly@gmail.com`
+### Andréanne Joly, Pigiste, `andreannejoly@gmail.com`
 *Priorité C · Ontario*
 
 ```
@@ -4264,7 +4272,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Joannie Lafrenière — Pigiste — `joannie@jlafreniere.ca`
+### Joannie Lafrenière, Pigiste, `joannie@jlafreniere.ca`
 *Priorité C · Montréal*
 
 ```
@@ -4289,7 +4297,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Louise Leduc — La Presse — `lleduc@lapresse.ca`
+### Louise Leduc, La Presse, `lleduc@lapresse.ca`
 *Priorité C · Montréal*
 
 ```
@@ -4314,7 +4322,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Isabelle Morin — La Presse — `imorin@lapresse.ca`
+### Isabelle Morin, La Presse, `imorin@lapresse.ca`
 *Priorité C · Montréal*
 
 ```
@@ -4339,7 +4347,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Rachid Najahi — Groupe Atlas Média — `rachid.najahi@gmail.com`
+### Rachid Najahi, Groupe Atlas Média, `rachid.najahi@gmail.com`
 *Priorité C · Montréal*
 
 ```
@@ -4364,7 +4372,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Frédéric Perron — Protégez-Vous — `fperron@protegez-vous.ca`
+### Frédéric Perron, Protégez-Vous, `fperron@protegez-vous.ca`
 *Priorité C · Montréal*
 
 ```
@@ -4389,7 +4397,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Richard Prudhomme — Pigiste — `rawdonphotos@hotmail.com`
+### Richard Prudhomme, Pigiste, `rawdonphotos@hotmail.com`
 *Priorité C · Lanaudière*
 
 ```
@@ -4414,7 +4422,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Pascale Renaud — Pigiste — `pascalerenaud29@hotmail.com`
+### Pascale Renaud, Pigiste, `pascalerenaud29@hotmail.com`
 *Priorité C · Montréal*
 
 ```
@@ -4439,7 +4447,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Marc Sony Ricot — La Presse — `mricot@collaborateur.lapresse.ca`
+### Marc Sony Ricot, La Presse, `mricot@collaborateur.lapresse.ca`
 *Priorité C · Montréal*
 
 ```
@@ -4464,7 +4472,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Catherine Schlager — La Presse — `cschlager@lapresse.ca`
+### Catherine Schlager, La Presse, `cschlager@lapresse.ca`
 *Priorité C · Montréal*
 
 ```
@@ -4489,9 +4497,9 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-## Angle I — 36 contacts
+## Angle I, 36 contacts
 
-### Papa Moussa Camara — Pigiste — `pamoussa012@gmail.com`
+### Papa Moussa Camara, Pigiste, `pamoussa012@gmail.com`
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
@@ -4516,7 +4524,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Karl-Ivann Dubé — SOCAM (Atikamekw-Montagnais) — `kdube@socam.net`
+### Karl-Ivann Dubé, SOCAM (Atikamekw-Montagnais), `kdube@socam.net`
 *Priorité A · Lanaudière*
 
 ```
@@ -4541,7 +4549,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Étienne Fortin-Gauthier — Noovo Info — `etiennefgauthier@bellmedia.ca`
+### Étienne Fortin-Gauthier, Noovo Info, `etiennefgauthier@bellmedia.ca`
 *Priorité A · Montréal*
 
 ```
@@ -4566,7 +4574,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Cécile Gladel — Radio-Canada — `cecile.gladel@gmail.com`
+### Cécile Gladel, Radio-Canada, `cecile.gladel@gmail.com`
 *Priorité A · Montréal*
 
 ```
@@ -4591,7 +4599,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Bernard Hervieux — SOCAM (Atikamekw-Montagnais) — `bhervieux@socam.net`
+### Bernard Hervieux, SOCAM (Atikamekw-Montagnais), `bhervieux@socam.net`
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
@@ -4616,7 +4624,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Marianne Lachapelle — TVA Nouvelles — `marianne.lachapelle@tva.ca`
+### Marianne Lachapelle, TVA Nouvelles, `marianne.lachapelle@tva.ca`
 *Priorité A · Estrie*
 
 ```
@@ -4626,7 +4634,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris entre autres parce qu'une des premières usines de transformation de la fibre était à Granby, et que l'Estrie compte encore des producteurs d'asclépiade.
+Je vous écris parce que la transformation de la fibre se faisait à Granby, rue Bernard. L'atelier appartenait au groupe Protec-Style, qui exploitait aussi l'usine de Saint-Tite, et les deux sont tombées le 11 octobre 2017 avec une dette de plus de 1,4 M$ (https://www.lhebdodustmaurice.com/actualite/protec-style-en-faillite/). L'Estrie compte encore des producteurs d'asclépiade, et on continue d'acheter de la fibre québécoise.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -4641,7 +4649,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Alain Laforest — TVA Nouvelles — `alain.laforest@tva.ca`
+### Alain Laforest, TVA Nouvelles, `alain.laforest@tva.ca`
 *Priorité A · Capitale-Nationale/Chaudière-Appalaches*
 
 ```
@@ -4666,7 +4674,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Lili Mercure — Noovo Info — `lili.mercure@bellmedia.ca`
+### Lili Mercure, Noovo Info, `lili.mercure@bellmedia.ca`
 *Priorité A · Montréal*
 
 ```
@@ -4691,7 +4699,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Lila Mouch — Noovo Info — `lila.mouch@bellmedia.ca`
+### Lila Mouch, Noovo Info, `lila.mouch@bellmedia.ca`
 *Priorité A · Montréal*
 
 ```
@@ -4716,7 +4724,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Stephane Tellier — SUMMUM — `bourlingueurstephanetellier@gmail.com`
+### Stephane Tellier, SUMMUM, `bourlingueurstephanetellier@gmail.com`
 *Priorité A · Montréal*
 
 ```
@@ -4741,7 +4749,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Sophie-Andrée Blondin — Radio-Canada (Montréal) — `sophie-andree.blondin@radio-canada.ca`
+### Sophie-Andrée Blondin, Radio-Canada (Montréal), `sophie-andree.blondin@radio-canada.ca`
 *Priorité B · Montréal*
 
 ```
@@ -4766,7 +4774,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Pierre Brochu — Ubique Film — `pierre@ubiquefilm.com`
+### Pierre Brochu, Ubique Film, `pierre@ubiquefilm.com`
 *Priorité B · Estrie*
 
 ```
@@ -4776,7 +4784,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris entre autres parce qu'une des premières usines de transformation de la fibre était à Granby, et que l'Estrie compte encore des producteurs d'asclépiade.
+Je vous écris parce que la transformation de la fibre se faisait à Granby, rue Bernard. L'atelier appartenait au groupe Protec-Style, qui exploitait aussi l'usine de Saint-Tite, et les deux sont tombées le 11 octobre 2017 avec une dette de plus de 1,4 M$ (https://www.lhebdodustmaurice.com/actualite/protec-style-en-faillite/). L'Estrie compte encore des producteurs d'asclépiade, et on continue d'acheter de la fibre québécoise.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -4791,7 +4799,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Marie-Julie Gagnon — Pigiste — `mjtornado@gmail.com`
+### Marie-Julie Gagnon, Pigiste, `mjtornado@gmail.com`
 *Priorité B · Montérégie*
 
 ```
@@ -4801,7 +4809,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
+Je vous écris parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme à Québec.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -4816,7 +4824,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Philippe Marois — Radio-Canada (Radio - Montréal) — `phil.marois@gmail.com`
+### Philippe Marois, Radio-Canada (Radio - Montréal), `phil.marois@gmail.com`
 *Priorité B · Montérégie*
 
 ```
@@ -4826,7 +4834,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
+Je vous écris parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme à Québec.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -4841,7 +4849,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Carole Payer — Pigiste — `universcp@gmail.com`
+### Carole Payer, Pigiste, `universcp@gmail.com`
 *Priorité B · Centre-du-Québec*
 
 ```
@@ -4851,7 +4859,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris entre autres parce que l'asclépiade se cultive dans votre région depuis la première vague de 2013, et que plusieurs des producteurs qui ont tenu bon nous vendent encore leur récolte.
+Je vous écris parce que l'asclépiade se cultive chez vous depuis la première vague de 2013, celle de la Coopérative Monark et de ses 125 producteurs. Plusieurs de ceux qui ont tenu bon après la faillite d'octobre 2017 (https://ici.radio-canada.ca/nouvelle/1061543/asclepiade-soyer-producteurs-industries-encore3-faillite-monark) nous vendent encore leur récolte.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -4866,7 +4874,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Audrey Bonaque — Noovo Info — `aud.bonaque@gmail.com`
+### Audrey Bonaque, Noovo Info, `aud.bonaque@gmail.com`
 *Priorité C · Montréal*
 
 ```
@@ -4891,7 +4899,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Laurence Brisson Dubreuil — Université Concordia — `laurence.brisson_dub@bellmedia.ca`
+### Laurence Brisson Dubreuil, Université Concordia, `laurence.brisson_dub@bellmedia.ca`
 *Priorité C · Montréal*
 
 ```
@@ -4916,7 +4924,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Nathaniel Bronner — Pigiste — `nbronner@lesasdelinfo.com`
+### Nathaniel Bronner, Pigiste, `nbronner@lesasdelinfo.com`
 *Priorité C · Laurentides*
 
 ```
@@ -4941,7 +4949,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Rudy Chabannes — TFO / TVOntario — `rchabannes@tfo.org`
+### Rudy Chabannes, TFO / TVOntario, `rchabannes@tfo.org`
 *Priorité C · Ontario*
 
 ```
@@ -4966,7 +4974,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Denis-Martin Chabot — Pigiste — `denismartinchabot@gmail.com`
+### Denis-Martin Chabot, Pigiste, `denismartinchabot@gmail.com`
 *Priorité C · Montréal*
 
 ```
@@ -4991,7 +4999,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Loubna Majda Chourouk — Pigiste — `loubna.majda.chourouk@gmail.com`
+### Loubna Majda Chourouk, Pigiste, `loubna.majda.chourouk@gmail.com`
 *Priorité C · Laval*
 
 ```
@@ -5016,7 +5024,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Jean-René Dufort — Zone3 — `jean-rene.dufort@radio-canada.ca`
+### Jean-René Dufort, Zone3, `jean-rene.dufort@radio-canada.ca`
 *Priorité C · Montréal*
 
 ```
@@ -5041,7 +5049,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Ronald Georges — Radio-Canada (Radio - Montréal) — `ronald.georges@radio-canada.ca`
+### Ronald Georges, Radio-Canada (Radio - Montréal), `ronald.georges@radio-canada.ca`
 *Priorité C · Montréal*
 
 ```
@@ -5066,7 +5074,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Philémon La Frenière-Prémont — Radio-Canada (Radio - Montréal) — `phlemonlpp@gmail.com`
+### Philémon La Frenière-Prémont, Radio-Canada (Radio - Montréal), `phlemonlpp@gmail.com`
 *Priorité C · Montréal*
 
 ```
@@ -5091,7 +5099,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Henri Laban — Radio VM Montréal — `hlaban2015@gmail.com`
+### Henri Laban, Radio VM Montréal, `hlaban2015@gmail.com`
 *Priorité C · Montréal*
 
 ```
@@ -5116,7 +5124,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Claudia Larochelle — Radio-Canada (Montréal) — `clolarochelle@hotmail.com`
+### Claudia Larochelle, Radio-Canada (Montréal), `clolarochelle@hotmail.com`
 *Priorité C · Montréal*
 
 ```
@@ -5141,7 +5149,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Ève Lévesque — Pigiste — `levesque.eve@outlook.com`
+### Ève Lévesque, Pigiste, `levesque.eve@outlook.com`
 *Priorité C · Montréal*
 
 ```
@@ -5166,7 +5174,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Sophie Mangado — Pigiste — `sophie.mangado@gmail.com`
+### Sophie Mangado, Pigiste, `sophie.mangado@gmail.com`
 *Priorité C · Montréal*
 
 ```
@@ -5191,7 +5199,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Richard Olivier — TVA Nouvelles — `richard.olivier@outlook.com`
+### Richard Olivier, TVA Nouvelles, `richard.olivier@outlook.com`
 *Priorité C · Montréal*
 
 ```
@@ -5216,7 +5224,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Nathalie Petrowski — Radio-Canada (Radio - Montréal) — `lacombem3@videotron.ca`
+### Nathalie Petrowski, Radio-Canada (Radio - Montréal), `lacombem3@videotron.ca`
 *Priorité C · Montréal*
 
 ```
@@ -5241,7 +5249,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Raymonde Provencher — Pigiste — `raymondep@macumbainternational.com`
+### Raymonde Provencher, Pigiste, `raymondep@macumbainternational.com`
 *Priorité C · Montréal*
 
 ```
@@ -5266,7 +5274,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Emmalie Ruest — Radio-Canada (RDI) — `emmalie.ruest@radio-canada.ca`
+### Emmalie Ruest, Radio-Canada (RDI), `emmalie.ruest@radio-canada.ca`
 *Priorité C · Montréal*
 
 ```
@@ -5291,7 +5299,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Kimberley Sullivan — Pigiste — `ksullivan@aptn.ca`
+### Kimberley Sullivan, Pigiste, `ksullivan@aptn.ca`
 *Priorité C · Montérégie*
 
 ```
@@ -5301,7 +5309,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
-Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
+Je vous écris parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme à Québec.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -5316,7 +5324,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Marie-Christine Trottier — Radio-Canada (Radio - Montréal) — `marie-christine.trottier@radio-canada.ca`
+### Marie-Christine Trottier, Radio-Canada (Radio - Montréal), `marie-christine.trottier@radio-canada.ca`
 *Priorité C · Montréal*
 
 ```
@@ -5341,7 +5349,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### David Turbis — C B C (Radio-Canada) — `lagrc2015@gmail.com`
+### David Turbis, C B C (Radio-Canada), `lagrc2015@gmail.com`
 *Priorité C · Montréal*
 
 ```
@@ -5366,7 +5374,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Alexandra Viau — Radio-Canada (Radio - Montréal) — `alexandra.viau@radio-canada.ca`
+### Alexandra Viau, Radio-Canada (Radio - Montréal), `alexandra.viau@radio-canada.ca`
 *Priorité C · Montréal*
 
 ```
@@ -5383,6 +5391,58 @@ Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
 Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue d'ici jeudi, ou le vendredi 18 au matin.
+
+Si ça vous intéresse de couvrir (ou un.e collègue?), notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
+```
+
+## Angle —, 2 contacts
+
+### Francis Higgins, Le Soleil, `fhiggins@lesoleil.com`
+*Priorité C · Capitale-Nationale/Chaudière-Appalaches*
+
+```
+Bonjour Francis,
+
+Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
+
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
+
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet.
+
+Si ça vous intéresse de couvrir (ou un.e collègue?), notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
+```
+
+### Annie Lafrance, Le Soleil, `alafrance@lesoleil.com`
+*Priorité C · Capitale-Nationale/Chaudière-Appalaches*
+
+```
+Bonjour Annie,
+
+Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
+
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
+
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet.
 
 Si ça vous intéresse de couvrir (ou un.e collègue?), notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 

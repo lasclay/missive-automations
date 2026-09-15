@@ -9,7 +9,7 @@ Deux differences assumees avec la liste chaude :
 - Salutation « Bonjour Prenom ». Deviner M. ou Mme sur 219 personnes qu'on
   ne connait pas produirait des erreurs; le prenom et le nom evitent la question.
 - Les accroches regionales sont tournees vers ce qui existe aujourd'hui, pas vers
-  la faillite de 2018. Le fait reste vrai, le ton reste celui d'une bonne
+  la faillite d'octobre 2017. Le fait reste vrai, le ton reste celui d'une bonne
   nouvelle.
 
     python3 brouillons_froids.py <chiffrier.xlsx> <sortie.xlsx> <sortie.md>
@@ -18,6 +18,7 @@ Deux differences assumees avec la liste chaude :
 import sys
 import openpyxl
 from openpyxl.styles import Font, PatternFill, Alignment
+from histoire_asclepiade import PAR_REGION
 from voix_gabriel import VIDEO, ANNONCE, BENEFICE, OBJETS, objet, media_kit, assembler, deplier
 
 QUI = ("Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver "
@@ -50,33 +51,12 @@ CLOTURE = "Au plaisir et n'hésitez pas à me contacter si vous avez des questio
 # la ou l'asclepiade a une histoire locale reelle : « notre atelier est dans
 # Limoilou » n'est pas une accroche locale pour un journal de Charlevoix.
 
-REGIONS = {
-    "Mauricie":
-        "Je vous écris entre autres parce que l'asclépiade a eu son grand moment industriel "
-        "chez vous : l'usine de Saint-Tite achetait 90 % des récoltes du Québec avant que la "
-        "filière se casse en 2018. Des producteurs de la Mauricie cultivent encore, et on "
-        "continue d'acheter leur récolte.",
-    "Centre-du-Québec":
-        "Je vous écris entre autres parce que l'asclépiade se cultive dans votre région depuis "
-        "la première vague de 2013, et que plusieurs des producteurs qui ont tenu bon nous "
-        "vendent encore leur récolte.",
-    "Estrie":
-        "Je vous écris entre autres parce qu'une des premières usines de transformation de la "
-        "fibre était à Granby, et que l'Estrie compte encore des producteurs d'asclépiade.",
-    "Montérégie":
-        "Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade "
-        "se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on "
-        "transforme.",
-    "Saguenay - Lac-Saint-Jean":
-        "Je vous écris entre autres parce qu'un de nos fournisseurs d'asclépiade cultive au "
-        "Lac-Saint-Jean depuis nos tout débuts, et qu'il l'est encore aujourd'hui. La fibre de "
-        "chez vous se retrouve dans nos produits.",
-}
+REGIONS = dict(PAR_REGION)
 
 # Sinon, la raison vient du sujet que la personne couvre.
 THEMES = {
     "C": "Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les "
-         "producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce "
+         "producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce "
          "qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de "
          "producteurs d'ici et on la transforme nous-mêmes.",
     "D": "Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant "
@@ -156,7 +136,7 @@ menacé : le papillon monarque.
 
 Vous couvrez Mékinac, donc Saint-Tite, donc l'endroit où l'asclépiade a eu son grand moment
 industriel au Québec. L'usine achetait 90 % des récoltes de la province avant que la filière
-se casse en 2018.
+se casse le 11 octobre 2017.
 
 On a démarré après. Six ans plus tard, on achète encore de l'asclépiade québécoise et on la
 transforme nous-mêmes à Québec.
@@ -252,7 +232,7 @@ voulez tester le manteau plutôt que me croire sur parole, je vous en envoie un 
 {CLOTURE}""",
 }
 
-DOUBLON = ("NE PAS ENVOYER — doublon de la liste chaude. Le message écrit à la main a "
+DOUBLON = ("NE PAS ENVOYER, doublon de la liste chaude. Le message écrit à la main a "
            "préséance.")
 
 
@@ -298,7 +278,7 @@ def main(src, dst, md):
             continue
         prio, prenom, nom = r[0], (r[1] or "").strip(), (r[2] or "").strip()
         media, courriel, region, angle = r[4], (r[5] or "").strip().lower(), r[7], r[cA - 1]
-        if angle in (None, "—"):
+        if angle in (None, ","):
             ws.cell(i, cB, DOUBLON).alignment = Alignment(wrap_text=True, vertical="top")
             continue
         # Passe en liste chaude sur demande de Gabriel : sa ligne froide part,
@@ -336,11 +316,11 @@ def main(src, dst, md):
               "Salutation « Bonjour Prénom » : deviner M. ou Mme sur 219 personnes qu'on "
               "ne connaît pas produirait des erreurs.", ""]
     for a in sorted(par_angle):
-        lignes += [f"## Angle {a} — {len(par_angle[a])} contacts", ""]
+        lignes += [f"## Angle {a}, {len(par_angle[a])} contacts", ""]
         for prio, prenom, nom, media, courriel, region, txt, main_ in par_angle[a]:
             adr = f"`{courriel}`" if courriel else "*adresse à trouver*"
-            tag = " — **écrit à la main**" if main_ else ""
-            lignes += [f"### {prenom} {nom} — {media} — {adr}{tag}",
+            tag = ", **écrit à la main**" if main_ else ""
+            lignes += [f"### {prenom} {nom}, {media}, {adr}{tag}",
                        f"*Priorité {prio} · {region}*", "", "```", txt, "```", ""]
 
     for i in reversed(a_supprimer):
