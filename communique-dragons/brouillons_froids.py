@@ -18,7 +18,7 @@ Deux differences assumees avec la liste chaude :
 import sys
 import openpyxl
 from openpyxl.styles import Font, PatternFill, Alignment
-from voix_gabriel import VIDEO, ANNONCE, BENEFICE, OBJETS, media_kit, assembler, deplier
+from voix_gabriel import VIDEO, ANNONCE, BENEFICE, OBJETS, objet, media_kit, assembler, deplier
 
 QUI = ("Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver "
        "avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur "
@@ -34,7 +34,10 @@ CONTEXTE = ("Ses gousses sont remplies d'une soie creuse, très légère et natu
 MISSIONS_2 = ("Mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder les "
               "monarques par la culture de l'asclépiade.")
 
-PAS = "Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :"
+# Le 15 septembre, « le 17 septembre prochain » sonne comme une date lointaine
+# alors que c'est apres-demain. « Ce jeudi » dit a un pupitre qu'il lui reste
+# deux jours pour decider, ce qui est exactement l'information utile.
+PAS = "Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :"
 
 RARETE = ("Aller présenter notre entreprise et sa mission à la télévision nationale est une "
           "opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, "
@@ -110,7 +113,7 @@ OFFRES = {
     "F": "Et si vous voulez tester plutôt que me croire sur parole, je vous envoie un produit "
          "avec plaisir.",
     "G": "L'atelier de Limoilou est ouvert si vous voulez voir la matière de vos yeux.",
-    "I": "Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au "
+    "I": "Je suis disponible pour une entrevue d'ici jeudi, ou le vendredi 18 au "
          "matin.",
 }
 
@@ -131,7 +134,7 @@ s'y sont essayées.
 On a démarré après la chute de la première filière. Six ans plus tard, on achète encore de l'asclépiade québécoise et on transforme l'isolant nous-mêmes à
 Limoilou.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 {ANNONCE}
 
@@ -158,7 +161,7 @@ se casse en 2018.
 On a démarré après. Six ans plus tard, on achète encore de l'asclépiade québécoise et on la
 transforme nous-mêmes à Québec.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 {ANNONCE}
 
@@ -183,7 +186,7 @@ achetait 90 % des récoltes du Québec. On a démarré après la chute de cette 
 plus tard on achète encore de l'asclépiade québécoise et on la
 transforme nous-mêmes à Québec.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 {ANNONCE}
 
@@ -210,7 +213,7 @@ c'est ce qui emprisonne l'air. Chaque follicule en produit plus de 200.
 On en fait de l'isolant pour des manteaux et des mitaines. Et c'est la seule plante que les
 chenilles du monarque peuvent manger, ce qui est toute la raison d'être de l'entreprise.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 {ANNONCE}
 
@@ -235,7 +238,7 @@ devait remplacer le duvet.
 On a démarré après la chute de cette première filière. Six ans plus tard, on achète encore de l'asclépiade québécoise, on transforme l'isolant nous-mêmes, et il
 existe maintenant un manteau à inserts d'asclépiade amovibles autour de 300 $.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 {ANNONCE}
 
@@ -314,7 +317,7 @@ def main(src, dst, md):
                if brut else monter(prenom, nom, angle, region))
         mains += bool(brut)
         ws.cell(i, cB, txt).alignment = Alignment(wrap_text=True, vertical="top")
-        ws.cell(i, cO, OBJETS.get(angle, OBJETS["B"]))
+        ws.cell(i, cO, objet(angle, region))
         if not brut and salutation_douteuse(prenom, nom):
             cP = ent.index("Précaution") + 1 if "Précaution" in ent else None
             if cP:

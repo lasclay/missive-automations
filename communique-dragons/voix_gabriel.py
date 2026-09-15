@@ -59,20 +59,42 @@ MEDIA_KIT = None  # remplace par media_kit(registre) : la ligne depend du regist
 # variantes suivent l'angle, pour que 253 courriels n'aient pas tous exactement
 # la meme ligne d'objet, et parce que « l'asclepiade s'en va a Dragons' Den »
 # parle plus a un journaliste agricole qu'a un chroniqueur d'affaires.
+# Ce que les 23 envois du 2 septembre ont montre : Gabriel a raccourci presque
+# tous les objets a la main, et surtout il en a REGIONALISE un. « L'asclepiade
+# du Lac-St-Jean a Dragons' Den! » a recu une reponse en vingt-six minutes, une
+# visite au champ du producteur et une entrevue avant la diffusion. C'est le
+# seul contact de la liste qui a donne un article, et c'est le seul objet qui
+# nommait la region du journaliste.
+REGIONS_OBJET = {
+    "Mauricie": "L'asclépiade de la Mauricie à Dragons' Den!",
+    "Centre-du-Québec": "L'asclépiade du Centre-du-Québec à Dragons' Den!",
+    "Estrie": "L'asclépiade de l'Estrie à Dragons' Den!",
+    "Montérégie": "L'asclépiade de la Montérégie à Dragons' Den!",
+    "Saguenay–Lac-Saint-Jean": "L'asclépiade du Lac-St-Jean à Dragons' Den!",
+}
+
+
+def objet(angle, region=None):
+    """L'objet du courriel : la region gagne quand elle en a une vraie."""
+    if region and region in REGIONS_OBJET:
+        return REGIONS_OBJET[region]
+    return OBJETS.get(angle, OBJETS["B"])
+
+
 OBJETS = {
     # « Nous serons diffusés » suppose que la personne sait déjà qui est « nous ».
     # Ça ne vaut que pour ceux qui nous connaissent : la liste chaude et les
     # journalistes d'affaires. Partout ailleurs, c'est la plante qui accroche.
-    "A": "Nous serons diffusés à Dragons' Den le 17 septembre!",
-    "E": "Nous serons diffusés à Dragons' Den le 17 septembre!",
-    "D": "L'asclépiade et les monarques à Dragons' Den le 17 septembre!",
-    "B": "L'asclépiade s'en va à Dragons' Den le 17 septembre!",
-    "C": "L'asclépiade s'en va à Dragons' Den le 17 septembre!",
-    "F": "L'asclépiade s'en va à Dragons' Den le 17 septembre!",
-    "G": "L'asclépiade s'en va à Dragons' Den le 17 septembre!",
-    "I": "L'asclépiade s'en va à Dragons' Den le 17 septembre!",
-    "J": "L'asclépiade s'en va à Dragons' Den le 17 septembre!",
-    "H": "Milkweed is going on Dragons' Den on September 17!",
+    "A": "L'asclépiade à Dragons' Den le 17 septembre!",
+    "E": "L'asclépiade à Dragons' Den le 17 septembre!",
+    "D": "L'asclépiade et les monarques à Dragons' Den!",
+    "B": "L'asclépiade à Dragons' Den le 17 septembre!",
+    "C": "L'asclépiade à Dragons' Den le 17 sept!",
+    "F": "L'asclépiade à Dragons' Den le 17 sept!",
+    "G": "L'asclépiade à Dragons' Den!",
+    "I": "L'asclépiade à Dragons' Den le 17 septembre!",
+    "J": "L'asclépiade à Dragons' Den!",
+    "H": "Quebec milkweed on Dragons' Den — this Thursday",
 }
 
 MISSIONS = ("mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder "

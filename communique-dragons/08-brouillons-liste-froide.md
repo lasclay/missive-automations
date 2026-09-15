@@ -18,7 +18,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -43,7 +43,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -68,7 +68,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -93,7 +93,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -118,7 +118,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -143,7 +143,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris entre autres parce qu'un de nos fournisseurs d'asclépiade cultive au Lac-Saint-Jean depuis nos tout débuts, et qu'il l'est encore aujourd'hui. La fibre de chez vous se retrouve dans nos produits.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -166,7 +166,7 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 L'asclépiade a été une histoire mauricienne avant d'être la nôtre : l'usine de Saint-Tite achetait 90 % des récoltes du Québec. On a démarré après la chute de cette filière, et six ans plus tard on achète encore de l'asclépiade québécoise et on la transforme nous-mêmes à Québec.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -191,7 +191,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -216,7 +216,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -241,7 +241,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -266,7 +266,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -291,7 +291,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -316,7 +316,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -341,7 +341,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris entre autres parce qu'une des premières usines de transformation de la fibre était à Granby, et que l'Estrie compte encore des producteurs d'asclépiade.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -366,7 +366,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -391,7 +391,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -416,7 +416,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -441,7 +441,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -466,7 +466,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -491,7 +491,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris entre autres parce que l'asclépiade a eu son grand moment industriel chez vous : l'usine de Saint-Tite achetait 90 % des récoltes du Québec avant que la filière se casse en 2018. Des producteurs de la Mauricie cultivent encore, et on continue d'acheter leur récolte.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -516,7 +516,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -541,7 +541,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -566,7 +566,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -591,7 +591,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -616,7 +616,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -641,7 +641,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -666,7 +666,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris entre autres parce qu'une des premières usines de transformation de la fibre était à Granby, et que l'Estrie compte encore des producteurs d'asclépiade.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -691,7 +691,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -716,7 +716,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -741,7 +741,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris entre autres parce que l'asclépiade se cultive dans votre région depuis la première vague de 2013, et que plusieurs des producteurs qui ont tenu bon nous vendent encore leur récolte.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -766,7 +766,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -791,7 +791,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris entre autres parce que l'asclépiade se cultive dans votre région depuis la première vague de 2013, et que plusieurs des producteurs qui ont tenu bon nous vendent encore leur récolte.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -816,7 +816,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -841,7 +841,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris entre autres parce que l'asclépiade a eu son grand moment industriel chez vous : l'usine de Saint-Tite achetait 90 % des récoltes du Québec avant que la filière se casse en 2018. Des producteurs de la Mauricie cultivent encore, et on continue d'acheter leur récolte.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -866,7 +866,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -893,7 +893,7 @@ Il y a une belle histoire de sciences dans l'asclépiade. La soie attachée à s
 
 On en fait de l'isolant pour des manteaux et des mitaines. Et c'est la seule plante que les chenilles du monarque peuvent manger, ce qui est toute la raison d'être de l'entreprise.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -918,7 +918,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -943,7 +943,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -968,7 +968,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -993,7 +993,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -1018,7 +1018,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris entre autres parce qu'une des premières usines de transformation de la fibre était à Granby, et que l'Estrie compte encore des producteurs d'asclépiade.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -1043,7 +1043,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -1068,7 +1068,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -1093,7 +1093,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -1118,7 +1118,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -1143,7 +1143,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -1168,7 +1168,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -1193,7 +1193,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -1218,7 +1218,7 @@ Vous couvrez Mékinac, donc Saint-Tite, donc l'endroit où l'asclépiade a eu so
 
 On a démarré après. Six ans plus tard, on achète encore de l'asclépiade québécoise et on la transforme nous-mêmes à Québec.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -1243,7 +1243,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -1268,7 +1268,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -1293,7 +1293,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -1318,7 +1318,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -1343,7 +1343,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -1368,7 +1368,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -1393,7 +1393,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -1418,7 +1418,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -1443,7 +1443,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris entre autres parce qu'une des premières usines de transformation de la fibre était à Granby, et que l'Estrie compte encore des producteurs d'asclépiade.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -1468,7 +1468,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -1493,7 +1493,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -1518,7 +1518,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -1543,7 +1543,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -1568,7 +1568,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -1593,7 +1593,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -1618,7 +1618,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris entre autres parce que l'asclépiade a eu son grand moment industriel chez vous : l'usine de Saint-Tite achetait 90 % des récoltes du Québec avant que la filière se casse en 2018. Des producteurs de la Mauricie cultivent encore, et on continue d'acheter leur récolte.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -1643,7 +1643,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -1668,7 +1668,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis l'effondrement de la filière en 2018 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -1695,7 +1695,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -1720,7 +1720,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -1745,7 +1745,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -1770,7 +1770,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -1795,7 +1795,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -1820,7 +1820,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -1845,7 +1845,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -1870,7 +1870,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -1895,7 +1895,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -1920,7 +1920,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -1945,7 +1945,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -1970,7 +1970,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -1995,7 +1995,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -2020,7 +2020,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -2045,7 +2045,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -2070,7 +2070,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -2095,7 +2095,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -2120,7 +2120,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -2145,7 +2145,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -2170,7 +2170,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -2195,7 +2195,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -2220,7 +2220,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -2245,7 +2245,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -2270,7 +2270,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -2295,7 +2295,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -2320,7 +2320,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris entre autres parce que l'asclépiade a eu son grand moment industriel chez vous : l'usine de Saint-Tite achetait 90 % des récoltes du Québec avant que la filière se casse en 2018. Des producteurs de la Mauricie cultivent encore, et on continue d'acheter leur récolte.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -2345,7 +2345,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -2370,7 +2370,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -2395,7 +2395,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -2420,7 +2420,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -2445,7 +2445,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -2470,7 +2470,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris entre autres parce qu'un de nos fournisseurs d'asclépiade cultive au Lac-Saint-Jean depuis nos tout débuts, et qu'il l'est encore aujourd'hui. La fibre de chez vous se retrouve dans nos produits.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -2495,7 +2495,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -2520,7 +2520,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -2545,7 +2545,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -2570,7 +2570,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -2595,7 +2595,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -2620,7 +2620,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -2645,7 +2645,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -2670,7 +2670,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -2695,7 +2695,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -2720,7 +2720,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -2745,7 +2745,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -2770,7 +2770,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -2795,7 +2795,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -2822,7 +2822,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -2847,7 +2847,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -2872,7 +2872,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -2897,7 +2897,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -2922,7 +2922,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -2947,7 +2947,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris entre autres parce qu'une des premières usines de transformation de la fibre était à Granby, et que l'Estrie compte encore des producteurs d'asclépiade.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -2972,7 +2972,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -2997,7 +2997,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -3022,7 +3022,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -3047,7 +3047,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -3072,7 +3072,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris entre autres parce qu'un de nos fournisseurs d'asclépiade cultive au Lac-Saint-Jean depuis nos tout débuts, et qu'il l'est encore aujourd'hui. La fibre de chez vous se retrouve dans nos produits.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -3097,7 +3097,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -3122,7 +3122,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -3147,7 +3147,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -3172,7 +3172,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -3197,7 +3197,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -3222,7 +3222,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -3247,7 +3247,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -3272,7 +3272,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -3297,7 +3297,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -3322,7 +3322,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -3347,7 +3347,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris entre autres parce que l'asclépiade se cultive dans votre région depuis la première vague de 2013, et que plusieurs des producteurs qui ont tenu bon nous vendent encore leur récolte.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -3372,7 +3372,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -3397,7 +3397,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -3422,7 +3422,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -3447,7 +3447,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -3474,7 +3474,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -3499,7 +3499,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -3524,7 +3524,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -3549,7 +3549,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -3574,7 +3574,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -3599,7 +3599,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -3624,7 +3624,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -3649,7 +3649,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -3674,7 +3674,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -3699,7 +3699,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -3724,7 +3724,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -3749,7 +3749,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -3774,7 +3774,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -3799,7 +3799,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -3824,7 +3824,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -3849,7 +3849,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris entre autres parce qu'une des premières usines de transformation de la fibre était à Granby, et que l'Estrie compte encore des producteurs d'asclépiade.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -3874,7 +3874,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -3899,7 +3899,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris entre autres parce que l'asclépiade se cultive dans votre région depuis la première vague de 2013, et que plusieurs des producteurs qui ont tenu bon nous vendent encore leur récolte.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -3924,7 +3924,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -3949,7 +3949,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -3976,7 +3976,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -4001,7 +4001,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -4026,7 +4026,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris entre autres parce que l'asclépiade se cultive dans votre région depuis la première vague de 2013, et que plusieurs des producteurs qui ont tenu bon nous vendent encore leur récolte.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -4051,7 +4051,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -4076,7 +4076,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -4101,7 +4101,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -4126,7 +4126,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -4151,7 +4151,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -4176,7 +4176,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -4201,7 +4201,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -4226,7 +4226,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -4251,7 +4251,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -4276,7 +4276,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -4301,7 +4301,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -4326,7 +4326,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -4351,7 +4351,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -4376,7 +4376,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -4401,7 +4401,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -4426,7 +4426,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -4451,7 +4451,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -4476,7 +4476,7 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
@@ -4503,11 +4503,11 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue d'ici jeudi, ou le vendredi 18 au matin.
 
 Si ça vous intéresse de couvrir (ou un.e collègue?), notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
@@ -4528,11 +4528,11 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue d'ici jeudi, ou le vendredi 18 au matin.
 
 Si ça vous intéresse de couvrir (ou un.e collègue?), notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
@@ -4553,11 +4553,11 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue d'ici jeudi, ou le vendredi 18 au matin.
 
 Si ça vous intéresse de couvrir (ou un.e collègue?), notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
@@ -4578,11 +4578,11 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue d'ici jeudi, ou le vendredi 18 au matin.
 
 Si ça vous intéresse de couvrir (ou un.e collègue?), notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
@@ -4603,11 +4603,11 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue d'ici jeudi, ou le vendredi 18 au matin.
 
 Si ça vous intéresse de couvrir (ou un.e collègue?), notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
@@ -4628,11 +4628,11 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris entre autres parce qu'une des premières usines de transformation de la fibre était à Granby, et que l'Estrie compte encore des producteurs d'asclépiade.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue d'ici jeudi, ou le vendredi 18 au matin.
 
 Si ça vous intéresse de couvrir (ou un.e collègue?), notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
@@ -4653,11 +4653,11 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue d'ici jeudi, ou le vendredi 18 au matin.
 
 Si ça vous intéresse de couvrir (ou un.e collègue?), notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
@@ -4678,11 +4678,11 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue d'ici jeudi, ou le vendredi 18 au matin.
 
 Si ça vous intéresse de couvrir (ou un.e collègue?), notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
@@ -4703,11 +4703,11 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue d'ici jeudi, ou le vendredi 18 au matin.
 
 Si ça vous intéresse de couvrir (ou un.e collègue?), notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
@@ -4728,11 +4728,11 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue d'ici jeudi, ou le vendredi 18 au matin.
 
 Si ça vous intéresse de couvrir (ou un.e collègue?), notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
@@ -4753,11 +4753,11 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue d'ici jeudi, ou le vendredi 18 au matin.
 
 Si ça vous intéresse de couvrir (ou un.e collègue?), notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
@@ -4778,11 +4778,11 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris entre autres parce qu'une des premières usines de transformation de la fibre était à Granby, et que l'Estrie compte encore des producteurs d'asclépiade.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue d'ici jeudi, ou le vendredi 18 au matin.
 
 Si ça vous intéresse de couvrir (ou un.e collègue?), notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
@@ -4803,11 +4803,11 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue d'ici jeudi, ou le vendredi 18 au matin.
 
 Si ça vous intéresse de couvrir (ou un.e collègue?), notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
@@ -4828,11 +4828,11 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue d'ici jeudi, ou le vendredi 18 au matin.
 
 Si ça vous intéresse de couvrir (ou un.e collègue?), notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
@@ -4853,11 +4853,11 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris entre autres parce que l'asclépiade se cultive dans votre région depuis la première vague de 2013, et que plusieurs des producteurs qui ont tenu bon nous vendent encore leur récolte.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue d'ici jeudi, ou le vendredi 18 au matin.
 
 Si ça vous intéresse de couvrir (ou un.e collègue?), notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
@@ -4878,11 +4878,11 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue d'ici jeudi, ou le vendredi 18 au matin.
 
 Si ça vous intéresse de couvrir (ou un.e collègue?), notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
@@ -4903,11 +4903,11 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue d'ici jeudi, ou le vendredi 18 au matin.
 
 Si ça vous intéresse de couvrir (ou un.e collègue?), notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
@@ -4928,11 +4928,11 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue d'ici jeudi, ou le vendredi 18 au matin.
 
 Si ça vous intéresse de couvrir (ou un.e collègue?), notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
@@ -4953,11 +4953,11 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue d'ici jeudi, ou le vendredi 18 au matin.
 
 Si ça vous intéresse de couvrir (ou un.e collègue?), notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
@@ -4978,11 +4978,11 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue d'ici jeudi, ou le vendredi 18 au matin.
 
 Si ça vous intéresse de couvrir (ou un.e collègue?), notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
@@ -5003,11 +5003,11 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue d'ici jeudi, ou le vendredi 18 au matin.
 
 Si ça vous intéresse de couvrir (ou un.e collègue?), notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
@@ -5028,11 +5028,11 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue d'ici jeudi, ou le vendredi 18 au matin.
 
 Si ça vous intéresse de couvrir (ou un.e collègue?), notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
@@ -5053,11 +5053,11 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue d'ici jeudi, ou le vendredi 18 au matin.
 
 Si ça vous intéresse de couvrir (ou un.e collègue?), notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
@@ -5078,11 +5078,11 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue d'ici jeudi, ou le vendredi 18 au matin.
 
 Si ça vous intéresse de couvrir (ou un.e collègue?), notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
@@ -5103,11 +5103,11 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue d'ici jeudi, ou le vendredi 18 au matin.
 
 Si ça vous intéresse de couvrir (ou un.e collègue?), notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
@@ -5128,11 +5128,11 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue d'ici jeudi, ou le vendredi 18 au matin.
 
 Si ça vous intéresse de couvrir (ou un.e collègue?), notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
@@ -5153,11 +5153,11 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue d'ici jeudi, ou le vendredi 18 au matin.
 
 Si ça vous intéresse de couvrir (ou un.e collègue?), notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
@@ -5178,11 +5178,11 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue d'ici jeudi, ou le vendredi 18 au matin.
 
 Si ça vous intéresse de couvrir (ou un.e collègue?), notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
@@ -5203,11 +5203,11 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue d'ici jeudi, ou le vendredi 18 au matin.
 
 Si ça vous intéresse de couvrir (ou un.e collègue?), notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
@@ -5228,11 +5228,11 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue d'ici jeudi, ou le vendredi 18 au matin.
 
 Si ça vous intéresse de couvrir (ou un.e collègue?), notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
@@ -5253,11 +5253,11 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue d'ici jeudi, ou le vendredi 18 au matin.
 
 Si ça vous intéresse de couvrir (ou un.e collègue?), notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
@@ -5278,11 +5278,11 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue d'ici jeudi, ou le vendredi 18 au matin.
 
 Si ça vous intéresse de couvrir (ou un.e collègue?), notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
@@ -5303,11 +5303,11 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris entre autres parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue d'ici jeudi, ou le vendredi 18 au matin.
 
 Si ça vous intéresse de couvrir (ou un.e collègue?), notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
@@ -5328,11 +5328,11 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue d'ici jeudi, ou le vendredi 18 au matin.
 
 Si ça vous intéresse de couvrir (ou un.e collègue?), notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
@@ -5353,11 +5353,11 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue d'ici jeudi, ou le vendredi 18 au matin.
 
 Si ça vous intéresse de couvrir (ou un.e collègue?), notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
@@ -5378,11 +5378,11 @@ Ses gousses sont remplies d'une soie creuse, très légère et naturellement hyd
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
-Le 17 septembre prochain, on va faire un énorme pas dans la bonne direction :
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue la semaine du 14 septembre et le vendredi 18 au matin.
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue d'ici jeudi, ou le vendredi 18 au matin.
 
 Si ça vous intéresse de couvrir (ou un.e collègue?), notre média kit est ici, avec les images de notre passage à Dragons' Den et de l'entreprise : https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr
 
