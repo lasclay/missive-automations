@@ -40,7 +40,7 @@
  *   POST /contacts   {search, book, limit} → retrouve un contact déjà connu de la boîte.
  *                                       `search` porte sur nom, courriel, téléphone,
  *                                       organisation. Sans `book`, balaie tous les carnets.
- *   POST /send       {from, to[], cc[], bcc[], subject, body, send,
+ *   POST /send       {from, to[], cc[], bcc[], subject, body, send, send_at,
  *                     attachments[]}  → COURRIEL NEUF, hors de tout fil existant.
  *                                       Même endpoint Missive que /reply, sans
  *                                       `conversation` : ouvre un nouveau fil.
@@ -501,7 +501,8 @@ async function findContacts({ search, book, limit }) {
 // apparaît dans Missive et attend qu'un humain appuie sur envoyer. C'est le
 // garde-fou principal de cette route, un courriel envoyé ne se rappelle pas.
 const MAX_DEST = 5; // barrière anti-envoi de masse : cette route sert au contact ciblé
-async function sendNew({ from, to, cc, bcc, subject, body, send, attachments, signature }) {
+async function sendNew({ from, to, cc, bcc, subject, body, send, attachments, signature,
+                         send_at: sendAt }) {
   const dest = [...(to || []), ...(cc || []), ...(bcc || [])];
   if (dest.length > MAX_DEST) {
     throw new Error(`${dest.length} destinataires demandés, maximum ${MAX_DEST}. Cette route sert au contact ciblé, pas à l'envoi de masse.`);
@@ -522,6 +523,33 @@ async function sendNew({ from, to, cc, bcc, subject, body, send, attachments, si
       .map((a) => ({ base64_data: a.base64_data, filename: String(a.filename).slice(0, 255) }));
   }
   if (send) draft.send = true;
+  // Envoi différé. Missive accepte `send_at`, un horodatage Unix en SECONDES.
+  //
+  // Il REMPLACE `send`, il ne s'y ajoute pas : Missive refuse les deux ensemble
+  // (« 'send_at' and 'send' cannot be combined »). L'heure planifiée EST
+  // l'instruction d'envoi. On retire donc `send` plutôt que de laisser l'appel
+  // échouer sur une combinaison que l'appelant croyait plus sûre.
+  //
+  // Une date passée est refusée plutôt que laissée à l'interprétation de
+  // Missive. Un horodatage en millisecondes — l'erreur naturelle en
+  // JavaScript — tombe dans un futur absurde et passerait ce test : d'où le
+  // plafond à un an, qui l'attrape.
+  if (sendAt !== undefined && sendAt !== null && sendAt !== "") {
+    const t = Number(sendAt);
+    if (!Number.isInteger(t)) {
+      throw new Error("send_at doit être un horodatage Unix en secondes.");
+    }
+    const maintenant = Math.floor(Date.now() / 1000);
+    if (t <= maintenant) {
+      throw new Error(`send_at est dans le passé (${new Date(t * 1000).toISOString()}).`);
+    }
+    if (t > maintenant + 366 * 86400) {
+      throw new Error(`send_at est à plus d'un an (${new Date(t * 1000).toISOString()})`
+        + " — des millisecondes prises pour des secondes ?");
+    }
+    delete draft.send;
+    draft.send_at = t;
+  }
   return mSend("POST", "/drafts", { drafts: draft });
 }
 
@@ -638,6 +666,10 @@ const server = http.createServer(async (req, res) => {
       return json(res, 200, {
         ok: true,
         sent: !!body.send,
+        // Planifié : le message existe mais n'est pas encore parti. Le dire,
+        // sinon « sent: true » laisse croire qu'il est déjà chez le
+        // destinataire.
+        scheduled_at: body.send_at ? new Date(Number(body.send_at) * 1000).toISOString() : null,
         draft: r.drafts?.id || null,
         conversation: r.drafts?.conversation || null,
       });

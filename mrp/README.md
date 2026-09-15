@@ -650,6 +650,42 @@ node mrp.js demo
 | `ANTHROPIC_API_KEY` | clé de l'assistant ; sans elle la page le signale |
 | `MRP_MODELE` | modèle utilisé (défaut `claude-sonnet-5`) |
 | `MRP_ADMIN_COURRIEL` / `MRP_ADMIN_MDP` | premier compte, créé au démarrage si la base n'a aucun utilisateur ; sans effet ensuite |
+| `MRP_COURRIEL_ARME` | `1` pour que le rappel hebdomadaire parte vraiment. **Sans elle, rien n'est envoyé** : le message est composé et écrit au journal. La présence du secret Missive ne suffit pas — c'est volontaire |
+| `MISSIVE_PROXY_SECRET` | requis en plus de la précédente pour l'envoi ; c'est le secret que la maison a déjà |
+| `MRP_RAPPEL_HEURE` | heure locale de Tunis à partir de laquelle le rappel du vendredi peut partir (défaut 7) |
+| `MRP_SANS_RAPPELS` | `1` désactive le rappel hebdomadaire (les tests le posent) |
+| `MRP_JETON_EXPORT` | arme `/export.json`, l'instantané en lecture seule. 24 caractères minimum, sinon la route reste absente |
+| `MRP_URL` | adresse publique, pour les liens dans le courriel (défaut `https://lasclay-mrp.onrender.com`) |
+
+### `/export.json` — lire l'état réel de l'extérieur
+
+Un plan de chargement de conteneur a été calculé un jour sur un ordre « à 0 %
+d'avancement » qui était en réalité à 42 %. L'analyse lisait la copie locale du
+dépôt, celle qui se recrée depuis les TSV et ne voit jamais ce que l'atelier
+déclare. Personne ne pouvait s'en apercevoir — ni celui qui produisait
+l'analyse, ni celui qui la lisait.
+
+```
+curl -H "X-MRP-Jeton: $MRP_JETON_EXPORT" https://lasclay-mrp.onrender.com/export.json
+```
+
+Un instantané, un seul appel, rien qui s'écrit : ordres en cours, items avec
+leur avancement et leur répartition, jalons, les trente dernières déclarations,
+et depuis combien de jours l'atelier se tait. **Aucune donnée personnelle** :
+ni comptes, ni adresses, ni le texte des signalements clients.
+
+Sans `MRP_JETON_EXPORT`, la route n'existe pas — elle retombe sur le routeur
+ordinaire, comme n'importe quelle adresse inconnue.
+
+### Le rappel hebdomadaire
+
+Chaque lundi, une tâche est posée pour chaque compte d'atelier : « Déclarer
+l'avancement — semaine du X », échéance le vendredi. Le **courriel** part le
+vendredi à 7 h, heure de Tunis — le jour de l'échéance, quand il reste une
+journée pour agir.
+
+L'adresse est celle du COMPTE. Pour la corriger :
+`node mrp.js utilisateur:courriel <ancienne> <nouvelle>`.
 
 ## Déploiement sur Render
 

@@ -6,6 +6,7 @@
  *   node mrp.js utilisateur:liste
  *   node mrp.js utilisateur:mdp    <courriel> <nouveau-mot-de-passe>
  *   node mrp.js utilisateur:role   <courriel> <admin|atelier>
+  node mrp.js utilisateur:courriel <ancien-courriel> <nouveau-courriel>
  *   node mrp.js utilisateur:desactiver <courriel>
  *   node mrp.js demo                 charge un jeu de données d'exemple
  *   node mrp.js etat                 état de la base
@@ -53,6 +54,23 @@ switch (cmd) {
     const r = db.prepare(`UPDATE utilisateurs SET role = ? WHERE courriel = ?`)
                 .run(role, courriel.toLowerCase());
     dire(r.changes ? `Rôle changé pour ${role}.` : 'Utilisateur introuvable.');
+    break;
+  }
+  case 'utilisateur:courriel': {
+    // Le rappel hebdomadaire écrit à l'adresse du COMPTE : si elle est fausse,
+    // le rappel part dans le vide sans que personne le voie. Il faut donc
+    // pouvoir la corriger sans ouvrir la base à la main.
+    const [ancien, nouveau] = a;
+    const n = String(nouveau || '').trim().toLowerCase();
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(n)) {
+      dire('Adresse invalide.'); process.exit(1);
+    }
+    if (db.prepare(`SELECT 1 FROM utilisateurs WHERE courriel = ?`).get(n)) {
+      dire('Cette adresse est déjà prise par un autre compte.'); process.exit(1);
+    }
+    const r = db.prepare(`UPDATE utilisateurs SET courriel = ? WHERE courriel = ?`)
+                .run(n, String(ancien || '').toLowerCase());
+    dire(r.changes ? `Adresse changée pour ${n}.` : 'Utilisateur introuvable.');
     break;
   }
   case 'utilisateur:desactiver': {
