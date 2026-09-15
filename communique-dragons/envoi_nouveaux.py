@@ -21,7 +21,11 @@ DE = "media@lasclay.com"
 ICI = os.path.dirname(os.path.abspath(__file__))
 CLIENT = os.path.join(os.path.dirname(ICI), "missive_client.js")
 PHOTO = os.path.join(ICI, "dragons-plateau.jpg")
-FEUILLES = ("Ajouts FR — RC et TVA", "Presse anglophone")
+# Gabriel veut la presentation d'entreprise avec les courriels francais
+# seulement : elle est en francais, et un pupitre anglophone qui recoit un PDF
+# qu'il ne peut pas lire apprend surtout qu'on ne l'a pas regarde.
+PRESENTATION = os.path.join(ICI, "presentation-lasclay.pdf")
+FEUILLES = ("Ajouts FR, RC et TVA", "Presse anglophone")
 
 
 def appel(charge):
@@ -34,8 +38,12 @@ def appel(charge):
 
 def main(envoyer):
     wb = openpyxl.load_workbook(os.path.join(ICI, "Lasclay_v2.xlsx"))
-    piece = [{"base64_data": base64.b64encode(open(PHOTO, "rb").read()).decode(),
-              "filename": "lasclay-dragons-den.jpg"}]
+    def pj(chemin, nom):
+        return {"base64_data": base64.b64encode(open(chemin, "rb").read()).decode(),
+                "filename": nom}
+
+    photo = pj(PHOTO, "lasclay-dragons-den.jpg")
+    deck = pj(PRESENTATION, "Lasclay-presentation.pdf")
     faits, echecs, fils = 0, [], {}
     for titre in FEUILLES:
         ws = wb[titre]
@@ -45,8 +53,9 @@ def main(envoyer):
             adresse, texte = r[h["Courriel"]], r[h["Brouillon"]]
             if not adresse or not texte:
                 continue
+            pieces = [photo] + ([deck] if titre.startswith("Ajouts FR") else [])
             charge = {"from": DE, "to": [adresse], "subject": r[h["Objet"]],
-                      "body": texte, "attachments": piece}
+                      "body": texte, "attachments": pieces}
             if envoyer:
                 charge["send"] = True
             res = appel(charge)

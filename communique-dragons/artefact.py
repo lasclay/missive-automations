@@ -150,8 +150,8 @@ def fiches():
                         "o": r[h["Objet"]] or "", "r": "Canada",
                         "p": r[h["Pourquoi eux"]] or "", "t": r[h["Brouillon"]] or ""})
 
-    if "Ajouts FR — RC et TVA" in wb.sheetnames:
-        ws = wb["Ajouts FR — RC et TVA"]
+    if "Ajouts FR, RC et TVA" in wb.sheetnames:
+        ws = wb["Ajouts FR, RC et TVA"]
         h = index(ws)
         for r in ws.iter_rows(min_row=2, values_only=True):
             if not r[h["Courriel"]]:

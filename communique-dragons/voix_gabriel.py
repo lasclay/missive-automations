@@ -44,7 +44,7 @@ def media_kit(registre="vous"):
     Gabriel a reecrit cette ligne dans ses dix corrections du 2 septembre :
     « Notre media kit est ici » annoncait un envoi que personne n'avait demande.
     « Si ca vous interesse de couvrir » remet la decision au journaliste, et la
-    parenthese sur le collegue ouvre la porte quand le sujet n'est pas le sien —
+    parenthese sur le collegue ouvre la porte quand le sujet n'est pas le sien :
     dans une salle de nouvelles, c'est souvent quelqu'un d'autre qui le prend.
     """
     p = "t'" if tu(registre) else "vous "
@@ -94,7 +94,7 @@ OBJETS = {
     "G": "L'asclépiade à Dragons' Den!",
     "I": "L'asclépiade à Dragons' Den le 17 septembre!",
     "J": "L'asclépiade à Dragons' Den!",
-    "H": "Quebec milkweed on Dragons' Den — this Thursday",
+    "H": "Quebec milkweed on Dragons' Den, this Thursday",
 }
 
 MISSIONS = ("mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder "

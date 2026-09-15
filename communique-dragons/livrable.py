@@ -103,8 +103,8 @@ def lignes():
                    r[h["Rôle"]], r[h["Pourquoi eux"]], "H", "vous",
                    r[h["Objet"]], r[h["Brouillon"]]]
 
-    if "Ajouts FR — RC et TVA" in wb.sheetnames:
-        ws = wb["Ajouts FR — RC et TVA"]
+    if "Ajouts FR, RC et TVA" in wb.sheetnames:
+        ws = wb["Ajouts FR, RC et TVA"]
         h = index(ws)
         for r in ws.iter_rows(min_row=2, values_only=True):
             if not r[h["Courriel"]]:

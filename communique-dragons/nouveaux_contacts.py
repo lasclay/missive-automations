@@ -9,7 +9,7 @@ Media Centre que j'avais mise la veille.
 
 Meme regle que pour le reste du dossier : chaque adresse est PUBLIEE par le
 media, et la source est notee a cote. Rien n'est deduit d'un patron
-« prenom.nom@ » — sauf que, pour La Semaine verte, c'est le media lui-meme qui
+« prenom.nom@ », sauf que, pour La Semaine verte, c'est le media lui-meme qui
 publie la liste nominative de son equipe, roles compris. On n'a pas devine, on
 a lu.
 
@@ -44,7 +44,7 @@ AGRICOLE = (
     "cassée en 2018 quand l'usine de Saint-Tite a fermé, et la question n'a pas changé depuis : "
     "y a-t-il un acheteur stable au bout du champ. Nous, on achète encore. Sabin Tremblay, à "
     "L'Ascension-de-Notre-Seigneur au Lac-Saint-Jean, cultive pour nous depuis nos tout débuts, "
-    "et je vais l'aider à récolter le 4 octobre — s'il y a un reportage à faire, il est là autant "
+    "et je vais l'aider à récolter le 4 octobre. S'il y a un reportage à faire, il est là autant "
     "qu'ici.")
 
 def fr(pourquoi, offre=None):
@@ -101,16 +101,16 @@ AFFAIRES = (
 # --- anglais ----------------------------------------------------------------
 
 EN_QUI = ("My name is Gabriel Gouveia, founder of Lasclay. We insulate winter clothing with a "
-          "weed — milkweed — that we grow to help save an emblematic, threatened pollinator: "
+          "weed called milkweed, which we grow to help save an emblematic, threatened pollinator: "
           "the monarch butterfly.")
 EN_MATIERE = ("Its pods are filled with a hollow floss, very light and naturally water-repellent. "
               "We turn it into insulation in Quebec City and put it into coats, mitts, toques and "
               "cooler bags sold across Canada and the United States.")
 EN_ANNONCE = ("This Thursday, September 17, Lasclay is in the first episode of season 21 of "
               "Dragons' Den, on CBC and CBC Gem at 8 p.m. (8:30 NT).")
-EN_OFFRE = (f"If you'd like to cover it — or a colleague might — our media kit is here, with "
+EN_OFFRE = (f"If you'd like to cover it, or a colleague might, our media kit is here, with "
             f"images from the Dragons' Den floor and of the company: {DRIVE}")
-EN_BENEFICE = ("I'm genuinely hoping this visibility moves sales, which more broadly is very good "
+EN_BENEFICE = ("I'm hoping this visibility moves sales, which more broadly is very good "
                "news for the Quebec milkweed growers we keep buying from, and for the threatened "
                "monarchs that keep breeding in their fields.")
 EN_CLOTURE = "Happy to answer any questions, and available for an interview this week."
@@ -146,32 +146,33 @@ ANGLO = {
 "globalnational@globalnews.ca": (
     "Global National", "Pupitre national",
     "A Canadian company goes on Dragons' Den this Thursday with a winter coat insulated by a "
-    "weed most farmers spray — and that same weed is the only thing monarch caterpillars eat.",
+    "weed most farmers spray, and that same weed is the only thing monarch caterpillars eat.",
     "globalnews.ca/pages/contact-us"),
 
 "newstips@globalnews.ca": (
     "Global News", "Ligne de nouvelles",
     "A Canadian company goes on Dragons' Den this Thursday with a winter coat insulated by a "
-    "weed most farmers spray — and that same weed is the only thing monarch caterpillars eat.",
+    "weed most farmers spray, and that same weed is the only thing monarch caterpillars eat.",
     "globalnews.ca/pages/contact-us"),
 
 "montreal@globalnews.ca": (
     "Global Montreal", "Pupitre de Montréal",
     "We're a Quebec City company, the milkweed is grown by Quebec farmers, and the insulation is "
-    "made here — Thursday's national broadcast is a local story first.",
+    "made here, Thursday's national broadcast is a local story first.",
     "globalnews.ca/pages/contact-us"),
 
 "insider@retail-insider.com": (
     "Retail Insider", "Rédaction",
     "We're a Canadian direct-to-consumer brand about to get national television exposure, with a "
-    "supply chain that starts in Quebec fields — a retail story as much as an environmental one.",
+    "supply chain that starts in Quebec fields. The coat on the shelf begins as a pod in a row of "
+    "weeds somebody decided not to spray.",
     "retail-insider.com/contact-us"),
 
 "editor@innovationintextiles.com": (
     "Innovation in Textiles", "Rédaction",
     "You covered Vegeto's milkweed insulation last February. We're the other end of that same "
     "Quebec filière: we buy the harvest, process the floss into insulation ourselves, and sell "
-    "finished garments — which makes us, as far as we know, the only ones doing the whole chain.",
+    "finished garments. As far as we know, nobody else holds the whole chain.",
     "innovationintextiles.com/contact"),
 
 "editor@knittingindustry.com": (
@@ -185,7 +186,7 @@ ANGLO = {
     "Textile World", "Rédaction technique",
     "Milkweed floss is a hollow, naturally water-repellent fibre that behaves like down without "
     "an animal, and a Quebec filière has been trying to industrialise it since 2013. We process "
-    "it ourselves and sell finished garments, which is the part nobody had managed to hold.",
+    "it ourselves and sell finished garments. That last step is where the earlier attempts stopped.",
     "textileworld.com/contact"),
 
 "news@fashionunited.com": (
@@ -198,72 +199,72 @@ ANGLO = {
 
 "viewercontacttoronto@globalnews.ca": (
     "Global Toronto", "Pupitre de Toronto",
-    "A Canadian company goes on Dragons' Den this Thursday with a winter coat insulated by a weed most farmers spray — and that same weed is the only thing monarch caterpillars can eat. We grow it, we process the floss into insulation ourselves in Quebec City, and we sell the finished garments across the country.",
+    "A Canadian company goes on Dragons' Den this Thursday with a winter coat insulated by a weed most farmers spray, and that same weed is the only thing monarch caterpillars can eat. We grow it, we process the floss into insulation ourselves in Quebec City, and we sell the finished garments across the country.",
     "globalnews.ca/pages/contact-us"),
 
 "calgary@globalnews.ca": (
     "Global Calgary", "Pupitre de Calgary",
-    "A Canadian company goes on Dragons' Den this Thursday with a winter coat insulated by a weed most farmers spray — and that same weed is the only thing monarch caterpillars can eat. We grow it, we process the floss into insulation ourselves in Quebec City, and we sell the finished garments across the country.",
+    "A Canadian company goes on Dragons' Den this Thursday with a winter coat insulated by a weed most farmers spray, and that same weed is the only thing monarch caterpillars can eat. We grow it, we process the floss into insulation ourselves in Quebec City, and we sell the finished garments across the country.",
     "globalnews.ca/pages/contact-us"),
 
 "edmonton@globalnews.ca": (
     "Global Edmonton", "Pupitre d'Edmonton",
-    "A Canadian company goes on Dragons' Den this Thursday with a winter coat insulated by a weed most farmers spray — and that same weed is the only thing monarch caterpillars can eat. We grow it, we process the floss into insulation ourselves in Quebec City, and we sell the finished garments across the country.",
+    "A Canadian company goes on Dragons' Den this Thursday with a winter coat insulated by a weed most farmers spray, and that same weed is the only thing monarch caterpillars can eat. We grow it, we process the floss into insulation ourselves in Quebec City, and we sell the finished garments across the country.",
     "globalnews.ca/pages/contact-us"),
 
 "winnipeg@globalnews.ca": (
     "Global Winnipeg", "Pupitre de Winnipeg",
-    "A Canadian company goes on Dragons' Den this Thursday with a winter coat insulated by a weed most farmers spray — and that same weed is the only thing monarch caterpillars can eat. We grow it, we process the floss into insulation ourselves in Quebec City, and we sell the finished garments across the country.",
+    "A Canadian company goes on Dragons' Den this Thursday with a winter coat insulated by a weed most farmers spray, and that same weed is the only thing monarch caterpillars can eat. We grow it, we process the floss into insulation ourselves in Quebec City, and we sell the finished garments across the country.",
     "globalnews.ca/pages/contact-us"),
 
 "halifax@globalnews.ca": (
     "Global Halifax", "Pupitre d'Halifax",
-    "A Canadian company goes on Dragons' Den this Thursday with a winter coat insulated by a weed most farmers spray — and that same weed is the only thing monarch caterpillars can eat. We grow it, we process the floss into insulation ourselves in Quebec City, and we sell the finished garments across the country.",
+    "A Canadian company goes on Dragons' Den this Thursday with a winter coat insulated by a weed most farmers spray, and that same weed is the only thing monarch caterpillars can eat. We grow it, we process the floss into insulation ourselves in Quebec City, and we sell the finished garments across the country.",
     "globalnews.ca/pages/contact-us"),
 
 "regina@globalnews.ca": (
     "Global Regina", "Pupitre de Regina",
-    "A Canadian company goes on Dragons' Den this Thursday with a winter coat insulated by a weed most farmers spray — and that same weed is the only thing monarch caterpillars can eat. We grow it, we process the floss into insulation ourselves in Quebec City, and we sell the finished garments across the country.",
+    "A Canadian company goes on Dragons' Den this Thursday with a winter coat insulated by a weed most farmers spray, and that same weed is the only thing monarch caterpillars can eat. We grow it, we process the floss into insulation ourselves in Quebec City, and we sell the finished garments across the country.",
     "globalnews.ca/pages/contact-us"),
 
 "saskatoon@globalnews.ca": (
     "Global Saskatoon", "Pupitre de Saskatoon",
-    "A Canadian company goes on Dragons' Den this Thursday with a winter coat insulated by a weed most farmers spray — and that same weed is the only thing monarch caterpillars can eat. We grow it, we process the floss into insulation ourselves in Quebec City, and we sell the finished garments across the country.",
+    "A Canadian company goes on Dragons' Den this Thursday with a winter coat insulated by a weed most farmers spray, and that same weed is the only thing monarch caterpillars can eat. We grow it, we process the floss into insulation ourselves in Quebec City, and we sell the finished garments across the country.",
     "globalnews.ca/pages/contact-us"),
 
 "okanagan@globalnews.ca": (
     "Global Okanagan", "Pupitre de l'Okanagan",
-    "A Canadian company goes on Dragons' Den this Thursday with a winter coat insulated by a weed most farmers spray — and that same weed is the only thing monarch caterpillars can eat. We grow it, we process the floss into insulation ourselves in Quebec City, and we sell the finished garments across the country.",
+    "A Canadian company goes on Dragons' Den this Thursday with a winter coat insulated by a weed most farmers spray, and that same weed is the only thing monarch caterpillars can eat. We grow it, we process the floss into insulation ourselves in Quebec City, and we sell the finished garments across the country.",
     "globalnews.ca/pages/contact-us"),
 
 "consumermatters@globalnews.ca": (
-    "Global — Consumer Matters", "Chronique consommation",
-    'A $300 winter coat insulated with a farm weed instead of down or polyester — the consumer question is whether it actually keeps you warm, and that is a fair thing to test on air.',
+    "Global, Consumer Matters", "Chronique consommation",
+    'A $300 winter coat insulated with a farm weed instead of down or polyester. The consumer question is whether it actually keeps you warm, and that is a fair thing to test on air.',
     "globalnews.ca/pages/contact-us"),
 
 "vancouver@dailyhive.com": (
     "Daily Hive Vancouver", "Pupitre de Vancouver",
-    'Your readers can watch it Thursday night, and the coat itself is Canadian all the way down: milkweed grown by Quebec farmers, floss processed into insulation in Quebec City, sold from coast to coast.',
+    'Your readers can watch it Thursday night. The milkweed is grown by Quebec farmers and the floss is processed into insulation in Quebec City. Final assembly of the garments happens offshore, which is what put the coat near $300 instead of the $1,000 the earlier attempts asked.',
     "dailyhive.com/page/contact"),
 
 "toronto@dailyhive.com": (
     "Daily Hive Toronto", "Pupitre de Toronto",
-    'Your readers can watch it Thursday night, and the coat itself is Canadian all the way down: milkweed grown by Quebec farmers, floss processed into insulation in Quebec City, sold from coast to coast.',
+    'Your readers can watch it Thursday night. The milkweed is grown by Quebec farmers and the floss is processed into insulation in Quebec City. Final assembly of the garments happens offshore, which is what put the coat near $300 instead of the $1,000 the earlier attempts asked.',
     "dailyhive.com/page/contact"),
 
 "calgary@dailyhive.com": (
     "Daily Hive Calgary", "Pupitre de Calgary",
-    'Your readers can watch it Thursday night, and the coat itself is Canadian all the way down: milkweed grown by Quebec farmers, floss processed into insulation in Quebec City, sold from coast to coast.',
+    'Your readers can watch it Thursday night. The milkweed is grown by Quebec farmers and the floss is processed into insulation in Quebec City. Final assembly of the garments happens offshore, which is what put the coat near $300 instead of the $1,000 the earlier attempts asked.',
     "dailyhive.com/page/contact"),
 
 "edmonton@dailyhive.com": (
     "Daily Hive Edmonton", "Pupitre d'Edmonton",
-    'Your readers can watch it Thursday night, and the coat itself is Canadian all the way down: milkweed grown by Quebec farmers, floss processed into insulation in Quebec City, sold from coast to coast.',
+    'Your readers can watch it Thursday night. The milkweed is grown by Quebec farmers and the floss is processed into insulation in Quebec City. Final assembly of the garments happens offshore, which is what put the coat near $300 instead of the $1,000 the earlier attempts asked.',
     "dailyhive.com/page/contact"),
 
 "info@taproot.ca": (
     "Taproot Edmonton", "Rédaction",
-    'Your readers can watch it Thursday night, and the coat itself is Canadian all the way down: milkweed grown by Quebec farmers, floss processed into insulation in Quebec City, sold from coast to coast.',
+    'Your readers can watch it Thursday night. The milkweed is grown by Quebec farmers and the floss is processed into insulation in Quebec City. Final assembly of the garments happens offshore, which is what put the coat near $300 instead of the $1,000 the earlier attempts asked.',
     "taproot.ca/contact"),
 
 "jdavis@textileworld.com": (
@@ -274,7 +275,7 @@ ANGLO = {
 "editor@betterfarming.com": (
     "Better Farming", "Rédaction",
     "The farm side: milkweed is a weed most growers spray, and a Quebec filière has been trying "
-    "since 2013 to make it pay at the field gate. We still buy the harvest — that's the part that "
+    "since 2013 to make it pay at the field gate. We still buy the harvest, that's the part that "
     "collapsed in 2018 and the part that decides whether anyone plants it again.",
     "betterfarming.com/contact"),
 }
@@ -313,7 +314,7 @@ def main(chiffrier):
         fr_lignes.append([adresse, media, media, role, "I" if "TVA" in media else "E",
                           "L'asclépiade à Dragons' Den le 17 sept!",
                           "tvanouvelles.ca/nous-joindre", None, None, texte])
-    feuille(wb, "Ajouts FR — RC et TVA",
+    feuille(wb, "Ajouts FR, RC et TVA",
             ["Courriel", "Nom", "Média", "Rôle", "Angle", "Objet", "Source de l'adresse",
              "Envoyé le", "Réponse", "Brouillon"],
             fr_lignes, (40, 24, 30, 24, 7, 44, 38, 12, 12, 100))
@@ -321,7 +322,7 @@ def main(chiffrier):
     en_lignes = []
     for adresse, (media, role, pourquoi, source) in ANGLO.items():
         en_lignes.append([adresse, media, role, "H",
-                          "Quebec milkweed on Dragons' Den — this Thursday",
+                          "Quebec milkweed on Dragons' Den, this Thursday",
                           pourquoi, source, None, None, en(pourquoi)])
     feuille(wb, "Presse anglophone",
             ["Courriel", "Média", "Rôle", "Angle", "Objet", "Pourquoi eux",
