@@ -1392,8 +1392,16 @@
       "quand": "2026-09-14T22:09:17.994Z",
       "confirme": true,
       "texte": "Merci beaucoup, c'est apprécié. Le mérite revient à toute l'équipe derrière les produits, et savoir qu'ils vous servent bien, c'est le meilleur retour qu'on puisse recevoir."
+    },
+    {
+      "id": "1678623234271486_1681041222988875",
+      "reponse_id": "1678623234271486_1565330465349513",
+      "page_id": "104242204750257",
+      "quand": "2026-09-15T06:11:32.778Z",
+      "confirme": true,
+      "texte": "Merci, ça nous touche. Bonne journée à vous."
     }
   ],
-  "derniere_execution": "2026-09-14T22:09:17.995Z",
-  "total": 174
+  "derniere_execution": "2026-09-15T06:11:32.779Z",
+  "total": 175
 }
