@@ -7332,6 +7332,48 @@
       "motif": "Identification d'une municipalité seulement, aucun contenu.",
       "page_id": "114311920399404",
       "quand": "2026-09-15T12:40:10.481Z"
+    },
+    {
+      "id": "500400911790501_743886917321427",
+      "extrait": "Johannie Stéphanie voulez vous des papillons?",
+      "motif": "Interpellation d'une amie, aucune question pour la Page.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-15T13:39:29.914Z"
+    },
+    {
+      "id": "500400911790501_519812113668955",
+      "extrait": "avez-vous mélangé du trèfle avec autre chose? remplacer le gazon…",
+      "motif": "Question sur le trèfle et les couvre-sols de remplacement du gazon : on n'a rien de vérifié à présenter là-dessus.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-15T13:39:29.914Z"
+    },
+    {
+      "id": "500400911790501_739780194182125",
+      "extrait": "on a des nouvelles de la dame d’ambioterra ?",
+      "motif": "Question sur un organisme tiers qu'on ne connaît pas et sur lequel on n'a rien vérifié.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-15T13:39:29.914Z"
+    },
+    {
+      "id": "500400911790501_5776965792413324",
+      "extrait": "le gouvernement??? Il est bien occupé avec le chemin Roxam!!",
+      "motif": "Diatribe politique sans rapport avec l'asclépiade.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-15T13:39:29.914Z"
+    },
+    {
+      "id": "500400911790501_227774629712633",
+      "extrait": "Ultra-Trail Monarque + lien de financement Zeffy",
+      "motif": "Programme et collecte de fonds d'un tiers : on ne le connaît pas et on n'a rien vérifié à son sujet, donc on n'endosse pas.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-15T13:39:29.914Z"
+    },
+    {
+      "id": "500400911790501_118612684375512",
+      "extrait": "quoi vous pensez qu’à 100 km/h vous avez le temps d’admirer les plantes",
+      "motif": "Prise de bec entre abonnés; rien à répondre pour la Page.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-15T13:39:29.914Z"
     }
   ]
 }
