@@ -1416,8 +1416,16 @@
       "quand": "2026-09-15T13:09:51.985Z",
       "confirme": true,
       "texte": "Vous la connaissez bien. La soie se trouve dans les follicules, qu'on récolte à l'automne, une fois la floraison passée et la migration terminée — les feuilles, elles, restent aux chenilles. Merci d'avoir pris le temps d'écrire ça."
+    },
+    {
+      "id": "1678623234271486_1092507513358856",
+      "reponse_id": "1678623234271486_939268045897175",
+      "page_id": "104242204750257",
+      "quand": "2026-09-15T14:08:39.995Z",
+      "confirme": true,
+      "texte": "Content de lire ça. Les mitaines, c'est souvent le premier morceau que les gens adoptent — merci du retour."
     }
   ],
-  "derniere_execution": "2026-09-15T13:09:51.985Z",
-  "total": 177
+  "derniere_execution": "2026-09-15T14:08:39.996Z",
+  "total": 178
 }
