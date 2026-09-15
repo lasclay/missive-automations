@@ -92,7 +92,7 @@ def lignes():
                r[h["Région"]], r[h["Fonction"]], r[h["Secteurs pertinents"]],
                r[h["Angle"]], "vous", r[h["Objet suggéré"]], r[h["Brouillon"]]]
 
-    # La presse anglophone : meme colonnes, un seul angle, pas de region.
+    # Les deux feuilles ajoutees le 15 septembre.
     if "Presse anglophone" in wb.sheetnames:
         ws = wb["Presse anglophone"]
         h = index(ws)
@@ -100,7 +100,17 @@ def lignes():
             if not r[h["Courriel"]]:
                 continue
             yield ["anglo", r[h["Média"]], r[h["Média"]], r[h["Courriel"]], "Canada",
-                   r[h["Source de l'adresse"]], r[h["Pourquoi eux"]], "H", "vous",
+                   r[h["Rôle"]], r[h["Pourquoi eux"]], "H", "vous",
+                   r[h["Objet"]], r[h["Brouillon"]]]
+
+    if "Ajouts FR — RC et TVA" in wb.sheetnames:
+        ws = wb["Ajouts FR — RC et TVA"]
+        h = index(ws)
+        for r in ws.iter_rows(min_row=2, values_only=True):
+            if not r[h["Courriel"]]:
+                continue
+            yield ["ajout", r[h["Nom"]], r[h["Média"]], r[h["Courriel"]], None,
+                   r[h["Rôle"]], r[h["Source de l'adresse"]], r[h["Angle"]], "vous",
                    r[h["Objet"]], r[h["Brouillon"]]]
 
 
