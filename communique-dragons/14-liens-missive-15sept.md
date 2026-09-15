@@ -1,0 +1,54 @@
+# Les 48 brouillons du 15 septembre
+
+Étiquette partagée **Marketing**, comme les 23 du 2 septembre.
+
+| Contact | Lien |
+| --- | --- |
+| johanne.j.lapierre@radio-canada.ca | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/148c4faf-12e4-4b52-9476-2c6300367852) |
+| catherine.mercier@radio-canada.ca | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/6e5261d6-a123-4013-ad21-f095f4bee6f5) |
+| france.beaudoin@radio-canada.ca | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/2ba9e703-ca13-4fb7-a289-c035773b8149) |
+| gilbert.begin@radio-canada.ca | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/84054cfa-7759-433e-9f47-a6916e3ac2dc) |
+| carine.monat@radio-canada.ca | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/f39a1e90-be61-4531-ba80-07d73f5cf8b1) |
+| maxime.poire@radio-canada.ca | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/99954704-0869-47b2-a268-46dd88f72710) |
+| marie-maude.pontbriand@radio-canada.ca | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/3cd4b2de-cf03-4655-943b-a9cadc63a793) |
+| julie.vaillancourt@radio-canada.ca | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/f9c1d868-b2b0-4114-b5cf-8d2cb82cae93) |
+| marc-yvan.hebert@radio-canada.ca | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/37f44aff-d7fd-4f38-8a4a-4ade32a9b362) |
+| benoit.livernoche@radio-canada.ca | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/35dfb35d-745e-45ef-bf09-f5f77e1c0317) |
+| nouvelles@tva.ca | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/18446ed1-eb41-4e9b-abad-c94135a66ae0) |
+| nouvelles.quebec@tva.ca | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/c32351ba-db8f-44fc-9507-9059e0212759) |
+| nouvelles.cjpm@tva.ca | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/be9ffcdb-0e7d-4238-8f4a-17731376f617) |
+| nouvelles.chem@tva.ca | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/8674e89c-a77d-4f84-83c4-e9ceeb26303c) |
+| nouvelles.sherbrooke@tva.ca | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/5e48aaeb-831a-4ccf-91c4-9efd105d1b42) |
+| nouvelles.cfer@tva.ca | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/908a1a2a-8d02-4891-88a4-116e990cc27c) |
+| quebec@quebecormedia.com | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/6c7a90fa-aacb-46c4-ad4b-84b61fb293db) |
+| montreal@quebecormedia.com | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/8c3ce6ff-1546-4bf0-8824-07549e1fb62b) |
+| sherbrooke@quebecormedia.com | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/3348603c-6bc2-441b-a474-4e797e0b722f) |
+| trois-rivieres@quebecormedia.com | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/34959bfb-ab35-4595-a8e1-2c71f68fcc88) |
+| estquebec@quebecormedia.com | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/67d8f19d-7639-4545-bd77-660003ed2940) |
+| newsroom@thecanadianpress.com | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/9c02ee53-f009-4552-8e8e-12421541f6e8) |
+| bnnassignmentdesk@bellmedia.ca | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/7ae4a974-eb9b-4c11-b764-83c30b66949c) |
+| ROB@globeandmail.com | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/6169433e-716a-4bf2-b7cc-870c12a1a81a) |
+| globalnational@globalnews.ca | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/6cae0e25-9506-4a33-94e9-affdec2f778d) |
+| newstips@globalnews.ca | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/8a3721e9-2c2a-4b14-8064-2822b80da273) |
+| montreal@globalnews.ca | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/46825adc-3830-4bef-a5b5-f017abc10d04) |
+| insider@retail-insider.com | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/64c4c572-16d8-4462-b607-98e3bb71d219) |
+| editor@innovationintextiles.com | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/90f5233f-bd25-4fd2-85ed-255df235f7ac) |
+| editor@knittingindustry.com | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/567dad8f-daaf-45b2-8b01-7770501b7d91) |
+| jborneman@textileworld.com | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/4245f8fa-de01-431e-b7b8-4dfbaf3019a0) |
+| news@fashionunited.com | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/249993fd-1150-4d76-91c2-0542a8386ebb) |
+| viewercontacttoronto@globalnews.ca | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/42de09b8-dbd5-4036-a5de-d36a2e6e0f38) |
+| calgary@globalnews.ca | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/d8c3d5bb-286f-4014-ad87-58212b312727) |
+| edmonton@globalnews.ca | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/25294dc3-b458-4e28-8499-5c651d3b5302) |
+| winnipeg@globalnews.ca | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/842bbf66-b403-487d-af9a-48989a9c32e0) |
+| halifax@globalnews.ca | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/1c21804d-fbf6-44ee-998d-58bbd60513aa) |
+| regina@globalnews.ca | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/6ba1033b-81cb-4dab-9c3c-1cacc781d01e) |
+| saskatoon@globalnews.ca | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/7645089a-5882-4083-9c81-754d0559e8e8) |
+| okanagan@globalnews.ca | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/651e2b79-5e7f-4f88-b549-53c52ee4afff) |
+| consumermatters@globalnews.ca | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/6dfc79d4-8eb5-49c2-b7a8-1f55db63d091) |
+| vancouver@dailyhive.com | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/22d511ea-53f6-464d-a032-dc56032b6107) |
+| toronto@dailyhive.com | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/bf881745-ee52-4400-8340-66140807d8e5) |
+| calgary@dailyhive.com | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/09d69ab9-6d44-490e-b121-0b67345be25b) |
+| edmonton@dailyhive.com | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/da5050b8-814d-4695-a4ea-b2ba17c43a05) |
+| info@taproot.ca | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/dbc1bf34-342a-4b20-b875-e0018e229def) |
+| jdavis@textileworld.com | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/dc500107-0ad2-4523-8012-262209ba14f5) |
+| editor@betterfarming.com | [ouvrir](https://mail.missiveapp.com/#inbox/conversations/e6eee6b8-8414-4ab8-9a47-197f0eb340f8) |
