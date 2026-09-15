@@ -1400,8 +1400,24 @@
       "quand": "2026-09-15T06:11:32.778Z",
       "confirme": true,
       "texte": "Merci, ça nous touche. Bonne journée à vous."
+    },
+    {
+      "id": "1678623234271486_1600469918119882",
+      "reponse_id": "1678623234271486_1604745848100474",
+      "page_id": "104242204750257",
+      "quand": "2026-09-15T13:08:41.443Z",
+      "confirme": true,
+      "texte": "Merci du souhait. On avance une étape à la fois, et des mots comme le vôtre donnent de l'élan."
+    },
+    {
+      "id": "1678623234271486_1070698822327773",
+      "reponse_id": "1678623234271486_1821423115962761",
+      "page_id": "104242204750257",
+      "quand": "2026-09-15T13:09:51.985Z",
+      "confirme": true,
+      "texte": "Vous la connaissez bien. La soie se trouve dans les follicules, qu'on récolte à l'automne, une fois la floraison passée et la migration terminée — les feuilles, elles, restent aux chenilles. Merci d'avoir pris le temps d'écrire ça."
     }
   ],
-  "derniere_execution": "2026-09-15T06:11:32.779Z",
-  "total": 175
+  "derniere_execution": "2026-09-15T13:09:51.985Z",
+  "total": 177
 }
