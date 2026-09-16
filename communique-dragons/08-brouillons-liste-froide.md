@@ -955,7 +955,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-## Angle C, 32 contacts
+## Angle C, 33 contacts
 
 ### Marie Allard, Publications BLD inc, `marie.allard@lesdebrouillards.com`, **écrit à la main**
 *Priorité A · Montréal*
@@ -1797,6 +1797,33 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 
 ```
 Bonjour Pierre,
+
+Je m'appelle Gabriel Gouveia, fondateur de [Lasclay](https://lasclay.com). On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
+
+Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
+Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
+
+Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
+
+Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
+
+Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je peux parler des volumes, de la fenêtre de récolte et de ce qui reste à régler côté mécanisation, sans rien promettre que je ne peux pas tenir.
+
+Si ça vous intéresse de couvrir (ou un.e collègue?), [notre média kit est ici](https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr), avec les images de notre passage à Dragons' Den et de l'entreprise.
+
+J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
+
+Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
+```
+
+### Francis Higgins, Le Soleil, `fhiggins@lesoleil.com`
+*Priorité C · Capitale-Nationale/Chaudière-Appalaches*
+
+```
+Bonjour Francis,
 
 Je m'appelle Gabriel Gouveia, fondateur de [Lasclay](https://lasclay.com). On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
