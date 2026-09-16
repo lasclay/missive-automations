@@ -10,5 +10,353 @@
   "mode": "réponse",
   "feuille": "chaude",
   "conversation": null
+ },
+ "cpouliot@lesoleil.com": {
+  "quand": "2026-09-16T10:16:36",
+  "mode": "réponse",
+  "feuille": "chaude",
+  "conversation": null
+ },
+ "melissa.paquet@tva.ca": {
+  "quand": "2026-09-16T10:17:08",
+  "mode": "réponse",
+  "feuille": "chaude",
+  "conversation": null
+ },
+ "anne-sophie.roy@radio-canada.ca": {
+  "quand": "2026-09-16T10:17:39",
+  "mode": "réponse",
+  "feuille": "chaude",
+  "conversation": null
+ },
+ "alafrance@lesoleil.com": {
+  "quand": "2026-09-16T10:18:10",
+  "mode": "réponse",
+  "feuille": "chaude",
+  "conversation": null
+ },
+ "mtison@lapresse.ca": {
+  "quand": "2026-09-16T10:18:42",
+  "mode": "réponse",
+  "feuille": "chaude",
+  "conversation": null
+ },
+ "hrganzmann@ledevoir.com": {
+  "quand": "2026-09-16T10:19:13",
+  "mode": "réponse",
+  "feuille": "chaude",
+  "conversation": null
+ },
+ "msbrault@lesoleil.com": {
+  "quand": "2026-09-16T10:19:45",
+  "mode": "réponse",
+  "feuille": "chaude",
+  "conversation": null
+ },
+ "sandra.fillion@radio-canada.ca": {
+  "quand": "2026-09-16T10:20:16",
+  "mode": "réponse",
+  "feuille": "chaude",
+  "conversation": null
+ },
+ "eugenie.emond@radio-canada.ca": {
+  "quand": "2026-09-16T10:20:47",
+  "mode": "réponse",
+  "feuille": "chaude",
+  "conversation": null
+ },
+ "mtison1@lapresse.ca": {
+  "quand": "2026-09-16T10:21:19",
+  "mode": "réponse",
+  "feuille": "chaude",
+  "conversation": null
+ },
+ "vsimard@lapresse.ca": {
+  "quand": "2026-09-16T10:21:50",
+  "mode": "réponse",
+  "feuille": "chaude",
+  "conversation": null
+ },
+ "alex.perreault@radio-canada.ca": {
+  "quand": "2026-09-16T10:22:21",
+  "mode": "réponse",
+  "feuille": "chaude",
+  "conversation": null
+ },
+ "fanny.samson@radio-canada.ca": {
+  "quand": "2026-09-16T10:22:52",
+  "mode": "réponse",
+  "feuille": "chaude",
+  "conversation": null
+ },
+ "mmenard@laterre.ca": {
+  "quand": "2026-09-16T10:23:24",
+  "mode": "réponse",
+  "feuille": "chaude",
+  "conversation": null
+ },
+ "groy@lequotidien.com": {
+  "quand": "2026-09-16T10:23:55",
+  "mode": "réponse",
+  "feuille": "chaude",
+  "conversation": null
+ },
+ "sophie.laforest@radio-canada.ca": {
+  "quand": "2026-09-16T10:24:27",
+  "mode": "neuf",
+  "feuille": "chaude",
+  "conversation": "7f12d8b3-8915-4b70-895e-4f139461dba2"
+ },
+ "amckenna@ledevoir.com": {
+  "quand": "2026-09-16T10:24:58",
+  "mode": "neuf",
+  "feuille": "chaude",
+  "conversation": "36998ba6-8df6-4ff2-b5fb-1cd2745464cd"
+ },
+ "sylvielemieux16@gmail.com": {
+  "quand": "2026-09-16T10:25:29",
+  "mode": "réponse",
+  "feuille": "chaude",
+  "conversation": null
+ },
+ "sophiegrenierheroux@hotmail.com": {
+  "quand": "2026-09-16T10:26:01",
+  "mode": "réponse",
+  "feuille": "chaude",
+  "conversation": null
+ },
+ "madeleine.goubau@gmail.com": {
+  "quand": "2026-09-16T10:26:32",
+  "mode": "neuf",
+  "feuille": "chaude",
+  "conversation": "01747264-4d0e-4a1d-a470-83a2f10e5f23"
+ },
+ "jean-michel_leprince@radio-canada.ca": {
+  "quand": "2026-09-16T10:27:03",
+  "mode": "neuf",
+  "feuille": "chaude",
+  "conversation": "43253c01-a2bb-4ed7-ba6c-6dac518fc972"
+ },
+ "johanne.j.lapierre@radio-canada.ca": {
+  "quand": "2026-09-16T10:27:34",
+  "mode": "neuf",
+  "feuille": "ajouts",
+  "conversation": "07578d5a-869b-4b9f-abfa-cffa38bb5796"
+ },
+ "catherine.mercier@radio-canada.ca": {
+  "quand": "2026-09-16T10:28:06",
+  "mode": "neuf",
+  "feuille": "ajouts",
+  "conversation": "3fad5673-3640-4cc7-a2a3-ad82d2dd4ef3"
+ },
+ "france.beaudoin@radio-canada.ca": {
+  "quand": "2026-09-16T10:28:38",
+  "mode": "neuf",
+  "feuille": "ajouts",
+  "conversation": "942311d4-0c44-4347-b904-2a36564884e7"
+ },
+ "gilbert.begin@radio-canada.ca": {
+  "quand": "2026-09-16T10:29:10",
+  "mode": "neuf",
+  "feuille": "ajouts",
+  "conversation": "819a0cf4-b428-461c-b74a-55acf95a9f26"
+ },
+ "carine.monat@radio-canada.ca": {
+  "quand": "2026-09-16T10:29:42",
+  "mode": "neuf",
+  "feuille": "ajouts",
+  "conversation": "3de5648c-8a9c-4ef0-88db-1ba8c35faa2e"
+ },
+ "maxime.poire@radio-canada.ca": {
+  "quand": "2026-09-16T10:30:13",
+  "mode": "neuf",
+  "feuille": "ajouts",
+  "conversation": "7bc214a9-db32-4d12-8e26-512e1749ba5d"
+ },
+ "marie-maude.pontbriand@radio-canada.ca": {
+  "quand": "2026-09-16T10:30:45",
+  "mode": "neuf",
+  "feuille": "ajouts",
+  "conversation": "ee354749-2334-4c07-8ff5-5bf9f814e7fd"
+ },
+ "julie.vaillancourt@radio-canada.ca": {
+  "quand": "2026-09-16T10:31:17",
+  "mode": "neuf",
+  "feuille": "ajouts",
+  "conversation": "3c5bdeee-6923-4326-98f9-136e8bc8ca8c"
+ },
+ "marc-yvan.hebert@radio-canada.ca": {
+  "quand": "2026-09-16T10:31:49",
+  "mode": "neuf",
+  "feuille": "ajouts",
+  "conversation": "40fb48bb-dc4c-4a85-97ba-427eff9b7f4e"
+ },
+ "benoit.livernoche@radio-canada.ca": {
+  "quand": "2026-09-16T10:32:21",
+  "mode": "neuf",
+  "feuille": "ajouts",
+  "conversation": "f92fbe54-3258-4fbd-9281-2766424c1a16"
+ },
+ "nouvelles@tva.ca": {
+  "quand": "2026-09-16T10:32:52",
+  "mode": "neuf",
+  "feuille": "ajouts",
+  "conversation": "ddbebefa-90b4-4f46-ac6c-38f1ba92d872"
+ },
+ "nouvelles.quebec@tva.ca": {
+  "quand": "2026-09-16T10:33:24",
+  "mode": "neuf",
+  "feuille": "ajouts",
+  "conversation": "b6ecd243-76eb-47ae-b199-97d058e27b93"
+ },
+ "nouvelles.cjpm@tva.ca": {
+  "quand": "2026-09-16T10:33:56",
+  "mode": "neuf",
+  "feuille": "ajouts",
+  "conversation": "d16dd951-c36e-40c0-aa33-d7b2441b23e3"
+ },
+ "nouvelles.chem@tva.ca": {
+  "quand": "2026-09-16T10:34:28",
+  "mode": "neuf",
+  "feuille": "ajouts",
+  "conversation": "2c280b98-45af-4b7c-a5e3-1044df3cdf04"
+ },
+ "nouvelles.sherbrooke@tva.ca": {
+  "quand": "2026-09-16T10:35:00",
+  "mode": "neuf",
+  "feuille": "ajouts",
+  "conversation": "1bd74364-3119-4d68-9030-092c70d00dfa"
+ },
+ "nouvelles.cfer@tva.ca": {
+  "quand": "2026-09-16T10:35:32",
+  "mode": "neuf",
+  "feuille": "ajouts",
+  "conversation": "db04812f-c933-4005-8f19-7a2c3262a8ff"
+ },
+ "quebec@quebecormedia.com": {
+  "quand": "2026-09-16T10:36:03",
+  "mode": "neuf",
+  "feuille": "ajouts",
+  "conversation": "ee33814c-6461-401b-8072-5492d310cff2"
+ },
+ "montreal@quebecormedia.com": {
+  "quand": "2026-09-16T10:36:35",
+  "mode": "neuf",
+  "feuille": "ajouts",
+  "conversation": "ab72f4a4-6477-45f5-9345-9baa1e98275a"
+ },
+ "sherbrooke@quebecormedia.com": {
+  "quand": "2026-09-16T10:37:07",
+  "mode": "neuf",
+  "feuille": "ajouts",
+  "conversation": "aa8bb3bf-f8ad-4600-991c-949906bf5595"
+ },
+ "trois-rivieres@quebecormedia.com": {
+  "quand": "2026-09-16T10:37:39",
+  "mode": "neuf",
+  "feuille": "ajouts",
+  "conversation": "6ead5af1-b052-4757-acaf-15f005c71d75"
+ },
+ "estquebec@quebecormedia.com": {
+  "quand": "2026-09-16T10:38:11",
+  "mode": "neuf",
+  "feuille": "ajouts",
+  "conversation": "f393d0f5-203d-4f52-a448-3faeb0e99798"
+ },
+ "marie.allard@lesdebrouillards.com": {
+  "quand": "2026-09-16T10:38:42",
+  "mode": "neuf",
+  "feuille": "froide",
+  "conversation": "fbe09c77-9472-4b25-926c-01cd75efee20"
+ },
+ "zoe.allemand@hotmail.com": {
+  "quand": "2026-09-16T10:39:13",
+  "mode": "neuf",
+  "feuille": "froide",
+  "conversation": "38e56024-dbf4-4243-af8c-9e2fd1d3d12e"
+ },
+ "victoria_bakos@hotmail.com": {
+  "quand": "2026-09-16T10:39:44",
+  "mode": "neuf",
+  "feuille": "froide",
+  "conversation": "b54b6e7d-e08a-4654-8916-91825a19132c"
+ },
+ "ebernier@lecharlevoisien.com": {
+  "quand": "2026-09-16T10:40:15",
+  "mode": "neuf",
+  "feuille": "froide",
+  "conversation": "8f331dee-87fb-4c96-ad65-bdea42afac7b"
+ },
+ "normandblouin@gmail.com": {
+  "quand": "2026-09-16T10:40:46",
+  "mode": "neuf",
+  "feuille": "froide",
+  "conversation": "d29277f5-8248-4f7b-bcc1-9de749ea0309"
+ },
+ "lbourbonnais@videotron.ca": {
+  "quand": "2026-09-16T10:41:18",
+  "mode": "neuf",
+  "feuille": "froide",
+  "conversation": "cd830693-0000-4f9b-9273-b98c71cbf528"
+ },
+ "franbour2@videotron.ca": {
+  "quand": "2026-09-16T10:41:49",
+  "mode": "neuf",
+  "feuille": "froide",
+  "conversation": "e1a7dd8b-600b-4c95-8955-a340fc7f5ee8"
+ },
+ "ariane.boyer@tva.ca": {
+  "quand": "2026-09-16T10:42:20",
+  "mode": "neuf",
+  "feuille": "froide",
+  "conversation": "40b4fade-026b-40cf-a588-44728f885500"
+ },
+ "pamoussa012@gmail.com": {
+  "quand": "2026-09-16T10:42:51",
+  "mode": "neuf",
+  "feuille": "froide",
+  "conversation": "a2fd9da7-9ea8-4a5e-a1d2-f3f83c9d1a1e"
+ },
+ "vcarre@lecharlevoisien.com": {
+  "quand": "2026-09-16T10:43:22",
+  "mode": "neuf",
+  "feuille": "froide",
+  "conversation": "98f97c0b-cfe8-49ec-936b-b3532080e372"
+ },
+ "info@ericchabot.com": {
+  "quand": "2026-09-16T10:43:54",
+  "mode": "neuf",
+  "feuille": "froide",
+  "conversation": "d0fced2e-9928-4e57-acae-11d6c0212490"
+ },
+ "tristanchampagnelessard@gmail.com": {
+  "quand": "2026-09-16T10:44:25",
+  "mode": "neuf",
+  "feuille": "froide",
+  "conversation": "07f65374-77bc-429e-9a5c-396ac4905f6e"
+ },
+ "info@photojmc.ca": {
+  "quand": "2026-09-16T10:44:57",
+  "mode": "neuf",
+  "feuille": "froide",
+  "conversation": "a2fd16ce-497a-4017-9ed1-1e9ac59515d7"
+ },
+ "schretien@alliancepolymeres.org": {
+  "quand": "2026-09-16T10:45:28",
+  "mode": "neuf",
+  "feuille": "froide",
+  "conversation": "ea306659-1999-4b4f-91e6-675e39f65796"
+ },
+ "maxime.corneau@radio-canada.ca": {
+  "quand": "2026-09-16T10:45:59",
+  "mode": "neuf",
+  "feuille": "froide",
+  "conversation": "105d9036-94e2-45c2-bf97-416824bfecd6"
+ },
+ "aurelia.cremoux@gmail.com": {
+  "quand": "2026-09-16T10:46:30",
+  "mode": "neuf",
+  "feuille": "froide",
+  "conversation": "758a1ec9-bbbd-45d3-83c9-9ae558b86527"
  }
 }
