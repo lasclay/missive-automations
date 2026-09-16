@@ -128,13 +128,17 @@ constats mous chaque soir rend la revue inutile en une semaine.
 
 ### 4 — Écrire la revue
 
-`revue/jour/AAAA-MM-JJ/revue.md`, en français, dans cet ordre :
+`revue/jour/AAAA-MM-JJ/revue.md`, en français. **Plafond : 60 lignes.** C'est l'archive, pas le
+rapport — Gabriel ne la lit pas tous les soirs, il y va quand le snapshot l'y envoie.
 
-1. **Ce qui a tourné** — tableau des routines, avec tiré / résultat / trace vérifiée.
-2. **Ce qui a été produit** — chiffres du jour : réponses publiées, commits, fils traités.
-3. **Constats** — un par bloc, avec gravité, preuve, et ce qu'il en coûte si rien n'est fait.
-4. **Ce qui attend Gabriel** — sessions bloquées, décisions en suspens.
-5. **Améliorations proposées** — la liste des identifiants créés à l'étape 5.
+1. **Ce qui a tourné** — le tableau des routines, rien de plus.
+2. **Constats** — un paragraphe chacun, avec sa preuve nommée. Pas de récapitulatif des jours
+   précédents : les compteurs sont dans le snapshot.
+3. **Ce qui attend Gabriel** — une liste, sans commentaire.
+
+Ce qui est interdit ici : reprendre en prose ce que le snapshot dit en chiffres, réexpliquer un
+constat déjà écrit la veille, ou raconter la méthode. Un constat déjà signalé se cite en une ligne
+avec sa date d'origine.
 
 ### 5 — Proposer les améliorations
 
@@ -161,16 +165,29 @@ git push -u origin claude/revue-quotidienne
 **Ne fusionne jamais dans `main` toi-même** : `main` déclenche le redéploiement des services
 Render, et cette fusion est une décision humaine.
 
-### 7 — Livrer à Gabriel
+### 7 — Livrer à Gabriel : le snapshot, et rien d'autre
 
-Un message court dans la session : ce qui a tourné, ce qui a cassé, ce qui l'attend, et les
-identifiants des propositions du soir avec leur titre. Pas de mur de texte — le détail vit dans
-`revue.md`, en lien.
+```
+node revue/snapshot.js
+```
 
-Puis mets à jour l'artefact permanent **« Revue quotidienne Lasclay »** : son URL est dans
-`revue/artefact.json`. Passe cette URL en `url` pour republier au même endroit — n'en crée pas
-un nouveau chaque soir. Si le fichier est absent, publie une première fois et enregistre l'URL
-rendue dans `revue/artefact.json`, puis committe.
+**Colle sa sortie telle quelle dans la session. C'est tout le rapport du soir.** Une vingtaine de
+lignes : production du jour, ce qui est au rouge avec son ancienneté, le nombre de décisions en
+attente, et le lien vers le détail.
+
+Trois règles, parce que c'est là que la revue a dérapé :
+
+- **N'ajoute rien au snapshot** — ni préambule, ni commentaire sous les lignes, ni rappel des
+  constats des jours précédents. Si un constat mérite plus que sa ligne, il mérite une ligne
+  ROUGE, pas un paragraphe.
+- **Une exception, une seule** : un fait neuf de la journée qui n'entre dans aucun compteur —
+  une panne, un incident, une correction d'une erreur passée. Trois phrases au maximum, sous le
+  snapshot.
+- **Ne répète jamais un constat structurel deux soirs de suite en prose.** Le compteur s'en
+  charge : « 40 j sans envoi » dit la même chose que trois paragraphes, et se lit d'un coup d'œil.
+
+Le snapshot se calcule uniquement depuis le dépôt — aucun appel réseau, donc aucune excuse pour
+ne pas le produire. Si un compteur manque, corrige `snapshot.js` plutôt que de compenser en prose.
 
 ## Comment Gabriel approuve
 
