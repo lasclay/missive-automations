@@ -16,3 +16,4 @@ __pycache__/
 *.pyc
 communique-dragons/envoi_fr.log
 communique-dragons/envoi_en.log
+communique-dragons/excuses.log
