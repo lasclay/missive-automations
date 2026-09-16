@@ -14,3 +14,4 @@ mrp/donnees/bris-missive.tsv
 
 __pycache__/
 *.pyc
+communique-dragons/envoi_fr.log
