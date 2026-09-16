@@ -1472,8 +1472,24 @@
       "quand": "2026-09-16T18:07:50.981Z",
       "confirme": true,
       "texte": "Merci! Savoir que les produits vous plaisent, c'est ce qui nous encourage le plus."
+    },
+    {
+      "id": "1685109530289523_1399004231651025",
+      "reponse_id": "1685109530289523_1058400596904161",
+      "page_id": "104242204750257",
+      "quand": "2026-09-16T19:07:32.092Z",
+      "confirme": true,
+      "texte": "Merci beaucoup! On apprécie."
+    },
+    {
+      "id": "1678623234271486_4508145779455167",
+      "reponse_id": "1678623234271486_1133344859336029",
+      "page_id": "104242204750257",
+      "quand": "2026-09-16T19:11:52.032Z",
+      "confirme": true,
+      "texte": "Vous avez raison de le mentionner. Le latex est très amer et les animaux au pâturage l'évitent d'eux-mêmes ; le risque documenté, c'est surtout l'asclépiade séchée qui se retrouve dans des balles de foin destinées au bétail. Pour les enfants et les animaux de compagnie, on ne connaît aucun cas d'intoxication documenté."
     }
   ],
-  "derniere_execution": "2026-09-16T18:07:50.982Z",
-  "total": 184
+  "derniere_execution": "2026-09-16T19:11:52.032Z",
+  "total": 186
 }
