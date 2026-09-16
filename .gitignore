@@ -14,3 +14,10 @@ mrp/donnees/bris-missive.tsv
 
 __pycache__/
 *.pyc
+
+# Montage : rushes, trames et rendus — lourds et regenerables en une commande.
+# Les JSON du projet (derush.json, plan.json) restent versionnes : c'est le
+# travail de jugement, pas des octets de video.
+montage/projets/*/trames/
+montage/projets/*/cache/
+montage/projets/*/*.mp4

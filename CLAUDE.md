@@ -16,6 +16,7 @@ chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, 
 | `proxygen` | General Proxy : ShipStation, Omnisend, Klaviyo |
 | `composio` | Composio : connecteur MCP contre clé de projet, accès aux Pages Facebook, pièges de jetons |
 | `video` | regarder une vidéo (URL ou fichier) : trames horodatées à lire + transcription |
+| `montage` | dérusher des rushes existants et monter un Reel : plan de montage ajustable à la voix |
 
 ## General Proxy (opérations) — ShipStation, Omnisend
 
@@ -79,6 +80,15 @@ chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, 
   relais tiers (instance publique de cobalt) — l'URL de la vidéo lui est transmise, donc
   `--no-fallback-service` pour une vidéo confidentielle. Si le relais tombe :
   `VIDEO_YT_COOKIES_B64` ou `VIDEO_PROXY`. Détails : skill `video`.
+
+## Montage vidéo (rushes déjà tournés → Reel)
+
+- `node montage/montage.js derush <dossier> --projet <nom>` : inventaire + trames à **lire**,
+  puis `gabarit`, `plan`, `check`, `render [--brouillon]`.
+- Le plan de montage est un JSON (`montage/projets/<nom>/plan.json`) : un ajustement dit à voix
+  haute = une petite modification + un re-rendu de quelques secondes (cache par plan).
+- Dépend de `ffmpeg` — `python3 .claude/skills/video/scripts/setup.py --skip-whisper` dans un
+  conteneur neuf. Doc complète : `montage/README.md`. Skill : `montage`.
 
 ## Scripts principaux
 
