@@ -22,14 +22,15 @@ import sys
 import openpyxl
 from openpyxl.styles import Alignment, Font, PatternFill
 
-from histoire_asclepiade import INDIGENE_EN, INDIGENE_FR, PAR_REGION, RC_FAILLITE
+from histoire_asclepiade import (INDIGENE_EN, INDIGENE_FR, PAR_REGION, RC_FAILLITE,
+                                 SITE_EN, SITE_FR)
 from voix_gabriel import BENEFICE, en_html, lien, media_kit
 
 DRIVE = "https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr"
 
 # --- francais ---------------------------------------------------------------
 
-QUI = ("Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec "
+QUI = ("Je m'appelle Gabriel Gouveia, fondateur de " + lien("Lasclay", SITE_FR) + ". On isole des vêtements d'hiver avec "
        "une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur "
        "emblématique et menacé : le papillon monarque.")
 MATIERE = ("Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. "
@@ -101,7 +102,7 @@ AFFAIRES = (
 
 # --- anglais ----------------------------------------------------------------
 
-EN_QUI = ("My name is Gabriel Gouveia, founder of Lasclay. We insulate winter clothing with a "
+EN_QUI = ("My name is Gabriel Gouveia, founder of " + lien("Lasclay", SITE_EN) + ". We insulate winter clothing with a "
           "weed called milkweed, which we grow to help save an emblematic, threatened pollinator: "
           "the monarch butterfly.")
 EN_MATIERE = ("Its pods are filled with a hollow floss, very light and naturally water-repellent. "

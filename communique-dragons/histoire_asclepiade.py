@@ -148,3 +148,10 @@ MAURICIE_COURT = (
     + lien("l'appui de la MRC qui a fait pencher la relance", NOUVELLISTE_RELANCE)
     + " six semaines plus tard. On a démarré après. Neuf ans plus tard, on achète encore de "
       "l'asclépiade québécoise et on la transforme nous-mêmes à Québec.")
+
+
+# Le nom de l'entreprise, lie des la premiere phrase. Un journaliste qui ne nous
+# connait pas clique avant de finir le paragraphe, et il atterrit dans la bonne
+# langue : lasclay.com sert le francais, /en-us l'anglais.
+SITE_FR = "https://lasclay.com"
+SITE_EN = "https://lasclay.com/en-us"

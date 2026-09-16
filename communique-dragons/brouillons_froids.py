@@ -18,10 +18,12 @@ Deux differences assumees avec la liste chaude :
 import sys
 import openpyxl
 from openpyxl.styles import Font, PatternFill, Alignment
-from histoire_asclepiade import INDIGENE_FR, MAURICIE, MAURICIE_COURT, PAR_REGION
-from voix_gabriel import VIDEO, ANNONCE, BENEFICE, OBJETS, objet, media_kit, assembler, deplier
+from histoire_asclepiade import (INDIGENE_FR, MAURICIE, MAURICIE_COURT, PAR_REGION,
+                                 SITE_FR)
+from voix_gabriel import (VIDEO, ANNONCE, BENEFICE, OBJETS, objet, lien, media_kit,
+                          assembler, deplier)
 
-QUI = ("Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver "
+QUI = ("Je m'appelle Gabriel Gouveia, fondateur de " + lien("Lasclay", SITE_FR) + ". On isole des vêtements d'hiver "
        "avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur "
        "emblématique et menacé : le papillon monarque.")
 
