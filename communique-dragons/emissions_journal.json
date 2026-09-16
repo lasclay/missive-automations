@@ -1,0 +1,32 @@
+{
+ "alexandre.duval@radio-canada.ca": {
+  "quand": "2026-09-16T13:05:00",
+  "émission": "Première heure",
+  "rôle": "animateur",
+  "conversation": "4dd94539-690e-49e2-8737-07ac20889c4b"
+ },
+ "isabelle.fleury@radio-canada.ca": {
+  "quand": "2026-09-16T13:12:00",
+  "émission": "Première heure",
+  "rôle": "réalisation",
+  "conversation": "c00f3cce-759e-4075-8140-34c8939a2ede"
+ },
+ "xavier.gagnon@radio-canada.ca": {
+  "quand": "2026-09-16T13:12:00",
+  "émission": "Première heure",
+  "rôle": "recherche",
+  "conversation": "b5ae42af-f920-4a55-8183-091cfbec66eb"
+ },
+ "sandra.lalancette@radio-canada.ca": {
+  "quand": "2026-09-16T13:09:00",
+  "émission": "C'est encore mieux l'après-midi",
+  "rôle": "réalisation",
+  "conversation": "ee391437-181a-4a98-b737-739603a90f35"
+ },
+ "mathieu.boulay@radio-canada.ca": {
+  "quand": "2026-09-16T13:15:00",
+  "émission": "C'est encore mieux l'après-midi",
+  "rôle": "recherche",
+  "conversation": "375e65be-b21b-4d4f-b06a-ad39c3bb8f32"
+ }
+}
