@@ -94,3 +94,57 @@ PAR_REGION = {
     "Centre-du-Québec": CENTRE,
     "Montérégie": MONTEREGIE,
 }
+
+
+# --- les pages de lasclay.com -----------------------------------------------
+# Gabriel : « preciser que l'asclepiade est une mauvaise herbe INDIGENE, avec
+# une riche histoire », et pointer vers nos propres pages.
+#
+# Pourquoi ca change quelque chose : « mauvaise herbe » tout court laisse croire
+# a une espece envahissante importee. L'asclepiade commune pousse ici depuis
+# toujours, et c'est exactement ce qui rend le monarque dependant d'elle. Un
+# journaliste qui apprend ca en trois mots a deja son angle.
+#
+# Les liens servent deux fois : ils donnent au journaliste de quoi ecrire sans
+# nous rappeler, et ils ramenent du trafic vers des pages qu'on controle.
+
+PAGE_FR = "https://lasclay.com/pages/milkweed-asclepiade"
+PAGE_EN = "https://lasclay.com/en-us/pages/milkweed-plant-fiber"
+INDUSTRIE_FR = "https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec"
+INDUSTRIE_EN = "https://lasclay.com/en-us/blogs/journal/histoire-industrie-asclepiade-quebec"
+NOUVELLE_FRANCE_FR = "https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france"
+NOUVELLE_FRANCE_EN = "https://lasclay.com/en-us/blogs/journal/soie-amerique-nouvelle-france"
+GUERRE_FR = "https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale"
+GUERRE_EN = "https://lasclay.com/en-us/blogs/journal/asclepiade-seconde-guerre-mondiale"
+MONARQUE_FR = "https://lasclay.com/pages/monarch-butterfly"
+MONARQUE_EN = "https://lasclay.com/en-us/pages/monarch-butterfly"
+
+INDIGENE_FR = (
+    f"L'asclépiade n'est pas une plante importée : c'est une "
+    f"{lien('mauvaise herbe indigène', PAGE_FR)} qui pousse ici depuis toujours, et c'est "
+    f"pour ça que {lien('le monarque en dépend', MONARQUE_FR)}. Elle a aussi une histoire plus "
+    f"longue que la nôtre. On a écrit ce qu'on en a trouvé : "
+    + lien("la soie d'Amérique en Nouvelle-France", NOUVELLE_FRANCE_FR) + ", "
+    + lien("les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde "
+           "Guerre mondiale", GUERRE_FR) + ", et "
+    + lien("l'histoire de l'industrie québécoise", INDUSTRIE_FR) + ".")
+
+INDIGENE_EN = (
+    f"Milkweed is not an imported plant: it is a "
+    f"{lien('weed native to eastern Canada', PAGE_EN)}, which is exactly why "
+    f"{lien('the monarch depends on it', MONARQUE_EN)}. It also has a longer history than we do. "
+    f"We wrote down what we found: "
+    f"{lien('American silk in New France', NOUVELLE_FRANCE_EN)}, "
+    f"{lien('the children who picked it for Second World War life jackets', GUERRE_EN)}, "
+    f"and {lien('the story of the Quebec industry', INDUSTRIE_EN)}.")
+
+
+# Pour un journal de Mekinac, inutile de lui expliquer ou est Saint-Tite.
+MAURICIE_COURT = (
+    "Le groupe Protec-Style, qui exploitait l'usine sous le nom d'Encore 3, avait réservé 90 % "
+    "de la récolte québécoise quand il a fait faillite "
+    + lien("le 11 octobre 2017", RC_FAILLITE)
+    + ", et c'est "
+    + lien("l'appui de la MRC qui a fait pencher la relance", NOUVELLISTE_RELANCE)
+    + " six semaines plus tard. On a démarré après. Neuf ans plus tard, on achète encore de "
+      "l'asclépiade québécoise et on la transforme nous-mêmes à Québec.")

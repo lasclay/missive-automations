@@ -22,7 +22,7 @@ import sys
 import openpyxl
 from openpyxl.styles import Alignment, Font, PatternFill
 
-from histoire_asclepiade import PAR_REGION, RC_FAILLITE
+from histoire_asclepiade import INDIGENE_EN, INDIGENE_FR, PAR_REGION, RC_FAILLITE
 from voix_gabriel import BENEFICE, en_html, lien, media_kit
 
 DRIVE = "https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr"
@@ -52,7 +52,7 @@ AGRICOLE = (
     "faire, il est là autant qu'ici.")
 
 def fr(pourquoi, offre=None):
-    bl = [QUI, MATIERE, pourquoi, ANNONCE,
+    bl = [QUI, MATIERE, INDIGENE_FR, pourquoi, ANNONCE,
           "Aller présenter notre entreprise et sa mission à la télévision nationale est une "
           "opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, "
           "peut-être vous inspirer un sujet." + (" " + offre if offre else ""),
@@ -119,7 +119,7 @@ EN_CLOTURE = "Happy to answer any questions, and available for an interview this
 EN_SIGNATURE = "Warmly,\n__\nGabriel Gouveia\nCo-founder\n+1 (581) 982-5857\nLasclay.com"
 
 def en(pourquoi):
-    return "\n\n".join(["Hello,", EN_QUI, EN_MATIERE, pourquoi, EN_ANNONCE, EN_OFFRE,
+    return "\n\n".join(["Hello,", EN_QUI, EN_MATIERE, INDIGENE_EN, pourquoi, EN_ANNONCE, EN_OFFRE,
                         EN_BENEFICE, EN_CLOTURE, EN_SIGNATURE])
 
 
