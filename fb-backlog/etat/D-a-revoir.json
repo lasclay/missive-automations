@@ -7668,6 +7668,27 @@
       "motif": "poème adressé à une autre abonnée, aucune question; le point sur le fauchage vient d'être fait dans ce billet",
       "page_id": "114311920399404",
       "quand": "2026-09-15T23:39:51.029Z"
+    },
+    {
+      "id": "500400911790501_1385884065545353",
+      "extrait": "Nicole Gin ouii",
+      "motif": "acquiescement à une autre abonnée, aucun contenu auquel répondre",
+      "page_id": "114311920399404",
+      "quand": "2026-09-16T00:38:33.584Z"
+    },
+    {
+      "id": "500400911790501_609776951055141",
+      "extrait": "Jenn Glazer merci",
+      "motif": "remerciement adressé à une autre abonnée, rien à répondre",
+      "page_id": "114311920399404",
+      "quand": "2026-09-16T00:38:33.584Z"
+    },
+    {
+      "id": "500400911790501_181017024311245",
+      "extrait": "Nicole Drouin j'ai pas idee, perd rien a l'essayer je suppose 🙂",
+      "motif": "échange entre abonnées, aucune question posée à la Page",
+      "page_id": "114311920399404",
+      "quand": "2026-09-16T00:38:33.584Z"
     }
   ]
 }
