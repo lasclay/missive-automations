@@ -226,7 +226,7 @@ en décembre dernier un article sur notre dilemme de fabrication.
 Ce que je peux raconter : pourquoi la première filière est morte, ce qu'on a fait
 différemment, et ce que ça coûte de rendre un manteau d'asclépiade accessible à 300 $.""",
 
-"marie.allard@laesdebrouillards.com": """Bonjour Marie,
+"marie.allard@lesdebrouillards.com": """Bonjour Marie,
 
 Il y a une histoire de sciences dans l'asclépiade qui se raconte bien à tous les âges :
 la soie attachée à ses graines n'est pas un poil, c'est un tube creux enduit d'une cire

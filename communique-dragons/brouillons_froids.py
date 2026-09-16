@@ -104,7 +104,7 @@ OFFRES = {
 MAIN = {
 "jean-michel_leprince@radio-canada.ca": """Bonjour Jean-Michel,
 
-Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une
+Je m'appelle Gabriel Gouveia, fondateur de [Lasclay](https://lasclay.com). On isole des vêtements d'hiver avec une
 mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et
 menacé : le papillon monarque.
 
@@ -134,7 +134,7 @@ première fois qu'on raconte ce que la filière est devenue après la chute.
 
 "redaction.mekinac@lebulletindeschenaux.com": """Bonjour Réjean,
 
-Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une
+Je m'appelle Gabriel Gouveia, fondateur de [Lasclay](https://lasclay.com). On isole des vêtements d'hiver avec une
 mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et
 menacé : le papillon monarque.
 
@@ -159,7 +159,7 @@ est devenue depuis. Je peux parler des volumes, de la récolte, et de ce qui res
 
 "gabriel.delisle@lenouvelliste.qc.ca": """Bonjour Gabriel,
 
-Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une
+Je m'appelle Gabriel Gouveia, fondateur de [Lasclay](https://lasclay.com). On isole des vêtements d'hiver avec une
 mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et
 menacé : le papillon monarque.
 
@@ -180,9 +180,9 @@ la faillite, il reste quelque chose de cette promesse-là, et ça se raconte.
 
 {CLOTURE}""",
 
-"marie.allard@laesdebrouillards.com": """Bonjour Marie,
+"marie.allard@lesdebrouillards.com": """Bonjour Marie,
 
-Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une
+Je m'appelle Gabriel Gouveia, fondateur de [Lasclay](https://lasclay.com). On isole des vêtements d'hiver avec une
 mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et
 menacé : le papillon monarque.
 
@@ -209,7 +209,7 @@ Limoilou est ouvert si vos lecteurs aimeraient voir comment une gousse devient u
 
 "__stab": """Bonjour Antoine Stab,
 
-Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une
+Je m'appelle Gabriel Gouveia, fondateur de [Lasclay](https://lasclay.com). On isole des vêtements d'hiver avec une
 mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et
 menacé : le papillon monarque.
 

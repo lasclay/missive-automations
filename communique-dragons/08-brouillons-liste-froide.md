@@ -174,7 +174,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Gabriel,
 
-Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
+Je m'appelle Gabriel Gouveia, fondateur de [Lasclay](https://lasclay.com). On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Je vous écris parce que l'asclépiade a commencé chez vous, à Saint-Tite et dans Mékinac. Le groupe Protec-Style, qui exploitait l'usine de Saint-Tite sous le nom d'Encore 3, avait réservé 90 % de la récolte québécoise quand il a fait faillite [le 11 octobre 2017](https://ici.radio-canada.ca/nouvelle/1061543/asclepiade-soyer-producteurs-industries-encore3-faillite-monark), emportant Saint-Tite et son atelier de Granby. Les 125 producteurs de la Coopérative Monark ont pris le choc. Six semaines plus tard, [la MRC de Mékinac a fait pencher la relance](https://lenouvelliste.ca/affaires/asclepiade-les-activites-reprennent-a-lusine-de-saint-tite-9a7c0d08d77c81c7ab22fdfc8e47a922).
 
@@ -957,13 +957,13 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 
 ## Angle C, 32 contacts
 
-### Marie Allard, Publications BLD inc, `marie.allard@laesdebrouillards.com`, **écrit à la main**
+### Marie Allard, Publications BLD inc, `marie.allard@lesdebrouillards.com`, **écrit à la main**
 *Priorité A · Montréal*
 
 ```
 Bonjour Marie,
 
-Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
+Je m'appelle Gabriel Gouveia, fondateur de [Lasclay](https://lasclay.com). On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Il y a une belle histoire de sciences dans l'asclépiade. La soie attachée à ses graines n'est pas un poil : c'est un tube creux enduit d'une cire hydrophobe, et les fibres portent une charge qui les fait se repousser. C'est ce qui forme le parachute autour de la graine, et c'est ce qui emprisonne l'air. Chaque follicule en produit plus de 200.
 
@@ -1312,7 +1312,7 @@ Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 Bonjour Réjean,
 
-Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
+Je m'appelle Gabriel Gouveia, fondateur de [Lasclay](https://lasclay.com). On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Vous couvrez Mékinac, donc Saint-Tite, donc l'endroit où l'asclépiade a eu son grand moment industriel au Québec. Le groupe Protec-Style, qui exploitait l'usine sous le nom d'Encore 3, avait réservé 90 % de la récolte québécoise quand il a fait faillite [le 11 octobre 2017](https://ici.radio-canada.ca/nouvelle/1061543/asclepiade-soyer-producteurs-industries-encore3-faillite-monark), et c'est [l'appui de la MRC qui a fait pencher la relance](https://lenouvelliste.ca/affaires/asclepiade-les-activites-reprennent-a-lusine-de-saint-tite-9a7c0d08d77c81c7ab22fdfc8e47a922) six semaines plus tard. On a démarré après. Neuf ans plus tard, on achète encore de l'asclépiade québécoise et on la transforme nous-mêmes à Québec.
 
@@ -1331,7 +1331,7 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Clara Matthey-Jonais, Pigiste, `journaliste@tvbl.qc.ca`
+### Clara Matthey-Jonais, Pigiste, `info@tvbl.ca`
 *Priorité A · Montréal*
 
 ```
