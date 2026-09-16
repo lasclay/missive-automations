@@ -59,6 +59,11 @@
  *                           lui-même les jetons de Page ; ceux-ci ne sortent
  *                           jamais du serveur.
  *   FB_GRAPH_VERSION        version de l'API Graph (défaut v23.0).            [optionnel]
+ *   BUFFER_API_KEY          jeton d'API Buffer (publish.buffer.com/settings/api)  [connecteur Buffer]
+ *                           du compte visé. C'est le compte QUE CE JETON
+ *                           désigne qui sera publié — le connecteur MCP
+ *                           Buffer d'une session vise un AUTRE compte.
+ *   BUFFER_BASE             endpoint GraphQL Buffer (défaut https://api.buffer.com). [optionnel]
  *   (QuickBooks : service dédié finance-proxy/ — voir finance-proxy/FINANCE_PROXY.md)
  *   PORT                    port d'écoute (fourni par Render)               [auto]
  *
@@ -789,6 +794,190 @@ const klaviyo = (() => {
 })();
 
 // ==========================================================================
+// CONNECTEUR : Buffer (API publique GraphQL — https://api.buffer.com, POST
+// unique, en-tête « Authorization: Bearer »). Publie sur les canaux sociaux
+// d'un compte Buffer dont le jeton vit ICI, côté Render.
+//
+// Pourquoi ce connecteur existe alors qu'un connecteur MCP Buffer existe :
+// le connecteur MCP est lié par OAuth à UN SEUL compte Buffer, celui de la
+// session interactive. Lasclay en a plusieurs (les canaux FR d'un côté,
+// TikTok lasclayqc de l'autre). Un jeton posé sur Render rend le second
+// compte joignable sans rebrancher la session, et le rend joignable par une
+// Routine ou un script, qui n'ont aucun connecteur MCP.
+//
+// Piège des canaux « rappel » (TikTok, Instagram, YouTube) : selon le
+// branchement, Buffer ne publie pas lui-même, il envoie une notification au
+// téléphone. `channel` expose `metadata.defaultToReminders` — à lire AVANT de
+// promettre une publication automatique. Sur un canal en mode rappel,
+// schedulingType doit valoir "notification" ; "automatic" est refusé.
+//
+// Autre piège, celui qui fait passer un échec pour un succès : Buffer répond
+// HTTP 200 même quand la requête échoue — soit un tableau `errors` au niveau
+// GraphQL, soit, pour createPost/editPost, un membre d'union d'erreur
+// (RestProxyError, LimitReachedError…) dans la charge utile. Les deux sont
+// vérifiés ici et transformés en vraie erreur.
+// ==========================================================================
+const buffer = (() => {
+  const KEY = process.env.BUFFER_API_KEY || "";
+  const BASE = process.env.BUFFER_BASE || "https://api.buffer.com";
+
+  const gql = async (query, variables) => {
+    const r = await httpJson({
+      method: "POST",
+      url: BASE,
+      headers: { Authorization: `Bearer ${KEY}` },
+      body: { query, variables },
+    });
+    if (r && Array.isArray(r.errors) && r.errors.length) {
+      throw new Error(`graphql: ${r.errors.map((e) => e && e.message).filter(Boolean).join(" | ").slice(0, 800)}`);
+    }
+    return r && r.data;
+  };
+  const need = (p, ...champs) => {
+    for (const c of champs) if (!p || !p[c]) throw new Error(`${c} requis`);
+  };
+
+  // Champs d'un post rendus à l'appelant : de quoi constater ce qui est parti,
+  // où c'est parti (externalLink) et pourquoi ça a échoué (error.message).
+  const POST_FIELDS = `
+    id status text dueAt sentAt createdAt shareMode schedulingType
+    channelId channelService externalLink
+    error { message rawError supportUrl }
+    assets { type source mimeType }`;
+
+  // createPost et editPost rendent une UNION : le succès et les six erreurs
+  // possibles arrivent tous en HTTP 200. On demande __typename pour trancher.
+  const PAYLOAD = `
+    __typename
+    ... on PostActionSuccess { post { ${POST_FIELDS} } }
+    ... on NotFoundError { message }
+    ... on UnauthorizedError { message }
+    ... on UnexpectedError { message }
+    ... on InvalidInputError { message }
+    ... on LimitReachedError { message }
+    ... on RestProxyError { message code link }`;
+
+  const deplier = (champ) => (d) => {
+    const r = (d && d[champ]) || {};
+    if (r.__typename !== "PostActionSuccess") {
+      throw new Error(`${champ}: ${r.__typename || "réponse vide"} — ${r.message || "sans message"}`);
+    }
+    return r.post;
+  };
+
+  return {
+    name: "buffer",
+    description:
+      "Buffer (API publique GraphQL) — compte distinct du connecteur MCP : organisations, canaux, publications, création et modification d'une publication. Jeton BUFFER_API_KEY côté Render.",
+    enabled: () => !!KEY,
+    actions: {
+      // ---- LECTURE ----
+      // Le compte et ses organisations. Point de départ : organizationId est
+      // requis par presque tout le reste.
+      account: () =>
+        gql(`query { account { id email name timezone organizations { id name ownerEmail channelCount limits { channels scheduledPosts } } } }`),
+
+      // Canaux d'une organisation. Params : organizationId.
+      channels: (p) => {
+        need(p, "organizationId");
+        return gql(
+          `query ($organizationId: OrganizationId!) {
+             channels(input: { organizationId: $organizationId }) {
+               id name displayName service type serviceId isDisconnected isLocked timezone
+             }
+           }`,
+          { organizationId: p.organizationId },
+        );
+      },
+
+      // Un canal en détail. Params : id. `metadata.defaultToReminders` dit si
+      // Buffer publie lui-même ou se contente d'un rappel au téléphone.
+      channel: (p) => {
+        need(p, "id");
+        return gql(
+          `query ($id: ChannelId!) {
+             channel(input: { id: $id }) {
+               id name displayName service type serviceId isDisconnected isLocked isQueuePaused timezone
+               allowedActions
+               postingSchedule { day paused times }
+               metadata {
+                 __typename
+                 ... on TiktokMetadata { defaultToReminders }
+                 ... on InstagramMetadata { defaultToReminders }
+                 ... on YoutubeMetadata { defaultToReminders }
+                 ... on PinterestMetadata { boards { serviceId name } }
+               }
+             }
+           }`,
+          { id: p.id },
+        );
+      },
+
+      // Publications d'une organisation. Params : organizationId, first (défaut 25),
+      // after (curseur), statuses (ex. ["sent"]), channelIds.
+      posts: (p) => {
+        need(p, "organizationId");
+        const filter = {};
+        if (p.statuses) filter.status = p.statuses;
+        if (p.channelIds) filter.channelIds = p.channelIds;
+        return gql(
+          `query ($organizationId: OrganizationId!, $first: Int, $after: String, $filter: PostsFiltersInput) {
+             posts(first: $first, after: $after, input: { organizationId: $organizationId, filter: $filter }) {
+               edges { cursor node { ${POST_FIELDS} } }
+               pageInfo { hasNextPage endCursor }
+             }
+           }`,
+          {
+            organizationId: p.organizationId,
+            first: p.first || 25,
+            after: p.after || null,
+            filter: Object.keys(filter).length ? filter : null,
+          },
+        );
+      },
+
+      // Une publication précise. Params : id.
+      post: (p) => {
+        need(p, "id");
+        return gql(`query ($id: PostId!) { post(input: { id: $id }) { ${POST_FIELDS} } }`, { id: p.id });
+      },
+
+      // ---- ÉCRITURE ----
+      // 🔴 Crée une publication. Params : channelId (obligatoire), text, assets
+      // (forme AssetInput : [{ "video": { "url": "..." } }] ou
+      // [{ "image": { "url": "...", "metadata": { "altText": "..." } } }]),
+      // metadata (par service : { "tiktok": { "title": "..." } },
+      // { "instagram": { "type": "reel", "shouldShareToFeed": true } }…),
+      // mode (addToQueue par défaut, shareNow, shareNext, customScheduled + dueAt),
+      // schedulingType (automatic par défaut ; notification sur un canal en mode rappel),
+      // saveToDraft, tagIds.
+      //
+      // mode "shareNow" PUBLIE IMMÉDIATEMENT et publiquement, sans retour en
+      // arrière : Buffer ne permet plus de modifier une publication `sent`, et
+      // Meta refuse ensuite l'édition par une autre app. Le texte doit être
+      // final avant l'appel. saveToDraft:true est l'essai sans effet public.
+      createpost: (p) => {
+        need(p, "channelId");
+        const { mode = "addToQueue", schedulingType = "automatic", ...reste } = p;
+        return gql(`mutation ($input: CreatePostInput!) { createPost(input: $input) { ${PAYLOAD} } }`, {
+          input: { mode, schedulingType, ...reste },
+        }).then(deplier("createPost"));
+      },
+
+      // 🟡 Modifie une publication PAS ENCORE partie (brouillon ou programmée).
+      // Params : id, plus les champs à changer. Buffer revalide la publication
+      // entière : reconduire assets et metadata, sinon l'édition est refusée.
+      // Sur une publication `sent`, Buffer refuse — c'est normal, pas un bogue.
+      editpost: (p) => {
+        need(p, "id");
+        return gql(`mutation ($input: EditPostInput!) { editPost(input: $input) { ${PAYLOAD} } }`, { input: p })
+          .then(deplier("editPost"));
+      },
+    },
+  };
+})();
+
+// ==========================================================================
 // REGISTRE DES CONNECTEURS — ajouter un nouveau connecteur = ajouter une entrée.
 // ==========================================================================
 const CONNECTEURS = {
@@ -798,6 +987,7 @@ const CONNECTEURS = {
   [klaviyo.name]: klaviyo,
   [facebook.name]: facebook,
   [composio.name]: composio,
+  [buffer.name]: buffer,
 };
 
 // ---- Serveur HTTP ----

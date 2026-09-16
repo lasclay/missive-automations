@@ -182,6 +182,44 @@ Deux limites du compte, constatées à l'usage : les **identifiants secondaires*
 au profil — et `subscribe_profile_to_marketing` **exige une confirmation humaine explicite** avant
 de s'exécuter. C'est voulu : un consentement ne se pose pas à la place de quelqu'un.
 
+## Buffer — publication sociale, 7 actions
+
+Clé `BUFFER_API_KEY` côté Render, API GraphQL `https://api.buffer.com`.
+
+**Le compte publié est celui du jeton posé sur Render, pas celui du connecteur MCP Buffer d'une
+session.** Lasclay a plusieurs comptes Buffer ; c'est ainsi qu'on joint le second (le TikTok
+`lasclayqc`) sans rebrancher la session, et qu'une Routine ou un script peut publier, eux qui
+n'ont aucun connecteur MCP.
+
+**Lecture (5).** `account` (donne `organizationId`), `channels` (**organizationId**), `channel`
+(**id**), `posts` (**organizationId**, `first`, `after`, `statuses`, `channelIds`), `post` (**id**).
+
+**Écriture (2).** `editpost` (🟡 **id** + champs — seulement sur une publication pas encore
+partie ; Buffer revalide l'objet entier, donc reconduire `assets` et `metadata`) et `createpost`
+(🔴 **channelId**, plus `text`, `assets`, `metadata`, `mode`, `schedulingType`, `dueAt`,
+`saveToDraft`).
+
+- `assets` : `[{"video":{"url":"https://…mp4"}}]`. L'URL doit être téléchargeable directement —
+  un lien de partage Drive ne l'est pas, `https://drive.usercontent.google.com/download?id=…&export=download`
+  l'est si le fichier est partagé « toute personne disposant du lien ».
+- `metadata` par service : `{"tiktok":{"title":"…"}}`, `{"instagram":{"type":"reel","shouldShareToFeed":true}}`,
+  `{"facebook":{"type":"reel"}}`.
+- `mode` : `addToQueue` (défaut), `shareNext`, `customScheduled` + `dueAt`, `shareNow`.
+
+Trois pièges :
+
+1. **Canal en mode rappel.** Sur TikTok, Instagram et YouTube, Buffer ne publie pas toujours
+   lui-même — il notifie un téléphone. Lis `channel` → `metadata.defaultToReminders` AVANT de
+   promettre une publication automatique ; sur un tel canal, `schedulingType` doit valoir
+   `"notification"`.
+2. **HTTP 200 ≠ succès.** Buffer rend ses erreurs dans un tableau `errors`, ou — pour
+   `createpost`/`editpost` — dans un membre d'union d'erreur, avec un code 200. Le connecteur
+   lève une vraie erreur dans les deux cas.
+3. **`shareNow` est sans retour.** Une publication `sent` n'est plus modifiable par Buffer, et
+   Meta refuse ensuite toute édition d'un contenu créé par une autre app (`(#200) Viewer does not
+   have permission to edit content`) ; Instagram n'expose aucune édition de légende, point. Le
+   texte doit être final AVANT l'appel — sinon `saveToDraft: true`, qui n'a aucun effet public.
+
 ## Vérifier un envoi — règle ferme
 
 Deux sources, jamais une seule : Shopify pour la commande, ShipStation pour l'expédition et le

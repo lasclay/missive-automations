@@ -109,6 +109,57 @@ varient par endpoint (429 + `Retry-After`, gérés par le proxy).
 (consentements email/SMS + horodatages — preuve LCAP) en CSV réimportable, avec reprise sur
 interruption (fichier `.cursor`). Aussi : `list <ID>`, `segment <ID>`, `suppressed`.
 
+### Actions Buffer (publication sociale — compte distinct du connecteur MCP)
+
+Auth Buffer : jeton d'API (`publish.buffer.com/settings/api`) en `Authorization: Bearer`, sur un
+endpoint GraphQL unique (`https://api.buffer.com`). **Le compte publié est celui que désigne le
+jeton posé sur Render** — ce n'est pas le compte branché en connecteur MCP dans une session
+interactive. C'est tout l'intérêt : joindre un second compte Buffer (ex. le TikTok `lasclayqc`)
+sans rebrancher la session, et le joindre depuis une Routine ou un script, qui n'ont pas de
+connecteur MCP.
+
+| Action | Params | Effet |
+|---|---|---|
+| `account` | — | 🟢 compte + organisations (donne `organizationId`) |
+| `channels` | **organizationId** | 🟢 canaux connectés (id, service, type, déconnecté ou non) |
+| `channel` | **id** | 🟢 un canal : horaire, `allowedActions`, et `metadata.defaultToReminders` |
+| `posts` | **organizationId**, `first`, `after`, `statuses`, `channelIds` | 🟢 publications (curseur dans `pageInfo`) |
+| `post` | **id** | 🟢 une publication |
+| `editpost` | **id** + champs à changer | 🟡 modifie une publication **pas encore partie** |
+| `createpost` | **channelId**, `text`, `assets`, `metadata`, `mode`, `schedulingType`, `dueAt`, `saveToDraft`, `tagIds` | 🔴 crée — et publie si `mode: "shareNow"` |
+
+`assets` suit la forme d'AssetInput : `[{"video":{"url":"https://…mp4"}}]`, ou
+`[{"image":{"url":"…","metadata":{"altText":"…"}}}]`. L'URL doit être **téléchargeable
+directement** par Buffer (un lien de partage Google Drive ne l'est pas ; la forme
+`https://drive.usercontent.google.com/download?id=…&export=download` l'est, si le fichier est
+partagé « toute personne disposant du lien »).
+
+`metadata` est indexée par service : `{"tiktok":{"title":"…"}}`,
+`{"instagram":{"type":"reel","shouldShareToFeed":true}}`, `{"facebook":{"type":"reel"}}`.
+
+**Trois pièges, tous constatés :**
+
+1. **Canaux en mode rappel.** Sur TikTok, Instagram et YouTube, Buffer ne publie pas toujours
+   lui-même : selon le branchement du canal il envoie une notification au téléphone. Lire
+   `channel` → `metadata.defaultToReminders` AVANT de promettre une publication automatique. Sur
+   un canal en mode rappel, `schedulingType` doit valoir `"notification"`.
+2. **HTTP 200 ne veut pas dire succès.** Buffer renvoie ses erreurs soit dans un tableau `errors`,
+   soit — pour `createpost`/`editpost` — dans un membre d'union d'erreur (`RestProxyError`,
+   `LimitReachedError`, `InvalidInputError`…) avec un code 200. Le connecteur vérifie les deux et
+   lève une vraie erreur ; ne remplace pas ce contrôle par un simple test du code HTTP.
+3. **`shareNow` est sans retour.** Une publication `sent` n'est plus modifiable par Buffer, et
+   Meta refuse ensuite l'édition d'un contenu créé par une autre app
+   (`(#200) Viewer does not have permission to edit content`) — Instagram n'expose de toute façon
+   aucune édition de légende. Le texte doit être final avant l'appel ; `saveToDraft: true` est
+   l'essai sans effet public.
+
+```
+node connectors_client.js buffer account
+node connectors_client.js buffer channels '{"organizationId":"…"}'
+node connectors_client.js buffer channel '{"id":"…"}'
+node connectors_client.js buffer createpost '{"channelId":"…","text":"…","assets":[{"video":{"url":"https://…mp4"}}],"metadata":{"tiktok":{"title":"…"}},"mode":"shareNow","schedulingType":"automatic"}'
+```
+
 > **QuickBooks** : actions, mise en place et rotation du refresh token → `finance-proxy/FINANCE_PROXY.md`.
 
 ---
@@ -139,6 +190,8 @@ Limite de débit v1 : **40 requêtes / minute**. Le proxy respecte l'en-tête `X
 | `OMNISEND_API_KEY` | clé API Omnisend (Store settings → Integrations & API → API keys) |
 | `KLAVIYO_API_KEY` | clé privée Klaviyo `pk_...` (Settings → Account → API keys). Créer une clé **lecture seule** (scopes read) : le connecteur n'expose que des lectures. |
 | `KLAVIYO_REVISION` | (optionnel) révision d'API Klaviyo, défaut `2025-04-15` |
+| `BUFFER_API_KEY` | jeton d'API Buffer (`publish.buffer.com/settings/api`) **du compte à publier**. Le connecteur est désactivé sans lui. |
+| `BUFFER_BASE` | (optionnel) endpoint GraphQL Buffer, défaut `https://api.buffer.com` |
 | `PORT` | (auto, fourni par Render) |
 
 > QuickBooks : variables déménagées dans le service dédié — voir `finance-proxy/FINANCE_PROXY.md`.
