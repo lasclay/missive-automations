@@ -109,6 +109,71 @@ varient par endpoint (429 + `Retry-After`, gérés par le proxy).
 (consentements email/SMS + horodatages — preuve LCAP) en CSV réimportable, avec reprise sur
 interruption (fichier `.cursor`). Aussi : `list <ID>`, `segment <ID>`, `suppressed`.
 
+### Actions Buffer (publication sociale — compte distinct du connecteur MCP)
+
+Auth Buffer : jeton d'API (`publish.buffer.com/settings/api`) en `Authorization: Bearer`, sur un
+endpoint GraphQL unique (`https://api.buffer.com`). **Le compte publié est celui que désigne le
+jeton** — ce n'est pas le compte branché en connecteur MCP dans une session interactive. C'est
+tout l'intérêt : joindre les autres comptes Buffer sans rebrancher la session, et les joindre
+depuis une Routine ou un script, qui n'ont pas de connecteur MCP.
+
+**Multi-comptes.** Un jeton Buffer ne voit QUE les canaux de son propre compte. Trois variables,
+et un paramètre `compte` sur chaque action :
+
+| `compte` | Variable Render |
+|---|---|
+| `main` (défaut) | `BUFFER_MAIN_API_KEY` (repli : `BUFFER_API_KEY`) |
+| `2` | `BUFFER_2_API_KEY` |
+| `3` | `BUFFER_3_API_KEY` |
+
+Rien dans le nom des variables ne dit à quel compte Buffer chacune appartient : `comptes` dit
+lesquelles portent un jeton, `account` dit à qui il appartient (courriel du propriétaire), et
+`channels` dit quels canaux s'y trouvent. C'est la façon de retrouver où vit un canal donné.
+
+| Action | Params | Effet |
+|---|---|---|
+| `comptes` | — | 🟢 quels comptes portent un jeton (aucun secret rendu) |
+| `account` | `compte` | 🟢 compte + organisations (donne `organizationId`) |
+| `channels` | `compte`, **organizationId** | 🟢 canaux connectés (id, service, type, déconnecté ou non) |
+| `channel` | `compte`, **id** | 🟢 un canal : horaire, `allowedActions`, et `metadata.defaultToReminders` |
+| `posts` | `compte`, **organizationId**, `first`, `after`, `statuses`, `channelIds` | 🟢 publications (curseur dans `pageInfo`) |
+| `post` | `compte`, **id** | 🟢 une publication |
+| `editpost` | `compte`, **id** + champs à changer | 🟡 modifie une publication **pas encore partie** |
+| `createpost` | `compte`, **channelId**, `text`, `assets`, `metadata`, `mode`, `schedulingType`, `dueAt`, `saveToDraft`, `tagIds` | 🔴 crée — et publie si `mode: "shareNow"` |
+
+`assets` suit la forme d'AssetInput : `[{"video":{"url":"https://…mp4"}}]`, ou
+`[{"image":{"url":"…","metadata":{"altText":"…"}}}]`. L'URL doit être **téléchargeable
+directement** par Buffer (un lien de partage Google Drive ne l'est pas ; la forme
+`https://drive.usercontent.google.com/download?id=…&export=download` l'est, si le fichier est
+partagé « toute personne disposant du lien »).
+
+`metadata` est indexée par service : `{"tiktok":{"title":"…"}}`,
+`{"instagram":{"type":"reel","shouldShareToFeed":true}}`, `{"facebook":{"type":"reel"}}`.
+
+**Trois pièges, tous constatés :**
+
+1. **Canaux en mode rappel.** Sur TikTok, Instagram et YouTube, Buffer ne publie pas toujours
+   lui-même : selon le branchement du canal il envoie une notification au téléphone. Lire
+   `channel` → `metadata.defaultToReminders` AVANT de promettre une publication automatique. Sur
+   un canal en mode rappel, `schedulingType` doit valoir `"notification"`.
+2. **HTTP 200 ne veut pas dire succès.** Buffer renvoie ses erreurs soit dans un tableau `errors`,
+   soit — pour `createpost`/`editpost` — dans un membre d'union d'erreur (`RestProxyError`,
+   `LimitReachedError`, `InvalidInputError`…) avec un code 200. Le connecteur vérifie les deux et
+   lève une vraie erreur ; ne remplace pas ce contrôle par un simple test du code HTTP.
+3. **`shareNow` est sans retour.** Une publication `sent` n'est plus modifiable par Buffer, et
+   Meta refuse ensuite l'édition d'un contenu créé par une autre app
+   (`(#200) Viewer does not have permission to edit content`) — Instagram n'expose de toute façon
+   aucune édition de légende. Le texte doit être final avant l'appel ; `saveToDraft: true` est
+   l'essai sans effet public.
+
+```
+node connectors_client.js buffer comptes
+node connectors_client.js buffer account '{"compte":"2"}'
+node connectors_client.js buffer channels '{"compte":"2","organizationId":"…"}'
+node connectors_client.js buffer channel '{"compte":"2","id":"…"}'
+node connectors_client.js buffer createpost '{"compte":"2","channelId":"…","text":"…","assets":[{"video":{"url":"https://…mp4"}}],"metadata":{"tiktok":{"title":"…"}},"mode":"shareNow","schedulingType":"automatic"}'
+```
+
 > **QuickBooks** : actions, mise en place et rotation du refresh token → `finance-proxy/FINANCE_PROXY.md`.
 
 ---
@@ -139,6 +204,10 @@ Limite de débit v1 : **40 requêtes / minute**. Le proxy respecte l'en-tête `X
 | `OMNISEND_API_KEY` | clé API Omnisend (Store settings → Integrations & API → API keys) |
 | `KLAVIYO_API_KEY` | clé privée Klaviyo `pk_...` (Settings → Account → API keys). Créer une clé **lecture seule** (scopes read) : le connecteur n'expose que des lectures. |
 | `KLAVIYO_REVISION` | (optionnel) révision d'API Klaviyo, défaut `2025-04-15` |
+| `BUFFER_MAIN_API_KEY` | jeton d'API Buffer (`publish.buffer.com/settings/api`) du compte visé par `compte: "main"` (défaut). `BUFFER_API_KEY` sert de repli. |
+| `BUFFER_2_API_KEY` | jeton du compte visé par `compte: "2"` |
+| `BUFFER_3_API_KEY` | jeton du compte visé par `compte: "3"` |
+| `BUFFER_BASE` | (optionnel) endpoint GraphQL Buffer, défaut `https://api.buffer.com` |
 | `PORT` | (auto, fourni par Render) |
 
 > QuickBooks : variables déménagées dans le service dédié — voir `finance-proxy/FINANCE_PROXY.md`.
