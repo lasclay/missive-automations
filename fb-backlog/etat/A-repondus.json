@@ -1488,8 +1488,16 @@
       "quand": "2026-09-16T19:11:52.032Z",
       "confirme": true,
       "texte": "Vous avez raison de le mentionner. Le latex est très amer et les animaux au pâturage l'évitent d'eux-mêmes ; le risque documenté, c'est surtout l'asclépiade séchée qui se retrouve dans des balles de foin destinées au bétail. Pour les enfants et les animaux de compagnie, on ne connaît aucun cas d'intoxication documenté."
+    },
+    {
+      "id": "1678623234271486_1467726488535935",
+      "reponse_id": "1678623234271486_1059081490453600",
+      "page_id": "104242204750257",
+      "quand": "2026-09-16T20:07:54.726Z",
+      "confirme": true,
+      "texte": "Votre point sur les champs de foin se tient, et c'est exactement là qu'est le risque documenté. Une précision sur le mot : syriaca est une plante indigène et vigoureuse plutôt qu'envahissante au sens strict — ce qui ne la rend pas plus agréable à voir s'installer dans un champ destiné au foin, on en convient. Et porter des gants pour la manipuler, ça se comprend très bien."
     }
   ],
-  "derniere_execution": "2026-09-16T19:11:52.032Z",
-  "total": 186
+  "derniere_execution": "2026-09-16T20:07:54.727Z",
+  "total": 187
 }
