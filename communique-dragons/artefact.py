@@ -138,6 +138,30 @@ def fiches():
                     "o": r[h["Objet suggéré"]] or "", "r": r[h["Région"]] or "",
                     "p": r[h["Précaution"]] or "", "t": r[h["Brouillon"]] or ""})
 
+    if "Presse anglophone" in wb.sheetnames:
+        ws = wb["Presse anglophone"]
+        h = index(ws)
+        for r in ws.iter_rows(min_row=2, values_only=True):
+            if not r[h["Courriel"]]:
+                continue
+            out.append({"l": "anglo", "n": r[h["Média"]], "m": r[h["Média"]],
+                        "e": r[h["Courriel"]], "d": "H",
+                        "s": r[h["Source de l'adresse"]] or "", "a": "H",
+                        "o": r[h["Objet"]] or "", "r": "Canada",
+                        "p": r[h["Pourquoi eux"]] or "", "t": r[h["Brouillon"]] or ""})
+
+    if "Ajouts FR, RC et TVA" in wb.sheetnames:
+        ws = wb["Ajouts FR, RC et TVA"]
+        h = index(ws)
+        for r in ws.iter_rows(min_row=2, values_only=True):
+            if not r[h["Courriel"]]:
+                continue
+            out.append({"l": "ajout", "n": r[h["Nom"]] or "", "m": r[h["Média"]] or "",
+                        "e": r[h["Courriel"]], "d": r[h["Rôle"]] or "",
+                        "s": r[h["Source de l'adresse"]] or "", "a": r[h["Angle"]] or "",
+                        "o": r[h["Objet"]] or "", "r": r[h["Rôle"]] or "",
+                        "p": "", "t": r[h["Brouillon"]] or ""})
+
     for c in out:
         c["dead"] = c["t"].startswith("NE PAS ENVOYER")
         c["hand"] = (c["l"] == "chaude" or c["a"] == "J" or bool(MAIN.search(c["t"])))
@@ -183,6 +207,8 @@ def page(contacts):
     angles = sorted({c["a"] for c in contacts if c["a"] and c["a"] != "—"})
     filtres = [("tous", "tous", len(contacts), None)]
     filtres += [("chaude", "liste chaude", sum(1 for c in contacts if c["l"] == "chaude"), "l-chaude"),
+                ("anglo", "presse anglaise", sum(1 for c in contacts if c["l"] == "anglo"), "l-anglo"),
+                ("ajout", "ajouts du 15 sept", sum(1 for c in contacts if c["l"] == "ajout"), "l-ajout"),
                 ("froide", "liste froide", sum(1 for c in contacts if c["l"] == "froide"), "l-froide"),
                 ("main", "écrits à la main", sum(1 for c in contacts if c["hand"]), "main"),
                 ("noem", "sans courriel", sum(1 for c in contacts if not c["e"]), "noem")]

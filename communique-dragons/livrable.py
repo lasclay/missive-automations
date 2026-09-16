@@ -10,7 +10,7 @@ import openpyxl
 from openpyxl.styles import Alignment, Font, PatternFill
 from openpyxl.worksheet.datavalidation import DataValidation
 
-VERSION = 12
+VERSION = 13
 SOURCE = "Lasclay_v2.xlsx"
 CIBLE = "Lasclay_brouillons_a_editer.xlsx"
 
@@ -21,60 +21,48 @@ LARGEURS = [11, 24, 24, 32, 20, 15, 30, 7, 10, 46, 86, 86, 40, 14]
 
 def changements(kit, chauds, mercis):
   return [
-    (f"Version {VERSION} — tes dix corrections", None),
+    (f"Version {VERSION} — deux jours avant la diffusion", None),
     (None, None),
-    ("Le média kit",
-     "« Notre média kit est ici » annonçait un envoi que personne n'avait demandé. Ta formule "
-     "remet la décision au journaliste et ouvre la porte au collègue qui prendra peut-être le "
-     f"sujet : « Si ça vous intéresse de couvrir (ou un.e collègue?)… ». Dans les {kit} "
-     "brouillons."),
-    ("L'ordre",
-     "Plus une seule allusion à la diffusion avant qu'elle soit annoncée. « Cette année, la "
-     "date tombe presque au même endroit » et « la diffusion tombe cinq ans jour pour jour "
-     "après votre article » sautent : une coïncidence de calendrier ne passe pas devant la "
-     "nouvelle."),
-    ("Les remerciements",
-     f"Les {mercis} remerciements sont raccourcis et collés au paragraphe du rappel. Plus de "
-     "compliment sur un choix éditorial — « merci d'avoir ouvert le cahier climatique à une "
-     "plante » se lit comme une lecture de dossier. Un fait ne reste que s'il dit ce que "
-     "l'article a donné : « le texte a beaucoup circulé chez nos clients »."),
-    ("Les missions",
-     "« Depuis, tout mon temps va à mes 2 grandes missions » parlait de ton emploi du temps. "
-     "« On se concentre sur nos 2 grandes missions » parle de l'entreprise, comme dans ta "
-     "correction à Fanny Samson."),
-    ("Tes dix textes",
-     "Larocque, Bérubé, Pouliot, Paquet, Anne-Sophie Roy, Lafrance, Marie Tison, Simard, "
-     "Samson et Lemieux sont les tiens, mot pour mot. Seule la ligne du média kit y est "
-     "uniformisée, là où tu ne l'avais pas encore changée."),
-    ("Registre",
-     "Melissa Paquet, Anne-Sophie Roy et Annie Lafrance passent au « tu », comme tes textes. "
-     "Avec Bérubé et Pouliot, ça fait cinq."),
-    ("Sorties",
-     "Sylvie Lacombe, Justine Friis et Francis Higgins ne sont plus dans ton chiffrier : je "
-     "les ai retirés. Dis-le si c'était un accident et je les remets. Rhéane Portelance et "
-     "Anaïs Elboujdaini et Ariane Aubert Bonn sortent aussi, sur ta demande."),
-    ("Jean-Michel Leprince",
-     "Promu de la liste froide à la liste chaude. Son adresse reste à confirmer : elle vient "
-     "d'une recherche web, pas d'un échange."),
+    ("Ce que les envois ont appris",
+     "Trois réponses sur tes 23, et une seule entrevue décrochée : Guillaume Roy, en "
+     "vingt-six minutes. C'est le seul courriel dont l'objet nommait sa région, et le seul "
+     "qui lui donnait quelqu'un à aller voir — Sabin Tremblay et ses champs. Tout le détail "
+     "est dans 11-ce-que-les-envois-ont-appris.md."),
+    ("Objets régionalisés",
+     "Les 38 contacts de la Mauricie, du Centre-du-Québec, de l'Estrie, de la Montérégie et "
+     "du Lac-Saint-Jean reçoivent « L'asclépiade de [leur région] à Dragons' Den! ». Les "
+     "autres suivent les formes courtes que tu avais réécrites à la main."),
+    ("Ce jeudi",
+     "« Le 17 septembre prochain » est devenu « Ce jeudi 17 septembre » : à deux jours, la "
+     "date n'est plus une information, c'est un délai. La disponibilité ne promet plus « la "
+     "semaine du 14 septembre », qui est cette semaine."),
+    ("Presse anglophone",
+     "L'angle H avait zéro contact pour une émission de CBC. Neuf adresses, toutes publiées "
+     "par le média lui-même sur sa page de contact — CBC Media Centre, Global National et "
+     "Global Montréal, le Report on Business, Retail Insider, FashionUnited, et trois revues "
+     "textiles dont Innovation in Textiles, qui a couvert l'asclépiade de Vegeto en février. "
+     "Onglet « Presse anglophone »."),
+    ("Adresses non devinées",
+     "Beaucoup de rédactions anglophones ne publient qu'un formulaire. Je ne comble pas le "
+     "trou avec des « prénom.nom@ » déduits : une adresse inventée rebondit et abîme le "
+     "domaine qui doit livrer l'infolettre de prévente."),
     (None, None),
-    ("Ce qui reste à vérifier", None),
+    ("À mettre à jour", None),
     (None, None),
-    ("Ne pas envoyer",
-     "Anne-Sophie Roy à l'adresse Québecor, doublon de sa ligne Radio-Canada."),
-    ("Six salutations", "Fiches FPJQ mal formées, signalées dans la colonne Précaution."),
-    ("Faits nouveaux",
-     "Tes corrections ajoutent deux choses que je n'avais pas : les soins pour la peau à "
-     "l'huile de graines d'asclépiade, et « mitaines » plutôt que « moufles ». Les deux sont "
-     "corrigés là où tu les as écrits, mais pas ailleurs — dis-moi si le catalogue doit être "
-     "revu partout."),
+    ("Valérie Simard",
+     "Ne couvre plus la mode, elle est aux actualités environnement et climat. Elle a "
+     "transmis à Olivia Lévy, à La Presse, et veut être tenue au courant des RÉPERCUSSIONS "
+     "du passage, pas de l'annonce."),
+    ("Sylvie Lemieux",
+     "N'est plus au Journal de Montréal : Les Affaires et La Terre de chez nous. Elle dit "
+     "elle-même que le volet agricole intéresserait La Terre."),
+    ("Anne-Sophie Roy", "En congé de maternité. Tu as écrit à Mme Courteau à sa place."),
     (None, None),
     ("Rappels", None),
     (None, None),
-    ("Diffusion", "Jeudi 17 septembre 2026, 20 h (20 h 30 NT), CBC et CBC Gem. "
-                  "Prévente le samedi 12 septembre à 9 h."),
-    ("Envoi", "Missive depuis media@lasclay.com, un appel par journaliste, suivi des "
-              "ouvertures et des clics désactivé, environ 60 par jour. Le mode par "
-              "défaut dépose un brouillon."),
+    ("Diffusion", "Jeudi 17 septembre 2026, 20 h (20 h 30 NT), CBC et CBC Gem."),
+    ("Envoi", "Missive, un appel par journaliste, suivi des ouvertures et des clics "
+              "désactivé. Le mode par défaut dépose un brouillon."),
     ("Interdits CBC", "Rien sur l'issue avant le 17. Aucun logo ni « vu à Dragons' Den »."),
 ]
 
@@ -103,6 +91,27 @@ def lignes():
         yield [f"froide {r[h['Priorité']]}", nom, r[h["Média"]], r[h["Courriel"]],
                r[h["Région"]], r[h["Fonction"]], r[h["Secteurs pertinents"]],
                r[h["Angle"]], "vous", r[h["Objet suggéré"]], r[h["Brouillon"]]]
+
+    # Les deux feuilles ajoutees le 15 septembre.
+    if "Presse anglophone" in wb.sheetnames:
+        ws = wb["Presse anglophone"]
+        h = index(ws)
+        for r in ws.iter_rows(min_row=2, values_only=True):
+            if not r[h["Courriel"]]:
+                continue
+            yield ["anglo", r[h["Média"]], r[h["Média"]], r[h["Courriel"]], "Canada",
+                   r[h["Rôle"]], r[h["Pourquoi eux"]], "H", "vous",
+                   r[h["Objet"]], r[h["Brouillon"]]]
+
+    if "Ajouts FR, RC et TVA" in wb.sheetnames:
+        ws = wb["Ajouts FR, RC et TVA"]
+        h = index(ws)
+        for r in ws.iter_rows(min_row=2, values_only=True):
+            if not r[h["Courriel"]]:
+                continue
+            yield ["ajout", r[h["Nom"]], r[h["Média"]], r[h["Courriel"]], None,
+                   r[h["Rôle"]], r[h["Source de l'adresse"]], r[h["Angle"]], "vous",
+                   r[h["Objet"]], r[h["Brouillon"]]]
 
 
 def acquis():

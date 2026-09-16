@@ -1392,8 +1392,72 @@
       "quand": "2026-09-14T22:09:17.994Z",
       "confirme": true,
       "texte": "Merci beaucoup, c'est apprécié. Le mérite revient à toute l'équipe derrière les produits, et savoir qu'ils vous servent bien, c'est le meilleur retour qu'on puisse recevoir."
+    },
+    {
+      "id": "1678623234271486_1681041222988875",
+      "reponse_id": "1678623234271486_1565330465349513",
+      "page_id": "104242204750257",
+      "quand": "2026-09-15T06:11:32.778Z",
+      "confirme": true,
+      "texte": "Merci, ça nous touche. Bonne journée à vous."
+    },
+    {
+      "id": "1678623234271486_1600469918119882",
+      "reponse_id": "1678623234271486_1604745848100474",
+      "page_id": "104242204750257",
+      "quand": "2026-09-15T13:08:41.443Z",
+      "confirme": true,
+      "texte": "Merci du souhait. On avance une étape à la fois, et des mots comme le vôtre donnent de l'élan."
+    },
+    {
+      "id": "1678623234271486_1070698822327773",
+      "reponse_id": "1678623234271486_1821423115962761",
+      "page_id": "104242204750257",
+      "quand": "2026-09-15T13:09:51.985Z",
+      "confirme": true,
+      "texte": "Vous la connaissez bien. La soie se trouve dans les follicules, qu'on récolte à l'automne, une fois la floraison passée et la migration terminée — les feuilles, elles, restent aux chenilles. Merci d'avoir pris le temps d'écrire ça."
+    },
+    {
+      "id": "1678623234271486_1092507513358856",
+      "reponse_id": "1678623234271486_939268045897175",
+      "page_id": "104242204750257",
+      "quand": "2026-09-15T14:08:39.995Z",
+      "confirme": true,
+      "texte": "Content de lire ça. Les mitaines, c'est souvent le premier morceau que les gens adoptent — merci du retour."
+    },
+    {
+      "id": "1678623234271486_2951200028593300",
+      "reponse_id": "1678623234271486_27931822673181156",
+      "page_id": "104242204750257",
+      "quand": "2026-09-15T16:08:24.923Z",
+      "confirme": true,
+      "texte": "Les cœurs sont bien reçus. Merci de suivre ça d'aussi près."
+    },
+    {
+      "id": "1678623234271486_1592826425647071",
+      "reponse_id": "1678623234271486_2242511189874648",
+      "page_id": "104242204750257",
+      "quand": "2026-09-15T23:08:12.632Z",
+      "confirme": true,
+      "texte": "Merci, c'est gentil. On continue de travailler fort."
+    },
+    {
+      "id": "1674454204688389_2272641270203861",
+      "reponse_id": "1674454204688389_1613864210270087",
+      "page_id": "104242204750257",
+      "quand": "2026-09-16T01:08:02.893Z",
+      "confirme": true,
+      "texte": "Merci beaucoup. Venant de quelqu'un qui a vu l'intérieur d'une usine de plastique, ça pèse. C'est toute l'équipe qui va être contente de lire ça."
+    },
+    {
+      "id": "1678623234271486_1818473055812567",
+      "reponse_id": "1678623234271486_936397172874778",
+      "page_id": "104242204750257",
+      "quand": "2026-09-16T01:09:33.549Z",
+      "confirme": true,
+      "texte": "Vous n'êtes pas la seule personne à se poser la question. La fibre est dans les follicules et elle isole vraiment bien — reste que la transformer demande du travail, et c'est là-dessus qu'on s'acharne depuis le début."
     }
   ],
-  "derniere_execution": "2026-09-14T22:09:17.995Z",
-  "total": 174
+  "derniere_execution": "2026-09-16T01:09:33.549Z",
+  "total": 182
 }

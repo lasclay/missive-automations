@@ -44,12 +44,13 @@ def media_kit(registre="vous"):
     Gabriel a reecrit cette ligne dans ses dix corrections du 2 septembre :
     « Notre media kit est ici » annoncait un envoi que personne n'avait demande.
     « Si ca vous interesse de couvrir » remet la decision au journaliste, et la
-    parenthese sur le collegue ouvre la porte quand le sujet n'est pas le sien —
+    parenthese sur le collegue ouvre la porte quand le sujet n'est pas le sien :
     dans une salle de nouvelles, c'est souvent quelqu'un d'autre qui le prend.
     """
     p = "t'" if tu(registre) else "vous "
-    return (f"Si ça {p}intéresse de couvrir (ou un.e collègue?), notre média kit est ici, "
-            f"avec les images de notre passage à Dragons' Den et de l'entreprise : {DRIVE}")
+    return (f"Si ça {p}intéresse de couvrir (ou un.e collègue?), "
+            + lien("notre média kit est ici", DRIVE)
+            + ", avec les images de notre passage à Dragons' Den et de l'entreprise.")
 
 
 MEDIA_KIT = None  # remplace par media_kit(registre) : la ligne depend du registre
@@ -59,20 +60,42 @@ MEDIA_KIT = None  # remplace par media_kit(registre) : la ligne depend du regist
 # variantes suivent l'angle, pour que 253 courriels n'aient pas tous exactement
 # la meme ligne d'objet, et parce que « l'asclepiade s'en va a Dragons' Den »
 # parle plus a un journaliste agricole qu'a un chroniqueur d'affaires.
+# Ce que les 23 envois du 2 septembre ont montre : Gabriel a raccourci presque
+# tous les objets a la main, et surtout il en a REGIONALISE un. « L'asclepiade
+# du Lac-St-Jean a Dragons' Den! » a recu une reponse en vingt-six minutes, une
+# visite au champ du producteur et une entrevue avant la diffusion. C'est le
+# seul contact de la liste qui a donne un article, et c'est le seul objet qui
+# nommait la region du journaliste.
+REGIONS_OBJET = {
+    "Mauricie": "L'asclépiade de la Mauricie à Dragons' Den!",
+    "Centre-du-Québec": "L'asclépiade du Centre-du-Québec à Dragons' Den!",
+    "Estrie": "L'asclépiade de l'Estrie à Dragons' Den!",
+    "Montérégie": "L'asclépiade de la Montérégie à Dragons' Den!",
+    "Saguenay–Lac-Saint-Jean": "L'asclépiade du Lac-St-Jean à Dragons' Den!",
+}
+
+
+def objet(angle, region=None):
+    """L'objet du courriel : la region gagne quand elle en a une vraie."""
+    if region and region in REGIONS_OBJET:
+        return REGIONS_OBJET[region]
+    return OBJETS.get(angle, OBJETS["B"])
+
+
 OBJETS = {
     # « Nous serons diffusés » suppose que la personne sait déjà qui est « nous ».
     # Ça ne vaut que pour ceux qui nous connaissent : la liste chaude et les
     # journalistes d'affaires. Partout ailleurs, c'est la plante qui accroche.
-    "A": "Nous serons diffusés à Dragons' Den le 17 septembre!",
-    "E": "Nous serons diffusés à Dragons' Den le 17 septembre!",
-    "D": "L'asclépiade et les monarques à Dragons' Den le 17 septembre!",
-    "B": "L'asclépiade s'en va à Dragons' Den le 17 septembre!",
-    "C": "L'asclépiade s'en va à Dragons' Den le 17 septembre!",
-    "F": "L'asclépiade s'en va à Dragons' Den le 17 septembre!",
-    "G": "L'asclépiade s'en va à Dragons' Den le 17 septembre!",
-    "I": "L'asclépiade s'en va à Dragons' Den le 17 septembre!",
-    "J": "L'asclépiade s'en va à Dragons' Den le 17 septembre!",
-    "H": "Milkweed is going on Dragons' Den on September 17!",
+    "A": "L'asclépiade à Dragons' Den le 17 septembre!",
+    "E": "L'asclépiade à Dragons' Den le 17 septembre!",
+    "D": "L'asclépiade et les monarques à Dragons' Den!",
+    "B": "L'asclépiade à Dragons' Den le 17 septembre!",
+    "C": "L'asclépiade à Dragons' Den le 17 sept!",
+    "F": "L'asclépiade à Dragons' Den le 17 sept!",
+    "G": "L'asclépiade à Dragons' Den!",
+    "I": "L'asclépiade à Dragons' Den le 17 septembre!",
+    "J": "L'asclépiade à Dragons' Den!",
+    "H": "Quebec milkweed on Dragons' Den, this Thursday",
 }
 
 MISSIONS = ("mes 2 grandes missions : faire connaître l'asclépiade et sauvegarder "
@@ -142,3 +165,25 @@ def deplier(texte):
     """
     return "\n\n".join(" ".join(l.strip() for l in par.splitlines() if l.strip())
                        for par in texte.split("\n\n"))
+
+
+def lien(texte, url):
+    """Un lien ecrit en markdown dans les constantes, converti en HTML a l'envoi.
+
+    Le chiffrier reste lisible pour Gabriel, et Missive recoit une vraie balise
+    plutot qu'une adresse nue de deux cents caracteres qui casse la mise en page.
+    """
+    return f"[{texte}]({url})"
+
+
+def en_html(texte):
+    """Prepare un corps pour Missive : echappe, puis pose les liens.
+
+    Le proxy convertit ensuite les sauts de ligne en <br>. On echappe AVANT de
+    poser les balises, sinon on echapperait ses propres chevrons.
+    """
+    import html
+    import re
+    t = html.escape(texte, quote=False)
+    return re.sub(r'\[([^\]]+)\]\((https?://[^)\s]+)\)',
+                  r'<a href="\2">\1</a>', t)
