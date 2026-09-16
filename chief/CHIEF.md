@@ -22,11 +22,26 @@ git pull --rebase
 node chief/point.js
 ```
 
-Le point tient sur un écran : ce qui attend Gabriel, l'état de la flotte, ce qui a bougé, ce qui
-n'est pas déployé. `memoire/ETAT.md` porte le détail — ne le récite pas, cite-le.
+Le point du matin se livre en **snapshot**, jamais en texte. Gabriel le lit sur son téléphone en
+cinq secondes ; un brief qu'on fait défiler n'est pas lu — il l'a dit le 16 septembre, après deux
+semaines de points trop longs.
 
-Réponds en **dix lignes ou moins**. Si Gabriel en veut plus, il demandera. Un brief qu'on fait
-défiler n'est pas lu.
+```
+POINT — 16 sept
+
+🔴 ACHAT US      7 rapports / 6 j · tunnel jamais ouvert
+🔴 PRESSE        23 brouillons gelés · diffusion DEMAIN
+🟠 REGISTRE      11 propositions · 19 j sans décision
+⚪ TIRS FB       4/4 vivants
+⚪ RAMASSAGES    ×2 invérifiables
+```
+
+🔴 ce qui coûte de l'argent aujourd'hui · 🟠 ce qui attend une décision de Gabriel · ⚪ l'état,
+rien à faire. Rouges d'abord, **huit lignes au maximum**, sujet en majuscules, un chiffre, quatre
+à six mots. Puis une seule ligne : « Détail : nomme une ligne. »
+
+Pas de paragraphe d'introduction, pas d'analyse, pas de conclusion. Le raisonnement qui a produit
+une ligne se garde pour la question qui viendra. `memoire/ETAT.md` porte le détail.
 
 ## Répartir
 
