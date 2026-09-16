@@ -764,11 +764,11 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### MELISSA PELLETIER, Radio-Canada, `melissa.pelletier@radio-canada.ca`
+### Melissa PELLETIER, Radio-Canada, `melissa.pelletier@radio-canada.ca`
 *Priorité C · Montérégie*
 
 ```
-Bonjour MELISSA,
+Bonjour Melissa,
 
 Je m'appelle Gabriel Gouveia, fondateur de [Lasclay](https://lasclay.com). On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -1601,11 +1601,11 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### MARC-OLIVIER BISSON, Pigiste, `mobisson@ledroit.com`
+### Marc-Olivier BISSON, Pigiste, `mobisson@ledroit.com`
 *Priorité B · Laurentides*
 
 ```
-Bonjour MARC-OLIVIER,
+Bonjour Marc-Olivier,
 
 Je m'appelle Gabriel Gouveia, fondateur de [Lasclay](https://lasclay.com). On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -1902,11 +1902,11 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### Kodjo Edjinam Nulagnon LOGO, Pigiste, `alphonse@flofm.ca`
+### Kodjo LOGO, Pigiste, `alphonse@flofm.ca`
 *Priorité A · Est-du-Québec*
 
 ```
-Bonjour Kodjo Edjinam Nulagnon,
+Bonjour Kodjo,
 
 Je m'appelle Gabriel Gouveia, fondateur de [Lasclay](https://lasclay.com). On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
@@ -2714,11 +2714,11 @@ J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus large
 Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
 ```
 
-### ANGELO JEAN-BAPTISTE, Pigiste, `iciangegoal@yahoo.ca`
+### Angelo JEAN-BAPTISTE, Pigiste, `iciangegoal@yahoo.ca`
 *Priorité C · Montréal*
 
 ```
-Bonjour ANGELO,
+Bonjour Angelo,
 
 Je m'appelle Gabriel Gouveia, fondateur de [Lasclay](https://lasclay.com). On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 

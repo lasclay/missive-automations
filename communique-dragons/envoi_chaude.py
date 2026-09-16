@@ -72,8 +72,7 @@ def appel(commande, charge):
 
 def main(envoyer):
     import openpyxl
-
-from voix_gabriel import en_html
+    from voix_gabriel import en_html
     ws = openpyxl.load_workbook(os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                              "Lasclay_v2.xlsx"))["Liste chaude (34)"]
     h = [c.value for c in ws[1]]
