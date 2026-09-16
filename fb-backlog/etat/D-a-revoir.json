@@ -7801,6 +7801,20 @@
       "motif": "identification d'une autre abonnée avec une mention sans contenu",
       "page_id": "114311920399404",
       "quand": "2026-09-16T17:38:05.817Z"
+    },
+    {
+      "id": "500400911790501_1631447933955368",
+      "extrait": "Guylaine Meilleur c'est notre plante à papillon 🦋",
+      "motif": "mention affectueuse adressée à une autre abonnée, rien qui appelle une réponse de la Page",
+      "page_id": "114311920399404",
+      "quand": "2026-09-16T18:38:45.330Z"
+    },
+    {
+      "id": "500400911790501_774791970347101",
+      "extrait": "Stéphanie Godin",
+      "motif": "identification d'une autre abonnée, aucun contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-16T18:38:45.330Z"
     }
   ]
 }
