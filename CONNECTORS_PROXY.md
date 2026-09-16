@@ -113,20 +113,33 @@ interruption (fichier `.cursor`). Aussi : `list <ID>`, `segment <ID>`, `suppress
 
 Auth Buffer : jeton d'API (`publish.buffer.com/settings/api`) en `Authorization: Bearer`, sur un
 endpoint GraphQL unique (`https://api.buffer.com`). **Le compte publié est celui que désigne le
-jeton posé sur Render** — ce n'est pas le compte branché en connecteur MCP dans une session
-interactive. C'est tout l'intérêt : joindre un second compte Buffer (ex. le TikTok `lasclayqc`)
-sans rebrancher la session, et le joindre depuis une Routine ou un script, qui n'ont pas de
-connecteur MCP.
+jeton** — ce n'est pas le compte branché en connecteur MCP dans une session interactive. C'est
+tout l'intérêt : joindre les autres comptes Buffer sans rebrancher la session, et les joindre
+depuis une Routine ou un script, qui n'ont pas de connecteur MCP.
+
+**Multi-comptes.** Un jeton Buffer ne voit QUE les canaux de son propre compte. Trois variables,
+et un paramètre `compte` sur chaque action :
+
+| `compte` | Variable Render |
+|---|---|
+| `main` (défaut) | `BUFFER_MAIN_API_KEY` (repli : `BUFFER_API_KEY`) |
+| `2` | `BUFFER_2_API_KEY` |
+| `3` | `BUFFER_3_API_KEY` |
+
+Rien dans le nom des variables ne dit à quel compte Buffer chacune appartient : `comptes` dit
+lesquelles portent un jeton, `account` dit à qui il appartient (courriel du propriétaire), et
+`channels` dit quels canaux s'y trouvent. C'est la façon de retrouver où vit un canal donné.
 
 | Action | Params | Effet |
 |---|---|---|
-| `account` | — | 🟢 compte + organisations (donne `organizationId`) |
-| `channels` | **organizationId** | 🟢 canaux connectés (id, service, type, déconnecté ou non) |
-| `channel` | **id** | 🟢 un canal : horaire, `allowedActions`, et `metadata.defaultToReminders` |
-| `posts` | **organizationId**, `first`, `after`, `statuses`, `channelIds` | 🟢 publications (curseur dans `pageInfo`) |
-| `post` | **id** | 🟢 une publication |
-| `editpost` | **id** + champs à changer | 🟡 modifie une publication **pas encore partie** |
-| `createpost` | **channelId**, `text`, `assets`, `metadata`, `mode`, `schedulingType`, `dueAt`, `saveToDraft`, `tagIds` | 🔴 crée — et publie si `mode: "shareNow"` |
+| `comptes` | — | 🟢 quels comptes portent un jeton (aucun secret rendu) |
+| `account` | `compte` | 🟢 compte + organisations (donne `organizationId`) |
+| `channels` | `compte`, **organizationId** | 🟢 canaux connectés (id, service, type, déconnecté ou non) |
+| `channel` | `compte`, **id** | 🟢 un canal : horaire, `allowedActions`, et `metadata.defaultToReminders` |
+| `posts` | `compte`, **organizationId**, `first`, `after`, `statuses`, `channelIds` | 🟢 publications (curseur dans `pageInfo`) |
+| `post` | `compte`, **id** | 🟢 une publication |
+| `editpost` | `compte`, **id** + champs à changer | 🟡 modifie une publication **pas encore partie** |
+| `createpost` | `compte`, **channelId**, `text`, `assets`, `metadata`, `mode`, `schedulingType`, `dueAt`, `saveToDraft`, `tagIds` | 🔴 crée — et publie si `mode: "shareNow"` |
 
 `assets` suit la forme d'AssetInput : `[{"video":{"url":"https://…mp4"}}]`, ou
 `[{"image":{"url":"…","metadata":{"altText":"…"}}}]`. L'URL doit être **téléchargeable
@@ -154,10 +167,11 @@ partagé « toute personne disposant du lien »).
    l'essai sans effet public.
 
 ```
-node connectors_client.js buffer account
-node connectors_client.js buffer channels '{"organizationId":"…"}'
-node connectors_client.js buffer channel '{"id":"…"}'
-node connectors_client.js buffer createpost '{"channelId":"…","text":"…","assets":[{"video":{"url":"https://…mp4"}}],"metadata":{"tiktok":{"title":"…"}},"mode":"shareNow","schedulingType":"automatic"}'
+node connectors_client.js buffer comptes
+node connectors_client.js buffer account '{"compte":"2"}'
+node connectors_client.js buffer channels '{"compte":"2","organizationId":"…"}'
+node connectors_client.js buffer channel '{"compte":"2","id":"…"}'
+node connectors_client.js buffer createpost '{"compte":"2","channelId":"…","text":"…","assets":[{"video":{"url":"https://…mp4"}}],"metadata":{"tiktok":{"title":"…"}},"mode":"shareNow","schedulingType":"automatic"}'
 ```
 
 > **QuickBooks** : actions, mise en place et rotation du refresh token → `finance-proxy/FINANCE_PROXY.md`.
@@ -190,7 +204,9 @@ Limite de débit v1 : **40 requêtes / minute**. Le proxy respecte l'en-tête `X
 | `OMNISEND_API_KEY` | clé API Omnisend (Store settings → Integrations & API → API keys) |
 | `KLAVIYO_API_KEY` | clé privée Klaviyo `pk_...` (Settings → Account → API keys). Créer une clé **lecture seule** (scopes read) : le connecteur n'expose que des lectures. |
 | `KLAVIYO_REVISION` | (optionnel) révision d'API Klaviyo, défaut `2025-04-15` |
-| `BUFFER_API_KEY` | jeton d'API Buffer (`publish.buffer.com/settings/api`) **du compte à publier**. Le connecteur est désactivé sans lui. |
+| `BUFFER_MAIN_API_KEY` | jeton d'API Buffer (`publish.buffer.com/settings/api`) du compte visé par `compte: "main"` (défaut). `BUFFER_API_KEY` sert de repli. |
+| `BUFFER_2_API_KEY` | jeton du compte visé par `compte: "2"` |
+| `BUFFER_3_API_KEY` | jeton du compte visé par `compte: "3"` |
 | `BUFFER_BASE` | (optionnel) endpoint GraphQL Buffer, défaut `https://api.buffer.com` |
 | `PORT` | (auto, fourni par Render) |
 

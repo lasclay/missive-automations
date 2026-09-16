@@ -182,17 +182,24 @@ Deux limites du compte, constatées à l'usage : les **identifiants secondaires*
 au profil — et `subscribe_profile_to_marketing` **exige une confirmation humaine explicite** avant
 de s'exécuter. C'est voulu : un consentement ne se pose pas à la place de quelqu'un.
 
-## Buffer — publication sociale, 7 actions
+## Buffer — publication sociale, multi-comptes, 8 actions
 
-Clé `BUFFER_API_KEY` côté Render, API GraphQL `https://api.buffer.com`.
+API GraphQL `https://api.buffer.com`, jetons côté Render.
 
-**Le compte publié est celui du jeton posé sur Render, pas celui du connecteur MCP Buffer d'une
-session.** Lasclay a plusieurs comptes Buffer ; c'est ainsi qu'on joint le second (le TikTok
-`lasclayqc`) sans rebrancher la session, et qu'une Routine ou un script peut publier, eux qui
-n'ont aucun connecteur MCP.
+**Le compte publié est celui du jeton, pas celui du connecteur MCP Buffer d'une session.** Lasclay
+a plusieurs comptes Buffer ; c'est ainsi qu'on joint les autres (dont le TikTok `lasclayqc`) sans
+rebrancher la session, et qu'une Routine ou un script peut publier, eux qui n'ont aucun connecteur
+MCP.
 
-**Lecture (5).** `account` (donne `organizationId`), `channels` (**organizationId**), `channel`
-(**id**), `posts` (**organizationId**, `first`, `after`, `statuses`, `channelIds`), `post` (**id**).
+**Un jeton ne voit que SON compte.** Chaque action prend un paramètre `compte` :
+`main` (défaut) → `BUFFER_MAIN_API_KEY`, `2` → `BUFFER_2_API_KEY`, `3` → `BUFFER_3_API_KEY`.
+Le nom des variables ne dit pas à quel compte chacune correspond : `comptes` dit lesquelles
+portent un jeton, `account` donne le courriel du propriétaire, `channels` la liste des canaux.
+Pour trouver où vit un canal, balaie les comptes — ne devine pas.
+
+**Lecture (6).** `comptes` (aucun paramètre, aucun secret rendu), `account` (donne
+`organizationId`), `channels` (**organizationId**), `channel` (**id**), `posts`
+(**organizationId**, `first`, `after`, `statuses`, `channelIds`), `post` (**id**).
 
 **Écriture (2).** `editpost` (🟡 **id** + champs — seulement sur une publication pas encore
 partie ; Buffer revalide l'objet entier, donc reconduire `assets` et `metadata`) et `createpost`

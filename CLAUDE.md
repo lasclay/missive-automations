@@ -35,9 +35,11 @@ chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, 
 - **Klaviyo** (`KLAVIYO_API_KEY` côté Render, lecture seule) : profils, listes, segments,
   flows, campagnes, templates, événements — pour l'export exhaustif/migration.
   Export en masse : `node klaviyo_export.js profiles <dossier>` (CSV avec consentements).
-- **Buffer** (`BUFFER_API_KEY` côté Render) : publication sociale sur le compte Buffer que
-  désigne CE jeton — un autre que celui du connecteur MCP Buffer d'une session. C'est le chemin
-  vers le second compte (TikTok `lasclayqc`) et le seul utilisable par une Routine.
+- **Buffer** (`BUFFER_MAIN_API_KEY`, `BUFFER_2_API_KEY`, `BUFFER_3_API_KEY` côté Render) :
+  publication sociale, multi-comptes — paramètre `compte` (`main` par défaut, `2`, `3`). Un jeton
+  ne voit que son propre compte ; `comptes` et `account` servent à retrouver lequel détient un
+  canal. C'est le chemin vers les comptes Buffer autres que celui du connecteur MCP (dont le
+  TikTok `lasclayqc`), et le seul utilisable par une Routine.
 - Doc complète : `CONNECTORS_PROXY.md`.
 
 ## Finance Proxy (comptabilité) — QuickBooks Online, service SÉPARÉ
