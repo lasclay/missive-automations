@@ -7829,6 +7829,55 @@
       "motif": "réponse d'un mot entre abonnées, aucun contenu",
       "page_id": "114311920399404",
       "quand": "2026-09-16T19:37:55.138Z"
+    },
+    {
+      "id": "500400911790501_720475193012428",
+      "extrait": "vous êtes dans quelle région et ville? … Bravo , j aime votre pancarte. Puis je la copier ?",
+      "motif": "échange entre abonnés au sujet d'une pancarte qui n'est pas la nôtre",
+      "page_id": "114311920399404",
+      "quand": "2026-09-16T20:39:45.137Z"
+    },
+    {
+      "id": "500400911790501_572049827889517",
+      "extrait": "Paattriciia Booiilly tu as reçu des semences ?",
+      "motif": "question adressée à une autre abonnée",
+      "page_id": "114311920399404",
+      "quand": "2026-09-16T20:39:45.137Z"
+    },
+    {
+      "id": "500400911790501_1144885132827918",
+      "extrait": "Est ce le temps de faire les semis ?",
+      "motif": "même question que « à quel moment commence-t-on les semis », à laquelle on répond une fois dans ce billet aujourd'hui — saturation",
+      "page_id": "114311920399404",
+      "quand": "2026-09-16T20:39:45.137Z"
+    },
+    {
+      "id": "500400911790501_917392452611008",
+      "extrait": "Les papillons sont-ils polinisateurs?",
+      "motif": "hors des faits vérifiés : aucune donnée de notre côté sur le rôle pollinisateur des papillons, et la réponse serait un doublon du « rien de vérifié » déjà publié sur les abeilles dans ce billet",
+      "page_id": "114311920399404",
+      "quand": "2026-09-16T20:39:45.137Z"
+    },
+    {
+      "id": "500400911790501_3495716473985070",
+      "extrait": "les autoroutes sont mortelles aux abeilles et papillons … C'est donc une fausse bonne idée",
+      "motif": "micro-fil « border les autoroutes » déjà traité (hier 16 h) — remarque juste, mais une seule réponse de la Page par micro-fil",
+      "page_id": "114311920399404",
+      "quand": "2026-09-16T20:39:45.137Z"
+    },
+    {
+      "id": "500400911790501_236140052168350",
+      "extrait": "il doit se dégager des effluves formidable 🙂",
+      "motif": "échange entre abonnées sur le parfum; rien de vérifié à présenter là-dessus",
+      "page_id": "114311920399404",
+      "quand": "2026-09-16T20:39:45.137Z"
+    },
+    {
+      "id": "500400911790501_737857254448998",
+      "extrait": "Michelle Verville merci pour la précision!🙂",
+      "motif": "remerciement entre abonnées après une identification (eupatoire), rien à ajouter",
+      "page_id": "114311920399404",
+      "quand": "2026-09-16T20:39:45.137Z"
     }
   ]
 }
