@@ -207,12 +207,30 @@ const consignes = (() => {
   return m;
 })();
 
-/** Rapproche un produit de production d'une ligne de consignes. */
+/**
+ * Rapproche un produit de production d'une ligne de consignes.
+ *
+ * Le rapprochement par préfixe rendait « la première clé qui matche », donc
+ * l'ordre du tableau décidait. « Bandeau » est écrit avant « Bandeau tuque
+ * urbaine » : le bandeau de la tuque recevait la consigne du bandeau torsadé
+ * — « deux modèles, même patron, torsadé et sport » — alors que la sienne dit
+ * l'inverse, que l'assemblage n'a même pas encore été testé. Deux produits
+ * différents, une seule consigne, et personne pour s'en apercevoir puisque le
+ * texte affiché avait l'air plausible.
+ *
+ * Trois étages, du sûr au douteux, et on s'arrête plutôt que de deviner :
+ *   1. le nom exact — aujourd'hui vingt et un produits sur trente-quatre ;
+ *   2. un préfixe qui ne matche QU'UNE clé : « Semelles 6-7-8F » → « Semelles » ;
+ *   3. plusieurs clés possibles → rien. Une consigne muette se remarque, une
+ *      consigne fausse se suit.
+ */
 function consignePour(nomProduction) {
-  const n = nomProduction.toLowerCase();
-  for (const [cle, val] of consignes)
-    if (n.startsWith(cle) || cle.startsWith(n)) return val;
-  return '';
+  const n = String(nomProduction || '').toLowerCase();
+  if (!n) return '';
+  if (consignes.has(n)) return consignes.get(n);
+  const possibles = [...consignes.keys()]
+    .filter(cle => n.startsWith(cle) || cle.startsWith(n));
+  return possibles.length === 1 ? consignes.get(possibles[0]) : '';
 }
 
 // -------------------------------------------------------------- composition

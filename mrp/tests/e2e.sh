@@ -1165,6 +1165,25 @@ B=$(MRP_DB="$CAT" node --no-warnings -e "
   && ok "1 500 bandeaux à l'atelier, 1 500 tuques tricotées en Chine" \
   || ko "bandeau de la tuque de ville mal réparti ($B)"
 
+# Le bandeau torsadé et le bandeau de la tuque sont DEUX PRODUITS. Le
+# rapprochement des consignes se faisait par « premier préfixe qui matche », et
+# « Bandeau » est écrit avant « Bandeau tuque urbaine » dans le tableau de
+# suivi : le bandeau de la tuque héritait de la consigne de l'autre — « deux
+# modèles, torsadé et sport » — alors que la sienne dit que l'assemblage n'a
+# pas encore été testé. Le texte affiché avait l'air juste, c'est ce qui rend
+# l'erreur coûteuse.
+# On compare la CONSIGNE, premier paragraphe des notes techniques : la suite
+# parle légitimement de l'autre bandeau, pour dire qu'il n'a rien à voir.
+C2=$(MRP_DB="$CAT" node --no-warnings -e "
+  const {db}=require('./db.js');
+  const c=(x)=>db.prepare('SELECT notes_tech n FROM produits WHERE code=?')
+                 .get(x).n.split('\n\n')[0];
+  console.log(/torsad/i.test(c('BANDEAU')) && /chantillon/i.test(c('BANDEAU-TUQUE'))
+              && !/torsad/i.test(c('BANDEAU-TUQUE')) ? 'ok' : 'melange');" 2>/dev/null)
+[ "$C2" = ok ] \
+  && ok "chaque bandeau garde sa consigne : torsadé ici, tuque urbaine là" \
+  || ko "les consignes des deux bandeaux se mélangent encore ($C2)"
+
 # `actif` veut dire « au catalogue », pas « vendu ». Quatre pièces AU PLAN en
 # étaient sorties : elles n'apparaissaient nulle part et ne pouvaient même pas
 # être ajoutées à un ordre depuis le menu « Produit ».
