@@ -227,6 +227,8 @@ Trois pièges :
    have permission to edit content`) ; Instagram n'expose aucune édition de légende, point. Le
    texte doit être final AVANT l'appel — sinon `saveToDraft: true`, qui n'a aucun effet public.
 
+Quel compte détient quel canal, et ce qui devient irrattrapable une fois publié : skill **`buffer`**.
+
 ## Vérifier un envoi — règle ferme
 
 Deux sources, jamais une seule : Shopify pour la commande, ShipStation pour l'expédition et le

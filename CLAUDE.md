@@ -15,6 +15,7 @@ chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, 
 | `qbo` | QuickBooks via le Finance Proxy, rapports et tenue de livres, exercice fiscal, import du chiffrier |
 | `proxygen` | General Proxy : ShipStation, Omnisend, Klaviyo |
 | `composio` | Composio : connecteur MCP contre clé de projet, accès aux Pages Facebook, pièges de jetons |
+| `buffer` | Buffer : trois comptes distincts, quel compte détient quel canal, publication vidéo, ce qui est irréversible une fois parti |
 | `video` | regarder une vidéo (URL ou fichier) : trames horodatées à lire + transcription |
 
 ## General Proxy (opérations) — ShipStation, Omnisend
