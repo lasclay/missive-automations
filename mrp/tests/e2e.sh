@@ -1153,6 +1153,31 @@ G=$(MRP_DB="$CAT" node --no-warnings -e "
   && ok "le sac à dos glacière est au plan : 300, 150 vert et 150 noir" \
   || ko "sac à dos glacière absent ou mal réparti ($G)"
 
+# Le bandeau intérieur de la tuque de ville est fait à l'atelier, la tuque
+# elle-même est tricotée en Chine. Les deux doivent coexister : 1 500 bandeaux
+# dans le travail de l'atelier, 1 500 tuques au plan mais hors de cette liste.
+B=$(MRP_DB="$CAT" node --no-warnings -e "
+  const D=require('./db.js');
+  const l=D.listeFabrication().find(x=>x.code==='BANDEAU-TUQUE');
+  const a=D.fabriqueAilleurs().find(x=>x.code==='TUQUE-VILLE');
+  console.log((l?l.quantite:0)+' '+(a?a.quantite:0)+' '+(a?a.fabrication:''));" 2>/dev/null)
+[ "$B" = "1500 1500 chine" ] \
+  && ok "1 500 bandeaux à l'atelier, 1 500 tuques tricotées en Chine" \
+  || ko "bandeau de la tuque de ville mal réparti ($B)"
+
+# `actif` veut dire « au catalogue », pas « vendu ». Quatre pièces AU PLAN en
+# étaient sorties : elles n'apparaissaient nulle part et ne pouvaient même pas
+# être ajoutées à un ordre depuis le menu « Produit ».
+N=$(MRP_DB="$CAT" node --no-warnings -e "
+  const {db}=require('./db.js');
+  const q='SELECT COUNT(*) n FROM produits p WHERE p.actif=0 AND EXISTS'
+    + ' (SELECT 1 FROM ordre_items i JOIN ordres o ON o.id=i.ordre_id'
+    + \" WHERE i.produit_id=p.id AND o.statut IN ('planifie','en_cours'))\";
+  console.log(db.prepare(q).get().n);" 2>/dev/null)
+[ "$N" = 0 ] \
+  && ok "rien de ce qui est au plan n'est hors du catalogue" \
+  || ko "$N produit(s) au plan restent inactifs, donc invisibles dans l'app"
+
 # --- les protocoles suivent le dépôt sans rien perdre ---------------------
 # L'import efface ce qu'il a lui-même posé, et RIEN d'autre. Deux façons de se
 # tromper : effacer un point écrit à la main dans l'app, ou ne pas effacer une
@@ -1204,7 +1229,12 @@ S=$(MRP_DB="$CAT" node --no-warnings -e "
 
 # Découper ne doit RIEN ajouter au total : la ligne d'origine est retirée du
 # plan, pas laissée à côté de ses morceaux.
-[ "$(Z "SELECT SUM(quantite) n FROM ordre_items")" = 24633 ] \
+#
+# Le total est écrit en dur EXPRÈS : c'est ce qui attrape une ligne d'origine
+# restée à côté de ses morceaux. Il se met donc à jour à la main, et seulement
+# quand on a ajouté quelque chose au plan en le sachant. Dernier mouvement :
+# 24 633 → 26 133 le 16/09/2026, les 1 500 bandeaux de la tuque de ville.
+[ "$(Z "SELECT SUM(quantite) n FROM ordre_items")" = 26133 ] \
   && ok "découper une ligne du plan ne change pas le total à produire" \
   || ko "le total a bougé — la ligne d'origine compte encore"
 

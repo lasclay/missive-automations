@@ -276,7 +276,15 @@ const lignes = corresp.map(r => {
     notes_tech: notes.join('\n\n'),
     famille: r.famille || 'autre',
     fabrication: r.fabrication || 'tunisie',
-    actif: r.confiance === 'non vendu' || r.confiance === 'non produit' ? 0 : 1,
+    // `actif` veut dire « au catalogue de l'app », pas « vendu sur Shopify ».
+    // La règle ne regardait que la vente, et sortait du catalogue quatre pièces
+    // pourtant AU PLAN : les deux cache-cous enfant, la tuque de ville et le
+    // bandeau de la tuque. Conséquence — elles n'apparaissaient ni dans la
+    // liste des fiches, ni dans la couverture qualité, et surtout pas dans le
+    // menu « Produit » d'un ordre : impossible de les ajouter depuis l'app.
+    // Ce qu'on produit est au catalogue, même si on ne le vend pas séparément.
+    actif: (r.confiance === 'non vendu' || r.confiance === 'non produit') && !pl
+      ? 0 : 1,
     photos, bom, plan: pl || null,
     _sh: Boolean(sh), _cogs: Boolean(c), _confiance: r.confiance,
   };
