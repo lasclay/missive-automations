@@ -1440,8 +1440,24 @@
       "quand": "2026-09-15T23:08:12.632Z",
       "confirme": true,
       "texte": "Merci, c'est gentil. On continue de travailler fort."
+    },
+    {
+      "id": "1674454204688389_2272641270203861",
+      "reponse_id": "1674454204688389_1613864210270087",
+      "page_id": "104242204750257",
+      "quand": "2026-09-16T01:08:02.893Z",
+      "confirme": true,
+      "texte": "Merci beaucoup. Venant de quelqu'un qui a vu l'intérieur d'une usine de plastique, ça pèse. C'est toute l'équipe qui va être contente de lire ça."
+    },
+    {
+      "id": "1678623234271486_1818473055812567",
+      "reponse_id": "1678623234271486_936397172874778",
+      "page_id": "104242204750257",
+      "quand": "2026-09-16T01:09:33.549Z",
+      "confirme": true,
+      "texte": "Vous n'êtes pas la seule personne à se poser la question. La fibre est dans les follicules et elle isole vraiment bien — reste que la transformer demande du travail, et c'est là-dessus qu'on s'acharne depuis le début."
     }
   ],
-  "derniere_execution": "2026-09-15T23:08:12.632Z",
-  "total": 180
+  "derniere_execution": "2026-09-16T01:09:33.549Z",
+  "total": 182
 }
