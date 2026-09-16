@@ -70,5 +70,65 @@
  "saskatoon@globalnews.ca": {
   "quand": "2026-09-16T10:57:40",
   "conversation": "fc4741e7-622a-444f-950a-4d915ae6de0b"
+ },
+ "okanagan@globalnews.ca": {
+  "quand": "2026-09-16T10:58:11",
+  "conversation": "c5bff1ba-fbbb-4722-af95-795f1c0f5439"
+ },
+ "consumermatters@globalnews.ca": {
+  "quand": "2026-09-16T10:58:42",
+  "conversation": "31c39e09-e1cf-442a-ac90-f613c9dedbea"
+ },
+ "vancouver@dailyhive.com": {
+  "quand": "2026-09-16T10:59:13",
+  "conversation": "d2d6ade9-28cf-45af-aca7-e89e4cbb21d7"
+ },
+ "toronto@dailyhive.com": {
+  "quand": "2026-09-16T10:59:44",
+  "conversation": "b06c1e81-5bdb-47e2-a144-36662c275fe3"
+ },
+ "calgary@dailyhive.com": {
+  "quand": "2026-09-16T11:00:15",
+  "conversation": "86db1c6b-80a7-49df-8992-386b798fc96e"
+ },
+ "edmonton@dailyhive.com": {
+  "quand": "2026-09-16T11:00:47",
+  "conversation": "d3b70dea-2055-4e35-8b1e-98f8b6be0186"
+ },
+ "info@taproot.ca": {
+  "quand": "2026-09-16T11:01:18",
+  "conversation": "a4245e08-208f-4ee1-a4ae-7277332173f5"
+ },
+ "jdavis@textileworld.com": {
+  "quand": "2026-09-16T11:01:49",
+  "conversation": "92455163-5041-4eb3-a9c6-8e98b6b59a13"
+ },
+ "news@huddle.today": {
+  "quand": "2026-09-16T11:02:21",
+  "conversation": "3ed299c6-c360-4a24-908d-14188b8553ea"
+ },
+ "editors@nunatsiaq.com": {
+  "quand": "2026-09-16T11:02:52",
+  "conversation": "06646ac9-4928-4733-85f9-245c2d9ffb00"
+ },
+ "sarah@cabinradio.ca": {
+  "quand": "2026-09-16T11:03:23",
+  "conversation": "d35618eb-d712-401b-8551-c24604c239e8"
+ },
+ "newsroom@nnsl.com": {
+  "quand": "2026-09-16T11:03:54",
+  "conversation": "ff0794df-9f0c-4f37-a48b-0dfa4aada776"
+ },
+ "newstips@yukon-news.com": {
+  "quand": "2026-09-16T11:04:25",
+  "conversation": "32623cd0-60b3-4c14-a789-953e111a4452"
+ },
+ "info@nbmediacoop.org": {
+  "quand": "2026-09-16T11:04:56",
+  "conversation": "1e64e814-faa8-4467-be98-3b01665e3f46"
+ },
+ "editor@betterfarming.com": {
+  "quand": "2026-09-16T11:05:27",
+  "conversation": "13533cb8-d7e4-4cf2-a645-15abf715efdd"
  }
 }
