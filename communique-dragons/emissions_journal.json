@@ -28,5 +28,17 @@
   "émission": "C'est encore mieux l'après-midi",
   "rôle": "recherche",
   "conversation": "375e65be-b21b-4d4f-b06a-ad39c3bb8f32"
+ },
+ "pierre-olivier.zappa@tva.ca": {
+  "quand": "2026-09-16T13:42:00",
+  "émission": "À vos affaires",
+  "rôle": "animateur",
+  "conversation": "41d3d36e-0ca6-46e1-a12d-253b2d47f5f8"
+ },
+ "dominique.depatie@radio-canada.ca": {
+  "quand": "2026-09-16T13:44:00",
+  "émission": "Tout un matin",
+  "rôle": "réalisation",
+  "conversation": "cee1c56c-bb15-4f5a-af98-4a4e7260f1d1"
  }
 }
