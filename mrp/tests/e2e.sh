@@ -158,6 +158,27 @@ curl -s -b $CO -o /dev/null -X POST $B/ordres/1/items/3/fil/$D/supprimer
 
 
 
+# ------------------------------------------------------------------- l'écran
+# La pastille produit est ce qui rend les listes de travail lisibles : un code
+# comme « MIT-POLAR » demande un aller-retour dans la tête, la mitaine non.
+# Assez discret pour disparaître à la première refonte de requête — d'où le test.
+curl -s -b $CA "$B/priorites" | grep -q 'class="mini' \
+  && ok "la liste de fabrication porte une pastille par produit" \
+  || ko "plus de pastille produit dans « À fabriquer »"
+curl -s -b $CA "$B/ordres/1" | grep -q 'class="mini' \
+  && ok "les items d'un ordre portent leur pastille" || ko "pastille absente de l'ordre"
+
+# `.av` a longtemps désigné DEUX choses : le formulaire de tranches (une grille
+# de onze colonnes) et la colonne « Avancement » du tableau de fabrication. La
+# grille se posait donc sur la cellule du tableau et l'écrasait. La règle doit
+# rester scopée au formulaire.
+grep -q '^form\.av{' public/style.css \
+  && ok "le sélecteur d'avancement reste scopé au formulaire" \
+  || ko "la grille .av déborde à nouveau sur la colonne du tableau"
+grep -qE '^\.av\{' public/style.css \
+  && ko "une règle .av nue est revenue : elle écrase la cellule du tableau" \
+  || ok "aucune règle .av nue"
+
 # ce qui compte n'est pas le poids du HTML mais ce qui part sur le réseau
 for u in / /ordres /ordres/1 /produits /produits/1 /cedule /priorites /suivi \
          /inventaire /besoins /calendrier; do

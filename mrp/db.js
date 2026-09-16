@@ -643,7 +643,12 @@ function avancementOrdre(ordreId) {
            COALESCE(SUM(quantite), 0)              AS den,
            COUNT(*)                                AS n
     FROM ordre_items WHERE ordre_id = ?`).get(ordreId);
-  return { pct: r.den ? Math.round(r.num / r.den) : 0, items: r.n };
+  // Le pourcentage seul ne dit pas l'effort : 28 % de 300 pièces et 28 % de
+  // 26 000 ne se planifient pas pareil. On rend aussi les unités, faites et
+  // restantes, pour que l'écran puisse montrer la taille du morceau.
+  const faites = Math.round(r.num / 100);
+  return { pct: r.den ? Math.round(r.num / r.den) : 0, items: r.n,
+           unites: r.den, faites, restant: r.den - faites };
 }
 
 
@@ -693,7 +698,12 @@ function listeFabrication({ inclureTermines = false, lieu = 'tunisie' } = {}) {
              WHERE j.ordre_id = o.id AND j.date < date('now')) AS jalons_passes,
            (SELECT j.titre FROM ordre_jalons j
              WHERE j.ordre_id = o.id AND j.date >= date('now')
-             ORDER BY j.date LIMIT 1) AS echeance_titre
+             ORDER BY j.date LIMIT 1) AS echeance_titre,
+           -- La photo studio de la fiche. Rien n'est hébergé ici : c'est
+           -- l'adresse d'origine, redimensionnée par le CDN à l'affichage.
+           (SELECT f.url FROM produit_photos f WHERE f.produit_id = p.id
+             ORDER BY CASE f.type WHEN 'studio' THEN 0 ELSE 1 END,
+                      f.rang, f.id LIMIT 1) AS photo
     FROM ordre_items i
     JOIN ordres o   ON o.id = i.ordre_id
     JOIN produits p ON p.id = i.produit_id
@@ -1407,7 +1417,10 @@ function couvertureQC({ lieu = 'tunisie' } = {}) {
            SUM(CASE WHEN q.type = 'cyclage'  THEN 1 ELSE 0 END) AS cyclages,
            (SELECT SUM(i.quantite) FROM ordre_items i
              JOIN ordres o ON o.id = i.ordre_id
-            WHERE i.produit_id = p.id AND o.statut IN ('planifie','en_cours')) AS a_produire
+            WHERE i.produit_id = p.id AND o.statut IN ('planifie','en_cours')) AS a_produire,
+           (SELECT f.url FROM produit_photos f WHERE f.produit_id = p.id
+             ORDER BY CASE f.type WHEN 'studio' THEN 0 ELSE 1 END,
+                      f.rang, f.id LIMIT 1) AS photo
       FROM produits p
       LEFT JOIN qc_points q ON q.produit_id = p.id
      WHERE p.actif = 1 AND p.fabrication = ?

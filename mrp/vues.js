@@ -104,6 +104,31 @@ function img(url, { largeur, hauteur, alt = '', classe = '', style = '' } = {}) 
        + (style ? ` style="${style}"` : '') + `>`;
 }
 
+/**
+ * La pastille produit : la photo de la fiche, 46 px, dans la liste de travail.
+ *
+ * C'est le seul changement qui rende ces pages vraiment visuelles. Un code
+ * comme « MIT-POLAR » demande un aller-retour dans la tête ; la mitaine, non.
+ * L'atelier de Tunis reconnaît la pièce avant d'avoir lu le nom, et c'est
+ * précisément ce qu'on veut sur une liste de trente lignes.
+ *
+ * Le coût réseau est nul pour l'app : rien n'est hébergé ici, l'adresse part
+ * chez le CDN d'origine avec une largeur de 96 px (deux fois 46, pour les
+ * écrans à densité double) — une dizaine de kilo-octets, hors du HTML, et
+ * `loading="lazy"` ne les demande que si la ligne arrive à l'écran. Sur la
+ * connexion tunisienne, une ligne jamais atteinte ne coûte rien.
+ *
+ * Sans photo, on ne laisse pas un trou : les deux premières lettres du code
+ * tiennent lieu de monogramme. Un carré vide serait pire que pas de carré.
+ */
+function miniature(url, code = '', { taille = 46 } = {}) {
+  const c = 'mini' + (taille === 46 ? '' : ` mini-${taille}`);
+  if (urlAcceptable(url))
+    return `<span class="${c}">${img(url, { largeur: taille * 2, alt: '' })}</span>`;
+  return `<span class="${c} mini-nu" aria-hidden="true">${
+    e(String(code).replace(/[^A-Za-z0-9]/g, '').slice(0, 2).toUpperCase())}</span>`;
+}
+
 const dateFR = (d) => {
   if (!d) return '';
   const [a, m, j] = String(d).slice(0, 10).split('-');
@@ -133,8 +158,17 @@ const dateHeureFR = (t) => {
        + `${p(d.getHours())} h ${p(d.getMinutes())}`;
 };
 
+/**
+ * La barre d'avancement. La couleur dit l'état, pas la marque.
+ *
+ * Avant, tout ce qui n'était ni 0 ni 100 était ambre : un item à 90 % avait
+ * l'air aussi inquiétant qu'un item à 10 %. Trois seuils valent mieux — pas
+ * commencé, en route, presque fini —, et le vert n'arrive qu'au bout.
+ * La couleur ne porte jamais seule : le pourcentage est écrit à côté.
+ */
 function jauge(pct) {
-  const cls = pct === 0 ? 'zero' : pct === 100 ? '' : 'part';
+  const cls = pct === 0 ? 'zero' : pct === 100 ? 'plein'
+            : pct < 40 ? 'bas' : pct < 80 ? 'part' : 'haut';
   return `<div class="jauge ${cls}"><i style="width:${pct}%"></i></div>`;
 }
 
@@ -161,19 +195,21 @@ function page({ titre, user, corps, actif = '', msg = null }) {
 <header class="top"><div class="top-in">
   <a class="marque" href="/">Lasclay <span>MRP</span></a>
   ${user ? `<nav class="top">
-    ${lien('/assistant', 'Assistant', 'assistant')}
-    ${lien('/', 'Tableau de bord', 'accueil')}
+    ${lien('/', 'Tableau', 'accueil')}
     ${lien('/priorites', 'À fabriquer', 'priorites')}
-    ${lien('/ordres', 'Ordres de production', 'ordres')}
+    ${lien('/ordres', 'Ordres', 'ordres')}
     ${lien('/suivi', 'Suivi', 'suivi')}
     ${lienTaches}
+    <i class="sep"></i>
     ${lien('/produits', 'Produits', 'produits')}
     ${lien('/inventaire', 'Inventaire', 'inventaire')}
     ${lien('/besoins', 'Besoins', 'besoins')}
+    <i class="sep"></i>
     ${lien('/calendrier', 'Calendrier', 'calendrier')}
     ${lien('/cedule', 'Cédule', 'cedule')}
   </nav>
-  <span class="qui"><a href="/compte">${e(user.nom)}</a> · ${ROLES[user.role] || e(user.role)}
+  <span class="qui">${lien('/assistant', 'Assistant', 'assistant')} · <a href="/compte"
+    >${e(user.nom)}</a> · ${ROLES[user.role] || e(user.role)}
     · <a href="/deconnexion">Sortir</a></span>` : ''}
 </div></header>
 <main>
@@ -476,6 +512,22 @@ function barreAssistant({ user, ia, salut = null }) {
 function vueAccueil({ user, ordres, jalons, ia = null, salut = null,
                       attentes = [] }) {
   const enCours = ordres.filter(o => o.statut === 'en_cours' || o.statut === 'planifie');
+
+  /* Un tableau de bord sans chiffre en tête n'est pas un tableau de bord.
+   * Quatre nombres : la taille du morceau, où en est l'ensemble, ce qu'on a
+   * déjà laissé passer, et le temps avant la prochaine date. C'est ce qu'on
+   * vient chercher en ouvrant la page, et jusqu'ici il fallait le
+   * reconstituer de tête en lisant deux tableaux. */
+  const unites  = enCours.reduce((n, o) => n + (o.unites  || 0), 0);
+  const restant = enCours.reduce((n, o) => n + (o.restant || 0), 0);
+  const global  = unites ? Math.round((unites - restant) * 100 / unites) : 0;
+  const auj = new Date().toISOString().slice(0, 10);
+  const prochain = jalons.find(j => j.date >= auj) || null;
+  const joursAvant = prochain
+    ? Math.round((new Date(prochain.date + 'T00:00:00Z')
+                - new Date(auj + 'T00:00:00Z')) / 86400000) : null;
+  const passes = jalons.filter(j => j.date < auj).length;
+
   const corps = `
   <div class="entete"><div>
     <h1>Tableau de bord</h1>
@@ -483,7 +535,16 @@ function vueAccueil({ user, ordres, jalons, ia = null, salut = null,
   </div>${user.role === 'admin'
     ? `<a class="btn" href="/ordres/nouveau">Nouvel ordre de production</a>` : ''}</div>
 
-  ${barreAssistant({ user, ia, salut })}
+  ${unites ? `<div class="chiffres">
+    <div class="c"><b>${restant.toLocaleString('fr-CA')}</b>pièces à faire</div>
+    <div class="c"><b>${global} %</b>de l'ensemble fait</div>
+    <div class="c${passes ? ' alerte' : ''}"><b>${passes}</b>échéance${
+      passes > 1 ? 's' : ''} dépassée${passes > 1 ? 's' : ''}</div>
+    <div class="c${joursAvant !== null && joursAvant <= 14 ? ' veille' : ''}"
+      >${joursAvant === null ? '<b>—</b>rien de daté'
+       : `<b>${joursAvant} j</b>avant la prochaine date
+          <span class="sec">${e(prochain.titre)} · ${dateFR(prochain.date)}</span>`}</div>
+  </div>` : ''}
 
   ${attentes.length ? `<div class="carte carte-att">
     <h2>En attente de réponse <span class="cpt">${attentes.length}</span></h2>
@@ -502,13 +563,14 @@ function vueAccueil({ user, ordres, jalons, ia = null, salut = null,
 
   <div class="carte"><h2>Production en cours</h2>
   ${enCours.length ? `<div class="tbl"><table>
-    <tr><th>Ordre</th><th>Avancement</th><th class="num">Items</th><th>Prochaine échéance</th></tr>
+    <tr><th>Ordre</th><th>Avancement</th><th class="num">Reste</th><th>Prochaine échéance</th></tr>
     ${enCours.map(o => `<tr>
       <td><a href="/ordres/${o.id}"><b>${e(o.numero)}</b></a><br>
           <span class="muted">${e(o.titre)}</span></td>
       <td><div style="display:flex;align-items:center;gap:8px">
           ${jauge(o.pct)}<span class="pct">${o.pct} %</span></div></td>
-      <td class="num">${o.items}</td>
+      <td class="num"><b>${(o.restant || 0).toLocaleString('fr-CA')}</b><br>
+        <span class="muted">${o.items} item${o.items > 1 ? 's' : ''}</span></td>
       <td>${o.prochain
             ? `<span class="et et-${o.prochain.type}">${TYPES_JALON[o.prochain.type]}</span>
                ${dateFR(o.prochain.date)}` : '<span class="muted">—</span>'}</td>
@@ -526,7 +588,9 @@ function vueAccueil({ user, ordres, jalons, ia = null, salut = null,
           <a class="muted" href="/ordres/${j.ordre_id}">· ${e(j.numero)}</a></span>
       </div>`; }).join('')
     : `<p class="vide">Aucune échéance enregistrée.</p>`}
-  </div>`;
+  </div>
+
+  ${barreAssistant({ user, ia, salut })}`;
   return page({ titre: 'Tableau de bord', user, corps, actif: 'accueil' });
 }
 
@@ -872,8 +936,9 @@ function vueQualite({ user, msg, couverture, general = [], zones = [], nc = [] }
   const nb = (n) => Number(n || 0).toLocaleString('fr-CA');
 
   const rangee = (p) => `<tr>
-    <td><a href="/qualite/${p.id}"><b>${e(p.code)}</b></a><br>
-        <span class="muted">${e(p.nom)}</span></td>
+    <td><div class="avec-mini">${miniature(p.photo, p.code, { taille: 38 })}<div>
+      <a href="/qualite/${p.id}"><b>${e(p.code)}</b></a><br>
+      <span class="muted">${e(p.nom)}</span></div></div></td>
     <td class="num">${p.a_produire ? nb(p.a_produire) : '<span class="muted">—</span>'}</td>
     <td>${p.points ? `<span class="qc-cpt">
         ${p.critiques ? `<i class="q-critique" title="points critiques">${p.critiques}</i>` : ''}
@@ -1347,12 +1412,16 @@ function vueOrdre({ user, o, items, jalons, commentaires, produits, pct, msg,
                     qc = {}, fils = {}, enEdition = 0 }) {
   const admin = user.role === 'admin';
   const auj = new Date().toISOString().slice(0, 10);
+  // « 28 % » ne dit pas s'il reste trois cents pièces ou vingt-six mille.
+  const total = items.reduce((n, it) => n + it.quantite, 0);
+  const fait  = Math.round(items.reduce((n, it) => n + it.quantite * it.avancement, 0) / 100);
 
   // sélecteur d'avancement : 0 → 100 par tranches de 10, un simple formulaire
   const selecteur = (it) => `<form class="av" method="post"
       action="/ordres/${o.id}/items/${it.id}/avancement">
     ${[0,10,20,30,40,50,60,70,80,90,100].map(v =>
-      `<button name="valeur" value="${v}"${v === it.avancement ? ' class="on"' : ''}
+      `<button name="valeur" value="${v}" class="${
+        v === it.avancement ? 'on' : v && v < it.avancement ? 'fait' : ''}"
         title="${v} %">${v}</button>`).join('')}
   </form>`;
 
@@ -1364,15 +1433,16 @@ function vueOrdre({ user, o, items, jalons, commentaires, produits, pct, msg,
     ${admin ? `<a class="btn sec" href="/ordres/${o.id}/modifier">Modifier</a>` : ''}
   </div></div>
 
-  <div class="carte">
-    <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
-      <div style="flex:1;min-width:200px">
-        <label style="margin-bottom:6px">Avancement global (pondéré par les quantités)</label>
-        ${jauge(pct)}
-      </div>
-      <div style="font-size:30px;font-weight:650;font-variant-numeric:tabular-nums">${pct} %</div>
+  <div class="carte bandeau">
+    <div class="bandeau-pct">${pct} %</div>
+    <div class="bandeau-j">
+      ${jauge(pct)}
+      <p class="muted">${total
+        ? `<b>${(total - fait).toLocaleString('fr-CA')}</b> pièces restantes
+           sur ${total.toLocaleString('fr-CA')} · pondéré par les quantités`
+        : 'Aucune quantité au plan.'}</p>
     </div>
-    ${o.note ? `<p class="muted" style="margin:12px 0 0;white-space:pre-wrap">${e(o.note)}</p>` : ''}
+    ${o.note ? `<p class="bandeau-note">${e(o.note)}</p>` : ''}
   </div>
 
   <div class="carte"><h2>Items à produire</h2>
@@ -1382,8 +1452,9 @@ function vueOrdre({ user, o, items, jalons, commentaires, produits, pct, msg,
         <th style="min-width:250px">Notes et questions</th>${admin ? '<th></th>' : ''}</tr></thead>
     <tbody>
     ${items.map(it => `<tr id="i${it.id}">
-      <td><a href="/produits/${it.produit_id}"><b>${e(it.produit_nom)}</b></a><br>
-          <span class="muted">${e(it.produit_code)}</span></td>
+      <td><div class="avec-mini">${miniature(it.photo, it.produit_code)}<div>
+        <a href="/produits/${it.produit_id}"><b>${e(it.produit_nom)}</b></a><br>
+        <span class="muted">${e(it.produit_code)}</span></div></div></td>
       <td class="num">${it.quantite.toLocaleString('fr-CA')}
         ${it.variantes ? repartition(it.variantes) : ''}
       </td>
@@ -2425,23 +2496,27 @@ function vuePriorites({ user, msg, lignes, ailleurs = [], jours = 7 }) {
   const rang = (l, i) => {
     const u = urgence(l.jours, l.en_retard);
     const sel = (v) => `<option value="${v}"${l.priorite === v ? ' selected' : ''}>${PRIORITES[v]}</option>`;
+    // La répartition d'un item — sept pointures, cinq coloris — ne tient pas
+    // dans une colonne de tableau : elle s'y empilait en colonne et faisait
+    // des rangées de quatre cents pixels. Elle passe donc sur une ligne à
+    // elle, sous l'item, où elle dispose de toute la largeur.
+    const rep = l.variantes ? repartition(l.variantes, { compact: true }) : '';
     return `
-    <tr id="i${l.id}" class="p-${l.priorite}">
+    <tr id="i${l.id}" class="p-${l.priorite}${rep ? ' a-rep' : ''}">
       <td class="num">${i + 1}</td>
-      <td class="prod">
+      <td class="prod"><div class="avec-mini">${miniature(l.photo, l.code)}<div>
         <a href="/produits/${l.produit_id}"><b>${e(l.code)}</b></a>
         <span class="fam f-${l.famille}">${FAMILLES[l.famille] || l.famille}</span>
         <span class="sec">${e(l.nom)}</span>
         ${l.note ? `<span class="note">${e(l.note)}</span>` : ''}
-      </td>
+      </div></div></td>
       <td class="qte"><b>${l.restant.toLocaleString('fr-CA')}</b>
-        <span class="sec">sur ${l.quantite.toLocaleString('fr-CA')}</span>
-        ${l.variantes ? repartition(l.variantes, { compact: true }) : ''}</td>
-      <td class="av">${jauge(l.avancement)}<span class="sec">${l.avancement} %</span></td>
+        <span class="sec">sur ${l.quantite.toLocaleString('fr-CA')}</span></td>
+      <td class="av">${jauge(l.avancement)}<span class="sec">${l.avancement} % fait</span></td>
       <td class="ech u-${u.cls}">
-        ${l.echeance ? `<b>${dateFR(l.echeance)}</b>` : ''}
-        <span class="sec">${u.txt}${l.echeance && l.en_retard && l.jours !== null
-          ? ` · prochaine dans ${l.jours} j` : ''}</span>
+        <span class="quand">${u.txt}</span>
+        ${l.echeance ? `<span class="sec">${dateFR(l.echeance)}${
+          l.en_retard && l.jours !== null ? ` · prochaine dans ${l.jours} j` : ''}</span>` : ''}
         ${l.echeance_titre ? `<span class="note">${e(l.echeance_titre)}</span>` : ''}
       </td>
       <td class="ord"><a href="/ordres/${l.ordre_id}">${e(l.numero)}</a>
@@ -2451,7 +2526,7 @@ function vuePriorites({ user, msg, lignes, ailleurs = [], jours = 7 }) {
             ${sel('haute')}${sel('normale')}${sel('basse')}</select>
           <button class="sr-btn">OK</button></form>`
         : PRIORITES[l.priorite]}</td>
-    </tr>`;
+    </tr>${rep ? `<tr class="rep-l p-${l.priorite}"><td colspan="7">${rep}</td></tr>` : ''}`;
   };
 
   const corps = `
@@ -2490,6 +2565,8 @@ function vuePriorites({ user, msg, lignes, ailleurs = [], jours = 7 }) {
   </div>` : ''}
 
   ${lignes.length ? `<div class="tbl tbl-fab"><table class="fab">
+    <colgroup><col class="c-num"><col class="c-prod"><col class="c-qte"
+      ><col class="c-av"><col class="c-ech"><col class="c-ord"><col class="c-pri"></colgroup>
     <thead><tr><th>#</th><th>Produit</th><th>Restant</th><th>Avancement</th>
       <th>Échéance</th><th>Ordre</th><th>Priorité</th></tr></thead>
     <tbody>${lignes.map(rang).join('')}</tbody>
