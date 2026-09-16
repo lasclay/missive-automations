@@ -179,6 +179,31 @@ grep -qE '^\.av\{' public/style.css \
   && ko "une règle .av nue est revenue : elle écrase la cellule du tableau" \
   || ok "aucune règle .av nue"
 
+# La grille des pièces est ce que le tableau de bord montre en premier : une
+# tuile par produit, sa photo, son pourcentage. « 27 243 pièces à faire » ne
+# disait pas DE QUOI.
+P=$(curl -s -b $CA "$B/" | grep -c 'class="tuile ')
+[ "$P" -ge 1 ] \
+  && ok "le tableau de bord montre la grille des pièces ($P tuiles)" \
+  || ko "plus de grille de pièces sur le tableau de bord"
+
+# Un produit présent dans deux ordres compte UNE fois, et son avancement se
+# pondère par les quantités : 100 % de 100 pièces et 0 % de 2 000 ne font
+# pas 50 %. Une moyenne naïve ferait mentir la tuile du gros morceau.
+# Sur SA PROPRE base : écrire dans celle des autres tests changeait le plan
+# sous leurs pieds — le tri par priorité tombait deux cents lignes plus bas.
+A=$(MRP_DB="$(mktemp -d)/apercu.db" node --no-warnings -e "
+  const D=require('./db.js'), {db}=D;
+  db.prepare(\"INSERT INTO produits (id,code,nom) VALUES (1,'X','Pièce X')\").run();
+  db.prepare(\"INSERT INTO ordres (id,numero,titre,statut) VALUES (1,'OP-1','t','en_cours')\").run();
+  const i=db.prepare('INSERT INTO ordre_items (ordre_id,produit_id,quantite,avancement) VALUES (1,1,?,?)');
+  i.run(2000, 0); i.run(100, 100);
+  const t=D.apercuProduction();
+  console.log(t.length + ' ' + (t[0] ? t[0].pct + ' ' + t[0].quantite : ''));" 2>/dev/null)
+[ "$A" = "1 5 2100" ] \
+  && ok "un produit en double compte une fois, pondéré par les quantités" \
+  || ko "la vue d'ensemble double ou moyenne mal les produits ($A)"
+
 # ce qui compte n'est pas le poids du HTML mais ce qui part sur le réseau
 for u in / /ordres /ordres/1 /produits /produits/1 /cedule /priorites /suivi \
          /inventaire /besoins /calendrier; do

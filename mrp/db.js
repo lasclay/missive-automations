@@ -735,6 +735,51 @@ function listeFabrication({ inclureTermines = false, lieu = 'tunisie' } = {}) {
     || b.restant - a.restant);
 }
 
+/**
+ * La vue d'ensemble des produits, pour le tableau de bord.
+ *
+ * Le tableau de bord disait « 27 243 pièces à faire » sans dire DE QUOI. Or
+ * la question qu'on se pose en ouvrant l'app le matin n'est pas « combien »,
+ * c'est « lesquels » : qu'est-ce qui est fini, qu'est-ce qui n'a pas bougé.
+ * Un chiffre global ne répond jamais à ça, une grille de pièces oui.
+ *
+ * Un produit, une tuile — pas un item d'ordre. Si la même pièce revient dans
+ * deux ordres, elle compte une fois, avec la somme de ses quantités : à
+ * l'atelier c'est le même travail, et la voir deux fois ferait croire à deux
+ * lots distincts.
+ *
+ * `fabrication` accompagne chaque ligne : ce qui vient de Chine est au plan
+ * mais n'est pas du travail d'atelier, et la vue doit pouvoir le dire au lieu
+ * de le mélanger au reste.
+ */
+function apercuProduction() {
+  return db.prepare(`
+    SELECT p.id, p.code, ${NOM_PRODUIT} AS nom, p.famille, p.fabrication,
+           SUM(i.quantite)                    AS quantite,
+           SUM(i.quantite * i.avancement)     AS pondere,
+           MAX(i.maj_le)                      AS maj_le,
+           MIN(i.ordre_id)                    AS ordre_id,
+           (SELECT f.url FROM produit_photos f WHERE f.produit_id = p.id
+             ORDER BY CASE f.type WHEN 'studio' THEN 0 ELSE 1 END,
+                      f.rang, f.id LIMIT 1)   AS photo
+      FROM ordre_items i
+      JOIN ordres o   ON o.id = i.ordre_id
+      JOIN produits p ON p.id = i.produit_id
+     WHERE o.statut IN ('planifie','en_cours')
+     GROUP BY p.id`).all()
+    .map(l => {
+      // L'avancement d'un produit réparti sur deux ordres se pondère par les
+      // quantités : 100 % de 100 pièces et 0 % de 2 000 ne font pas 50 %.
+      const pct = l.quantite ? Math.round(l.pondere / l.quantite) : 0;
+      const fait = Math.round(l.pondere / 100);
+      return { ...l, pct, fait, restant: l.quantite - fait };
+    })
+    // Ce qui n'a pas bougé d'abord, et parmi ça le plus gros morceau : c'est
+    // l'ordre dans lequel on VEUT lire la grille. Le fini part au bout, où il
+    // se regarde comme un bilan plutôt que comme du travail.
+    .sort((a, b) => a.pct - b.pct || b.restant - a.restant);
+}
+
 /** Les N dernières mises à jour d'avancement, tous ordres confondus. */
 function dernieresMaj(limite = 30) {
   return db.prepare(`
@@ -1707,7 +1752,7 @@ function compteTaches(utilisateurId) {
 const equipe = () => db.prepare(
   `SELECT id, nom, role FROM utilisateurs WHERE actif = 1 ORDER BY nom`).all();
 
-module.exports = { db, prochainNumero, avancementOrdre, CHEMIN,
+module.exports = { db, prochainNumero, avancementOrdre, apercuProduction, CHEMIN,
                    CATEGORIES, RANG_CATEGORIE, MOTIFS, UNITES, qte,
                    uniteAffichee,
                    etatMatieres, etatProduits, alertesStock, besoinsMatieres,

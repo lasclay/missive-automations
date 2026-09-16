@@ -509,8 +509,65 @@ function barreAssistant({ user, ia, salut = null }) {
 </script>`;
 }
 
+/* ------------------------------------------------- la grille des produits
+ * « 27 243 pièces à faire » ne dit pas DE QUOI. La question du matin n'est
+ * pas combien, c'est lesquels : ce qui est fini, ce qui n'a pas bougé.
+ *
+ * Une tuile par pièce, la photo en grand, le pourcentage posé dessus. On lit
+ * la grille d'un balayage : les vignettes pâles en tête sont ce qui n'a pas
+ * commencé, les vertes au bout sont faites. Aucun chiffre à comparer de tête.
+ *
+ * Les images ne pèsent rien pour l'app — l'adresse part chez le CDN d'origine
+ * en 240 px de large, et `loading="lazy"` ne demande que ce qui arrive à
+ * l'écran. Sur la connexion tunisienne, la troisième rangée ne coûte rien
+ * tant qu'on n'y descend pas.
+ */
+function tuileProduit(x) {
+  const etat = x.pct === 100 ? 'fini' : x.pct === 0 ? 'neuf' : 'route';
+  const ailleurs = x.fabrication !== 'tunisie';
+  return `<a class="tuile t-${etat}" href="/ordres/${x.ordre_id}#i${x.id}"
+    title="${e(x.nom)} — ${x.pct} %">
+    <span class="tuile-img">${urlAcceptable(x.photo)
+      ? img(x.photo, { largeur: 240, alt: '' })
+      : `<span class="tuile-nu">${e(String(x.code).replace(/[^A-Za-z0-9]/g, '')
+          .slice(0, 2).toUpperCase())}</span>`}
+      <b class="tuile-pct">${x.pct}<i>&nbsp;%</i></b>
+      ${ailleurs ? `<span class="tuile-lieu">${LIEUX[x.fabrication]
+        || e(x.fabrication)}</span>` : ''}
+    </span>
+    <span class="tuile-b">
+      <b class="tuile-code">${e(x.code)}</b>
+      ${jauge(x.pct)}
+      <span class="tuile-q">${x.pct === 100
+        ? `${x.quantite.toLocaleString('fr-CA')} faites`
+        // « 3 500 sur 3 500 » se lit comme trois mille cinq cents FAITES.
+        // C'est le contraire : le mot manquait.
+        : `reste <b>${x.restant.toLocaleString('fr-CA')}</b><span class="tq-sur"
+            > sur ${x.quantite.toLocaleString('fr-CA')}</span>`}</span>
+    </span>
+  </a>`;
+}
+
+function grilleProduits(apercu) {
+  if (!apercu.length) return '';
+  const finis  = apercu.filter(x => x.pct === 100).length;
+  const neufs  = apercu.filter(x => x.pct === 0).length;
+  const encours = apercu.length - finis - neufs;
+  return `<div class="carte">
+    <div class="entete-liste">
+      <h2>Les pièces <span class="cpt">${apercu.length}</span></h2>
+      <span class="legende">
+        <i class="lg lg-neuf"></i>${neufs} pas commencée${neufs > 1 ? 's' : ''}
+        <i class="lg lg-route"></i>${encours} en route
+        <i class="lg lg-fini"></i>${finis} finie${finis > 1 ? 's' : ''}
+      </span>
+    </div>
+    <div class="tuiles">${apercu.map(tuileProduit).join('')}</div>
+  </div>`;
+}
+
 function vueAccueil({ user, ordres, jalons, ia = null, salut = null,
-                      attentes = [] }) {
+                      attentes = [], apercu = [] }) {
   const enCours = ordres.filter(o => o.statut === 'en_cours' || o.statut === 'planifie');
 
   /* Un tableau de bord sans chiffre en tête n'est pas un tableau de bord.
@@ -560,6 +617,8 @@ function vueAccueil({ user, ordres, jalons, ia = null, salut = null,
       <span class="muted" title="${e(dateHeureFR(a.cree_le))}">${depuis(a.cree_le)}</span>
     </div>`).join('')}
   </div>` : ''}
+
+  ${grilleProduits(apercu)}
 
   <div class="carte"><h2>Production en cours</h2>
   ${enCours.length ? `<div class="tbl"><table>

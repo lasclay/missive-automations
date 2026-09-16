@@ -26,6 +26,7 @@ const zlib = require('node:zlib');
 const path = require('node:path');
 const { db, prochainNumero, avancementOrdre, listeFabrication, dernieresMaj,
         sansMouvement, progressionRecente, fabriqueAilleurs, variantesItem,
+        apercuProduction,
         taches, tache, compteTaches, equipe,
         protocole, couvertureQC, TYPES_QC, charteProduit,
         checklistItem, blocageQC, etatQCOrdre,
@@ -387,6 +388,7 @@ async function router(req, res, url, user) {
     const prochains = R.jalonsProchains.all();
     return html(res, V.vueAccueil({ user, ordres, jalons: prochains,
       attentes: filEnAttente(),
+      apercu: apercuProduction(),
       salut: salutation.saluer({ user,
         taches: compteTaches(user.id),
         echeance: prochains.length ? prochains[0].date : null }),
