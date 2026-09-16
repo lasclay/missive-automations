@@ -1464,8 +1464,16 @@
       "quand": "2026-09-16T15:08:41.006Z",
       "confirme": true,
       "texte": "Merci, et ça fait plaisir de savoir que vous en semez. Pour ce qui est offert en ce moment, le plus sûr est de regarder lasclay.com : la gamme y est toujours à jour. L'idée de la couverture, on la note — sans rien vous promettre de plus pour l'instant."
+    },
+    {
+      "id": "1678623234271486_1098992185923495",
+      "reponse_id": "1678623234271486_1480858094076994",
+      "page_id": "104242204750257",
+      "quand": "2026-09-16T18:07:50.981Z",
+      "confirme": true,
+      "texte": "Merci! Savoir que les produits vous plaisent, c'est ce qui nous encourage le plus."
     }
   ],
-  "derniere_execution": "2026-09-16T15:08:41.006Z",
-  "total": 183
+  "derniere_execution": "2026-09-16T18:07:50.982Z",
+  "total": 184
 }
