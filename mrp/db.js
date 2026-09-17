@@ -643,7 +643,12 @@ function avancementOrdre(ordreId) {
            COALESCE(SUM(quantite), 0)              AS den,
            COUNT(*)                                AS n
     FROM ordre_items WHERE ordre_id = ?`).get(ordreId);
-  return { pct: r.den ? Math.round(r.num / r.den) : 0, items: r.n };
+  // Le pourcentage seul ne dit pas l'effort : 28 % de 300 pièces et 28 % de
+  // 26 000 ne se planifient pas pareil. On rend aussi les unités, faites et
+  // restantes, pour que l'écran puisse montrer la taille du morceau.
+  const faites = Math.round(r.num / 100);
+  return { pct: r.den ? Math.round(r.num / r.den) : 0, items: r.n,
+           unites: r.den, faites, restant: r.den - faites };
 }
 
 
@@ -693,7 +698,12 @@ function listeFabrication({ inclureTermines = false, lieu = 'tunisie' } = {}) {
              WHERE j.ordre_id = o.id AND j.date < date('now')) AS jalons_passes,
            (SELECT j.titre FROM ordre_jalons j
              WHERE j.ordre_id = o.id AND j.date >= date('now')
-             ORDER BY j.date LIMIT 1) AS echeance_titre
+             ORDER BY j.date LIMIT 1) AS echeance_titre,
+           -- La photo studio de la fiche. Rien n'est hébergé ici : c'est
+           -- l'adresse d'origine, redimensionnée par le CDN à l'affichage.
+           (SELECT f.url FROM produit_photos f WHERE f.produit_id = p.id
+             ORDER BY CASE f.type WHEN 'studio' THEN 0 ELSE 1 END,
+                      f.rang, f.id LIMIT 1) AS photo
     FROM ordre_items i
     JOIN ordres o   ON o.id = i.ordre_id
     JOIN produits p ON p.id = i.produit_id
@@ -723,6 +733,51 @@ function listeFabrication({ inclureTermines = false, lieu = 'tunisie' } = {}) {
        // à date égale, la hiérarchie des familles
     || (RANG_FAMILLE[a.famille] ?? 3) - (RANG_FAMILLE[b.famille] ?? 3)
     || b.restant - a.restant);
+}
+
+/**
+ * La vue d'ensemble des produits, pour le tableau de bord.
+ *
+ * Le tableau de bord disait « 27 243 pièces à faire » sans dire DE QUOI. Or
+ * la question qu'on se pose en ouvrant l'app le matin n'est pas « combien »,
+ * c'est « lesquels » : qu'est-ce qui est fini, qu'est-ce qui n'a pas bougé.
+ * Un chiffre global ne répond jamais à ça, une grille de pièces oui.
+ *
+ * Un produit, une tuile — pas un item d'ordre. Si la même pièce revient dans
+ * deux ordres, elle compte une fois, avec la somme de ses quantités : à
+ * l'atelier c'est le même travail, et la voir deux fois ferait croire à deux
+ * lots distincts.
+ *
+ * `fabrication` accompagne chaque ligne : ce qui vient de Chine est au plan
+ * mais n'est pas du travail d'atelier, et la vue doit pouvoir le dire au lieu
+ * de le mélanger au reste.
+ */
+function apercuProduction() {
+  return db.prepare(`
+    SELECT p.id, p.code, ${NOM_PRODUIT} AS nom, p.famille, p.fabrication,
+           SUM(i.quantite)                    AS quantite,
+           SUM(i.quantite * i.avancement)     AS pondere,
+           MAX(i.maj_le)                      AS maj_le,
+           MIN(i.ordre_id)                    AS ordre_id,
+           (SELECT f.url FROM produit_photos f WHERE f.produit_id = p.id
+             ORDER BY CASE f.type WHEN 'studio' THEN 0 ELSE 1 END,
+                      f.rang, f.id LIMIT 1)   AS photo
+      FROM ordre_items i
+      JOIN ordres o   ON o.id = i.ordre_id
+      JOIN produits p ON p.id = i.produit_id
+     WHERE o.statut IN ('planifie','en_cours')
+     GROUP BY p.id`).all()
+    .map(l => {
+      // L'avancement d'un produit réparti sur deux ordres se pondère par les
+      // quantités : 100 % de 100 pièces et 0 % de 2 000 ne font pas 50 %.
+      const pct = l.quantite ? Math.round(l.pondere / l.quantite) : 0;
+      const fait = Math.round(l.pondere / 100);
+      return { ...l, pct, fait, restant: l.quantite - fait };
+    })
+    // Ce qui n'a pas bougé d'abord, et parmi ça le plus gros morceau : c'est
+    // l'ordre dans lequel on VEUT lire la grille. Le fini part au bout, où il
+    // se regarde comme un bilan plutôt que comme du travail.
+    .sort((a, b) => a.pct - b.pct || b.restant - a.restant);
 }
 
 /** Les N dernières mises à jour d'avancement, tous ordres confondus. */
@@ -1407,7 +1462,10 @@ function couvertureQC({ lieu = 'tunisie' } = {}) {
            SUM(CASE WHEN q.type = 'cyclage'  THEN 1 ELSE 0 END) AS cyclages,
            (SELECT SUM(i.quantite) FROM ordre_items i
              JOIN ordres o ON o.id = i.ordre_id
-            WHERE i.produit_id = p.id AND o.statut IN ('planifie','en_cours')) AS a_produire
+            WHERE i.produit_id = p.id AND o.statut IN ('planifie','en_cours')) AS a_produire,
+           (SELECT f.url FROM produit_photos f WHERE f.produit_id = p.id
+             ORDER BY CASE f.type WHEN 'studio' THEN 0 ELSE 1 END,
+                      f.rang, f.id LIMIT 1) AS photo
       FROM produits p
       LEFT JOIN qc_points q ON q.produit_id = p.id
      WHERE p.actif = 1 AND p.fabrication = ?
@@ -1694,7 +1752,7 @@ function compteTaches(utilisateurId) {
 const equipe = () => db.prepare(
   `SELECT id, nom, role FROM utilisateurs WHERE actif = 1 ORDER BY nom`).all();
 
-module.exports = { db, prochainNumero, avancementOrdre, CHEMIN,
+module.exports = { db, prochainNumero, avancementOrdre, apercuProduction, CHEMIN,
                    CATEGORIES, RANG_CATEGORIE, MOTIFS, UNITES, qte,
                    uniteAffichee,
                    etatMatieres, etatProduits, alertesStock, besoinsMatieres,

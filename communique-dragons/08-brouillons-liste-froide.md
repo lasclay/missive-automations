@@ -16,6 +16,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -40,6 +42,8 @@ Bonjour Louise,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
@@ -66,6 +70,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -90,6 +96,8 @@ Bonjour Victor,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
@@ -116,6 +124,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme à Québec.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -141,6 +151,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -164,13 +176,17 @@ Bonjour Gabriel,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-L'asclépiade a été une histoire mauricienne avant d'être la nôtre : l'usine de Saint-Tite achetait 90 % des récoltes du Québec. On a démarré après la chute de cette filière, et six ans plus tard on achète encore de l'asclépiade québécoise et on la transforme nous-mêmes à Québec.
+Je vous écris parce que l'asclépiade a commencé chez vous, à Saint-Tite et dans Mékinac. Le groupe Protec-Style, qui exploitait l'usine de Saint-Tite sous le nom d'Encore 3, avait réservé 90 % de la récolte québécoise quand il a fait faillite [le 11 octobre 2017](https://ici.radio-canada.ca/nouvelle/1061543/asclepiade-soyer-producteurs-industries-encore3-faillite-monark), emportant Saint-Tite et son atelier de Granby. Les 125 producteurs de la Coopérative Monark ont pris le choc. Six semaines plus tard, [la MRC de Mékinac a fait pencher la relance](https://lenouvelliste.ca/affaires/asclepiade-les-activites-reprennent-a-lusine-de-saint-tite-9a7c0d08d77c81c7ab22fdfc8e47a922).
+
+Neuf ans après, on achète encore de l'asclépiade québécoise et on la transforme nous-mêmes à Québec. Ce jeudi, c'est cette plante-là que je vais défendre à la télévision nationale.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
-Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet : huit ans après Saint-Tite, il reste quelque chose de cette promesse-là, et ça se raconte.
+Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet : neuf ans après la faillite, il reste quelque chose de cette promesse-là, et ça se raconte.
 
 Si ça vous intéresse de couvrir (ou un.e collègue?), [notre média kit est ici](https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr), avec les images de notre passage à Dragons' Den et de l'entreprise.
 
@@ -188,6 +204,8 @@ Bonjour André,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
@@ -214,6 +232,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -238,6 +258,8 @@ Bonjour Mikaël,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
@@ -264,6 +286,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -288,6 +312,8 @@ Bonjour Jean-Hugues,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
@@ -314,6 +340,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -338,6 +366,8 @@ Bonjour Karine,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que la transformation de la fibre se faisait à Granby, rue Bernard. L'atelier appartenait au groupe Protec-Style, qui exploitait aussi l'usine de Saint-Tite, et les deux sont tombées [le 11 octobre 2017](https://www.lhebdodustmaurice.com/actualite/protec-style-en-faillite/) avec une dette de plus de 1,4 M$. L'Estrie compte encore des producteurs d'asclépiade, et on continue d'acheter de la fibre québécoise.
 
@@ -364,6 +394,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -388,6 +420,8 @@ Bonjour Laurence,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
@@ -414,6 +448,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme à Québec.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -438,6 +474,8 @@ Bonjour Michel,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
@@ -464,6 +502,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme à Québec.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -488,6 +528,8 @@ Bonjour Jacinthe,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que l'asclépiade a commencé chez vous, à Saint-Tite et dans Mékinac. Le groupe Protec-Style, qui exploitait l'usine de Saint-Tite sous le nom d'Encore 3, avait réservé 90 % de la récolte québécoise quand il a fait faillite [le 11 octobre 2017](https://ici.radio-canada.ca/nouvelle/1061543/asclepiade-soyer-producteurs-industries-encore3-faillite-monark), emportant Saint-Tite et son atelier de Granby. Les 125 producteurs de la Coopérative Monark ont pris le choc. Six semaines plus tard, [la MRC de Mékinac a fait pencher la relance](https://lenouvelliste.ca/affaires/asclepiade-les-activites-reprennent-a-lusine-de-saint-tite-9a7c0d08d77c81c7ab22fdfc8e47a922).
 
@@ -516,6 +558,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme à Québec.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -540,6 +584,8 @@ Bonjour Louis-Xavier,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
@@ -566,6 +612,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -590,6 +638,8 @@ Bonjour Geneviève,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme à Québec.
 
@@ -616,6 +666,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -640,6 +692,8 @@ Bonjour Kathleen,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme à Québec.
 
@@ -666,6 +720,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que la transformation de la fibre se faisait à Granby, rue Bernard. L'atelier appartenait au groupe Protec-Style, qui exploitait aussi l'usine de Saint-Tite, et les deux sont tombées [le 11 octobre 2017](https://www.lhebdodustmaurice.com/actualite/protec-style-en-faillite/) avec une dette de plus de 1,4 M$. L'Estrie compte encore des producteurs d'asclépiade, et on continue d'acheter de la fibre québécoise.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -690,6 +746,8 @@ Bonjour Marie-Claude,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
@@ -716,6 +774,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme à Québec.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -740,6 +800,8 @@ Bonjour Isaac,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que l'asclépiade se cultive chez vous depuis la première vague de 2013, celle de la Coopérative Monark et de ses 125 producteurs. Plusieurs de ceux qui ont tenu bon après [la faillite d'octobre 2017](https://ici.radio-canada.ca/nouvelle/1061543/asclepiade-soyer-producteurs-industries-encore3-faillite-monark) nous vendent encore leur récolte.
 
@@ -766,6 +828,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -790,6 +854,8 @@ Bonjour Louis-Philippe,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que l'asclépiade se cultive chez vous depuis la première vague de 2013, celle de la Coopérative Monark et de ses 125 producteurs. Plusieurs de ceux qui ont tenu bon après [la faillite d'octobre 2017](https://ici.radio-canada.ca/nouvelle/1061543/asclepiade-soyer-producteurs-industries-encore3-faillite-monark) nous vendent encore leur récolte.
 
@@ -816,6 +882,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -840,6 +908,8 @@ Bonjour Paule,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que l'asclépiade a commencé chez vous, à Saint-Tite et dans Mékinac. Le groupe Protec-Style, qui exploitait l'usine de Saint-Tite sous le nom d'Encore 3, avait réservé 90 % de la récolte québécoise quand il a fait faillite [le 11 octobre 2017](https://ici.radio-canada.ca/nouvelle/1061543/asclepiade-soyer-producteurs-industries-encore3-faillite-monark), emportant Saint-Tite et son atelier de Granby. Les 125 producteurs de la Coopérative Monark ont pris le choc. Six semaines plus tard, [la MRC de Mékinac a fait pencher la relance](https://lenouvelliste.ca/affaires/asclepiade-les-activites-reprennent-a-lusine-de-saint-tite-9a7c0d08d77c81c7ab22fdfc8e47a922).
 
@@ -867,6 +937,8 @@ Bonjour Paul Émile,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
 
@@ -920,6 +992,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -944,6 +1018,8 @@ Bonjour Normand,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
@@ -970,6 +1046,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme à Québec.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -994,6 +1072,8 @@ Bonjour Simon,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
@@ -1020,6 +1100,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que la transformation de la fibre se faisait à Granby, rue Bernard. L'atelier appartenait au groupe Protec-Style, qui exploitait aussi l'usine de Saint-Tite, et les deux sont tombées [le 11 octobre 2017](https://www.lhebdodustmaurice.com/actualite/protec-style-en-faillite/) avec une dette de plus de 1,4 M$. L'Estrie compte encore des producteurs d'asclépiade, et on continue d'acheter de la fibre québécoise.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -1044,6 +1126,8 @@ Bonjour Simon,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
@@ -1070,6 +1154,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -1094,6 +1180,8 @@ Bonjour Pauline,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
@@ -1120,6 +1208,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -1144,6 +1234,8 @@ Bonjour Annie,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
@@ -1170,6 +1262,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -1195,6 +1289,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -1218,9 +1314,9 @@ Bonjour Réjean,
 
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
-Vous couvrez Mékinac, donc Saint-Tite, donc l'endroit où l'asclépiade a eu son grand moment industriel au Québec. L'usine achetait 90 % des récoltes de la province avant que la filière se casse le 11 octobre 2017.
+Vous couvrez Mékinac, donc Saint-Tite, donc l'endroit où l'asclépiade a eu son grand moment industriel au Québec. Le groupe Protec-Style, qui exploitait l'usine sous le nom d'Encore 3, avait réservé 90 % de la récolte québécoise quand il a fait faillite [le 11 octobre 2017](https://ici.radio-canada.ca/nouvelle/1061543/asclepiade-soyer-producteurs-industries-encore3-faillite-monark), et c'est [l'appui de la MRC qui a fait pencher la relance](https://lenouvelliste.ca/affaires/asclepiade-les-activites-reprennent-a-lusine-de-saint-tite-9a7c0d08d77c81c7ab22fdfc8e47a922) six semaines plus tard. On a démarré après. Neuf ans plus tard, on achète encore de l'asclépiade québécoise et on la transforme nous-mêmes à Québec.
 
-On a démarré après. Six ans plus tard, on achète encore de l'asclépiade québécoise et on la transforme nous-mêmes à Québec.
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -1244,6 +1340,8 @@ Bonjour Clara,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
@@ -1270,6 +1368,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -1294,6 +1394,8 @@ Bonjour Nicolas,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
@@ -1320,6 +1422,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -1344,6 +1448,8 @@ Bonjour Véronique,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
@@ -1370,6 +1476,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -1394,6 +1502,8 @@ Bonjour Yannick,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
@@ -1420,6 +1530,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -1444,6 +1556,8 @@ Bonjour Scott,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que la transformation de la fibre se faisait à Granby, rue Bernard. L'atelier appartenait au groupe Protec-Style, qui exploitait aussi l'usine de Saint-Tite, et les deux sont tombées [le 11 octobre 2017](https://www.lhebdodustmaurice.com/actualite/protec-style-en-faillite/) avec une dette de plus de 1,4 M$. L'Estrie compte encore des producteurs d'asclépiade, et on continue d'acheter de la fibre québécoise.
 
@@ -1470,6 +1584,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -1494,6 +1610,8 @@ Bonjour MARC-OLIVIER,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
@@ -1520,6 +1638,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme à Québec.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -1544,6 +1664,8 @@ Bonjour Daphné,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
@@ -1570,6 +1692,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -1595,6 +1719,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -1619,6 +1745,8 @@ Bonjour Chloé,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que l'asclépiade a commencé chez vous, à Saint-Tite et dans Mékinac. Le groupe Protec-Style, qui exploitait l'usine de Saint-Tite sous le nom d'Encore 3, avait réservé 90 % de la récolte québécoise quand il a fait faillite [le 11 octobre 2017](https://ici.radio-canada.ca/nouvelle/1061543/asclepiade-soyer-producteurs-industries-encore3-faillite-monark), emportant Saint-Tite et son atelier de Granby. Les 125 producteurs de la Coopérative Monark ont pris le choc. Six semaines plus tard, [la MRC de Mékinac a fait pencher la relance](https://lenouvelliste.ca/affaires/asclepiade-les-activites-reprennent-a-lusine-de-saint-tite-9a7c0d08d77c81c7ab22fdfc8e47a922).
 
@@ -1647,6 +1775,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -1671,6 +1801,8 @@ Bonjour Pierre,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'agriculture. La question qui compte pour les producteurs n'a pas changé depuis la faillite du 11 octobre 2017 : est-ce qu'il y a un acheteur stable au bout du champ. On achète encore la récolte de producteurs d'ici et on la transforme nous-mêmes.
 
@@ -1699,6 +1831,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -1723,6 +1857,8 @@ Bonjour Anaïs,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -1749,6 +1885,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -1773,6 +1911,8 @@ Bonjour Kodjo Edjinam Nulagnon,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -1799,6 +1939,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -1823,6 +1965,8 @@ Bonjour Félix,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -1849,6 +1993,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -1873,6 +2019,8 @@ Bonjour Yahia,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -1899,6 +2047,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -1923,6 +2073,8 @@ Bonjour André,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -1949,6 +2101,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -1973,6 +2127,8 @@ Bonjour Sara,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -1999,6 +2155,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -2023,6 +2181,8 @@ Bonjour Marine,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -2049,6 +2209,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -2073,6 +2235,8 @@ Bonjour Amélie,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme à Québec.
 
@@ -2099,6 +2263,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -2123,6 +2289,8 @@ Bonjour Ahmed,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -2149,6 +2317,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -2173,6 +2343,8 @@ Bonjour Boris,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -2199,6 +2371,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -2223,6 +2397,8 @@ Bonjour Gwen,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -2249,6 +2425,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -2273,6 +2451,8 @@ Bonjour Yanick,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -2299,6 +2479,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -2323,6 +2505,8 @@ Bonjour Anick,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que l'asclépiade a commencé chez vous, à Saint-Tite et dans Mékinac. Le groupe Protec-Style, qui exploitait l'usine de Saint-Tite sous le nom d'Encore 3, avait réservé 90 % de la récolte québécoise quand il a fait faillite [le 11 octobre 2017](https://ici.radio-canada.ca/nouvelle/1061543/asclepiade-soyer-producteurs-industries-encore3-faillite-monark), emportant Saint-Tite et son atelier de Granby. Les 125 producteurs de la Coopérative Monark ont pris le choc. Six semaines plus tard, [la MRC de Mékinac a fait pencher la relance](https://lenouvelliste.ca/affaires/asclepiade-les-activites-reprennent-a-lusine-de-saint-tite-9a7c0d08d77c81c7ab22fdfc8e47a922).
 
@@ -2351,6 +2535,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -2375,6 +2561,8 @@ Bonjour Julien,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -2401,6 +2589,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -2425,6 +2615,8 @@ Bonjour Marcelin,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -2451,6 +2643,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -2475,6 +2669,8 @@ Bonjour Maxim,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -2501,6 +2697,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -2525,6 +2723,8 @@ Bonjour ANGELO,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -2551,6 +2751,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -2575,6 +2777,8 @@ Bonjour Camille,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -2601,6 +2805,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -2625,6 +2831,8 @@ Bonjour Colin,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -2651,6 +2859,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -2675,6 +2885,8 @@ Bonjour Alexandre,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -2701,6 +2913,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -2725,6 +2939,8 @@ Bonjour Martin,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -2751,6 +2967,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -2776,6 +2994,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -2800,6 +3020,8 @@ Bonjour Ivan,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'environnement. Notre pari est économique avant d'être militant : si l'asclépiade devient payante, les agriculteurs la gardent dans leurs champs, et les monarques retrouvent de l'habitat de reproduction.
 
@@ -2828,6 +3050,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -2852,6 +3076,8 @@ Bonjour Jean-Luc,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
@@ -2878,6 +3104,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -2902,6 +3130,8 @@ Bonjour Marie-Pier,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
@@ -2928,6 +3158,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -2952,6 +3184,8 @@ Bonjour Yvan,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que la transformation de la fibre se faisait à Granby, rue Bernard. L'atelier appartenait au groupe Protec-Style, qui exploitait aussi l'usine de Saint-Tite, et les deux sont tombées [le 11 octobre 2017](https://www.lhebdodustmaurice.com/actualite/protec-style-en-faillite/) avec une dette de plus de 1,4 M$. L'Estrie compte encore des producteurs d'asclépiade, et on continue d'acheter de la fibre québécoise.
 
@@ -2978,6 +3212,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -3002,6 +3238,8 @@ Bonjour Katherine,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme à Québec.
 
@@ -3028,6 +3266,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -3052,6 +3292,8 @@ Bonjour Félix-Antoine,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme à Québec.
 
@@ -3078,6 +3320,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -3102,6 +3346,8 @@ Bonjour Pierre,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
@@ -3128,6 +3374,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -3152,6 +3400,8 @@ Bonjour Ivanoh,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
@@ -3178,6 +3428,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -3202,6 +3454,8 @@ Bonjour Richard,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
@@ -3228,6 +3482,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -3252,6 +3508,8 @@ Bonjour Matthieu,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
@@ -3278,6 +3536,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -3302,6 +3562,8 @@ Bonjour Guillaume,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
@@ -3328,6 +3590,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -3352,6 +3616,8 @@ Bonjour Timothy,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que l'asclépiade se cultive chez vous depuis la première vague de 2013, celle de la Coopérative Monark et de ses 125 producteurs. Plusieurs de ceux qui ont tenu bon après [la faillite d'octobre 2017](https://ici.radio-canada.ca/nouvelle/1061543/asclepiade-soyer-producteurs-industries-encore3-faillite-monark) nous vendent encore leur récolte.
 
@@ -3378,6 +3644,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -3402,6 +3670,8 @@ Bonjour William,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme à Québec.
 
@@ -3428,6 +3698,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -3452,6 +3724,8 @@ Bonjour Pierre-Luc,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'économie. On a bâti nos propres procédés de transformation parce qu'aucun sous-traitant ne voulait toucher à l'asclépiade, puis on a changé de modèle manufacturier l'an dernier pour rendre un manteau accessible à 300 $. J'en ai fait une vidéo ici : https://www.youtube.com/watch?v=GKyHh-Ok9JU.
 
@@ -3480,6 +3754,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -3504,6 +3780,8 @@ Bonjour Aurélia,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
@@ -3530,6 +3808,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -3554,6 +3834,8 @@ Bonjour Maude,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
@@ -3580,6 +3862,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -3604,6 +3888,8 @@ Bonjour Julie,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
@@ -3630,6 +3916,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -3654,6 +3942,8 @@ Bonjour Jean-Benoît,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
@@ -3680,6 +3970,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -3704,6 +3996,8 @@ Bonjour Marie-Eve,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
@@ -3730,6 +4024,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -3754,6 +4050,8 @@ Bonjour Pierre,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
@@ -3780,6 +4078,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -3804,6 +4104,8 @@ Bonjour Charlotte,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
@@ -3830,6 +4132,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme à Québec.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -3854,6 +4158,8 @@ Bonjour Yves,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que la transformation de la fibre se faisait à Granby, rue Bernard. L'atelier appartenait au groupe Protec-Style, qui exploitait aussi l'usine de Saint-Tite, et les deux sont tombées [le 11 octobre 2017](https://www.lhebdodustmaurice.com/actualite/protec-style-en-faillite/) avec une dette de plus de 1,4 M$. L'Estrie compte encore des producteurs d'asclépiade, et on continue d'acheter de la fibre québécoise.
 
@@ -3880,6 +4186,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -3904,6 +4212,8 @@ Bonjour Michel,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que l'asclépiade se cultive chez vous depuis la première vague de 2013, celle de la Coopérative Monark et de ses 125 producteurs. Plusieurs de ceux qui ont tenu bon après [la faillite d'octobre 2017](https://ici.radio-canada.ca/nouvelle/1061543/asclepiade-soyer-producteurs-industries-encore3-faillite-monark) nous vendent encore leur récolte.
 
@@ -3930,6 +4240,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme à Québec.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -3954,6 +4266,8 @@ Bonjour Alain,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez le plein air. À poids égal, la littérature donne la soie d'asclépiade pour environ 10 % plus isolante que le duvet. C'est un repère de laboratoire, pas une promesse de manteau, et c'est exactement pour ça que je préfère qu'on la teste.
 
@@ -3982,6 +4296,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -4006,6 +4322,8 @@ Bonjour Malika,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
@@ -4032,6 +4350,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que l'asclépiade se cultive chez vous depuis la première vague de 2013, celle de la Coopérative Monark et de ses 125 producteurs. Plusieurs de ceux qui ont tenu bon après [la faillite d'octobre 2017](https://ici.radio-canada.ca/nouvelle/1061543/asclepiade-soyer-producteurs-industries-encore3-faillite-monark) nous vendent encore leur récolte.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -4056,6 +4376,8 @@ Bonjour Luc,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
@@ -4082,6 +4404,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -4106,6 +4430,8 @@ Bonjour Oumou,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
@@ -4132,6 +4458,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -4156,6 +4484,8 @@ Bonjour Claude,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
@@ -4182,6 +4512,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -4206,6 +4538,8 @@ Bonjour Isabelle,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
@@ -4232,6 +4566,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -4256,6 +4592,8 @@ Bonjour Andréanne,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
@@ -4282,6 +4620,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -4306,6 +4646,8 @@ Bonjour Louise,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
@@ -4332,6 +4674,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -4356,6 +4700,8 @@ Bonjour Rachid,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
@@ -4382,6 +4728,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -4406,6 +4754,8 @@ Bonjour Richard,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
@@ -4432,6 +4782,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -4457,6 +4809,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -4481,6 +4835,8 @@ Bonjour Catherine,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que vous couvrez l'art de vivre et la consommation. Le contraste se photographie bien : la gousse dans le champ, la soie blanche dans la main, le manteau porté en ville.
 
@@ -4509,6 +4865,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -4533,6 +4891,8 @@ Bonjour Karl-Ivann,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
@@ -4559,6 +4919,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -4583,6 +4945,8 @@ Bonjour Cécile,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
@@ -4609,6 +4973,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -4633,6 +4999,8 @@ Bonjour Marianne,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que la transformation de la fibre se faisait à Granby, rue Bernard. L'atelier appartenait au groupe Protec-Style, qui exploitait aussi l'usine de Saint-Tite, et les deux sont tombées [le 11 octobre 2017](https://www.lhebdodustmaurice.com/actualite/protec-style-en-faillite/) avec une dette de plus de 1,4 M$. L'Estrie compte encore des producteurs d'asclépiade, et on continue d'acheter de la fibre québécoise.
 
@@ -4659,6 +5027,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -4683,6 +5053,8 @@ Bonjour Lili,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
@@ -4709,6 +5081,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -4733,6 +5107,8 @@ Bonjour Stephane,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
@@ -4759,6 +5135,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -4783,6 +5161,8 @@ Bonjour Pierre,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que la transformation de la fibre se faisait à Granby, rue Bernard. L'atelier appartenait au groupe Protec-Style, qui exploitait aussi l'usine de Saint-Tite, et les deux sont tombées [le 11 octobre 2017](https://www.lhebdodustmaurice.com/actualite/protec-style-en-faillite/) avec une dette de plus de 1,4 M$. L'Estrie compte encore des producteurs d'asclépiade, et on continue d'acheter de la fibre québécoise.
 
@@ -4809,6 +5189,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme à Québec.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -4833,6 +5215,8 @@ Bonjour Philippe,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme à Québec.
 
@@ -4859,6 +5243,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que l'asclépiade se cultive chez vous depuis la première vague de 2013, celle de la Coopérative Monark et de ses 125 producteurs. Plusieurs de ceux qui ont tenu bon après [la faillite d'octobre 2017](https://ici.radio-canada.ca/nouvelle/1061543/asclepiade-soyer-producteurs-industries-encore3-faillite-monark) nous vendent encore leur récolte.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -4883,6 +5269,8 @@ Bonjour Audrey,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
@@ -4909,6 +5297,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -4933,6 +5323,8 @@ Bonjour Nathaniel,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
@@ -4959,6 +5351,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -4983,6 +5377,8 @@ Bonjour Denis-Martin,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
@@ -5009,6 +5405,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -5033,6 +5431,8 @@ Bonjour Jean-René,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
@@ -5059,6 +5459,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -5083,6 +5485,8 @@ Bonjour Philémon,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
@@ -5109,6 +5513,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -5133,6 +5539,8 @@ Bonjour Claudia,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
@@ -5159,6 +5567,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -5183,6 +5593,8 @@ Bonjour Sophie,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
@@ -5209,6 +5621,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -5233,6 +5647,8 @@ Bonjour Nathalie,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
@@ -5259,6 +5675,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -5283,6 +5701,8 @@ Bonjour Emmalie,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
@@ -5309,6 +5729,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que la Montérégie est une des régions où l'asclépiade se cultive encore, et que c'est de champs comme ceux-là que vient la fibre qu'on transforme à Québec.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -5333,6 +5755,8 @@ Bonjour Marie-Christine,
 Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
+
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
 
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
@@ -5359,6 +5783,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -5384,6 +5810,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 
 Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
 
+L'asclépiade n'est pas une plante importée : c'est une [mauvaise herbe indigène](https://lasclay.com/pages/milkweed-asclepiade) qui pousse ici depuis toujours, et c'est pour ça que [le monarque en dépend](https://lasclay.com/pages/monarch-butterfly). Elle a aussi une histoire plus longue que la nôtre. On a écrit ce qu'on en a trouvé : [la soie d'Amérique en Nouvelle-France](https://lasclay.com/blogs/journal/soie-amerique-nouvelle-france), [les enfants qui la récoltaient pour les gilets de sauvetage de la Seconde Guerre mondiale](https://lasclay.com/blogs/journal/asclepiade-seconde-guerre-mondiale), et [l'histoire de l'industrie québécoise](https://lasclay.com/blogs/journal/histoire-industrie-asclepiade-quebec).
+
 Je vous écris parce que le sujet se raconte bien en ondes : une entreprise de Québec qui va expliquer à un auditoire pancanadien pourquoi la mauvaise herbe des champs de maïs peut isoler un manteau.
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
@@ -5391,58 +5819,6 @@ Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
 
 Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet. Je suis disponible pour une entrevue d'ici jeudi, ou le vendredi 18 au matin.
-
-Si ça vous intéresse de couvrir (ou un.e collègue?), [notre média kit est ici](https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr), avec les images de notre passage à Dragons' Den et de l'entreprise.
-
-J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
-
-Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
-```
-
-## Angle —, 2 contacts
-
-### Francis Higgins, Le Soleil, `fhiggins@lesoleil.com`
-*Priorité C · Capitale-Nationale/Chaudière-Appalaches*
-
-```
-Bonjour Francis,
-
-Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
-
-Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
-
-Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
-
-Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
-
-Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
-
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet.
-
-Si ça vous intéresse de couvrir (ou un.e collègue?), [notre média kit est ici](https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr), avec les images de notre passage à Dragons' Den et de l'entreprise.
-
-J'espère vraiment un boom des ventes avec cette visibilité, ce qui, plus largement, sera extrêmement bénéfique pour les cultivateurs d'asclépiade du Québec chez qui on continue d'acheter, et pour les papillons monarques menacés qui continuent de se reproduire dans leurs plantations.
-
-Au plaisir et n'hésitez pas à me contacter si vous avez des questions.
-```
-
-### Annie Lafrance, Le Soleil, `alafrance@lesoleil.com`
-*Priorité C · Capitale-Nationale/Chaudière-Appalaches*
-
-```
-Bonjour Annie,
-
-Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver avec une mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon monarque.
-
-Ses gousses sont remplies d'une soie creuse, très légère et naturellement hydrophobe. On la transforme en isolant à Québec, et on en fait des manteaux, des mitaines, des tuques et des sacs isothermes vendus au Canada et aux États-Unis.
-
-Je vous écris parce que c'est une nouvelle de chez nous qui passe au national.
-
-Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
-
-Je vais présenter Lasclay dans le premier épisode de la 21e saison de Dragons' Den, sur CBC et CBC Gem.
-
-Aller présenter notre entreprise et sa mission à la télévision nationale est une opportunité qui arrive bien rarement. Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet.
 
 Si ça vous intéresse de couvrir (ou un.e collègue?), [notre média kit est ici](https://drive.google.com/drive/folders/1pyCUbfHYQhpXXl4FoCC2RCFXKRvGS5Zr), avec les images de notre passage à Dragons' Den et de l'entreprise.
 

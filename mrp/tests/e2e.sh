@@ -158,6 +158,52 @@ curl -s -b $CO -o /dev/null -X POST $B/ordres/1/items/3/fil/$D/supprimer
 
 
 
+# ------------------------------------------------------------------- l'écran
+# La pastille produit est ce qui rend les listes de travail lisibles : un code
+# comme « MIT-POLAR » demande un aller-retour dans la tête, la mitaine non.
+# Assez discret pour disparaître à la première refonte de requête — d'où le test.
+curl -s -b $CA "$B/priorites" | grep -q 'class="mini' \
+  && ok "la liste de fabrication porte une pastille par produit" \
+  || ko "plus de pastille produit dans « À fabriquer »"
+curl -s -b $CA "$B/ordres/1" | grep -q 'class="mini' \
+  && ok "les items d'un ordre portent leur pastille" || ko "pastille absente de l'ordre"
+
+# `.av` a longtemps désigné DEUX choses : le formulaire de tranches (une grille
+# de onze colonnes) et la colonne « Avancement » du tableau de fabrication. La
+# grille se posait donc sur la cellule du tableau et l'écrasait. La règle doit
+# rester scopée au formulaire.
+grep -q '^form\.av{' public/style.css \
+  && ok "le sélecteur d'avancement reste scopé au formulaire" \
+  || ko "la grille .av déborde à nouveau sur la colonne du tableau"
+grep -qE '^\.av\{' public/style.css \
+  && ko "une règle .av nue est revenue : elle écrase la cellule du tableau" \
+  || ok "aucune règle .av nue"
+
+# La grille des pièces est ce que le tableau de bord montre en premier : une
+# tuile par produit, sa photo, son pourcentage. « 27 243 pièces à faire » ne
+# disait pas DE QUOI.
+P=$(curl -s -b $CA "$B/" | grep -c 'class="tuile ')
+[ "$P" -ge 1 ] \
+  && ok "le tableau de bord montre la grille des pièces ($P tuiles)" \
+  || ko "plus de grille de pièces sur le tableau de bord"
+
+# Un produit présent dans deux ordres compte UNE fois, et son avancement se
+# pondère par les quantités : 100 % de 100 pièces et 0 % de 2 000 ne font
+# pas 50 %. Une moyenne naïve ferait mentir la tuile du gros morceau.
+# Sur SA PROPRE base : écrire dans celle des autres tests changeait le plan
+# sous leurs pieds — le tri par priorité tombait deux cents lignes plus bas.
+A=$(MRP_DB="$(mktemp -d)/apercu.db" node --no-warnings -e "
+  const D=require('./db.js'), {db}=D;
+  db.prepare(\"INSERT INTO produits (id,code,nom) VALUES (1,'X','Pièce X')\").run();
+  db.prepare(\"INSERT INTO ordres (id,numero,titre,statut) VALUES (1,'OP-1','t','en_cours')\").run();
+  const i=db.prepare('INSERT INTO ordre_items (ordre_id,produit_id,quantite,avancement) VALUES (1,1,?,?)');
+  i.run(2000, 0); i.run(100, 100);
+  const t=D.apercuProduction();
+  console.log(t.length + ' ' + (t[0] ? t[0].pct + ' ' + t[0].quantite : ''));" 2>/dev/null)
+[ "$A" = "1 5 2100" ] \
+  && ok "un produit en double compte une fois, pondéré par les quantités" \
+  || ko "la vue d'ensemble double ou moyenne mal les produits ($A)"
+
 # ce qui compte n'est pas le poids du HTML mais ce qui part sur le réseau
 for u in / /ordres /ordres/1 /produits /produits/1 /cedule /priorites /suivi \
          /inventaire /besoins /calendrier; do
@@ -1132,6 +1178,50 @@ G=$(MRP_DB="$CAT" node --no-warnings -e "
   && ok "le sac à dos glacière est au plan : 300, 150 vert et 150 noir" \
   || ko "sac à dos glacière absent ou mal réparti ($G)"
 
+# Le bandeau intérieur de la tuque de ville est fait à l'atelier, la tuque
+# elle-même est tricotée en Chine. Les deux doivent coexister : 1 500 bandeaux
+# dans le travail de l'atelier, 1 500 tuques au plan mais hors de cette liste.
+B=$(MRP_DB="$CAT" node --no-warnings -e "
+  const D=require('./db.js');
+  const l=D.listeFabrication().find(x=>x.code==='BANDEAU-TUQUE');
+  const a=D.fabriqueAilleurs().find(x=>x.code==='TUQUE-VILLE');
+  console.log((l?l.quantite:0)+' '+(a?a.quantite:0)+' '+(a?a.fabrication:''));" 2>/dev/null)
+[ "$B" = "1500 1500 chine" ] \
+  && ok "1 500 bandeaux à l'atelier, 1 500 tuques tricotées en Chine" \
+  || ko "bandeau de la tuque de ville mal réparti ($B)"
+
+# Le bandeau torsadé et le bandeau de la tuque sont DEUX PRODUITS. Le
+# rapprochement des consignes se faisait par « premier préfixe qui matche », et
+# « Bandeau » est écrit avant « Bandeau tuque urbaine » dans le tableau de
+# suivi : le bandeau de la tuque héritait de la consigne de l'autre — « deux
+# modèles, torsadé et sport » — alors que la sienne dit que l'assemblage n'a
+# pas encore été testé. Le texte affiché avait l'air juste, c'est ce qui rend
+# l'erreur coûteuse.
+# On compare la CONSIGNE, premier paragraphe des notes techniques : la suite
+# parle légitimement de l'autre bandeau, pour dire qu'il n'a rien à voir.
+C2=$(MRP_DB="$CAT" node --no-warnings -e "
+  const {db}=require('./db.js');
+  const c=(x)=>db.prepare('SELECT notes_tech n FROM produits WHERE code=?')
+                 .get(x).n.split('\n\n')[0];
+  console.log(/torsad/i.test(c('BANDEAU')) && /chantillon/i.test(c('BANDEAU-TUQUE'))
+              && !/torsad/i.test(c('BANDEAU-TUQUE')) ? 'ok' : 'melange');" 2>/dev/null)
+[ "$C2" = ok ] \
+  && ok "chaque bandeau garde sa consigne : torsadé ici, tuque urbaine là" \
+  || ko "les consignes des deux bandeaux se mélangent encore ($C2)"
+
+# `actif` veut dire « au catalogue », pas « vendu ». Quatre pièces AU PLAN en
+# étaient sorties : elles n'apparaissaient nulle part et ne pouvaient même pas
+# être ajoutées à un ordre depuis le menu « Produit ».
+N=$(MRP_DB="$CAT" node --no-warnings -e "
+  const {db}=require('./db.js');
+  const q='SELECT COUNT(*) n FROM produits p WHERE p.actif=0 AND EXISTS'
+    + ' (SELECT 1 FROM ordre_items i JOIN ordres o ON o.id=i.ordre_id'
+    + \" WHERE i.produit_id=p.id AND o.statut IN ('planifie','en_cours'))\";
+  console.log(db.prepare(q).get().n);" 2>/dev/null)
+[ "$N" = 0 ] \
+  && ok "rien de ce qui est au plan n'est hors du catalogue" \
+  || ko "$N produit(s) au plan restent inactifs, donc invisibles dans l'app"
+
 # --- les protocoles suivent le dépôt sans rien perdre ---------------------
 # L'import efface ce qu'il a lui-même posé, et RIEN d'autre. Deux façons de se
 # tromper : effacer un point écrit à la main dans l'app, ou ne pas effacer une
@@ -1183,7 +1273,12 @@ S=$(MRP_DB="$CAT" node --no-warnings -e "
 
 # Découper ne doit RIEN ajouter au total : la ligne d'origine est retirée du
 # plan, pas laissée à côté de ses morceaux.
-[ "$(Z "SELECT SUM(quantite) n FROM ordre_items")" = 24633 ] \
+#
+# Le total est écrit en dur EXPRÈS : c'est ce qui attrape une ligne d'origine
+# restée à côté de ses morceaux. Il se met donc à jour à la main, et seulement
+# quand on a ajouté quelque chose au plan en le sachant. Dernier mouvement :
+# 24 633 → 26 133 le 16/09/2026, les 1 500 bandeaux de la tuque de ville.
+[ "$(Z "SELECT SUM(quantite) n FROM ordre_items")" = 26133 ] \
   && ok "découper une ligne du plan ne change pas le total à produire" \
   || ko "le total a bougé — la ligne d'origine compte encore"
 

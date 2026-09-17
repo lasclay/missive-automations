@@ -18,7 +18,7 @@ Deux differences assumees avec la liste chaude :
 import sys
 import openpyxl
 from openpyxl.styles import Font, PatternFill, Alignment
-from histoire_asclepiade import PAR_REGION
+from histoire_asclepiade import INDIGENE_FR, MAURICIE, MAURICIE_COURT, PAR_REGION
 from voix_gabriel import VIDEO, ANNONCE, BENEFICE, OBJETS, objet, media_kit, assembler, deplier
 
 QUI = ("Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hiver "
@@ -106,6 +106,8 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et
 menacé : le papillon monarque.
 
+{INDIGENE}
+
 Vous couvrez l'asclépiade depuis au moins 2014 : le Téléjournal, la soie d'Amérique partie
 sur l'Everest, le pouvoir absorbant de la fibre sur les hydrocarbures, le lien avec le
 monarque. Vous avez suivi cette histoire plus longtemps que la plupart des entreprises qui
@@ -135,11 +137,9 @@ mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur e
 menacé : le papillon monarque.
 
 Vous couvrez Mékinac, donc Saint-Tite, donc l'endroit où l'asclépiade a eu son grand moment
-industriel au Québec. L'usine achetait 90 % des récoltes de la province avant que la filière
-se casse le 11 octobre 2017.
+industriel au Québec. {MAURICIE_COURT}
 
-On a démarré après. Six ans plus tard, on achète encore de l'asclépiade québécoise et on la
-transforme nous-mêmes à Québec.
+{INDIGENE}
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
@@ -161,17 +161,16 @@ Je m'appelle Gabriel Gouveia, fondateur de Lasclay. On isole des vêtements d'hi
 mauvaise herbe, l'asclépiade, qu'on cultive pour sauvegarder un pollinisateur emblématique et
 menacé : le papillon monarque.
 
-L'asclépiade a été une histoire mauricienne avant d'être la nôtre : l'usine de Saint-Tite
-achetait 90 % des récoltes du Québec. On a démarré après la chute de cette filière, et six ans
-plus tard on achète encore de l'asclépiade québécoise et on la
-transforme nous-mêmes à Québec.
+{MAURICIE}
+
+{INDIGENE}
 
 Ce jeudi 17 septembre, on va faire un énorme pas dans la bonne direction :
 
 {ANNONCE}
 
-Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet : huit ans après
-Saint-Tite, il reste quelque chose de cette promesse-là, et ça se raconte.
+Je voulais vous en faire part et qui sait, peut-être vous inspirer un sujet : neuf ans après
+la faillite, il reste quelque chose de cette promesse-là, et ça se raconte.
 
 {MEDIA_KIT}
 
@@ -254,7 +253,7 @@ def monter(prenom, nom, angle, region):
     salut = f"Bonjour {prenom}," if prenom else "Bonjour,"
     pourquoi = REGIONS.get(region) or THEMES.get(angle) or THEMES["B"]
     offre = OFFRES.get(angle, "")
-    return assembler([salut, QUI, CONTEXTE, pourquoi, PAS, ANNONCE,
+    return assembler([salut, QUI, CONTEXTE, INDIGENE_FR, pourquoi, PAS, ANNONCE,
                       RARETE + (" " + offre if offre else ""), media_kit("vous"), BENEFICE, CLOTURE])
 
 
@@ -278,7 +277,7 @@ def main(src, dst, md):
             continue
         prio, prenom, nom = r[0], (r[1] or "").strip(), (r[2] or "").strip()
         media, courriel, region, angle = r[4], (r[5] or "").strip().lower(), r[7], r[cA - 1]
-        if angle in (None, ","):
+        if angle in (None, "—", ","):
             ws.cell(i, cB, DOUBLON).alignment = Alignment(wrap_text=True, vertical="top")
             continue
         # Passe en liste chaude sur demande de Gabriel : sa ligne froide part,
@@ -293,6 +292,8 @@ def main(src, dst, md):
         cle = courriel
         brut = MAIN.get(cle)
         txt = (deplier(brut).format(ANNONCE=ANNONCE, MEDIA_KIT=media_kit("vous"), BENEFICE=BENEFICE,
+                                    MAURICIE=MAURICIE, INDIGENE=INDIGENE_FR,
+                                    MAURICIE_COURT=MAURICIE_COURT,
                            CLOTURE=CLOTURE)
                if brut else monter(prenom, nom, angle, region))
         mains += bool(brut)

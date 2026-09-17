@@ -21,6 +21,13 @@
   /* Teintes du calendrier : une par item, pour suivre le même item de
      case en case. La couleur ne veut rien dire en soi. */
   --chip-s:42%; --chip-fond:93%; --chip-ligne:76%; --chip-texte:27%;
+  /* Élévation. Une carte n'est pas un rectangle tracé : c'est une feuille
+     posée. Deux ombres très douces suffisent — la bordure devient un filet
+     de secours pour les écrans à faible contraste, plus le contour principal. */
+  --ombre:0 1px 2px rgba(18,22,28,.05), 0 1px 1px rgba(18,22,28,.03);
+  --ombre-h:0 2px 4px rgba(18,22,28,.07), 0 4px 12px rgba(18,22,28,.05);
+  --cadre:#e7ebef;              /* filet de carte, plus clair que --ligne */
+  --presque:#7ba428;            /* jauge entre 80 et 99 % : la sortie du tunnel */
 }
 
 /* Le téléphone de l'atelier passe en sombre le soir ; la même feuille suit,
@@ -42,6 +49,8 @@
     --sur-vert:#0d1114;
     --nav:#a9c7ba; --nav-actif:#fff;
     --chip-s:30%; --chip-fond:17%; --chip-ligne:32%; --chip-texte:76%;
+    --ombre:0 1px 2px rgba(0,0,0,.4); --ombre-h:0 2px 8px rgba(0,0,0,.5);
+    --cadre:#242b32; --presque:#9ac449;
   }
 }
 :root[data-theme="dark"]{
@@ -59,6 +68,8 @@
   --sur-vert:#0d1114;
   --nav:#a9c7ba; --nav-actif:#fff;
     --chip-s:30%; --chip-fond:17%; --chip-ligne:32%; --chip-texte:76%;
+  --ombre:0 1px 2px rgba(0,0,0,.4); --ombre-h:0 2px 8px rgba(0,0,0,.5);
+  --cadre:#242b32; --presque:#9ac449;
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
@@ -66,31 +77,67 @@ body{margin:0;background:var(--fond);color:var(--encre);
   font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
 a{color:var(--vert);text-decoration:none}
 a:hover{text-decoration:underline}
-h1,h2,h3{margin:0;font-weight:650;letter-spacing:-.01em}
-h1{font-size:23px}h2{font-size:18px}h3{font-size:15px}
+/* Une échelle, pas trois tailles voisines. L'écart entre le titre de page et
+   le titre de carte doit se voir sans comparer : 28 contre 17. */
+h1,h2,h3{margin:0;font-weight:650;letter-spacing:-.021em;line-height:1.22}
+h1{font-size:28px}h2{font-size:17px}h3{font-size:15px;letter-spacing:-.01em}
+/* Les titres de carte sont des intitulés de section, pas des phrases : petits,
+   capitalisés, espacés. Ce qui compte dans la carte, c'est son contenu. */
+.carte>h2,.bloc>h2{font-size:12px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.07em;color:var(--gris)}
 p{margin:0 0 10px}
 
 /* ---------- ossature ---------- */
-header.top{background:var(--vert-fonce);color:var(--nav-actif);padding:0 16px}
-.top-in{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:18px;
-  min-height:52px;flex-wrap:wrap}
-.marque{font-weight:700;letter-spacing:.02em;color:var(--nav-actif)}
-.marque span{opacity:.65;font-weight:400}
-nav.top a{color:var(--nav);padding:6px 0;font-size:14px}
-nav.top a:hover,nav.top a.on{color:var(--nav-actif);text-decoration:none}
-nav.top{display:flex;gap:16px;flex:1;flex-wrap:wrap}
-.qui{font-size:13px;color:var(--nav)}
-.qui a{color:var(--nav-actif);opacity:.75}
-main{max-width:1100px;margin:0 auto;padding:20px 16px 60px}
+/* La barre reste en haut pendant qu'on fait défiler une liste de trente items :
+   changer de page depuis le bas d'« À fabriquer » ne doit pas demander de
+   remonter. `position:sticky` est du CSS, pas du script — rien à charger. */
+header.top{background:var(--vert-fonce);color:var(--nav-actif);padding:0 16px;
+  position:sticky;top:0;z-index:20;box-shadow:0 1px 0 rgba(0,0,0,.18)}
+.top-in{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:14px;
+  min-height:50px;flex-wrap:wrap}
+.marque{font-weight:700;letter-spacing:.02em;color:var(--nav-actif);
+  font-size:15px;flex:0 0 auto}
+.marque span{opacity:.6;font-weight:400}
+/* Onze liens à plat ne se lisent pas : l'œil n'a nulle part où s'arrêter. Ils
+   sont groupés — produire, consulter, dater — et un filet sépare les groupes.
+   Le groupe n'est pas dit, il est vu ; c'est tout ce qu'on lui demande. */
+nav.top{display:flex;gap:14px;flex:1;flex-wrap:wrap;align-items:center}
+nav.top a{color:var(--nav);padding:5px 0;font-size:13.5px;font-weight:500;
+  border-bottom:2px solid transparent;white-space:nowrap}
+nav.top a:hover{color:var(--nav-actif);text-decoration:none}
+/* L'onglet courant porte un trait plein : on sait où on est sans relire. */
+nav.top a.on{color:var(--nav-actif);border-bottom-color:var(--nav-actif);
+  font-weight:600;text-decoration:none}
+nav.top .sep{width:1px;height:16px;background:currentColor;opacity:.22;
+  flex:0 0 auto;margin:0 -3px}
+.qui{font-size:12.5px;color:var(--nav);flex:0 0 auto}
+.qui a{color:var(--nav-actif);opacity:.8}
+main{max-width:1100px;margin:0 auto;padding:22px 16px 60px}
 
 /* ---------- blocs ---------- */
-.carte{background:var(--carte);border:1px solid var(--ligne);border-radius:6px;
-  padding:16px;margin-bottom:14px}
-.carte>h2{margin-bottom:10px}
+/* Une carte est une feuille posée sur le fond, pas un rectangle tracé : le
+   filet est très clair, l'ombre fait le reste. Sur un écran d'atelier mal
+   réglé, le filet suffit à retrouver le bord. */
+.carte{background:var(--carte);border:1px solid var(--cadre);border-radius:10px;
+  padding:16px 18px;margin-bottom:14px;box-shadow:var(--ombre)}
+.carte>h2{margin-bottom:12px}
 .entete{display:flex;justify-content:space-between;align-items:flex-start;
   gap:14px;flex-wrap:wrap;margin-bottom:16px}
 .muted{color:var(--gris);font-size:13px}
 .vide{color:var(--gris);font-style:italic;padding:10px 0}
+
+/* Le bandeau d'un ordre : le pourcentage en gros à gauche, la jauge et le
+   compte de pièces à droite. Avant, « 28 % » flottait seul et ne disait pas
+   s'il restait trois cents pièces ou vingt-six mille. */
+.bandeau{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.bandeau-pct{font-size:42px;font-weight:700;letter-spacing:-.04em;line-height:1;
+  font-variant-numeric:tabular-nums;flex:0 0 auto}
+.bandeau-j{flex:1;min-width:220px}
+.bandeau-j p{margin:8px 0 0;font-size:13px}
+.bandeau-j b{color:var(--encre);font-size:15px;font-variant-numeric:tabular-nums}
+.bandeau-note{flex-basis:100%;margin:2px 0 0;white-space:pre-wrap;
+  color:var(--encre2);font-size:14px;border-left:3px solid var(--ligne);
+  padding-left:12px}
 
 /* ---------- étiquettes d'état ---------- */
 .et{display:inline-block;font-size:11.5px;font-weight:600;letter-spacing:.02em;
@@ -116,48 +163,169 @@ tr:last-child td{border-bottom:0}
 .num{text-align:right;font-variant-numeric:tabular-nums}
 
 /* ---------- barre d'avancement ---------- */
-.jauge{height:7px;background:var(--piste);border-radius:4px;overflow:hidden;min-width:90px}
-.jauge i{display:block;height:100%;background:var(--vert);border-radius:4px}
-.jauge.part i{background:var(--ambre)}
+.jauge{height:9px;background:var(--piste);border-radius:99px;overflow:hidden;
+  min-width:90px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.04)}
+.jauge i{display:block;height:100%;background:var(--vert);border-radius:99px;
+  min-width:3px}
+/* Quatre états, quatre teintes : à peine entamé, en route, presque là, fini.
+   Le pourcentage est toujours écrit à côté — la couleur ne porte pas seule. */
+.jauge.bas i  {background:var(--rouge)}
+.jauge.part i {background:var(--ambre)}
+.jauge.haut i {background:var(--presque)}
+.jauge.plein i{background:var(--vert)}
 .jauge.zero i{background:var(--piste-pleine)}
 .pct{font-variant-numeric:tabular-nums;font-weight:600;font-size:13px;min-width:38px;
   display:inline-block;text-align:right}
 
-/* ---------- sélecteur d'avancement (0→100 par 10) ---------- */
-.av{display:flex;flex-wrap:wrap;gap:3px;margin:0}
-.av button{font:600 12px/1 inherit;font-variant-numeric:tabular-nums;
-  min-width:36px;padding:7px 4px;border:1px solid var(--ligne);background:var(--champ);
-  color:var(--encre2);border-radius:4px;cursor:pointer}
-.av button:hover{border-color:var(--vert);color:var(--vert)}
-.av button.on{background:var(--vert);border-color:var(--vert);color:var(--sur-vert)}
-.av button.on:hover{color:var(--sur-vert)}
+/* ---------- sélecteur d'avancement (0→100 par 10) ----------
+   Onze boutons qui passaient à la ligne, ça faisait deux rangées par item et
+   quatre-vingts pour cent de la hauteur de la page. Une seule rangée, serrée
+   et pleine largeur : le sélecteur redevient un réglage, pas le sujet. */
+form.av{display:grid;grid-template-columns:repeat(11,1fr);gap:2px;margin:0;
+  max-width:340px}
+form.av button{font:600 12px/1 inherit;font-variant-numeric:tabular-nums;
+  min-width:0;padding:9px 0;border:1px solid var(--ligne);background:var(--champ);
+  color:var(--gris);border-radius:5px;cursor:pointer}
+form.av button:hover{border-color:var(--vert);color:var(--vert);background:var(--vert-pale)}
+/* Tout ce qui est atteint se colore, pas seulement la valeur courante : la
+   rangée devient elle-même une jauge, et le geste « j'en suis à 60 » se
+   confirme à l'œil avant le rechargement de la page. */
+form.av button.fait{background:var(--vert-pale);border-color:var(--vert-ligne);
+  color:var(--vert)}
+form.av button.on{background:var(--vert);border-color:var(--vert);color:var(--sur-vert);
+  box-shadow:0 0 0 2px var(--vert-pale)}
+form.av button.on:hover{color:var(--sur-vert);background:var(--vert)}
 
 /* ---------- formulaires ---------- */
-label{display:block;font-size:12.5px;font-weight:600;color:var(--encre2);margin:0 0 4px}
+label{display:block;font-size:11.5px;font-weight:700;color:var(--gris);margin:0 0 5px;
+  text-transform:uppercase;letter-spacing:.05em}
 input[type=text],input[type=email],input[type=password],input[type=number],
 input[type=date],select,textarea{
-  width:100%;padding:8px 10px;border:1px solid var(--ligne);border-radius:5px;
+  width:100%;padding:9px 11px;border:1px solid var(--ligne);border-radius:7px;
   font:15px inherit;background:var(--champ);color:var(--encre)}
-input:focus,select:focus,textarea:focus{outline:2px solid var(--vert-pale);border-color:var(--vert)}
+/* Un contour de deux pixels de la couleur du fond ne se voit pas sur un écran
+   d'atelier : le focus doit trancher, c'est ce qui dit où on tape. */
+input:focus,select:focus,textarea:focus{outline:2px solid var(--vert);
+  outline-offset:1px;border-color:var(--vert)}
 textarea{min-height:70px;resize:vertical}
 .champ{margin-bottom:12px}
 .rangee{display:flex;gap:12px;flex-wrap:wrap}
 .rangee>.champ{flex:1;min-width:160px}
-.btn{display:inline-block;padding:9px 16px;border-radius:5px;border:1px solid var(--vert);
+.btn{display:inline-block;padding:9px 17px;border-radius:7px;border:1px solid var(--vert);
+  box-shadow:var(--ombre);transition:box-shadow .12s,background .12s;
   background:var(--vert);color:var(--sur-vert);font:600 14px inherit;cursor:pointer;text-align:center}
-.btn:hover{background:var(--vert-survol);text-decoration:none;color:var(--sur-vert)}
+.btn:hover{background:var(--vert-survol);text-decoration:none;color:var(--sur-vert);
+  box-shadow:var(--ombre-h)}
+.btn:active{box-shadow:none;transform:translateY(1px)}
 .btn.sec{background:var(--champ);color:var(--encre2);border-color:var(--ligne)}
 .btn.sec:hover{background:var(--survol);color:var(--encre)}
 .btn.dgr{background:var(--champ);color:var(--rouge);border-color:var(--rouge-ligne)}
 .btn.dgr:hover{background:var(--rouge-pale)}
-.btn.min{padding:5px 10px;font-size:13px}
+.btn.min{padding:5px 11px;font-size:13px;border-radius:6px;box-shadow:none}
 .actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 
 /* ---------- messages ---------- */
-.msg{padding:10px 14px;border-radius:5px;margin-bottom:14px;font-size:14px}
+.msg{padding:11px 15px;border-radius:8px;margin-bottom:16px;font-size:14px;
+  box-shadow:var(--ombre)}
 .msg.ok{background:var(--vert-pale);border-left:3px solid var(--vert)}
 .msg.err{background:var(--rouge-pale);border-left:3px solid var(--rouge)}
 .msg.info{background:var(--bleu-pale);border-left:3px solid var(--bleu)}
+
+/* ---------- la pastille produit ----------
+   46 px de côté, la photo de la fiche, à gauche du code. `contain` plutôt que
+   `cover` : une mitaine photographiée sur fond blanc ne doit pas être rognée
+   en carré, c'est la silhouette qu'on reconnaît. Le fond neutre tient la case
+   pendant que l'image arrive — sur la connexion tunisienne, elle arrive tard,
+   et une case qui se remplit ne doit pas décaler la ligne. */
+.mini{flex:0 0 auto;display:block;width:46px;height:46px;border-radius:8px;
+  overflow:hidden;background:var(--media);border:1px solid var(--cadre)}
+/* Une liste de vingt-sept produits n'a pas besoin d'une image de 46 px par
+   ligne : 38 suffisent à reconnaître la pièce et la rangée reste basse. */
+.mini-38{width:38px;height:38px;border-radius:7px;font-size:11px}
+.mini img{width:100%;height:100%;object-fit:contain;display:block}
+.mini-nu{display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:700;color:var(--gris);letter-spacing:.02em}
+/* La cellule qui porte la pastille : image et texte côte à côte, le texte
+   libre de se replier. */
+.avec-mini{display:flex;gap:11px;align-items:flex-start}
+.avec-mini>div{min-width:0;flex:1}
+
+/* ---------- la grille des pièces, en tête du tableau de bord ----------
+   Une tuile par produit, la photo en grand et le pourcentage posé dessus. La
+   grille se lit d'un balayage : pâle = pas commencé, vert = fini. C'est le
+   seul écran de l'app où l'image porte l'information plutôt que de l'illustrer. */
+.tuiles{display:grid;gap:12px;
+  grid-template-columns:repeat(auto-fill,minmax(132px,1fr))}
+.tuile{display:block;border:1px solid var(--cadre);border-radius:10px;
+  overflow:hidden;background:var(--carte);box-shadow:var(--ombre);
+  color:inherit;text-decoration:none;transition:box-shadow .12s,transform .12s}
+.tuile:hover{text-decoration:none;box-shadow:var(--ombre-h);transform:translateY(-1px)}
+/* Carré : des vignettes de hauteurs différentes cassent les rangées, et c'est
+   la régularité de la grille qui la rend balayable. */
+.tuile-img{position:relative;display:block;aspect-ratio:1;background:var(--media)}
+.tuile-img img{width:100%;height:100%;object-fit:contain;display:block}
+.tuile-nu{position:absolute;inset:0;display:flex;align-items:center;
+  justify-content:center;font-size:26px;font-weight:700;color:var(--gris);
+  letter-spacing:.03em}
+/* Le pourcentage est posé SUR la photo, en bas à gauche, sur une pastille
+   opaque : lisible quelle que soit l'image en dessous. */
+.tuile-pct{position:absolute;left:6px;bottom:6px;
+  font-size:17px;font-weight:700;line-height:1;letter-spacing:-.02em;
+  font-variant-numeric:tabular-nums;padding:4px 7px;border-radius:7px;
+  background:var(--carte);box-shadow:0 1px 3px rgba(0,0,0,.18)}
+.tuile-pct i{font-style:normal;font-size:11px;font-weight:600;margin-left:1px;
+  opacity:.7}
+.t-neuf  .tuile-pct{color:var(--gris)}
+.t-route .tuile-pct{color:var(--ambre)}
+.t-fini  .tuile-pct{color:var(--vert)}
+/* Une pièce qui ne se fabrique pas à l'atelier le dit sur la tuile : elle est
+   au plan, mais ce n'est pas du travail de Tunis. */
+.tuile-lieu{position:absolute;top:6px;right:6px;font-size:9.5px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.05em;padding:2px 6px;border-radius:99px;
+  background:var(--ardoise-pale);color:var(--ardoise)}
+.tuile-b{display:block;padding:8px 9px 10px}
+.tuile-code{display:block;font-size:11.5px;font-weight:700;letter-spacing:.02em;
+  color:var(--encre);margin-bottom:6px;white-space:nowrap;overflow:hidden;
+  text-overflow:ellipsis}
+.tuile .jauge{min-width:0;height:6px}
+.tuile-q{display:block;margin-top:5px;font-size:11.5px;color:var(--gris);
+  font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;
+  text-overflow:ellipsis}
+.tuile-q b{color:var(--encre);font-weight:650}
+/* Le total est un repère, pas le chiffre qu'on vient lire : il s'efface un peu
+   plus que le reste pour que « reste 3 500 » ressorte seul. */
+.tq-sur{opacity:.75}
+/* Ce qui est fini sort du champ sans disparaître : c'est un bilan, pas du
+   travail. */
+.t-fini{opacity:.72}
+.t-fini:hover{opacity:1}
+
+/* La légende dit ce que les couleurs veulent dire, une fois, en haut. */
+.legende{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--gris);
+  flex-wrap:wrap;text-transform:none;letter-spacing:0;font-weight:400}
+.lg{width:9px;height:9px;border-radius:3px;display:inline-block;margin-left:8px}
+.lg:first-child{margin-left:0}
+.lg-neuf{background:var(--piste-pleine)}
+.lg-route{background:var(--ambre)}
+.lg-fini{background:var(--vert)}
+
+@media (max-width:720px){
+  /* Trois colonnes, pas deux. À 104 px de minimum, la carte et ses marges ne
+     laissaient la place qu'à deux tuiles : trente pièces devenaient quinze
+     rangées à faire défiler. La carte se resserre aussi pour rendre sa
+     gouttière à la grille. */
+  .carte:has(>.tuiles),.carte:has(.tuiles){padding-left:12px;padding-right:12px}
+  .tuiles{gap:8px;grid-template-columns:repeat(auto-fill,minmax(88px,1fr))}
+  .tuile-pct{font-size:14px;padding:3px 5px;left:4px;bottom:4px}
+  .tuile-pct i{font-size:9.5px}
+  .tuile-b{padding:6px 7px 8px}
+  .tuile-code{font-size:10.5px;margin-bottom:5px}
+  .tuile-q{font-size:10.5px;margin-top:4px}
+  /* « reste 1 600 sur 2 000 » ne tient pas dans 88 px : le total saute, le
+     chiffre qui compte reste. */
+  .tq-sur{display:none}
+  .tuile-lieu{font-size:8.5px;padding:1px 4px;top:4px;right:4px}
+}
 
 /* ---------- listes / cartes produits ---------- */
 .grille{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
@@ -199,9 +367,17 @@ textarea{min-height:70px;resize:vertical}
 .fil-att .lien{font-size:12px}
 
 .fil{margin-top:2px}
+/* Le chevron natif se pose HORS de la cellule quand elle est étroite : dans le
+   tableau des items il finissait dans la colonne d'à côté. On le remplace par
+   un chevron à nous, dans le flux du texte. */
 .fil>summary{cursor:pointer;font-size:13px;color:var(--encre2);
-  list-style-position:outside}
+  list-style:none;display:inline-flex;align-items:baseline;gap:6px}
+.fil>summary::-webkit-details-marker{display:none}
+.fil>summary::before{content:"\203a";font-size:15px;line-height:1;color:var(--gris);
+  transition:transform .12s;display:inline-block}
+.fil[open]>summary::before{transform:rotate(90deg)}
 .fil>summary:hover{color:var(--vert)}
+.fil>summary:hover::before{color:var(--vert)}
 .fil[open]>summary{margin-bottom:9px;font-weight:600}
 .fil .comm{margin-bottom:9px;font-size:13.5px}
 .fil .fil-question{border-left-color:var(--bleu)}
@@ -238,8 +414,14 @@ textarea{min-height:70px;resize:vertical}
 @media (max-width:720px){
   main{padding:14px 12px 50px}
   .top-in{min-height:auto;padding:8px 0;gap:8px}
-  nav.top{order:3;flex-basis:100%;gap:12px;font-size:13px;
-    overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch}
+  /* Une seule rangée qui défile. `flex-wrap:nowrap` est indispensable : sans
+     lui, la règle de base repliait les onze liens sur trois lignes et le
+     défilement latéral ne servait à rien. */
+  nav.top{order:3;flex-basis:100%;gap:15px;font-size:13.5px;flex-wrap:nowrap;
+    overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch;
+    padding-bottom:2px;scrollbar-width:none}
+  nav.top::-webkit-scrollbar{display:none}
+  nav.top .sep{height:13px}
   .qui{order:2;margin-left:auto;font-size:12.5px}
 
   /* Le tableau des items devient une pile de blocs : les boutons
@@ -264,8 +446,8 @@ textarea{min-height:70px;resize:vertical}
   table.items td.c-unites::before{content:"Unités avancées : ";color:var(--gris);font-size:12.5px}
   table.items td.c-fige .sec,table.items td.c-av .sec{display:inline;margin-left:6px}
   /* grille : 6 colonnes égales, jamais plus large que le conteneur */
-  .av{display:grid;grid-template-columns:repeat(6,1fr);gap:5px}
-  .av button{min-width:0;padding:11px 2px;font-size:13px}
+  form.av{grid-template-columns:repeat(6,1fr);gap:5px;max-width:none}
+  form.av button{padding:12px 2px;font-size:13px}
   .rangee>.champ{flex-basis:100%}
   .jalon{flex-wrap:wrap;gap:6px}
   .jalon .d{min-width:0}
@@ -615,33 +797,87 @@ textarea{min-height:70px;resize:vertical}
 }
 
 /* ---------- à fabriquer ---------- */
-.chiffres{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));
-  gap:10px;margin:0 0 16px}
-.chiffres .c{background:var(--carte);border:1px solid var(--ligne);border-radius:6px;
-  padding:11px 13px;font-size:12px;color:var(--gris)}
-.chiffres .c b{display:block;font-size:22px;color:var(--encre);letter-spacing:-.02em;
-  margin-bottom:1px}
-.chiffres .c.alerte{background:var(--rouge-pale);border-color:var(--rouge-ligne)}
+/* Les quatre chiffres de tête. Ce sont eux qu'on vient lire : ils doivent se
+   lire debout, à un mètre de l'écran. D'où le corps 30, les chiffres à
+   chasse fixe, et l'intitulé réduit à une étiquette sous le nombre. */
+.chiffres{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:12px;margin:0 0 18px}
+.chiffres .c{background:var(--carte);border:1px solid var(--cadre);border-radius:10px;
+  padding:14px 16px;font-size:11.5px;color:var(--gris);box-shadow:var(--ombre);
+  text-transform:uppercase;letter-spacing:.06em;font-weight:600;
+  border-top:3px solid var(--ligne)}
+.chiffres .c b{display:block;font-size:30px;line-height:1.05;color:var(--encre);
+  letter-spacing:-.03em;margin-bottom:4px;font-variant-numeric:tabular-nums;
+  text-transform:none}
+/* La précision d'un chiffre — « 11 jours ouvrés d'ici le 01/10 » — se lit en
+   dessous, en minuscules : c'est une note, pas un second intitulé. */
+.chiffres .c .sec{display:block;margin-top:3px;text-transform:none;
+  letter-spacing:0;font-weight:400;font-size:11.5px;line-height:1.35;
+  color:var(--gris)}
+/* Un zéro en retard est une bonne nouvelle, pas une alerte : seul le bloc qui
+   compte vraiment quelque chose prend la couleur. */
+.chiffres .c.alerte{background:var(--rouge-pale);border-color:var(--rouge-ligne);
+  border-top-color:var(--rouge)}
 .chiffres .c.alerte b{color:var(--rouge)}
+.chiffres .c.veille{border-top-color:var(--ambre)}
+.chiffres .c.veille b{color:var(--ambre)}
 
 table.fab{width:100%;border-collapse:collapse;background:var(--carte)}
 table.fab th{text-align:left;font-size:11px;text-transform:uppercase;
   letter-spacing:.05em;color:var(--gris);font-weight:600;
   padding:8px 10px;border-bottom:1px solid var(--ligne);white-space:nowrap}
-table.fab td{padding:10px;border-bottom:1px solid var(--ligne);vertical-align:top}
+table.fab td{padding:9px 10px;border-bottom:1px solid var(--ligne);
+  vertical-align:middle}
 table.fab tr:last-child td{border-bottom:0}
-table.fab .num{color:var(--gris);font-variant-numeric:tabular-nums;width:1%}
-table.fab .sec{display:block;font-size:12px;color:var(--gris);font-weight:400}
+table.fab tr:hover{background:var(--survol)}
+table.fab .num{color:var(--gris);font-variant-numeric:tabular-nums;width:34px}
+table.fab .sec{display:block;font-size:12px;color:var(--gris);font-weight:400;
+  line-height:1.4}
 table.fab .note{display:block;font-size:12px;color:var(--encre2);margin-top:2px}
-table.fab .qte b{font-size:17px;font-variant-numeric:tabular-nums}
-table.fab .av{min-width:110px}
+table.fab .qte b{font-size:18px;font-variant-numeric:tabular-nums;
+  letter-spacing:-.02em}
+/* Les largeurs sont posées à la main : laissé libre, le navigateur donnait
+   trois cents pixels à « Restant » et cassait « 10 % fait » sur trois lignes. */
+/* `table-layout:fixed` + un <colgroup> : sans ça le navigateur donnait trois
+   cents pixels à « Restant » et cassait les codes produit en deux. Les
+   largeurs se posent sur les <col>, seul endroit qu'une table fixe écoute. */
+table.fab{table-layout:fixed}
+table.fab .c-num{width:36px}
+table.fab .c-prod{width:29%}
+table.fab .c-qte{width:11%}
+table.fab .c-av{width:13%}
+table.fab .c-ech{width:17%}
+table.fab .c-ord{width:16%}
+table.fab .c-pri{width:104px}
+/* L'échéance se lit en distance — « dans 16 j » —, la date seulement pour
+   vérifier. L'inverse mettait quatre lignes de texte dans chaque rangée. */
+table.fab .quand{font-weight:650;font-size:14px;white-space:nowrap}
+.u-retard .quand{color:var(--rouge)}
+.u-urgent .quand{color:var(--ambre)}
+.u-sans .quand{color:var(--gris);font-weight:500}
+table.fab .prod b{font-size:14.5px}
+/* Le code et la famille tiennent sur une ligne, le nom passe dessous. */
+/* Le code ne se coupe jamais en deux : « GANTS-MAGIQUES » sur deux lignes
+   n'est plus un code, c'est un obstacle. L'étiquette de famille passe à la
+   ligne si la place manque — elle, on peut la faire descendre. */
+table.fab .prod a{white-space:nowrap}
+table.fab .prod .fam{vertical-align:2px;margin-left:5px}
+/* Le nom long tient sur une ligne et se coupe : la ligne du tableau doit
+   rester à hauteur constante, c'est ce qui permet de balayer la colonne. */
+table.fab .prod .sec,table.fab .ord .sec{white-space:nowrap;overflow:hidden;
+  text-overflow:ellipsis}
+table.fab .ord a{font-size:13.5px}
+/* La ligne de répartition appartient à l'item du dessus : pas de filet entre
+   les deux, un retrait à l'aplomb du nom, et le filet passe en dessous. */
+table.fab tr.a-rep td{border-bottom:0;padding-bottom:4px}
+table.fab tr.rep-l td{padding:0 10px 12px 91px;border-bottom:1px solid var(--ligne)}
+table.fab tr.rep-l:hover{background:transparent}
+table.fab tr.rep-l:last-child td{border-bottom:0}
 /* la priorité haute se voit d'un coup d'œil : un liseré, pas un fond criard */
 table.fab tr.p-haute td:first-child{box-shadow:inset 3px 0 0 var(--ambre)}
 table.fab tr.p-basse{opacity:.62}
 .u-retard b{color:var(--rouge)}
-.u-retard .sec{color:var(--rouge);font-weight:600}
 .u-urgent b{color:var(--ambre)}
-.u-urgent .sec{color:var(--ambre)}
 .pri select{font:inherit;font-size:13px;padding:5px 6px;border:1px solid var(--ligne);
   border-radius:5px;background:var(--carte);color:inherit}
 /* le bouton n'existe que pour les navigateurs sans JavaScript */
@@ -677,9 +913,18 @@ table.fab tr.p-basse{opacity:.62}
   table.fab .num{position:absolute;top:10px;right:12px;font-size:12px}
   table.fab .prod b{font-size:16px}
   table.fab .qte,table.fab .ech,table.fab .ord{display:inline-block;
-    width:auto;margin-right:18px}
+    width:auto;margin-right:18px;vertical-align:top}
   table.fab .av{max-width:200px}
   table.fab .pri{margin-top:8px}
+  /* En pile, les <col> ne s'appliquent plus : la ligne de répartition n'a
+     plus de retrait à reprendre, elle occupe la largeur du bloc. */
+  table.fab tr.rep-l{border:0;border-radius:0;margin:-8px 0 10px;padding:0 12px;
+    background:transparent}
+  table.fab tr.rep-l td{padding:0}
+  /* Six lignes d'explication avant le premier chiffre, sur un écran de
+     390 px, c'est un écran entier de texte à faire défiler chaque matin. */
+  .intro{font-size:13.5px;line-height:1.5;margin-bottom:14px}
+  h1{font-size:24px}
   .flux li{gap:4px}
   .flux .quand{min-width:100%}
   .flux .sec{margin-left:0}
@@ -797,6 +1042,34 @@ table.fab tr.p-basse{opacity:.62}
  * sont donc alignés à droite et tabulaires, pour que les ordres de grandeur
  * se comparent à l'œil sans avoir à lire les chiffres.
  */
+/* Cette classe n'avait aucune règle : le titre, le bouton et le filtre
+   s'empilaient sur trois lignes au lieu de tenir sur une. */
+.entete-liste{display:flex;align-items:center;justify-content:space-between;
+  gap:12px;flex-wrap:wrap;margin:0 0 10px}
+.entete-liste h2{margin:0;font-size:12px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.07em;color:var(--gris)}
+.entete-liste h1{margin:0}
+/* Les sections nues de l'inventaire ont besoin d'un intervalle : sans marge,
+   « Produits finis » collait au tableau du dessus comme s'il en faisait
+   partie. */
+main>section{margin:0 0 26px}
+main>section>h2{font-size:12px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.07em;color:var(--gris);margin:0 0 6px}
+main>section.carte>h2,main>section.bloc-alerte>h2{font-size:17px;font-weight:650;
+  text-transform:none;letter-spacing:-.01em;color:var(--encre)}
+.entete-liste .compte{color:var(--gris);font-weight:400}
+/* Un tableau nu posé sur le fond gris n'a pas de bord : on ne sait pas où il
+   commence. Même feuille que les cartes, même filet, même ombre. */
+.tab{width:100%;border-collapse:collapse;background:var(--carte);
+  border:1px solid var(--cadre);border-radius:10px;box-shadow:var(--ombre);
+  overflow:hidden;font-size:14px}
+.tab thead th{text-align:left;font-size:11px;text-transform:uppercase;
+  letter-spacing:.05em;color:var(--gris);font-weight:600;padding:9px 12px;
+  border-bottom:1px solid var(--ligne);white-space:nowrap;background:var(--fond)}
+.tab td{padding:9px 12px;border-bottom:1px solid var(--ligne)}
+.tab tbody tr:last-child td{border-bottom:0}
+.tab tbody tr:hover{background:var(--survol)}
+.tab .sec{display:block;font-size:12px;color:var(--gris)}
 .tab .num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 .tab tfoot td{border-top:2px solid var(--ligne);padding-top:8px;font-size:.94rem}
 .rouge{color:var(--rouge)}
@@ -824,14 +1097,18 @@ table.fab tr.p-basse{opacity:.62}
 .alertes li:first-child{border-top:0}
 .liste-plate{margin:0;line-height:2;font-size:.94rem}
 
-/* Les quatre chiffres d'une matière, côte à côte : stock, besoin, manque, seuil. */
-.chiffres{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-  gap:10px;margin:0 0 20px}
-.chiffre{background:var(--carte);border:1px solid var(--ligne);border-radius:6px;
-  padding:10px 12px}
-.chiffre b{display:block;font-size:1.35rem;font-variant-numeric:tabular-nums}
-.chiffre span{color:var(--gris);font-size:.85rem}
-.chiffre.alerte{border-color:var(--rouge-ligne)}
+/* Les quatre chiffres d'une matière — stock, besoin, manque, seuil — sont les
+   mêmes objets que ceux du tableau de bord et d'« À fabriquer ». Ils ont
+   longtemps eu deux jeux de règles, et la seconde définition de `.chiffres`
+   écrasait la première en silence. Une seule maintenant, partagée. */
+.chiffre{background:var(--carte);border:1px solid var(--cadre);border-radius:10px;
+  padding:14px 16px;box-shadow:var(--ombre);border-top:3px solid var(--ligne)}
+.chiffre b{display:block;font-size:30px;line-height:1.05;letter-spacing:-.03em;
+  margin-bottom:4px;font-variant-numeric:tabular-nums}
+.chiffre span{color:var(--gris);font-size:11.5px;text-transform:uppercase;
+  letter-spacing:.06em;font-weight:600}
+.chiffre.alerte{border-color:var(--rouge-ligne);background:var(--rouge-pale);
+  border-top-color:var(--rouge)}
 .chiffre.alerte b{color:var(--rouge)}
 .chiffre.inconnu b{color:var(--gris)}
 
@@ -840,7 +1117,11 @@ table.fab tr.p-basse{opacity:.62}
 .mvt .champ,.calc .champ{flex:1 1 170px;margin:0}
 .mvt .champ.large{flex:1 1 100%}
 .mvt button,.calc button{flex:0 0 auto}
+/* Sans largeur propre, le <select> héritait du `width:100%` des champs de
+   formulaire et poussait « Filtrer » à la ligne suivante. */
 .filtre{display:flex;gap:8px;align-items:center;margin:0 0 12px;flex-wrap:wrap}
+.filtre select{width:auto;max-width:22em;flex:0 1 auto}
+.filtre .btn{flex:0 0 auto}
 .grille2{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
 .case{display:block;margin:10px 0;color:var(--encre2)}
 .ar{font-size:.9em;color:var(--gris);font-weight:400}
@@ -889,11 +1170,18 @@ table.gantt tbody tr:last-child th,table.gantt tbody tr:last-child td{border-bot
 .g-src-estime,.g-src-alerte{color:var(--rouge);border-color:var(--rouge-ligne);
   background:var(--rouge-pale)}
 .g-src-alerte{margin-left:4px}
-.g-piste{position:relative;height:20px;background:var(--fond);
-  border:1px solid var(--ligne);border-radius:4px;overflow:hidden}
+/* Une barre de trois pixels de haut dans une piste de vingt ne se voit pas :
+   c'est le dessin qu'on vient lire, il doit remplir sa piste. */
+.g-piste{position:relative;height:22px;background:var(--fond);
+  border:1px solid var(--ligne);border-radius:5px;overflow:hidden}
 .g-mois{position:absolute;top:0;bottom:0;width:1px;background:var(--ligne)}
-.g-barre{position:absolute;top:3px;bottom:3px;background:var(--vert);
-  border-radius:3px;min-width:2px}
+.g-barre{position:absolute;top:2px;bottom:2px;background:var(--vert);
+  border-radius:4px;min-width:3px;box-shadow:0 1px 2px rgba(0,0,0,.12)}
+/* Une ligne sur deux teintée : sur trente items, l'œil perd la sienne entre
+   l'étiquette de gauche et la barre, à six cents pixels de là. */
+table.gantt tbody tr:nth-child(even) th[scope=row],
+table.gantt tbody tr:nth-child(even) td{background:var(--survol)}
+table.gantt tbody tr:nth-child(even) .g-piste{background:var(--carte)}
 .g-dehors .g-barre{background:var(--rouge)}
 .g-dehors th[scope=row] a{color:var(--rouge)}
 /* Le jalon passe PAR-DESSUS les barres : c'est la ligne qu'on cherche. */

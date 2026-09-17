@@ -26,6 +26,7 @@ const zlib = require('node:zlib');
 const path = require('node:path');
 const { db, prochainNumero, avancementOrdre, listeFabrication, dernieresMaj,
         sansMouvement, progressionRecente, fabriqueAilleurs, variantesItem,
+        apercuProduction,
         taches, tache, compteTaches, equipe,
         protocole, couvertureQC, TYPES_QC, charteProduit,
         checklistItem, blocageQC, etatQCOrdre,
@@ -118,7 +119,10 @@ const R = {
       cree_le DESC`),
   ordre: db.prepare(`SELECT * FROM ordres WHERE id = ?`),
   items: db.prepare(`SELECT i.*,
-      COALESCE(NULLIF(p.nom_court, ''), p.nom) AS produit_nom, p.code AS produit_code
+      COALESCE(NULLIF(p.nom_court, ''), p.nom) AS produit_nom, p.code AS produit_code,
+      (SELECT f.url FROM produit_photos f WHERE f.produit_id = p.id
+        ORDER BY CASE f.type WHEN 'studio' THEN 0 ELSE 1 END,
+                 f.rang, f.id LIMIT 1) AS photo
       FROM ordre_items i JOIN produits p ON p.id = i.produit_id
       WHERE i.ordre_id = ? ORDER BY i.rang, i.id`),
   item: db.prepare(`SELECT * FROM ordre_items WHERE id = ? AND ordre_id = ?`),
@@ -384,6 +388,7 @@ async function router(req, res, url, user) {
     const prochains = R.jalonsProchains.all();
     return html(res, V.vueAccueil({ user, ordres, jalons: prochains,
       attentes: filEnAttente(),
+      apercu: apercuProduction(),
       salut: salutation.saluer({ user,
         taches: compteTaches(user.id),
         echeance: prochains.length ? prochains[0].date : null }),
