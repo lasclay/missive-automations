@@ -1520,8 +1520,16 @@
       "quand": "2026-09-17T10:14:30.968Z",
       "confirme": true,
       "texte": "C'est la nuance qu'on voulait apporter : le cas vraiment documenté, c'est le bétail qui en ingère en quantité dans du foin séché. Pour un enfant ou un animal de compagnie, aucun cas rapporté à notre connaissance."
+    },
+    {
+      "id": "1685109530289523_1573615480384837",
+      "reponse_id": "1685109530289523_2028944644433852",
+      "page_id": "104242204750257",
+      "quand": "2026-09-17T13:08:13.829Z",
+      "confirme": true,
+      "texte": "Merci, ça fait plaisir à lire. On continue."
     }
   ],
-  "derniere_execution": "2026-09-17T10:14:30.968Z",
-  "total": 190
+  "derniere_execution": "2026-09-17T13:08:13.829Z",
+  "total": 191
 }
