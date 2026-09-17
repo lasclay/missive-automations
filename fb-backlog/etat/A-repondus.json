@@ -1496,8 +1496,32 @@
       "quand": "2026-09-16T20:07:54.726Z",
       "confirme": true,
       "texte": "Votre point sur les champs de foin se tient, et c'est exactement là qu'est le risque documenté. Une précision sur le mot : syriaca est une plante indigène et vigoureuse plutôt qu'envahissante au sens strict — ce qui ne la rend pas plus agréable à voir s'installer dans un champ destiné au foin, on en convient. Et porter des gants pour la manipuler, ça se comprend très bien."
+    },
+    {
+      "id": "1678623234271486_1058036233803899",
+      "reponse_id": "1678623234271486_2195422235188914",
+      "page_id": "104242204750257",
+      "quand": "2026-09-17T10:08:27.966Z",
+      "confirme": true,
+      "texte": "Merci pour les bons mots et pour la commande. Les mains, le cou et les oreilles, c'est exactement là que la soie d'asclépiade travaille le mieux. On souhaite que ça fasse des heureux sous l'arbre."
+    },
+    {
+      "id": "1678623234271486_1065075629494470",
+      "reponse_id": "1678623234271486_1566095358532496",
+      "page_id": "104242204750257",
+      "quand": "2026-09-17T10:10:24.514Z",
+      "confirme": true,
+      "texte": "Bon réflexe. On n'a rien de documenté du côté de la peau, alors on s'en tient à la prudence ordinaire : des gants ou un lavage des mains après avoir cassé une tige, ça ne nuit certainement pas. Et merci d'avoir acheté nos produits."
+    },
+    {
+      "id": "1678623234271486_38457046673909747",
+      "reponse_id": "1678623234271486_885941981123310",
+      "page_id": "104242204750257",
+      "quand": "2026-09-17T10:14:30.968Z",
+      "confirme": true,
+      "texte": "C'est la nuance qu'on voulait apporter : le cas vraiment documenté, c'est le bétail qui en ingère en quantité dans du foin séché. Pour un enfant ou un animal de compagnie, aucun cas rapporté à notre connaissance."
     }
   ],
-  "derniere_execution": "2026-09-16T20:07:54.727Z",
-  "total": 187
+  "derniere_execution": "2026-09-17T10:14:30.968Z",
+  "total": 190
 }
