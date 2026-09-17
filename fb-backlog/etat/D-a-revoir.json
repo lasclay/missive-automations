@@ -7955,6 +7955,20 @@
       "motif": "réaction adressée à une autre abonnée, aucun contenu auquel répondre",
       "page_id": "114311920399404",
       "quand": "2026-09-17T00:38:47.018Z"
+    },
+    {
+      "id": "500400911790501_1265040564357259",
+      "extrait": "« Infestés »! Hahaha!",
+      "motif": "boutade entre abonnés, aucun contenu auquel répondre",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T01:38:15.695Z"
+    },
+    {
+      "id": "500400911790501_139713898730907",
+      "extrait": "Chantal Bousquet oui exactement",
+      "motif": "confirmation d'un mot entre abonnés, dans le même micro-fil où l'on répond une fois",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T01:38:15.695Z"
     }
   ]
 }
