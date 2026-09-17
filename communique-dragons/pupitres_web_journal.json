@@ -1,0 +1,57 @@
+{
+ "editor@thenarwhal.ca": {
+  "quand": "2026-09-17T05:14:42",
+  "média": "The Narwhal",
+  "conversation": "4fda2c3f-92e3-4a32-b7ee-1ba4412db8b4"
+ },
+ "editorial@corporateknights.com": {
+  "quand": "2026-09-17T05:14:58",
+  "média": "Corporate Knights",
+  "conversation": "24c8da5a-4fb9-4cd6-895c-8f9058e67d3a"
+ },
+ "tips@betakit.com": {
+  "quand": "2026-09-17T05:15:14",
+  "média": "BetaKit",
+  "conversation": "9ad72fa7-a338-43e5-97ff-338392e5aef0"
+ },
+ "tips@thelogic.co": {
+  "quand": "2026-09-17T05:15:30",
+  "média": "The Logic",
+  "conversation": "c5df7746-5646-459b-846d-3da4202b52fa"
+ },
+ "mmaddever@brunico.com": {
+  "quand": "2026-09-17T05:15:46",
+  "média": "Strategy (Brunico)",
+  "conversation": "d7225096-2524-4910-9da8-103823776473"
+ },
+ "editors@blogto.com": {
+  "quand": "2026-09-17T05:16:02",
+  "média": "blogTO",
+  "conversation": "96208529-772c-4a4d-be7d-f0dbb2603d3a"
+ },
+ "city.desk@freepress.mb.ca": {
+  "quand": "2026-09-17T05:16:17",
+  "média": "Winnipeg Free Press",
+  "conversation": "186d3abc-cc4e-4a2e-8436-fa8a9257681a"
+ },
+ "webnews@freepress.mb.ca": {
+  "quand": "2026-09-17T05:16:33",
+  "média": "Winnipeg Free Press, web",
+  "conversation": "e30a48c4-ae3f-4342-b1fe-6f1994d6a3ee"
+ },
+ "editor@ricochet.media": {
+  "quand": "2026-09-17T05:16:49",
+  "média": "Ricochet",
+  "conversation": "4a317626-a022-4001-8bc0-9f871a9cecfb"
+ },
+ "presse@pivot.quebec": {
+  "quand": "2026-09-17T05:17:05",
+  "média": "Pivot",
+  "conversation": "71fbcb6c-5f1f-4b68-af75-2dfeaf813848"
+ },
+ "vcauchy@laterre.ca": {
+  "quand": "2026-09-17T05:17:21",
+  "média": "La Terre de chez nous, pupitre",
+  "conversation": "7fcb5ff6-dc4c-4a8a-9a59-27d88fbbd737"
+ }
+}

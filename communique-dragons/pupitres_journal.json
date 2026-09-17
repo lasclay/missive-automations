@@ -68,5 +68,19 @@
   "pupitre": "breaking news",
   "source": "annuaire média",
   "conversation": "ed94f647-d951-4a46-a6be-017392c4ea49"
+ },
+ "info@unpointcinq.ca": {
+  "quand": "2026-09-17T05:10:00",
+  "média": "Unpointcinq",
+  "pupitre": "rédaction",
+  "source": "scrape 17 sept",
+  "conversation": "d841167a-66f4-40a9-ac13-6b96ea164d9a"
+ },
+ "adesrochers@laterre.ca": {
+  "quand": "2026-09-17T05:10:00",
+  "média": "La Terre de chez nous, publications",
+  "pupitre": "rédaction",
+  "source": "scrape 17 sept",
+  "conversation": "18263ee4-440b-46c5-aa9e-59bc316f7f38"
  }
 }
