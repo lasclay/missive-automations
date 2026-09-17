@@ -1,128 +1,129 @@
 {
- "alexandre.duval@radio-canada.ca": {
-  "quand": "2026-09-16T13:05:00",
-  "émission": "Première heure",
-  "rôle": "animateur",
-  "conversation": "4dd94539-690e-49e2-8737-07ac20889c4b"
- },
- "isabelle.fleury@radio-canada.ca": {
-  "quand": "2026-09-16T13:12:00",
-  "émission": "Première heure",
-  "rôle": "réalisation",
-  "conversation": "c00f3cce-759e-4075-8140-34c8939a2ede"
- },
- "xavier.gagnon@radio-canada.ca": {
-  "quand": "2026-09-16T13:12:00",
-  "émission": "Première heure",
-  "rôle": "recherche",
-  "conversation": "b5ae42af-f920-4a55-8183-091cfbec66eb"
- },
- "bryan.rochon@radio-canada.ca": {
-  "quand": "2026-09-17T10:22:00",
-  "émission": "Première heure",
-  "rôle": "recherche",
-  "conversation": "79b79270-e537-4abf-9240-71747ddc179e"
- },
- "guillaume.dumas@radio-canada.ca": {
-  "quand": "2026-09-17T10:18:00",
-  "émission": "C'est encore mieux l'après-midi",
-  "rôle": "animateur",
-  "conversation": "8bff5893-8b99-4549-afc3-682700305f3f"
- },
- "sandra.lalancette@radio-canada.ca": {
-  "quand": "2026-09-16T13:09:00",
-  "émission": "C'est encore mieux l'après-midi",
-  "rôle": "réalisation",
-  "conversation": "ee391437-181a-4a98-b737-739603a90f35"
- },
- "mathieu.boulay@radio-canada.ca": {
-  "quand": "2026-09-16T13:15:00",
-  "émission": "C'est encore mieux l'après-midi",
-  "rôle": "recherche",
-  "conversation": "375e65be-b21b-4d4f-b06a-ad39c3bb8f32"
- },
- "patrick.masbourian@radio-canada.ca": {
-  "quand": "2026-09-17T10:23:00",
-  "émission": "Tout un matin",
-  "rôle": "animateur",
-  "conversation": "0d30b362-da8d-4373-ab4c-1b3b40fc47c6"
- },
- "dominique.depatie@radio-canada.ca": {
-  "quand": "2026-09-16T13:44:00",
-  "émission": "Tout un matin",
-  "rôle": "réalisation",
-  "conversation": "cee1c56c-bb15-4f5a-af98-4a4e7260f1d1"
- },
- "catherine.bordeleau@radio-canada.ca": {
-  "quand": "2026-09-17T10:24:00",
-  "émission": "Tout un matin",
-  "rôle": "recherche",
-  "conversation": "b786ecdc-432c-42db-be13-e0df3fb0bb65"
- },
- "eric.st-pierre@radio-canada.ca": {
-  "quand": "2026-09-17T10:25:00",
-  "émission": "Tout un matin",
-  "rôle": "recherche",
-  "conversation": "0ec3cc1b-564c-49fa-910e-27ea293ec6db"
- },
- "annie.desrochers@radio-canada.ca": {
-  "quand": "2026-09-17T10:15:00",
-  "émission": "Le 15-18",
-  "rôle": "animatrice",
-  "conversation": "85f64474-3cb0-450f-b830-82457b23c0ee"
- },
- "stephanie.gendron@radio-canada.ca": {
-  "quand": "2026-09-17T10:16:00",
-  "émission": "Le 15-18",
-  "rôle": "chef de contenu",
-  "conversation": "307cad01-bdfb-4948-a581-cf12904cadc6"
- },
- "noemie.desilets@radio-canada.ca": {
-  "quand": "2026-09-17T10:19:00",
-  "émission": "Le 15-18",
-  "rôle": "recherche",
-  "conversation": "c1744641-6b0c-4b53-a7bd-dd09a14b0f41"
- },
- "caroline.roy-blais@radio-canada.ca": {
-  "quand": "2026-09-17T10:20:00",
-  "émission": "Le 15-18",
-  "rôle": "recherche",
-  "conversation": "cf61cf9e-b58e-46a0-8d4b-e768701ebce9"
- },
- "matthieu.dugal@radio-canada.ca": {
-  "quand": "2026-09-17T10:26:00",
-  "émission": "Moteur de recherche",
-  "rôle": "animateur",
-  "conversation": "623e0b6f-1e3d-4e9c-8b64-e37e5d5241df"
- },
- "julie.brunet@radio-canada.ca": {
-  "quand": "2026-09-17T10:27:00",
-  "émission": "Moteur de recherche",
-  "rôle": "réalisation",
-  "conversation": "aa2942c1-567f-4e76-a046-eeaeefaf08e3"
- },
- "sebastien.landry@radio-canada.ca": {
-  "quand": "2026-09-17T10:28:00",
-  "émission": "Les années lumière",
-  "rôle": "réalisation",
-  "conversation": "f16793f2-4469-4eab-8d09-718f36b5f7d7"
- },
- "gino.harel@radio-canada.ca": {
-  "quand": "2026-09-17T10:29:00",
-  "émission": "Les années lumière",
-  "rôle": "journaliste",
-  "conversation": "c3597f3f-b330-46cc-8284-a9be744759ef"
- },
- "damien.grapton@radio-canada.ca": {
-  "quand": "2026-09-17T10:30:00",
-  "émission": "Les années lumière",
-  "rôle": "recherche",
-  "conversation": "db9703f9-d4f0-43be-bd0b-f721b005d796"
- },
- "pierre-olivier.zappa@tva.ca": {
-  "quand": "2026-09-16T13:42:00",
-  "émission": "À vos affaires",
-  "rôle": "animateur",
-  "conversation": "41d3d36e-0ca6-46e1-a12d-253b2d47f5f8"
- }
+  "isabelle.fleury@radio-canada.ca": {
+    "quand": "2026-09-16T13:12:00",
+    "émission": "Première heure",
+    "rôle": "réalisation",
+    "conversation": "c00f3cce-759e-4075-8140-34c8939a2ede"
+  },
+  "xavier.gagnon@radio-canada.ca": {
+    "quand": "2026-09-16T13:12:00",
+    "émission": "Première heure",
+    "rôle": "recherche",
+    "conversation": "b5ae42af-f920-4a55-8183-091cfbec66eb"
+  },
+  "bryan.rochon@radio-canada.ca": {
+    "quand": "2026-09-17T10:22:00",
+    "émission": "Première heure",
+    "rôle": "recherche",
+    "conversation": "79b79270-e537-4abf-9240-71747ddc179e"
+  },
+  "guillaume.dumas@radio-canada.ca": {
+    "quand": "2026-09-17T10:18:00",
+    "émission": "C'est encore mieux l'après-midi",
+    "rôle": "animateur",
+    "conversation": "8bff5893-8b99-4549-afc3-682700305f3f"
+  },
+  "sandra.lalancette@radio-canada.ca": {
+    "quand": "2026-09-16T13:09:00",
+    "émission": "C'est encore mieux l'après-midi",
+    "rôle": "réalisation",
+    "conversation": "ee391437-181a-4a98-b737-739603a90f35"
+  },
+  "mathieu.boulay@radio-canada.ca": {
+    "quand": "2026-09-16T13:15:00",
+    "émission": "C'est encore mieux l'après-midi",
+    "rôle": "recherche",
+    "conversation": "375e65be-b21b-4d4f-b06a-ad39c3bb8f32"
+  },
+  "patrick.masbourian@radio-canada.ca": {
+    "quand": "2026-09-17T10:23:00",
+    "émission": "Tout un matin",
+    "rôle": "animateur",
+    "conversation": "0d30b362-da8d-4373-ab4c-1b3b40fc47c6"
+  },
+  "dominique.depatie@radio-canada.ca": {
+    "quand": "2026-09-16T13:44:00",
+    "émission": "Tout un matin",
+    "rôle": "réalisation",
+    "conversation": "cee1c56c-bb15-4f5a-af98-4a4e7260f1d1"
+  },
+  "catherine.bordeleau@radio-canada.ca": {
+    "quand": "2026-09-17T10:24:00",
+    "émission": "Tout un matin",
+    "rôle": "recherche",
+    "conversation": "b786ecdc-432c-42db-be13-e0df3fb0bb65"
+  },
+  "eric.st-pierre@radio-canada.ca": {
+    "quand": "2026-09-17T10:25:00",
+    "émission": "Tout un matin",
+    "rôle": "recherche",
+    "conversation": "0ec3cc1b-564c-49fa-910e-27ea293ec6db"
+  },
+  "annie.desrochers@radio-canada.ca": {
+    "quand": "2026-09-17T10:15:00",
+    "émission": "Le 15-18",
+    "rôle": "animatrice",
+    "conversation": "85f64474-3cb0-450f-b830-82457b23c0ee"
+  },
+  "stephanie.gendron@radio-canada.ca": {
+    "quand": "2026-09-17T10:16:00",
+    "émission": "Le 15-18",
+    "rôle": "chef de contenu",
+    "conversation": "307cad01-bdfb-4948-a581-cf12904cadc6"
+  },
+  "noemie.desilets@radio-canada.ca": {
+    "quand": "2026-09-17T10:19:00",
+    "émission": "Le 15-18",
+    "rôle": "recherche",
+    "conversation": "c1744641-6b0c-4b53-a7bd-dd09a14b0f41"
+  },
+  "caroline.roy-blais@radio-canada.ca": {
+    "quand": "2026-09-17T10:20:00",
+    "émission": "Le 15-18",
+    "rôle": "recherche",
+    "conversation": "cf61cf9e-b58e-46a0-8d4b-e768701ebce9"
+  },
+  "matthieu.dugal@radio-canada.ca": {
+    "quand": "2026-09-17T10:26:00",
+    "émission": "Moteur de recherche",
+    "rôle": "animateur",
+    "conversation": "623e0b6f-1e3d-4e9c-8b64-e37e5d5241df"
+  },
+  "julie.brunet@radio-canada.ca": {
+    "quand": "2026-09-17T10:27:00",
+    "émission": "Moteur de recherche",
+    "rôle": "réalisation",
+    "conversation": "aa2942c1-567f-4e76-a046-eeaeefaf08e3"
+  },
+  "sebastien.landry@radio-canada.ca": {
+    "quand": "2026-09-17T10:28:00",
+    "émission": "Les années lumière",
+    "rôle": "réalisation",
+    "conversation": "f16793f2-4469-4eab-8d09-718f36b5f7d7"
+  },
+  "gino.harel@radio-canada.ca": {
+    "quand": "2026-09-17T10:29:00",
+    "émission": "Les années lumière",
+    "rôle": "journaliste",
+    "conversation": "c3597f3f-b330-46cc-8284-a9be744759ef"
+  },
+  "damien.grapton@radio-canada.ca": {
+    "quand": "2026-09-17T10:30:00",
+    "émission": "Les années lumière",
+    "rôle": "recherche",
+    "conversation": "db9703f9-d4f0-43be-bd0b-f721b005d796"
+  },
+  "pierre-olivier.zappa@tva.ca": {
+    "quand": "2026-09-16T13:42:00",
+    "émission": "À vos affaires",
+    "rôle": "animateur",
+    "conversation": "41d3d36e-0ca6-46e1-a12d-253b2d47f5f8"
+  },
+  "alexandre.duval-qc@radio-canada.ca": {
+    "quand": "2026-09-17T05:31:00",
+    "émission": "Première heure",
+    "rôle": "animateur",
+    "conversation": "5a029336-f048-42c5-93f1-f53c365e73d4",
+    "note": "Deux Alexandre Duval a Radio-Canada. Le premier envoi est alle au realisateur numerique d'Ottawa, qui a corrige lui-meme : l'animateur de Quebec porte le suffixe -qc."
+  }
 }

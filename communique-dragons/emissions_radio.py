@@ -41,7 +41,7 @@ Lasclay.com"""
 # (prenom, adresse, emission, role, ville)
 EQUIPES = [
     # Premiere heure, ICI Premiere Quebec, 6 h a 9 h
-    ("Alexandre", "alexandre.duval@radio-canada.ca", "Première heure", "animateur", "quebec"),
+    ("Alexandre", "alexandre.duval-qc@radio-canada.ca", "Première heure", "animateur", "quebec"),
     ("Isabelle", "isabelle.fleury@radio-canada.ca", "Première heure", "réalisation", "quebec"),
     ("Xavier", "xavier.gagnon@radio-canada.ca", "Première heure", "recherche", "quebec"),
     ("Bryan", "bryan.rochon@radio-canada.ca", "Première heure", "recherche", "quebec"),
