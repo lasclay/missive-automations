@@ -32,6 +32,12 @@
  *   POST /postraw    {id}             → post brut (pour retrouver l'id de tâche d'un post existant)
  *   POST /note       {id, markdown}   → note interne (commentaire)
  *   POST /close      {id, note}       → ferme le fil (+ note)
+ *   POST /move       {id, team, add[], remove[], close}
+ *                                   → déplace le fil dans la boîte d'une AUTRE équipe
+ *                                     (PATCH /conversations/:id + force_team + add_to_team_inbox).
+ *                                     force_team est requis : sans lui Missive ignore `team`
+ *                                     sur un fil déjà rattaché. `add`/`remove` ajustent les
+ *                                     étiquettes au passage, `close` referme après.
  *   POST /reply      {id, from, to[], cc[], subject, body, send, closeAfter,
  *                     attachments[]}  → crée un brouillon (send=true pour envoyer),
  *                                       ferme après si closeAfter=true.
@@ -413,6 +419,24 @@ async function closeConversation(id, note) {
   });
 }
 
+// Déplace un fil vers la boîte d'une autre équipe. Ce n'est PAS un POST /posts comme le
+// reste des mutations : c'est un PATCH /conversations/:id, le seul endroit où Missive expose
+// le rattachement d'équipe.
+//
+// `force_team: true` est INDISPENSABLE. Sans lui, Missive IGNORE silencieusement le champ
+// `team` dès que le fil appartient déjà à une équipe — ce qui est le cas de tout fil arrivé
+// dans une boîte partagée. Le premier essai de repartition_merge.js est tombé exactement
+// là-dessus : l'appel répondait 200, l'étiquette bougeait, et le fil restait sur place.
+// `add_to_team_inbox: true` le remet dans l'inbox de la cible plutôt que dans ses archives.
+async function moveToTeam({ id, team, add, remove, close }) {
+  const conv = { id, organization: ORG, team, force_team: true, add_to_team_inbox: true };
+  if (Array.isArray(add) && add.length) conv.add_shared_labels = add;
+  if (Array.isArray(remove) && remove.length) conv.remove_shared_labels = remove;
+  const r = await mSend("PATCH", `/conversations/${id}`, { conversations: [conv] });
+  if (close) await closeConversation(id, "_Fil déplacé puis refermé._");
+  return r;
+}
+
 // Étiquettes partagées d'un fil. `close` ne touche pas aux étiquettes, et support.js ne retire
 // « Draft AI Support » que des fils fermés : sans cette route, un fil répondu mais laissé ouvert
 // (parce qu'un envoi reste dû) garde son étiquette de brouillon indéfiniment.
@@ -642,6 +666,10 @@ const server = http.createServer(async (req, res) => {
       if (!body.id) return json(res, 400, { error: "id requis" });
       if (!body.add && !body.remove) return json(res, 400, { error: "add[] ou remove[] requis" });
       await setLabels(body); return json(res, 200, { ok: true });
+    }
+    if (route === "/move") {
+      if (!body.id || !body.team) return json(res, 400, { error: "id et team requis (team = id d'équipe, cf. structure)" });
+      await moveToTeam(body); return json(res, 200, { ok: true, moved_to: body.team });
     }
     if (route === "/close") {
       if (!body.id) return json(res, 400, { error: "id requis" });

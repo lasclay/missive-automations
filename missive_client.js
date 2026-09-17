@@ -33,6 +33,11 @@
  *   node missive_client.js taskstate <taskId> <todo|in_progress|closed> [convId]
  *   node missive_client.js note <convId> "texte markdown"
  *   node missive_client.js close <convId> "note optionnelle"
+ *   node missive_client.js move <convId> <teamId>   (déplace le fil dans la boîte d'une
+ *                                              AUTRE équipe. Les ids d'équipe viennent de
+ *                                              `structure`. Avec --stdin, lit en plus un JSON
+ *                                              {add:[],remove:[],close:true} pour ajuster les
+ *                                              étiquettes et refermer au passage.)
  *   node missive_client.js labels <convId>   (JSON {add:[],remove:[],markdown,keepClosed} sur stdin ;
  *                                             keepClosed:true sur un fil déjà fermé, sinon il rouvre)
  *   node missive_client.js reply <convId>   (lit un JSON de brouillon sur stdin)
@@ -95,6 +100,13 @@ function readStdin() {
     else if (cmd === "taskstate") console.log(JSON.stringify(await call("/task-state", { taskId: a1, state: a2, conversation: a3 }), null, 2));
     else if (cmd === "note") console.log(JSON.stringify(await call("/note", { id: a1, markdown: a2 }), null, 2));
     else if (cmd === "close") console.log(JSON.stringify(await call("/close", { id: a1, note: a2 }), null, 2));
+    else if (cmd === "move") {
+      // stdin seulement sur demande explicite (--stdin) : `isTTY` ne distingue pas « aucune
+      // redirection » d'un pipe encore vide, et un `move` sans options restait bloqué à
+      // attendre une entrée qui ne venait jamais.
+      const extra = a3 === "--stdin" ? JSON.parse((await readStdin()).trim() || "{}") : {};
+      console.log(JSON.stringify(await call("/move", { id: a1, team: a2, ...extra }), null, 2));
+    }
     else if (cmd === "labels") { const l = JSON.parse(await readStdin()); console.log(JSON.stringify(await call("/labels", { id: a1, ...l }), null, 2)); }
     else if (cmd === "reply") { const draft = JSON.parse(await readStdin()); console.log(JSON.stringify(await call("/reply", { id: a1, ...draft }), null, 2)); }
     else if (cmd === "books") console.log(JSON.stringify(await call("/contact-books", {}), null, 2));
