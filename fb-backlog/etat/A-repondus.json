@@ -1528,8 +1528,16 @@
       "quand": "2026-09-17T13:08:13.829Z",
       "confirme": true,
       "texte": "Merci, ça fait plaisir à lire. On continue."
+    },
+    {
+      "id": "1678623234271486_1659646785739029",
+      "reponse_id": "1678623234271486_2245905112807961",
+      "page_id": "104242204750257",
+      "quand": "2026-09-17T17:08:05.536Z",
+      "confirme": true,
+      "texte": "Ça compte beaucoup, merci. Les mitaines qui partent en cadeau, c'est souvent comme ça que quelqu'un découvre la soie d'asclépiade pour la première fois."
     }
   ],
-  "derniere_execution": "2026-09-17T13:08:13.829Z",
-  "total": 191
+  "derniere_execution": "2026-09-17T17:08:05.537Z",
+  "total": 192
 }
