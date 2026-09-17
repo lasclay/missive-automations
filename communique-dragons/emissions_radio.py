@@ -78,7 +78,7 @@ QUI = ("Je m'appelle Gabriel Gouveia, fondateur de " + lien("Lasclay", SITE_FR) 
        "cultive pour sauvegarder un pollinisateur emblématique et menacé : le papillon "
        "monarque.")
 
-ANNONCE = ("Demain soir, jeudi 17 septembre, je présente Lasclay dans le premier épisode "
+ANNONCE = ("Ce soir, jeudi 17 septembre, je présente Lasclay dans le premier épisode "
            "de la 21e saison de Dragons' Den, sur CBC et CBC Gem.")
 
 POURQUOI = {
@@ -104,7 +104,7 @@ POURQUOI = {
 }
 
 DISPO = {
- "quebec": ("Je suis à Québec et disponible en studio, demain matin comme le reste de la "
+ "quebec": ("Je suis à Québec et disponible en studio aujourd'hui comme le reste de la "
             "semaine. Je peux apporter de la soie brute et un manteau ouvert : ça se "
             "touche, et personne ne s'attend à ce que ça pèse aussi peu."),
  "montreal": ("Je suis à Québec, disponible au téléphone n'importe quand, et je peux me "
@@ -113,7 +113,7 @@ DISPO = {
  "sciences": ("Je suis à Québec et disponible quand ça vous convient, en studio ou au "
               "téléphone. L'atelier de Limoilou est ouvert si vous voulez voir comment "
               "une gousse devient un isolant."),
- "affaires": ("Je suis à Québec, disponible en studio à Montréal ou en duplex, demain "
+ "affaires": ("Je suis à Québec, disponible en studio à Montréal ou en duplex, aujourd'hui "
               "comme le reste de la semaine."),
 }
 
@@ -165,7 +165,7 @@ def main(argv):
     faits, echecs = 0, []
     for i, (prenom, adresse, emission, role, ville) in enumerate(reste, 1):
         res = appel({"from": DE, "to": [adresse],
-                     "subject": f"Invité possible pour {emission} : l'asclépiade à Dragons' Den demain",
+                     "subject": f"Invité possible pour {emission} : l'asclépiade à Dragons' Den ce soir",
                      "body": en_html(corps(prenom, emission, ville)),
                      "send": True, "attachments": pieces})
         horo = datetime.datetime.now().isoformat(timespec="seconds")
