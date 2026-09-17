@@ -688,7 +688,9 @@ route("POST /api/shipments/buy", async ({ req, user }) => {
   // Le fournisseur choisi à l'écran voyage avec l'achat : sans lui, un tarif Chit Chats
   // partait acheter chez Freightcom.
   return await shipments.acheterEtiquette(Number(b.order_id),
-    { serviceId: b.service_id, fournisseur: b.fournisseur || null, userId: user });
+    { serviceId: b.service_id, fournisseur: b.fournisseur || null, userId: user,
+      retourJoint: !!b.retour_joint, manutentionSpeciale: !!b.manutention_speciale,
+      notifierBoutique: b.notifier_boutique !== false });
 });
 route("POST /api/shipments/return", async ({ req, user }) => {
   accounts.exiger(user, "labels_buy");

@@ -95,6 +95,14 @@ const TARIF = (id, cents, nom) => ({
     !!d.packaging_properties.packages[0].description, d.packaging_properties.packages[0].description);
   verifier("pas de pallet_type parasite dans la variante colis",
     !("pallet_type" in d.packaging_properties));
+  /*
+   * Les options d'« Autres options d'expédition » n'étaient lues nulle part : trois cases
+   * qui portaient un nom sans produire d'effet. Par défaut, rien ne part — une option
+   * envoyée d'office change le prix ou perd un tarif sans qu'on l'ait demandé.
+   */
+  verifier("aucune option de colis n'est envoyée sans qu'on la demande",
+    !("includes_return_label" in d.packaging_properties)
+    && !("special_handling_required" in d.packaging_properties.packages[0]));
   verifier("dimensions converties en cm",
     JSON.stringify(d.packaging_properties.packages[0].measurements.cuboid) === '{"unit":"cm","l":23,"w":15,"h":5}',
     "9×6×2 po → 23×15×5 cm");
@@ -212,6 +220,13 @@ const TARIF = (id, cents, nom) => ({
   const u1 = fc.identifiantUnique(ENVOI, "cp-ep-dropoff");
   const u2 = fc.identifiantUnique({ ...ENVOI }, "cp-ep-dropoff");
   verifier("la clé d'idempotence est déterministe", u1 === u2, u1);
+  /*
+   * Le retour part de la même commande, souvent par le même service. Avec une clé identique
+   * à celle de l'aller, Freightcom rendait l'expédition d'aller au lieu d'en créer une :
+   * aucune étiquette de retour n'était jamais produite, quoi qu'on clique.
+   */
+  const uR = fc.identifiantUnique({ ...ENVOI, isReturn: true }, "cp-ep-dropoff");
+  verifier("un retour ne partage pas la clé de l'aller", uR !== u1, `${u1} vs ${uR}`);
   verifier("elle change si on la fait changer exprès",
     fc.identifiantUnique(ENVOI, "cp-ep-dropoff", 1) !== u1);
   verifier("elle tient dans les 128 caractères imposés", u1.length <= 128);
@@ -307,6 +322,19 @@ const TARIF = (id, cents, nom) => ({
    * préférences cherchait « 4x6 », « thermal » et « label » — aucune ne correspond — et la
    * règle suivante attrapait `letter`. Chaque étiquette sortait donc au quart d'une page.
    */
+  console.log("\nOptions de colis\n" + "─".repeat(64));
+  {
+    run("DELETE FROM rate_cache");
+    const vus3 = espion([{ statut: 202, corps: { request_id: "req-opt" } },
+      { corps: { status: { done: true, total: 1, complete: 1 }, rates: [TARIF("cp-ep", 700, "Expedited")] } }]);
+    await fc.coter({ ...ENVOI, orderId: 60001, to: { ...ENVOI.to, postalCode: "L1L 1L1" },
+      etiquetteRetour: true, manutentionSpeciale: true });
+    const pp = vus3[0].corps.details.packaging_properties;
+    verifier("l'étiquette de retour jointe est transmise", pp.includes_return_label === true);
+    verifier("la manutention spéciale est transmise, sur le colis",
+      pp.packages[0].special_handling_required === true);
+  }
+
   console.log("\nTaille de l'étiquette\n" + "─".repeat(64));
   {
     const { poserReglage } = require("./lib/db");

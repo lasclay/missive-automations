@@ -220,12 +220,26 @@ function scenario(envoi, { services = null, dateExpedition = null } = {}) {
       // (contrairement aux montants, qui eux sont des chaînes en cents), et `description` est
       // **obligatoire** sur chaque colis.
       packaging_properties: {
+        /*
+         * Deux options d'« Autres options d'expédition », qui existent bel et bien dans la
+         * spec et n'étaient envoyées nulle part — les cases de l'écran ne faisaient rien.
+         *
+         * `includes_return_label` fait produire l'étiquette de retour EN MÊME TEMPS que
+         * l'aller, dans les mêmes documents. C'est la voie économique quand on sait d'avance
+         * qu'un retour est probable ; l'autre voie est d'acheter un envoi inverse séparé.
+         *
+         * `special_handling_required` a un coût caché : le programme Postes Canada sous
+         * 1,1 lb — celui qui porte l'économie du projet — exige l'absence de manutention
+         * spéciale. La cocher fait disparaître ce tarif.
+         */
+        ...(envoi.etiquetteRetour ? { includes_return_label: true } : {}),
         packages: [{
           description: envoi.description || "Marchandise",
           measurements: {
             weight: { unit: "kg", value: kg(p.weightG) },
             cuboid: { unit: "cm", l: cm(p.lengthIn), w: cm(p.widthIn), h: cm(p.heightIn) },
           },
+          ...(envoi.manutentionSpeciale ? { special_handling_required: true } : {}),
         }],
       },
       shipment_classification: "B2C",
@@ -830,8 +844,24 @@ async function prechauffer(envois, { concurrence = PARALLELE } = {}) {
  * que délibérément — après une annulation — parce que Freightcom réutilise l'identifiant
  * d'une expédition annulée ou en erreur, et refuse d'en créer deux sur une réussie.
  */
+/**
+ * La clé d'idempotence — et le sens de l'envoi en fait partie.
+ *
+ * `unique_id` protège du double achat : deux réservations avec la même clé rendent la même
+ * expédition au lieu d'en payer deux. C'est ce qui met à l'abri d'un double clic ou d'un
+ * délai réseau.
+ *
+ * Mais l'étiquette de retour part de la MÊME commande, souvent par le MÊME service : la clé
+ * était identique à celle de l'aller. Freightcom rendait donc l'expédition d'aller au lieu
+ * d'en créer une, et aucun retour n'était jamais produit — le bouton « Créer une étiquette
+ * de retour » ne pouvait pas fonctionner, quoi qu'on clique.
+ *
+ * Le sens entre donc dans la clé. Un aller et un retour sont deux envois ; deux allers
+ * restent un seul.
+ */
 function identifiantUnique(envoi, serviceId, tentative = 0) {
-  const base = `LAS-${envoi.orderId || envoi.order_number || "x"}-${serviceId}`;
+  const sens = envoi.isReturn ? "R" : "A";
+  const base = `LAS-${envoi.orderId || envoi.order_number || "x"}-${sens}-${serviceId}`;
   return (tentative ? `${base}-${tentative}` : base).slice(0, 128);
 }
 
