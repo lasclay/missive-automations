@@ -265,7 +265,9 @@ function marge(cmd, prix) {
  * des achats en lot, où personne ne lit ligne à ligne.
  */
 async function acheterEtiquette(orderId, { serviceId = null, userId = null, batchId = null,
-  margeMax = null, fournisseur = null } = {}) {
+  margeMax = null, fournisseur = null,
+  // « Autres options d'expédition » — trois cases qui n'étaient lues nulle part.
+  retourJoint = false, manutentionSpeciale = false, notifierBoutique = true } = {}) {
   const cmd = orders.parId(orderId);
   if (!cmd) throw new Error("commande inconnue");
   if (cmd.status === "shipped") throw new Error("commande déjà expédiée");
@@ -273,6 +275,10 @@ async function acheterEtiquette(orderId, { serviceId = null, userId = null, batc
   const { envoi, tarifs, recommande } = cotation;
   const choisi = serviceId ? tarifs.find((t) => t.serviceId === serviceId) : recommande;
   if (!choisi) throw new Error(serviceId ? `service indisponible : ${serviceId}` : "aucun tarif applicable");
+  // Posées APRÈS la cotation : elles ne changent pas le prix affiché, elles s'ajoutent aux
+  // documents de l'envoi acheté.
+  if (retourJoint) envoi.etiquetteRetour = true;
+  if (manutentionSpeciale) envoi.manutentionSpeciale = true;
 
   // L'achat part chez celui qui a donné CE tarif, pas chez le fournisseur par défaut.
   //
@@ -335,7 +341,12 @@ async function acheterEtiquette(orderId, { serviceId = null, userId = null, batc
         assurance: envoi.insurance || 0, dropOff: !!choisi.dropOff }, userId);
     // Le renvoi du suivi vers la boutique part en arrière-plan : un canal indisponible ne doit
     // jamais faire échouer un achat déjà payé. L'échec reste dans la file de reprise.
-    setImmediate(() => require("./channels").notifier(shipmentId).catch(() => {}));
+    // « Ne pas notifier la boutique » : l'expédition est marquée comme traitée sans qu'aucun
+    // suivi ne parte. C'est ce qu'on veut sur un envoi de remplacement ou un échantillon,
+    // dont le client n'attend pas de courriel de la boutique.
+    if (notifierBoutique) setImmediate(() => require("./channels").notifier(shipmentId).catch(() => {}));
+    else run("UPDATE shipments SET marketplace_notified = 1, notify_error = ? WHERE id = ?",
+      "renvoi désactivé à l'achat", shipmentId);
     if (avertissement) journaliser("shipment.sans_document", "shipment", shipmentId,
       { orderId, fournisseur: a.nom }, userId);
     return { shipmentId, ...label, dropOff: !!choisi.dropOff, marge: m, avertissement };
