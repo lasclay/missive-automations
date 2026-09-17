@@ -1640,8 +1640,16 @@
       "quand": "2026-09-16T18:29:15.412Z",
       "confirme": true,
       "texte": "No, they arrive untreated. Sown in the autumn, winter does the work for you; started indoors, they need their month of cold first."
+    },
+    {
+      "id": "122142471404483418_1196760762132937",
+      "reponse_id": "122142471404483418_1619782093122977",
+      "page_id": "368305119707866",
+      "quand": "2026-09-17T11:26:30.372Z",
+      "confirme": true,
+      "texte": "True as far as it goes, though animals at pasture rarely touch it — the latex is far too bitter. The trouble comes when it dries into a hay bale: the bitterness fades, and with it the warning that kept them away."
     }
   ],
-  "derniere_execution": "2026-09-16T18:29:15.412Z",
-  "total": 205
+  "derniere_execution": "2026-09-17T11:26:30.372Z",
+  "total": 206
 }
