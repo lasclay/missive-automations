@@ -7969,6 +7969,62 @@
       "motif": "confirmation d'un mot entre abonnés, dans le même micro-fil où l'on répond une fois",
       "page_id": "114311920399404",
       "quand": "2026-09-17T01:38:15.695Z"
+    },
+    {
+      "id": "500400911790501_512379480964594",
+      "extrait": "Frasi Pagé une petite salad?",
+      "motif": "boutade répondant à une alerte sur la toxicité; la nuance sur le latex a déjà été publiée deux fois dans ce billet",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T11:40:28.423Z"
+    },
+    {
+      "id": "500400911790501_671591054760451",
+      "extrait": "Est-ce que tu aurais une photo à me montrer de votre volière?",
+      "motif": "question adressée à un autre abonné sur son montage",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T11:40:28.423Z"
+    },
+    {
+      "id": "500400911790501_1534083623777538",
+      "extrait": "est-ce que tu parlais d'une volière et d'une verrière?",
+      "motif": "précision de vocabulaire demandée à un autre abonné",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T11:40:28.423Z"
+    },
+    {
+      "id": "500400911790501_1228797431079640",
+      "extrait": "Alain Moreau Polarité vous habitez où ALAIN ?",
+      "motif": "échange entre abonnés, rien qui nous concerne",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T11:40:28.423Z"
+    },
+    {
+      "id": "500400911790501_1212106939646642",
+      "extrait": "pour que les calandres et pare brises soient pleins de papillons ?",
+      "motif": "boutade du micro-fil « border les autoroutes », déjà traité",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T11:40:28.423Z"
+    },
+    {
+      "id": "500400911790501_535372242032685",
+      "extrait": "dommage, je suis de Val-David et j'aimerais bien en avoir",
+      "motif": "commentaire sur une distribution municipale à Prévost, entre abonnées",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T11:40:28.423Z"
+    },
+    {
+      "id": "500400911790501_783210999322801",
+      "extrait": "Sylvie Deschenes oui effectivement",
+      "motif": "acquiescement entre abonnées au sujet d'une ressemblance avec le Hoya",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T11:40:28.423Z"
+    },
+    {
+      "id": "500400911790501_751601329890954",
+      "extrait": "le long des routes, il y aurait beaucoup de polluants sur les fleurs",
+      "motif": "même sujet que le long commentaire sur les bords de route auquel on répond une fois dans ce tir",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T11:40:28.423Z"
     }
   ]
 }
