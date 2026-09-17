@@ -1672,8 +1672,24 @@
       "quand": "2026-09-17T16:27:40.671Z",
       "confirme": true,
       "texte": "Swamp milkweed is hardy through zone 9, so northwest Florida sits inside its range — it should come back on its own each spring."
+    },
+    {
+      "id": "122142471404483418_1742311530497097",
+      "reponse_id": "122142471404483418_1578742624268446",
+      "page_id": "368305119707866",
+      "quand": "2026-09-17T18:28:47.427Z",
+      "confirme": true,
+      "texte": "All eleven we work with are North American natives, hardy from zone 3 through 9, so Colorado sits well inside that. Which of them belong to your particular corner of the state is worth checking against a local list — a county extension office or a Colorado native plant society will have one."
+    },
+    {
+      "id": "122142471404483418_1293758888920821",
+      "reponse_id": "122142471404483418_27964267926607183",
+      "page_id": "368305119707866",
+      "quand": "2026-09-17T18:32:43.138Z",
+      "confirme": true,
+      "texte": "Full sun above all — that is the one condition they will not do without. Beyond that, a patch of several plants does more good than a single one standing on its own."
     }
   ],
-  "derniere_execution": "2026-09-17T16:27:40.671Z",
-  "total": 209
+  "derniere_execution": "2026-09-17T18:32:43.138Z",
+  "total": 211
 }
