@@ -1744,8 +1744,16 @@
       "quand": "2026-09-18T19:27:17.219Z",
       "confirme": true,
       "texte": "Worth one caution so nobody pulls the wrong plant: butterfly weed, Asclepias tuberosa, is orange as well, and it is native. The tropical one, curassavica, has never been among the eleven we work with."
+    },
+    {
+      "id": "122142471404483418_1249207710253720",
+      "reponse_id": "122142471404483418_2084099002467464",
+      "page_id": "368305119707866",
+      "quand": "2026-09-18T21:26:41.439Z",
+      "confirme": true,
+      "texte": "What matters to a monarch is the species, not the postal route. All eleven we work with are native to North America, and none of them is tropical."
     }
   ],
-  "derniere_execution": "2026-09-18T19:27:17.220Z",
-  "total": 218
+  "derniere_execution": "2026-09-18T21:26:41.439Z",
+  "total": 219
 }
