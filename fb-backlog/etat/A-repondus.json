@@ -1536,8 +1536,32 @@
       "quand": "2026-09-17T17:08:05.536Z",
       "confirme": true,
       "texte": "Ça compte beaucoup, merci. Les mitaines qui partent en cadeau, c'est souvent comme ça que quelqu'un découvre la soie d'asclépiade pour la première fois."
+    },
+    {
+      "id": "1662408485892961_1002349479527678",
+      "reponse_id": "1662408485892961_1061494716502752",
+      "page_id": "104242204750257",
+      "quand": "2026-09-18T01:07:54.089Z",
+      "confirme": true,
+      "texte": "Merci du partage. Chez nous, la soie d'asclépiade est cultivée et transformée au Québec ; l'assemblage textile, lui, se fait surtout à l'étranger, et on préfère le dire clairement."
+    },
+    {
+      "id": "1678623234271486_1707963300904172",
+      "reponse_id": "1678623234271486_2976275296066116",
+      "page_id": "104242204750257",
+      "quand": "2026-09-18T01:10:23.895Z",
+      "confirme": true,
+      "texte": "Fair point. Syriaca is native and vigorous rather than a weed, and saving a few seeds where you find them is pretty much how it has always spread on its own."
+    },
+    {
+      "id": "1676622291138247_2432894147201063",
+      "reponse_id": "1676622291138247_1489430729643579",
+      "page_id": "104242204750257",
+      "quand": "2026-09-18T01:11:40.237Z",
+      "confirme": true,
+      "texte": "Merci! Ça nous encourage."
     }
   ],
-  "derniere_execution": "2026-09-17T17:08:05.537Z",
-  "total": 192
+  "derniere_execution": "2026-09-18T01:11:40.237Z",
+  "total": 195
 }
