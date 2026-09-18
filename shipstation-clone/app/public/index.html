@@ -1769,7 +1769,24 @@ function menuAncre(ancre, entrees, { droite = false } = {}) {
           e.hk ? `<kbd>${e.hk}</kbd>` : ""}${
           e.n != null ? `<span class="cpt">${num(e.n)}</span>` : ""}</div>`).join("")}</div>`);
   document.body.append(m);
-  m.querySelectorAll("[data-i]").forEach((d) => d.onclick = () => { m.remove(); entrees[d.dataset.i].f(); });
+  /*
+   * Une action de menu qui échoue doit le dire.
+   *
+   * `f()` était appelée sans être attendue ni surveillée. La plupart de ces actions sont
+   * asynchrones : quand l'une d'elles échouait, la promesse partait en rejet non traité, le
+   * menu se refermait, et il ne se passait strictement rien. « Le bouton ne fonctionne
+   * pas » — sauf qu'il fonctionnait, et que le serveur avait répondu quelque chose que
+   * personne ne voyait. Une vingtaine d'entrées de menu partageaient ce silence.
+   */
+  m.querySelectorAll("[data-i]").forEach((d) => d.onclick = async () => {
+    m.remove();
+    const e = entrees[d.dataset.i];
+    try { await e.f(); }
+    catch (err) {
+      dialogue(`${e.t} — impossible`, `<div class="avis">${esc(err.message || String(err))}</div>`,
+        null, "Fermer");
+    }
+  });
   setTimeout(() => document.addEventListener("click", () => m.remove(), { once: true }), 0);
   return m;
 }
@@ -4679,8 +4696,12 @@ async function detailCommande(id) {
               [["", "—"], ["my_account", "Mon compte"], ["third_party", "Tiers"], ["recipient", "Destinataire"]]
               .map(([v, t]) => `<option value="${v}"${o.shipping_account === v ? " selected" : ""}>${t}</option>`).join("")}
             </select></label>
-            <label class="ch"><input type="checkbox" id="cNonMach"> Colis non traitable en machine</label>
+            <label class="ch"><input type="checkbox" id="cNonMach"> Manutention spéciale requise</label>
+            <div class="doux" style="font-size:11.5px;margin:0 0 4px 20px">Fait perdre le
+              programme Postes Canada sous 500 g, qui l'exclut.</div>
             <label class="ch"><input type="checkbox" id="cRetour"> Joindre une étiquette de retour</label>
+            <div class="doux" style="font-size:11.5px;margin:0 0 4px 20px">Produite avec l'aller,
+              dans les mêmes documents.</div>
             <label class="ch"><input type="checkbox" id="cNoNotif"> Ne pas notifier la boutique</label>
           </details>
           <div id="cOut"></div>
@@ -4778,12 +4799,37 @@ async function detailCommande(id) {
           tracking_number: $("#mt").value || null, notifier: $("#mn").checked } });
         recharger(); rafraichirGrille(); rafraichirCompteurs();
       }, "Marquer") },
-    { t: "Créer une étiquette de retour", f: async () => {
-        if (!S.config.etiquettes_actives) return alert("Achat d'étiquettes désactivé sur ce service.");
-        const r = await api("/api/shipments/return", { method: "POST", body: {
-          order_id: id, fournisseur: ($("#cFour", f) && $("#cFour", f).value) || null } });
-        alert(r.error ? r.error : `Retour ${r.trackingNumber}`);
-        recharger();
+    /*
+     * L'étiquette de retour engage de l'argent réel, comme celle de l'aller. Elle partait
+     * sur un simple clic de menu, sans rien montrer de ce qui allait être acheté ni chez
+     * qui. ShipStation pose la question ; on la pose aussi.
+     */
+    { t: "Créer une étiquette de retour…", f: () => {
+        if (!S.config.etiquettes_actives)
+          return dialogue("Achat désactivé",
+            `<div class="avis">L'achat d'étiquettes est désactivé sur ce service
+             (<code>CLONE_ALLOW_LABELS</code>).</div>`, null, "Fermer");
+        const a = o.ship_to || {};
+        const four = ($("#cFour", f) && $("#cFour", f).value) || null;
+        dialogue("Créer une étiquette de retour", `
+          <p>Une étiquette <b>du client vers l'entrepôt</b> sera achetée immédiatement.
+            C'est une dépense réelle.</p>
+          <div class="carte"><b>De</b><br>${esc(a.name || o.customer_name || "—")}<br>
+            <span class="doux">${esc([a.street1, a.city, a.state, a.postalCode, a.country]
+              .filter(Boolean).join(", "))}</span></div>
+          <div class="carte"><b>Vers</b><br>${esc((entrepotResolu(o).id
+            && (S.refs.warehouses || []).find((w) => String(w.id) === String(entrepotResolu(o).id)) || {}).name
+            || "entrepôt par défaut")}</div>
+          <p class="doux">Le tarif retenu est le moins cher applicable${
+            four ? ` chez ${esc(four)}` : ""}. Le montant s'affichera une fois l'étiquette achetée.</p>`,
+          async () => {
+            const r = await api("/api/shipments/return", { method: "POST", body: {
+              order_id: id, fournisseur: four } });
+            if (r.error) { $("#dlgC").innerHTML = `<div class="avis">${esc(r.error)}</div>`; return false; }
+            toast(`Étiquette de retour achetée — ${r.trackingNumber || "sans suivi"}` +
+              `${r.price ? ` · ${money(r.price)}` : ""}.`);
+            recharger(); rafraichirGrille();
+          }, "Acheter l'étiquette de retour");
       } },
     { t: "Ouvrir un retour (RMA)…", f: () => dialogue("Ouvrir un retour", `
         <label class="champ"><span>Motif</span><select id="rm">${MOTIFS_RETOUR.map((m) =>
@@ -5329,9 +5375,15 @@ async function detailCommande(id) {
       // Le fournisseur du premier menu part avec l'achat. Sans lui, le serveur retombait
       // sur le réglage par défaut : on comparait trois courtiers pour finir par acheter
       // chez un quatrième, avec son tarif et son assurance à lui.
+      // Les trois cases d'« Autres options d'expédition » partent avec l'achat. Elles ne
+      // faisaient rien : elles portaient un nom sans produire d'effet, ce qui est pire
+      // qu'une case absente — on croit avoir agi.
       const r = await api("/api/shipments/buy", { method: "POST", body: {
         order_id: id, fournisseur: ($("#cFour", f) && $("#cFour", f).value) || null,
-        service_id: ($("#cSvc", f) && $("#cSvc", f).value) || null } });
+        service_id: ($("#cSvc", f) && $("#cSvc", f).value) || null,
+        retour_joint: !!($("#cRetour", f) && $("#cRetour", f).checked),
+        manutention_speciale: !!($("#cNonMach", f) && $("#cNonMach", f).checked),
+        notifier_boutique: !($("#cNoNotif", f) && $("#cNoNotif", f).checked) } });
       if (r.error) alert(r.error);
       else {
         // Une étiquette réservée sans document ni suivi ne s'imprime pas. Le dire avant

@@ -7969,6 +7969,580 @@
       "motif": "confirmation d'un mot entre abonnés, dans le même micro-fil où l'on répond une fois",
       "page_id": "114311920399404",
       "quand": "2026-09-17T01:38:15.695Z"
+    },
+    {
+      "id": "500400911790501_512379480964594",
+      "extrait": "Frasi Pagé une petite salad?",
+      "motif": "boutade répondant à une alerte sur la toxicité; la nuance sur le latex a déjà été publiée deux fois dans ce billet",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T11:40:28.423Z"
+    },
+    {
+      "id": "500400911790501_671591054760451",
+      "extrait": "Est-ce que tu aurais une photo à me montrer de votre volière?",
+      "motif": "question adressée à un autre abonné sur son montage",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T11:40:28.423Z"
+    },
+    {
+      "id": "500400911790501_1534083623777538",
+      "extrait": "est-ce que tu parlais d'une volière et d'une verrière?",
+      "motif": "précision de vocabulaire demandée à un autre abonné",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T11:40:28.423Z"
+    },
+    {
+      "id": "500400911790501_1228797431079640",
+      "extrait": "Alain Moreau Polarité vous habitez où ALAIN ?",
+      "motif": "échange entre abonnés, rien qui nous concerne",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T11:40:28.423Z"
+    },
+    {
+      "id": "500400911790501_1212106939646642",
+      "extrait": "pour que les calandres et pare brises soient pleins de papillons ?",
+      "motif": "boutade du micro-fil « border les autoroutes », déjà traité",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T11:40:28.423Z"
+    },
+    {
+      "id": "500400911790501_535372242032685",
+      "extrait": "dommage, je suis de Val-David et j'aimerais bien en avoir",
+      "motif": "commentaire sur une distribution municipale à Prévost, entre abonnées",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T11:40:28.423Z"
+    },
+    {
+      "id": "500400911790501_783210999322801",
+      "extrait": "Sylvie Deschenes oui effectivement",
+      "motif": "acquiescement entre abonnées au sujet d'une ressemblance avec le Hoya",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T11:40:28.423Z"
+    },
+    {
+      "id": "500400911790501_751601329890954",
+      "extrait": "le long des routes, il y aurait beaucoup de polluants sur les fleurs",
+      "motif": "même sujet que le long commentaire sur les bords de route auquel on répond une fois dans ce tir",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T11:40:28.423Z"
+    },
+    {
+      "id": "500400911790501_168532819283917",
+      "extrait": "Audrey, au chalet!",
+      "motif": "identification d'une autre abonnée accompagnée d'une note personnelle, aucun contenu auquel répondre",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T12:38:22.230Z"
+    },
+    {
+      "id": "500400911790501_160115656847219",
+      "extrait": "ca pousse aussi par rhisome sous terre … je les tire a la verticale et une partie de la racine sort",
+      "motif": "méthode d'arrachage personnelle; rien de vérifié à confirmer là-dessus, et le propos sur les rhizomes est déjà couvert dans ce billet",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T14:39:12.433Z"
+    },
+    {
+      "id": "500400911790501_691617986076810",
+      "extrait": "Alain Berson terrebonne",
+      "motif": "réponse de localisation entre abonnés",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T14:39:12.433Z"
+    },
+    {
+      "id": "500400911790501_948607586306537",
+      "extrait": "Exactement. C'est ce type de chenille.",
+      "motif": "confirmation d'identification entre abonnées sur une photo que nous n'avons pas",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T14:39:12.433Z"
+    },
+    {
+      "id": "500400911790501_1156355538385237",
+      "extrait": "les abeilles raffolent des fleurs",
+      "motif": "affirmation sur les abeilles : rien de vérifié de notre côté, ni pour confirmer ni pour infirmer — la même réponse a déjà été publiée hier dans ce billet",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T14:39:12.433Z"
+    },
+    {
+      "id": "500400911790501_897802841462259",
+      "extrait": "quand on les laisse tranquille, elles se propagent très facilement",
+      "motif": "sujet de la propagation, déjà traité plusieurs fois dans ce billet",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T14:39:12.433Z"
+    },
+    {
+      "id": "500400911790501_1531309034004031",
+      "extrait": "J'en ferais bien pousser partout, j'adore son parfum!",
+      "motif": "même sujet que le parfum, auquel on répond une fois dans ce tir",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T14:39:12.433Z"
+    },
+    {
+      "id": "500400911790501_891694535516453",
+      "extrait": "En plus En plus sa sent tellement bon....",
+      "motif": "idem, sujet du parfum déjà traité une fois dans ce tir",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T14:39:12.433Z"
+    },
+    {
+      "id": "500400911790501_858846555178224",
+      "extrait": "Je fais pareil chez moi ❤️",
+      "motif": "acquiescement entre abonnées, aucun contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T14:39:12.433Z"
+    },
+    {
+      "id": "500400911790501_3431487857094090",
+      "extrait": "en plus ça sent bon l'été cette floraison",
+      "motif": "parfum : mise au point déjà publiée aujourd'hui sur ce billet, et rien de vérifié sur l'odeur",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T17:43:19.523Z"
+    },
+    {
+      "id": "500400911790501_941150253913996",
+      "extrait": "Corina Moisa-Aredoaie",
+      "motif": "simple mention de nom, aucun contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T17:43:19.523Z"
+    },
+    {
+      "id": "500400911790501_486801090324573",
+      "extrait": "Ville en vert - Écoquartier Villeray—Saint-Michel—Parc-Extension !!!",
+      "motif": "identification d'un organisme, aucune question ; rien de vérifié à ajouter sur cet organisme",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T17:43:19.523Z"
+    },
+    {
+      "id": "500400911790501_1193426931533579",
+      "extrait": "point de vue à considérer…",
+      "motif": "micro-fil « border les autoroutes » : saturation du jour (deux mises au point sur les bords de route déjà publiées)",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T17:43:19.523Z"
+    },
+    {
+      "id": "500400911790501_1288417982016316",
+      "extrait": "oh merci du conseil! J'aimerais tant réussir !",
+      "motif": "même micro-fil que la réponse publiée à la méthode de semis : une seule réponse de la Page par micro-fil",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T17:43:19.523Z"
+    },
+    {
+      "id": "500400911790501_579917433664978",
+      "extrait": "ils seront frappé par les autos comme les abeilles d ailleurs",
+      "motif": "micro-fil « border les autoroutes » : saturation du jour",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T17:43:19.523Z"
+    },
+    {
+      "id": "500400911790501_898768921538735",
+      "extrait": "Les papillons se feraient trop happés par les camions et voitures",
+      "motif": "micro-fil « border les autoroutes » : saturation du jour",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T17:43:19.523Z"
+    },
+    {
+      "id": "500400911790501_1944539469228784",
+      "extrait": "Les routes sont les ennemis des abeilles… Pensons plutôt derrière les maisons, les parcs, les champs",
+      "motif": "même argument que la mise au point déjà publiée aujourd'hui sur les bords de route et les espaces verts urbains",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T17:43:19.523Z"
+    },
+    {
+      "id": "500400911790501_739844910763177",
+      "extrait": "les papillon se feront tuer par les automobile",
+      "motif": "micro-fil « border les autoroutes » : saturation du jour",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T17:43:19.523Z"
+    },
+    {
+      "id": "500400911790501_1342324629888111",
+      "extrait": "tout est coupé sur le bord des autoroutes. Sinon c'est bâti",
+      "motif": "micro-fil « border les autoroutes » : saturation du jour",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T17:43:19.523Z"
+    },
+    {
+      "id": "500400911790501_1553899838409587",
+      "extrait": "👍🏽👍🏽👍🏽👍🏽👍🏽",
+      "motif": "acquiescement, aucun contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T17:43:19.523Z"
+    },
+    {
+      "id": "500400911790501_5845289858888779",
+      "extrait": "👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽👍🏽",
+      "motif": "acquiescement, aucun contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T17:43:19.523Z"
+    },
+    {
+      "id": "500400911790501_553372606537678",
+      "extrait": "Oui, à l'époque ça faisait partie de leur promotion",
+      "motif": "graines gratuites / sachet offert : deux mises au point déjà publiées aujourd'hui sur ce billet",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T17:43:19.523Z"
+    },
+    {
+      "id": "500400911790501_1287363721844630",
+      "extrait": "félicitations.",
+      "motif": "acquiescement, aucun contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T17:43:19.523Z"
+    },
+    {
+      "id": "500400911790501_599717338636266",
+      "extrait": "Ça pousse à l'état sauvage, il faudrait en semer.",
+      "motif": "récolte d'automne et terrain qu'on ne possède pas : mises au point déjà publiées aujourd'hui sur ce billet",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T17:43:19.523Z"
+    },
+    {
+      "id": "500400911790501_1189808098326412",
+      "extrait": "très",
+      "motif": "acquiescement, aucun contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T17:43:19.523Z"
+    },
+    {
+      "id": "500400911790501_569096841541052",
+      "extrait": "J'en ai commandé et planté cet automne.",
+      "motif": "stratification / froid / levée : trois mises au point déjà publiées aujourd'hui sur ce billet, rien d'autre de vérifié à ajouter",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T17:43:19.523Z"
+    },
+    {
+      "id": "500400911790501_1829864300702788",
+      "extrait": "ok!! J'en ai plein chez moi aussi 🙂",
+      "motif": "acquiescement entre abonnés, aucune question",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T17:43:19.523Z"
+    },
+    {
+      "id": "500400911790501_1218566262387830",
+      "extrait": "!!!",
+      "motif": "acquiescement, aucun contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T18:39:55.764Z"
+    },
+    {
+      "id": "500400911790501_723305685859265",
+      "extrait": "C'est une fleur qui se sème naturellement et qui sent divinement bon",
+      "motif": "parfum : mise au point déjà publiée aujourd'hui sur ce billet, et rien de vérifié sur l'odeur",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T18:39:55.764Z"
+    },
+    {
+      "id": "500400911790501_1205665520348407",
+      "extrait": "restez chez-vous et laissez dont la nature s'émanciper… L'ignorance est son pire ennemie",
+      "motif": "échange polémique entre abonnés sur la toxicité et le caractère invasif ; la mise au point sur la toxicité a déjà été publiée aujourd'hui sur ce billet",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T18:39:55.764Z"
+    },
+    {
+      "id": "500400911790501_585734229703316",
+      "extrait": "Mes voisins les agriculteurs n'aiment pas cette fleur, car les vaches ne les mange pas",
+      "motif": "latex amer, animaux au pâturage qui l'évitent, risque des balles de foin : mise au point déjà publiée aujourd'hui sur ce billet, rien d'autre de vérifié à ajouter côté bétail",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T18:39:55.764Z"
+    },
+    {
+      "id": "500400911790501_1229690304313710",
+      "extrait": "pour éviter que les petits animaux et même les cerfs de Virginie s'y aventurent",
+      "motif": "micro-fil fauchage des bords de route : saturation du jour",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T18:39:55.764Z"
+    },
+    {
+      "id": "500400911790501_717800166589451",
+      "extrait": "oui mets-en! Hoya Carnosa",
+      "motif": "acquiescement ; rien de vérifié sur la ressemblance avec le Hoya",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T18:39:55.764Z"
+    },
+    {
+      "id": "500400911790501_1375033689988528",
+      "extrait": "il faudrait aussi convaincre les compagnies de trains… les plants sont coupés",
+      "motif": "voies ferrées et fauchage : mise au point déjà publiée aujourd'hui sur ce billet (« pas en juin », sans rien affirmer des pratiques ferroviaires)",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T19:38:42.479Z"
+    },
+    {
+      "id": "500400911790501_1327787234740840",
+      "extrait": "mes voisins vont finir par en avoir aussi parce qu'elle est invasive",
+      "motif": "propagation par rhizomes, « agressive n'est pas envahissante » et le voisinage : mise au point déjà publiée aujourd'hui sur ce billet",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T19:38:42.479Z"
+    },
+    {
+      "id": "500400911790501_711514513952190",
+      "extrait": "il faut savoir que cette plante est toxique pour avoir du discernement…",
+      "motif": "même micro-fil que la réponse publiée (une seule réponse de la Page par micro-fil) ; la mise au point sur la toxicité a déjà été publiée aujourd'hui",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T19:38:42.479Z"
+    },
+    {
+      "id": "500400911790501_889683552156167",
+      "extrait": "la belladone, le ricin, le laurier-rose… on les plante avec discernement",
+      "motif": "même micro-fil que la réponse publiée à 15 h sur la comestibilité : une seule réponse de la Page par micro-fil",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T20:38:15.417Z"
+    },
+    {
+      "id": "500400911790501_1782892788761730",
+      "extrait": "J'ai mon enveloppe…",
+      "motif": "même sujet que la réponse publiée (réception des semences) : une seule prise de parole par sujet et par billet dans la journée",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T20:38:15.417Z"
+    },
+    {
+      "id": "500400911790501_1617976675312709",
+      "extrait": "Tout à fait d'accord!!",
+      "motif": "acquiescement, aucun contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T20:38:15.417Z"
+    },
+    {
+      "id": "500400911790501_922892648869092",
+      "extrait": "faudrait juste arrêter cette mode idiote de les faucher… au nom de la « propreté »",
+      "motif": "fauchage des bords de route : mises au point déjà publiées aujourd'hui sur ce billet",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T20:38:15.417Z"
+    },
+    {
+      "id": "500400911790501_974947890157566",
+      "extrait": "ne mangez pas de digitales… l'ébullition n'éliminera pas nécessairement les substances toxiques",
+      "motif": "sous-fil sur la consommation de la plante : la réponse de la Page a déjà été publiée à 15 h, et on n'a rien de vérifié sur l'ébullition ou la préparation",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T20:38:15.417Z"
+    },
+    {
+      "id": "500400911790501_712351163829565",
+      "extrait": "je mange les boutons de fleurs depuis 40 ans, il faut les faire bouillir auparavant",
+      "motif": "même sous-fil sur la comestibilité, déjà répondu à 15 h ; rien de vérifié à présenter sur la consommation et on ne l'encourage pas",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T20:38:15.417Z"
+    },
+    {
+      "id": "500400911790501_734487231371052",
+      "extrait": "Christine Rivest au cas où tu le savais pas 😁",
+      "motif": "identification d'une connaissance, aucun contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T20:38:15.417Z"
+    },
+    {
+      "id": "500400911790501_562342745558285",
+      "extrait": "merci de l'info.",
+      "motif": "remerciement entre abonnés, aucun contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T21:39:02.241Z"
+    },
+    {
+      "id": "500400911790501_1328647694643895",
+      "extrait": "facile à récolter et ressemer",
+      "motif": "acquiescement ; la récolte d'automne a déjà eu ses mises au point aujourd'hui",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T21:39:02.241Z"
+    },
+    {
+      "id": "500400911790501_1214451762516230",
+      "extrait": "oui pour qu'ils ne coupe pas",
+      "motif": "micro-fil fauchage / municipalités : saturation du jour",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T21:39:02.241Z"
+    },
+    {
+      "id": "500400911790501_868893761043708",
+      "extrait": "(mention de nom seule + autocollant avatar avec deux pouces en l'air)",
+      "motif": "autocollant d'approbation, aucun contenu ; image inspectée : avatar Meta, rien à commenter",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T21:39:02.241Z"
+    },
+    {
+      "id": "500400911790501_1156808361641780",
+      "extrait": "👀",
+      "motif": "acquiescement, aucun contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T21:39:02.241Z"
+    },
+    {
+      "id": "500400911790501_1273574863228442",
+      "extrait": "il faut aussi avoir des arbre / arbrisseau plus haut… pour que la chenille puisse aller se transformer en cocon",
+      "motif": "conseils dont l'essentiel n'est pas dans nos faits vérifiés (site de chrysalidation, arbustes) ; on ne les confirmera ni ne les contredira, et le volet nectar a déjà été traité aujourd'hui",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T21:39:02.241Z"
+    },
+    {
+      "id": "500400911790501_585993199523967",
+      "extrait": "le papillon qui migre en fin d'été… est en diapause… ses organes sexuels se réveillent au printemps au Mexique",
+      "motif": "même micro-fil que la réponse publiée (une seule réponse de la Page par micro-fil) ; rien de vérifié sur la diapause et les sites d'hivernage",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T21:39:02.241Z"
+    },
+    {
+      "id": "500400911790501_507771587923257",
+      "extrait": "au stade papillon, le monarque ne se nourrit pas de l'asclépiade, mais en a besoin pour pondre",
+      "motif": "même micro-fil que la réponse publiée",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T21:39:02.241Z"
+    },
+    {
+      "id": "500400911790501_5801228823263964",
+      "extrait": "le papillon monarque ne se nourrit pas d'asclepiade. Sa chenille oui.",
+      "motif": "même micro-fil que la réponse publiée",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T21:39:02.241Z"
+    },
+    {
+      "id": "500400911790501_3315532345371830",
+      "extrait": "on découvre plein de plantes sauvages à consommer !",
+      "motif": "consommation de plantes sauvages : rien de vérifié à présenter et ce n'est pas un terrain où la Page s'avance ; sujet déjà traité aujourd'hui",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T21:39:02.241Z"
+    },
+    {
+      "id": "500400911790501_2442575119230301",
+      "extrait": "En faisant moins de tonte des bordures de routes et d'autoroutes…",
+      "motif": "micro-fil tonte des bords de route : saturation du jour",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T22:38:41.354Z"
+    },
+    {
+      "id": "500400911790501_4054679391423774",
+      "extrait": "Yolaine Rousseau",
+      "motif": "simple mention de nom, aucun contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T22:38:41.354Z"
+    },
+    {
+      "id": "500400911790501_716224786811902",
+      "extrait": "Je répands les graines… sur le bord d'une rivière en espérant que ça pousse",
+      "motif": "terrain qui n'est pas le sien et bande riveraine : les deux mises au point ont déjà été publiées aujourd'hui sur ce billet",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T22:38:41.354Z"
+    },
+    {
+      "id": "500400911790501_6408698052476966",
+      "extrait": "peut-être qu'il sera possible de visiter notre centre… Centre EauVie",
+      "motif": "invitation à visiter un centre tiers : on ne relaie ni ne cautionne un lieu qu'on n'a pas vérifié",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T22:38:41.354Z"
+    },
+    {
+      "id": "500400911790501_701682538126018",
+      "extrait": "il y a plein de plantes toxiques, s'il fallait les éliminer on éliminerait 90 % de notre écosystème…",
+      "motif": "fil polémique sur la toxicité : la mise au point de la Page a déjà été publiée aujourd'hui, et la thèse sur la sélection naturelle n'est pas dans nos faits vérifiés",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T22:38:41.354Z"
+    },
+    {
+      "id": "500400911790501_554106686642064",
+      "extrait": "Gaétane Cloutier",
+      "motif": "simple mention de nom, aucun contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T22:38:41.354Z"
+    },
+    {
+      "id": "500400911790501_1410262573134597",
+      "extrait": "ça fait 24/24 à peu prêt 42 de haut en pouce",
+      "motif": "dimensions de la volière entre abonnés ; même micro-fil que la réponse publiée, et rien de vérifié sur l'élevage en volière",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T23:39:15.675Z"
+    },
+    {
+      "id": "500400911790501_558967442810355",
+      "extrait": "en ville c'est pas simple… le monarque ne pond que dans ça… cette plante est poison pour la grande majorité des prédateurs",
+      "motif": "même micro-fil ; la thèse sur la protection contre les prédateurs n'est pas dans nos faits vérifiés, on ne la confirme ni ne la contredit",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T23:39:15.675Z"
+    },
+    {
+      "id": "500400911790501_755277295493618",
+      "extrait": "je vois que ça n'a pas besoin d'être bien gros, assez pour deux plants",
+      "motif": "même micro-fil, échange d'ordre pratique entre abonnés",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T23:39:15.675Z"
+    },
+    {
+      "id": "500400911790501_753185269557493",
+      "extrait": "il faut que ce soit assez étanche car la chenille… monte dans le point le plus haut",
+      "motif": "même micro-fil ; conseils d'élevage hors faits vérifiés. Image inspectée : volière maison en moustiquaire noire sur cadre de bois, deux plants d'asclépiade en pot",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T23:39:15.675Z"
+    },
+    {
+      "id": "500400911790501_2425888464243755",
+      "extrait": "deux cocon ont sécher l'été passer à cause de la canicule",
+      "motif": "même micro-fil ; on n'a rien de vérifié sur l'effet de la chaleur pendant la chrysalide (déjà dit à cet abonné hier soir)",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T23:39:15.675Z"
+    },
+    {
+      "id": "500400911790501_1872455296450947",
+      "extrait": "(photo seule, sans texte)",
+      "motif": "photo sans message ; image inspectée — chrysalide verte à points dorés suspendue au cadre, mue de la chenille encore accrochée. Décrite dans la réponse publiée au même fil plutôt que dans deux réponses séparées",
+      "page_id": "114311920399404",
+      "quand": "2026-09-17T23:39:15.675Z"
+    },
+    {
+      "id": "500400911790501_565458168536577",
+      "extrait": "c'est une bonne idée!",
+      "motif": "micro-fil de la volière, déjà répondu au tir de 19 h",
+      "page_id": "114311920399404",
+      "quand": "2026-09-18T00:38:18.679Z"
+    },
+    {
+      "id": "500400911790501_522050496575986",
+      "extrait": "not ideal with your plans… https://pubs.nmsu.edu/_b/B709/",
+      "motif": "message tronqué hors contexte renvoyant à une publication tierce qu'on n'a pas vérifiée ; rien à confirmer ni à contredire",
+      "page_id": "114311920399404",
+      "quand": "2026-09-18T00:38:18.679Z"
+    },
+    {
+      "id": "500400911790501_557902133021859",
+      "extrait": "dès le printemps prochain je mets mes talents d'illustratrice à contribution pour une pub semblable",
+      "motif": "le fil porte sur des pancartes que la Page enverrait aux abonnés : on ne promet aucun envoi ni aucun matériel, et il n'y a rien de vérifié là-dessus. À laisser à l'équipe si elle veut relancer l'idée",
+      "page_id": "114311920399404",
+      "quand": "2026-09-18T00:38:18.679Z"
+    },
+    {
+      "id": "500400911790501_894454215074969",
+      "extrait": "J'ai hâte à l'été si les miennes sortiront, 1er essai",
+      "motif": "levée et floraison à la deuxième année : mises au point déjà publiées aujourd'hui sur ce billet",
+      "page_id": "114311920399404",
+      "quand": "2026-09-18T01:39:09.638Z"
+    },
+    {
+      "id": "500400911790501_725314015604988",
+      "extrait": "Catherine Brisebois",
+      "motif": "simple mention de nom, aucun contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-18T01:39:09.638Z"
+    },
+    {
+      "id": "500400911790501_749533906544104",
+      "extrait": "Quand on en laisse pousser sur nos terrains à l'avant, on reçoit des menaces d'amendes",
+      "motif": "règlements municipaux : rien de vérifié, on ne parlera pas à la place d'une ville ; le sujet des municipalités a déjà eu sa mise au point aujourd'hui",
+      "page_id": "114311920399404",
+      "quand": "2026-09-18T01:39:09.638Z"
+    },
+    {
+      "id": "500400911790501_1554747591658177",
+      "extrait": "Intéressant à savoir!",
+      "motif": "acquiescement, aucun contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-18T01:39:09.638Z"
+    },
+    {
+      "id": "500400911790501_1666009050580466",
+      "extrait": "ça peut donner un arrêt cardio-respiratoire si un animal ou un humain en mange !",
+      "motif": "même micro-fil que la réponse publiée sur la toxicité : une seule mise au point, adressée à la personne qui s'apprêtait à arracher ses plants",
+      "page_id": "114311920399404",
+      "quand": "2026-09-18T01:39:09.638Z"
+    },
+    {
+      "id": "500400911790501_2237364479769606",
+      "extrait": "J'en ai semé dans ma cour… je me suis commandé des mitaines… j'ai relu les informations sur le site",
+      "motif": "même micro-fil ; l'inquiétude est traitée par la réponse publiée, et rien ici ne porte sur une commande précise qui exigerait le privé",
+      "page_id": "114311920399404",
+      "quand": "2026-09-18T01:39:09.638Z"
     }
   ]
 }
