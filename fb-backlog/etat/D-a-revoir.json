@@ -8746,6 +8746,20 @@
       "motif": "mention d'une connaissance, aucune question",
       "page_id": "114311920399404",
       "quand": "2026-09-18T15:39:18.015Z"
+    },
+    {
+      "id": "500400911790501_701359354837674",
+      "extrait": "Un peu comme les têtes de violons… en cuisant dans 2 eaux j'imagine",
+      "motif": "même micro-fil sur la consommation : une seule réponse de la Page, et rien de vérifié sur la préparation ou la cuisson",
+      "page_id": "114311920399404",
+      "quand": "2026-09-18T16:38:05.190Z"
+    },
+    {
+      "id": "500400911790501_561977872166236",
+      "extrait": "(partage du même article de La Presse sur la toxicité)",
+      "motif": "même micro-fil ; image inspectée : vignette de l'article (talle d'asclépiade à fleurs orangées), rien à commenter de plus",
+      "page_id": "114311920399404",
+      "quand": "2026-09-18T16:38:05.190Z"
     }
   ]
 }
