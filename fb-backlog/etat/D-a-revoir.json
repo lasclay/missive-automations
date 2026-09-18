@@ -8949,6 +8949,41 @@
       "motif": "récit sans question",
       "page_id": "114311920399404",
       "quand": "2026-09-18T18:40:03.018Z"
+    },
+    {
+      "id": "500400911790501_720051689443004",
+      "extrait": "attention c est toxique",
+      "motif": "fil sur la consommation : la Page y a déjà répondu aujourd'hui sur ce billet, et la mise au point sur la toxicité aussi",
+      "page_id": "114311920399404",
+      "quand": "2026-09-18T19:39:04.504Z"
+    },
+    {
+      "id": "617494610081130_485196039914054",
+      "extrait": "Wow tu es vraiment chanceux tous les deux",
+      "motif": "commentaire chaleureux entre abonnés, aucune question",
+      "page_id": "114311920399404",
+      "quand": "2026-09-18T19:39:04.504Z"
+    },
+    {
+      "id": "617494610081130_1427133407783981",
+      "extrait": "Demande a ton chum il a une terre qui ne demande que ca",
+      "motif": "échange entre proches, aucune question",
+      "page_id": "114311920399404",
+      "quand": "2026-09-18T19:39:04.504Z"
+    },
+    {
+      "id": "617494610081130_624638272575100",
+      "extrait": "merci",
+      "motif": "remerciement entre abonnés",
+      "page_id": "114311920399404",
+      "quand": "2026-09-18T19:39:04.504Z"
+    },
+    {
+      "id": "617494610081130_684626395838440",
+      "extrait": "oui je connais l'asclépiade.",
+      "motif": "aucun contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-18T19:39:04.504Z"
     }
   ]
 }
