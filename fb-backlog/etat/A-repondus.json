@@ -1576,8 +1576,16 @@
       "quand": "2026-09-18T13:12:37.796Z",
       "confirme": true,
       "texte": "Merci pour les mots gentils, ça compte beaucoup pour l'équipe."
+    },
+    {
+      "id": "1678623234271486_1655975319200133",
+      "reponse_id": "1678623234271486_1562769908393273",
+      "page_id": "104242204750257",
+      "quand": "2026-09-18T15:08:34.724Z",
+      "confirme": true,
+      "texte": "Merci du souhait. On garde le cap."
     }
   ],
-  "derniere_execution": "2026-09-18T13:12:37.797Z",
-  "total": 197
+  "derniere_execution": "2026-09-18T15:08:34.725Z",
+  "total": 198
 }
