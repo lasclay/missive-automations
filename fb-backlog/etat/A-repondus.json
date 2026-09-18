@@ -1600,8 +1600,16 @@
       "quand": "2026-09-18T17:09:16.592Z",
       "confirme": true,
       "texte": "Ça, on ne l'a pas essayé de notre côté : nous, c'est la soie des follicules qu'on travaille, la tige on n'y touche pas. Vous connaissez visiblement la plante autrement que par le manteau."
+    },
+    {
+      "id": "1678623234271486_1048235858125162",
+      "reponse_id": "1678623234271486_1104507149027139",
+      "page_id": "104242204750257",
+      "quand": "2026-09-18T20:07:47.476Z",
+      "confirme": true,
+      "texte": "Merci beaucoup, c'est généreux de votre part."
     }
   ],
-  "derniere_execution": "2026-09-18T17:09:16.593Z",
-  "total": 200
+  "derniere_execution": "2026-09-18T20:07:47.477Z",
+  "total": 201
 }
