@@ -20731,6 +20731,26 @@
       "motif": "conseil juste sur la recolte de graines sauvages; le nombre de graines par follicule est exagere mais le corpus ne le documente pas",
       "ecarte_le": "2026-09-18",
       "tir": "B"
+    },
+    {
+      "id": "122215616054483418_2112509416143382",
+      "page_id": "368305119707866",
+      "date": "2026-09-18T15:36:17+0000",
+      "message": "Where is manufacturing happening?",
+      "lien": "https://www.facebook.com/reel/2574157009702915/?comment_id=2112509416143382",
+      "motif": "question directe du jour sur le lieu de fabrication: le corpus ne documente que la transformation de la fibre a latelier de Limoilou, et repondre cela seul laisserait croire que le produit fini est fabrique au Quebec, ce que la regle 4 interdit. A repondre par un humain",
+      "ecarte_le": "2026-09-18",
+      "tir": "B"
+    },
+    {
+      "id": "122215616054483418_1994084444433570",
+      "page_id": "368305119707866",
+      "date": "2026-09-18T15:34:55+0000",
+      "message": "Kathleen Lacroix I read that they used Dog Strangling Vine which is how it has now become an invasive species.",
+      "lien": "https://www.facebook.com/reel/2574157009702915/?comment_id=1089374630223815&reply_comment_id=1994084444433570",
+      "motif": "affirmation fausse selon laquelle les gilets de sauvetage de guerre etaient remplis de dompte-venin: aucun fait verifie sur cet episode, impossible de corriger sans inventer",
+      "ecarte_le": "2026-09-18",
+      "tir": "B"
     }
   ]
 }
