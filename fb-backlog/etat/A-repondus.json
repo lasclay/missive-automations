@@ -1584,8 +1584,24 @@
       "quand": "2026-09-18T15:08:34.724Z",
       "confirme": true,
       "texte": "Merci du souhait. On garde le cap."
+    },
+    {
+      "id": "1678623234271486_937080395648239",
+      "reponse_id": "1678623234271486_1762518744957569",
+      "page_id": "104242204750257",
+      "quand": "2026-09-18T17:08:10.631Z",
+      "confirme": true,
+      "texte": "Six foulards cousus ensemble, on n'avait jamais vu ça. Merci de nous l'avoir raconté."
+    },
+    {
+      "id": "1678623234271486_1087881024245916",
+      "reponse_id": "1678623234271486_2162598064671746",
+      "page_id": "104242204750257",
+      "quand": "2026-09-18T17:09:16.592Z",
+      "confirme": true,
+      "texte": "Ça, on ne l'a pas essayé de notre côté : nous, c'est la soie des follicules qu'on travaille, la tige on n'y touche pas. Vous connaissez visiblement la plante autrement que par le manteau."
     }
   ],
-  "derniere_execution": "2026-09-18T15:08:34.725Z",
-  "total": 198
+  "derniere_execution": "2026-09-18T17:09:16.593Z",
+  "total": 200
 }
