@@ -1560,8 +1560,16 @@
       "quand": "2026-09-18T01:11:40.237Z",
       "confirme": true,
       "texte": "Merci! Ça nous encourage."
+    },
+    {
+      "id": "1678623234271486_2522232698281212",
+      "reponse_id": "1678623234271486_2055260138441842",
+      "page_id": "104242204750257",
+      "quand": "2026-09-18T12:14:35.385Z",
+      "confirme": true,
+      "texte": "Nuance juste, et on ne prétendra pas la trancher : la sensibilité varie d'une personne à l'autre et on n'a rien de solide là-dessus. Les yeux, par contre, c'est un bon argument — se rincer les mains avant de se frotter le visage ne coûte rien. Merci de l'avoir précisé."
     }
   ],
-  "derniere_execution": "2026-09-18T01:11:40.237Z",
-  "total": 195
+  "derniere_execution": "2026-09-18T12:14:35.386Z",
+  "total": 196
 }
