@@ -1560,8 +1560,64 @@
       "quand": "2026-09-18T01:11:40.237Z",
       "confirme": true,
       "texte": "Merci! Ça nous encourage."
+    },
+    {
+      "id": "1678623234271486_2522232698281212",
+      "reponse_id": "1678623234271486_2055260138441842",
+      "page_id": "104242204750257",
+      "quand": "2026-09-18T12:14:35.385Z",
+      "confirme": true,
+      "texte": "Nuance juste, et on ne prétendra pas la trancher : la sensibilité varie d'une personne à l'autre et on n'a rien de solide là-dessus. Les yeux, par contre, c'est un bon argument — se rincer les mains avant de se frotter le visage ne coûte rien. Merci de l'avoir précisé."
+    },
+    {
+      "id": "1685109530289523_1797367671294547",
+      "reponse_id": "1685109530289523_4406482319590822",
+      "page_id": "104242204750257",
+      "quand": "2026-09-18T13:12:37.796Z",
+      "confirme": true,
+      "texte": "Merci pour les mots gentils, ça compte beaucoup pour l'équipe."
+    },
+    {
+      "id": "1678623234271486_1655975319200133",
+      "reponse_id": "1678623234271486_1562769908393273",
+      "page_id": "104242204750257",
+      "quand": "2026-09-18T15:08:34.724Z",
+      "confirme": true,
+      "texte": "Merci du souhait. On garde le cap."
+    },
+    {
+      "id": "1678623234271486_937080395648239",
+      "reponse_id": "1678623234271486_1762518744957569",
+      "page_id": "104242204750257",
+      "quand": "2026-09-18T17:08:10.631Z",
+      "confirme": true,
+      "texte": "Six foulards cousus ensemble, on n'avait jamais vu ça. Merci de nous l'avoir raconté."
+    },
+    {
+      "id": "1678623234271486_1087881024245916",
+      "reponse_id": "1678623234271486_2162598064671746",
+      "page_id": "104242204750257",
+      "quand": "2026-09-18T17:09:16.592Z",
+      "confirme": true,
+      "texte": "Ça, on ne l'a pas essayé de notre côté : nous, c'est la soie des follicules qu'on travaille, la tige on n'y touche pas. Vous connaissez visiblement la plante autrement que par le manteau."
+    },
+    {
+      "id": "1678623234271486_1048235858125162",
+      "reponse_id": "1678623234271486_1104507149027139",
+      "page_id": "104242204750257",
+      "quand": "2026-09-18T20:07:47.476Z",
+      "confirme": true,
+      "texte": "Merci beaucoup, c'est généreux de votre part."
+    },
+    {
+      "id": "1678623234271486_28194591866899389",
+      "reponse_id": "1678623234271486_1409465430618760",
+      "page_id": "104242204750257",
+      "quand": "2026-09-19T01:07:33.070Z",
+      "confirme": true,
+      "texte": "Merci! Content que ça vous plaise."
     }
   ],
-  "derniere_execution": "2026-09-18T01:11:40.237Z",
-  "total": 195
+  "derniere_execution": "2026-09-19T01:07:33.070Z",
+  "total": 202
 }
