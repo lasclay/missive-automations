@@ -1624,8 +1624,24 @@
       "quand": "2026-09-19T16:10:18.514Z",
       "confirme": true,
       "texte": "Merci de nous suivre depuis un moment, et merci surtout de le dire tout haut. Ça vaut beaucoup pour nous."
+    },
+    {
+      "id": "1678623234271486_971466582653081",
+      "reponse_id": "1678623234271486_1879667886774273",
+      "page_id": "104242204750257",
+      "quand": "2026-09-19T22:07:54.989Z",
+      "confirme": true,
+      "texte": "Merci. On nous parle souvent de cette époque, mais on évite de s'avancer sur les détails historiques qu'on n'a pas vérifiés nous-mêmes. Ce qu'on constate, c'est qu'une fibre remarquable a été mise de côté pendant des décennies, et c'est exactement ce qu'on essaie de renverser."
+    },
+    {
+      "id": "1678623234271486_1084915427235781",
+      "reponse_id": "1678623234271486_1416124913817330",
+      "page_id": "104242204750257",
+      "quand": "2026-09-19T22:08:42.508Z",
+      "confirme": true,
+      "texte": "Un hiver avec les mitaines et vous lorgnez déjà le manteau : c'est le meilleur retour qu'on puisse recevoir. Merci. Tous les détails sont sur le site quand le moment viendra."
     }
   ],
-  "derniere_execution": "2026-09-19T16:10:18.514Z",
-  "total": 203
+  "derniere_execution": "2026-09-19T22:08:42.508Z",
+  "total": 205
 }
