@@ -11,7 +11,7 @@ une semaine après la prévente d'automne 2025 (`Précommande follow-up FR non-a
 | Campagne | `01M2VJH7CAF1F46NKZA2AD4M96` | `01M2VJHE68E35JYE3FKRXBWC72` |
 | Message | `01M2VJH7CN00NZF9FJ2WZZC4D4` | `01M2VJHE6GE5BC8PQK78R1RRVN` |
 | Gabarit de bibliothèque | `UabrTL` | `X82ai7` |
-| Copie de campagne (à relire/éditer) | `YnZvAC` | `U6vrBD` |
+| Copie de campagne (à relire/éditer) | `Ywuw7P` | `TFADRB` |
 | Cloné depuis | `UQpVrt` (Jour J FR) | `RPfcKU` (Jour J EN) |
 | Objet | Une semaine après la prévente | One week after the presale |
 | Aperçu | Ce qui est parti le plus vite, et ce qui reste | What went fastest, and what is still available |
@@ -36,6 +36,16 @@ pas le gabarit de bibliothèque.
    résultat du tournage.
 7. Appel à l'action + signature de Gabriel.
 
+## Typographie des liens
+
+Les libellés de liens des deux listes (meilleurs vendeurs, ce qui reste commandable)
+sont en **gras 16 px**, comme dans les infolettres Jour J, et chaque liste est précédée
+d'une raison de cliquer. 19 liens de liste par langue.
+
+Les premières copies de campagne (`YnZvAC` FR, `U6vrBD` EN) ont été laissées derrière
+par le réassignement des gabarits corrigés. Elles ne servent plus à rien et peuvent
+être supprimées de la bibliothèque.
+
 ## Données vérifiées
 
 - Ventes du 12 au 18 septembre 2026 (Shopify, `FROM sales ... GROUP BY product_title`).
@@ -43,6 +53,10 @@ pas le gabarit de bibliothèque.
 - MERCI10 : `ACTIVE`, 10 %, sans date de fin.
 - Livraison novembre 2026 et retours 31 janvier 2027 : repris des fiches produits.
 - Les 40 liens FR et EN répondent 200 (handles anglais lus dans les traductions Shopify).
+- Les 20 fiches liées sont `ACTIVE`, publiées, et toutes leurs variantes sont
+  `availableForSale` en `CONTINUE` : aucune n'affichera « épuisé ».
+- Aucun résidu d'éditeur dans le HTML des deux gabarits (« This is a text block »,
+  `<img>` sans `src`).
 
 ## À trancher avant l'envoi
 
