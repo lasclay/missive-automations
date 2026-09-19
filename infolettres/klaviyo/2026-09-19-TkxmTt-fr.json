@@ -1,0 +1,496 @@
+{
+ "body": {
+  "properties": {
+   "id": "root-container",
+   "css_class": "bodyTable"
+  },
+  "styles": {
+   "background_color": "#ffffff",
+   "width": 600
+  },
+  "id": "56fdd73c054b4e858a0fac82083f5d8e",
+  "sections": [
+   {
+    "content_type": "section",
+    "type": "section",
+    "data": {
+     "properties": {},
+     "display_options": {},
+     "styles": {
+      "content_color_type": "template",
+      "inner_padding_bottom": 0,
+      "inner_padding_left": 0,
+      "inner_padding_right": 0,
+      "inner_padding_top": 0,
+      "stack_on_mobile": true
+     }
+    },
+    "id": "7b3386e5c1d34b53802c27e250e7d940",
+    "data_id": "162aeed404f44908987095feb3fb5cf9",
+    "rows": [
+     {
+      "data": {
+       "styles": {
+        "column_layout": "1-column-full-width"
+       }
+      },
+      "id": "d9e4e8c309094abbb85873bcd46a82db",
+      "data_id": "0b9aa57e8ead4afa8f46ecfa957f2c5f",
+      "columns": [
+       {
+        "id": "416401b969ac45679b57e84bec2f3153",
+        "data_id": "a1e2879050dc4cfdb5c4369af66b0302",
+        "data": {},
+        "blocks": [
+         {
+          "content_type": "block",
+          "type": "text",
+          "data": {
+           "content": "<p>Bonjour {{ first_name }},</p>",
+           "display_options": {},
+           "styles": {
+            "block_padding_bottom": 0,
+            "block_padding_left": 0,
+            "block_padding_right": 0,
+            "block_padding_top": 0,
+            "inner_padding_bottom": 9,
+            "inner_padding_left": 18,
+            "inner_padding_right": 18,
+            "inner_padding_top": 9,
+            "mobile_stretch_content": false,
+            "text_table_layout": "fixed"
+           }
+          },
+          "id": "fa2333d14fa34c1e9e56b3e58ce4ec1c",
+          "data_id": "0c2fb55a1b524fe7a532b4ff86a19cc7"
+         },
+         {
+          "content_type": "block",
+          "type": "text",
+          "data": {
+           "content": "<p>Une semaine jour pour jour depuis l'ouverture de la Grande Prévente automnale. La poussière est retombée, on peut souffler un peu, et voici des nouvelles.</p><p>C'est <strong style=\"font-weight: 700;\">une des meilleures préventes d'automne de notre histoire</strong>. Merci, sincèrement.</p><p>Ce que ça change, concrètement: la production part de ces commandes-là. C'est ce qui nous permet de commander les bonnes quantités de tissu, de fil et d'asclépiade au lieu de deviner, et c'est exactement pour ça que la prévente existe.</p>",
+           "display_options": {},
+           "styles": {
+            "block_padding_bottom": 0,
+            "block_padding_left": 0,
+            "block_padding_right": 0,
+            "block_padding_top": 0,
+            "inner_padding_bottom": 9,
+            "inner_padding_left": 18,
+            "inner_padding_right": 18,
+            "inner_padding_top": 9,
+            "mobile_stretch_content": false,
+            "text_table_layout": "fixed"
+           }
+          },
+          "id": "75a47784a2a74626bdc0020f782389bc",
+          "data_id": "2fc208dbb6104b4ea65d5fab86e5192f"
+         },
+         {
+          "content_type": "block",
+          "type": "text",
+          "data": {
+           "content": "<h3 style=\"font-style: normal; text-align: left; line-height: 1.1; letter-spacing: 0px; margin-bottom: 12px; text-transform: none; color: rgb(34, 34, 34); font-family: Geneva, Arial; font-size: 24px;\"><strong style=\"font-weight: 700;\">Les produits les plus populaires</strong></h3><ul><li><p><a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://lasclay.com/products/gants-magiques-asclepiade\" style=\"text-decoration: underline; color: rgb(212, 173, 103);\"><span style=\"color: rgb(212, 173, 103); font-size: 16px;\"><strong style=\"font-weight: 700;\">Les gants magiques doublés en asclépiade</strong></span></a>, premiers et de loin.</p></li><li><p><a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://lasclay.com/products/boite-essai-soins-huile-asclepiade\" style=\"text-decoration: underline; color: rgb(212, 173, 103);\"><span style=\"color: rgb(212, 173, 103); font-size: 16px;\"><strong style=\"font-weight: 700;\">La boîte d'essai des soins à l'huile&nbsp;d'asclépiade</strong></span></a></p></li><li><p><a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://lasclay.com/products/pince-a-cheveux-plastique-recycle-asclepiade\" style=\"text-decoration: underline; color: rgb(212, 173, 103);\"><span style=\"color: rgb(212, 173, 103); font-size: 16px;\"><strong style=\"font-weight: 700;\">Les pinces à cheveux Unique Plastique x Lasclay</strong></span></a></p></li><li><p><a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://lasclay.com/products/t-shirt-coton-brode-monarque-asclepiade\" style=\"text-decoration: underline; color: rgb(212, 173, 103);\"><span style=\"color: rgb(212, 173, 103); font-size: 16px;\"><strong style=\"font-weight: 700;\">Les t-shirts brodés</strong></span></a></p></li><li><p><a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://lasclay.com/products/thermal-insoles\" style=\"text-decoration: underline; color: rgb(212, 173, 103);\"><span style=\"color: rgb(212, 173, 103); font-size: 16px;\"><strong style=\"font-weight: 700;\">Les semelles isolantes</strong></span></a></p></li><li><p><a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://lasclay.com/products/barre-savon-huile-asclepiade\" style=\"text-decoration: underline; color: rgb(212, 173, 103);\"><span style=\"color: rgb(212, 173, 103); font-size: 16px;\"><strong style=\"font-weight: 700;\">Les barres de savon à l'huile d'asclépiade</strong></span></a></p></li></ul>",
+           "display_options": {},
+           "styles": {
+            "block_padding_bottom": 0,
+            "block_padding_left": 0,
+            "block_padding_right": 0,
+            "block_padding_top": 0,
+            "inner_padding_bottom": 9,
+            "inner_padding_left": 18,
+            "inner_padding_right": 18,
+            "inner_padding_top": 9,
+            "mobile_stretch_content": false,
+            "text_table_layout": "fixed"
+           }
+          },
+          "id": "ab89db7348f242de978f461545fba189",
+          "data_id": "186cf6068f9d419c92a661657ebc5764"
+         },
+         {
+          "content_type": "block",
+          "type": "image",
+          "data": {
+           "properties": {
+            "dynamic": false,
+            "alt_text": null,
+            "asset_id": "368489485",
+            "href": null,
+            "src": "https://d3k81ch9hvuctc.cloudfront.net/company/RhpPJR/images/6e5ceb22-16ea-4d6f-9b22-84fafac85bb3.png"
+           },
+           "display_options": {},
+           "styles": {
+            "height": 937,
+            "width": 750
+           }
+          },
+          "id": "01M2WFDYKQH224SQEC5Q62HRMV",
+          "data_id": "01M2WFDYKQXR4YX2Z6C7P9T8YX"
+         },
+         {
+          "content_type": "block",
+          "type": "text",
+          "data": {
+           "content": "<h3 style=\"font-style: normal; text-align: left; line-height: 1.1; letter-spacing: 0px; margin-bottom: 12px; text-transform: none; color: rgb(34, 34, 34); font-family: Geneva, Arial; font-size: 24px;\"><strong style=\"font-weight: 700;\">Une plante qui a plus d'un tour dans son sac</strong></h3><p>Dans une cocotte d'asclépiade, <strong style=\"font-weight: 700;\">la soie compte pour environ 20 % du poids</strong>. Les graines, environ 30 %. <strong style=\"font-weight: 700;\">Pendant des années, on a bâti toute l'entreprise sur les 20 %</strong>, et les <strong style=\"font-weight: 700;\">graines repartaient au champ</strong>.</p><p>Cette semaine, grâce à vous tous, on a changé la tendance. Ce sont les produits à base d'huile de graines d'asclépiade, et non de soie qui se sont le plus vendus: <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://lasclay.com/products/boite-essai-soins-huile-asclepiade\"><span><strong style=\"font-weight: 700;\">la boîte d'essai de soins pour la peau</strong></span></a>, le savon, la <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://lasclay.com/products/creme-contour-yeux-huile-asclepiade\" style=\"text-decoration: underline; color: rgb(212, 173, 103);\"><span style=\"color: rgb(212, 173, 103);\"><strong style=\"font-weight: 700;\">crème contour des yeux faite avec Gourmet Sauvage</strong></span></a>, et les <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://lasclay.com/products/pince-a-cheveux-plastique-recycle-asclepiade\"><span>pinces à cheveux</span></a> recyclées avec <a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://www.uniqueplastique.ca/\"><span>Unique Plastique</span></a>, dont la jolie couleur ambrée et mouchetée vient du tourteau qui reste une fois l'huile pressée.</p><p><span style=\"font-size: 16px;\">On ne s'attendait pas à ça. C'est la meilleure nouvelle de la semaine: la partie de la plante qu'on ne savait pas utiliser commence à payer le champ et soutenir les producteurs, elle aussi.</span></p>",
+           "display_options": {},
+           "styles": {
+            "block_padding_bottom": 0,
+            "block_padding_left": 0,
+            "block_padding_right": 0,
+            "block_padding_top": 0,
+            "inner_padding_bottom": 9,
+            "inner_padding_left": 18,
+            "inner_padding_right": 18,
+            "inner_padding_top": 9,
+            "mobile_stretch_content": false,
+            "text_table_layout": "fixed"
+           }
+          },
+          "id": "521fe9962bdf4760aae300eae783c693",
+          "data_id": "7fe7176a728d45debafe7ae97fbd578b"
+         },
+         {
+          "content_type": "block",
+          "type": "image",
+          "data": {
+           "properties": {
+            "dynamic": false,
+            "alt_text": null,
+            "asset_id": "94217774",
+            "href": null,
+            "src": "https://d3k81ch9hvuctc.cloudfront.net/company/RhpPJR/images/20467cef-cb0b-4b65-8f67-3aeef1edbaba.jpeg"
+           },
+           "display_options": {},
+           "styles": {
+            "height": 3200,
+            "width": 4267
+           }
+          },
+          "id": "01M2WF7D923QTZC1XP50DJRK62",
+          "data_id": "01M2WF7D924B1NVK3EFS3MCZK1"
+         },
+         {
+          "content_type": "block",
+          "type": "drop_shadow",
+          "data": {
+           "display_options": {},
+           "styles": {}
+          },
+          "id": "b2ad218728414108b7ce7bf6673122fb",
+          "data_id": "e0040f86fabc47faaf6f671e35b77d43"
+         },
+         {
+          "content_type": "block",
+          "type": "text",
+          "data": {
+           "content": "<h3 style=\"font-style: normal; text-align: left; line-height: 1.1; letter-spacing: 0px; margin-bottom: 12px; text-transform: none; color: rgb(34, 34, 34); font-family: Geneva, Arial; font-size: 24px;\"><strong style=\"font-weight: 700;\">Notre passage à Dragons' Den</strong><br><span style=\"font-size: 18px;\"><strong style=\"font-weight: 700;\">+ rabais surprise</strong></span></h3><p>Jeudi soir, dans le premier épisode de la 21e saison, on a eu 9 minutes pour <strong style=\"font-weight: 700;\">présenter l'asclépiade, en anglais</strong>, à des <strong style=\"font-weight: 700;\">investisseurs chevronnés</strong> qui pour la plupart, n'en avaient <strong style=\"font-weight: 700;\">jamais entendu parler.</strong></p><p>On a parlé de <strong style=\"font-weight: 700;\">sa soie, plus chaude que le duvet d'oie</strong> et naturellement hydrophobe. Des champs qui deviennent des <strong style=\"font-weight: 700;\">habitats pour les monarques</strong>. Du fait que <strong style=\"font-weight: 700;\">le Québec est le seul endroit au monde</strong> ou la plante est cultivée commercialement. Et surtout,&nbsp;des <strong style=\"font-weight: 700;\">agriculteurs courageux qui croient à ce projet</strong> depuis plus de 10 ans maintenant.</p><p><span style=\"font-size: 16px;\">Si vous n'avez pas eu la chance de regarder jeudi soir, l'épisode complet est disponible sur CBC Gem. <strong style=\"font-weight: 700;\">Juste à cliquer sur l'image ci-dessous!</strong></span></p>",
+           "display_options": {},
+           "styles": {
+            "block_padding_bottom": 0,
+            "block_padding_left": 0,
+            "block_padding_right": 0,
+            "block_padding_top": 0,
+            "inner_padding_bottom": 9,
+            "inner_padding_left": 18,
+            "inner_padding_right": 18,
+            "inner_padding_top": 9,
+            "mobile_stretch_content": false,
+            "text_table_layout": "fixed"
+           }
+          },
+          "id": "5cf597ef04424a41b2e6fb9012740657",
+          "data_id": "9a79820fb9e047f98394f41667d16722"
+         },
+         {
+          "content_type": "block",
+          "type": "image",
+          "data": {
+           "properties": {
+            "dynamic": false,
+            "alt_text": "A man in a suit stands facing a panel of judges on a stage with a play button overlay.",
+            "asset_id": "372747559",
+            "href": "https://www.cbc.ca/dragonsden/episodes/season-21-episode-1",
+            "src": "https://d3k81ch9hvuctc.cloudfront.net/company/RhpPJR/images/91a3895e-9e82-4ebe-b54f-fc1885929b55.png"
+           },
+           "display_options": {},
+           "styles": {
+            "height": 563,
+            "width": 1004
+           }
+          },
+          "id": "01M2WENM3BWHEJ4E62TE6B81PQ",
+          "data_id": "01M2WENM3BAQEDTVZ4CK0FKNZR"
+         },
+         {
+          "content_type": "block",
+          "type": "text",
+          "data": {
+           "content": "<p>​</p><p>Pour <strong style=\"font-weight: 700;\">célébrer cet événement majeur</strong> dans l'histoire de notre entreprise et de l'industrie de l'asclépiade, il nous fait plaisir d'offrir <strong style=\"font-weight: 700;\">15% de rabais sur tous nos produits, avec le code DRAGONS15</strong>. Juste à l'entrer à l'endroit indiqué et <strong style=\"font-weight: 700;\">cliquer sur VALIDER</strong> lorsque vous terminez votre commande!</p>",
+           "display_options": {},
+           "styles": {}
+          },
+          "id": "01M2WEJ52TWR8MW6GBW7D5SB33",
+          "data_id": "01M2WEJ52TVV4ZRM71WRAGH6RG"
+         },
+         {
+          "content_type": "block",
+          "type": "image",
+          "data": {
+           "properties": {
+            "dynamic": false,
+            "alt_text": "Checkout page with discount code applied and order summary.",
+            "asset_id": "372747723",
+            "href": null,
+            "src": "https://d3k81ch9hvuctc.cloudfront.net/company/RhpPJR/images/c523b41b-0c65-4a00-81f0-bdca678db89a.png"
+           },
+           "display_options": {},
+           "styles": {
+            "height": 672,
+            "width": 1536
+           }
+          },
+          "id": "01M2WF3BEMP5TE9G2CGV3QQAWK",
+          "data_id": "01M2WF3BEM4JQ2VEZC147NZ3W5"
+         },
+         {
+          "content_type": "block",
+          "type": "text",
+          "data": {
+           "content": "<p style=\"text-align: center;\"><span style=\"font-size: 22px;\"><strong style=\"font-weight: 700;\">👉 </strong></span><a target=\"_blank\" rel=\"noopener noreferrer nofollow\" href=\"https://lasclay.com/collections/produits-products\" style=\"text-decoration: underline; color: rgb(212, 173, 103);\"><span style=\"color: rgb(212, 173, 103); font-size: 22px;\"><strong style=\"font-weight: 700;\">VOIR LES PRODUITS ET COMMANDER</strong></span></a><span style=\"font-size: 22px;\"><strong style=\"font-weight: 700;\"> 👈</strong></span></p>",
+           "display_options": {},
+           "styles": {
+            "block_padding_bottom": 0,
+            "block_padding_left": 0,
+            "block_padding_right": 0,
+            "block_padding_top": 0,
+            "inner_padding_bottom": 9,
+            "inner_padding_left": 18,
+            "inner_padding_right": 18,
+            "inner_padding_top": 9,
+            "mobile_stretch_content": false,
+            "text_table_layout": "fixed"
+           }
+          },
+          "id": "1a0cab3652af4ba9a8a50181afd38ae7",
+          "data_id": "39d97dc8c57b48f4929c4143b99fc0f2"
+         },
+         {
+          "content_type": "block",
+          "type": "text",
+          "data": {
+           "content": "<p>Merci énormément {{ person.first_name|default:'' }} pour le soutien. On est tellement chanceux d'avoir une aussi belle communauté!</p><p>Chaleureusement,</p><p><strong style=\"font-weight: 700;\">Gabriel</strong><br>Co-fondateur<br>Lasclay</p>",
+           "display_options": {},
+           "styles": {
+            "block_padding_bottom": 0,
+            "block_padding_left": 0,
+            "block_padding_right": 0,
+            "block_padding_top": 0,
+            "inner_padding_bottom": 9,
+            "inner_padding_left": 18,
+            "inner_padding_right": 18,
+            "inner_padding_top": 9,
+            "mobile_stretch_content": false,
+            "text_table_layout": "fixed"
+           }
+          },
+          "id": "0d0f5abd4a0747868c82d7b0162602ca",
+          "data_id": "aba930f62ee94c1695a655d4333dcd81"
+         },
+         {
+          "content_type": "block",
+          "type": "image",
+          "data": {
+           "properties": {
+            "dynamic": false,
+            "alt_text": null,
+            "asset_id": "366783603",
+            "href": null,
+            "src": "https://d3k81ch9hvuctc.cloudfront.net/company/RhpPJR/images/212a253b-ca82-4779-b388-65e509b3be9d.jpeg"
+           },
+           "display_options": {},
+           "styles": {
+            "height": 1376,
+            "width": 2064
+           }
+          },
+          "id": "85acc558fae9466a89a898251d0b5a3b",
+          "data_id": "f4541fc4b86b4a1c81d6f473f83ba435"
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "data": {
+       "styles": {
+        "column_layout": "1-column-full-width"
+       }
+      },
+      "id": "3e248b6c38f148b3bbf1b661ea85eb2c",
+      "data_id": "e28896010a0544fb9f60bb7096790588",
+      "columns": [
+       {
+        "id": "af8a112ea9fe406db224bd0f27adae12",
+        "data_id": "602456ec0f034a02bd8b9edcba20f78f",
+        "data": {},
+        "blocks": [
+         {
+          "content_type": "block",
+          "type": "text",
+          "data": {
+           "content": "<p>Lasclay, 298 Boulevard des Capucins, Qu&eacute;bec, QC, G1J3R4</p>\n<p>Vous ne voulez plus recevoir notre infolettre?<br>{% unsubscribe 'Se d&eacute;sabonner' %}</p>",
+           "display_options": {},
+           "styles": {
+            "block_padding_bottom": 0,
+            "block_padding_left": 0,
+            "block_padding_right": 0,
+            "block_padding_top": 0,
+            "color": "#727272",
+            "font_size": 12,
+            "inner_padding_bottom": 9,
+            "inner_padding_left": 18,
+            "inner_padding_right": 18,
+            "inner_padding_top": 9,
+            "mobile_stretch_content": false,
+            "text_align": "center",
+            "text_table_layout": "fixed"
+           }
+          },
+          "id": "d6cb2460a4ef4c7f830b8098e7bb2d56",
+          "data_id": "ebd2412468144deca4a242d3cf2fbd25"
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   }
+  ]
+ },
+ "styles": [
+  {
+   "style_type": "base-styles",
+   "properties": {
+    "currency": "en-CA-u-nu-latn_CAD_CA_CAD",
+    "currency_set_on_template": false,
+    "disable_websafe_fonts": false,
+    "mobile_optimizations": true
+   },
+   "styles": {
+    "background_format": "auto",
+    "background_position": "left-top",
+    "background_repeat": true,
+    "border_color": "#aaaaaa",
+    "border_radius": 0,
+    "content_background_color": "#ffffff",
+    "margin_top": 50
+   },
+   "id": "f2bb77aa04ae4c8b868d92a765236c37"
+  },
+  {
+   "style_type": "text-styles",
+   "styles": {
+    "color": "#222222",
+    "font_family": "Arial",
+    "font_size": 14,
+    "letter_spacing": 0,
+    "line_height": 1.5,
+    "mobile_font_size": 14,
+    "mobile_line_height": 1.3,
+    "text_align": "left"
+   },
+   "id": "d764adb6174d429299347b33e46749fe"
+  },
+  {
+   "style_type": "link-styles",
+   "styles": {
+    "color": "#d4ad67",
+    "font_weight": "normal",
+    "text_decoration": "underline"
+   },
+   "id": "bf059657b2e5472b94645fa429fe0e37"
+  },
+  {
+   "style_type": "heading-1-styles",
+   "styles": {
+    "color": "#222222",
+    "font_family": "Geneva",
+    "font_size": 40,
+    "font_style": "normal",
+    "font_weight": "normal",
+    "letter_spacing": 0,
+    "line_height": 1.1,
+    "margin_bottom": 20,
+    "mobile_font_size": 40,
+    "mobile_line_height": 1.1,
+    "text_align": "left"
+   },
+   "id": "9c7ebb8e22c04b7a9bcb50862b40b092"
+  },
+  {
+   "style_type": "heading-2-styles",
+   "styles": {
+    "color": "#222222",
+    "font_family": "Geneva",
+    "font_size": 32,
+    "font_style": "normal",
+    "font_weight": "bold",
+    "letter_spacing": 0,
+    "line_height": 1.1,
+    "margin_bottom": 16,
+    "mobile_font_size": 32,
+    "mobile_line_height": 1.1,
+    "text_align": "left"
+   },
+   "id": "8db84d1ab0c64fee8e962a7f5e0be2cb"
+  },
+  {
+   "style_type": "heading-3-styles",
+   "styles": {
+    "color": "#222222",
+    "font_family": "Geneva",
+    "font_size": 24,
+    "font_style": "normal",
+    "font_weight": "bold",
+    "letter_spacing": 0,
+    "line_height": 1.1,
+    "margin_bottom": 12,
+    "mobile_font_size": 24,
+    "mobile_line_height": 1.1,
+    "text_align": "left"
+   },
+   "id": "040012e7c8ab46cdbd4b66a088e247ea"
+  },
+  {
+   "style_type": "heading-4-styles",
+   "styles": {
+    "color": "#222222",
+    "font_family": "Geneva",
+    "font_size": 18,
+    "font_style": "normal",
+    "letter_spacing": 0,
+    "line_height": 1.1,
+    "margin_bottom": 9,
+    "mobile_font_size": 18,
+    "mobile_line_height": 1.1,
+    "text_align": "left"
+   },
+   "id": "428f4266c71b4efa9ba3fdfba2b88fb3"
+  },
+  {
+   "style_type": "mobile-styles",
+   "properties": {},
+   "styles": {
+    "mobile_margin": 10,
+    "mobile_padding_bottom": 0,
+    "mobile_padding_left": 0,
+    "mobile_padding_right": 0,
+    "mobile_padding_top": 0
+   },
+   "id": "09fe9e2d9f9046eeb14223617d6726a7"
+  }
+ ],
+ "id": "610c42f3d41d49be85f117748da997e5",
+ "template_id": "TkxmTt"
+}
