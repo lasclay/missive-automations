@@ -1616,8 +1616,16 @@
       "quand": "2026-09-19T01:07:33.070Z",
       "confirme": true,
       "texte": "Merci! Content que ça vous plaise."
+    },
+    {
+      "id": "1678623234271486_3588478657995273",
+      "reponse_id": "1678623234271486_2554118985054203",
+      "page_id": "104242204750257",
+      "quand": "2026-09-19T16:10:18.514Z",
+      "confirme": true,
+      "texte": "Merci de nous suivre depuis un moment, et merci surtout de le dire tout haut. Ça vaut beaucoup pour nous."
     }
   ],
-  "derniere_execution": "2026-09-19T01:07:33.070Z",
-  "total": 202
+  "derniere_execution": "2026-09-19T16:10:18.514Z",
+  "total": 203
 }
