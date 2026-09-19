@@ -1752,8 +1752,24 @@
       "quand": "2026-09-18T21:26:41.439Z",
       "confirme": true,
       "texte": "What matters to a monarch is the species, not the postal route. All eleven we work with are native to North America, and none of them is tropical."
+    },
+    {
+      "id": "122123869778483418_2143580279742845",
+      "reponse_id": "122123869778483418_2901919263475159",
+      "page_id": "368305119707866",
+      "quand": "2026-09-19T12:28:02.916Z",
+      "confirme": true,
+      "texte": "De cultivateurs commerciaux — rien n'est récolté à l'état sauvage. La soie sort des follicules à l'automne, après le passage des monarques : les feuilles dont dépendent les chenilles ne sont jamais touchées."
+    },
+    {
+      "id": "122123869778483418_1416446226752573",
+      "reponse_id": "122123869778483418_2129498330991503",
+      "page_id": "368305119707866",
+      "quand": "2026-09-19T12:29:08.668Z",
+      "confirme": true,
+      "texte": "La boutique est en ligne, sur lasclay.com."
     }
   ],
-  "derniere_execution": "2026-09-18T21:26:41.439Z",
-  "total": 219
+  "derniere_execution": "2026-09-19T12:29:08.668Z",
+  "total": 221
 }
