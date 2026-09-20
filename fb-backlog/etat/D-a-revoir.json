@@ -9551,6 +9551,55 @@
       "motif": "Identification d'une autre personne accompagnée d'un emoji, sous une réponse déjà donnée par la Page. Aucun contenu à traiter.",
       "page_id": "114311920399404",
       "quand": "2026-09-20T00:39:11.029Z"
+    },
+    {
+      "id": "291041512726443_1507026959706699",
+      "extrait": "j'ai commendé mes graines l'an passé, j'ai hâte de commencer :)",
+      "motif": "Enthousiasme sans question, dans un micro-fil où la Page a déjà répondu hier sur la toxicité.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T10:39:54.440Z"
+    },
+    {
+      "id": "291041512726443_1019174639052122",
+      "extrait": "Dominique Alcaraz non desolée",
+      "motif": "Refus de partager des graines entre abonnées. Ne nous concerne pas.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T10:39:54.440Z"
+    },
+    {
+      "id": "291041512726443_243017428110528",
+      "extrait": "Daniel Martin Margot Bissonnette 😉😁😅",
+      "motif": "Identifications et emojis, aucun contenu.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T10:39:54.440Z"
+    },
+    {
+      "id": "291041512726443_5305563066212823",
+      "extrait": "(photo sans texte, aucune pièce jointe récupérable)",
+      "motif": "Commentaire vide : aucun texte et le champ image est nul, donc rien à regarder ni à quoi répondre.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T10:39:54.440Z"
+    },
+    {
+      "id": "291041512726443_138472185858263",
+      "extrait": "Merci!🌍💚🦋🦋🦋",
+      "motif": "Remerciement sans question.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T10:39:54.440Z"
+    },
+    {
+      "id": "291041512726443_2162419540608479",
+      "extrait": "la présence actuelle de chenilles ici n'indique pas que vous aurez des Monarques",
+      "motif": "Affirmation sur le calendrier des générations et la migration, adressée à un autre abonné. Ce n'est pas dans nos faits vérifiés : on ne va ni le confirmer ni le contredire.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T10:39:54.440Z"
+    },
+    {
+      "id": "291041512726443_735395145042441",
+      "extrait": "On peut aussi les stratifier au frigo pour leur donner l'impression que l'hiver est passé ;) On est peut être rendu un peu tard.",
+      "motif": "Même micro-fil que la réponse publiée dans ce tir : la précision utile (une trentaine de jours de froid, pas une semaine) est donnée juste en dessous, à la personne qui poursuivait l'échange.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T10:39:54.440Z"
     }
   ]
 }
