@@ -10041,6 +10041,20 @@
       "motif": "Identification d'une personne et emojis, aucun contenu.",
       "page_id": "114311920399404",
       "quand": "2026-09-20T20:38:27.437Z"
+    },
+    {
+      "id": "291041512726443_504884901342102",
+      "extrait": "Sylvie Duchesneau c'est normal! C'est vivace",
+      "motif": "Réponse exacte d'une abonnée à une autre, dans le micro-fil sur la rusticité où la Page a déjà répondu aujourd'hui. Rien à corriger.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T22:38:26.997Z"
+    },
+    {
+      "id": "291041512726443_504743151356277",
+      "extrait": "Marie-Noël Beaulieu Déjà fait, mais on prut partager",
+      "motif": "Arrangement de partage entre abonnées, aucune question.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T22:38:26.997Z"
     }
   ]
 }
