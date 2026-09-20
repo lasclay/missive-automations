@@ -1664,8 +1664,16 @@
       "quand": "2026-09-20T12:13:33.162Z",
       "confirme": true,
       "texte": "C'est généreux de l'écrire ici. Merci, on travaille fort pour le mériter."
+    },
+    {
+      "id": "1678623234271486_1631662931992466",
+      "reponse_id": "1678623234271486_1114226211133619",
+      "page_id": "104242204750257",
+      "quand": "2026-09-20T17:07:41.799Z",
+      "confirme": true,
+      "texte": "Depuis les débuts, avec les mitaines, le cache-cou, les semelles et la boîte à lunch : ça veut dire beaucoup pour nous. Merci pour les bons mots et pour la fidélité, on va continuer de travailler pour la mériter."
     }
   ],
-  "derniere_execution": "2026-09-20T12:13:33.162Z",
-  "total": 208
+  "derniere_execution": "2026-09-20T17:07:41.800Z",
+  "total": 209
 }
