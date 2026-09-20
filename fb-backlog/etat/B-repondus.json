@@ -1792,8 +1792,16 @@
       "quand": "2026-09-20T22:26:29.164Z",
       "confirme": true,
       "texte": "There isn't one of ours to visit — we buy the fibre from commercial growers rather than farming it ourselves."
+    },
+    {
+      "id": "122122296278483418_1571324007596627",
+      "reponse_id": "122122296278483418_1423496139660993",
+      "page_id": "368305119707866",
+      "quand": "2026-09-20T23:27:26.907Z",
+      "confirme": true,
+      "texte": "No — the eleven we work with are all Asclepias, and dogbane isn't among them."
     }
   ],
-  "derniere_execution": "2026-09-20T22:26:29.165Z",
-  "total": 224
+  "derniere_execution": "2026-09-20T23:27:26.908Z",
+  "total": 225
 }
