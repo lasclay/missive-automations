@@ -9838,6 +9838,104 @@
       "motif": "Arrangement entre abonnées.",
       "page_id": "114311920399404",
       "quand": "2026-09-20T16:39:35.614Z"
+    },
+    {
+      "id": "291041512726443_304499978047263",
+      "extrait": "parfait je viens de passer ma commande! 🦋😊🦋",
+      "motif": "Annonce d'achat qui clôt un échange déjà répondu par la Page.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T17:39:56.151Z"
+    },
+    {
+      "id": "291041512726443_303177664846161",
+      "extrait": "Commande fait !!",
+      "motif": "Annonce d'achat sans question.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T17:39:56.151Z"
+    },
+    {
+      "id": "291041512726443_302485581582036",
+      "extrait": "Simon Goyette, on devrait en commander et en saupoudrer sur notre terrain 🥰🤗",
+      "motif": "Message adressé à un proche, aucune question.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T17:39:56.151Z"
+    },
+    {
+      "id": "291041512726443_307041037793157",
+      "extrait": "Julie Lamontagne c'est ça que tu m'as donné!!!!?",
+      "motif": "Question adressée à une autre abonnée. La Page répond dans ce tir à l'autre branche du même micro-fil, sur ce qu'est la tubéreuse.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T17:39:56.151Z"
+    },
+    {
+      "id": "291041512726443_303555658141695",
+      "extrait": "si je stratifie, je ne sèmerai pas avant juillet. Est-ce trop tard?",
+      "motif": "Exactement la même question qu'un autre commentaire du même billet, celui-là adressé à la Page et auquel on répond dans ce tir (rien de vérifié sur un semis de juillet, le froid est ce qui compte, floraison la deuxième année).",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T17:39:56.151Z"
+    },
+    {
+      "id": "291041512726443_302840791546515",
+      "extrait": "France Goulet quand vous dites le brocoli! C est la fleur ou quoi?",
+      "motif": "Préparation culinaire de l'asclépiade : rien de vérifié chez nous, et la Page a déjà refusé de se prononcer hier dans ce même micro-fil.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T17:39:56.151Z"
+    },
+    {
+      "id": "291041512726443_302621518235109",
+      "extrait": "Avez-vous fait stratifier les graines au frigo avant la mise en terre?",
+      "motif": "Question posée à une autre abonnée. Le repère (une trentaine de jours de froid) est publié trois fois dans ce tir, sur ce même billet.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T17:39:56.151Z"
+    },
+    {
+      "id": "291041512726443_301302258367035",
+      "extrait": "Diane Bard les avez vous stratifiées avant?",
+      "motif": "Question posée à une autre abonnée, même sujet que ci-dessus, déjà couvert dans ce tir.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T17:39:56.151Z"
+    },
+    {
+      "id": "291041512726443_511951863968739",
+      "extrait": "jai des graines a semer je peux t'en donner 😍",
+      "motif": "Partage de graines entre abonnées.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T17:39:56.151Z"
+    },
+    {
+      "id": "291041512726443_511741480656444",
+      "extrait": "Audrey Boucher ouiii",
+      "motif": "Accord entre proches, aucun contenu.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T17:39:56.151Z"
+    },
+    {
+      "id": "291041512726443_511718683992057",
+      "extrait": "(lien vers une boutique concurrente)",
+      "motif": "Partage d'un lien vers un autre vendeur de semences. La Page n'a pas à commenter, ni pour, ni contre.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T17:39:56.151Z"
+    },
+    {
+      "id": "291041512726443_511437484020177",
+      "extrait": "Danny Julie Poudrier ouiiii",
+      "motif": "Accord entre proches, aucun contenu.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T17:39:56.151Z"
+    },
+    {
+      "id": "291041512726443_511373304026595",
+      "extrait": "j'avais semée à l'intérieur et transplanté en juin.",
+      "motif": "Semis à l'intérieur et transplantation : ni l'un ni l'autre n'est dans nos faits vérifiés. Témoignage entre abonnées, rien à corriger ni à valider.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T17:39:56.151Z"
+    },
+    {
+      "id": "291041512726443_511026690727923",
+      "extrait": "Brigitte Bergeron c'est commandé!!",
+      "motif": "Annonce d'achat adressée à une autre personne.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T17:39:56.151Z"
     }
   ]
 }
