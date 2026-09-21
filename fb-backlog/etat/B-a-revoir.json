@@ -23471,6 +23471,26 @@
       "motif": "mention dun contact suivie dun emoji, aucune question",
       "ecarte_le": "2026-09-20",
       "tir": "B"
+    },
+    {
+      "id": "122122296278483418_1620687325205523",
+      "page_id": "368305119707866",
+      "date": "2025-01-11T15:06:57+0000",
+      "message": "Elisabeth Sonnenberg",
+      "lien": "https://www.facebook.com/122210881520483418/posts/122122296278483418?comment_id=1620687325205523",
+      "motif": "mention dun contact sans texte",
+      "ecarte_le": "2026-09-21",
+      "tir": "B"
+    },
+    {
+      "id": "122122296278483418_2370139576684845",
+      "page_id": "368305119707866",
+      "date": "2025-01-10T16:18:35+0000",
+      "message": "Yes, they grow in our yards. Drop some seeds and try it!",
+      "lien": "https://www.facebook.com/122210881520483418/posts/122122296278483418?comment_id=2370139576684845",
+      "motif": "encouragement a semer, sans question",
+      "ecarte_le": "2026-09-21",
+      "tir": "B"
     }
   ]
 }
