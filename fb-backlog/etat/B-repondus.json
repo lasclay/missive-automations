@@ -1776,8 +1776,32 @@
       "quand": "2026-09-19T19:31:58.009Z",
       "confirme": true,
       "texte": "The floss comes out of the pods in autumn, after the monarchs have already gone through — the leaves the caterpillars feed on are never touched. And the seed goes back out rather than staying with us: a free packet in every textile order."
+    },
+    {
+      "id": "122142476066483418_3883714501870879",
+      "reponse_id": "122142476066483418_1106329965254182",
+      "page_id": "368305119707866",
+      "quand": "2026-09-20T18:27:35.093Z",
+      "confirme": true,
+      "texte": "Roughly ten million have gone out that way already — five giveaway campaigns across North America — and a packet still travels with every textile order at no charge."
+    },
+    {
+      "id": "122142476066483418_612571948322781",
+      "reponse_id": "122142476066483418_1136581352273481",
+      "page_id": "368305119707866",
+      "quand": "2026-09-20T22:26:29.164Z",
+      "confirme": true,
+      "texte": "There isn't one of ours to visit — we buy the fibre from commercial growers rather than farming it ourselves."
+    },
+    {
+      "id": "122122296278483418_1571324007596627",
+      "reponse_id": "122122296278483418_1423496139660993",
+      "page_id": "368305119707866",
+      "quand": "2026-09-20T23:27:26.907Z",
+      "confirme": true,
+      "texte": "No — the eleven we work with are all Asclepias, and dogbane isn't among them."
     }
   ],
-  "derniere_execution": "2026-09-19T19:31:58.010Z",
-  "total": 222
+  "derniere_execution": "2026-09-20T23:27:26.908Z",
+  "total": 225
 }

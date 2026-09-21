@@ -1640,8 +1640,48 @@
       "quand": "2026-09-19T22:08:42.508Z",
       "confirme": true,
       "texte": "Un hiver avec les mitaines et vous lorgnez déjà le manteau : c'est le meilleur retour qu'on puisse recevoir. Merci. Tous les détails sont sur le site quand le moment viendra."
+    },
+    {
+      "id": "1678623234271486_1957153581625742",
+      "reponse_id": "1678623234271486_1104064485608218",
+      "page_id": "104242204750257",
+      "quand": "2026-09-20T12:08:28.263Z",
+      "confirme": true,
+      "texte": "Une chrysalide au jardin, c'est un beau signe. Pour vos semences : un semis d'automne fonctionne bien, le froid de l'hiver fait le travail à votre place. Comptez la deuxième année pour la floraison."
+    },
+    {
+      "id": "1678623234271486_2004801580207426",
+      "reponse_id": "1678623234271486_28315907644734172",
+      "page_id": "104242204750257",
+      "quand": "2026-09-20T12:12:27.174Z",
+      "confirme": true,
+      "texte": "Contente que ça vous ait rejointe. Bienvenue parmi nous."
+    },
+    {
+      "id": "1678623234271486_1426517339402993",
+      "reponse_id": "1678623234271486_1837910787635846",
+      "page_id": "104242204750257",
+      "quand": "2026-09-20T12:13:33.162Z",
+      "confirme": true,
+      "texte": "C'est généreux de l'écrire ici. Merci, on travaille fort pour le mériter."
+    },
+    {
+      "id": "1678623234271486_1631662931992466",
+      "reponse_id": "1678623234271486_1114226211133619",
+      "page_id": "104242204750257",
+      "quand": "2026-09-20T17:07:41.799Z",
+      "confirme": true,
+      "texte": "Depuis les débuts, avec les mitaines, le cache-cou, les semelles et la boîte à lunch : ça veut dire beaucoup pour nous. Merci pour les bons mots et pour la fidélité, on va continuer de travailler pour la mériter."
+    },
+    {
+      "id": "1674454204688389_1063855649964735",
+      "reponse_id": "1674454204688389_1468505358426755",
+      "page_id": "104242204750257",
+      "quand": "2026-09-20T19:07:59.216Z",
+      "confirme": true,
+      "texte": "Le marché des chips, on n'y avait pas pensé. On note l'idée, la commission on en reparlera 🙂 Merci pour le bon mot."
     }
   ],
-  "derniere_execution": "2026-09-19T22:08:42.508Z",
-  "total": 205
+  "derniere_execution": "2026-09-20T19:07:59.216Z",
+  "total": 210
 }

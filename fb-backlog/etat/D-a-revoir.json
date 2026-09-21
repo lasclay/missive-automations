@@ -9551,6 +9551,510 @@
       "motif": "Identification d'une autre personne accompagnée d'un emoji, sous une réponse déjà donnée par la Page. Aucun contenu à traiter.",
       "page_id": "114311920399404",
       "quand": "2026-09-20T00:39:11.029Z"
+    },
+    {
+      "id": "291041512726443_1507026959706699",
+      "extrait": "j'ai commendé mes graines l'an passé, j'ai hâte de commencer :)",
+      "motif": "Enthousiasme sans question, dans un micro-fil où la Page a déjà répondu hier sur la toxicité.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T10:39:54.440Z"
+    },
+    {
+      "id": "291041512726443_1019174639052122",
+      "extrait": "Dominique Alcaraz non desolée",
+      "motif": "Refus de partager des graines entre abonnées. Ne nous concerne pas.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T10:39:54.440Z"
+    },
+    {
+      "id": "291041512726443_243017428110528",
+      "extrait": "Daniel Martin Margot Bissonnette 😉😁😅",
+      "motif": "Identifications et emojis, aucun contenu.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T10:39:54.440Z"
+    },
+    {
+      "id": "291041512726443_5305563066212823",
+      "extrait": "(photo sans texte, aucune pièce jointe récupérable)",
+      "motif": "Commentaire vide : aucun texte et le champ image est nul, donc rien à regarder ni à quoi répondre.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T10:39:54.440Z"
+    },
+    {
+      "id": "291041512726443_138472185858263",
+      "extrait": "Merci!🌍💚🦋🦋🦋",
+      "motif": "Remerciement sans question.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T10:39:54.440Z"
+    },
+    {
+      "id": "291041512726443_2162419540608479",
+      "extrait": "la présence actuelle de chenilles ici n'indique pas que vous aurez des Monarques",
+      "motif": "Affirmation sur le calendrier des générations et la migration, adressée à un autre abonné. Ce n'est pas dans nos faits vérifiés : on ne va ni le confirmer ni le contredire.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T10:39:54.440Z"
+    },
+    {
+      "id": "291041512726443_735395145042441",
+      "extrait": "On peut aussi les stratifier au frigo pour leur donner l'impression que l'hiver est passé ;) On est peut être rendu un peu tard.",
+      "motif": "Même micro-fil que la réponse publiée dans ce tir : la précision utile (une trentaine de jours de froid, pas une semaine) est donnée juste en dessous, à la personne qui poursuivait l'échange.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T10:39:54.440Z"
+    },
+    {
+      "id": "291041512726443_1570382946759286",
+      "extrait": "Anne Duchaine Monsieur Papillons 😃",
+      "motif": "Nomme une entreprise tierce de lâchers de papillons. On ne relaie pas de tiers depuis la Page.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T11:40:38.907Z"
+    },
+    {
+      "id": "617494610081130_1043863146295631",
+      "extrait": "moi j'en ai chez moi et ça pousse comme de la mauvaise herbe.. Essayez avec ceux près de chez vous😉",
+      "motif": "Conseil entre abonnés qui rejoint exactement ce que la Page dit elle-même. Rien à corriger, rien à ajouter.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T11:40:38.907Z"
+    },
+    {
+      "id": "617494610081130_449778457114280",
+      "extrait": "c'est fait et je vais répendre partout ou j'irai,enfin presque.",
+      "motif": "Enthousiasme sans question.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T11:40:38.907Z"
+    },
+    {
+      "id": "500400911790501_786697709205503",
+      "extrait": "On sèche pour semer Go Go Go Mont-Tremblant",
+      "motif": "Encouragement sans question ; la nuance sur le séchage est publiée dans ce tir, sur le commentaire qui la donnait comme consigne.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T11:40:38.907Z"
+    },
+    {
+      "id": "617494610081130_1308442816559536",
+      "extrait": "j'ai pris des graines sur les plants le long de l'autoroute",
+      "motif": "Témoignage adressé à une autre abonnée, conforme à ce qu'on encourage. Rien à ajouter.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T11:40:38.907Z"
+    },
+    {
+      "id": "500400911790501_1540643299718797",
+      "extrait": "Asclépiade & papillons monarques Merci beaucoup!!!",
+      "motif": "Remerciement qui clôt un échange déjà répondu par la Page.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T11:40:38.907Z"
+    },
+    {
+      "id": "617494610081130_437566235033997",
+      "extrait": "d'accord, merci beaucoup je vais aller voir le lien",
+      "motif": "Remerciement qui clôt un échange déjà répondu par la Page.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T11:40:38.907Z"
+    },
+    {
+      "id": "617494610081130_1680110695695477",
+      "extrait": "Faudrais planter nos sachets :) Yan Dbrd",
+      "motif": "Rappel entre proches, sans question.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T11:40:38.907Z"
+    },
+    {
+      "id": "500400911790501_458960122855931",
+      "extrait": "Qu'ils en soupoudrent dans les champs au lieu des insecticides !",
+      "motif": "Souhait d'ordre politique sur les pratiques agricoles. La Page n'a pas à se prononcer là-dessus ; le seul point qu'on pourrait appuyer (éviter les plants traités aux néonicotinoïdes) ne répond pas à ce qui est dit ici.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T11:40:38.907Z"
+    },
+    {
+      "id": "500400911790501_349040410699190",
+      "extrait": "Annie Lafrenière viens me voir 😊",
+      "motif": "Invitation entre abonnées.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T11:40:38.907Z"
+    },
+    {
+      "id": "500400911790501_1039309790110281",
+      "extrait": "(réponse sans texte, avec la photo demandée par la Page)",
+      "motif": "Même personne et même micro-fil que la réponse publiée dans ce tir : la photo y est décrite et sa question sur l'hivernage en pot y est traitée.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T11:40:38.907Z"
+    },
+    {
+      "id": "500400911790501_613718273752833",
+      "extrait": "K,aime j,aime et j,aime",
+      "motif": "Marque d'appréciation, aucun contenu.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T11:40:38.907Z"
+    },
+    {
+      "id": "414638197033440_698225368075120",
+      "extrait": "Wouah! Formidable, bravo à l'inventeur!",
+      "motif": "Billet 414638197033440, dont le sujet (une invention, « M. Bélanger », une campagne de financement) n'apparaît dans aucun de nos faits vérifiés. Félicitations d'une ligne, sans question : y répondre obligerait à improviser sur un dossier qu'on ne connaît pas. ",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T12:40:02.638Z"
+    },
+    {
+      "id": "414638197033440_403950698321622",
+      "extrait": "Félicitations à vous M. Bélanger pour cette magnifique invention.",
+      "motif": "Billet 414638197033440, dont le sujet (une invention, « M. Bélanger », une campagne de financement) n'apparaît dans aucun de nos faits vérifiés. Félicitations d'une ligne, sans question : y répondre obligerait à improviser sur un dossier qu'on ne connaît pas. ",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T12:40:02.638Z"
+    },
+    {
+      "id": "414638197033440_568530151666430",
+      "extrait": "Tellement heureuse!!! Bravo!!!",
+      "motif": "Billet 414638197033440, dont le sujet (une invention, « M. Bélanger », une campagne de financement) n'apparaît dans aucun de nos faits vérifiés. Félicitations d'une ligne, sans question : y répondre obligerait à improviser sur un dossier qu'on ne connaît pas. ",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T12:40:02.638Z"
+    },
+    {
+      "id": "414638197033440_552134536535838",
+      "extrait": "Marc-andré Dubreuil",
+      "motif": "Simple identification d'une personne.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T12:40:02.638Z"
+    },
+    {
+      "id": "414638197033440_553085309512312",
+      "extrait": "Félicitations Martin 👍",
+      "motif": "Billet 414638197033440, dont le sujet (une invention, « M. Bélanger », une campagne de financement) n'apparaît dans aucun de nos faits vérifiés. Félicitations d'une ligne, sans question : y répondre obligerait à improviser sur un dossier qu'on ne connaît pas. ",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T12:40:02.638Z"
+    },
+    {
+      "id": "414638197033440_388751986641336",
+      "extrait": "Mathieu Beaudry toi qui voulait diversifier",
+      "motif": "Identification d'une autre personne, aucune question pour la Page.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T12:40:02.638Z"
+    },
+    {
+      "id": "414638197033440_564556235054137",
+      "extrait": "Gabriel Beauchemin intéressésant comme article",
+      "motif": "Identification d'une autre personne, aucune question pour la Page.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T12:40:02.638Z"
+    },
+    {
+      "id": "414638197033440_2225018397652069",
+      "extrait": "Wow contente de voir l'évolution et ainsi constater que nos petits dons peuvent faire une différence pour votre entreprise.",
+      "motif": "**SUIVI HUMAIN REQUIS** — cette personne affirme avoir fait un don à l'entreprise. On n'a aucun fait vérifié sur une campagne de financement de Lasclay : remercier pour un don qu'on ne peut pas confirmer, ou l'ignorer, sont deux mauvaises réponses. Quelqu'un qui connaît le dossier devrait lui répondre.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T12:40:02.638Z"
+    },
+    {
+      "id": "291041512726443_5259682284078182",
+      "extrait": "moi j'avais commencé à l'intérieur, mais on peut semer a l'extérieur aussi!",
+      "motif": "Le semis à l'intérieur n'est pas dans nos faits vérifiés : on ne va ni le recommander ni le déconseiller. Message adressé à une autre abonnée, dans un fil où la Page a déjà répondu à la question d'origine.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T12:40:02.638Z"
+    },
+    {
+      "id": "291041512726443_676319170145709",
+      "extrait": "Lise Gagnon merci beaucoup",
+      "motif": "Remerciement adressé à une autre abonnée.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T12:40:02.638Z"
+    },
+    {
+      "id": "291041512726443_515974530233139",
+      "extrait": "les miennes sont au soleil. La première année le plan sera petit, mais il se multiplie assez rapidement",
+      "motif": "Réponse exacte d'une abonnée à une autre — plein soleil, petit la première année, se multiplie ensuite : cela rejoint nos faits vérifiés. Rien à corriger, et la Page a déjà répondu dans ce fil.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T16:39:35.614Z"
+    },
+    {
+      "id": "291041512726443_435703078322119",
+      "extrait": "Christine Nobert 🦋",
+      "motif": "Identification d'une personne.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T16:39:35.614Z"
+    },
+    {
+      "id": "291041512726443_1023364721937011",
+      "extrait": "Samuel Robitaille fais un cadeau à ta femme! ♥️",
+      "motif": "Message adressé à un proche, aucune question.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T16:39:35.614Z"
+    },
+    {
+      "id": "291041512726443_1710886729260296",
+      "extrait": "Nicolas Gagné 👋🏻🌸",
+      "motif": "Identification d'une personne.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T16:39:35.614Z"
+    },
+    {
+      "id": "291041512726443_514943830336209",
+      "extrait": "Frrncis Prradis",
+      "motif": "Identification d'une personne.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T16:39:35.614Z"
+    },
+    {
+      "id": "376828314147762_514737753690150",
+      "extrait": "WoW 🤩 moi j'adore les monarques",
+      "motif": "Enthousiasme sans question, sur le billet où la Page vient de répondre à la photo publiée juste à côté.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T16:39:35.614Z"
+    },
+    {
+      "id": "291041512726443_514013097095949",
+      "extrait": "Manon Belzile c'est fait. Commandé.",
+      "motif": "Annonce d'achat adressée à une autre personne.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T16:39:35.614Z"
+    },
+    {
+      "id": "291041512726443_513263487170910",
+      "extrait": "J'ai reçu les miennes, merci beaucoup et merci de la part des papillons.",
+      "motif": "Joli remerciement, mais sans question, et les repères utiles (froid nécessaire, feuillage la première année) sont publiés au même moment sur le billet, à une autre personne qui vient elle aussi de recevoir ses semences.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T16:39:35.614Z"
+    },
+    {
+      "id": "291041512726443_512786937218565",
+      "extrait": "Catherine Verhille merciiiii 😁😁",
+      "motif": "Remerciement entre abonnées.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T16:39:35.614Z"
+    },
+    {
+      "id": "291041512726443_512319277265331",
+      "extrait": "wow merci sa l'aide",
+      "motif": "Remerciement qui clôt un échange déjà répondu par la Page.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T16:39:35.614Z"
+    },
+    {
+      "id": "291041512726443_512220490608543",
+      "extrait": "Janie Boulianne Gref chez toi il y a en ! On sauve les monarques 🌸🌼",
+      "motif": "Identification d'une proche, aucune question.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T16:39:35.614Z"
+    },
+    {
+      "id": "291041512726443_511977063966219",
+      "extrait": "Lise Pelletier Merciiiiii ! On va passer faire un ptit tour😁",
+      "motif": "Arrangement entre abonnées.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T16:39:35.614Z"
+    },
+    {
+      "id": "291041512726443_304499978047263",
+      "extrait": "parfait je viens de passer ma commande! 🦋😊🦋",
+      "motif": "Annonce d'achat qui clôt un échange déjà répondu par la Page.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T17:39:56.151Z"
+    },
+    {
+      "id": "291041512726443_303177664846161",
+      "extrait": "Commande fait !!",
+      "motif": "Annonce d'achat sans question.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T17:39:56.151Z"
+    },
+    {
+      "id": "291041512726443_302485581582036",
+      "extrait": "Simon Goyette, on devrait en commander et en saupoudrer sur notre terrain 🥰🤗",
+      "motif": "Message adressé à un proche, aucune question.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T17:39:56.151Z"
+    },
+    {
+      "id": "291041512726443_307041037793157",
+      "extrait": "Julie Lamontagne c'est ça que tu m'as donné!!!!?",
+      "motif": "Question adressée à une autre abonnée. La Page répond dans ce tir à l'autre branche du même micro-fil, sur ce qu'est la tubéreuse.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T17:39:56.151Z"
+    },
+    {
+      "id": "291041512726443_303555658141695",
+      "extrait": "si je stratifie, je ne sèmerai pas avant juillet. Est-ce trop tard?",
+      "motif": "Exactement la même question qu'un autre commentaire du même billet, celui-là adressé à la Page et auquel on répond dans ce tir (rien de vérifié sur un semis de juillet, le froid est ce qui compte, floraison la deuxième année).",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T17:39:56.151Z"
+    },
+    {
+      "id": "291041512726443_302840791546515",
+      "extrait": "France Goulet quand vous dites le brocoli! C est la fleur ou quoi?",
+      "motif": "Préparation culinaire de l'asclépiade : rien de vérifié chez nous, et la Page a déjà refusé de se prononcer hier dans ce même micro-fil.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T17:39:56.151Z"
+    },
+    {
+      "id": "291041512726443_302621518235109",
+      "extrait": "Avez-vous fait stratifier les graines au frigo avant la mise en terre?",
+      "motif": "Question posée à une autre abonnée. Le repère (une trentaine de jours de froid) est publié trois fois dans ce tir, sur ce même billet.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T17:39:56.151Z"
+    },
+    {
+      "id": "291041512726443_301302258367035",
+      "extrait": "Diane Bard les avez vous stratifiées avant?",
+      "motif": "Question posée à une autre abonnée, même sujet que ci-dessus, déjà couvert dans ce tir.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T17:39:56.151Z"
+    },
+    {
+      "id": "291041512726443_511951863968739",
+      "extrait": "jai des graines a semer je peux t'en donner 😍",
+      "motif": "Partage de graines entre abonnées.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T17:39:56.151Z"
+    },
+    {
+      "id": "291041512726443_511741480656444",
+      "extrait": "Audrey Boucher ouiii",
+      "motif": "Accord entre proches, aucun contenu.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T17:39:56.151Z"
+    },
+    {
+      "id": "291041512726443_511718683992057",
+      "extrait": "(lien vers une boutique concurrente)",
+      "motif": "Partage d'un lien vers un autre vendeur de semences. La Page n'a pas à commenter, ni pour, ni contre.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T17:39:56.151Z"
+    },
+    {
+      "id": "291041512726443_511437484020177",
+      "extrait": "Danny Julie Poudrier ouiiii",
+      "motif": "Accord entre proches, aucun contenu.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T17:39:56.151Z"
+    },
+    {
+      "id": "291041512726443_511373304026595",
+      "extrait": "j'avais semée à l'intérieur et transplanté en juin.",
+      "motif": "Semis à l'intérieur et transplantation : ni l'un ni l'autre n'est dans nos faits vérifiés. Témoignage entre abonnées, rien à corriger ni à valider.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T17:39:56.151Z"
+    },
+    {
+      "id": "291041512726443_511026690727923",
+      "extrait": "Brigitte Bergeron c'est commandé!!",
+      "motif": "Annonce d'achat adressée à une autre personne.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T17:39:56.151Z"
+    },
+    {
+      "id": "291041512726443_510661044097821",
+      "extrait": "Sylvie Mongeon Michel Durocher 🦋",
+      "motif": "Identifications de personnes, aucune question.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T18:38:34.201Z"
+    },
+    {
+      "id": "291041512726443_510382057459053",
+      "extrait": "Pas toujours qui revienne même si c'est des vivaces d'année en année. Tout dépend de l'hiver qu'on a.",
+      "motif": "Même micro-fil que la réponse publiée dans ce tir sur la rusticité (zones 3 à 9, la zone indiquée est la plus froide tolérée, et la plante revient chaque année). Message adressé à une autre abonnée.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T18:38:34.201Z"
+    },
+    {
+      "id": "291041512726443_510309287466330",
+      "extrait": "Asclépiade & papillons monarques merci",
+      "motif": "Remerciement qui clôt un échange déjà répondu par la Page.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T18:38:34.201Z"
+    },
+    {
+      "id": "291041512726443_384626493521367",
+      "extrait": "yark",
+      "motif": "Réaction d'une ligne dans le micro-fil sur la peur des guêpes et des abeilles. Le fond est traité dans la réponse publiée au même moment, juste à côté ; répondre à « yark » n'ajouterait rien.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T18:38:34.201Z"
+    },
+    {
+      "id": "291041512726443_510292777467981",
+      "extrait": "Asclépiade & papillons monarques merci",
+      "motif": "Remerciement qui clôt un échange déjà répondu par la Page.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T19:39:40.853Z"
+    },
+    {
+      "id": "291041512726443_510181497479109",
+      "extrait": "Nicole Gozzi de qu elle région tu est",
+      "motif": "Question de région posée à une autre abonnée.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T19:39:40.853Z"
+    },
+    {
+      "id": "291041512726443_508407970989795",
+      "extrait": "Catherine Beaudoin j'en ai acheté 🥰",
+      "motif": "Annonce d'achat adressée à une autre personne.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T19:39:40.853Z"
+    },
+    {
+      "id": "291041512726443_507004131130179",
+      "extrait": "Annabelle St-Hilaire on pourrait en mettre :)",
+      "motif": "Proposition adressée à une proche.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T19:39:40.853Z"
+    },
+    {
+      "id": "291041512726443_506745594489366",
+      "extrait": "Chantal Mercier",
+      "motif": "Identification d'une personne.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T19:39:40.853Z"
+    },
+    {
+      "id": "291041512726443_506712777825981",
+      "extrait": "oui inquiète toi pas j'y ai pensé et je vais en semer ☺️☺️",
+      "motif": "Échange entre proches, aucune question.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T19:39:40.853Z"
+    },
+    {
+      "id": "291041512726443_506284031202189",
+      "extrait": "J'adore leur mission!!!",
+      "motif": "Marque d'appréciation sans question.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T19:39:40.853Z"
+    },
+    {
+      "id": "291041512726443_506062887890970",
+      "extrait": "Marie Josee Lavoie que c'est beau comme histoire 🙏",
+      "motif": "Commentaire adressé à une autre abonnée dans le fil sur les papillons lâchés à des funérailles. L'image jointe est un autocollant Meta (avatar entouré de cœurs), sans contenu à décrire.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T19:39:40.853Z"
+    },
+    {
+      "id": "291041512726443_505814604582465",
+      "extrait": "J'ai hâte de les semer!",
+      "motif": "Enthousiasme sans question. Le repère qui compte — la trentaine de jours de froid avant la levée — est publié dans ce même tir, sur ce même billet, à quelqu'un qui vient justement de semer.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T20:38:27.437Z"
+    },
+    {
+      "id": "291041512726443_505770424586883",
+      "extrait": "Anne-Sophie Tu, ce que je te parlais aujourd'hui…! ☺️",
+      "motif": "Message adressé à une proche, aucune question.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T20:38:27.437Z"
+    },
+    {
+      "id": "291041512726443_505158591314733",
+      "extrait": "Rosy Fortin 😱😱😍😍",
+      "motif": "Identification d'une personne et emojis, aucun contenu.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T20:38:27.437Z"
+    },
+    {
+      "id": "291041512726443_504884901342102",
+      "extrait": "Sylvie Duchesneau c'est normal! C'est vivace",
+      "motif": "Réponse exacte d'une abonnée à une autre, dans le micro-fil sur la rusticité où la Page a déjà répondu aujourd'hui. Rien à corriger.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T22:38:26.997Z"
+    },
+    {
+      "id": "291041512726443_504743151356277",
+      "extrait": "Marie-Noël Beaulieu Déjà fait, mais on prut partager",
+      "motif": "Arrangement de partage entre abonnées, aucune question.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-20T22:38:26.997Z"
     }
   ]
 }
