@@ -1680,8 +1680,16 @@
       "quand": "2026-09-20T19:07:59.216Z",
       "confirme": true,
       "texte": "Le marché des chips, on n'y avait pas pensé. On note l'idée, la commission on en reparlera 🙂 Merci pour le bon mot."
+    },
+    {
+      "id": "1678623234271486_2139673823291416",
+      "reponse_id": "1678623234271486_1621066102984310",
+      "page_id": "104242204750257",
+      "quand": "2026-09-21T14:11:07.690Z",
+      "confirme": true,
+      "texte": "Merci. La fibre, elle, vient bel et bien d'ici : cultivée et transformée au Québec. C'est le cœur du projet."
     }
   ],
-  "derniere_execution": "2026-09-20T19:07:59.216Z",
-  "total": 210
+  "derniere_execution": "2026-09-21T14:11:07.691Z",
+  "total": 211
 }
