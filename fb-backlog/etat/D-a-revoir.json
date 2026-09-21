@@ -10104,6 +10104,34 @@
       "motif": "Message incohérent, avec une suite de caractères présentée comme un « code » et des instructions sans rapport avec le fil. Rien d'identifiable à quoi répondre ; la Page n'interagit pas avec ce type de contenu.",
       "page_id": "114311920399404",
       "quand": "2026-09-21T02:39:10.083Z"
+    },
+    {
+      "id": "291041512726443_501727904991135",
+      "extrait": "Sylvie Maheux tu pourrais te faire un champs de fleurs à papillon 🤩",
+      "motif": "Identification d'une amie, sans question. Écarté surtout pour saturation : quatre réponses déjà rédigées sur ce même fil aujourd'hui — à reprendre un autre jour.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-21T11:39:24.962Z"
+    },
+    {
+      "id": "291041512726443_500750471755545",
+      "extrait": "Si vous désirez faire un geste pour l'environnement, voilà votre chance.",
+      "motif": "Appel générique aux autres abonnés, rien à répondre de précis. Écarté aussi pour saturation du même fil le même jour — à reprendre.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-21T11:39:24.962Z"
+    },
+    {
+      "id": "291041512726443_500965021734090",
+      "extrait": "Andrée Brisson ah oui!",
+      "motif": "Message sans contenu, simple acquiescement entre deux abonnés.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-21T11:39:24.962Z"
+    },
+    {
+      "id": "454026976427895_500928078404451",
+      "extrait": "Un taxidermiste qui innove",
+      "motif": "Même sujet et même fil que le commentaire 501148918382367, auquel nous répondons déjà — une seule réponse par sujet.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-21T11:39:24.962Z"
     }
   ]
 }
