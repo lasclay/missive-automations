@@ -11,8 +11,7 @@
 | Campagne points de vente | **PÉRIMÉE** (654,9 h) | aucun envoi |
 | Sync skills claude.ai → repo | à jour (102,9 h) | — |
 | Revue quotidienne | à jour (24 h) | ce fichier |
-| Ramassages resynchro | tire (01 h 03, 35 s) | effet invérifiable |
-| Ramassages étiquettes du mardi | tire (15 sept., 7 min) | effet invérifiable |
+| Ramassages (resynchro, étiquettes) | tirent, SUCCEEDED | sortie invérifiable |
 
 58 réponses publiées, toutes confirmées chez Meta. Trois proxys à 200.
 
@@ -26,7 +25,7 @@ tir ne les relit. Même défaut que les 55 escalades (R-20260831-02), autre clas
 doivent revenir au robot. → R-20260920-01.
 
 **Écarts pour cause de récence : 142 depuis le 1er septembre, 136 dans le tir C**, dont 24
-aujourd'hui — 41 % des écarts du tir C. Le fait avait été publié « dans la meme section » deux à
+aujourd'hui — 41 % des écarts du tir C, le fait ayant été publié « dans la meme section » deux à
 quatorze heures plus tôt. Assez récurrent pour que `REGLES.md` tranche la fenêtre une fois.
 
 **Garde-fou Omnisend respecté, vérifié en direct.** `claude/klaviyo-newsletter-drafts-m9lzov` a
@@ -45,10 +44,10 @@ par l'API (283 fils, 100) — R-20260831-03 reste la réponse, pas une étiquett
 étape 3 (« rebond au-dessus de 3 % : N'ENVOIE RIEN, écris à Gabriel, arrête ici ») expliquerait
 les 45 jours sans envoi — piste, pas preuve : son transcript n'est pas lisible d'ici.
 
-**Les deux « Ramassages » ne sont plus invérifiables : elles tirent.** Resynchro, dernier tir
-21 sept. 01 h 03 UTC, SUCCEEDED en 35 s ; étiquettes du mardi, 15 sept. 11 h 12, SUCCEEDED en
-7 min, prochain 22 sept. La cadence est prouvée, l'effet (artefact, étiquettes) reste hors de
-portée. `revue/routines.json` les dit encore invérifiables sans nuance (R-20260831-01, `proposee`).
+**Les deux « Ramassages » ne sont plus invérifiables : elles tirent.** Resynchro, 21 sept.
+01 h 03 UTC, SUCCEEDED en 35 s ; étiquettes du mardi, 15 sept. 11 h 12, SUCCEEDED en 7 min. La
+cadence est prouvée, la sortie (artefact, étiquettes) reste hors de portée. `routines.json` les
+dit encore invérifiables sans nuance (R-20260831-01, `proposee`).
 
 **Récidive.** Écarts du tir D sans date : 1421, contre 1345 hier — le tir en produit, la collecte
 compte 0 (R-20260830-02, 30 août). Campagne points de vente : 45 jours sans envoi (R-20260830-01).
@@ -56,10 +55,9 @@ Les 6 commits de la branche Klaviyo ne touchent que `infolettres/` : aucun code 
 
 ## Ce qui attend Gabriel
 
-- 12 propositions en attente, aucune approuvée depuis l'ouverture du registre.
-- Achat bloqué : 7 rapports clients, 31 août au 14 septembre, deux pages. Jamais reproduit —
-  tester le paiement veut dire passer une vraie commande en production.
-- 55 escalades marquées « à traiter par un humain » sans sortie.
-- Correctif Render `0a81d48` (`buildFilter`) toujours hors de `main`.
+Ce que le snapshot ne porte pas :
+
 - Question du 16 septembre, sans réponse : un marqueur humain « NE PAS ENVOYER » peut-il être
   levé par l'agent qui exécute l'envoi ?
+- La session de la campagne points de vente (`REVIEW_READY`, non lue depuis le 17) : personne
+  n'a vu ce qu'elle voulait dire.
