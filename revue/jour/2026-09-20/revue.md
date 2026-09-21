@@ -39,10 +39,9 @@ envoyés, lui, reste non mesurable : les deux étiquettes candidates rendent des
 par l'API (283 fils, 100) — R-20260831-03 reste la réponse, pas une étiquette.
 
 **La campagne points de vente attend un humain depuis le 17 septembre.** Elle a tiré le 17 à
-13 h 03 et travaillé 3 min 30 (11 k jetons, 1,40 $ US), puis sa session
-`session_01JtoX9bUfE3Djoot75yod1q` est restée `REVIEW_READY`, `unread: true`. Le garde-fou de son
-étape 3 (« rebond au-dessus de 3 % : N'ENVOIE RIEN, écris à Gabriel, arrête ici ») expliquerait
-les 45 jours sans envoi — piste, pas preuve : son transcript n'est pas lisible d'ici.
+13 h 03 et travaillé 3 min 30 (1,40 $ US), puis sa session `session_01JtoX9bUfE3Djoot75yod1q` est
+restée `REVIEW_READY`, `unread: true`. Le garde-fou de son étape 3 (« rebond au-dessus de 3 % :
+N'ENVOIE RIEN, écris à Gabriel ») expliquerait les 45 jours sans envoi — piste, pas preuve.
 
 **Les deux « Ramassages » ne sont plus invérifiables : elles tirent.** Resynchro, 21 sept.
 01 h 03 UTC, SUCCEEDED en 35 s ; étiquettes du mardi, 15 sept. 11 h 12, SUCCEEDED en 7 min. La
@@ -59,5 +58,4 @@ Ce que le snapshot ne porte pas :
 
 - Question du 16 septembre, sans réponse : un marqueur humain « NE PAS ENVOYER » peut-il être
   levé par l'agent qui exécute l'envoi ?
-- La session de la campagne points de vente (`REVIEW_READY`, non lue depuis le 17) : personne
-  n'a vu ce qu'elle voulait dire.
+- La session de la campagne points de vente est `REVIEW_READY`, non lue depuis le 17.
