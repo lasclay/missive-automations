@@ -1800,8 +1800,16 @@
       "quand": "2026-09-20T23:27:26.907Z",
       "confirme": true,
       "texte": "No — the eleven we work with are all Asclepias, and dogbane isn't among them."
+    },
+    {
+      "id": "122215616054483418_1353308123268557",
+      "reponse_id": "122215616054483418_1396315526000253",
+      "page_id": "368305119707866",
+      "quand": "2026-09-21T21:28:36.456Z",
+      "confirme": true,
+      "texte": "Two years with nothing up usually comes down to the cold. Our seed isn't stratified — it needs roughly thirty days of cold, damp conditions before it will break dormancy. Sowing in the fall and letting winter do that part is the simplest route; the plants then flower in their second year."
     }
   ],
-  "derniere_execution": "2026-09-20T23:27:26.908Z",
-  "total": 225
+  "derniere_execution": "2026-09-21T21:28:36.457Z",
+  "total": 226
 }
