@@ -6,7 +6,7 @@
   "fin": "2026-09-21T04:00:00.000Z",
   "decalage_minutes": -240
  },
- "genere_le": "2026-09-21T01:44:14.929Z",
+ "genere_le": "2026-09-21T01:49:36.509Z",
  "branches_connues": [
   "origin/claude/a2x-app-replacement-9i93wy",
   "origin/claude/audit-apm-unanswered-messages-wo3zo1",
@@ -85,11 +85,13 @@
   "origin/main"
  ],
  "git": {
-  "commits": 40,
-  "lignes_ajoutees": 2912,
-  "lignes_retirees": 56,
+  "commits": 42,
+  "lignes_ajoutees": 4638,
+  "lignes_retirees": 63,
   "par_branche": {
    "claude/revue-quotidienne": [
+    "49f6ff07",
+    "2c33cf6f",
     "51ce0507",
     "135caeb0",
     "8b7e9b82",
@@ -135,6 +137,66 @@
    ]
   },
   "liste": [
+   {
+    "sha": "49f6ff07",
+    "date": "2026-09-20T21:49:01-04:00",
+    "auteur": "Claude",
+    "sujet": "Revue quotidienne 2026-09-20 : 7 constats, 1 proposition",
+    "ajouts": 1669,
+    "retraits": 5,
+    "fichiers": [
+     {
+      "fichier": "revue/REGISTRE.md",
+      "ajouts": 12,
+      "retraits": 2
+     },
+     {
+      "fichier": "revue/jour/2026-09-20/collecte.json",
+      "ajouts": 1569,
+      "retraits": 0
+     },
+     {
+      "fichier": "revue/jour/2026-09-20/revue.md",
+      "ajouts": 60,
+      "retraits": 0
+     },
+     {
+      "fichier": "revue/registre.json",
+      "ajouts": 14,
+      "retraits": 0
+     },
+     {
+      "fichier": "revue/snapshot.js",
+      "ajouts": 14,
+      "retraits": 3
+     }
+    ]
+   },
+   {
+    "sha": "2c33cf6f",
+    "date": "2026-09-20T21:47:52-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog: tir D — 3 réponses publiées, 4 écartées (21h)",
+    "ajouts": 57,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/D-a-revoir.json",
+      "ajouts": 28,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/D-journal.jsonl",
+      "ajouts": 3,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/D-repondus.json",
+      "ajouts": 26,
+      "retraits": 2
+     }
+    ]
+   },
    {
     "sha": "51ce0507",
     "date": "2026-09-20T21:27:29-04:00",
@@ -1006,7 +1068,7 @@
     ]
    }
   ],
-  "tete_main": "51ce050"
+  "tete_main": "2c33cf6"
  },
  "facebook": {
   "presents": true,
@@ -1250,13 +1312,13 @@
    },
    "D": {
     "page": "Asclepiade & papillons monarques",
-    "publiees": 26,
-    "confirmees": 26,
+    "publiees": 29,
+    "confirmees": 29,
     "non_confirmees": 0,
     "erreurs": [],
     "ecartes_du_jour": 0,
-    "dernier_journal": "2026-09-20T22:38:37.297Z",
-    "ecartes_total": 1417,
+    "dernier_journal": "2026-09-21T01:47:31.758Z",
+    "ecartes_total": 1421,
     "motifs_du_jour": [],
     "heures_sans_publication": [
      "09",
@@ -1300,7 +1362,7 @@
     ]
    }
   },
-  "total_publiees": 55,
+  "total_publiees": 58,
   "total_non_confirmees": 0
  },
  "routines": {
@@ -1323,7 +1385,7 @@
     "trace": "jsonl",
     "entrees_total": 217,
     "derniere_trace": "2026-09-20T19:07:59.220Z",
-    "age_h": 6.6,
+    "age_h": 6.7,
     "seuil_h": 30,
     "verdict": "à jour"
    },
@@ -1336,7 +1398,7 @@
     "trace": "jsonl",
     "entrees_total": 225,
     "derniere_trace": "2026-09-20T23:27:26.910Z",
-    "age_h": 2.3,
+    "age_h": 2.4,
     "seuil_h": 48,
     "verdict": "à jour"
    },
@@ -1349,7 +1411,7 @@
     "trace": "jsonl",
     "entrees_total": 808,
     "derniere_trace": "2026-09-21T00:50:23.009Z",
-    "age_h": 0.9,
+    "age_h": 1,
     "seuil_h": 30,
     "verdict": "à jour"
    },
@@ -1360,9 +1422,9 @@
     "horaire": "9 h à 17 h Est, pause à midi",
     "note": null,
     "trace": "jsonl",
-    "entrees_total": 918,
-    "derniere_trace": "2026-09-20T22:38:37.297Z",
-    "age_h": 3.1,
+    "entrees_total": 921,
+    "derniere_trace": "2026-09-21T01:47:31.758Z",
+    "age_h": 0,
     "seuil_h": 30,
     "verdict": "à jour"
    },
@@ -1375,7 +1437,7 @@
     "trace": "git",
     "chemin": "retail-expansion/",
     "derniere_trace": "2026-08-24T18:50:21.000Z",
-    "age_h": 654.9,
+    "age_h": 655,
     "seuil_h": 192,
     "verdict": "PÉRIMÉE"
    },
@@ -1388,7 +1450,7 @@
     "trace": "git",
     "chemin": ".claude/skills/",
     "derniere_trace": "2026-09-16T18:51:06.000Z",
-    "age_h": 102.9,
+    "age_h": 103,
     "seuil_h": 1440,
     "verdict": "à jour"
    },
@@ -1420,8 +1482,8 @@
     "note": "La revue se surveille elle-même : un tour qui ne committe rien est un tour raté.",
     "trace": "git",
     "chemin": "revue/",
-    "derniere_trace": "2026-09-20T01:43:19.000Z",
-    "age_h": 24,
+    "derniere_trace": "2026-09-21T01:49:01.000Z",
+    "age_h": 0,
     "seuil_h": 48,
     "verdict": "à jour"
    }
@@ -1433,7 +1495,7 @@
    "url": "https://proxy-missive.onrender.com/health",
    "statut": 200,
    "ok": true,
-   "ms": 442,
+   "ms": 478,
    "extrait": "{\"ok\":true,\"service\":\"missive-proxy\"}"
   },
   {
@@ -1441,7 +1503,7 @@
    "url": "https://general-proxy-5muf.onrender.com/connectors",
    "statut": 200,
    "ok": true,
-   "ms": 243,
+   "ms": 231,
    "extrait": "{\"connectors\":{\"shipstation\":{\"description\":\"ShipStation v1 (commandes, expéditions, suivi) — accès complet (lecture + écriture; les étiquettes débitent le wallet).\",\"enabled\":true,\"actions\":[\"orders\",\"order\",\"shipments\",\"fulfillments\",\"carriers\",\"stores\",\"warehouses\",\"listtags\",\"carrier\",\"listservi"
   },
   {
@@ -1449,19 +1511,25 @@
    "url": "https://qbo-proxy-0jhc.onrender.com/health",
    "statut": 200,
    "ok": true,
-   "ms": 361,
+   "ms": 347,
    "extrait": "{\"ok\":true,\"service\":\"finance-proxy\"}"
   }
  ],
  "registre": {
   "present": true,
-  "total": 13,
+  "total": 14,
   "par_etat": {
-   "proposee": 11,
+   "proposee": 12,
    "reportee": 2
   },
   "a_appliquer": [],
   "en_attente": [
+   {
+    "id": "R-20260920-01",
+    "titre": "Sortir les commentaires « a reprendre » du fichier des ecarts et les remettre en file",
+    "gravite": "majeur",
+    "propose_le": "2026-09-20"
+   },
    {
     "id": "R-20260912-01",
     "titre": "Juger les tirs du backlog sur le travail qui reste, pas sur le temps ecoule",
