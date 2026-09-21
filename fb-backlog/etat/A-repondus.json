@@ -1688,8 +1688,16 @@
       "quand": "2026-09-21T14:11:07.690Z",
       "confirme": true,
       "texte": "Merci. La fibre, elle, vient bel et bien d'ici : cultivée et transformée au Québec. C'est le cœur du projet."
+    },
+    {
+      "id": "1678623234271486_1593268072493913",
+      "reponse_id": "1678623234271486_1637652774465605",
+      "page_id": "104242204750257",
+      "quand": "2026-09-21T16:08:42.465Z",
+      "confirme": true,
+      "texte": "On the plant itself, you're right: common milkweed is native to North America. It's vigorous and spreads by rhizomes, but vigorous isn't the same thing as invasive — it has nothing to do with Japanese knotweed or giant hogweed. And monarch caterpillars depend on its leaves. Thanks for saying so."
     }
   ],
-  "derniere_execution": "2026-09-21T14:11:07.691Z",
-  "total": 211
+  "derniere_execution": "2026-09-21T16:08:42.466Z",
+  "total": 212
 }
