@@ -34,9 +34,20 @@ const escalades = TIRS.reduce((n, t) =>
 const tirDSansDate = aRevoir.D.filter((x) => x.ecarte_le === undefined).length;
 
 const ACHAT = /wouldn'?t go through|doesn'?t work|checkout|empty my cart|too hard to order|website was crap|can'?t order/i;
-const rapportsAchat = TIRS.flatMap((t) =>
-  aRevoir[t].filter((x) => ACHAT.test(x.message || x.extrait || ""))
-            .map((x) => x.ecarte_le || String(x.quand || "").slice(0, 10))).filter(Boolean).sort();
+// Un rapport d'achat bloqué auquel on a répondu ne laisse aucune trace du commentaire du client :
+// `*-repondus.json` ne garde que notre réponse. Sans ce second filtre, le compteur ne voit que les écartés.
+const REPONSE_ACHAT = /which step it stalls|cart or checkout|couldn'?t (complete|place) (your|the) order|checkout (is|was) (failing|stuck|broken)/i;
+const repondus = {};
+for (const t of TIRS) repondus[t] = (lire(`fb-backlog/etat/${t}-repondus.json`) || { repondus: [] }).repondus || [];
+
+const rapportsAchat = [
+  ...TIRS.flatMap((t) =>
+    aRevoir[t].filter((x) => ACHAT.test(x.message || x.extrait || ""))
+              .map((x) => x.ecarte_le || String(x.quand || "").slice(0, 10))),
+  ...TIRS.flatMap((t) =>
+    repondus[t].filter((x) => REPONSE_ACHAT.test(x.texte || ""))
+               .map((x) => String(x.quand || "").slice(0, 10))),
+].filter(Boolean).sort();
 
 const envois = (() => {
   const brut = sh("git show origin/claude/lasclay-retail-expansion-v6jay7:retail-expansion/journal_envois.json");

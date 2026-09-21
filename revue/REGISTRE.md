@@ -5,13 +5,23 @@ la source est `revue/registre.json`, et tout changement d'état passe par le scr
 
 | État | Nombre |
 | --- | --- |
-| proposee | 11 |
+| proposee | 12 |
 | approuvee | 0 |
 | appliquee | 0 |
 | refusee | 0 |
 | reportee | 2 |
 
-## En attente d'approbation (11)
+## En attente d'approbation (12)
+
+### R-20260920-01 — Sortir les commentaires « a reprendre » du fichier des ecarts et les remettre en file
+
+- **Gravité** : majeur · **Effort** : 1 h 30 · **Proposé le** : 2026-09-20
+- **Source** : revue 2026-09-20
+- **Constat** : 78 commentaires ecartes portent dans leur motif la consigne explicite de revenir plus tard (76 dans le tir C, 2 dans le tir B, 12 ajoutes le 20 septembre), dont « A REPRENDRE EN PRIORITE des que l'ecart sera suffisant: c'est une cliente avec les graines en main ». Aucun champ ne les distingue des ecarts definitifs et aucun tir ne relit a-revoir : la consigne ne s'execute jamais.
+- **Preuve** : fb-backlog/etat/C-a-revoir.json et B-a-revoir.json, motifs contenant « A reprendre » : 76 + 2 = 78 entrees, dont 12 datees 2026-09-20. Fichiers non relus par traiter.js.
+- **Proposition** : Ajouter dans traiter.js un champ `a_reprendre_apres` (horodatage) ecrit au moment de l'ecart de recence, ecrire ces entrees dans un fichier distinct `*-differes.json`, et faire relire ce fichier en tete de chaque tir : toute entree dont l'echeance est passee repasse dans les candidats avant les nouveaux commentaires.
+- **Portée** : fb-backlog/traiter.js, nouveaux fichiers fb-backlog/etat/*-differes.json, migration des 78 entrees existantes
+- **Risque** : Un differe remis en file trop tot republie le meme fait a un intervalle court — c'est exactement ce que l'ecart voulait eviter. L'echeance doit etre explicite et par section, pas une duree globale.
 
 ### R-20260912-01 — Juger les tirs du backlog sur le travail qui reste, pas sur le temps ecoule
 
