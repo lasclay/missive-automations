@@ -10734,6 +10734,62 @@
       "motif": "À VÉRIFIER PAR UN HUMAIN — La photo des sachets Lasclay (commentaire 301182791712315) montre que notre propre emballage promet « le parfumer d'une enivrante odeur florale ». Or l'odeur de la plante ne figure pas dans faits-verifies.json, et le tir D a écarté deux commentaires sur l'odeur pour cette raison (« Ça sent très bon », 21 sept. et 22 sept.). Si l'emballage l'affirme, le fait mériterait d'être ajouté aux faits vérifiés — ou l'emballage corrigé. Aucune réponse publiée sur l'odeur d'ici là.",
       "page_id": "114311920399404",
       "quand": "2026-09-22T18:39:52.167Z"
+    },
+    {
+      "id": "291041512726443_300376585126269",
+      "extrait": "En fait je voulais savoir où vous êtes situé. Parfois, on voit passer des annonces et au final ça provient de la France.",
+      "motif": "SUIVI HUMAIN REQUIS — Question directe et légitime à la Page sur l'endroit d'où nous opérons, posée par méfiance envers les annonces qui viennent d'ailleurs. Y répondre oblige à distinguer le siège de l'entreprise du lieu de fabrication, or REGLES.md interdit au tir D d'affirmer « fabriqué au Québec » pour un produit fini comme d'en faire la correction. Aucun fait de localisation dans faits-verifies.json. À répondre par quelqu'un qui peut le formuler sans risque.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T20:38:58.510Z"
+    },
+    {
+      "id": "263649742132287_303732761457318",
+      "extrait": "Moi j'embarque ! ... faites un Kickstarter et vendez des oreillers avec de la fibre d'asclépiade ... 80$US par oreiller !",
+      "motif": "Proposition d'affaires accompagnée d'un prix. REGLES.md interdit tout chiffre de prix, et le sociofinancement du projet est hors de notre périmètre.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T20:38:58.510Z"
+    },
+    {
+      "id": "263649742132287_302293998267861",
+      "extrait": "Comme ça doit sentir bon, dans ces champs!!",
+      "motif": "Troisième commentaire sur l'odeur écarté pour la même raison : elle n'est pas dans nos faits vérifiés. Voir la note NOTE-FAITS-VERIFIES-odeur consignée au tir de 14 h — notre propre emballage, lui, promet une odeur florale.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T20:38:58.510Z"
+    },
+    {
+      "id": "291041512726443_300428428454418",
+      "extrait": "Muriel Fawer tres tres tres envahissant...",
+      "motif": "Troisième répétition de la même affirmation par la même personne dans le même fil. Nous y avons répondu ce matin à 7 h (303860054777922).",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T20:38:58.510Z"
+    },
+    {
+      "id": "291041512726443_300525558444705",
+      "extrait": "Cécile Gosselin on pourrait en échapper un peu partout 😊",
+      "motif": "Idée de semer un peu partout, déjà nuancée ce midi à 14 h (« semer chez soi, ou là où on est le bienvenu »). Pas de seconde intervention le même jour.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T20:38:58.510Z"
+    },
+    {
+      "id": "263649742132287_303947214769206",
+      "extrait": "Encourageons les merveilleux produits du Québec.🙂",
+      "motif": "Encouragement sans question, et sur un terrain — l'origine des produits — où le tir D ne s'avance pas.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T20:38:58.510Z"
+    },
+    {
+      "id": "263649742132287_303179311512663",
+      "extrait": "Il faut continuer à contribuer,presque rendu au but",
+      "motif": "Encouragement à la campagne de dons d'un tiers — hors de notre périmètre.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T20:38:58.510Z"
+    },
+    {
+      "id": "291041512726443_300507685113159",
+      "extrait": "Sann Ville oui stp",
+      "motif": "Échange entre abonnés, sans contenu.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T20:38:58.510Z"
     }
   ]
 }
