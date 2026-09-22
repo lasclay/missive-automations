@@ -1680,8 +1680,40 @@
       "quand": "2026-09-20T19:07:59.216Z",
       "confirme": true,
       "texte": "Le marché des chips, on n'y avait pas pensé. On note l'idée, la commission on en reparlera 🙂 Merci pour le bon mot."
+    },
+    {
+      "id": "1678623234271486_2139673823291416",
+      "reponse_id": "1678623234271486_1621066102984310",
+      "page_id": "104242204750257",
+      "quand": "2026-09-21T14:11:07.690Z",
+      "confirme": true,
+      "texte": "Merci. La fibre, elle, vient bel et bien d'ici : cultivée et transformée au Québec. C'est le cœur du projet."
+    },
+    {
+      "id": "1678623234271486_1593268072493913",
+      "reponse_id": "1678623234271486_1637652774465605",
+      "page_id": "104242204750257",
+      "quand": "2026-09-21T16:08:42.465Z",
+      "confirme": true,
+      "texte": "On the plant itself, you're right: common milkweed is native to North America. It's vigorous and spreads by rhizomes, but vigorous isn't the same thing as invasive — it has nothing to do with Japanese knotweed or giant hogweed. And monarch caterpillars depend on its leaves. Thanks for saying so."
+    },
+    {
+      "id": "1678623234271486_1988293072025143",
+      "reponse_id": "1678623234271486_1726932538384010",
+      "page_id": "104242204750257",
+      "quand": "2026-09-21T18:07:49.351Z",
+      "confirme": true,
+      "texte": "Merci! On est une petite équipe derrière tout ça, et ce genre de message circule vite dans l'atelier."
+    },
+    {
+      "id": "1678623234271486_2179981229532171",
+      "reponse_id": "1678623234271486_1100544399584528",
+      "page_id": "104242204750257",
+      "quand": "2026-09-21T23:07:58.416Z",
+      "confirme": true,
+      "texte": "500 km entre Schefferville et Kuujjuaq, c'est une autre affaire qu'un banc d'essai. Merci d'avoir pris le temps de tout détailler — surtout le coup de la veste enroulée au pied du sac de couchage, celui-là on ne l'avait pas entendu. On ne s'avance pas sur des cotes de température de notre côté, mais un récit comme le vôtre en dit plus long que bien des chiffres. Bravo pour l'expédition."
     }
   ],
-  "derniere_execution": "2026-09-20T19:07:59.216Z",
-  "total": 210
+  "derniere_execution": "2026-09-21T23:07:58.417Z",
+  "total": 214
 }
