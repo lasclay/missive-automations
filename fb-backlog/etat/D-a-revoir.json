@@ -10720,6 +10720,20 @@
       "motif": "Message allusif entre abonnées, sans contenu.",
       "page_id": "114311920399404",
       "quand": "2026-09-22T17:40:22.621Z"
+    },
+    {
+      "id": "291041512726443_301312911699303",
+      "extrait": "Christine Morin oui",
+      "motif": "Réponse d'un mot entre abonnées à la question « Est-ce Québécois ? ». Sans contenu, et l'origine du produit n'est pas un terrain où le tir D s'avance.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T18:39:52.167Z"
+    },
+    {
+      "id": "NOTE-FAITS-VERIFIES-odeur",
+      "extrait": "Observation interne, pas un commentaire",
+      "motif": "À VÉRIFIER PAR UN HUMAIN — La photo des sachets Lasclay (commentaire 301182791712315) montre que notre propre emballage promet « le parfumer d'une enivrante odeur florale ». Or l'odeur de la plante ne figure pas dans faits-verifies.json, et le tir D a écarté deux commentaires sur l'odeur pour cette raison (« Ça sent très bon », 21 sept. et 22 sept.). Si l'emballage l'affirme, le fait mériterait d'être ajouté aux faits vérifiés — ou l'emballage corrigé. Aucune réponse publiée sur l'odeur d'ici là.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T18:39:52.167Z"
     }
   ]
 }
