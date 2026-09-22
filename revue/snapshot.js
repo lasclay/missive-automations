@@ -33,6 +33,12 @@ const escalades = TIRS.reduce((n, t) =>
 
 const tirDSansDate = aRevoir.D.filter((x) => x.ecarte_le === undefined).length;
 
+// Écarts dont le motif dit explicitement de revenir plus tard. Rien ne les relit (R-20260920-01).
+const differes = TIRS.reduce((n, t) =>
+  n + aRevoir[t].filter((x) => /A reprendre/i.test(x.motif || "")).length, 0);
+const differesJour = TIRS.reduce((n, t) =>
+  n + aRevoir[t].filter((x) => /A reprendre/i.test(x.motif || "") && String(x.ecarte_le || "").startsWith(JOUR)).length, 0);
+
 const ACHAT = /wouldn'?t go through|doesn'?t work|checkout|empty my cart|too hard to order|website was crap|can'?t order/i;
 // Un rapport d'achat bloqué auquel on a répondu ne laisse aucune trace du commentaire du client :
 // `*-repondus.json` ne garde que notre réponse. Sans ce second filtre, le compteur ne voit que les écartés.
@@ -71,6 +77,7 @@ if (rapportsAchat.length) {
 }
 if (envois) rouge.push(`campagne pts de vente — ${jours(envois)} j sans un seul envoi`);
 if (escalades) rouge.push(`escalades sans sortie — ${escalades} en attente d'un humain`);
+if (differes) rouge.push(`commentaires différés — ${differes} « à reprendre »${differesJour ? `, dont ${differesJour} aujourd'hui` : ""}, jamais repris`);
 if (tirDSansDate) rouge.push(`écarts tir D — ${tirDSansDate} jamais comptés par la collecte`);
 if (!renderFusionne) rouge.push(`correctif Render 0a81d48 — non fusionné dans main`);
 
