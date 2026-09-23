@@ -31,7 +31,7 @@ construit encore la bonne chose.
 | Besoin | État |
 | --- | --- |
 | Inventaire des matières premières | **construit** — stock = somme des mouvements, comptage, écarts |
-| Matériaux associés à chaque produit | **construit** — 39 matières, 50 lignes de nomenclature |
+| Matériaux associés à chaque produit | **construit** — 39 matières, 65 lignes de nomenclature au fichier (46 à l'import) |
 | Calculateur « 1 produit = quoi » | **construit** — `/besoins`, par produit et tous ordres confondus |
 | Quantité prête / planifiée / alerte bas niveau | **construit** — matières **et** produits finis |
 | Nomenclature standardisée + description + image | **partiel** — description et image oui ; **la normalisation des SKU reste à décider** |
@@ -107,11 +107,13 @@ de rapprochement. **La « nomenclature standardisée » demandée commence ici.*
 **288 variantes** sont sous zéro. Est-ce « dû au client » ou « à recompter » ? Une stratégie
 d'inventaire doit trancher.
 
-### 10. Le bandeau de la tuque beanie
+### 10. ~~Le bandeau de la tuque beanie~~ — **tranché**
 
-Le plan prévoit **1 500 tuques de ville** — tricotées en Chine — mais **aucune quantité pour leur
-bandeau amovible**, qui lui est fait à l'atelier. S'il en faut un par tuque, **il manque 1 500
-bandeaux au plan de Tunisie.** À confirmer avec Gabriel ou Catherine.
+Longtemps listé comme trou du plan : 1 500 tuques de ville tricotées en Chine, aucune quantité pour
+leur bandeau amovible fait à l'atelier. **Confirmé par Gabriel le 16/09/2026 : un bandeau par tuque,
+donc 1 500, le tricot restant en Chine.** La ligne est dans `ajouts-production.tsv`.
+
+`mrp/README.md` le signale encore comme « à confirmer » — le document est en retard sur la donnée.
 
 ## Le sens de coupe : combien de cas distincts ?
 
@@ -192,7 +194,7 @@ L'ordre de construction, chacune livrable et utile seule, aucune ne casse ce qui
   usages, tous deux réels ici : *substitution* (le vert est en coton 12 oz, les autres couleurs en
   10 oz — constaté sur le sac à lunch, la besace, le tote bag et la glacière : c'est une règle, pas
   un cas) et *quantité par taille* (un XL ne consomme pas ce que consomme un M — **sans ça, un
-  besoin matière calculé sur 24 333 unités est faux de plusieurs pour cent**).
+  besoin matière calculé sur les 26 133 unités du plan est faux de plusieurs pour cent**).
 - **`operation.site_id`** — le site est porté par l'opération, pas par le produit. Aujourd'hui
   « le rembourrage se fera au Canada » est une note qu'aucun calcul ne lit.
 - **Le patron est une entité partagée**, pas un attribut de produit.
@@ -226,8 +228,10 @@ Aucune ne demande un nouveau moteur : ce sont des variations de `charge.calendri
 - **Aucun stock n'est chargé.** Les 36 matières engagées sont « jamais comptées ». `/besoins` donne
   l'ordre dans lequel s'y prendre, le plus engagé d'abord.
 - **`?format=jpg` divise le poids des images par cinq** (33 → 7 Ko pour un cache-cou en 320 px) —
-  le plus gros gain qui reste sur la connexion tunisienne. À vérifier : la conversion aplatit la
-  transparence.
+  le plus gros gain qui reste sur la connexion tunisienne. Le seul risque est que la conversion
+  aplatisse la transparence : sans danger sur une photo produit. **La démo s'en sert déjà**
+  (`?width=320&format=jpg` dans `build-demo.js`) sans défaut visible, ce qui lève l'essentiel du
+  doute. L'app ne le demande toujours pas — c'est un feu vert à donner, pas une étude à faire.
 - **Le calendrier ne montre que ce qui a un temps connu.** Un item sans temps unitaire n'occupe
   aucune journée ; le verdict le chiffre à part, la grille ne peut pas le placer. **Les chronométrer
   est le seul moyen de trancher.**

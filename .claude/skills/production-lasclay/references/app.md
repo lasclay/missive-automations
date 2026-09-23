@@ -245,6 +245,54 @@ fait l'option la plus légère pour la Tunisie.
 La boucle s'arrête d'elle-même après **12 étapes** et l'explique. Sans `ANTHROPIC_API_KEY`, la page
 reste consultable et le dit franchement au lieu d'échouer en silence.
 
+## La démo — et pourquoi elle trouve ce que les tests ne trouvent pas
+
+Page unique publiée ici :
+<https://claude.ai/code/artifact/0e315c5a-39f1-4c23-be1f-1821819f8ac6>
+
+**Le parti pris : on ne réécrit rien.** Chaque écran est le HTML que le serveur produit vraiment,
+récupéré par HTTP et collé tel quel. Une maquette qui *ressemble* à l'app finit toujours par mentir
+sur un détail ; celle-ci ne le peut pas, puisqu'elle **est** l'app. Chaque vue est récupérée deux
+fois, une par rôle : le partage des responsabilités ne se raconte pas, il se voit.
+
+Quatre différences seulement : les liens deviennent des ancres et ce qui écrirait devient inerte ·
+les photos sont embarquées en base64 (une page publiée n'a pas le droit d'aller chercher le CDN) ·
+les gestionnaires en ligne partent (un `onchange="this.form.submit()"` ne déclenche pas les
+écouteurs `submit`) · les deux gestes fonctionnent, `demo-app.js` recalculant ce que le serveur
+recalculerait, avec le tri exact de `db.js`.
+
+**Tant que rien n'est touché, les chiffres affichés sont ceux du serveur.** Le recalcul ne prend la
+main qu'à la première saisie, et « Remettre à zéro » **recharge la page** plutôt que de reconstituer
+l'état de départ — sans cette règle, un écart entre le modèle de la démo et la base ferait mentir la
+page sans que rien ne le signale. C'est arrivé une fois : deux items ajoutés après coup n'étaient
+pas dans le modèle.
+
+`test-demo.js` vérifie trente points : navigation, bascule de rôle et ce que chaque rôle voit,
+départ à zéro, ce qui est fabriqué ailleurs, les deux gestes et leur répercussion dans les trois
+vues, le tri après changement de priorité, la persistance, les photos, l'inertie des liens
+d'écriture, l'absence de débordement horizontal, d'erreur JS et de ressource manquante.
+
+**Trois défauts qu'elle a trouvés, qu'aucune suite de tests n'avait vus**, parce qu'elle exerce les
+vraies données importées :
+
+1. **Le détecteur d'items figés exigeait `statut = 'en_cours'`**, alors qu'*À fabriquer* liste aussi
+   les `planifie`. L'ordre importé du plan étant `planifie`, les trois items bloqués — chandail
+   14 jours, mitaines plein air 11, mitaines polar 9 — ne s'affichaient **nulle part**, et c'est le
+   seul bloc du suivi qui demande une action. Le périmètre `statut IN ('planifie','en_cours')` est
+   maintenant partagé par neuf requêtes de `db.js`, avec un commentaire qui le dit.
+2. **Sur téléphone, les tableaux du suivi perdaient leurs en-têtes** : « 9 » et « 4 680 »
+   s'affichaient nus.
+3. **La galerie d'une fiche laissait les images flotter**, chaque rangée calée sur la légende la
+   plus longue.
+
+Le mode sombre suit maintenant le téléphone : toutes les couleurs littérales sont devenues des
+jetons, et seuls les jetons changent.
+
+**Ce que la démo ne montre pas** : l'assistant (clé d'API et serveur requis) · la connexion (la
+démo est ouverte, les rôles s'y basculent d'un bouton ; dans l'app ils tiennent au compte et
+personne ne choisit le sien) · **le vrai poids des pages** — un seul fichier de 4,0 Mo dont 3,4 Mo
+de photos, quand l'app sert 2 à 5 Ko compressés et laisse le CDN livrer les images.
+
 ## Modèle de données
 
 ```
@@ -372,8 +420,8 @@ Cinq suites, aucune n'a besoin du réseau ni de clé API.
 | Images (5 photos) | 2 005 Ko | 193 Ko |
 | HTML | 2,7 Ko | 2,7 Ko |
 
-L'ordre de production complet — 27 items, 297 boutons d'avancement, 139 lignes de répartition —
-passe de **61 Ko à 5 Ko** compressé ; la liste de fabrication de 32 à 2 Ko. En dessous de 1 Ko on
+L'ordre de production complet — mesuré sur la version à 27 items : 297 boutons d'avancement et
+139 lignes de répartition — passe de **61 Ko à 5 Ko** compressé ; la liste de fabrication de 32 à 2 Ko. En dessous de 1 Ko on
 envoie tel quel. Largeurs demandées : 160 px miniatures d'édition, 320 px vignettes de liste,
 640 px galerie de fiche.
 

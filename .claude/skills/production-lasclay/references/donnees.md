@@ -24,7 +24,7 @@ souvent pour qu'un script tienne sans surveillance.
 | `plan-production-2627.tsv` | 29 | produit, quantité prévue, prévente encaissée, coût BMB, coût de production |
 | `plan-variantes-2627.tsv` | 149 | la répartition par taille et coloris, avec son groupe |
 | `correspondances.tsv` | 35 | produit de production → handle Shopify → libellé du plan, + `confiance` et famille |
-| `ajouts-production.tsv` | 17 | quantités décidées **hors chiffrier**, avec leur origine |
+| `ajouts-production.tsv` | 17 | quantités décidées **hors chiffrier**, avec leur date, leur origine et la ligne qu'elles remplacent |
 | `charte-produits.tsv` | 232 | la charte Miro : matière, isolant, garniture, paramètre, note |
 | `qualite-charte.tsv` | 114 | la **moitié jaune** de la charte : les vérifications avant emballage |
 | `qualite-amorce.tsv` | 47 | protocoles relus à la main depuis les notes techniques |
@@ -119,6 +119,32 @@ Le lecteur gère aussi les **unités différentes** (g contre kg, po contre m) e
 inversés**, et applique une tolérance d'arrondi : la plupart des « écarts » apparents n'étaient
 qu'une unité, pas un désaccord. Couvert par `tests/inventaire.js`.
 
+Les douze, au 23 septembre — c'est **la phrase** qu'il faut corriger au chiffrier :
+
+| Produit | Matière | Coût → | Texte → |
+| --- | --- | --- | --- |
+| Bandeau | Vegeto 150gsm | 0,0547 m² | « 0,06 m² » |
+| Bandeau | Viscose | 0,1049 m | « 19,20 bandeaux/m » |
+| Mitaines plein air | Asclépiade | 0,0509 kg | « 36,6 g/paire (moy.) » |
+| Gants magiques | Asclépiade | 0,0100 kg | « 0,02 kg » |
+| Semelles 6-7-8F / 9F+ | Vegeto | 0,0462 / 0,0614 m | « 27 pads/m » |
+| Semelles 6-7-8F / 9F+ | Mylar | 0,0549 / 0,0745 m | « 22 unités/largeur » |
+| Semelles 6-7-8F / 9F+ | Wadding noir | 0,0486 / 0,0625 m | « 27 unités/largeur » |
+| Sac de couchage 0C | Ennis Fabrics Challenger 9 | 0,0154 m | « 0,02 m » |
+| Glacière | Bretelles | 10,3333 pouce | « 115 po (3,19 verges) » |
+
+Répartition des 65 lignes : **32** déduites du coût avec la phrase qui confirme · **18** la phrase
+ne dit rien de comparable · **12** la phrase dit autre chose · **3** ni coût ni phrase exploitables.
+Deux lignes de coût agrégées (Fil, Tissus & autres) restent **hors inventaire** : elles ne
+désignent pas une matière comptable.
+
+### Une matière ne se supprime pas, elle se retire à une date
+
+`nomenclatures.tsv` porte une colonne **`retire`**. Une matière sortie d'une composition garde sa
+ligne, avec la date et le motif — *« Glacière — Chanvre (−1,02 $/unité) : 09/09/2026, le chanvre ne
+fait plus partie de la composition »* — et l'import l'annonce. Même principe que partout ailleurs :
+**journal, pas état.** Effacer la ligne ferait disparaître l'explication d'une baisse de coût.
+
 ## 3. Production Tunisie
 
 `production-tunisie.md` — relevé du Google Docs « Suivi tunisie Mai 2026 » : état du patron,
@@ -139,8 +165,38 @@ Chiffrier « QUANTITÉS FINALES — PLAN DE PRODUCTION 26-27 »
 (`1klFYg6bZ7aNc6jxM-RhwLVcfBGBFCDyAAzZXSfJvLcs`), relevé le 25 août 2026. **C'est la source qui
 manquait** : ce qu'on produit vraiment, en quelles quantités.
 
-**24 333 unités** — 24 133 au chiffrier plus 200 décidés après coup (deux tailles de cache-cou
-enfant, 100 chacune) — pour **233 667 $** de coût de production.
+**26 133 unités sur 30 items** au 23 septembre 2026 — le chiffrier plus six ajouts datés. Le
+chiffrier seul valait 233 667 $ de coût de production à la collecte d'août.
+
+⚠️ **Les `.md` du dépôt annoncent encore 27 items / 24 333 unités.** Ils datent d'août et n'ont pas
+suivi les ajouts. **`node mrp/import.js` fait foi.**
+
+### `ajouts-production.tsv` — le plan bouge sans qu'on touche au miroir
+
+**Le chiffrier est recopié tel quel dans `plan-production-2627.tsv` : on n'y touche jamais, sinon on
+ne peut plus comparer l'extrait à sa source.** Ce qui est décidé verbalement après coup vit dans
+`ajouts-production.tsv`, avec sa date et son origine, et l'import l'ajoute au plan.
+
+| Ajout | Qté | Origine |
+| --- | ---: | --- |
+| Cache-cou enfant 18 mois-4 ans | 100 | demandé le 25/08/2026 |
+| Cache-cou enfant 5-13 ans | 100 | demandé le 25/08/2026 |
+| Sac à dos glacière 30L | 300 | demandé le 08/09/2026 — 150 vert, 150 noir, les deux coloris vendus |
+| Semelles 6-7-8F | 2 179 | découpé le 09/09/2026, **remplace** « Semelles intérieures isolantes » |
+| Semelles 9F+ | 2 486 | découpé le 09/09/2026, **remplace** la même ligne |
+| Bandeau tuque urbaine | 1 500 | **confirmé par Gabriel le 16/09/2026** — un par tuque, le tricot reste en Chine |
+
+**La colonne `remplace` sert au second cas : le chiffrier compte en UNE ligne ce que l'atelier
+fabrique en DEUX.** Une ligne d'ajout qui en remplace une autre la retire du plan — elle est
+**découpée, pas ignorée** — et les quantités des morceaux doivent redonner celle de la ligne
+d'origine. L'import l'annonce : *« Semelles intérieures isolantes → Semelles 6-7-8F (2 179) +
+Semelles 9F+ (2 486) »*.
+
+Le découpage des semelles est justifié par l'atelier et par les coûts : **2 min 23 la paire jusqu'au
+8F, 3 min 35 à partir du 9F**, et deux fiches COGS distinctes — 3,54 $ contre 3,97 $.
+
+**Ce que ça règle :** le bandeau de la tuque de ville, longtemps listé comme trou du plan, **n'en
+est plus un**. Le README le signale encore comme « à confirmer » ; la confirmation est dans le TSV.
 
 **Ce que le plan a révélé :** « Manteau hivernal » et « Manteau 3 saisons » sont deux produits, pas
 un ; idem pour l'oreiller de camping et l'oreiller. Ils ont été séparés.
@@ -156,9 +212,10 @@ l'**historique de ventes mensuel** depuis septembre 2025 qui justifie les quanti
 ### `correspondances.tsv` — le pivot
 
 Le lien entre un produit de production, sa fiche Shopify et sa ligne de plan. **C'est le pivot de
-l'import — le code produit, pas le nom.** Porte une colonne `confiance` : **13 rattachements sûrs,
-21 à clarifier**, et les doutes sont écrits en note technique sur la fiche produit, **visibles dans
-l'app** plutôt qu'enterrés dans le TSV.
+l'import — le code produit, pas le nom.** Porte une colonne `confiance`, et les doutes sont écrits en
+note technique sur la fiche produit, **visibles dans l'app** plutôt qu'enterrés dans le TSV. État
+au 23 septembre : **15 sûr · 6 à confirmer · 5 non couvert · 4 partiel · 3 non vendu · 1 non
+produit** (le `SOURCES.md` du dépôt annonce encore « 13 sûrs, 21 à clarifier »).
 
 Porte aussi la **famille de production** (hiver / nouveaux / sacs / reste), qui pilote le tri d'*À
 fabriquer*. C'est un classement d'exploitation : il bouge, et il se change dans l'app.

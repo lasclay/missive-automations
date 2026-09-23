@@ -108,14 +108,22 @@ Les fiches de ce skill, quand tu as besoin du détail :
 
 ## Les chiffres à connaître
 
-Plan de production **26-27**, la seule saison chargée :
+**L'autorité, c'est `node mrp/import.js` (aperçu, rien n'est écrit) — pas les `.md` du dépôt.**
+Le plan bouge par ajouts datés, et les documents ne suivent pas toujours : au 23 septembre 2026,
+`README.md`, `DEPLOIEMENT.md`, `SOURCES.md` et `SCHEMA-V2.md` annoncent encore **27 items /
+24 333 unités**, alors que les données en donnent **30 et 26 133**. Vérifie avant de citer un
+chiffre.
 
-- **24 333 unités** — 24 133 au chiffrier plus 200 décidés après coup — pour **233 667 $** de coût
-  de production, réparties sur **27 items** et **139 lignes** de taille × coloris.
-- **34 produits**, **39 matières**, **50 lignes de nomenclature**, **46 113 $** de matières engagées.
-- Les cinq plus gros postes : semelles 4 665, cache-cous 3 500, gants magiques 2 500, mitaines
-  plein air 2 000, bandeaux 1 800.
+Plan de production **26-27**, état au 23 septembre 2026 :
+
+- **26 133 unités** sur **30 items**, plus **139 lignes** de taille × coloris.
+- **34 produits** de production, **32** rattachés à une fiche Shopify, **12** avec une fiche COGS,
+  164 photos.
+- **39 matières** pour **65 lignes** de nomenclature au fichier, dont **46** entrent dans l'import.
 - **4 320 heures** disponibles avant le 1er octobre avec 20 postes.
+
+Fiabilité du rattachement Shopify : 15 sûr · 6 à confirmer · 5 non couvert · 4 partiel · 3 non
+vendu · 1 non produit.
 
 ## Le calcul de charge, et pourquoi il est la question la plus ouverte
 
@@ -168,6 +176,14 @@ affiché « équipe annoncée · non confirmée ici ». *20 personnes dans l'ate
   l'offre `starter` sont obligatoires.
 - **Tout part à zéro.** Aucun avancement n'est saisi à l'import : le plan donne des quantités, pas
   de l'avancement.
+- **Les documents du dépôt sont en retard sur les données.** Quatre `.md` annoncent encore le plan
+  d'août. Un chiffre se relit à la source (`node mrp/import.js`, ou `/export.json` pour l'état
+  déclaré), jamais dans une phrase de README.
+- **Le périmètre d'un ordre vivant est `statut IN ('planifie','en_cours')`**, et il doit être le
+  même sur tous les écrans. Le détecteur d'items figés a un jour exigé `en_cours` seul : l'ordre
+  importé du plan étant `planifie`, trois items bloqués depuis 9 à 14 jours n'apparaissaient nulle
+  part — et c'est le seul bloc du suivi qui demande une action. Neuf requêtes de `db.js` partagent
+  maintenant ce périmètre.
 
 ## L'assistant
 
