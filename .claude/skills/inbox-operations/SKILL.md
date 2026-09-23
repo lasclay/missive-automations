@@ -130,6 +130,17 @@ correspond à rien ne fait rien, silencieusement.
 institution financière, un organisme public, et toute plateforme dont un message peut contenir
 une commande à expédier.
 
+### Le cas limite : la pièce comptable
+
+Un accusé d'achat fournisseur porte une adresse de robot **et** un montant. Uline expédie ses
+confirmations depuis `accounts.receivable@uline.ca` : c'est du transactionnel au sens strict,
+mais un accusé de 649 $ avec un numéro de commande est aussi une pièce qui doit se retrouver
+en comptabilité. Le premier passage de la Routine a laissé ce fil ouvert alors que le script
+le classait `SUPERFLU`, et c'était le bon réflexe.
+
+La règle : **ne ferme une pièce comptable qu'après avoir vérifié qu'elle est classée ailleurs.**
+Si elle l'est, la fermeture est propre ; sinon, la boîte est le seul endroit où elle existe.
+
 ## Ce qui ne se ferme jamais, même vieux
 
 - **Un fil qui porte un engagement futur** — un envoi à venir, une réponse attendue du client.
@@ -155,13 +166,29 @@ explicite via `labels`, et la boîte continue d'annoncer du travail déjà fait.
 
 ## Le rythme
 
-Une Routine quotidienne lance `ops_triage.js`, ferme le `SUPERFLU` et rapporte le reste. Elle
-ne répond à personne et ne ferme aucun fil humain — c'est délibéré : le tri est mécanique, la
-réponse ne l'est pas.
+Une Routine passe les **lundis, mercredis et vendredis** à 8 h (heure de l'Est) : elle lance
+`ops_triage.js`, ferme le `SUPERFLU` et rapporte le reste. Elle ne répond à personne et ne
+ferme aucun fil humain — c'est délibéré : le tri est mécanique, la réponse ne l'est pas.
+
+Le rythme de trois fois par semaine plutôt que quotidien vient d'une mesure, pas d'une
+intuition : un passage consomme environ 146 000 jetons, soit ~2,20 $. Ce qui coûte n'est pas le
+tri — le script est déterministe et gratuit — mais le modèle qui relit la boîte autour. Sur une
+boîte où le bruit réel est de deux ou trois fils par semaine, un passage quotidien payait
+surtout du vide.
 
 Ce que la Routine ne fait pas et qu'un humain doit faire : **les fils `HUMAIN` qui vieillissent**.
 Au 18 septembre, la boîte Operations en portait 54, dont quatorze de plus de six mois. Le tri
 automatique empêche la boîte de se remplir de bruit ; il n'empêche pas un dossier de pourrir.
+
+## Deux limites du proxy, vérifiées
+
+- **Une note posée par le proxy ne se relit pas.** `node missive_client.js notes <convId>`
+  renvoie vide même après un `ok: true`, parce que Missive ne ressert pas ces commentaires sur
+  `GET /conversations/:id/comments`. La note existe bien dans l'interface. Fie-toi au `ok`,
+  ne conclus pas à un échec, et ne poste pas la note deux fois.
+- **Vérifie toujours l'effet dans la boîte, pas le rapport.** Pour savoir si un ménage a eu
+  lieu, relance `ops_triage.js` et compare : c'est la source primaire. Le compte rendu d'une
+  session est un témoignage, l'état de la boîte est un fait.
 
 ## Contexte
 
