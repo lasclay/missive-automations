@@ -1,7 +1,7 @@
 ---
 name: lasclay-admin
 description: Ménage de la boîte Admin de Lasclay (admin@lasclay.com) — distinguer le bruit automatique qui se ferme sans réponse, des courriels qui engagent de l'argent, une échéance, une vente ou une relation. Couvre aussi les fils clients égarés dans Admin, qui se déplacent vers Support au lieu de se fermer.
-when_to_use: Déclenche pour « fais le ménage de la boîte Admin », « ferme le superflu », « qu'est-ce qui traîne dans Admin », « vide l'arriéré administratif », et pour la Routine quotidienne de ménage. Déclenche aussi avant de fermer QUOI QUE CE SOIT dans une boîte qui n'est pas le service client.
+when_to_use: Déclenche pour « fais le ménage de la boîte Admin », « ferme le superflu », « qu'est-ce qui traîne dans Admin », « vide l'arriéré administratif », et pour la Routine de ménage (lun/mer/ven). Déclenche aussi avant de fermer QUOI QUE CE SOIT dans une boîte qui n'est pas le service client.
 allowed-tools:
   - Bash(node missive_client.js:*)
   - Read
