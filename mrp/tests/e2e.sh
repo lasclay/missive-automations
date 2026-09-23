@@ -1438,9 +1438,9 @@ MRP_DB="$CAT" node --no-warnings -e "
 # n'a aucun sens sur un produit qui n'a pas de fiche en ligne. Le point reste
 # juste EN GÉNÉRAL : on l'écarte de ces produits, on ne l'efface pas —
 # l'effacer le retirerait de tous les autres.
-[ "$(Z "SELECT COUNT(*) n FROM qc_hors_sujet")" = 4 ] \
-  && ok "les quatre points hors sujet sont écartés de leur produit" \
-  || ko "les écarts ne sont pas chargés"
+[ "$(Z "SELECT COUNT(*) n FROM qc_hors_sujet")" = 1 ] \
+  && ok "le point hors sujet est écarté de son produit" \
+  || ko "l'écart n'est pas chargé"
 
 # Le coussin pour animaux n'avait aucun protocole. Trois points critiques,
 # dictés par l'atelier : le geste du roulage, les ganses qui portent le poids,
@@ -1455,17 +1455,18 @@ MRP_DB="$CAT" node --no-warnings -e "
   && ok "l'oreiller : « pas de taches » est un point critique" \
   || ko "le contrôle des taches n'est pas classé critique"
 
-# La tuque de ville n'a pas de fiche en ligne : il n'y a littéralement pas de
-# photo à laquelle la comparer. (L'écart portait avant sur « Essai porté » et
+# Le bandeau tuque urbaine n'a pas de fiche en ligne : il n'y a littéralement
+# pas de photo à laquelle le comparer. (La tuque de ville en a une depuis le
+# 22/09/2026 — son écart est tombé le jour même où il avait été posé.) (L'écart portait avant sur « Essai porté » et
 # « Fermeture éclair », retirés du protocole général le 23/09/2026 — un
 # protocole général ne peut pas supposer un corps à enfiler ni une glissière.)
 MRP_DB="$CAT" node --no-warnings -e "
   const D=require('./db.js');
-  const p=D.db.prepare(\"SELECT id FROM produits WHERE code='TUQUE-VILLE'\").get();
+  const p=D.db.prepare(\"SELECT id FROM produits WHERE code='BANDEAU-TUQUE'\").get();
   const t=D.protocole(p.id).points.map(q=>q.titre);
   process.exit(t.some(x=>/Comparaison avec la photo/.test(x)) ? 1 : 0);" 2>/dev/null \
-  && ok "la tuque de ville ne demande plus la comparaison avec une photo qui n'existe pas" \
-  || ko "un point écarté figure encore au protocole de la tuque de ville"
+  && ok "le bandeau tuque ne demande plus la comparaison avec une photo qui n'existe pas" \
+  || ko "un point écarté figure encore au protocole du bandeau tuque"
 
 # … mais il vaut toujours ailleurs : c'est toute la différence avec supprimer.
 MRP_DB="$CAT" node --no-warnings -e "
@@ -1480,7 +1481,7 @@ MRP_DB="$CAT" node --no-warnings -e "
 # une liste qu'on ne peut pas finir de cocher ne se coche jamais.
 MRP_DB="$CAT" node --no-warnings -e "
   const D=require('./db.js');
-  const p=D.db.prepare(\"SELECT id FROM produits WHERE code='TUQUE-VILLE'\").get();
+  const p=D.db.prepare(\"SELECT id FROM produits WHERE code='BANDEAU-TUQUE'\").get();
   const i=D.db.prepare('SELECT id FROM ordre_items WHERE produit_id=?').get(p.id);
   if (!i) process.exit(0);
   const t=D.checklistItem(i.id).points.map(q=>q.titre);
