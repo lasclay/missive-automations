@@ -1744,8 +1744,16 @@
       "quand": "2026-09-23T01:07:59.504Z",
       "confirme": true,
       "texte": "Merci ! Un hiver de fait et le verdict tient toujours — c'est le genre de retour qu'on préfère recevoir."
+    },
+    {
+      "id": "1674454204688389_922536753910191",
+      "reponse_id": "1674454204688389_3315636282158010",
+      "page_id": "104242204750257",
+      "quand": "2026-09-23T10:08:41.431Z",
+      "confirme": true,
+      "texte": "Merci pour le retour ! Solides et qui tiennent bien, c'est précisément ce qu'on visait — ça fait plaisir de lire que c'est au rendez-vous."
     }
   ],
-  "derniere_execution": "2026-09-23T01:07:59.505Z",
-  "total": 218
+  "derniere_execution": "2026-09-23T10:08:41.432Z",
+  "total": 219
 }
