@@ -1438,7 +1438,7 @@ MRP_DB="$CAT" node --no-warnings -e "
 # n'a aucun sens sur un produit qui n'a pas de fiche en ligne. Le point reste
 # juste EN GÉNÉRAL : on l'écarte de ces produits, on ne l'efface pas —
 # l'effacer le retirerait de tous les autres.
-[ "$(Z "SELECT COUNT(*) n FROM qc_hors_sujet")" = 1 ] \
+[ "$(Z "SELECT COUNT(*) n FROM qc_hors_sujet")" = 7 ] \
   && ok "le point hors sujet est écarté de son produit" \
   || ko "l'écart n'est pas chargé"
 
@@ -1467,6 +1467,28 @@ MRP_DB="$CAT" node --no-warnings -e "
   process.exit(t.some(x=>/Comparaison avec la photo/.test(x)) ? 1 : 0);" 2>/dev/null \
   && ok "le bandeau tuque ne demande plus la comparaison avec une photo qui n'existe pas" \
   || ko "un point écarté figure encore au protocole du bandeau tuque"
+
+# Le bandeau n'est pas un produit : c'est la pièce cousue à l'intérieur de la
+# tuque beanie, jamais vendue ni vue. Tout ce qui s'inspecte sur un vêtement
+# fini — abrasion, lavage, étiquette, fils apparents — s'inspecte sur la tuque
+# montée. Sur la pièce seule il ne reste que sa coupe. Si un point général
+# revient un jour se poser dessus, ce test tombe.
+MRP_DB="$CAT" node --no-warnings -e "
+  const D=require('./db.js');
+  const p=D.db.prepare(\"SELECT id FROM produits WHERE code='BANDEAU-TUQUE'\").get();
+  const t=D.protocole(p.id).points.map(q=>q.titre);
+  process.exit(t.length===1 && /Dimensions/.test(t[0]) ? 0 : 1);" 2>/dev/null \
+  && ok "le bandeau tuque ne garde que sa cote" \
+  || ko "le bandeau tuque a autre chose que ses dimensions au contrôle"
+
+# Les mêmes points restent entiers sur la tuque, elle, qui se vend et se porte.
+MRP_DB="$CAT" node --no-warnings -e "
+  const D=require('./db.js');
+  const p=D.db.prepare(\"SELECT id FROM produits WHERE code='TUQUE-VILLE'\").get();
+  const t=D.protocole(p.id).points.map(q=>q.titre);
+  process.exit(t.some(x=>/Étiquette/.test(x)) && t.some(x=>/Double frottement/.test(x)) ? 0 : 1);" 2>/dev/null \
+  && ok "écarter du bandeau n'a rien retiré à la tuque qui le contient" \
+  || ko "un point a disparu de la tuque de ville"
 
 # … mais il vaut toujours ailleurs : c'est toute la différence avec supprimer.
 MRP_DB="$CAT" node --no-warnings -e "
