@@ -8,7 +8,13 @@
  *   node missive_client.js health
  *   node missive_client.js structure   (carte : organisations, équipes, étiquettes, membres)
  *                                      → à mettre en cache : > missive_structure.json
- *   node missive_client.js list "shared_label=ID"
+ *   node missive_client.js list "shared_label=ID" [pages] [since] [until]
+ *                                      (sans bornes, pagine jusqu'à épuisement : bien pour une
+ *                                       étiquette, fatal sur "closed=true" qui couvre tout
+ *                                       l'historique — timeout puis 429. `pages` borne le
+ *                                       travail, `since` est un horodatage unix qui borne
+ *                                       l'histoire, et le `until` rendu se repasse pour
+ *                                       reprendre là où on s'est arrêté.)
  *   node missive_client.js read <convId> [nbMessages]   (défaut 10, max 200 ; le champ
  *                                              `tronque` signale qu'il reste des messages avant)
  *   node missive_client.js attachment <messageId> [attachmentId|-] [fichierSortie]
@@ -70,7 +76,18 @@ function readStdin() {
   try {
     if (cmd === "health") console.log(JSON.stringify(await call("/health", null, "GET"), null, 2));
     else if (cmd === "structure") console.log(JSON.stringify(await call("/structure", {}), null, 2));
-    else if (cmd === "list") console.log(JSON.stringify(await call("/list", { filter: a1 }), null, 2));
+    else if (cmd === "list") {
+      // list <filtre> [pages] [since] [until]
+      // Sans bornes, le proxy pagine jusqu'à épuisement — bien pour une
+      // étiquette, fatal sur `closed=true` qui couvre tout l'historique.
+      // `pages` borne le travail, `since` (unix) borne l'histoire, et le
+      // `until` rendu par la réponse se repasse ici pour reprendre.
+      const opts = { filter: a1 };
+      if (a2) opts.pages = Number(a2);
+      if (a3) opts.since = Number(a3);
+      if (process.argv[6]) opts.until = process.argv[6];
+      console.log(JSON.stringify(await call("/list", opts), null, 2));
+    }
     else if (cmd === "read") console.log(JSON.stringify(await call("/conversation", { id: a1, limit: a2 }), null, 2));
     else if (cmd === "attachment") {
       // Le base64 d'un chiffrier ou d'un PDF n'a aucune valeur à l'écran : on écrit le fichier
