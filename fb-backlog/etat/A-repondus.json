@@ -1752,8 +1752,16 @@
       "quand": "2026-09-23T10:08:41.431Z",
       "confirme": true,
       "texte": "Merci pour le retour ! Solides et qui tiennent bien, c'est précisément ce qu'on visait — ça fait plaisir de lire que c'est au rendez-vous."
+    },
+    {
+      "id": "1678623234271486_1427623202621405",
+      "reponse_id": "1678623234271486_2317182969020825",
+      "page_id": "104242204750257",
+      "quand": "2026-09-23T14:08:35.697Z",
+      "confirme": true,
+      "texte": "Thank you — that's kind. The milkweed floss is what does the insulating work, and we're always curious how it holds up for people. Do tell us what you think once you've had a chance to try them."
     }
   ],
-  "derniere_execution": "2026-09-23T10:08:41.432Z",
-  "total": 219
+  "derniere_execution": "2026-09-23T14:08:35.698Z",
+  "total": 220
 }
