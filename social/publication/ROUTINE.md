@@ -12,6 +12,9 @@ Les deux canaux publient eux-mêmes (`defaultToReminders: false`, vérifié le 2
 
 ## Horaire
 
+Routine `trig_01MfAh73aAznQCjAerLnALGE`, une session neuve à chaque tir, sans connecteur MCP
+(tout passe par le General Proxy). Créée le 23 sept. 2026, premier tir le samedi 26 sept.
+
 La Routine tire **la veille au soir** et programme la publication du lendemain matin. Gabriel
 reçoit le rapport le soir et peut corriger ou annuler dans Buffer pendant la nuit.
 
