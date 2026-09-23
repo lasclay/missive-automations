@@ -17,6 +17,7 @@ chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, 
 | `composio` | Composio : connecteur MCP contre clé de projet, accès aux Pages Facebook, pièges de jetons |
 | `buffer` | Buffer : trois comptes distincts, quel compte détient quel canal, publication vidéo, ce qui est irréversible une fois parti |
 | `video` | regarder une vidéo (URL ou fichier) : trames horodatées à lire + transcription |
+| `nano-banana` | dessiner une image avec Gemini : conditionnement sur photos réelles, chaînage d'une série, aucun texte, conversion WebP |
 | `production-lasclay` | le MRP maison (`mrp/`) : ordres et avancement, charge et cédule, inventaire et besoins, qualité et bris, fiches produits, charte Miro, patrons et HPGL, audits MRPeasy et ERPNext |
 
 ## MRP maison — production Québec ↔ Tunisie
