@@ -10951,6 +10951,20 @@
       "motif": "Identification d'un proche sans contenu ; rien à répondre.",
       "page_id": "114311920399404",
       "quand": "2026-09-23T11:41:45.811Z"
+    },
+    {
+      "id": "263649742132287_266655688498359",
+      "extrait": "Long texte encyclopédique repris d'une fiche horticole : « substances agissant sur le cœur… potentiellement toxiques pour le bétail et les humains », « le latex pourrait causer une réaction allergique », nectar attirant abeilles et guêpes, usage médicinal par les Premières Nations.",
+      "motif": "Exposé globalement bienveillant, mais qui repose sur plusieurs affirmations absentes des faits vérifiés (cardiotoxicité humaine, réaction allergique au latex, abeilles et guêpes, usage médicinal). Je ne peux ni les endosser ni les corriger une à une. Rejoint le signalement SUIVI HUMAIN REQUIS sur la cardiotoxicité.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-23T13:39:34.540Z"
+    },
+    {
+      "id": "263649742132287_265747801922481",
+      "extrait": "oui, mais pour envoyer des $ faut remplir en anglais. Que pensez-vous vous pour une startup?",
+      "motif": "Porte sur la campagne de financement participatif (formulaire en anglais) et demande notre avis sur une startup — hors faits vérifiés et déjà dans le bloc SUIVI HUMAIN REQUIS sur le financement participatif.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-23T13:39:34.540Z"
     }
   ]
 }
