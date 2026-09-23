@@ -12,7 +12,8 @@
 //   node mrp/outils/planches_ia.js <planche>     une planche
 //   node mrp/outils/planches_ia.js --tout        les quinze
 //   node mrp/outils/planches_ia.js <planche> --sec   n'appelle rien, montre les consignes
-//   node mrp/outils/planches_ia.js <planche> --refaire   régénère ce qui existe déjà
+//   node mrp/outils/planches_ia.js <planche> --refaire   régénère toute la planche
+//   node mrp/outils/planches_ia.js <planche> --depuis 2   garde le 1, refait 2, 3, 4
 //
 // Il faut GEMINI_API_KEY dans l'environnement (réglages de l'environnement
 // infonuagique, pas le dépôt). Sans elle le script s'arrête en le disant.
@@ -161,6 +162,8 @@ async function main() {
   const args    = process.argv.slice(2);
   const sec     = args.includes('--sec');
   const refaire = args.includes('--refaire');
+  // Un panneau réussi ne se rejoue pas pour rien : il sert de repère au suivant.
+  const depuis  = Number(args[args.indexOf('--depuis') + 1]) || 0;
   const tout    = args.includes('--tout');
   const voulue  = args.find(a => !a.startsWith('--'));
 
@@ -201,7 +204,7 @@ async function main() {
 
     if (r.panneau === '1') precedent = null;
 
-    if (fs.existsSync(chemin) && !refaire) {
+    if (fs.existsSync(chemin) && !refaire && !(depuis && Number(r.panneau) >= depuis)) {
       console.log(`  = ${nom}`);
       precedent = { data: fs.readFileSync(chemin), mime: 'image/webp' };
       continue;
