@@ -188,5 +188,50 @@ console.log('\n  Silhouettes, anneaux et images\n');
     sans.includes('Softshell 3c noir') && avec.includes('Softshell 3c noir'));
 }
 
+// ---------------------------------------------- 5. l'aperçu agrandi, sans script
+{
+  const CDN = 'https://cdn.shopify.com/s/files/1/0475/8932/7010/files/f.png';
+  const z = { cle: 'i7', href: '/produits/7', titre: 'Foulard' };
+  const avec = V.miniature(CDN, 'FOULARD', { zoom: z });
+  const sans = V.miniature(CDN, 'FOULARD');
+
+  t('la vignette devient un lien vers le panneau',
+    avec.includes('href="#z-i7"') && avec.includes('class="mini mini-z"'));
+  t('le panneau porte l\'identifiant que la vignette vise',
+    avec.includes('id="z-i7"'));
+
+  // Le geste qui suit « je regarde la pièce de près » est presque toujours
+  // « je vais voir sa fiche ». L'agrandissement est donc un lien, et le dit.
+  t('l\'image agrandie mène à la fiche produit',
+    avec.includes('class="zoom-i" href="/produits/7"'));
+  t('le panneau annonce où il mène',
+    avec.includes('ouvrir la fiche'));
+
+  // Tant que l'ancre n'est pas posée, le panneau est en display:none et son
+  // image porte loading="lazy" : elle n'est pas demandée. Vérifié au
+  // navigateur — 0 requête en 900 px à l'affichage, 1 après le clic.
+  t('l\'image agrandie est différée', /width="900"[^>]*/.test(avec)
+    && avec.includes('loading="lazy"'));
+  t('elle est demandée redimensionnée, jamais en taille d\'origine',
+    avec.includes('?width=900') && !/src="[^"]*f\.png"/.test(avec));
+
+  // Refermer doit ramener à la vignette, pas en haut d'une liste de trente
+  // lignes : c'est la différence entre « j'ai regardé » et « j'ai perdu ma
+  // place ».
+  t('la fermeture ramène à la vignette, pas en haut de page',
+    (avec.match(/href="#r-i7"/g) || []).length === 2 && avec.includes('id="r-i7"'));
+
+  t('sans option de zoom, la vignette reste un simple encadré',
+    sans.includes('<span class="mini">') && !sans.includes('zoom'));
+  t('sans photo, aucun panneau n\'est engendré',
+    !V.miniature('', 'FOULARD', { zoom: z }).includes('zoom'));
+
+  // Une « data: » URI ne doit pas davantage ouvrir un panneau : elle ferait
+  // porter l'image à la page, deux fois plutôt qu'une.
+  t('une « data: » URI n\'ouvre pas de panneau',
+    !V.miniature('data:image/png;base64,AAAA', 'FOULARD', { zoom: z })
+      .includes('zoom'));
+}
+
 console.log(`\n  ${ok} réussites, ${ko} échecs\n`);
 process.exit(ko ? 1 : 0);

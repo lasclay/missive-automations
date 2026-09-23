@@ -124,7 +124,8 @@ function vueInventaire({ user, msg, matieres, alertes, produits, categorie }) {
       </tr></thead>
       <tbody>${matieres.map(m => `<tr>
         <td data-l="Matière">${avecPhotos ? '<div class="avec-mini">' + miniature(
-          m.photo_url, m.code, { taille: 38 }) + '<div>' : ''}
+          m.photo_url, m.code, { taille: 38, zoom: { cle: `m${m.id}`,
+            href: `/matieres/${m.id}`, titre: m.nom } }) + '<div>' : ''}
           <a href="/matieres/${m.id}">${e(m.nom)}</a>
           <span class="sec">${e(CATEGORIES[m.categorie] || m.categorie)}${
             m.cout_unite ? ` · ${argent(m.cout_unite)}/${uniteFR(m.unite)}` : ''}</span>

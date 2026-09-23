@@ -263,6 +263,43 @@ textarea{min-height:70px;resize:vertical}
 /* La silhouette occupe la pastille, pas la hauteur d'une ligne de texte. */
 .mini-nu .sil{width:62%;height:62%;opacity:.55;vertical-align:0}
 
+/* ---------- l'aperçu agrandi, sans une ligne de script ----------
+   `:target` fait tout : cliquer la vignette pose l'ancre, la règle ci-dessous
+   dévoile le panneau, et la touche Retour du navigateur le referme. Tant que
+   l'ancre n'est pas posée, le panneau est en display:none et son image, qui
+   porte loading="lazy", n'est jamais demandée. */
+.mini-z{cursor:zoom-in;position:relative}
+.mini-z::after{content:'';position:absolute;inset:0;border-radius:inherit;
+  box-shadow:inset 0 0 0 2px transparent;transition:box-shadow .12s}
+.mini-z:hover::after,.mini-z:focus-visible::after{box-shadow:inset 0 0 0 2px var(--vert)}
+
+.zoom{display:none}
+.zoom:target{display:flex;position:fixed;inset:0;z-index:80;
+  align-items:center;justify-content:center;padding:22px}
+/* Le fond est un lien plein cadre : cliquer à côté referme, comme partout. */
+.zoom-fond{position:absolute;inset:0;background:rgba(12,10,8,.74);
+  backdrop-filter:blur(2px)}
+.zoom-f{position:relative;display:block;max-width:min(94vw,920px);
+  background:var(--carte);border:1px solid var(--ligne);border-radius:12px;
+  padding:10px;box-shadow:0 20px 56px rgba(0,0,0,.42)}
+.zoom-i{display:block;text-decoration:none;color:inherit}
+.zoom-i img{display:block;width:100%;height:auto;max-height:74vh;
+  object-fit:contain;border-radius:8px;background:var(--media)}
+/* Une image cliquable qui ne dit pas où elle mène ne se clique pas. */
+.zoom-l{display:block;margin-top:9px;font-size:13.5px;color:var(--gris);
+  text-align:center}
+.zoom-l b{color:var(--vert);font-weight:650}
+.zoom-i:hover .zoom-l b{text-decoration:underline}
+.zoom-x{position:absolute;top:-11px;right:-11px;width:30px;height:30px;
+  border-radius:50%;background:var(--carte);border:1px solid var(--ligne);
+  color:var(--gris);text-decoration:none;font-size:19px;line-height:27px;
+  text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.zoom-x:hover{color:var(--encre);border-color:var(--gris)}
+@media (max-width:620px){
+  .zoom:target{padding:12px}
+  .zoom-x{top:-8px;right:-8px}
+}
+
 /* La photo d'une matière, sur sa fiche. Elle sert à distinguer trois tissus
    noirs que trois noms ne distinguent pas ; elle a donc le droit d'être
    grande, mais pas de pousser le stock sous la ligne de flottaison. */

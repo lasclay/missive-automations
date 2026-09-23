@@ -131,7 +131,7 @@ function photosBris(u) {
 }
 
 /** Largeurs demandées selon le contexte d'affichage. */
-const TAILLES = { mini: 160, vignette: 320, galerie: 640 };
+const TAILLES = { mini: 160, vignette: 320, galerie: 640, plein: 900 };
 
 /** Balise <img> complète : taille adaptée, chargement différé, pas de fuite de référent. */
 function img(url, { largeur, hauteur, alt = '', classe = '', style = '' } = {}) {
@@ -164,16 +164,53 @@ function img(url, { largeur, hauteur, alt = '', classe = '', style = '' } = {}) 
  * La forme, elle, se reconnaît sans lire, et sans coûter une requête. Le code
  * reste en dernier recours, pour un produit qu'on n'a pas encore dessiné.
  */
-function miniature(url, code = '', { taille = 46 } = {}) {
+function miniature(url, code = '', { taille = 46, zoom = null } = {}) {
   const c = 'mini' + (taille === 46 ? '' : ` mini-${taille}`);
-  if (urlAcceptable(url))
-    return `<span class="${c}">${img(url, { largeur: taille * 2, alt: '' })}</span>`;
+  if (urlAcceptable(url)) {
+    const vignette = img(url, { largeur: taille * 2, alt: '' });
+    return zoom ? `<a class="${c} mini-z" id="r-${zoom.cle}" href="#z-${zoom.cle}"
+      title="Agrandir ${e(zoom.titre)}">${vignette}</a>${agrandissement(url, zoom)}`
+      : `<span class="${c}">${vignette}</span>`;
+  }
   const forme = SIL.cle(code);
   if (forme)
     return `<span class="${c} mini-nu" aria-hidden="true"
       ><i class="sil s-${forme}"></i></span>`;
   return `<span class="${c} mini-nu" aria-hidden="true">${
     e(String(code).replace(/[^A-Za-z0-9]/g, '').slice(0, 2).toUpperCase())}</span>`;
+}
+
+/**
+ * L'image agrandie, et le seul geste qui vaille une fois qu'on la regarde.
+ *
+ * POURQUOI `:target` ET PAS DU JAVASCRIPT. Zéro script client est une
+ * contrainte de l'app, pas une préférence : l'atelier retournerait à WhatsApp
+ * si les pages pesaient. Une ancre `#z-…` et une règle `:target` font la même
+ * chose en CSS, avec en prime la touche Retour du navigateur pour refermer.
+ *
+ * POURQUOI ELLE NE COÛTE RIEN TANT QU'ON NE CLIQUE PAS. Le panneau est en
+ * `display:none` et l'image porte `loading="lazy"` : le navigateur ne la
+ * demande qu'au moment où elle devient visible. Trente vignettes ouvertes,
+ * c'est trente images de 92 px — pas trente de 900.
+ *
+ * POURQUOI ELLE EST UN LIEN. Regarder une pièce de près, c'est presque
+ * toujours le début d'une question sur la pièce. L'agrandissement mène donc
+ * à la fiche, et le dit en toutes lettres sous l'image — une image cliquable
+ * qui ne l'annonce pas ne se clique pas.
+ *
+ * La fermeture ramène à `#r-<clé>`, l'ancre de la vignette : on revient là où
+ * on était dans la liste, pas en haut de la page.
+ */
+function agrandissement(url, { cle, href, titre }) {
+  return `<span class="zoom" id="z-${cle}">
+    <a class="zoom-fond" href="#r-${cle}" aria-label="Fermer l'aperçu"></a>
+    <span class="zoom-f">
+      <a class="zoom-i" href="${e(href)}">${
+        img(url, { largeur: TAILLES.plein, alt: titre })}
+        <span class="zoom-l">${e(titre)} <b>— ouvrir la fiche</b></span></a>
+      <a class="zoom-x" href="#r-${cle}" aria-label="Fermer l'aperçu">&times;</a>
+    </span>
+  </span>`;
 }
 
 const dateFR = (d) => {
@@ -1796,7 +1833,9 @@ function vueOrdre({ user, o, items, jalons, commentaires, produits, pct, msg,
         <th style="min-width:250px">Notes et questions</th>${admin ? '<th></th>' : ''}</tr></thead>
     <tbody>
     ${items.map(it => `<tr id="i${it.id}">
-      <td><div class="avec-mini">${miniature(it.photo, it.produit_code)}<div>
+      <td><div class="avec-mini">${miniature(it.photo, it.produit_code, {
+        zoom: { cle: `i${it.id}`, href: `/produits/${it.produit_id}`,
+                titre: it.produit_nom } })}<div>
         <a href="/produits/${it.produit_id}"><b>${e(it.produit_nom)}</b></a><br>
         <span class="muted">${e(it.produit_code)}</span></div></div></td>
       <td class="num">${it.quantite.toLocaleString('fr-CA')}
@@ -3016,7 +3055,9 @@ function vuePriorites({ user, msg, lignes, ailleurs = [], jours = 7 }) {
     return `
     <tr id="i${l.id}" class="p-${l.priorite}${rep ? ' a-rep' : ''}">
       <td class="num">${i + 1}</td>
-      <td class="prod"><div class="avec-mini">${miniature(l.photo, l.code)}<div>
+      <td class="prod"><div class="avec-mini">${miniature(l.photo, l.code, {
+        zoom: { cle: `f${l.produit_id}`, href: `/produits/${l.produit_id}`,
+                titre: l.nom || l.code } })}<div>
         <a href="/produits/${l.produit_id}"><b>${e(l.code)}</b></a>
         <span class="fam f-${l.famille}">${FAMILLES[l.famille] || l.famille}</span>
         <span class="sec">${e(l.nom)}</span>
