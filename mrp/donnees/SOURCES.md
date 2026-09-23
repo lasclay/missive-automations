@@ -19,7 +19,7 @@ Extrait par opération bulk sur l'API Admin, le 2026-08-24.
 | --- | --- | ---: |
 | `shopify-produits.tsv` | id, titre, handle, statut, type, tags, stock total, URL boutique, nombre de variantes/images, collections, dates | 121 |
 | `shopify-variantes.tsv` | produit, variante, **SKU**, prix, prix comparé, **coût unitaire**, stock, suivi, poids | 906 |
-| `shopify-images.tsv` | produit, rang, **URL CDN**, largeur, hauteur, texte alternatif | 678 |
+| `shopify-images.tsv` | produit, rang, **URL CDN**, largeur, hauteur, texte alternatif | 698 |
 
 **Ce qui est utilisable tout de suite**
 
