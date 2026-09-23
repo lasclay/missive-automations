@@ -186,6 +186,18 @@ affiché « équipe annoncée · non confirmée ici ». *20 personnes dans l'ate
 - **Les documents du dépôt sont en retard sur les données.** Quatre `.md` annoncent encore le plan
   d'août. Un chiffre se relit à la source (`node mrp/import.js`, ou `/export.json` pour l'état
   déclaré), jamais dans une phrase de README.
+- **Une route `/ordres/:id/…` posée en bas de `server.js` est injoignable.** Le routeur capte
+  `/^\/ordres\/(\d+)(\/.*)?$/` très tôt et renvoie 404 sur tout `reste` qu'il ne connaît pas :
+  une route écrite plus loin dans le fichier ne sera jamais atteinte, et le symptôme est un 404
+  silencieux, pas une erreur. C'est arrivé deux fois — `/compte/unites`, puis la signature du
+  contrôle qualité. Toute sous-route d'un ordre s'ajoute **dans ce bloc**, où l'appartenance de
+  l'item à l'ordre est aussi vérifiée (`R.item.get(id, ordreId)`). `return html(res, V.page({
+  titre:'Introuvable'` apparaît cinq fois dans le fichier : savoir dans lequel on écrit.
+- **`tests/e2e.sh` sortait en 1 même quand tout passait.** Son `trap '…' EXIT` finissait par un
+  `kill`, dont le code devenait celui du script. `tests/tout.sh` étant en `set -e`, la suite
+  complète échouait à chaque exécution sans que rien ne le dise — donc plus personne ne regardait
+  le code de sortie. Corrigé par `|| true`. Le test qui ne peut pas échouer et celui qui échoue
+  toujours ont le même effet : aucun.
 - **Le périmètre d'un ordre vivant est `statut IN ('planifie','en_cours')`**, et il doit être le
   même sur tous les écrans. Le détecteur d'items figés a un jour exigé `en_cours` seul : l'ordre
   importé du plan étant `planifie`, trois items bloqués depuis 9 à 14 jours n'apparaissaient nulle

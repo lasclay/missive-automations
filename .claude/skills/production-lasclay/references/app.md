@@ -149,6 +149,58 @@ déjà promis, l'avancement déclaré déduit, trié par ce qui manque puis par 
 
 ### Contrôle qualité
 
+**`/qualite` est un carrefour à trois portes**, parce qu'on n'y arrive pas avec la même question :
+
+| Porte | Question | Rôle |
+| --- | --- | --- |
+| `/qualite/ordres` | « un conteneur part — qu'est-ce qui n'a pas été contrôlé ? » | **la porte de travail**, en tête |
+| `/qualite/produits` | « comment contrôle-t-on CETTE pièce ? » | source de vérité, on consulte |
+| `/qualite/general` | « quels gestes valent pour tout ? » | source de vérité, on consulte |
+
+On ne coche rien dans les deux dernières : elles sont la base de données, et les liens depuis le
+contrôle d'un ordre s'y ouvrent **dans une fenêtre à côté** (`target="_blank"`), pour qu'on
+consulte sans perdre le contrôle en cours.
+
+**Le contrôle par ordre — quatre onglets qui NE SONT PAS exclusifs** (`CATEGORIES_QC` dans
+`db.js`) :
+
+| Onglet | Règle | Pourquoi |
+| --- | --- | --- |
+| Tous les produits | tout l'ordre | le filet |
+| Grands volumes | `quantite > SEUIL_VOLUME` (1 000) | une erreur s'y multiplie |
+| Nouveaux produits | `famille = 'nouveau'` | jamais produits, **Québec compris** |
+| Complexes et gradués | ≥ 1 ligne de charte `section='taille'` non « taille unique » | manteaux, mitaines |
+
+Un manteau de 1 200 unités graduées est dans **trois onglets à la fois**. Ce sont des angles
+d'attaque, pas des tiroirs. Ce qui rend le chevauchement sûr : **une signature par lot, pas une par
+onglet — un lot signé disparaît de partout d'un seul geste.** Sans ça, cocher dans « Grands
+volumes » laisserait le lot en attente dans « Complexes et gradués », et rien ne dirait lequel des
+deux a raison.
+
+**Deux vues.** *Cartes* (photos : on reconnaît la pièce avant de lire son code) et *Liste à cocher*
+(chaque point avec champ de commentaire, boutons Conforme / Non, lien de procédé).
+
+**Un seul lot déplié à la fois** (`?ouvert=N`). Ce n'est pas du confort : rendre les trente corps
+coûtait **10,7 Ko compressés / 292 Ko bruts**, le plafond de 12 Ko serait tombé vers 34 lots, et la
+page aurait cassé le jour où un ordre grossit. Replié : 2,3 Ko, indépendant du nombre de lots.
+
+**Signer demande d'écrire.** Trois refus, dans CET ordre (`deposerRapport`) :
+
+1. checklist incomplète ou non-conformité ouverte → le formulaire n'apparaît même pas ;
+2. compte rendu de moins de **50 mots** (`MOTS_RAPPORT`) ;
+3. média dont l'adresse n'est pas `http(s)` — l'app n'héberge aucun fichier.
+
+L'ordre compte : dire « il manque 40 mots » à quelqu'un qui n'a encore rien contrôlé l'envoie
+écrire au lieu d'aller regarder les pièces. Un refus **rouvre le lot** là où on était. Le compte
+rendu se réécrit et **remplace** le précédent (`qc_rapports`, `UNIQUE(item_id)`) : un lot a un
+compte rendu, pas un historique de brouillons. L'écran affiche `MOTS_RAPPORT`, jamais un nombre
+recopié — un seuil écrit deux fois finit par mentir.
+
+Pourquoi un texte plutôt qu'une case : dans six mois, quand un client signalera une couture, ce
+compte rendu sera la seule chose qui dira ce qui s'est passé sur ce lot-là.
+
+---
+
 Cinq volets par produit, dans l'ordre où on les lit à l'atelier : **points critiques** (ce qu'on ne
 peut pas rattraper), **problèmes fréquents**, **mesures et dimensions** (cote, tolérance, unité,
 taille concernée), **cyclage et tests**, **emballage et finition**.

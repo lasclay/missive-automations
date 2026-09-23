@@ -18,7 +18,7 @@ node mrp.js demo >/dev/null 2>&1
 node mrp.js utilisateur:creer a@test.com motdepasse1 "Admin" admin >/dev/null 2>&1
 node mrp.js utilisateur:creer o@test.com motdepasse2 "Atelier" atelier >/dev/null 2>&1
 PORT=$PORT MRP_SANS_AMORCE=1 MRP_SANS_RAPPELS=1 node --no-warnings server.js >/dev/null 2>&1 & SRV=$!
-trap 'kill $SRV 2>/dev/null' EXIT
+trap 'kill $SRV 2>/dev/null || true' EXIT
 sleep 1.5
 B="http://localhost:$PORT"; CA=$(mktemp); CO=$(mktemp)
 
@@ -206,7 +206,10 @@ A=$(MRP_DB="$(mktemp -d)/apercu.db" node --no-warnings -e "
 
 # ce qui compte n'est pas le poids du HTML mais ce qui part sur le réseau
 for u in / /ordres /ordres/1 /produits /produits/1 /cedule /priorites /suivi \
-         /inventaire /besoins /calendrier; do
+         /inventaire /besoins /calendrier \
+         /qualite /qualite/produits /qualite/general /qualite/ordres \
+         '/qualite/ordres/1' '/qualite/ordres/1?vue=liste' \
+         '/qualite/ordres/1?vue=liste&ouvert=1'; do
   S=$(curl -s -b $CA "$B$u" -H 'Accept-Encoding: gzip' -o /dev/null -w '%{size_download}')
   [ "$S" -lt 12000 ] || ko "page $u trop lourde sur le réseau ($S octets compressés)"
 done
@@ -432,11 +435,55 @@ curl -s -b $CO -o /dev/null -w '%{redirect_url}' -X POST $B/assistant/1/annuler 
   || ko "assistant : annulation croisée permise"
 
 # --- contrôle qualité ----------------------------------------------------
-# Ce qui compte n'est pas le nombre de points, c'est QUELS produits n'en ont
-# aucun — et que le plus gros volume passe devant.
+# /qualite est un carrefour à trois portes. Chacune est vérifiée ici parce que
+# chacune est une route distincte : une seule cassée passerait inaperçue.
 Q=$(curl -s -b $CA $B/qualite)
-echo "$Q" | grep -q 'Sans protocole' \
-  && ok "la page qualité montre d'abord ce qui n'a rien" || ko "page qualité vide"
+for porte in /qualite/general /qualite/produits /qualite/ordres; do
+  echo "$Q" | grep -q "$porte" || ko "la porte $porte manque à l'accueil qualité"
+done
+echo "$Q" | grep -q '/qualite/ordres' \
+  && ok "l'accueil qualité offre ses trois portes" || ko "accueil qualité vide"
+
+# Ce qui compte n'est pas le nombre de points, c'est QUELS produits n'en ont
+# aucun. L'information a déménagé de /qualite vers /qualite/produits quand le
+# carrefour est apparu ; elle doit rester au premier coup d'œil.
+curl -s -b $CA $B/qualite/produits | grep -q 'aucun protocole' \
+  && ok "la page par produit montre d'abord ce qui n'a rien" \
+  || ko "les produits sans protocole ne se voient plus"
+
+# Les procédés généraux : la page que l'atelier lit avant de toucher un lot.
+curl -s -b $CO $B/qualite/general | grep -q 'Procédés généraux' \
+  && ok "l'atelier accède aux procédés généraux" || ko "procédés généraux muets"
+
+# --- le contrôle par ordre de production ---------------------------------
+# La porte prioritaire. Les onglets ne sont pas exclusifs : un même lot peut
+# être à la fois grand volume et gradué, et doit se voir dans les deux.
+for CAT in tous volume nouveau gradation; do
+  curl -s -b $CA "$B/qualite/ordres/1?cat=$CAT" | grep -q 'qc-onglet' \
+    || ko "l'onglet $CAT ne rend pas ses onglets"
+done
+ok "les quatre onglets du contrôle par ordre répondent"
+
+# Deux vues sur la même liste : cartes et liste à cocher. Repliée, la liste ne
+# montre qu'une ligne par lot — c'est ce qui garde la page sous le plafond quel
+# que soit le nombre de lots.
+curl -s -b $CA "$B/qualite/ordres/1?vue=liste" | grep -q 'lot-ferme' \
+  && ok "la vue liste tient en une ligne par lot" \
+  || ko "la vue liste déplie tout et grossit avec l'ordre"
+
+# Ouvert, le lot porte ses points et ses liens de procédé, qui s'ouvrent à côté
+# sans faire perdre la page en cours.
+curl -s -b $CA "$B/qualite/ordres/1?vue=liste&ouvert=1" | grep -q 'target="_blank"' \
+  && ok "un lot ouvert donne ses procédés sans quitter le contrôle" \
+  || ko "le lot ouvert n'a pas ses liens de procédé"
+
+# Le garde-fou : pas de signature sans compte rendu. C'est la règle qui fait
+# tenir tout le reste — un lot coché sans rien écrire ne prouve rien.
+curl -s -b $CO -o /dev/null -w '%{redirect_url}' -X POST \
+  $B/ordres/1/items/1/rapport --data 'texte=tout est beau' \
+  | grep -q 'err=' \
+  && ok "un compte rendu trop court ne signe pas le contrôle" \
+  || ko "le contrôle s'est signé sans compte rendu"
 
 PQ=$(MRP_DB="$DB" node --no-warnings -e "
 const{db}=require('./db.js');
@@ -503,8 +550,9 @@ const{db}=require('./db.js');
 console.log(db.prepare('SELECT COUNT(*) n FROM qc_points WHERE produit_id IS NULL').get().n)" 2>/dev/null)" = 1 ] \
   && ok "un point général s'écrit sans produit" || ko "protocole général non créé"
 
-curl -s -b $CA $B/qualite | grep -q 'Protocole général' \
-  && ok "le protocole général a sa place en tête de la page" || ko "protocole général absent"
+curl -s -b $CA $B/qualite/general | grep -q 'Plier en trois' \
+  && ok "le point général se lit sur la page des procédés généraux" \
+  || ko "protocole général absent"
 
 # il doit apparaître sur la checklist de N'IMPORTE quel lot
 curl -s -b $CO $B/ordres/1/items/1/qualite | grep -q 'Plier en trois' \

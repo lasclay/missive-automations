@@ -396,6 +396,30 @@ CREATE TABLE IF NOT EXISTS qc_controles (
 );
 CREATE INDEX IF NOT EXISTS idx_qcc_item ON qc_controles(item_id, point_id, id);
 
+-- Le compte rendu qui FERME le contrôle qualité d'un lot.
+--
+-- Cocher une case dit « j'ai regardé ». Ça ne dit pas ce qu'on a vu. Un lot de
+-- 3 500 cache-cous passe des semaines en production et repart dans un
+-- conteneur : six mois plus tard, quand un client signale une couture, la
+-- seule chose qui permette de savoir ce qui s'est passé est une phrase écrite
+-- par celui qui avait les pièces en main.
+--
+-- D'où le plancher de cinquante mots. Il n'est pas là pour faire écrire, il
+-- est là pour empêcher « ok » — qui est ce qu'on écrit quand on est pressé, et
+-- qui ne vaut rien six mois plus tard. Les médias sont des ADRESSES, jamais
+-- des fichiers : l'app n'héberge rien.
+--
+-- Un rapport par item, et c'est lui qui fait disparaître le lot de toutes les
+-- listes de contrôle à faire.
+CREATE TABLE IF NOT EXISTS qc_rapports (
+  id             INTEGER PRIMARY KEY,
+  item_id        INTEGER NOT NULL UNIQUE REFERENCES ordre_items(id) ON DELETE CASCADE,
+  texte          TEXT NOT NULL,
+  medias         TEXT NOT NULL DEFAULT '',   -- adresses séparées par une espace
+  utilisateur_id INTEGER REFERENCES utilisateurs(id),
+  cree_le        TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
 -- Ce qui casse, et où. La preuve de terrain qui justifie un point du protocole.
 --
 -- Un commentaire client, une photo de couture ouverte, un retour d'atelier :
@@ -1661,6 +1685,125 @@ function blocageQC(itemId, valeur) {
   return null;
 }
 
+/** Le plancher du compte rendu. Voir le commentaire de `qc_rapports`. */
+const MOTS_RAPPORT = 50;
+
+/** Compte les mots d'un texte, à la façon dont un humain les compterait. */
+function compterMots(texte) {
+  return String(texte || '').trim().split(/\s+/).filter(m => /[\p{L}\p{N}]/u.test(m)).length;
+}
+
+/**
+ * Dépose le compte rendu qui ferme le contrôle d'un lot.
+ *
+ * Trois refus, dans cet ordre — du plus structurel au plus rattrapable :
+ * un lot dont la checklist n'est pas finie ne se signe pas (on signerait des
+ * points qu'on n'a pas regardés) ; un compte rendu trop court ne vaut rien ;
+ * une adresse de média qui n'est pas http fait porter le fichier à la base.
+ */
+function deposerRapport({ itemId, texte, medias = '', utilisateurId }) {
+  const item = db.prepare(`SELECT * FROM ordre_items WHERE id = ?`).get(itemId);
+  if (!item) return { erreur: 'Lot introuvable.' };
+
+  const c = checklistItem(itemId);
+  if (c && !c.vide) {
+    if (c.ecarts.length)
+      return { erreur: `${c.ecarts.length} non-conformité(s) encore ouverte(s) : `
+        + c.ecarts.map(x => `« ${x.titre} »`).join(', ') + '. Corrige et revérifie.' };
+    if (c.restants.length)
+      return { erreur: `${c.restants.length} point(s) pas encore vérifié(s) : `
+        + c.restants.map(x => `« ${x.titre} »`).join(', ') + '.' };
+  }
+
+  const mots = compterMots(texte);
+  if (mots < MOTS_RAPPORT)
+    return { erreur: `Le compte rendu fait ${mots} mot${mots > 1 ? 's' : ''} ; `
+      + `il en faut au moins ${MOTS_RAPPORT}. Décris ce que tu as vu : les pièces `
+      + 'contrôlées, ce qui allait, ce qui a demandé une reprise.' };
+
+  const liens = String(medias || '').split(/\s+/).filter(Boolean);
+  const mauvais = liens.filter(u => !/^https?:\/\//.test(u));
+  if (mauvais.length)
+    return { erreur: `Adresse refusée : ${mauvais[0]}. Une photo ou une vidéo se `
+      + "donne par son adresse — l'app n'héberge aucun fichier." };
+
+  db.prepare(`INSERT INTO qc_rapports (item_id, texte, medias, utilisateur_id)
+              VALUES (?,?,?,?)
+              ON CONFLICT(item_id) DO UPDATE SET
+                texte = excluded.texte, medias = excluded.medias,
+                utilisateur_id = excluded.utilisateur_id,
+                cree_le = datetime('now')`)
+    .run(itemId, String(texte).trim(), liens.join(' '), utilisateurId || null);
+  return { mots, medias: liens.length };
+}
+
+/** Le compte rendu d'un lot, s'il existe. */
+const rapportItem = (itemId) => db.prepare(`
+  SELECT r.*, u.nom AS auteur FROM qc_rapports r
+    LEFT JOIN utilisateurs u ON u.id = r.utilisateur_id
+   WHERE r.item_id = ?`).get(itemId) || null;
+
+/**
+ * Les lots d'un ordre qui demandent encore un contrôle, avec leurs catégories.
+ *
+ * LES CATÉGORIES NE SONT PAS EXCLUSIVES : un manteau neuf à 1 200 unités est
+ * dans les trois. C'est voulu — ce sont trois raisons différentes de regarder
+ * le même lot de plus près, et n'en montrer qu'une en cacherait deux.
+ *
+ * Ce qui les décide :
+ *   volume     plus de 1 000 unités au lot
+ *   nouveau    la famille du produit, telle que posée par la direction
+ *   gradation  le produit a PLUS D'UNE taille à sa charte. Manteaux et
+ *              mitaines, mais aussi les semelles et leurs onze pointures :
+ *              là où il y a des tailles, il y a un risque de les mélanger.
+ */
+const SEUIL_VOLUME = 1000;
+
+function qcOrdre(ordreId) {
+  const lignes = db.prepare(`
+    SELECT i.id, i.quantite, i.avancement, p.id AS produit_id, p.code,
+           ${NOM_PRODUIT} AS nom, p.famille,
+           (SELECT f.url FROM produit_photos f WHERE f.produit_id = p.id
+             AND f.type <> 'schema'
+             ORDER BY CASE f.type WHEN 'studio' THEN 0 ELSE 1 END,
+                      f.rang, f.id LIMIT 1) AS photo,
+           (SELECT COUNT(*) FROM charte c
+             WHERE c.produit_id = p.id AND c.section = 'taille'
+               AND lower(c.texte) NOT LIKE 'taille unique%') AS lignes_taille,
+           (SELECT COUNT(*) FROM qc_rapports r WHERE r.item_id = i.id) AS signe
+      FROM ordre_items i
+      JOIN produits p ON p.id = i.produit_id
+     WHERE i.ordre_id = ?
+     ORDER BY i.rang, i.id`).all(ordreId);
+
+  return lignes.map(l => {
+    const c = checklistItem(l.id);
+    const cats = [];
+    if (l.quantite > SEUIL_VOLUME) cats.push('volume');
+    if (l.famille === 'nouveau') cats.push('nouveau');
+    if (l.lignes_taille > 0) cats.push('gradation');
+    return { ...l, signe: Boolean(l.signe), categories: cats,
+             total: c ? c.total : 0, verifies: c ? c.verifies : 0,
+             restants: c ? c.restants.length : 0,
+             ecarts: c ? c.ecarts.length : 0,
+             vide: c ? c.vide : true };
+  });
+}
+
+/** Les catégories, leur libellé et ce qu'elles veulent dire. */
+const CATEGORIES_QC = {
+  tous:      { titre: 'Tous les produits', aide: "Tout ce que l'ordre contient." },
+  volume:    { titre: 'Grands volumes',
+               aide: `Plus de ${SEUIL_VOLUME.toLocaleString('fr-CA')} unités : un défaut `
+                   + "s'y répète des milliers de fois avant qu'on le voie." },
+  nouveau:   { titre: 'Nouveaux produits',
+               aide: "Jamais produits avant, ici ou au Québec. Rien n'a encore "
+                   + 'été appris dessus.' },
+  gradation: { titre: 'Complexes et gradués',
+               aide: 'Plus d\'une taille : manteaux, mitaines, semelles. Là où il '
+                   + 'y a des tailles, il y a un risque de les mélanger.' },
+};
+
 /** L'état qualité de chaque item d'un ordre, pour la page de l'ordre. */
 function etatQCOrdre(ordreId) {
   const l = db.prepare(`SELECT id FROM ordre_items WHERE ordre_id = ?`).all(ordreId);
@@ -1840,7 +1983,9 @@ function compteTaches(utilisateurId) {
 const equipe = () => db.prepare(
   `SELECT id, nom, role FROM utilisateurs WHERE actif = 1 ORDER BY nom`).all();
 
-module.exports = { db, prochainNumero, avancementOrdre, apercuProduction, CHEMIN,
+module.exports = {
+  deposerRapport, rapportItem, qcOrdre, compterMots,
+  MOTS_RAPPORT, CATEGORIES_QC, SEUIL_VOLUME, db, prochainNumero, avancementOrdre, apercuProduction, CHEMIN,
                    CATEGORIES, RANG_CATEGORIE, MOTIFS, UNITES, qte,
                    uniteAffichee,
                    etatMatieres, etatProduits, alertesStock, besoinsMatieres,

@@ -38,7 +38,9 @@ const { db, prochainNumero, avancementOrdre, listeFabrication, dernieresMaj,
         murDesBris,
         etatMatieres, etatProduits, alertesStock,
         nomenclatureProduit, produitsUtilisant, detailBesoin, coutMatiere,
-        mouvements, stocksMatieres, CATEGORIES, UNITES } = require('./db.js');
+        mouvements, stocksMatieres, CATEGORIES, UNITES,
+        qcOrdre, deposerRapport, rapportItem, CATEGORIES_QC,
+        MOTS_RAPPORT, compterMots } = require('./db.js');
 const auth = require('./auth.js');
 const V = require('./vues.js');
 const V2 = require('./vues_inventaire.js');
@@ -494,6 +496,25 @@ async function router(req, res, url, user) {
       return vers(res, `/ordres/${id}#i${mi[1]}`);
     }
 
+    // ---- signature du contrôle qualité : le compte rendu d'au moins 50 mots.
+    // Vit ici, et non dans le routeur /qualite, parce que /ordres/:id/... est
+    // capturé plus haut : une route posée plus bas serait injoignable (404).
+    mi = reste.match(/^\/items\/(\d+)\/rapport$/);
+    if (mi && req.method === 'POST') {
+      const it = R.item.get(+mi[1], id);
+      const retour = `/qualite/ordres/${id}?vue=liste`;
+      if (!it) return vers(res, retour + '&err=' + encodeURIComponent('Lot introuvable.'));
+      const f = await corpsFormulaire(req);
+      const r = deposerRapport({ itemId: it.id, texte: f.texte,
+        medias: f.medias, utilisateurId: user.id });
+      // Un refus rouvre le lot : renvoyer la liste repliée ferait reprendre la
+      // navigation à zéro, et le texte qu'on vient d'écrire est déjà perdu.
+      if (r.erreur) return vers(res, `${retour}&ouvert=${it.id}&err=`
+        + encodeURIComponent(r.erreur) + `#lot${it.id}`);
+      return vers(res, retour + '&ok=' + encodeURIComponent(
+        `Contrôle signé — ${r.mots} mots${r.medias ? `, ${r.medias} média(s)` : ''}.`));
+    }
+
     // ---- la checklist qualité d'un lot
     {
       const mq = reste.match(/^\/items\/(\d+)\/qualite(?:\/(\d+))?$/);
@@ -524,9 +545,14 @@ async function router(req, res, url, user) {
             .run(it.id, pt.id, verdict, String(f.mesure || '').trim(),
                  Number.isInteger(vues) && vues >= 0 ? vues : null,
                  String(f.note || '').trim(), user.id);
-          return vers(res, `/ordres/${id}/items/${it.id}/qualite?ok=`
-            + encodeURIComponent(verdict === 'conforme'
-                ? 'Point vérifié.' : 'Écart enregistré.') + `#p${pt.id}`);
+          const avis = encodeURIComponent(verdict === 'conforme'
+            ? 'Point vérifié.' : 'Écart enregistré.');
+          // Le même geste part de deux pages. `retour=liste` dit d'où, pour
+          // ramener l'atelier où il était plutôt que sur la fiche complète.
+          if (f.retour === 'liste')
+            return vers(res, `/qualite/ordres/${id}?vue=liste&cat=${
+              encodeURIComponent(String(f.cat || 'tous'))}&ouvert=${it.id}&ok=${avis}#lot${it.id}`);
+          return vers(res, `/ordres/${id}/items/${it.id}/qualite?ok=${avis}#p${pt.id}`);
         }
 
         return html(res, V.vueChecklist({ user, msg, ordre: o,
@@ -952,9 +978,61 @@ async function router(req, res, url, user) {
   }
 
   // ---- contrôle qualité : le protocole de chaque produit
+  // ---- contrôle qualité : trois portes sur une seule base
   if (p === '/qualite') {
-    return html(res, V.vueQualite({ user, msg, couverture: couvertureQC(),
-      general: protocoleGeneral(), zones: zonesFragiles(), nc: nonConformites() }));
+    const couv = couvertureQC();
+    const ordres = db.prepare(
+      `SELECT id FROM ordres WHERE statut IN ('planifie','en_cours')`).all();
+    let aFaire = 0;
+    for (const o of ordres) aFaire += qcOrdre(o.id).filter(l => !l.signe).length;
+    return html(res, V.vueQualiteAccueil({ user, msg, aFaire,
+      ordresActifs: ordres.length, produits: couv.length,
+      general: protocoleGeneral().length,
+      zones: zonesFragiles(), nc: nonConformites() }));
+  }
+
+  if (p === '/qualite/produits') {
+    return html(res, V.vueQualiteProduits({ user, msg, produits: couvertureQC() }));
+  }
+
+  if (p === '/qualite/general' && req.method !== 'POST') {
+    return html(res, V.vueQualiteGeneral({ user, msg, general: protocoleGeneral() }));
+  }
+
+  if (p === '/qualite/ordres') {
+    const ordres = db.prepare(`SELECT id, numero, titre FROM ordres
+       WHERE statut IN ('planifie','en_cours') ORDER BY id DESC`).all()
+      .map(o => {
+        const l = qcOrdre(o.id);
+        return { ...o, aFaire: l.filter(x => !x.signe).length,
+                 signes: l.filter(x => x.signe).length,
+                 ecarts: l.reduce((n, x) => n + (x.signe ? 0 : x.ecarts), 0) };
+      });
+    return html(res, V.vueQCOrdres({ user, msg, ordres }));
+  }
+
+  {
+    const m = p.match(/^\/qualite\/ordres\/(\d+)$/);
+    if (m) {
+      const ordre = db.prepare(`SELECT * FROM ordres WHERE id = ?`).get(Number(m[1]));
+      if (!ordre) return vers(res, '/qualite/ordres?err='
+        + encodeURIComponent('Ordre introuvable.'));
+      const lignes = qcOrdre(ordre.id);
+      const CATS = CATEGORIES_QC;
+      const cat = Object.hasOwn(CATS, q.get('cat') || '')
+        ? q.get('cat') : 'tous';
+      const vue = q.get('vue') === 'liste' ? 'liste' : 'cartes';
+      // Le lot déplié, s'il est bien de cet ordre et pas déjà signé.
+      const demande = Number(q.get('ouvert'));
+      const ouvert = lignes.some(l => l.id === demande && !l.signe) ? demande : null;
+      // La sous-liste n'est montée QUE pour le lot ouvert, et seulement en vue
+      // liste : la construire pour les trente lots coûtait trente requêtes et
+      // 300 Ko de HTML pour du contenu replié que personne ne lisait.
+      const checklists = {};
+      if (vue === 'liste' && ouvert) checklists[ouvert] = checklistItem(ouvert);
+      return html(res, V.vueQCOrdre({ user, msg, ordre, lignes, cat, vue,
+        CATS, checklists, ouvert }));
+    }
   }
 
   /**

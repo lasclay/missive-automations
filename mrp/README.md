@@ -382,10 +382,12 @@ commentaires clients, et disparaît de la liste dès qu'elle est corrigée.
 
 **Squelettes de cyclage et d'essai porté.** `donnees/qualite-squelettes.tsv`
 porte la structure des tests de durabilité de couture (assemblage principal,
-points de contrainte, tenue après cyclage, migration de l'isolant) et des
-essais portés (aisance, points de frottement, symétrie, fermeture éclair). Ce
-sont des points du **protocole général**, puisque ce sont les mêmes gestes
-quelle que soit la pièce.
+points de contrainte, tenue après cyclage, migration de l'isolant), des essais
+portés (aisance, points de frottement, symétrie, fermeture éclair), la coupe
+des fils qui dépassent, et la **simulation d'hiver québécois** — congélateur,
+puis mouillage, puis 500 frottements sur la zone la plus sollicitée, les trois
+ensemble et non l'un après l'autre. Ce sont des points du **protocole
+général**, puisque ce sont les mêmes gestes quelle que soit la pièce.
 
 **Aucun chiffre de Lasclay n'y figure.** Combien de cycles, quelle charge,
 quelle tolérance — rien de tout ça n'existe dans les sources du dépôt, et
@@ -397,10 +399,21 @@ mesure. `node mrp/import_qualite.js --squelettes --ecrire` les charge.
   avant l'isolant » se discute ; « sinon il fond et devient rigide » ne se
   discute pas. Chaque point peut porter sa conséquence, et elle s'affiche en
   rouge sous la consigne.
-- **La page d'accueil du volet montre d'abord ce qui n'a AUCUN protocole**, le
-  plus gros volume en tête : c'est là que l'absence coûte le plus cher. Un
-  protocole vide sur un produit fabriqué à 4 665 unités est l'information la
-  plus utile de la page.
+- **`/qualite` est un carrefour à trois portes**, parce qu'on n'arrive pas au
+  contrôle qualité avec la même question selon le moment :
+
+  | Porte | La question à laquelle elle répond |
+  | --- | --- |
+  | **Par ordre de production** | « un conteneur part — qu'est-ce qui n'a pas été contrôlé ? » |
+  | **Par produit** | « comment contrôle-t-on CETTE pièce ? » |
+  | **Général** | « quels gestes valent pour tout ce qu'on fabrique ? » |
+
+  La première est la porte de travail, et elle est en tête. Les deux autres sont
+  la **source de vérité** : on les consulte, on n'y coche rien.
+- **La page par produit montre d'abord ce qui n'a AUCUN protocole**, le plus
+  gros volume en tête : c'est là que l'absence coûte le plus cher. Un protocole
+  vide sur un produit fabriqué à 4 665 unités est l'information la plus utile
+  de la page.
 - **L'atelier écrit autant que Québec.** C'est Montassar qui voit les défauts ;
   lui interdire d'écrire garderait l'information là où elle ne sert à personne.
   Chaque point porte le nom de qui l'a ajouté.
@@ -432,6 +445,54 @@ porte donc sa checklist, dérivée du protocole de son produit :
 - Sur la page de l'ordre, l'état qualité de chaque lot s'affiche **à côté du
   sélecteur d'avancement** — là où on s'apprête à déclarer 100 % et où on va se
   faire refuser.
+
+**Le contrôle par ordre de production — `/qualite/ordres/:id`.** La porte de
+travail. On choisit un ordre actif, puis on trie les lots par **catégories qui
+ne sont pas exclusives** :
+
+| Onglet | Ce qu'il retient |
+| --- | --- |
+| Tous les produits | tout ce que l'ordre contient |
+| Grands volumes | plus de 1 000 unités — une erreur s'y multiplie |
+| Nouveaux produits | jamais produits avant, **Québec compris** |
+| Complexes et gradués | plus d'une taille : manteaux, mitaines |
+
+Un manteau de 1 200 unités est dans trois onglets à la fois. C'est voulu : les
+onglets sont des angles d'attaque, pas des tiroirs. Ce qui rend ce chevauchement
+sûr, c'est la règle suivante.
+
+- **Un lot signé disparaît de PARTOUT, en un seul geste.** Il n'existe qu'une
+  signature par lot, pas une par onglet : sans ça, cocher dans « Grands
+  volumes » laisserait le lot en attente dans « Complexes et gradués », et
+  personne ne saurait lequel des deux dit vrai.
+- **Deux vues sur la même liste.** *Cartes* montre les photos — on reconnaît la
+  pièce avant de lire son code. *Liste à cocher* déplie, lot par lot, chaque
+  point avec son champ de commentaire, ses boutons Conforme / Non, et un lien
+  de procédé qui s'ouvre **à côté** (`target="_blank"`) : on consulte la source
+  de vérité sans perdre le contrôle en cours.
+- **Un seul lot déplié à la fois** (`?ouvert=N`). Rendre les trente corps coûtait
+  10,7 Ko compressés et 292 Ko bruts : le plafond de 12 Ko serait tombé vers 34
+  lots, et la page aurait cassé le jour où un ordre grossit. Replié, le poids ne
+  dépend plus du nombre de lots.
+
+**Signer un contrôle demande d'écrire.** Cocher les cases ne suffit pas :
+
+1. **Tous les points vérifiés, aucune non-conformité ouverte.** Sinon le
+   formulaire de signature n'apparaît même pas — il annonce ce qui manque.
+2. **Un compte rendu d'au moins 50 mots** (`MOTS_RAPPORT` dans `db.js`, et
+   l'écran affiche cette constante plutôt qu'un nombre recopié). Dans six mois,
+   quand un client signalera une couture, ce texte sera la seule chose qui dira
+   ce qui s'est passé.
+3. **Des photos ou vidéos, par leur adresse.** L'app n'héberge aucun fichier :
+   une adresse qui n'est pas `http(s)` est refusée, comme partout ailleurs.
+
+Les trois refus tombent **dans cet ordre**, et l'ordre compte : dire « il manque
+40 mots » à quelqu'un qui n'a encore rien contrôlé l'envoie écrire au lieu
+d'aller regarder les pièces. Un refus **rouvre le lot** là où on était.
+
+Un compte rendu se réécrit et **remplace** le précédent : un lot a un compte
+rendu, pas un historique de brouillons (`qc_rapports`, contrainte `UNIQUE` sur
+`item_id`).
 
 **Amorce.** 25 points sur 15 produits viennent de
 `donnees/qualite-amorce.tsv` — une relecture à la main des notes techniques,
@@ -790,7 +851,9 @@ référence ambiguë et une demande hors des droits de l'utilisateur.
 ```
 utilisateurs ─┬─ sessions
               ├─ ordres ─┬─ ordre_items ─┬─ avancement_historique
-              │          │               └─ item_variantes  (taille × coloris)
+              │          │               ├─ item_variantes  (taille × coloris)
+              │          │               └─ qc_rapports     (1 par lot : le
+              │          │                  compte rendu qui signe le contrôle)
               │          ├─ ordre_jalons          (cédule)
               │          └─ ordre_commentaires
               ├─ agent_tours ── agent_actions        (assistant + annulation)
