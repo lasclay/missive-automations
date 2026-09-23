@@ -22,6 +22,8 @@
  * Chaque panneau est tracé dans une boîte de 176 × 140.
  */
 
+const SIL = require('./silhouettes.js');
+
 const T = { trait:'#17140f', creme:'#f7f2e6', tissu:'#3c7a59', tissuO:'#2a5940',
   tissuC:'#8fc0a6', peau:'#eec19b', peauO:'#c88f61', acier:'#ccd2d8', acierO:'#8a939c',
   rouge:'#d4342a', verre:'#dfeaf0', fil:'#e8e3d6', bois:'#b98a52' };
@@ -135,7 +137,80 @@ const telephone = (x, y, e = 1) => `<g transform="translate(${x} ${y}) scale(${e
   <path d="M15 5h10" fill="none" stroke-width="2.4"/>
   <path d="M9 40C16 30 30 30 31 39l0 12H9Z" fill="${T.tissu}" stroke-width="1.8"/></g>`;
 
+// ---- deux mains qui tirent de part et d'autre d'une couture
+const traction = (y) =>
+  `<g transform="translate(6 ${y})">${main(0, 0, -90, 0.85)}</g>`
+  + `<g transform="translate(170 ${y + 34}) scale(-1 1)">${main(0, 0, -90, 0.85)}</g>`;
+
+// ---- un fragment de couture, vu de près : deux épaisseurs et le point
+const couture = (x, y, e = 1, ouverte = false) =>
+ `<g transform="translate(${x} ${y}) scale(${e})">
+  <path d="M0 0h96v22H0Z" fill="${T.tissu}"/>
+  <path d="M0 22h96v10H0Z" fill="${T.tissuO}"/>
+  <path d="M0 0h96v32H0Z" fill="none"/>
+  ${ouverte
+    ? `<path d="M8 16h22M38 16h8M54 16h30" fill="none" stroke="${T.rouge}"
+         stroke-width="3" stroke-linecap="round"/>
+       <path d="M30 16l8 -9M46 16l8 9" fill="none" stroke="${T.trait}" stroke-width="2"/>`
+    : `<path d="M8 16h80" fill="none" stroke="${T.tissuC}" stroke-width="3"
+         stroke-dasharray="7 5" stroke-linecap="round"/>`}
+ </g>`;
+
+/**
+ * Une planche de POINT DE RUPTURE : là où ce produit-là lâche vraiment.
+ *
+ * Panneau 1 : la pièce entière, la zone faible cerclée de rouge. C'est le seul
+ * panneau propre au produit — le geste, lui, est le même partout : tirer de
+ * part et d'autre de la couture. Trois panneaux génériques pour vingt zones
+ * valent mieux que soixante dessins qui divergent.
+ *
+ * Les zones ne sont pas choisies : elles viennent du corpus voix-client. La
+ * jonction main/pouce des mitaines, c'est dix-sept clients qui écrivent « le
+ * pouce a décousu ». La sangle de la glacière, c'est « les sangles du haut
+ * dont la couture casse et découd ».
+ */
+function rupture(forme, zx, zy) {
+  const d = SIL.TRACES[forme];
+  if (!d) return null;
+  const E = 3.4, X = 20, Y = 22;
+  const piece = `<g transform="translate(${X} ${Y}) scale(${E})">
+    <path fill-rule="evenodd" d="${d}" fill="${T.tissu}" stroke="${T.trait}"
+      stroke-width="${(2.4 / E).toFixed(2)}"/></g>`;
+  const cx = (X + zx * E).toFixed(1), cy = (Y + zy * E).toFixed(1);
+  return [
+    piece + `<circle cx="${cx}" cy="${cy}" r="19" fill="none" stroke="${T.rouge}"
+       stroke-width="3.4"/><circle cx="${cx}" cy="${cy}" r="26" fill="none"
+       stroke="${T.rouge}" stroke-width="2" opacity=".45"/>`,
+    couture(40, 54, 1.0) + traction(50)
+      + fleche('M0 118h30v-6l13 9-13 9v-6H0z')
+      + fleche('M176 118h-30v-6l-13 9 13 9v-6h30z'),
+    couture(40, 54, 1.0, true) + non(126, 96, 0.9),
+    couture(40, 54, 1.0) + oui(126, 96, 0.9),
+  ];
+}
+
 // -------------------------------------------------------------- les planches
+//
+// LES POINTS DE RUPTURE. Chaque zone vient du corpus voix-client, pas d'une
+// intuition. Entre parenthèses, ce que les clients ont écrit.
+const RUPTURES = {
+  // « le pouce a décousu », « décousue entre le pouce et le reste des doigts »,
+  // « une couture s'est défaite au pouce » — la rupture la plus fréquente du
+  // catalogue, toutes mitaines confondues.
+  mitaine_pouce:  ['mitaine',  6.5, 10],
+  // « les sangles du haut dont la couture casse et découd », « la sangle est
+  // décousue », « l'attache principale s'est cassée ».
+  glaciere_sangle:['glaciere', 12,  5],
+  // « après un lavage la partie basse est décollée (décousue ?) », « il est
+  // décollé, jamais porté ».
+  cachecou_bas:   ['tube',     12,  19],
+  // « le côté de la semelle gauche s'est décousu (ou décollé) », « le rebord
+  // décollé, le tissu rebique et s'effile ».
+  semelle_bord:   ['semelle',  16.5, 17],
+  // « quand j'ai essayé de le mettre, une couture du torsadé s'est défaite ».
+  bandeau_torsade:['bandeau',  12,  15],
+};
+
 const PLANCHES = {
   fils: [
     piece(10, 48, 1.05) + filsLibres(118, 58) + loupe(86, 16, 0.95)
@@ -189,6 +264,11 @@ const PLANCHES = {
   ],
 };
 
+for (const [k, [forme, zx, zy]] of Object.entries(RUPTURES)) {
+  const p = rupture(forme, zx, zy);
+  if (p) PLANCHES[k] = p;
+}
+
 /** Le titre d'un point de contrôle → sa planche. Comparé sans accents ni
  *  ponctuation : un identifiant change au prochain import, pas le titre. */
 const empreinte = (s) => String(s || '').normalize('NFD')
@@ -202,6 +282,13 @@ const PAR_TITRE = new Map([
   ['Après la séquence : ce qu’on compare', 'comparer'],
   ['Étiquette — sens, position, lisibilité', 'etiquette'],
   ['Comparaison avec la photo de la boutique', 'photo_boutique'],
+  // Les points de rupture. Les deux premiers existaient déjà au protocole :
+  // le corpus n'a fait que confirmer qu'ils portent sur la bonne zone.
+  ['Assemblage de la jonction main/pouce solide', 'mitaine_pouce'],
+  ['Assemblage de la sangle résistant',           'glaciere_sangle'],
+  ['Couture du bas du cache-cou : tirer de part et d\'autre', 'cachecou_bas'],
+  ['Pourtour de la semelle : tirer de part et d\'autre',      'semelle_bord'],
+  ['Couture du torsadé : tirer de part et d\'autre',          'bandeau_torsade'],
 ].map(([t, k]) => [empreinte(t), k]));
 
 /** La clé de planche d'un titre, ou null. Null est le cas normal : la plupart
@@ -255,4 +342,5 @@ function plancheBD(titre) {
     ${panneau(d, i, 'pi-g')}</li>`).join('')}</ol>`;
 }
 
-module.exports = { PLANCHES, PAR_TITRE, planche, plancheBD, cle, empreinte };
+module.exports = { PLANCHES, PAR_TITRE, RUPTURES, planche, plancheBD,
+  cle, empreinte };

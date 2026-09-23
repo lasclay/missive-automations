@@ -55,6 +55,11 @@ function tsv(nom) {
 }
 
 const rangs = tsv('qualite-amorce.tsv')
+  // Les points de RUPTURE se chargent toujours, sans drapeau : ils viennent
+  // du corpus voix-client et nomment les endroits où le catalogue lâche
+  // vraiment. Les rendre optionnels reviendrait à rendre optionnel de
+  // vérifier le pouce des mitaines.
+  .concat(tsv('qualite-ruptures.tsv'))
   .concat(SQUELETTES ? tsv('qualite-squelettes.tsv') : [])
   // Les cotes AVANT la charte : « Dimensions finales selon le schéma » y est
   // une consigne sans chiffre, et l'ordre de `rangs` est l'ordre d'autorité.

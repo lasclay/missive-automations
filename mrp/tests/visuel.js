@@ -355,5 +355,58 @@ console.log('\n  Silhouettes, anneaux et images\n');
     orphelines.length === 0, orphelines.join(', '));
 }
 
+// ------------------------------------------------- 8. les points de rupture
+{
+  const PIC = require('../pictos.js');
+  const SIL2 = require('../silhouettes.js');
+
+  // Les zones viennent du corpus voix-client, pas d'une intuition. Une zone
+  // qui pointe une forme inexistante ne planterait pas : elle sortirait une
+  // planche sans produit, et personne ne verrait que la pièce a disparu.
+  const formes = Object.values(PIC.RUPTURES).map(([f]) => f);
+  t('chaque rupture pointe une silhouette qui existe',
+    formes.every(f => SIL2.TRACES[f]),
+    formes.filter(f => !SIL2.TRACES[f]).join(', '));
+
+  // La zone doit tomber DANS la pièce : la silhouette tient dans une boîte de
+  // 24 × 24, une zone hors de cette boîte cerclerait du vide.
+  const hors = Object.entries(PIC.RUPTURES)
+    .filter(([, [, x, y]]) => x < 0 || x > 24 || y < 0 || y > 24);
+  t('chaque zone tombe dans la pièce', hors.length === 0,
+    hors.map(([k]) => k).join(', '));
+
+  // Le geste est le même partout — tirer de part et d'autre —, seule la zone
+  // change. Trois panneaux génériques pour vingt zones valent mieux que
+  // soixante dessins qui divergent.
+  for (const k of Object.keys(PIC.RUPTURES)) {
+    const p_ = PIC.PLANCHES[k];
+    if (!p_) { t(`la planche ${k} existe`, false); continue; }
+    if (k === Object.keys(PIC.RUPTURES)[0])
+      t('une planche de rupture fait quatre panneaux', p_.length === 4);
+  }
+  const gestes = Object.keys(PIC.RUPTURES).map(k => PIC.PLANCHES[k].slice(1).join(''));
+  t('le geste est identique d\'une rupture à l\'autre',
+    gestes.every(g => g === gestes[0]));
+
+  // Et chaque premier panneau est DIFFÉRENT : c'est le seul qui porte le
+  // produit et sa zone. S'ils se ressemblaient, la planche ne dirait plus où.
+  const zones = Object.keys(PIC.RUPTURES).map(k => PIC.PLANCHES[k][0]);
+  t('chaque rupture montre SA zone sur SON produit',
+    new Set(zones).size === zones.length);
+
+  // Tout titre du fichier de ruptures doit trouver sa planche, sinon le point
+  // arrive en atelier sans le dessin qui le rend faisable.
+  const fs2 = require('node:fs');
+  const tsvR = fs2.readFileSync(
+    path.join(__dirname, '..', 'donnees', 'qualite-ruptures.tsv'), 'utf8');
+  const titres = tsvR.split('\n').slice(1)
+    .filter(l => l.trim() && !l.startsWith('#') && l.includes('\t'))
+    .map(l => l.split('\t')[2]).filter(x => x && x !== 'titre');
+  t('le fichier de ruptures est lu', titres.length >= 6, `${titres.length} lignes`);
+  const sansPlanche = [...new Set(titres)].filter(x => !PIC.cle(x));
+  t('chaque point de rupture a sa planche',
+    sansPlanche.length === 0, sansPlanche.join(' | '));
+}
+
 console.log(`\n  ${ok} réussites, ${ko} échecs\n`);
 process.exit(ko ? 1 : 0);

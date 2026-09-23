@@ -1,0 +1,27 @@
+# Les points de RUPTURE — là où ce produit-là lâche vraiment.
+#
+# D'OÙ ILS VIENNENT. Pas d'une intuition : du corpus voix-client
+# (mrp/donnees/retroactions.tsv, 492 rétroactions distillées de trois ans de
+# Missive). Chaque ligne porte, dans sa conséquence, ce que les clients ont
+# écrit — c'est ce qui la rend incontestable en atelier.
+#
+# CE FICHIER NE CRÉE QUE CE QUI MANQUAIT. Deux ruptures majeures étaient déjà
+# couvertes et ne sont pas répétées ici : « Assemblage de la jonction
+# main/pouce solide » (mitaines) et « Assemblage de la sangle résistant »
+# (glacière). Le corpus n'a fait que confirmer qu'elles portent sur la bonne
+# zone — et que ce sont les deux plus fréquentes du catalogue.
+#
+# CE QUI N'EST PAS ICI. Soixante pour cent des rétroactions négatives portent
+# sur la TAILLE (175 « trop grand », 118 « trop petit »), pas sur la
+# fabrication. Ça ne se règle pas par un test de traction : c'est le patron et
+# la gradation. À traiter ailleurs, et c'est plus gros que le contrôle qualité.
+#
+# Mêmes colonnes que qualite-amorce.tsv. Importer :
+#   node mrp/import_qualite.js --ecrire mrp/donnees/qualite-ruptures.tsv
+produit	volet	titre	detail	consequence	valeur	tolerance	unite	frequence	source	schema
+CACHE-COU	critique	Couture du bas du cache-cou : tirer de part et d'autre	Saisir le tissu de chaque côté de la couture basse et tirer fermement, sans à-coup. La couture ne doit ni s'ouvrir ni laisser paraître le fil.	Trente retours sur le cache-cou. « Après un lavage et deux utilisations la partie basse est décollée (décousue ?) ». « Il est décollé, jamais porté. »				une fois par lot	voix-client
+CACHE-COU-ENF-18M4A	critique	Couture du bas du cache-cou : tirer de part et d'autre	Saisir le tissu de chaque côté de la couture basse et tirer fermement, sans à-coup. La couture ne doit ni s'ouvrir ni laisser paraître le fil.	Même couture que l'adulte, même faiblesse.				une fois par lot	voix-client
+CACHE-COU-ENF-5A13A	critique	Couture du bas du cache-cou : tirer de part et d'autre	Saisir le tissu de chaque côté de la couture basse et tirer fermement, sans à-coup. La couture ne doit ni s'ouvrir ni laisser paraître le fil.	Même couture que l'adulte, même faiblesse.				une fois par lot	voix-client
+SEMELLE-678	critique	Pourtour de la semelle : tirer de part et d'autre	Saisir les deux épaisseurs de chaque côté du pourtour et tirer. Vérifier tout le tour, pas un seul point : les retours nomment le CÔTÉ, pas la pointe.	Vingt-sept retours sur la semelle. « Une seule fois, pour aller magasiner, et le côté de la semelle gauche s'est décousu (ou décollé) ». « Le rebord décollé, le tissu rebique et s'effile. »				une fois par lot	voix-client
+SEMELLE-9	critique	Pourtour de la semelle : tirer de part et d'autre	Saisir les deux épaisseurs de chaque côté du pourtour et tirer. Vérifier tout le tour, pas un seul point.	Même pourtour que la petite pointure, même faiblesse.				une fois par lot	voix-client
+BANDEAU	critique	Couture du torsadé : tirer de part et d'autre	Saisir le bandeau de chaque côté de la couture du torsadé et tirer. C'est la couture qui referme la torsade, et elle cède à l'enfilage.	Douze retours sur le bandeau. « Quand j'ai essayé de le mettre, une couture du torsadé s'est défaite. »				une fois par lot	voix-client
