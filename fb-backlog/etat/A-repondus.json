@@ -1736,8 +1736,16 @@
       "quand": "2026-09-22T14:09:56.005Z",
       "confirme": true,
       "texte": "Des pinces à sacs en général, l'idée n'est pas si folle. On ne s'avance sur rien, mais merci d'y avoir pensé à voix haute."
+    },
+    {
+      "id": "1678623234271486_2308670093212617",
+      "reponse_id": "1678623234271486_1525118672966740",
+      "page_id": "104242204750257",
+      "quand": "2026-09-23T01:07:59.504Z",
+      "confirme": true,
+      "texte": "Merci ! Un hiver de fait et le verdict tient toujours — c'est le genre de retour qu'on préfère recevoir."
     }
   ],
-  "derniere_execution": "2026-09-22T14:09:56.005Z",
-  "total": 217
+  "derniere_execution": "2026-09-23T01:07:59.505Z",
+  "total": 218
 }
