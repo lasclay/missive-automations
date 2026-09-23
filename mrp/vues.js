@@ -213,9 +213,7 @@ function page({ titre, user, corps, actif = '', msg = null }) {
   <a class="marque" href="/">Lasclay <span>MRP</span></a>
   ${user ? `<nav class="top">
     ${lien('/', 'Tableau', 'accueil')}
-    ${lien('/priorites', 'À fabriquer', 'priorites')}
     ${lien('/ordres', 'Ordres', 'ordres')}
-    ${lien('/suivi', 'Suivi', 'suivi')}
     ${lienTaches}
     <i class="sep"></i>
     ${lien('/produits', 'Produits', 'produits')}
@@ -225,6 +223,8 @@ function page({ titre, user, corps, actif = '', msg = null }) {
     <i class="sep"></i>
     ${lien('/calendrier', 'Calendrier', 'calendrier')}
     ${lien('/cedule', 'Cédule', 'cedule')}
+    <i class="sep"></i>
+    ${lien('/suivi', 'Activité', 'suivi')}
   </nav>
   <span class="qui">${lien('/assistant', 'Assistant', 'assistant')} · <a href="/compte"
     >${e(user.nom)}</a> · ${ROLES[user.role] || e(user.role)}
@@ -3013,7 +3013,7 @@ function vuePriorites({ user, msg, lignes, ailleurs = [], jours = 7 }) {
  */
 function vueSuivi({ user, msg, recentes, immobiles, progression, jours }) {
   const corps = `
-  <h1>Suivi de production</h1>
+  <h1>Activité de production</h1>
   <p class="intro">Ce qui a bougé, ce qui ne bouge plus, et de combien on a
   avancé. Chaque changement d'avancement est daté et signé — personne n'a à
   demander « où on en est ».</p>
@@ -3065,7 +3065,7 @@ function vueSuivi({ user, msg, recentes, immobiles, progression, jours }) {
     : `<p class="vide">Aucune mise à jour enregistrée.</p>`}
   </section>`;
 
-  return page({ titre: 'Suivi', user, corps, actif: 'suivi', msg });
+  return page({ titre: 'Activité', user, corps, actif: 'suivi', msg });
 }
 
 module.exports = { e, urlImage, urlAcceptable, img, TAILLES, sousNavProduits,
