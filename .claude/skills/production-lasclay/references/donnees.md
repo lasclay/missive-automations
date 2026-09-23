@@ -292,8 +292,9 @@ Chaque frame est une fiche produit à deux colonnes :
 - **les vérifications** (jaune) — ce qu'on regarde avant d'emballer → `donnees/qualite-charte.tsv`,
   qui devient de vrais points de contrôle et remonte dans la liste obligatoire de chaque ordre.
 
-**C'est le complément exact du mur des bris.** Là où « Ce qui casse » montre ce que les clients ont
-vu après coup, ces lignes disent quoi regarder avant. Quand les deux se rejoignent — « bretelles
+**C'est le complément exact des rétroactions clients négatives** (qui ont remplacé le mur des
+bris). Là où elles montrent ce que les clients ont vu après coup, ces lignes disent quoi regarder
+avant. Quand les deux se rejoignent — « bretelles
 renforcées » ici, dix coutures de bretelle décousues là-bas — c'est que la consigne existait et
 qu'elle n'a pas été tenue. Ça vaut mieux qu'une consigne qui manquait.
 

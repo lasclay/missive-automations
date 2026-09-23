@@ -80,6 +80,21 @@ function urlAcceptable(u) {
 }
 
 /**
+ * Même règle, plus le seul chemin interne que l'app sert elle-même.
+ *
+ * Les photos de clients ne sont pas sur un CDN : ce sont des correspondances,
+ * et une URL publique les rendrait lisibles par quiconque a le lien. Elles
+ * vivent donc dans le dépôt et sortent par `/photo-client/<uuid>.jpg`,
+ * derrière la session. Tout le reste tombe sous la règle générale — surtout
+ * une « data: » URI, qui ferait porter l'image à chaque page servie.
+ */
+const PHOTO_INTERNE = /^\/photo-client\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\.jpg$/;
+function photoRetroAcceptable(u) {
+  const s = String(u || '').trim();
+  return PHOTO_INTERNE.test(s) || urlAcceptable(s);
+}
+
+/**
  * Les photos d'un bris, dans l'ordre où le client les a envoyées.
  *
  * Un même signalement arrive souvent avec trois clichés de la même couture :
@@ -461,8 +476,7 @@ function sousNavProduits(page) {
   return `<nav class="sous-nav">
     ${l('/produits', 'Fiches produits', 'fiches')}
     ${l('/qualite', 'Qualité', 'qualite')}
-    ${l('/retroactions', 'Rétroactions clients', 'retroactions')}
-    ${l('/mur', 'Ce qui casse', 'mur')}
+    ${l('/retroactions', 'Rétroactions clients négatives', 'retroactions')}
   </nav>`;
 }
 
@@ -938,79 +952,6 @@ function ligneBris({ b, produitId, editable }) {
   </li>`;
 }
 
-/**
- * Le mur des bris — la page que l'atelier regarde.
- *
- * Pas un tableau de bord : des photos et des phrases de clients. Le format est
- * délibérément différent du reste de l'app, parce que le but est différent —
- * on ne vient pas chercher un chiffre, on vient comprendre pourquoi une
- * consigne existe.
- *
- * Les photos sont grandes. C'est le seul endroit de l'app où une image compte
- * plus que le texte à côté, et la connexion tunisienne le vaut : le CDN les
- * sert redimensionnées, comme partout.
- */
-function vueMur({ user, msg, groupes }) {
-  const total = groupes.reduce((n, g) => n + g.bris.length, 0);
-  const photos = groupes.reduce((n, g) => n + g.photos, 0);
-
-  const carte = (b) => {
-    const ph = photosBris(b.photo_url);
-    return `<figure class="mur-c${ph.length ? '' : ' mur-sans'}">
-    ${ph.length
-      ? `<a href="${e(ph[0])}" rel="noopener">
-           <img src="${e(urlImage(ph[0], 640))}" loading="lazy"
-                alt="${e(b.zone || 'Bris signalé')}"></a>`
-      : ''}
-    ${ph.length > 1 ? `<div class="mur-plus">${ph.slice(1).map((u, i) => `
-      <a href="${e(u)}" rel="noopener"><img src="${e(urlImage(u, 160))}"
-         loading="lazy" alt="${e(b.zone || 'Bris signalé')} — vue ${i + 2}"></a>`
-      ).join('')}</div>` : ''}
-    <figcaption>
-      <div class="mur-tete">
-        <span class="br-orig br-${b.origine}">${ORIGINES[b.origine] || b.origine}</span>
-        ${b.zone ? `<b>${e(b.zone)}</b>` : ''}
-        ${b.survenu_le ? `<span class="br-date">${dateFR(b.survenu_le)}</span>` : ''}
-      </div>
-      ${b.texte ? `<blockquote>${e(b.texte)}</blockquote>` : ''}
-      ${b.point_titre
-        ? `<p class="mur-consigne">→ ${e(b.point_titre)}</p>`
-        : '<p class="mur-nu">Aucune consigne n\'en découle encore</p>'}
-    </figcaption>
-  </figure>`;
-  };
-
-  const corps = `
-  ${sousNavProduits('mur')}
-  <div class="entete"><div><h1>Ce que les clients ont vu</h1>
-    <p class="muted">${total} signalement${total > 1 ? 's' : ''},
-      ${photos} avec photo — groupés par produit</p></div></div>
-
-  <div class="carte mur-intro">
-    <p>Ce ne sont pas des consignes. Ce sont des gens qui ont acheté une pièce
-    et qui écrivent qu'elle a cassé. Les consignes du protocole viennent de
-    là — et une couture qu'on reprend parce qu'on a vu la photo tient mieux
-    qu'une couture qu'on reprend parce que c'est écrit.</p>
-  </div>
-
-  ${groupes.length ? groupes.map(g => `<div class="carte mur-g" id="p${g.id || ''}">
-    <div class="mur-g-tete">
-      <h2>${g.id ? `<a href="/qualite/${g.id}">${e(g.code)}</a>` : e(g.code)}</h2>
-      <span class="muted">${e(g.nom)}</span>
-      <span class="mur-n">${g.bris.length} signalement${g.bris.length > 1 ? 's' : ''}${
-        g.sansConsigne ? ` · <b>${g.sansConsigne} sans consigne</b>` : ''}</span>
-    </div>
-    ${g.zones.length ? `<p class="mur-zones">${g.zones.map(z =>
-      `<span>${e(z.zone)}${z.n > 1 ? ` <b>×${z.n}</b>` : ''}</span>`).join('')}</p>` : ''}
-    <div class="mur">${g.bris.map(carte).join('')}</div>
-  </div>`).join('')
-  : `<div class="carte"><p class="vide">Aucun signalement pour l'instant.
-     <code>node bris_missive.js trier</code> en extrait de la boîte support.</p></div>`}`;
-
-  return page({ titre: 'Ce que les clients ont vu', user, corps, msg, actif: 'produits' });
-}
-
-/** Le sous-menu du contrôle qualité. Trois façons d'entrer dans la même base. */
 function navQC(page) {
   const l = (href, texte, cle) =>
     `<a href="${href}"${page === cle ? ' class="on" aria-current="page"' : ''}>${texte}</a>`;
@@ -1031,7 +972,7 @@ function navQC(page) {
  * savoir, pas pour faire.
  */
 function vueQualiteAccueil({ user, msg, aFaire = 0, ordresActifs = 0,
-                             produits = 0, general = 0, zones = [], nc = [] }) {
+                             produits = 0, general = 0 }) {
   const nb = (n) => Number(n || 0).toLocaleString('fr-CA');
   const porte = (href, titre, sous, chiffre, libelle, classe) => `
     <a class="porte ${classe}" href="${href}">
@@ -1060,25 +1001,8 @@ function vueQualiteAccueil({ user, msg, aFaire = 0, ordresActifs = 0,
       general, general > 1 ? 'procédés' : 'procédé', 'porte-3')}
   </div>
 
-  ${zones.length || nc.length ? `<div class="carte qc-terrain">
-    <h2>Ce qui casse</h2>
-    <p class="sec">Les retours clients et les non-conformités de l'atelier.
-    Une zone qui revient sur plusieurs produits n'est pas un défaut de produit,
-    c'est un défaut de méthode.</p>
-    ${zones.length ? `<div class="tbl"><table>
-      <tr><th>Zone</th><th class="num">Signalements</th><th class="num">Produits</th>
-        <th>Consigne écrite ?</th></tr>
-      ${zones.slice(0, 6).map(z => `<tr>
-        <td><b>${e(z.zone)}</b></td>
-        <td class="num">${z.bris}</td>
-        <td class="num">${z.produits}</td>
-        <td>${z.orphelins
-          ? `<span class="qc-vide">${z.orphelins} sans consigne</span>`
-          : '<span class="muted">oui</span>'}</td>
-      </tr>`).join('')}
-    </table></div>
-    <p class="qc-pied"><a class="lien" href="/mur">Voir tout ce qui casse</a></p>` : ''}
-  </div>` : ''}`;
+  <p class="qc-pied"><a class="lien" href="/retroactions">Ce que les clients ont
+    écrit quand ça n'allait pas — 487 rétroactions négatives, par produit</a></p>`;
   return page({ titre: 'Contrôle qualité', user, corps, actif: 'produits', msg });
 }
 
@@ -1356,100 +1280,6 @@ function rapportForm({ ordre, l, c }) {
   </form>`;
 }
 
-function vueQualite({ user, msg, couverture, general = [], zones = [], nc = [] }) {
-  const sans = couverture.filter(p => !p.points);
-  const avec = couverture.filter(p => p.points);
-  const nb = (n) => Number(n || 0).toLocaleString('fr-CA');
-
-  const rangee = (p) => `<tr>
-    <td><div class="avec-mini">${miniature(p.photo, p.code, { taille: 38 })}<div>
-      <a href="/qualite/${p.id}"><b>${e(p.code)}</b></a><br>
-      <span class="muted">${e(p.nom)}</span></div></div></td>
-    <td class="num">${p.a_produire ? nb(p.a_produire) : '<span class="muted">—</span>'}</td>
-    <td>${p.points ? `<span class="qc-cpt">
-        ${p.critiques ? `<i class="q-critique" title="points critiques">${p.critiques}</i>` : ''}
-        ${p.problemes ? `<i class="q-probleme" title="problèmes fréquents">${p.problemes}</i>` : ''}
-        ${p.mesures ? `<i class="q-mesure" title="mesures">${p.mesures}</i>` : ''}
-        ${p.cyclages ? `<i class="q-cyclage" title="cyclage">${p.cyclages}</i>` : ''}
-      </span>` : '<span class="qc-vide">aucun protocole</span>'}</td>
-    <td><a class="lien" href="/qualite/${p.id}">${p.points ? 'Voir' : 'Écrire'}</a></td>
-  </tr>`;
-
-  const corps = `
-  ${sousNavProduits('qualite')}
-  <div class="entete"><div><h1>Contrôle qualité</h1>
-    <p class="muted">Deux sources, une seule liste : les <b>vérifications de la
-    charte produits</b> — ce que l'équipe a écrit avant de produire — et les
-    <b>retours clients pour bris</b>, échanges et remboursements — ce qui a
-    lâché après</p></div></div>
-
-  ${zones.length || nc.length ? `<div class="carte qc-terrain">
-    <h2>Ce qui casse</h2>
-    <p class="sec">Les retours clients — échange, remboursement, réparation —
-    et les non-conformités relevées à l'atelier. Une zone qui revient sur
-    plusieurs produits n'est pas un défaut de produit, c'est un défaut de
-    méthode.</p>
-    ${zones.length ? `<div class="tbl"><table>
-      <tr><th>Zone</th><th class="num">Signalements</th><th class="num">Produits</th>
-        <th>Consigne écrite ?</th></tr>
-      ${zones.map(z => `<tr>
-        <td><b>${e(z.zone)}</b></td>
-        <td class="num">${z.bris}</td>
-        <td class="num">${z.produits}</td>
-        <td>${z.sans_consigne
-          ? `<span class="qc-vide">${z.sans_consigne} sans consigne</span>`
-          : '<span class="muted">toutes traitées</span>'}</td>
-      </tr>`).join('')}
-    </table></div>` : ''}
-    ${nc.length ? `<h3 class="nc-titre">Non-conformités en cours
-      <span class="cpt">${nc.length}</span></h3>
-      <ul class="nc-liste">${nc.slice(0, 8).map(x => `<li>
-        <a href="/qualite/${x.produit_id}"><b>${e(x.code)}</b></a>
-        · ${e(x.point_titre)}
-        ${x.note ? `<span class="br-txt">« ${e(x.note)} »</span>` : ''}
-        <span class="muted">${e(x.numero)}${x.auteur ? ' · ' + e(x.auteur) : ''}</span>
-      </li>`).join('')}</ul>` : ''}
-  </div>` : ''}
-
-  <div class="carte qc-general">
-    <h2>Protocole général <span class="cpt">${general.length}</span></h2>
-    <p class="sec">Ce qui s'applique à <b>tous</b> les produits — emballage,
-    étiquetage, finition. Ces points apparaissent sur la checklist de chaque
-    lot, sans avoir à les réécrire trente fois.</p>
-    ${general.length
-      ? `<ul class="qc-liste">${general.map(q => pointQC({ q, editable: true, unites: user.unites,
-          action: `/qualite/general/${q.id}/supprimer` })).join('')}</ul>`
-      : `<p class="vide">Rien encore. La méthode d'emballage est le premier
-         candidat : elle est la même partout et personne ne la connaît par
-         cœur.</p>`}
-    <details class="qc-plus"><summary>Ajouter au protocole général</summary>
-      ${formulaireQC('/qualite/general', { general: true })}
-    </details>
-  </div>
-
-  ${sans.length ? `<div class="carte">
-    <h2>Sans protocole propre <span class="cpt">${sans.length}</span></h2>
-    <p class="sec">Ces produits n'ont que le protocole général — rien qui leur
-    soit propre. Le plus gros volume en tête : c'est là que l'absence coûte le
-    plus cher.</p>
-    <div class="tbl"><table>
-      <tr><th>Produit</th><th class="num">À produire</th><th>Protocole</th><th></th></tr>
-      ${sans.map(rangee).join('')}
-    </table></div>
-  </div>` : ''}
-
-  ${avec.length ? `<div class="carte">
-    <h2>Protocoles écrits <span class="cpt">${avec.length}</span></h2>
-    <div class="tbl"><table>
-      <tr><th>Produit</th><th class="num">À produire</th><th>Points</th><th></th></tr>
-      ${avec.map(rangee).join('')}
-    </table></div>
-  </div>` : `<div class="carte"><p class="vide">Aucun protocole écrit pour l'instant.
-    Ouvre un produit et commence par ce qui rate le plus souvent.</p></div>`}`;
-
-  return page({ titre: 'Contrôle qualité', user, corps, msg, actif: 'produits' });
-}
-
 function vueProtocole({ user, p, proto, msg, photos = [], bris = null,
                        appuis = {}, ecartes = [] }) {
   const editable = true;   // les deux rôles écrivent : c'est l'atelier qui voit les défauts
@@ -1496,7 +1326,7 @@ function vueProtocole({ user, p, proto, msg, photos = [], bris = null,
   </div>` : ''}
 
   ${bris ? `<div class="carte qc-bris">
-    <h2>Ce qui casse <span class="cpt">${bris.tous.length}</span>
+    <h2>Bris signalés <span class="cpt">${bris.tous.length}</span>
       ${bris.orphelins.length ? `<span class="br-todo">${bris.orphelins.length}
         sans consigne</span>` : ''}</h2>
     <p class="sec">Commentaires clients, photos, retours d'atelier. C'est la
@@ -2058,6 +1888,24 @@ function ligneCharte(section, texte, unites) {
 const PASTILLE_RETRO = { bris: '🔧', insatisfaction: '😕', ajustement: '📏' };
 
 /**
+ * Deux mises en garde qui changent la façon de lire toute cette page.
+ *
+ * Elles ne sont pas décoratives : sans elles, l'atelier tunisien lit ces
+ * plaintes comme un bulletin sur son propre travail, alors que la plupart
+ * portent sur des pièces qu'il n'a jamais cousues. Et il les lit comme un
+ * verdict général, alors que rien de positif n'a été collecté.
+ */
+function avertissementHistorique() {
+  return `<p class="avis avis-hist"><b>Ce sont des rétroactions négatives,
+    et historiques.</b> Seules les plaintes ont été relevées — bris,
+    insatisfaction, ajustement : rien de ce que les clients ont écrit de bon
+    n'est ici, et l'absence de compliment ne veut donc rien dire. La majorité
+    de ces pièces <b>n'ont pas été fabriquées en Tunisie</b> ; elles sont
+    incluses par prudence, parce qu'un défaut vu ailleurs peut se répéter
+    ici.</p>`;
+}
+
+/**
  * Un onglet Rétroactions par produit, groupé par problème.
  *
  * LE GROUPEMENT EST LE SUJET. Dérouler 227 citations à la file ne se lit pas,
@@ -2099,11 +1947,12 @@ function vueRetroactions({ user, p, retro, msg, ouvre = null }) {
           ${l.de_famille ? `<span class="retro-flou">dit « ${e(l.famille)} »
             sans préciser le modèle</span>` : ''}
         </p>
-        ${l.listePhotos.length ? `<div class="retro-photos">${l.listePhotos.slice(0, 6).map(u =>
+        ${(() => { const ph = l.listePhotos.filter(photoRetroAcceptable);
+          return ph.length ? `<div class="retro-photos">${ph.slice(0, 6).map(u =>
           `<a href="${e(urlImage(u))}" rel="noopener" title="Photo du client">
             ${img(u, { largeur: TAILLES.vignette, alt: 'Photo envoyée par un client' })}</a>`
-        ).join('')}${l.listePhotos.length > 6
-          ? `<span class="retro-plus">+${l.listePhotos.length - 6}</span>` : ''}</div>` : ''}
+        ).join('')}${ph.length > 6
+          ? `<span class="retro-plus">+${ph.length - 6}</span>` : ''}</div>` : ''; })()}
       </li>`).join('')}
     </ul>
   </details>`;
@@ -2112,7 +1961,7 @@ function vueRetroactions({ user, p, retro, msg, ouvre = null }) {
   const corps = `
   ${sousNavProduits('retroactions')}
   <div class="entete"><div>
-    <h1>Rétroactions clients</h1>
+    <h1>Rétroactions clients négatives</h1>
     <p class="muted">${e(p.nom_court || p.nom)} · ${e(p.code)} —
       <b>${total}</b> rétroaction${total > 1 ? 's' : ''}</p>
   </div><a class="btn sec" href="/produits/${p.id}">Retour à la fiche</a></div>
@@ -2126,6 +1975,8 @@ function vueRetroactions({ user, p, retro, msg, ouvre = null }) {
   n'en sort : ni nom, ni adresse, ni numéro de commande — l'atelier a besoin du
   défaut, pas de la personne. Toucher un problème déplie ce qui a été dit.</p>
 
+  ${avertissementHistorique()}
+
   ${deFamille ? `<p class="avis">${deFamille} de ces ${total} rétroactions disent
     seulement « ${e(famille)} » sans nommer le modèle. Elles s'affichent sur
     chacun des modèles de la famille, marquées comme telles : rattacher au
@@ -2133,7 +1984,7 @@ function vueRetroactions({ user, p, retro, msg, ouvre = null }) {
 
   <div class="retro">${groupes.map(groupe).join('')}</div>`}`;
 
-  return page({ titre: `Rétroactions — ${p.nom_court || p.nom}`, user, corps,
+  return page({ titre: `Rétroactions négatives — ${p.nom_court || p.nom}`, user, corps,
                 actif: 'produits', msg });
 }
 
@@ -2143,12 +1994,14 @@ function vueRetroactionsIndex({ user, produits, msg }) {
   const sans = produits.filter(p => !p.total);
   const corps = `
   ${sousNavProduits('retroactions')}
-  <div class="entete"><div><h1>Rétroactions clients</h1>
+  <div class="entete"><div><h1>Rétroactions clients négatives</h1>
     <p class="muted">${avec.length} produit${avec.length > 1 ? 's' : ''} avec de la
       matière · ${sans.length} sans rien</p></div></div>
 
   <p class="sec">Distillées de 2 282 fils de correspondance. Ce qui est montré,
   c'est le défaut et les mots qui le décrivent — jamais qui l'a écrit.</p>
+
+  ${avertissementHistorique()}
 
   <div class="grille">
     ${produits.map(p => `<a class="vignette ${p.total ? '' : 'vgn-vide'}"
@@ -2163,7 +2016,7 @@ function vueRetroactionsIndex({ user, produits, msg }) {
           : '<span class="qc-vide">rien d\'écrit</span>'}</div>
     </a>`).join('')}
   </div>`;
-  return page({ titre: 'Rétroactions clients', user, corps, actif: 'produits', msg });
+  return page({ titre: 'Rétroactions clients négatives', user, corps, actif: 'produits', msg });
 }
 
 function vueProduit({ user, p, photos, materiaux, patrons, ordres, msg, qc = null,
@@ -2193,7 +2046,7 @@ function vueProduit({ user, p, photos, materiaux, patrons, ordres, msg, qc = nul
     <p class="muted">${e(p.code)}${p.nom_court && p.nom !== p.nom_court
       ? ` · vendu sous « ${e(p.nom)} »` : ''}</p>
   </div><div class="entete-actions">
-    <a class="btn sec" href="/produits/${p.id}/retroactions">Rétroactions clients${
+    <a class="btn sec" href="/produits/${p.id}/retroactions">Rétroactions négatives${
       retro ? ` <span class="retro-n">${retro}</span>` : ''}</a>
     ${admin ? `<a class="btn sec" href="/produits/${p.id}/modifier">Modifier</a>` : ''}
   </div></div>
@@ -2235,17 +2088,6 @@ function vueProduit({ user, p, photos, materiaux, patrons, ordres, msg, qc = nul
     : `<p class="vide">Aucun protocole écrit pour ce produit.</p>`}
     <a class="lien" href="/qualite/${p.id}">${qc.total
       ? 'Voir le protocole complet' : 'Écrire le protocole'} →</a>
-  </div>` : ''}
-
-  ${bris && bris.tous.length ? `<div class="carte">
-    <h2>Ce qui casse</h2>
-    <p class="sec">${bris.tous.length} signalement${bris.tous.length > 1 ? 's' : ''} sur
-      ce produit${nus ? `, dont <b>${nus} sans consigne</b>` : ''}.
-      ${bris.zones.length ? `Les zones : ${bris.zones.slice(0, 4)
-        .map(z => `<b>${e(z.zone)}</b>${z.n > 1 ? ` ×${z.n}` : ''}`).join(', ')}.` : ''}</p>
-    <ul class="br-liste">${bris.tous.slice(0, 3)
-      .map(b => ligneBris({ b, produitId: p.id, editable: false })).join('')}</ul>
-    <a class="lien" href="/mur#p${p.id}">Voir les photos et les mots des clients →</a>
   </div>` : ''}
 
   ${studio.length ? `<div class="carte"><h2>Photos studio</h2>${galerie(studio)}</div>` : ''}
@@ -3229,7 +3071,7 @@ module.exports = { e, urlImage, urlAcceptable, img, TAILLES, sousNavProduits,
                    vueAccueil, vueOrdres, vueOrdre, vueOrdreForm,
                    vueProduits, vueProduit, vueProduitForm, vueCedule, vueAssistant,
                    vueRetroactions, vueRetroactionsIndex,
-                   vuePriorites, vueSuivi, vueTaches, vueQualite, vueProtocole,
-                   vueChecklist, vueMur,
+                   vuePriorites, vueSuivi, vueTaches, vueProtocole,
+                   vueChecklist,
                    PRIORITES, urgence,
                    STATUTS, TYPES_JALON, LIEUX, ROLES };

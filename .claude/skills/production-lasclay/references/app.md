@@ -147,10 +147,20 @@ déjà promis, l'avancement déclaré déduit, trié par ce qui manque puis par 
 
 `/besoins` donne aussi **l'ordre dans lequel commencer les comptages**, le plus engagé d'abord.
 
-### Rétroactions clients
+### Rétroactions clients négatives
 
 **487 rétroactions distillées de 2 282 fils Missive**, un onglet par produit (`/retroactions`,
-`/produits/:id/retroactions`). Le corpus brut vit dans `mrp/voix-client/fils/` — correspondance
+`/produits/:id/retroactions`). **Elles remplacent « Ce qui casse »** : le mur `/mur`, son entrée
+de sous-navigation et les bandeaux de bris ont été retirés. Les 110 bris qu'ils montraient
+venaient tous de Missive et aucun n'était rattaché à un point de protocole. `qc_bris` et ses
+données restent ; la carte « Bris signalés » de la fiche protocole reste aussi, parce que c'est
+l'outil vivant qui fait écrire une consigne, pas un mur historique.
+
+**Deux mises en garde s'affichent en tête, et elles portent le sens de la page.** Ces
+rétroactions sont **négatives** — seules les plaintes ont été relevées, donc l'absence de
+compliment ne dit rien — et **historiques** : la majorité des pièces n'ont pas été fabriquées en
+Tunisie, elles sont incluses par prudence. Sans cette phrase, l'atelier lit ces plaintes comme un
+bulletin sur son propre travail. Le corpus brut vit dans `mrp/voix-client/fils/` — correspondance
 réelle, avec noms et adresses : **le dépôt est privé et doit le rester.** Le MRP n'en reçoit que
 le distillat.
 

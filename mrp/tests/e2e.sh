@@ -698,8 +698,13 @@ console.log(db.prepare('SELECT COUNT(*) n FROM qc_bris WHERE point_id IS NULL').
 curl -s -b $CA $B/qualite/$PB | grep -q 'signalements sur le terrain' \
   && ok "le point affiche combien de signalements l'appuient" || ko "appuis non affichés"
 
+curl -s -b $CA $B/qualite | grep -q '/retroactions' \
+  && ok "la page Qualité renvoie aux rétroactions clients négatives" \
+  || ko "la page Qualité ne mène nulle part côté retours clients"
+
 curl -s -b $CA $B/qualite | grep -q 'Ce qui casse' \
-  && ok "les zones fragiles remontent sur la page Qualité" || ko "zones absentes"
+  && ko "« Ce qui casse » traîne encore sur la page Qualité" \
+  || ok "« Ce qui casse » a bien disparu de la page Qualité"
 
 # un bris d'un autre produit ne se transforme pas en consigne ici
 AUTRE=$(MRP_DB="$DB" node --no-warnings -e "

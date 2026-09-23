@@ -350,7 +350,7 @@ d'un lot, la connexion se fait avec la répartition réelle du lot :
 - sans répartition déclarée, **aucune taille n'est écartée** — on ne sait pas,
   donc on n'enlève rien.
 
-**Ce qui casse — la preuve qui fait écrire une consigne.** Un commentaire
+**Les bris signalés — la preuve qui fait écrire une consigne.** Un commentaire
 client, une photo de couture ouverte, un retour d'atelier : `qc_bris` garde la
 phrase **mot pour mot** (reformuler un client, c'est perdre ce qui rendait la
 phrase utile) avec sa zone, sa date et son origine. Aucune photo n'est
@@ -370,11 +370,14 @@ La boucle se ferme en trois temps :
 Un signalement dont personne n'a tiré de consigne est marqué comme tel : c'est
 la file de travail du contrôle qualité.
 
-**Les zones qui cassent, tous produits confondus.** La page Qualité ouvre sur
-« Ce qui casse » : combien de signalements par zone, **sur combien de produits
-différents**, et combien sans consigne. Une zone qui revient sur cinq produits
-n'est pas un défaut de produit, c'est un défaut de méthode — et c'est la
-question que les commentaires clients permettent enfin de poser.
+**Les zones qui cassent, tous produits confondus.** Ce bandeau a été retiré de
+la page Qualité en même temps que le mur des bris : les **rétroactions clients
+négatives** le remplacent, et leur groupement par problème répond à la même
+question — une zone qui revient sur cinq produits n'est pas un défaut de
+produit, c'est un défaut de méthode. Le calcul par zone (`zonesFragiles`)
+existe toujours dans `db.js`, sans surface pour l'instant ; il se rebrancherait
+sur les rétroactions plutôt que sur `qc_bris` si la vue croisée redevient
+utile.
 
 **Une non-conformité d'atelier est une observation de terrain, en plus tôt.**
 Une case « non conforme » cochée par Montassar remonte au même endroit que les
@@ -846,7 +849,7 @@ Ce qui n'est **pas** couvert : le jugement du modèle. Après un changement de
 modèle ou de consigne, essayer à la main quelques phrases réelles — dont une
 référence ambiguë et une demande hors des droits de l'utilisateur.
 
-## Rétroactions clients — la voix du client dans l'atelier
+## Rétroactions clients négatives — la voix du client dans l'atelier
 
 > « Rien comme l'émotion d'un client insatisfait pour donner à des gens qui
 > posent seulement les briques du mur une impression de la bâtisse que ça
@@ -855,7 +858,26 @@ référence ambiguë et une demande hors des droits de l'utilisateur.
 L'équipe de production est en Tunisie et ne voit jamais le produit après
 l'expédition. **487 rétroactions**, distillées de **2 282 fils** de
 correspondance Missive, vivent maintenant sur les fiches produits :
-`/retroactions`, et un onglet par produit.
+`/retroactions`, et un onglet par produit. **Elles remplacent « Ce qui
+casse »**, dont le mur (`/mur`) et les bandeaux ont été retirés : les 110 bris
+qu'il montrait venaient tous de Missive, aucun n'était rattaché à un point de
+protocole, et les 487 rétroactions les couvrent mieux.
+
+**Deux mises en garde s'affichent en tête de chaque page, et elles ne sont pas
+décoratives :**
+
+- **Ce sont des rétroactions NÉGATIVES.** Seules les plaintes ont été relevées
+  — bris, insatisfaction, ajustement. Rien de ce que les clients ont écrit de
+  bon n'est là, et l'absence de compliment ne veut donc rien dire.
+- **Elles sont HISTORIQUES, et la majorité de ces pièces n'ont pas été
+  fabriquées en Tunisie.** Elles sont incluses par prudence : un défaut vu
+  ailleurs peut se répéter ici. Sans cette phrase, l'atelier lit ces plaintes
+  comme un bulletin sur son propre travail.
+
+Ce qui reste de l'ancien module de bris : `qc_bris` et ses données sont
+conservées, et la carte **« Bris signalés »** de la fiche protocole reste —
+ce n'est pas un mur historique, c'est l'outil vivant où l'atelier signale un
+bris et en tire une consigne.
 
 **Groupées par problème, repliées par défaut.** Une fiche qui déroulerait
 227 citations ne se lit pas. La page montre les problèmes et leur compte —

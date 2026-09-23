@@ -1224,9 +1224,12 @@ t("l'atelier peut consulter le suivi",
 
   // Les trois pages du volet se retrouvent sur la fiche.
   t('la fiche porte la sous-navigation du volet',
-    html.includes('sous-nav') && html.includes('/qualite') && html.includes('/mur'));
+    html.includes('sous-nav') && html.includes('/qualite')
+    && html.includes('/retroactions'));
+  t('« Ce qui casse » a bien disparu de la sous-navigation',
+    !V.sousNavProduits('fiches').includes('/mur'));
   t('la page ouverte est marquée dans la sous-navigation',
-    V.sousNavProduits('mur').includes('class="on" aria-current="page"'));
+    V.sousNavProduits('retroactions').includes('class="on" aria-current="page"'));
 
   db.prepare(`DELETE FROM charte WHERE source = 'essai'`).run();
 }
@@ -1287,35 +1290,60 @@ t("l'atelier peut consulter le suivi",
   const V = require('../vues.js');
   // Trois photos de la même couture : de loin, de près, retournée. Le client
   // les envoie ensemble, elles doivent rester ensemble.
-  const b = { id: 1, origine: 'client', zone: 'couture de bretelle',
-    texte: 'La bretelle s\'est décousue', survenu_le: '2026-07-04',
-    photo_url: 'https://drive.google.com/file/d/AAA1/view '
-             + 'https://drive.google.com/file/d/BBB2/view '
-             + 'https://drive.google.com/file/d/CCC3/view' };
-  const html = V.vueMur({ user: admin, groupes: [
-    { id: 1, code: 'GL-30', nom: 'Sac à dos glacière', bris: [b], photos: 1,
-      sansConsigne: 1, zones: [] }] });
+  // Les photos ont déménagé du mur des bris vers les rétroactions clients
+  // négatives, mais les règles qui les gouvernent n'ont pas changé : toujours
+  // redimensionnées au CDN, jamais de « data: » URI, et un fil qui porte
+  // trente-quatre pièces jointes ne les déverse pas toutes dans la page.
+  const ligne = (photos) => ({
+    id: 1, probleme: 'couture', titre: 'Couture décousue ou qui lâche',
+    categorie: 'bris', citation: "La bretelle s'est décousue après deux sorties.",
+    survenu_le: '2026-07-04', de_famille: false, famille: '',
+    photos: photos.join(' '), listePhotos: photos });
+  const vue = (photos) => V.vueRetroactions({
+    user: admin, p: { id: 1, code: 'GL-30', nom: 'Sac à dos glacière' },
+    retro: { famille: null, total: 1, propres: 1, groupes: [
+      { cle: 'couture', titre: 'Couture décousue ou qui lâche', categorie: 'bris',
+        photos: photos.length, propres: 1, lignes: [ligne(photos)] }] },
+    ouvre: 'couture' });
 
-  t('la première photo est demandée en grand',
-    html.includes('lh3.googleusercontent.com/d/AAA1=w640'));
-  t('les autres suivent en vignettes',
-    html.includes('lh3.googleusercontent.com/d/BBB2=w160')
-    && html.includes('lh3.googleusercontent.com/d/CCC3=w160'));
-  t('aucune photo n\'est servie en taille d\'origine',
-    !/lh3\.googleusercontent\.com\/d\/[A-Z0-9]+["' ]/.test(html));
-
-  // Une adresse unique, le cas courant, ne doit pas produire de bande vide.
-  const seule = V.vueMur({ user: admin, groupes: [
-    { id: 1, code: 'GL-30', nom: 'Sac', photos: 1, sansConsigne: 0, zones: [],
-      bris: [{ ...b, photo_url: 'https://drive.google.com/file/d/AAA1/view' }] }] });
-  t('une seule photo ne crée pas de bande de vignettes',
-    !seule.includes('mur-plus'));
+  const trois = vue(['https://drive.google.com/file/d/AAA1/view',
+                     'https://drive.google.com/file/d/BBB2/view',
+                     'https://drive.google.com/file/d/CCC3/view']);
+  t('les photos de clients sont demandées en vignette au CDN',
+    trois.includes('lh3.googleusercontent.com/d/AAA1=w320')
+    && trois.includes('lh3.googleusercontent.com/d/CCC3=w320'));
+  t('aucune image affichée n\'est en taille d\'origine',
+    (trois.match(/<img[^>]+src="[^"]*lh3\.googleusercontent\.com\/d\/[^"=]+"/g) || [])
+      .length === 0);
+  t('le lien de la vignette ouvre bien la pleine taille',
+    trois.includes('href="https://lh3.googleusercontent.com/d/AAA1"'));
 
   // Une « data: » URI ferait porter l'image entière à chaque page servie.
-  const sale = V.vueMur({ user: admin, groupes: [
-    { id: 1, code: 'GL-30', nom: 'Sac', photos: 0, sansConsigne: 0, zones: [],
-      bris: [{ ...b, photo_url: 'data:image/png;base64,iVBOR' }] }] });
+  const sale = vue(['data:image/png;base64,iVBOR']);
   t('une « data: » URI est écartée du rendu', !sale.includes('data:image'));
+
+  // Les pièces jointes sont celles du FIL : un fil qui en porte trente-quatre
+  // les accroche à chacune de ses citations. En montrer six suffit.
+  const beaucoup = vue(Array.from({ length: 12 },
+    (_, i) => `https://drive.google.com/file/d/P${i}/view`));
+  t('au-delà de six photos, le reste est compté et non rendu',
+    (beaucoup.match(/<img[^>]+lh3\.googleusercontent\.com/g) || []).length === 6
+    && beaucoup.includes('+6'));
+
+  // Un groupe qu'on n'a pas ouvert ne porte aucune citation.
+  const ferme = V.vueRetroactions({
+    user: admin, p: { id: 1, code: 'GL-30', nom: 'Sac' },
+    retro: { famille: null, total: 1, propres: 1, groupes: [
+      { cle: 'couture', titre: 'Couture', categorie: 'bris', photos: 0,
+        propres: 1, lignes: [ligne([])] }] }, ouvre: null });
+  t('un groupe fermé ne met aucune citation dans la page',
+    !ferme.includes('La bretelle s'));
+
+  // La mise en garde doit se lire avant les citations, pas après.
+  t('la page dit que ces rétroactions sont négatives et historiques',
+    trois.includes('rétroactions négatives') && trois.includes('historiques'));
+  t('la page dit que la plupart des pièces ne viennent pas de Tunisie',
+    /n.ont pas été\s+fabriquées en Tunisie/.test(trois));
 }
 
 const inconnu = ex('outil_qui_nexiste_pas', {}, c);

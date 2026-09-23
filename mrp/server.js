@@ -34,8 +34,7 @@ const { db, prochainNumero, avancementOrdre, listeFabrication, dernieresMaj,
         filOrdre, filEnAttente, demandeOuverte, reglerDemandes, reglerFil,
         modifierFil, supprimerFil,
         protocoleGeneral, echantillon, lireTableauTailles,
-        brisProduit, brisParPoint, zonesFragiles, nonConformites,
-        murDesBris,
+        brisProduit, brisParPoint,
         etatMatieres, etatProduits, alertesStock,
         nomenclatureProduit, produitsUtilisant, detailBesoin, coutMatiere,
         mouvements, stocksMatieres, CATEGORIES, UNITES,
@@ -1013,9 +1012,7 @@ async function router(req, res, url, user) {
   }
 
   // ---- le mur des bris : ce que l'atelier regarde
-  if (p === '/mur') {
-    return html(res, V.vueMur({ user, msg, groupes: murDesBris() }));
-  }
+
 
   // ---- contrôle qualité : le protocole de chaque produit
   // ---- contrôle qualité : trois portes sur une seule base
@@ -1027,8 +1024,7 @@ async function router(req, res, url, user) {
     for (const o of ordres) aFaire += qcOrdre(o.id).filter(l => !l.signe).length;
     return html(res, V.vueQualiteAccueil({ user, msg, aFaire,
       ordresActifs: ordres.length, produits: couv.length,
-      general: protocoleGeneral().length,
-      zones: zonesFragiles(), nc: nonConformites() }));
+      general: protocoleGeneral().length }));
   }
 
   if (p === '/qualite/produits') {

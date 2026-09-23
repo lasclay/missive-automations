@@ -1513,3 +1513,7 @@ table.gantt{min-width:860px}
 .retro-plus{display:flex;align-items:center;justify-content:center;width:104px;
   height:104px;border:1px dashed var(--ligne);border-radius:4px;
   color:var(--gris);font-size:13px}
+/* La mise en garde historique : elle doit se lire avant les citations, pas
+   après. Un atelier qui prend ces plaintes pour un bulletin sur son propre
+   travail lit de travers — la plupart des pièces ne sont pas de lui. */
+.avis-hist{border-left-color:var(--jaune,#f1b92a)}
