@@ -147,6 +147,54 @@ déjà promis, l'avancement déclaré déduit, trié par ce qui manque puis par 
 
 `/besoins` donne aussi **l'ordre dans lequel commencer les comptages**, le plus engagé d'abord.
 
+### Rétroactions clients
+
+**487 rétroactions distillées de 2 282 fils Missive**, un onglet par produit (`/retroactions`,
+`/produits/:id/retroactions`). Le corpus brut vit dans `mrp/voix-client/fils/` — correspondance
+réelle, avec noms et adresses : **le dépôt est privé et doit le rester.** Le MRP n'en reçoit que
+le distillat.
+
+| Fichier | Rôle |
+| --- | --- |
+| `voix-client/outils/deciter.js` | enlève de la prose du client ce qui n'est pas de lui |
+| `voix-client/outils/lexique.js` | produits, problèmes, faux amis — la partie qui se corrige |
+| `voix-client/outils/distiller.js` | fabrique `donnees/retroactions.tsv` |
+| `voix-client/photos-ecartees.tsv` | les 67 images refusées, avec leur motif |
+| `mrp/import_retroactions.js` | le TSV → la base, rejouable |
+
+**Les cinq choses qu'on ne redécouvre pas :**
+
+1. **87 % du « texte client » est notre propre courriel cité.** Un message `us: false` contient
+   presque toujours notre réponse en dessous. Sans décitation, le distillat sortait « nos
+   glacières sont conçues pour… » comme une plainte de client.
+2. **Le produit doit être nommé PRÈS du défaut** (fenêtre de 500 caractères, familles comprises).
+   Prendre le premier produit du fil rangeait « une couture de mon manteau a cédé » sous
+   `GLACIERE` — ce qui enverrait corriger le mauvais produit.
+3. **Un grep ne classe pas.** « Ne lâchez pas ! » est un encouragement, « Lacasse » un nom,
+   « fracasse » parle de notre record de ventes. « Déçu » seul est une émotion, pas un défaut :
+   il ne compte que s'il nomme du matériel (le groupe est passé de 99 à 9).
+4. **222 rétroactions disent « mes mitaines » sans dire laquelle.** Elles portent une famille
+   (`FAMILLES_RETRO` dans `db.js`), s'affichent sur les cinq modèles et sont marquées comme
+   imprécises. TAXONOMIE.md : « gardé à part plutôt que rattaché au hasard. »
+5. **Un seul groupe de problèmes porte sa matière** (`?ouvre=<clé>`). Tous repliés mais rendus,
+   la page des mitaines faisait 15 Ko compressés, au-delà du plafond de 12 Ko. Repliée : 1,8 Ko.
+
+**LES PHOTOS SONT L'EXCEPTION À « L'APP N'HÉBERGE AUCUN FICHIER ».** Cette règle existait pour ne
+pas dupliquer le CDN Shopify ; ici il n'y a pas de CDN, et une URL lh3 est lisible par quiconque
+l'a. Les 180 vignettes vivent dans `mrp/photos-clients/` (dépôt privé) et se servent par
+`/photo-client/<uuid>.jpg` **depuis le routeur, jamais depuis les statiques** — les statiques
+passent avant la session. Le nom doit être exactement un UUID, sinon rien ne touche le disque.
+
+**67 des 247 images ont été écartées à l'œil, une par une** : reçus, captures de paiement,
+courriels, visages. Parmi elles, un numéro de carte partiel avec le nom du titulaire, une adresse
+postale avec téléphone, et un code de carte-cadeau de 100 $ encore valide. Aucune règle
+automatique ne fait ce tri de façon fiable, et se tromper publie les données d'un client. Les EXIF
+sont retirés au redimensionnement (coordonnées GPS du domicile).
+
+**Ce qui reste ouvert :** 62 fils portent un problème sans produit ni famille nommés ; les
+numéros de commande pourraient être croisés avec Shopify pour trancher les 222 « mitaines », mais
+le distillat est anonymisé, donc ça se ferait en amont, sur le corpus brut.
+
 ### Contrôle qualité
 
 **`/qualite` est un carrefour à trois portes**, parce qu'on n'y arrive pas avec la même question :

@@ -40,7 +40,9 @@ const { db, prochainNumero, avancementOrdre, listeFabrication, dernieresMaj,
         nomenclatureProduit, produitsUtilisant, detailBesoin, coutMatiere,
         mouvements, stocksMatieres, CATEGORIES, UNITES,
         qcOrdre, deposerRapport, rapportItem, CATEGORIES_QC,
-        MOTS_RAPPORT, compterMots } = require('./db.js');
+        MOTS_RAPPORT, compterMots,
+        retroactionsProduit, couvertureRetro,
+} = require('./db.js');
 const auth = require('./auth.js');
 const V = require('./vues.js');
 const V2 = require('./vues_inventaire.js');
@@ -380,6 +382,26 @@ async function router(req, res, url, user) {
   const admin = user.role === 'admin';
   const refus = () => vers(res, '/?err=' + encodeURIComponent('Action réservée à Admin QC'));
 
+  // ---- les photos envoyées par les clients
+  //
+  // SERVIES ICI, ET NON DANS LES STATIQUES, PARCE QUE LES STATIQUES PASSENT
+  // AVANT LA SESSION. Ce sont des photos de correspondance : elles ne doivent
+  // sortir que pour quelqu'un qui est entré dans l'app. C'est aussi pour ça
+  // qu'elles ne sont pas au Drive — une URL lh3 est lisible par quiconque l'a.
+  //
+  // Le nom est un UUID et rien d'autre : un identifiant qui ne correspond pas
+  // exactement à ce motif ne touche jamais le disque.
+  {
+    const m = p.match(/^\/photo-client\/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})\.jpg$/);
+    if (m) {
+      const f2 = path.join(__dirname, 'photos-clients', `${m[1]}.jpg`);
+      if (!fs.existsSync(f2)) return html(res, V.page({ titre:'Introuvable', user,
+        corps:'<div class="carte"><p class="vide">Cette photo n\'existe pas.</p></div>' }), 404);
+      return envoyer(req, res, fs.readFileSync(f2),
+        { 'content-type': 'image/jpeg', 'cache-control': 'private, max-age=86400' });
+    }
+  }
+
   // ---- tableau de bord
   if (p === '/' ) {
     const ordres = R.ordresListe.all().map(o => ({
@@ -453,6 +475,23 @@ async function router(req, res, url, user) {
         encodeURIComponent('Ordre créé. Ajoutez les items et les dates.'));
     }
     return html(res, V.vueOrdreForm({ user }));
+  }
+
+  // ---- rétroactions clients
+  if (p === '/retroactions') {
+    return html(res, V.vueRetroactionsIndex({ user, msg, produits: couvertureRetro() }));
+  }
+  {
+    const mr = p.match(/^\/produits\/(\d+)\/retroactions$/);
+    if (mr) {
+      const pr = R.produit.get(+mr[1]);
+      if (!pr) return html(res, V.page({ titre:'Introuvable', user,
+        corps:'<div class="carte"><p class="vide">Ce produit n\'existe pas.</p></div>' }), 404);
+      const retro = retroactionsProduit(pr.id);
+      const demande = q.get('ouvre');
+      const ouvre = retro.groupes.some(g => g.cle === demande) ? demande : null;
+      return html(res, V.vueRetroactions({ user, msg, p: pr, retro, ouvre }));
+    }
   }
 
   let m = p.match(/^\/ordres\/(\d+)(\/.*)?$/);
@@ -812,6 +851,7 @@ async function router(req, res, url, user) {
       photos: R.photos.all(id), materiaux: R.materiaux.all(id),
       patrons: R.patrons.all(id), ordres: R.ordresDuProduit.all(id),
       qc: protocole(id), charte: charteProduit(id), bris: brisProduit(id),
+      retro: (retroactionsProduit(id) || { total: 0 }).total,
       nomenclature: nomenclatureProduit(id),
       coutMatiere: coutMatiere(id),
       stock: etatProduits().find(x => x.id === id) || null }));

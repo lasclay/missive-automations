@@ -455,6 +455,45 @@ curl -s -b $CA $B/qualite/produits | grep -q 'aucun protocole' \
 curl -s -b $CO $B/qualite/general | grep -q 'Procédés généraux' \
   && ok "l'atelier accède aux procédés généraux" || ko "procédés généraux muets"
 
+# --- rétroactions clients -------------------------------------------------
+# Chaque produit a son onglet, y compris ceux dont personne n'a jamais parlé :
+# un produit absent de la liste est un produit dont on ne se demande jamais ce
+# que les clients en disent.
+curl -s -b $CO $B/retroactions | grep -q 'Rétroactions clients' \
+  && ok "l'atelier accède aux rétroactions clients" || ko "page des rétroactions muette"
+
+curl -s -b $CO $B/produits/1/retroactions | grep -q 'Rétroactions clients' \
+  && ok "un produit a son onglet de rétroactions" || ko "onglet de rétroactions absent"
+
+# LA RÈGLE QUI COMPTE : les photos de clients ne sortent jamais sans session.
+# Elles ne sont pas au Drive pour cette raison, et elles ne doivent surtout
+# pas être servies comme un fichier statique — ceux-là passent avant la session.
+PH=$(MRP_DB="$DB" node --no-warnings -e "
+  const fs=require('fs'), path=require('path');
+  const D=require('./db.js');
+  const dir=path.join(__dirname,'photos-clients');
+  const f=fs.existsSync(dir) ? fs.readdirSync(dir).find(x=>x.endsWith('.jpg')) : null;
+  if(!f) process.exit(0);
+  const p=D.db.prepare('SELECT id FROM produits LIMIT 1').get();
+  D.db.prepare(\"INSERT INTO produit_retroactions (produit_id,probleme,titre,categorie,citation,photos,source_ref) VALUES (?,'couture','Couture décousue','bris',?,?,'missive:test')\")
+    .run(p.id, 'Semence e2e : une couture a lâché après deux sorties, photo à l appui.', '/photo-client/'+f);
+  console.log('/photo-client/'+f);" 2>/dev/null)
+[ -n "$PH" ] && ok "une rétroaction avec photo est en place pour le test" \
+  || ko "aucune photo de client à tester — les gardes d'accès ne seraient pas vérifiées"
+if [ -n "$PH" ]; then
+  [ "$(curl -s -b $CO -o /dev/null -w '%{http_code}' "$B$PH")" = 200 ] \
+    && ok "une photo de client se sert dans une session ouverte" \
+    || ko "photo de client inaccessible malgré la session"
+  [ "$(curl -s -o /dev/null -w '%{http_code}' "$B$PH")" = 303 ] \
+    && ok "la même photo est refusée sans session" \
+    || ko "UNE PHOTO DE CLIENT SORT SANS SESSION"
+fi
+
+# Un nom qui n'est pas un UUID ne doit jamais toucher le disque.
+[ "$(curl -s -b $CO -o /dev/null -w '%{http_code}' "$B/photo-client/../../db.js")" = 404 ] \
+  && ok "la route des photos refuse une traversée de répertoire" \
+  || ko "traversée de répertoire possible sur les photos"
+
 # --- le contrôle par ordre de production ---------------------------------
 # La porte prioritaire. Les onglets ne sont pas exclusifs : un même lot peut
 # être à la fois grand volume et gradué, et doit se voir dans les deux.

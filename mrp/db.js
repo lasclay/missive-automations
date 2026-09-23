@@ -409,6 +409,46 @@ CREATE INDEX IF NOT EXISTS idx_qcc_item ON qc_controles(item_id, point_id, id);
 -- qui ne vaut rien six mois plus tard. Les médias sont des ADRESSES, jamais
 -- des fichiers : l'app n'héberge rien.
 --
+-- LES RÉTROACTIONS CLIENTS — ce que les clients ont écrit quand un produit a
+-- cassé, mal vieilli, ou simplement déçu.
+--
+-- Distillées de 2 282 fils Missive par mrp/voix-client/outils/distiller.js.
+-- Ce qui entre ici est ANONYME PAR CONSTRUCTION : la citation, le problème, la
+-- date, les photos. Jamais le nom, l'adresse ou le numéro de commande. Un
+-- atelier a besoin du défaut, pas de la personne.
+--
+-- « produit_id » peut être NULL. Beaucoup de clients écrivent « mes mitaines »
+-- sans dire lequel des cinq modèles : rattacher au hasard enverrait quelqu'un
+-- corriger le mauvais produit. Ces lignes portent « famille » à la place, et
+-- s'affichent sur chaque produit de la famille, en disant ce qu'elles sont.
+CREATE TABLE IF NOT EXISTS produit_retroactions (
+  id            INTEGER PRIMARY KEY,
+  produit_id    INTEGER REFERENCES produits(id) ON DELETE CASCADE,
+  -- « mitaines », « manteaux », « tuques » — quand le modèle n'est pas dit.
+  famille       TEXT NOT NULL DEFAULT '',
+  -- La clé de regroupement : c'est elle qui titre le menu déroulant. Une
+  -- rétroaction qui ne se range sous aucun problème ne se corrige pas.
+  probleme      TEXT NOT NULL,
+  titre         TEXT NOT NULL,
+  categorie     TEXT NOT NULL DEFAULT 'bris'
+                CHECK (categorie IN ('bris','insatisfaction','ajustement')),
+  citation      TEXT NOT NULL,             -- les mots du client, tels quels
+  -- Des ADRESSES séparées par une espace, jamais un fichier : l'app n'héberge
+  -- rien. Voir produit_photos pour la même règle.
+  photos        TEXT NOT NULL DEFAULT '',
+  survenu_le    TEXT,                      -- AAAA-MM-JJ
+  -- « missive:<filId> » — opaque, pour remonter à la source depuis le dépôt
+  -- privé. C'est aussi la clé qui rend l'import rejouable.
+  source_ref    TEXT NOT NULL DEFAULT '',
+  cree_par      INTEGER REFERENCES utilisateurs(id),
+  cree_le       TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE INDEX IF NOT EXISTS idx_retro_produit ON produit_retroactions(produit_id);
+CREATE INDEX IF NOT EXISTS idx_retro_famille ON produit_retroactions(famille);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_retro_source
+  ON produit_retroactions(source_ref, probleme, citation);
+
+--
 -- Un rapport par item, et c'est lui qui fait disparaître le lot de toutes les
 -- listes de contrôle à faire.
 CREATE TABLE IF NOT EXISTS qc_rapports (
@@ -1983,7 +2023,94 @@ function compteTaches(utilisateurId) {
 const equipe = () => db.prepare(
   `SELECT id, nom, role FROM utilisateurs WHERE actif = 1 ORDER BY nom`).all();
 
+/* =========================================================== rétroactions ===
+ * Ce que les clients ont écrit. Distillé de Missive, anonyme par construction.
+ */
+
+/**
+ * Quels produits une rétroaction « de famille » concerne.
+ *
+ * Un client qui écrit « mes mitaines sont décousues » ne dit pas lequel des
+ * cinq modèles. Plutôt que de trancher au hasard — ce qui enverrait l'atelier
+ * corriger le mauvais produit — la rétroaction s'affiche sur les cinq, en
+ * disant ce qu'elle est. Table explicite et non déduite d'un préfixe de code :
+ * l'appartenance d'un produit à une famille est un jugement, il se relit.
+ */
+const FAMILLES_RETRO = {
+  mitaines: ['MIT-PLEIN-AIR', 'MIT-POLAR', 'MIT-LAINE', 'MIT-CUIR', 'MIT-BEBE'],
+  manteaux: ['MANTEAU-HIVER', 'MANTEAU-3SAISONS'],
+  tuques:   ['TUQUE-SPORT', 'TUQUE-VILLE', 'BANDEAU-TUQUE'],
+};
+
+/** La famille de rétroactions d'un produit, s'il en a une. */
+function familleRetro(code) {
+  for (const [fam, codes] of Object.entries(FAMILLES_RETRO))
+    if (codes.includes(code)) return fam;
+  return null;
+}
+
+/**
+ * Les rétroactions d'un produit, GROUPÉES PAR PROBLÈME.
+ *
+ * Le groupement est le sujet, pas un détail d'affichage : une page qui
+ * déroulerait 222 citations à la file ne se lit pas, et pèserait autant que
+ * trois fiches produit. On montre les problèmes et leur compte ; la matière
+ * ne se déplie qu'au clic, sur demande.
+ */
+function retroactionsProduit(produitId) {
+  const p = db.prepare(`SELECT code FROM produits WHERE id = ?`).get(produitId);
+  if (!p) return null;
+  const fam = familleRetro(p.code);
+
+  const lignes = db.prepare(`
+    SELECT id, probleme, titre, categorie, citation, photos, survenu_le,
+           produit_id IS NULL AS de_famille, famille
+      FROM produit_retroactions
+     WHERE produit_id = ?
+        OR (produit_id IS NULL AND famille = ?)
+     ORDER BY survenu_le DESC, id DESC`).all(produitId, fam || '\u0000');
+
+  const groupes = new Map();
+  for (const l of lignes) {
+    if (!groupes.has(l.probleme))
+      groupes.set(l.probleme, { cle: l.probleme, titre: l.titre,
+        categorie: l.categorie, lignes: [], photos: 0, propres: 0 });
+    const g = groupes.get(l.probleme);
+    l.de_famille = Boolean(l.de_famille);
+    l.listePhotos = String(l.photos || '').split(' ').filter(Boolean);
+    g.lignes.push(l);
+    g.photos += l.listePhotos.length;
+    if (!l.de_famille) g.propres++;
+  }
+  // Le plus fréquent en tête : c'est ce qui mérite d'être corrigé en premier.
+  const ordonnes = [...groupes.values()].sort((a, b) => b.lignes.length - a.lignes.length);
+  return { famille: fam, total: lignes.length,
+           propres: lignes.filter(l => !l.de_famille).length,
+           groupes: ordonnes };
+}
+
+/** Combien de rétroactions par produit — pour la page d'ensemble. */
+function couvertureRetro() {
+  return db.prepare(`
+    SELECT p.id, p.code, ${NOM_PRODUIT} AS nom,
+           (SELECT f.url FROM produit_photos f WHERE f.produit_id = p.id
+             AND f.type <> 'schema'
+             ORDER BY CASE f.type WHEN 'studio' THEN 0 ELSE 1 END, f.rang, f.id
+             LIMIT 1) AS photo,
+           (SELECT COUNT(*) FROM produit_retroactions r WHERE r.produit_id = p.id) AS directes
+      FROM produits p WHERE p.actif = 1
+     ORDER BY directes DESC, p.code`).all()
+    .map(p => {
+      const fam = familleRetro(p.code);
+      const famille = fam ? db.prepare(
+        `SELECT COUNT(*) n FROM produit_retroactions
+          WHERE produit_id IS NULL AND famille = ?`).get(fam).n : 0;
+      return { ...p, famille: fam, deFamille: famille, total: p.directes + famille };
+    });
+}
+
 module.exports = {
+  retroactionsProduit, couvertureRetro, familleRetro, FAMILLES_RETRO,
   deposerRapport, rapportItem, qcOrdre, compterMots,
   MOTS_RAPPORT, CATEGORIES_QC, SEUIL_VOLUME, db, prochainNumero, avancementOrdre, apercuProduction, CHEMIN,
                    CATEGORIES, RANG_CATEGORIE, MOTIFS, UNITES, qte,

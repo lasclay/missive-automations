@@ -846,6 +846,95 @@ Ce qui n'est **pas** couvert : le jugement du modèle. Après un changement de
 modèle ou de consigne, essayer à la main quelques phrases réelles — dont une
 référence ambiguë et une demande hors des droits de l'utilisateur.
 
+## Rétroactions clients — la voix du client dans l'atelier
+
+> « Rien comme l'émotion d'un client insatisfait pour donner à des gens qui
+> posent seulement les briques du mur une impression de la bâtisse que ça
+> donne. »
+
+L'équipe de production est en Tunisie et ne voit jamais le produit après
+l'expédition. **487 rétroactions**, distillées de **2 282 fils** de
+correspondance Missive, vivent maintenant sur les fiches produits :
+`/retroactions`, et un onglet par produit.
+
+**Groupées par problème, repliées par défaut.** Une fiche qui déroulerait
+227 citations ne se lit pas. La page montre les problèmes et leur compte —
+« Trop grand 111 », « Couture décousue ou qui lâche 13 » — et **un seul groupe
+porte sa matière**, celui qu'on ouvre (`?ouvre=<clé>`). Les replier tous en
+gardant leurs citations dans le HTML faisait 15 Ko compressés sur les
+mitaines, au-delà du plafond de 12 Ko. Replié : 1,8 Ko.
+
+**Anonyme par construction.** Ce qui entre dans le MRP, c'est le défaut, la
+citation, la date et la photo. Jamais le nom, l'adresse, le courriel, le
+numéro de commande ou de suivi. `tests/retroactions.js` le vérifie sur les
+487 citations du TSV versionné, à chaque exécution de la suite — c'est ce test
+qui a trouvé deux numéros de commande passés à travers.
+
+**Quand le modèle n'est pas nommé, on ne tranche pas.** 222 des 487
+rétroactions disent « mes mitaines » sans dire lequel des cinq modèles.
+Rattacher au hasard enverrait l'atelier corriger le mauvais produit. Ces
+lignes portent une **famille** (`mitaines`, `manteaux`, `tuques`), s'affichent
+sur chaque modèle de la famille, et sont marquées comme telles. La table
+`FAMILLES_RETRO` est explicite et non déduite d'un préfixe de code :
+l'appartenance d'un produit à une famille est un jugement, elle se relit.
+
+**Les photos sont servies par l'app, derrière son mot de passe.** C'est une
+exception assumée à « l'app n'héberge aucun fichier » : cette règle existait
+pour ne pas dupliquer le CDN de Shopify, et ici il n'y a pas de CDN. Des
+photos de correspondance client sur une URL publique (Drive, lh3) seraient
+lisibles par quiconque a le lien. Elles vivent donc dans le dépôt privé
+(`photos-clients/`, 180 vignettes, 15 Mo) et se servent par
+`/photo-client/<uuid>.jpg`, **dans le routeur et non dans les statiques** —
+les statiques passent avant la session.
+
+**67 des 247 images reçues ont été écartées, une par une, à l'œil.** Les
+clients envoient des photos de défauts, mais aussi des reçus, des captures de
+paiement, des courriels et leur visage. Parmi les écartées : un numéro de
+carte partiel avec le nom du titulaire, une adresse postale complète avec
+téléphone, et **un code de carte-cadeau de 100 $ encore valide**. Aucune règle
+automatique ne distingue un reçu d'une photo de couture de façon fiable, et se
+tromper ici ne coûte pas une ligne de moins : ça publie les données d'un
+client. Les motifs sont dans `voix-client/photos-ecartees.tsv`. Les EXIF sont
+retirés au redimensionnement — une photo de téléphone porte les coordonnées
+GPS du domicile.
+
+### Comment le distillat est fabriqué
+
+```bash
+node mrp/voix-client/outils/distiller.js      # 2 282 fils → donnees/retroactions.tsv
+node mrp/import_retroactions.js --ecrire      # le TSV → la base
+```
+
+**87 % du « texte client » était notre propre courriel.** Un message marqué
+« pas de nous » contient presque toujours notre réponse citée en dessous. Un
+comptage naïf trouvait « ça a bloqué chez nos sous-traitants » dans des
+dizaines de fils : c'est notre infolettre, renvoyée par le client.
+`outils/deciter.js` coupe au premier marqueur de citation et écarte en plus ce
+qui est notre voix (« nos glacières sont conçues pour… », « 20 % de rabais »).
+
+**Le produit doit être nommé PRÈS du défaut.** Prendre le premier produit du
+fil donnait des attributions fausses et crédibles : « une couture de mon
+manteau a cédé » rangé sous `GLACIERE`, parce que le mot « glacière » traînait
+trente lignes plus loin. L'attribution se fait sur la mention la plus proche,
+dans une fenêtre de 500 caractères, familles comprises.
+
+**Un grep ne suffit pas, et le lexique le dit.** « Ne lâchez pas ! » est un
+encouragement québécois, « Lacasse » un nom de famille, « fracasse » parle de
+notre record de ventes. Le vocabulaire et ses exceptions vivent dans
+`outils/lexique.js`, séparés du moteur : c'est la partie qui se corrige à la
+lecture des résultats.
+
+**« Déçu » seul ne crée pas de rétroaction.** C'est une émotion, pas un
+défaut, et le groupe ramassait surtout des retards de livraison. Il ne compte
+que s'il nomme quelque chose de matériel — tissu, couture, finition — ce qu'un
+atelier peut aller regarder. Le groupe est passé de 99 à 9.
+
+**Ce que le classement laisse encore passer.** Des phrases de logistique
+gardent leur signal de taille (« les mitaines trop petites seront expédiées
+cette semaine ») ; 62 fils portent un problème sans qu'aucun produit ni
+famille ne soit nommé. Le corpus brut reste dans `voix-client/fils/`, avec les
+noms et les adresses : **le dépôt est privé et doit le rester.**
+
 ## Modèle de données
 
 ```
@@ -858,6 +947,9 @@ utilisateurs ─┬─ sessions
               │          └─ ordre_commentaires
               ├─ agent_tours ── agent_actions        (assistant + annulation)
               ├─ produits ─┬─ produit_photos      (studio | contexte)
+              │             ├─ produit_retroactions (la voix du client ;
+              │             │    produit_id NULL + famille = « des mitaines,
+              │             │    sans dire lesquelles »)
               │             ├─ produit_materiaux   (texte libre, pour la fiche)
               │             ├─ produit_patrons
               │             └─ nomenclature ──┐    (calculable, pour les besoins)

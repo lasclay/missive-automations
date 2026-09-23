@@ -1,5 +1,5 @@
 #!/bin/sh
-# Lance les neuf suites. Aucune n'a besoin du réseau : la boucle agentique
+# Lance les dix suites. Aucune n'a besoin du réseau : la boucle agentique
 # tourne contre une fausse API, seuls les outils touchent une vraie base.
 set -e
 cd "$(dirname "$0")"
@@ -11,5 +11,6 @@ node rappels.js
 node schemas.js
 node unites.js
 node qualite.js
+node retroactions.js
 sh export.sh
 sh e2e.sh

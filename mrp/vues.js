@@ -461,6 +461,7 @@ function sousNavProduits(page) {
   return `<nav class="sous-nav">
     ${l('/produits', 'Fiches produits', 'fiches')}
     ${l('/qualite', 'Qualité', 'qualite')}
+    ${l('/retroactions', 'Rétroactions clients', 'retroactions')}
     ${l('/mur', 'Ce qui casse', 'mur')}
   </nav>`;
 }
@@ -2050,8 +2051,123 @@ function ligneCharte(section, texte, unites) {
     ? `<span class="pastille" style="background:#${m[1]}"></span>` : ''}${e(nom)}</li>`;
 }
 
+/* ============================================================ rétroactions ==
+ * Ce que les clients ont écrit, par produit.
+ */
+
+const PASTILLE_RETRO = { bris: '🔧', insatisfaction: '😕', ajustement: '📏' };
+
+/**
+ * Un onglet Rétroactions par produit, groupé par problème.
+ *
+ * LE GROUPEMENT EST LE SUJET. Dérouler 227 citations à la file ne se lit pas,
+ * et pèserait plus lourd que trois fiches produit sur la ligne tunisienne. On
+ * montre les problèmes et leur compte ; la matière qualitative ne se déplie
+ * qu'au clic, un groupe à la fois.
+ */
+function vueRetroactions({ user, p, retro, msg, ouvre = null }) {
+  const { groupes, total, propres, famille } = retro;
+  const deFamille = total - propres;
+
+  // UN SEUL GROUPE PORTE SA MATIÈRE. Les replier tous en gardant leurs
+  // citations dans le HTML faisait 15 Ko compressés sur les mitaines, au-delà
+  // du plafond de 12 Ko : la page était légère à l'œil et lourde sur le fil.
+  // Ici un groupe fermé ne coûte que son titre, et le poids ne dépend plus du
+  // nombre de citations.
+  const lien = (g) => `/produits/${p.id}/retroactions?ouvre=${
+    encodeURIComponent(g.cle)}#g-${e(g.cle)}`;
+
+  const groupe = (g) => {
+    const tete = `<span class="retro-pastille r-${e(g.categorie)}" aria-hidden="true"
+        >${PASTILLE_RETRO[g.categorie] || '·'}</span>
+      <span class="retro-t">${e(g.titre)}</span>
+      <span class="retro-n">${g.lignes.length}</span>
+      ${g.photos ? `<span class="retro-ph" title="${g.photos} photo(s) de client"
+        >${g.photos} 📷</span>` : ''}`;
+
+    if (ouvre !== g.cle)
+      return `<a class="retro-g retro-ferme" id="g-${e(g.cle)}" href="${lien(g)}"
+        >${tete}<span class="retro-chev" aria-hidden="true">›</span></a>`;
+
+    return `<details class="retro-g" id="g-${e(g.cle)}" open>
+    <summary>${tete}</summary>
+    <ul class="retro-l">
+      ${g.lignes.map(l => `<li${l.de_famille ? ' class="de-famille"' : ''}>
+        <blockquote>${e(l.citation)}</blockquote>
+        <p class="retro-meta">
+          ${l.survenu_le ? `<time>${e(l.survenu_le)}</time>` : ''}
+          ${l.de_famille ? `<span class="retro-flou">dit « ${e(l.famille)} »
+            sans préciser le modèle</span>` : ''}
+        </p>
+        ${l.listePhotos.length ? `<div class="retro-photos">${l.listePhotos.slice(0, 6).map(u =>
+          `<a href="${e(urlImage(u))}" rel="noopener" title="Photo du client">
+            ${img(u, { largeur: TAILLES.vignette, alt: 'Photo envoyée par un client' })}</a>`
+        ).join('')}${l.listePhotos.length > 6
+          ? `<span class="retro-plus">+${l.listePhotos.length - 6}</span>` : ''}</div>` : ''}
+      </li>`).join('')}
+    </ul>
+  </details>`;
+  };
+
+  const corps = `
+  ${sousNavProduits('retroactions')}
+  <div class="entete"><div>
+    <h1>Rétroactions clients</h1>
+    <p class="muted">${e(p.nom_court || p.nom)} · ${e(p.code)} —
+      <b>${total}</b> rétroaction${total > 1 ? 's' : ''}</p>
+  </div><a class="btn sec" href="/produits/${p.id}">Retour à la fiche</a></div>
+
+  ${total === 0 ? `<div class="carte"><p class="vide">Aucune rétroaction client
+    rattachée à ce produit. Ça ne veut pas dire qu'il n'y en a pas : ça veut
+    dire que personne n'a écrit en le nommant. Un produit neuf, ou peu vendu,
+    est normalement vide ici.</p></div>` : `
+
+  <p class="sec">Les mots des clients, tels qu'ils les ont écrits. Rien d'autre
+  n'en sort : ni nom, ni adresse, ni numéro de commande — l'atelier a besoin du
+  défaut, pas de la personne. Toucher un problème déplie ce qui a été dit.</p>
+
+  ${deFamille ? `<p class="avis">${deFamille} de ces ${total} rétroactions disent
+    seulement « ${e(famille)} » sans nommer le modèle. Elles s'affichent sur
+    chacun des modèles de la famille, marquées comme telles : rattacher au
+    hasard enverrait corriger le mauvais produit.</p>` : ''}
+
+  <div class="retro">${groupes.map(groupe).join('')}</div>`}`;
+
+  return page({ titre: `Rétroactions — ${p.nom_court || p.nom}`, user, corps,
+                actif: 'produits', msg });
+}
+
+/** La porte d'entrée : quels produits ont de la matière, lesquels n'ont rien. */
+function vueRetroactionsIndex({ user, produits, msg }) {
+  const avec = produits.filter(p => p.total);
+  const sans = produits.filter(p => !p.total);
+  const corps = `
+  ${sousNavProduits('retroactions')}
+  <div class="entete"><div><h1>Rétroactions clients</h1>
+    <p class="muted">${avec.length} produit${avec.length > 1 ? 's' : ''} avec de la
+      matière · ${sans.length} sans rien</p></div></div>
+
+  <p class="sec">Distillées de 2 282 fils de correspondance. Ce qui est montré,
+  c'est le défaut et les mots qui le décrivent — jamais qui l'a écrit.</p>
+
+  <div class="grille">
+    ${produits.map(p => `<a class="vignette ${p.total ? '' : 'vgn-vide'}"
+        href="/produits/${p.id}/retroactions">
+      ${p.photo ? img(p.photo, { largeur: TAILLES.vignette, alt: p.nom })
+                : '<div class="sans-photo">Pas de photo</div>'}
+      <div class="b"><b>${e(p.nom)}</b>
+        <span class="muted">${e(p.code)}</span>
+        ${p.total ? `<span class="retro-cpt">${p.directes ? `<i>${p.directes}</i>` : ''}
+          ${p.deFamille ? `<i class="flou" title="dit « ${e(p.famille)} » sans préciser"
+            >+${p.deFamille}</i>` : ''}</span>`
+          : '<span class="qc-vide">rien d\'écrit</span>'}</div>
+    </a>`).join('')}
+  </div>`;
+  return page({ titre: 'Rétroactions clients', user, corps, actif: 'produits', msg });
+}
+
 function vueProduit({ user, p, photos, materiaux, patrons, ordres, msg, qc = null,
-                      charte = null, bris = null,
+                      charte = null, bris = null, retro = 0,
                       nomenclature = [], stock = null, coutMatiere = null }) {
   const admin = user.role === 'admin';
   const studio = photos.filter(f => f.type === 'studio');
@@ -2076,7 +2192,11 @@ function vueProduit({ user, p, photos, materiaux, patrons, ordres, msg, qc = nul
     <h1>${e(p.nom_court || p.nom)}</h1>
     <p class="muted">${e(p.code)}${p.nom_court && p.nom !== p.nom_court
       ? ` · vendu sous « ${e(p.nom)} »` : ''}</p>
-  </div>${admin ? `<a class="btn sec" href="/produits/${p.id}/modifier">Modifier</a>` : ''}</div>
+  </div><div class="entete-actions">
+    <a class="btn sec" href="/produits/${p.id}/retroactions">Rétroactions clients${
+      retro ? ` <span class="retro-n">${retro}</span>` : ''}</a>
+    ${admin ? `<a class="btn sec" href="/produits/${p.id}/modifier">Modifier</a>` : ''}
+  </div></div>
 
   ${schemas.length ? `<div class="carte">
     <h2>Schémas et détails d'atelier</h2>
@@ -3108,6 +3228,7 @@ module.exports = { e, urlImage, urlAcceptable, img, TAILLES, sousNavProduits,
                    vueCompte,
                    vueAccueil, vueOrdres, vueOrdre, vueOrdreForm,
                    vueProduits, vueProduit, vueProduitForm, vueCedule, vueAssistant,
+                   vueRetroactions, vueRetroactionsIndex,
                    vuePriorites, vueSuivi, vueTaches, vueQualite, vueProtocole,
                    vueChecklist, vueMur,
                    PRIORITES, urgence,

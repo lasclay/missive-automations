@@ -186,6 +186,17 @@ affiché « équipe annoncée · non confirmée ici ». *20 personnes dans l'ate
 - **Les documents du dépôt sont en retard sur les données.** Quatre `.md` annoncent encore le plan
   d'août. Un chiffre se relit à la source (`node mrp/import.js`, ou `/export.json` pour l'état
   déclaré), jamais dans une phrase de README.
+- **Un message client marqué « pas de nous » contient notre propre courriel.** 87 % du texte du
+  corpus voix-client était de la citation : notre infolettre et nos réponses, renvoyées par le
+  client. Compter du vocabulaire là-dessus attribue nos phrases aux clients. Il faut déciter
+  avant de lire (`mrp/voix-client/outils/deciter.js`).
+- **Les statiques de `server.js` sont servis AVANT la session.** Une photo de client posée là
+  sortirait sans mot de passe. Tout ce qui ne doit pas fuir se sert depuis le routeur, où `user`
+  existe déjà — et avec un nom de fichier strictement validé.
+- **Une photo envoyée par un client n'est pas une photo de produit.** Sur 247 images reçues, 67
+  étaient des reçus, des captures de paiement, des courriels ou des visages — dont un numéro de
+  carte avec le nom du titulaire et un code de carte-cadeau encore valide. Ce tri se fait à
+  l'œil ; aucune heuristique ne le fait de façon fiable.
 - **Une route `/ordres/:id/…` posée en bas de `server.js` est injoignable.** Le routeur capte
   `/^\/ordres\/(\d+)(\/.*)?$/` très tôt et renvoie 404 sur tout `reste` qu'il ne connaît pas :
   une route écrite plus loin dans le fichier ne sera jamais atteinte, et le symptôme est un 404
