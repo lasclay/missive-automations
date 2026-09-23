@@ -14,3 +14,7 @@ mrp/donnees/bris-missive.tsv
 
 __pycache__/
 *.pyc
+
+# Inventaire du Drive (social/drive.js) : 2,4 Mo, regenere en 2 minutes a chaque tir de la
+# Routine de publication. Seuls vus.json et journal.jsonl sont la memoire versionnee.
+social/publication/etat/inventaire.json

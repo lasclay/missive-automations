@@ -1,0 +1,170 @@
+{
+  "meta": {
+    "usage": "Rotation des angles éditoriaux de la Routine de publication Instagram. publier.js choisit l'angle le moins récemment utilisé parmi ceux de saison, puis cherche des médias dont le chemin, le nom ou l'annotation contient un des mots_cles. Les faits sont la SEULE matière factuelle permise dans la légende : ce qui n'y est pas ne s'écrit pas.",
+    "sources": "skill lasclay-master (sections asclépiade, propriétés de la soie, monarques, écosystème), fb-backlog/faits-verifies.json (faits transverses), copywriting-lasclay (garde-fous)",
+    "revise": "2026-09-23"
+  },
+  "themes": [
+    {
+      "id": "monarque-plante-hote",
+      "titre": "Le monarque et sa seule plante hôte",
+      "mois": [6, 7, 8, 9],
+      "mots_cles": ["monarque", "monarch", "papillon", "butterfly", "danaus"],
+      "angle": "Une photo de monarque sur l'asclépiade. On explique que la femelle ne pond que sur l'asclépiade et que la chenille ne mange rien d'autre, donc moins d'asclépiade veut dire moins de lieux de reproduction. Le lien avec Lasclay : donner une valeur économique à la plante pour qu'elle soit cultivée et gardée à grande échelle, plus les graines distribuées.",
+      "faits": [
+        "L'asclépiade est la plante hôte exclusive des chenilles du monarque : les femelles pondent sur l'asclépiade, les chenilles s'en nourrissent.",
+        "Les adultes butinent aussi d'autres fleurs pour le nectar.",
+        "Le déclin du monarque est fortement lié à la perte d'asclépiade, notamment dans le Midwest américain à cause des herbicides.",
+        "Au Canada, le monarque est inscrit comme espèce en voie de disparition (Loi sur les espèces en péril, statut confirmé en 2024).",
+        "Lasclay achète l'asclépiade à des cultivateurs commerciaux du Québec et ne la cultive pas elle-même : le levier, c'est le débouché économique qui rend la culture viable.",
+        "Environ 10 millions de graines d'asclépiade distribuées en Amérique du Nord au fil de 5 campagnes de plantation."
+      ],
+      "pieges": [
+        "Jamais « on plante massivement » ou « nos champs » : Lasclay achète à des cultivateurs, elle ne cultive pas.",
+        "Jamais « un achat sauve un monarque ». Le lien est systémique : une filière qui rend l'asclépiade plus présente.",
+        "Pas de chiffre de déclin précis sans année ni population ; « environ 90 % en une vingtaine d'années » seulement comme ordre de grandeur, dit comme tel."
+      ]
+    },
+    {
+      "id": "soie-graine-vol",
+      "titre": "La graine qui flotte, et pourquoi sa soie isole",
+      "mois": [9, 10, 11],
+      "mots_cles": ["graine", "graines", "soie", "seed", "floss", "silk", "aigrette", "envol"],
+      "angle": "Une graine d'asclépiade qui s'envole avec ses soies. On explique la logique évolutive : une plante qui ne bouge pas doit envoyer ses graines loin, donc une fibre très légère qui retient l'air et se laisse porter par le vent. Cette même architecture (tube creux, cire hydrophobe) est ce qui en fait un isolant, parce que ce qui isole, c'est l'air immobile.",
+      "faits": [
+        "Les soies (aigrettes) sont des tubes microscopiques creux qui permettent aux graines de flotter et de se disperser au vent.",
+        "La fibre est enduite d'une cire hydrophobe.",
+        "Les fibres portent une charge qui les fait se repousser, ce qui forme un parachute très aéré autour de la graine.",
+        "C'est cette structure qui emprisonne l'air et donne le pouvoir isolant : l'air isolant est dans la fibre même.",
+        "Chaque follicule produit en moyenne plus de 200 graines soyeuses.",
+        "À poids égal, la soie d'asclépiade est donnée pour environ 10 % plus isolante que le duvet (Knudsen et Zeller, 1993) : chiffre de laboratoire sur la fibre, jamais une promesse sur un produit fini."
+      ],
+      "pieges": [
+        "Pas « plus chaude que le duvet » en absolu : la performance d'un produit dépend de sa conception.",
+        "Pas d'« imperméable » : on dit « hydrophobe » ou « résistante à l'eau »."
+      ]
+    },
+    {
+      "id": "follicule-automne",
+      "titre": "Le follicule qui s'ouvre",
+      "mois": [8, 9, 10],
+      "mots_cles": ["follicule", "cosse", "gousse", "pod", "automne", "fall", "récolte", "harvest"],
+      "angle": "Le follicule qui craque et libère ses graines. On raconte la fenêtre de récolte : il faut cueillir avant que tout parte au vent, et la récolte arrive à l'automne, après la période où les chenilles ont besoin des feuilles.",
+      "faits": [
+        "Les follicules doivent être récoltés avant que les graines et les soies se dispersent naturellement : la fenêtre de récolte est courte.",
+        "La soie utilisée par Lasclay vient des follicules d'automne, après la floraison et après la période la plus critique pour les chenilles.",
+        "Chaque follicule contient en moyenne plus de 200 graines.",
+        "Les graines issues de la transformation de la soie deviennent des produits de plantation plutôt qu'un déchet."
+      ],
+      "pieges": ["Ne pas affirmer que la récolte n'a aucun effet : dire ce qu'elle retire et quand."]
+    },
+    {
+      "id": "fleur-pollinies",
+      "titre": "La fleur, son parfum et ses pollinies",
+      "mois": [6, 7, 8],
+      "mots_cles": ["fleur", "fleurs", "flower", "ombelle", "abeille", "bee", "pollinisateur", "pollinator", "bourdon"],
+      "angle": "Les ombelles roses en pleine floraison. On explique la mécanique singulière : le pollen n'est pas en poudre mais regroupé en petites masses (pollinies) que les insectes emportent accrochées aux pattes. Une fleur très visitée, qui nourrit bien plus que le monarque.",
+      "faits": [
+        "Les fleurs sont en ombelles, très mellifères, au parfum puissant, et attirent une grande diversité de pollinisateurs.",
+        "Le pollen est regroupé en petites masses, les pollinies, que les insectes transportent : un mécanisme peu commun chez les plantes, qui rend la fécondation exigeante.",
+        "Une grande diversité d'insectes vit sur et autour de l'asclépiade : abeilles, papillons, coléoptères, punaises spécialisées, pucerons de l'asclépiade."
+      ],
+      "pieges": ["Pas de chiffre d'espèces d'insectes sans source."]
+    },
+    {
+      "id": "chenille-toxicite",
+      "titre": "La chenille qui se nourrit d'un poison",
+      "mois": [7, 8, 9],
+      "mots_cles": ["chenille", "chenilles", "caterpillar", "larve", "larva"],
+      "angle": "Une chenille rayée sur une feuille d'asclépiade. Le latex de la plante est toxique pour beaucoup d'animaux ; le monarque a coévolué pour le tolérer et garde ces composés, ce qui le rend moins appétissant pour ses prédateurs. Un des grands exemples nord-américains de coévolution plante-insecte.",
+      "faits": [
+        "La plante a un latex blanc, collant, toxique pour plusieurs animaux (composés cardénolides).",
+        "Les chenilles du monarque mangent les feuilles, accumulent certains de ces composés et deviennent moins appétissantes pour les prédateurs.",
+        "C'est l'un des grands exemples nord-américains de coévolution plante-insecte."
+      ],
+      "pieges": ["Pas de conseil de santé ; pour un animal ou un enfant qui en aurait mangé, renvoyer à un vétérinaire ou à Info-Santé, jamais dans une légende."]
+    },
+    {
+      "id": "chrysalide-metamorphose",
+      "titre": "La chrysalide",
+      "mois": [7, 8, 9],
+      "mots_cles": ["chrysalide", "chrysalis", "cocon", "métamorphose", "emergence", "éclosion"],
+      "angle": "Une chrysalide vert jade, ou un monarque qui vient d'en sortir. On fait le pont : tout ce qui se passe dans cette chrysalide a été construit avec des feuilles d'asclépiade, faute de quoi rien n'aurait eu lieu.",
+      "faits": [
+        "Toute la croissance de la chenille, jusqu'à la chrysalide, se fait sur l'asclépiade, sa seule plante hôte.",
+        "Les monarques de l'est de l'Amérique du Nord migrent jusqu'au Mexique pour l'hiver."
+      ],
+      "pieges": ["Pas de durée de métamorphose chiffrée : elle varie selon la température, et elle n'est pas dans les faits vérifiés."]
+    },
+    {
+      "id": "colonie-vivace",
+      "titre": "Une colonie, pas des plants isolés",
+      "mois": [5, 6, 7, 8, 9],
+      "mots_cles": ["champ", "field", "colonie", "plant", "plants", "friche", "asclépiade", "milkweed", "paysage"],
+      "angle": "Un massif ou un champ d'asclépiade. Ce qu'on prend pour des dizaines de plants est souvent une seule colonie reliée sous terre par des rhizomes. Une vivace indigène qui revient chaque année, longtemps traitée comme une mauvaise herbe.",
+      "faits": [
+        "L'asclépiade commune (Asclepias syriaca) est une vivace indigène d'Amérique du Nord, notamment du Québec et du Canada.",
+        "Elle forme des colonies à partir de rhizomes : plusieurs tiges peuvent être une seule colonie reliée sous terre.",
+        "Le nom « syriaca » est une méprise historique du 17e siècle : la plante n'est pas originaire de Syrie.",
+        "Elle a longtemps été considérée comme une mauvaise herbe.",
+        "Plante vivace, elle stocke du carbone dans un système racinaire profond et pérenne (sans chiffre)."
+      ],
+      "pieges": ["Pas d'« envahissante » : elle est vigoureuse et indigène, pas une exotique envahissante."]
+    },
+    {
+      "id": "hiver-tiges",
+      "titre": "L'asclépiade en hiver",
+      "mois": [12, 1, 2, 3],
+      "mots_cles": ["hiver", "winter", "neige", "snow", "froid", "givre", "sec"],
+      "angle": "Des tiges sèches et des follicules vides dans la neige. La racine attend sous terre. Le pont avec Lasclay se fait par la soie : la fibre qui a porté les graines tout l'automne est celle qui isole l'hiver.",
+      "faits": [
+        "Vivace : la partie aérienne sèche, la racine repart au printemps.",
+        "Structure creuse de la fibre : l'air immobile emprisonné dans la fibre est ce qui isole.",
+        "L'isolant d'asclépiade est cultivé, transformé et fabriqué au Québec ; l'assemblage de la majorité des produits finis se fait ailleurs."
+      ],
+      "pieges": ["Jamais « mitaines fabriquées au Québec » : seul l'isolant l'est."]
+    },
+    {
+      "id": "semis-stratification",
+      "titre": "Semer l'asclépiade",
+      "mois": [3, 4, 10, 11],
+      "mots_cles": ["semis", "semer", "graines", "jardin", "garden", "pousse", "sprout", "plantule", "seedling", "plantation"],
+      "angle": "Des pousses ou des graines prêtes à semer. La graine a besoin de froid avant de germer, c'est pour ça que l'automne est un bon moment. Floraison la deuxième année.",
+      "faits": [
+        "Les graines ont besoin d'environ 30 jours de froid (stratification) ; celles de Lasclay ne sont pas stratifiées d'avance.",
+        "Floraison généralement à la 2e année.",
+        "Les espèces offertes conviennent généralement aux zones de rusticité 3 à 9.",
+        "Environ 10 millions de graines distribuées en Amérique du Nord au fil de 5 campagnes de plantation."
+      ],
+      "pieges": [
+        "L'asclépiade tropicale (A. curassavica) n'est pas vendue par Lasclay : ne jamais le laisser croire.",
+        "Pas de prix ni de lien de commande dans la légende."
+      ]
+    },
+    {
+      "id": "especes-indigenes",
+      "titre": "Il n'y a pas qu'une asclépiade",
+      "mois": [6, 7, 8],
+      "mots_cles": ["tuberosa", "incarnata", "incarnate", "orange", "rose", "pink", "espèce", "species"],
+      "angle": "Une asclépiade tubéreuse orange ou incarnate rose. On présente la diversité des espèces indigènes, chacune avec son milieu de prédilection.",
+      "faits": [
+        "Espèces offertes par Lasclay : syriaca, tuberosa, incarnata, speciosa, exaltata, verticillata, fascicularis, sullivantii, viridis, labriformis, angustifolia.",
+        "L'asclépiade tropicale (curassavica) n'est pas offerte."
+      ],
+      "pieges": ["Identifier l'espèce sur la photo avec certitude avant de la nommer ; sinon, ne pas la nommer."]
+    },
+    {
+      "id": "filiere-cultivateurs",
+      "titre": "Ceux qui la cultivent",
+      "mois": [8, 9, 10],
+      "mots_cles": ["récolte", "harvest", "agriculteur", "cultivateur", "farmer", "tracteur", "champ", "sac", "usine", "transformation"],
+      "angle": "Un champ en récolte, des sacs de follicules, la fibre en transformation. La filière québécoise a connu un faux départ vers 2018 ; des cultivateurs ont pris le risque. Sans débouché stable, ils ne peuvent pas porter seuls cette culture : c'est là que Lasclay se place.",
+      "faits": [
+        "La culture commerciale au Québec démarre vers 2013-2014 ; la filière s'effondre partiellement vers 2018.",
+        "Lasclay achète à des cultivateurs commerciaux et transforme la fibre à son atelier de Limoilou, à Québec.",
+        "La mécanisation de la récolte est un enjeu historique majeur."
+      ],
+      "pieges": ["Ne jamais nommer un cultivateur ou un fournisseur sans qu'il soit déjà public.", "Aucun volume, hectare ou prix d'achat."]
+    }
+  ]
+}

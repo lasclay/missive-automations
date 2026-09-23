@@ -17,6 +17,8 @@ chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, 
 | `composio` | Composio : connecteur MCP contre clé de projet, accès aux Pages Facebook, pièges de jetons |
 | `buffer` | Buffer : trois comptes distincts, quel compte détient quel canal, publication vidéo, ce qui est irréversible une fois parti |
 | `video` | regarder une vidéo (URL ou fichier) : trames horodatées à lire + transcription |
+| `selection-images` | choisir, juger et cadrer un visuel : vérité botanique (sosies de l'asclépiade et du monarque), qualité, format 4:5 d'Instagram, vivier du Drive VOLCANO |
+| `commentaires-sociaux` | la canne à pêche : commenter chez les autres au nom de Lasclay (Instagram, Facebook), plafonds, signaux de blocage, journal |
 | `production-lasclay` | le MRP maison (`mrp/`) : ordres et avancement, charge et cédule, inventaire et besoins, qualité et bris, fiches produits, charte Miro, patrons et HPGL, audits MRPeasy et ERPNext |
 
 ## MRP maison — production Québec ↔ Tunisie
@@ -30,6 +32,16 @@ chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, 
 - Audits de référence : `mrp-audit/` (MRPeasy, 115 écrans relevés) et `mrp/COMPARAISON-ERPNEXT.md`.
 - Patrons et convertisseur HPGL : `patrons/`.
 - Tout le reste — règles de calcul, sources de données, décisions ouvertes : skill `production-lasclay`.
+
+## Réseaux sociaux — publication Instagram et canne à pêche
+
+- **Publication Instagram** (Routine infonuagique, lun/mer/sam 18 h pour le lendemain matin) :
+  @lasclay (FR) et @milkweed.company (EN), médias du Drive lus sans clé par `social/drive.js`,
+  programmés dans Buffer. `node social/publication/publier.js preparer|noter|apercu|programmer|etat`.
+  Procédure : `social/publication/PROCEDURE.md`.
+- **Canne à pêche** (commentaires chez les autres) : aucune API ne le permet, donc tâche **Cowork
+  + Chrome** sur l'ordinateur de Gabriel, pas une Routine. Installation : `social/peche/ROUTINE.md` ;
+  méthode : skill `commentaires-sociaux`.
 
 ## General Proxy (opérations) — ShipStation, Omnisend
 
