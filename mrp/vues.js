@@ -219,6 +219,7 @@ function page({ titre, user, corps, actif = '', msg = null }) {
     ${lienTaches}
     <i class="sep"></i>
     ${lien('/produits', 'Produits', 'produits')}
+    ${lien('/qualite', 'Qualité', 'qualite')}
     ${lien('/inventaire', 'Inventaire', 'inventaire')}
     ${lien('/besoins', 'Besoins', 'besoins')}
     <i class="sep"></i>
@@ -1003,7 +1004,7 @@ function vueQualiteAccueil({ user, msg, aFaire = 0, ordresActifs = 0,
 
   <p class="qc-pied"><a class="lien" href="/retroactions">Ce que les clients ont
     écrit quand ça n'allait pas — 487 rétroactions négatives, par produit</a></p>`;
-  return page({ titre: 'Contrôle qualité', user, corps, actif: 'produits', msg });
+  return page({ titre: 'Contrôle qualité', user, corps, actif: 'qualite', msg });
 }
 
 /** Par produit : les mêmes cartes que l'onglet Produits, vers le protocole. */
@@ -1035,7 +1036,7 @@ function vueQualiteProduits({ user, msg, produits }) {
         </span>` : '<span class="qc-vide">aucun protocole</span>'}</div>
     </a>`).join('')}
   </div>` : `<div class="carte"><p class="vide">Aucune fiche produit.</p></div>`}`;
-  return page({ titre: 'Qualité par produit', user, corps, actif: 'produits', msg });
+  return page({ titre: 'Qualité par produit', user, corps, actif: 'qualite', msg });
 }
 
 /**
@@ -1075,7 +1076,7 @@ function vueQualiteGeneral({ user, msg, general = [] }) {
     </li>`).join('')}
   </ol>` : `<div class="carte"><p class="vide">Aucun procédé général.
     Ce qui est écrit sans produit s'applique à tous.</p></div>`}`;
-  return page({ titre: 'Procédés généraux', user, corps, actif: 'produits', msg });
+  return page({ titre: 'Procédés généraux', user, corps, actif: 'qualite', msg });
 }
 
 /** La liste des ordres où il reste du contrôle à faire. */
@@ -1099,7 +1100,7 @@ function vueQCOrdres({ user, msg, ordres }) {
         o.ecarts > 1 ? 's' : ''} ouverte${o.ecarts > 1 ? 's' : ''}</span>` : ''}
     </a>`).join('')}
   </div>` : `<div class="carte"><p class="vide">Aucun ordre en cours.</p></div>`}`;
-  return page({ titre: 'Qualité par ordre', user, corps, actif: 'produits', msg });
+  return page({ titre: 'Qualité par ordre', user, corps, actif: 'qualite', msg });
 }
 
 /**
@@ -1249,7 +1250,7 @@ function vueQCOrdre({ user, msg, ordre, lignes, cat = 'tous', vue = 'cartes',
       <a class="lien" href="/ordres/${ordre.id}/items/${l.id}/qualite">Voir le compte rendu</a>
     </li>`).join('')}</ul>
   </details>` : ''}`;
-  return page({ titre: `Qualité — ${ordre.numero}`, user, corps, actif: 'produits', msg });
+  return page({ titre: `Qualité — ${ordre.numero}`, user, corps, actif: 'qualite', msg });
 }
 
 /**
@@ -1452,7 +1453,7 @@ function vueProtocole({ user, p, proto, msg, photos = [], bris = null,
     3 500. Personne ne devrait faire la division en ayant les pièces en main.</p>
   </div>`;
 
-  return page({ titre: `Qualité — ${p.code}`, user, corps, msg, actif: 'produits' });
+  return page({ titre: `Qualité — ${p.code}`, user, corps, msg, actif: 'qualite' });
 }
 
 // ==================================================================== tâches
