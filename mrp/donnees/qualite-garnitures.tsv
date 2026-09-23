@@ -1,0 +1,26 @@
+# Les garnitures déclarées à la charte mais que RIEN ne vérifiait.
+#
+# D'OÙ VIENT CE FICHIER. Un audit croisant, pour chaque produit, les
+# garnitures que la charte déclare (fermeture, cord-lock, élastique, velcro,
+# boucle) contre ce que son protocole demande vraiment. Une pièce déclarée et
+# non contrôlée est une pièce qu'on pose de mémoire.
+#
+# LE CAS QUI A DÉCLENCHÉ L'AUDIT. Le protocole GÉNÉRAL portait un « Fermeture
+# éclair — glissement sur toute la course » appliqué à tous les produits, y
+# compris ceux qui n'ont pas de fermeture. Il a été retiré le 23/09/2026, à
+# raison. Mais le tote, LUI, en a une — 28 cm, non séparable — et s'est
+# retrouvé sans aucun contrôle de fermeture. Retirer un point générique laisse
+# un trou chez ceux à qui il s'appliquait vraiment.
+#
+# Mêmes colonnes que qualite-amorce.tsv. Se charge SANS drapeau.
+produit	volet	titre	detail	consequence	valeur	tolerance	unite	frequence	source	schema
+TOTE	critique	Ouvrir et fermer la fermeture éclair sur toute sa course	Spirale maille 3, non séparable, 28 cm. Ouvrir et refermer entièrement, deux fois. Le curseur ne doit ni accrocher ni sauter une dent.	Une glissière qui coince se découvre chez le client, sur un sac qu'on ouvre chaque jour.			28 cm	toutes les pièces	audit garnitures
+BESACE	critique	Ouvrir et fermer la fermeture éclair sur toute sa course	Spirale maille 5 ou 8, non séparable, 47 cm. Ouvrir et refermer entièrement, deux fois. C'est la plus longue du catalogue : une dent sautée se voit à mi-course, pas au début.	Une glissière qui coince sur un sac qu'on ouvre chaque jour.			47 cm	toutes les pièces	audit garnitures
+ETUI-TEL	critique	Ouvrir et fermer la fermeture éclair sur toute sa course	Spirale maille 3, non séparable, 18 cm. Ouvrir et refermer entièrement, deux fois.	Une glissière qui coince rend l'étui inutilisable.			18 cm	toutes les pièces	audit garnitures
+ETUI-TEL	critique	Crochets et lacet de la ganse : tirer	Tirer sur chaque crochet de 2,5 cm et sur le lacet plat qui tient la ganse. Rien ne doit se dégager.	L'étui tombe avec le téléphone dedans.				toutes les pièces	audit garnitures
+CHANDAIL	critique	Cord-lock présent et qui bloque	Faire coulisser le cord-lock sur l'élastique rond, puis relâcher : il doit tenir la position. Un cord-lock qui glisse ne sert à rien.	Le cordon de serrage ne tient pas, la chaleur s'échappe par le bas.				toutes les pièces	audit garnitures
+CHANDAIL	probleme	Biais élastique des manches régulier	Le biais élastique du bas de manche doit être posé sans vague ni excédent, et de la même longueur des deux côtés.	Une manche qui gondole se voit au premier port.				1 pièce sur 20	audit garnitures
+MANTEAU-HIVER	critique	Velcro : accroche et tient	Presser les deux bandes de velcro de 3 cm l'une contre l'autre, puis tirer. Elles doivent résister avant de se décoller d'un coup.	Un velcro qui ne tient pas laisse le rabat ouvert sur la fermeture éclair.				toutes les pièces	audit garnitures
+MANTEAU-HIVER	probleme	Élastique du capuchon : coulisse et tient	L'élastique rond d'ajustement du capuchon doit coulisser librement et tenir une fois serré.	Un capuchon qui ne se ferme pas prend le vent.				1 pièce sur 20	audit garnitures
+CACHE-COU-ENF-5A13A	critique	Billes pour bloquer le cord-lock noir	Les deux billes d'arrêt doivent être posées et nouées : ce sont elles qui empêchent le cordon de ressortir du cord-lock.	Même garniture que l'adulte, où ce contrôle existe déjà. Sans les billes, le cordon sort et la pièce revient.				toutes les pièces	audit garnitures
+CACHE-COU-ENF-18M4A	critique	AUCUNE pièce détachable — vérifier l'absence	Cette taille n'a NI élastique, NI cord-lock, NI bille, NI boutonnière. Vérifier qu'il n'y en a aucun. C'est le seul point du protocole qui se coche sur une ABSENCE.	Norme des produits pour enfants : aucune pièce ne doit être détachable. Une bille ou un cord-lock posé par habitude sur la petite taille est un risque d'étouffement, pas un défaut d'apparence.				toutes les pièces	audit garnitures

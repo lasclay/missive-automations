@@ -138,9 +138,13 @@ const telephone = (x, y, e = 1) => `<g transform="translate(${x} ${y}) scale(${e
   <path d="M9 40C16 30 30 30 31 39l0 12H9Z" fill="${T.tissu}" stroke-width="1.8"/></g>`;
 
 // ---- deux mains qui tirent de part et d'autre d'une couture
-const traction = (y) =>
-  `<g transform="translate(6 ${y})">${main(0, 0, -90, 0.85)}</g>`
-  + `<g transform="translate(170 ${y + 34}) scale(-1 1)">${main(0, 0, -90, 0.85)}</g>`;
+// Deux mains qui saisissent la couture et tirent. Les rotations tournent
+// autour de l'origine, pas autour de la figure : les translations sont
+// calculées à partir de la boîte tournée, sinon la main sort du panneau.
+const traction = () =>
+  main(46, 46, 90, 1.0) + main(130, 79, -90, 1.0)
+  + fleche('M74 28H46v-6l-13 9 13 9v-6h28z')
+  + fleche('M102 28h28v-6l13 9-13 9v-6h-28z');
 
 // ---- un fragment de couture, vu de près : deux épaisseurs et le point
 const couture = (x, y, e = 1, ouverte = false) =>
@@ -172,22 +176,53 @@ const couture = (x, y, e = 1, ouverte = false) =>
 function rupture(forme, zx, zy) {
   const d = SIL.TRACES[forme];
   if (!d) return null;
-  const E = 3.4, X = 20, Y = 22;
+  const E = 4.3, X = 37, Y = 18;
   const piece = `<g transform="translate(${X} ${Y}) scale(${E})">
     <path fill-rule="evenodd" d="${d}" fill="${T.tissu}" stroke="${T.trait}"
       stroke-width="${(2.4 / E).toFixed(2)}"/></g>`;
   const cx = (X + zx * E).toFixed(1), cy = (Y + zy * E).toFixed(1);
   return [
-    piece + `<circle cx="${cx}" cy="${cy}" r="19" fill="none" stroke="${T.rouge}"
-       stroke-width="3.4"/><circle cx="${cx}" cy="${cy}" r="26" fill="none"
-       stroke="${T.rouge}" stroke-width="2" opacity=".45"/>`,
-    couture(40, 54, 1.0) + traction(50)
-      + fleche('M0 118h30v-6l13 9-13 9v-6H0z')
-      + fleche('M176 118h-30v-6l-13 9 13 9v-6h30z'),
-    couture(40, 54, 1.0, true) + non(126, 96, 0.9),
-    couture(40, 54, 1.0) + oui(126, 96, 0.9),
+    piece + `<circle cx="${cx}" cy="${cy}" r="17" fill="none" stroke="${T.rouge}"
+       stroke-width="3.6"/><circle cx="${cx}" cy="${cy}" r="24" fill="none"
+       stroke="${T.rouge}" stroke-width="2" opacity=".4"/>`,
+    couture(50, 52, 0.8) + traction(),
+    couture(40, 50, 0.95, true) + non(124, 96, 0.95),
+    couture(40, 50, 0.95) + oui(124, 96, 0.95),
   ];
 }
+
+// ---- une fermeture éclair : ruban, dents, curseur
+const zip = (x, y, e = 1, ouvert = 0) => `<g transform="translate(${x} ${y}) scale(${e})">
+  <path d="M0 0h104v13H0Z" fill="${T.tissu}"/><path d="M0 21h104v13H0Z" fill="${T.tissu}"/>
+  <path d="M0 0h104v13H0ZM0 21h104v13H0Z" fill="none"/>
+  ${[...Array(13)].map((_, i) => i * 8 > ouvert
+    ? `<path d="M${i * 8 + 3} 13v8" stroke="${T.acierO}" stroke-width="3"/>`
+    : `<path d="M${i * 8 + 3} 11v-4M${i * 8 + 3} 23v4" stroke="${T.acierO}" stroke-width="3"/>`
+  ).join('')}
+  <rect x="${ouvert - 5}" y="9" width="15" height="17" rx="3" fill="${T.acier}"/>
+  <path d="M${ouvert + 2} 26v9" stroke="${T.trait}" stroke-width="2.6"/>
+  <rect x="${ouvert - 3}" y="34" width="11" height="8" rx="2" fill="${T.acier}"/></g>`;
+
+// ---- deux bandes de velcro, crochets contre boucles
+const velcro = (x, y, ecart = 0) => `<g transform="translate(${x} ${y})">
+  <rect x="0" y="0" width="80" height="17" rx="2" fill="${T.tissu}"/>
+  <path d="${[...Array(9)].map((_, i) => `M${i * 9 + 6} 4v9`).join('')}"
+    stroke="${T.tissuC}" stroke-width="2.4"/>
+  <rect x="0" y="${21 + ecart}" width="80" height="17" rx="2" fill="${T.tissuO}"/>
+  <path d="${[...Array(9)].map((_, i) => `M${i * 9 + 6} ${25 + ecart}v9`).join('')}"
+    stroke="${T.tissuC}" stroke-width="2.4" stroke-dasharray="2 2"/>
+  <rect x="0" y="0" width="80" height="17" rx="2" fill="none"/>
+  <rect x="0" y="${21 + ecart}" width="80" height="17" rx="2" fill="none"/></g>`;
+
+// ---- un cord-lock sur son cordon, avec sa bille d'arrêt
+// `pos` fait coulisser le bloqueur le long du cordon : sans lui, les trois
+// panneaux se ressemblent et le geste ne se voit pas.
+const cordlock = (x, y, e = 1, pos = 0) => `<g transform="translate(${x} ${y}) scale(${e})">
+  <path d="M6 10h68" fill="none" stroke="${T.trait}" stroke-width="3.6"/>
+  <circle cx="6" cy="10" r="6" fill="${T.trait}"/>
+  <circle cx="74" cy="10" r="6" fill="${T.trait}"/>
+  <rect x="${14 + pos}" y="0" width="26" height="21" rx="6" fill="${T.acier}"/>
+  <rect x="${22 + pos}" y="5" width="10" height="11" rx="2.5" fill="${T.acierO}"/></g>`;
 
 // -------------------------------------------------------------- les planches
 //
@@ -258,6 +293,29 @@ const PLANCHES = {
     piece(14, 34, 1.3) + etiquette(56, 86, 180) + non(128, 96, 0.85),
     piece(14, 34, 1.3) + etiquetteDecousue(56, 86) + non(128, 96, 0.85),
   ],
+  // Ouvrir ET refermer, deux fois, sur toute la course.
+  fermeture: [
+    zip(36, 52, 1.0, 0) + loupe(120, 12, 0.8),
+    zip(36, 52, 1.0, 48) + fleche('M40 118h56v-6l13 9-13 9v-6H40z'),
+    zip(36, 52, 1.0, 96) + fleche('M136 118H40v-6l-13 9 13 9v-6h96z'),
+    zip(36, 52, 1.0, 0) + oui(124, 100, 0.95),
+  ],
+  // Presser, puis TIRER : un velcro qui ne résiste pas ne tient rien.
+  velcro: [
+    velcro(48, 48, 22) + fleche('M88 24v22h-6l9 13 9-13h-6V24z'),
+    velcro(48, 54, 0) + main(40, 40, 0, 0.8),
+    velcro(48, 48, 22) + fleche('M88 46V24h-6l9-13 9 13h-6v22z') + oui(126, 98, 0.9),
+  ],
+  // Faire coulisser, relâcher : il doit tenir la position.
+  cordlock: [
+    // On le fait coulisser.
+    cordlock(42, 52, 1.15, 0) + fleche('M56 104h44v-6l13 9-13 9v-6H56z'),
+    // On relâche : s'il redescend, il ne bloque rien.
+    cordlock(42, 52, 1.15, 34) + fleche('M120 104H76v-6l-13 9 13 9v-6h44z')
+      + non(128, 20, 0.85),
+    // S'il reste où on l'a mis, il fait son travail.
+    cordlock(42, 52, 1.15, 34) + oui(128, 20, 0.85),
+  ],
   photo_boutique: [
     soleil(74, 6, 0.95) + telephone(22, 52) + loupe(70, 58, 0.8) + piece(96, 66, 0.6),
     oui(36, 52, 1.3) + non(102, 52, 1.3),
@@ -289,6 +347,11 @@ const PAR_TITRE = new Map([
   ['Couture du bas du cache-cou : tirer de part et d\'autre', 'cachecou_bas'],
   ['Pourtour de la semelle : tirer de part et d\'autre',      'semelle_bord'],
   ['Couture du torsadé : tirer de part et d\'autre',          'bandeau_torsade'],
+  // Les garnitures que l'audit a trouvées sans contrôle.
+  ['Ouvrir et fermer la fermeture éclair sur toute sa course', 'fermeture'],
+  ['Ouvrir et fermer chaque fermeture éclair',                 'fermeture'],
+  ['Velcro : accroche et tient',                               'velcro'],
+  ['Cord-lock présent et qui bloque',                          'cordlock'],
 ].map(([t, k]) => [empreinte(t), k]));
 
 /** La clé de planche d'un titre, ou null. Null est le cas normal : la plupart

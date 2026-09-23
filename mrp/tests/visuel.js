@@ -301,8 +301,13 @@ console.log('\n  Silhouettes, anneaux et images\n');
   // bande fait 1,2 Ko ; les sept ensemble en font 2,3 — la structure se répète
   // d'un panneau à l'autre et gzip en vit.
   const gz = (x) => require('node:zlib').gzipSync(Buffer.from(x), { level: 9 }).length;
-  const page = Object.values(PIC.PLANCHES).flat().join('');
-  t('les sept planches d\'une page tiennent sous 3 Ko compressés',
+  // Ce qu'une PAGE porte vraiment : les sept procédés généraux, qui
+  // apparaissent sous chaque produit. Mesurer les quinze planches du module
+  // reviendrait à mesurer ce que personne ne télécharge d'un coup.
+  const GENERAUX = ['fils', 'frottement_sec', 'lavage', 'frottement_gel',
+    'comparer', 'etiquette', 'photo_boutique'];
+  const page = GENERAUX.map(k => PIC.PLANCHES[k].join('')).join('');
+  t('les sept procédés généraux d\'une page tiennent sous 3 Ko compressés',
     gz(page) < 3000, gz(page) + ' o');
 
   // La page : tous les panneaux, chacun avec son ancre. Arriver par #p3 amène
@@ -406,6 +411,68 @@ console.log('\n  Silhouettes, anneaux et images\n');
   const sansPlanche = [...new Set(titres)].filter(x => !PIC.cle(x));
   t('chaque point de rupture a sa planche',
     sansPlanche.length === 0, sansPlanche.join(' | '));
+}
+
+// ------------------------------- 9. la garniture déclarée doit être contrôlée
+//
+// Ce test existe à cause d'un trou réel. Le protocole général portait un
+// « Fermeture éclair — glissement sur toute la course » appliqué à TOUS les
+// produits, y compris ceux qui n'en ont pas. Il a été retiré le 23/09/2026, à
+// raison. Mais le tote, LUI, a une fermeture de 28 cm — et s'est retrouvé sans
+// aucun contrôle, sans que rien ne le signale. La besace aussi, 47 cm.
+//
+// Retirer un point générique laisse un trou chez ceux à qui il s'appliquait
+// vraiment. C'est ce trou-là que ce test rend impossible de rouvrir.
+//
+// IL LIT LES FICHIERS, PAS LA BASE. Une première version interrogeait la base
+// de test — qui ne contient aucun produit. Elle passait donc toujours, sans
+// jamais rien vérifier : le pire des deux mondes, un test qui rassure et ne
+// tient rien.
+{
+  const lireTsv = (nom) => {
+    const brut = fs.readFileSync(
+      path.join(__dirname, '..', 'donnees', nom), 'utf8').split('\n');
+    const entete = brut.findIndex(l => l.startsWith('produit\t'));
+    return brut.slice(entete + 1).filter(l => l.includes('\t')).map(l => l.split('\t'));
+  };
+
+  const garn = new Map();
+  for (const c of lireTsv('charte-produits.tsv')) {
+    if (c[1] !== 'garniture' || !c[0]) continue;
+    if (!garn.has(c[0])) garn.set(c[0], []);
+    garn.get(c[0]).push(c[2]);
+  }
+  t('la charte déclare des garnitures', garn.size >= 15, `${garn.size} produits`);
+
+  // Tout ce qui peut porter un point de contrôle de produit.
+  const points = new Map();
+  for (const f of ['qualite-amorce.tsv', 'qualite-charte.tsv', 'qualite-cotes.tsv',
+                   'qualite-ruptures.tsv', 'qualite-garnitures.tsv'])
+    for (const c of lireTsv(f)) {
+      if (!c[0] || c[0] === '*') continue;
+      points.set(c[0], (points.get(c[0]) || '') + ' ' + c[2] + ' ' + (c[3] || ''));
+    }
+  t('les protocoles produits sont lus', points.size >= 20, `${points.size} produits`);
+
+  // Les garnitures qui CASSENT ou se posent de travers. L'étiquette est
+  // couverte par le protocole général : elle n'est pas de la partie.
+  const CRITIQUES = {
+    'fermeture éclair': /fermeture .?clair|glissi.re/i,
+    'cord-lock':        /cord.?lock/i,
+    'velcro':           /velcro/i,
+  };
+  const trous = [];
+  let examines = 0;
+  for (const [code, g] of garn) {
+    const pts = points.get(code) || '';
+    examines++;
+    for (const [nom, re] of Object.entries(CRITIQUES))
+      if (g.some(x => re.test(x)) && !re.test(pts)) trous.push(`${code} : ${nom}`);
+  }
+  // Sans ce garde-fou, le test passerait à vide le jour où la lecture casse.
+  t('le test a vraiment examiné des produits', examines >= 15, `${examines}`);
+  t('toute garniture qui casse est contrôlée quelque part',
+    trous.length === 0, trous.join(' | '));
 }
 
 console.log(`\n  ${ok} réussites, ${ko} échecs\n`);

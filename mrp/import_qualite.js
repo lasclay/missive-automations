@@ -60,6 +60,8 @@ const rangs = tsv('qualite-amorce.tsv')
   // vraiment. Les rendre optionnels reviendrait à rendre optionnel de
   // vérifier le pouce des mitaines.
   .concat(tsv('qualite-ruptures.tsv'))
+  // Les garnitures oubliées : même raison, même absence de drapeau.
+  .concat(tsv('qualite-garnitures.tsv'))
   .concat(SQUELETTES ? tsv('qualite-squelettes.tsv') : [])
   // Les cotes AVANT la charte : « Dimensions finales selon le schéma » y est
   // une consigne sans chiffre, et l'ordre de `rangs` est l'ordre d'autorité.
