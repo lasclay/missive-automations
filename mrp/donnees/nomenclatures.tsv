@@ -1,4 +1,4 @@
-produit	categorie	materiau	description	cout_unite	unite	consommation	cout_par_produit
+produit	categorie	materiau	description	cout_unite	unite	consommation	cout_par_produit	retire
 Cache-cou	tissu	Knit foulard	85% viscose 15% acrylique	4.95	m	2 pads (4,80 pads/m)	2.06
 Cache-cou	isolant	Vegeto 150gsm	isolant asclépiade	12.50	m (8,22 $/m²)	0,22 m²	1.81
 Cache-cou	etiquette	Hot cut Labels CC + logo		0.20	unite	1	0.20
@@ -63,4 +63,4 @@ Glacière	quincaillerie	Bretelles		0.03	pouce	115 po (3,19 verges)	0.31
 Glacière	etiquette	Woven Label		1.73	unite	1	1.73
 Glacière	isolant	Asclépiade	250 gsm visé, 50% staple	105.00	kg	51,25 g	5.38
 Glacière	isolant	Fibre synthétique	staple 50%	3.69	kg	51,25 g	0.19
-Glacière	isolant	Chanvre	isolant fond de sac	638.00	rouleau	0,05	1.02
+Glacière	isolant	Chanvre	isolant fond de sac	638.00	rouleau	0,05	1.02	09/09/2026 — le chanvre ne fait plus partie de la composition.

@@ -72,9 +72,20 @@ const cogs = new Map(tsv('cogs-tunisie.tsv').map(r => [r.produit, r]));
  * pas, sinon l'extrait ne se compare plus à sa source. Les quantités décidées
  * verbalement après coup vivent dans `ajouts-production.tsv` et se superposent
  * ici, chacune avec son origine.
+ *
+ * La colonne `remplace` sert au cas où le chiffrier compte en une ligne ce que
+ * l'atelier fabrique en deux. « Semelles intérieures isolantes », 4 665 : le
+ * chronomètre dit 2 min 23 la paire jusqu'au 8F et 3 min 35 à partir du 9F, et
+ * les deux fiches COGS ne donnent pas le même coût. Tant que la ligne restait
+ * entière, les 9F+ étaient comptés comme des petites pointures — cinquante-sept
+ * heures d'atelier qui n'existaient nulle part. Une ligne d'ajout qui en
+ * `remplace` une autre la retire du plan : elle est découpée, pas ignorée, et
+ * le rapport le dit au lieu de la signaler comme non produite.
  */
-const plan = new Map([...tsv('plan-production-2627.tsv'), ...tsv('ajouts-production.tsv')]
-  .filter(r => Number(r.quantite_prevue) > 0)
+const ajouts = tsv('ajouts-production.tsv');
+const remplacees = new Set(ajouts.map(r => r.remplace).filter(Boolean));
+const plan = new Map([...tsv('plan-production-2627.tsv'), ...ajouts]
+  .filter(r => Number(r.quantite_prevue) > 0 && !remplacees.has(r.produit))
   .map(r => [r.produit, r]));
 const variantesPlan = new Map();
 for (const r of tsv('plan-variantes-2627.tsv')) {
@@ -88,8 +99,18 @@ for (const r of tsv('shopify-images.tsv')) {
   imagesParHandle.get(r.handle).push(r);
 }
 
+/**
+ * La nomenclature, matière par matière.
+ *
+ * `nomenclatures.tsv` recopie les fiches COGS ; une matière qu'on cesse
+ * d'employer n'en est donc pas effacée — sinon l'écart de coût avec le
+ * chiffrier deviendrait inexplicable au prochain qui compare. Elle porte une
+ * date dans `retire` et sort de la composition du produit, en le disant.
+ */
 const bomParProduit = new Map();
+const retirees = [];
 for (const r of tsv('nomenclatures.tsv')) {
+  if (r.retire) { retirees.push(r); continue; }
   if (!bomParProduit.has(r.produit)) bomParProduit.set(r.produit, []);
   bomParProduit.get(r.produit).push(r);
 }
@@ -186,12 +207,30 @@ const consignes = (() => {
   return m;
 })();
 
-/** Rapproche un produit de production d'une ligne de consignes. */
+/**
+ * Rapproche un produit de production d'une ligne de consignes.
+ *
+ * Le rapprochement par préfixe rendait « la première clé qui matche », donc
+ * l'ordre du tableau décidait. « Bandeau » est écrit avant « Bandeau tuque
+ * urbaine » : le bandeau de la tuque recevait la consigne du bandeau torsadé
+ * — « deux modèles, même patron, torsadé et sport » — alors que la sienne dit
+ * l'inverse, que l'assemblage n'a même pas encore été testé. Deux produits
+ * différents, une seule consigne, et personne pour s'en apercevoir puisque le
+ * texte affiché avait l'air plausible.
+ *
+ * Trois étages, du sûr au douteux, et on s'arrête plutôt que de deviner :
+ *   1. le nom exact — aujourd'hui vingt et un produits sur trente-quatre ;
+ *   2. un préfixe qui ne matche QU'UNE clé : « Semelles 6-7-8F » → « Semelles » ;
+ *   3. plusieurs clés possibles → rien. Une consigne muette se remarque, une
+ *      consigne fausse se suit.
+ */
 function consignePour(nomProduction) {
-  const n = nomProduction.toLowerCase();
-  for (const [cle, val] of consignes)
-    if (n.startsWith(cle) || cle.startsWith(n)) return val;
-  return '';
+  const n = String(nomProduction || '').toLowerCase();
+  if (!n) return '';
+  if (consignes.has(n)) return consignes.get(n);
+  const possibles = [...consignes.keys()]
+    .filter(cle => n.startsWith(cle) || cle.startsWith(n));
+  return possibles.length === 1 ? consignes.get(possibles[0]) : '';
 }
 
 // -------------------------------------------------------------- composition
@@ -255,7 +294,15 @@ const lignes = corresp.map(r => {
     notes_tech: notes.join('\n\n'),
     famille: r.famille || 'autre',
     fabrication: r.fabrication || 'tunisie',
-    actif: r.confiance === 'non vendu' || r.confiance === 'non produit' ? 0 : 1,
+    // `actif` veut dire « au catalogue de l'app », pas « vendu sur Shopify ».
+    // La règle ne regardait que la vente, et sortait du catalogue quatre pièces
+    // pourtant AU PLAN : les deux cache-cous enfant, la tuque de ville et le
+    // bandeau de la tuque. Conséquence — elles n'apparaissaient ni dans la
+    // liste des fiches, ni dans la couverture qualité, et surtout pas dans le
+    // menu « Produit » d'un ordre : impossible de les ajouter depuis l'app.
+    // Ce qu'on produit est au catalogue, même si on ne le vend pas séparément.
+    actif: (r.confiance === 'non vendu' || r.confiance === 'non produit') && !pl
+      ? 0 : 1,
     photos, bom, plan: pl || null,
     _sh: Boolean(sh), _cogs: Boolean(c), _confiance: r.confiance,
   };
@@ -268,6 +315,12 @@ dire(`  ${lignes.filter(l => l._sh).length} rattachés à une fiche Shopify`);
 dire(`  ${lignes.filter(l => l._cogs).length} avec une fiche COGS`);
 dire(`  ${lignes.reduce((n, l) => n + l.photos.length, 0)} photos (URL seulement)`);
 dire(`  ${lignes.reduce((n, l) => n + l.bom.length, 0)} lignes de nomenclature`);
+if (retirees.length) {
+  dire(`  ${retirees.length} matière(s) retirée(s) d'une composition :`);
+  for (const r of retirees)
+    dire(`    · ${r.produit} — ${r.materiau}`
+       + `${r.cout_par_produit ? ` (−${r.cout_par_produit} $/unité)` : ''} : ${r.retire}`);
+}
 const auPlan = lignes.filter(l => l.plan);
 dire(`  ${auPlan.length} au plan de production 26-27, `
    + `${auPlan.reduce((n, l) => n + Number(l.plan.quantite_prevue), 0).toLocaleString('fr-CA')} `
@@ -276,6 +329,14 @@ const orphelins = [...plan.keys()].filter(k => !corresp.some(c => c.alias_plan =
 if (orphelins.length) {
   dire(`  ${orphelins.length} lignes du plan sans code MRP — elles ne seront PAS produites :`);
   for (const o of orphelins) dire(`    · ${o}`);
+  dire('');
+}
+if (remplacees.size) {
+  dire(`  ${remplacees.size} ligne(s) du chiffrier découpée(s) en plusieurs produits :`);
+  for (const r of remplacees)
+    dire(`    · ${r} → ${ajouts.filter(a => a.remplace === r)
+      .map(a => `${a.produit} (${Number(a.quantite_prevue).toLocaleString('fr-CA')})`)
+      .join(' + ')}`);
   dire('');
 }
 

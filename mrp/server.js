@@ -26,10 +26,13 @@ const zlib = require('node:zlib');
 const path = require('node:path');
 const { db, prochainNumero, avancementOrdre, listeFabrication, dernieresMaj,
         sansMouvement, progressionRecente, fabriqueAilleurs, variantesItem,
+        apercuProduction,
         taches, tache, compteTaches, equipe,
         protocole, couvertureQC, TYPES_QC, charteProduit,
         checklistItem, blocageQC, etatQCOrdre,
+        horsSujet, poserHorsSujet, retirerHorsSujet,
         filOrdre, filEnAttente, demandeOuverte, reglerDemandes, reglerFil,
+        modifierFil, supprimerFil,
         protocoleGeneral, echantillon, lireTableauTailles,
         brisProduit, brisParPoint, zonesFragiles, nonConformites,
         murDesBris,
@@ -116,7 +119,10 @@ const R = {
       cree_le DESC`),
   ordre: db.prepare(`SELECT * FROM ordres WHERE id = ?`),
   items: db.prepare(`SELECT i.*,
-      COALESCE(NULLIF(p.nom_court, ''), p.nom) AS produit_nom, p.code AS produit_code
+      COALESCE(NULLIF(p.nom_court, ''), p.nom) AS produit_nom, p.code AS produit_code,
+      (SELECT f.url FROM produit_photos f WHERE f.produit_id = p.id
+        ORDER BY CASE f.type WHEN 'studio' THEN 0 ELSE 1 END,
+                 f.rang, f.id LIMIT 1) AS photo
       FROM ordre_items i JOIN produits p ON p.id = i.produit_id
       WHERE i.ordre_id = ? ORDER BY i.rang, i.id`),
   item: db.prepare(`SELECT * FROM ordre_items WHERE id = ? AND ordre_id = ?`),
@@ -382,6 +388,7 @@ async function router(req, res, url, user) {
     const prochains = R.jalonsProchains.all();
     return html(res, V.vueAccueil({ user, ordres, jalons: prochains,
       attentes: filEnAttente(),
+      apercu: apercuProduction(),
       salut: salutation.saluer({ user,
         taches: compteTaches(user.id),
         echeance: prochains.length ? prochains[0].date : null }),
@@ -532,15 +539,35 @@ async function router(req, res, url, user) {
     // l'atelier écrit : lui interdire de répondre à une question rendrait la
     // question inutile.
     {
-      const mf = reste.match(/^\/items\/(\d+)\/fil(?:\/(\d+)\/regler)?$/);
+      const mf = reste.match(
+        /^\/items\/(\d+)\/fil(?:\/(\d+)\/(regler|modifier|supprimer))?$/);
       if (mf && req.method === 'POST') {
         const it = R.item.get(+mf[1], id);
         if (!it) return vers(res, `/ordres/${id}?err=`
           + encodeURIComponent('Item introuvable.'));
 
-        if (mf[2]) {                       // clore une entrée précise
-          reglerFil(+mf[2], it.id, user.id);
-          return vers(res, `/ordres/${id}#i${it.id}`);
+        // Agir sur UNE entrée : la clore, la corriger, la retirer.
+        if (mf[2]) {
+          const fid = +mf[2];
+          if (mf[3] === 'regler') {
+            reglerFil(fid, it.id, user.id);
+            return vers(res, `/ordres/${id}#i${it.id}`);
+          }
+          if (mf[3] === 'supprimer') {
+            // `user.id` est dans la clause SQL, pas seulement ici : une URL
+            // fabriquée à la main ne retire pas le message d'un autre.
+            const n = supprimerFil(fid, it.id, user.id);
+            return vers(res, `/ordres/${id}?${n ? 'ok=' + encodeURIComponent('Message retiré.')
+              : 'err=' + encodeURIComponent("Ce message n'est pas le vôtre.")}#i${it.id}`);
+          }
+          const f = await corpsFormulaire(req);
+          const texte = String(f.texte || '').trim();
+          if (!texte) return vers(res, `/ordres/${id}?err=`
+            + encodeURIComponent('Un message vide, c\'est une suppression : le bouton est là pour ça.')
+            + `#i${it.id}`);
+          const n = modifierFil(fid, it.id, user.id, texte.slice(0, 2000));
+          return vers(res, `/ordres/${id}?${n ? 'ok=' + encodeURIComponent('Message corrigé.')
+            : 'err=' + encodeURIComponent("Ce message n'est pas le vôtre.")}#i${it.id}`);
         }
 
         const f = await corpsFormulaire(req);
@@ -645,6 +672,9 @@ async function router(req, res, url, user) {
       jalons: R.jalons.all(id),
       commentaires: R.commentaires.all(id), produits: R.produitsActifs.all(),
       qc: etatQCOrdre(id), fils: filOrdre(id),
+      // `?fil=<id>` demande à corriger CE message : la page revient avec lui
+      // devenu formulaire, à sa place dans le fil.
+      enEdition: Number(q.get('fil')) || 0,
       pct: avancementOrdre(id).pct }));
   }
 
@@ -1096,7 +1126,8 @@ async function router(req, res, url, user) {
       }
       return html(res, V.vueProtocole({ user, msg, p: prod,
         proto: protocole(prod.id), photos: R.photos.all(prod.id),
-        bris: brisProduit(prod.id), appuis: brisParPoint(prod.id) }));
+        bris: brisProduit(prod.id), appuis: brisParPoint(prod.id),
+        ecartes: horsSujet(prod.id) }));
     }
   }
 
@@ -1105,9 +1136,42 @@ async function router(req, res, url, user) {
     if (m && req.method === 'POST') {
       // Le point appartient au produit de l'URL : sans ce test, un id valide
       // ailleurs effacerait le protocole d'un autre produit.
-      db.prepare(`DELETE FROM qc_points WHERE id = ? AND produit_id = ?`)
-        .run(Number(m[2]), Number(m[1]));
-      return vers(res, `/qualite/${m[1]}?ok=` + encodeURIComponent('Point retiré.'));
+      const n = db.prepare(`DELETE FROM qc_points WHERE id = ? AND produit_id = ?`)
+        .run(Number(m[2]), Number(m[1])).changes;
+      // Un point général ne tombe pas sous ce test : il n'appartient à aucun
+      // produit. Le dire, plutôt que d'annoncer un retrait qui n'a pas eu lieu
+      // — c'est ce que faisait cette route, et le message mentait.
+      return vers(res, `/qualite/${m[1]}?${n ? 'ok=' + encodeURIComponent('Point retiré.')
+        : 'err=' + encodeURIComponent("Ce point appartient au protocole général : "
+          + "il vaut pour tous les produits. Écartez-le d'ici plutôt que de l'effacer.")}`);
+    }
+  }
+
+  // ---- écarter un point général d'un produit, ou l'y remettre
+  {
+    const m = p.match(/^\/qualite\/(\d+)\/(\d+)\/(hors-sujet|reprendre)$/);
+    if (m && req.method === 'POST') {
+      const prodId = Number(m[1]), pointId = Number(m[2]);
+      if (m[3] === 'reprendre') {
+        retirerHorsSujet(prodId, pointId);
+        return vers(res, `/qualite/${prodId}?ok=`
+          + encodeURIComponent('Point remis au protocole de ce produit.'));
+      }
+      // Seul un point GÉNÉRAL s'écarte : un point propre au produit se retire,
+      // c'est un autre geste et il a son propre bouton.
+      const pt = db.prepare(
+        `SELECT id FROM qc_points WHERE id = ? AND produit_id IS NULL`).get(pointId);
+      if (!pt) return vers(res, `/qualite/${prodId}?err=`
+        + encodeURIComponent("Ce point n'est pas un point du protocole général."));
+      const f = await corpsFormulaire(req);
+      const motif = String(f.motif || '').trim();
+      // Le motif est exigé : sans lui, dans six mois, personne ne saura si
+      // c'était un jugement ou un clic de trop.
+      if (!motif) return vers(res, `/qualite/${prodId}?err=`
+        + encodeURIComponent("Dites pourquoi : un point écarté sans motif ne se relit pas."));
+      poserHorsSujet(prodId, pointId, motif.slice(0, 300), user.id);
+      return vers(res, `/qualite/${prodId}?ok=`
+        + encodeURIComponent("Point écarté de ce produit — il vaut toujours pour les autres."));
     }
   }
 
@@ -1297,6 +1361,11 @@ const serveur = http.createServer(async (req, res) => {
     if (p === '/sante') { res.writeHead(200, {'content-type':'application/json'});
       return res.end(JSON.stringify({ ok: true, service: 'lasclay-mrp' })); }
 
+    // L'état réel de la production, en lecture seule, pour qu'une analyse
+    // faite de loin cesse de partir d'une copie morte du dépôt. Avant la
+    // session : elle a son propre jeton, et n'existe pas sans lui.
+    if (require('./export.js').servir(req, res, url)) return;
+
     if (STATIQUES[p]) {
       const [type, rel] = STATIQUES[p];
       const buf = fs.readFileSync(path.join(__dirname, rel));
@@ -1391,6 +1460,25 @@ if (require.main === module) {
     // quelques secondes plus tard. Sur une base déjà peuplée — le cas normal
     // d'un redéploiement — rien ne change à l'écran pendant ce temps.
     setImmediate(() => require('./amorce.js').amorcerDonnees());
+
+    // Le rappel hebdomadaire de l'atelier. Une minuterie horaire plutôt qu'un
+    // cron : le service tourne déjà en continu, et un cron externe serait une
+    // pièce de plus à configurer, à surveiller, et à oublier. Poser la tâche
+    // est idempotent — repasser toutes les heures ne crée rien de neuf.
+    //
+    // `unref()` pour que la minuterie n'empêche jamais le processus de sortir :
+    // un service qu'on ne peut pas arrêter proprement est un service qu'on tue.
+    if (process.env.MRP_SANS_RAPPELS !== '1') {
+      const rappels = require('./rappels.js');
+      const tour = () => rappels.verifierRappels().then(r => {
+        for (const l of r.journal) console.log(`[mrp] rappel : ${l}`);
+        for (const c of r.courriels)
+          console.log(`[mrp] rappel courriel ${c.nom} : ${
+            c.envoye ? 'envoyé' : 'non envoyé — ' + c.pourquoi}`);
+      }).catch(e => console.error('[mrp] rappel : échec —', String(e.message || e)));
+      setImmediate(tour);
+      setInterval(tour, 3600e3).unref();
+    }
   });
 }
 

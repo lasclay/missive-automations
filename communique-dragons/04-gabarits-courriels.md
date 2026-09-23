@@ -210,7 +210,7 @@ Limoilou » n'est pas une accroche locale pour un journal de Charlevoix.
 
 | Angle | La raison |
 | --- | --- |
-| C — agriculture | La question n'a pas changé depuis 2018 : y a-t-il un acheteur stable au bout du champ. |
+| C — agriculture | La question n'a pas changé depuis la faillite du 11 octobre 2017 : y a-t-il un acheteur stable au bout du champ. |
 | D — environnement | Le pari est économique avant d'être militant : si l'asclépiade paie, les agriculteurs la gardent. |
 | E — affaires | Bâtir ses procédés faute de sous-traitant, puis changer de modèle pour un manteau à 300 $. Avec le lien de la vidéo. |
 | F — plein air | Environ 10 % plus isolante que le duvet à poids égal. Un repère de laboratoire, donc à tester. |

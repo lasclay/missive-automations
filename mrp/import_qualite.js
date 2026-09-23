@@ -15,11 +15,16 @@
  *   node mrp/import_qualite.js --charte      charge aussi les vérifications de
  *                                            la charte produits — la colonne
  *                                            jaune du tableau de production
+ *
+ * Les ÉCARTS (`qualite-hors-sujet.tsv`) se chargent toujours, sans drapeau :
+ * ils font partie du protocole au même titre que les points, et un drapeau de
+ * plus est un drapeau qu'on oublie dans amorce.js.
  */
 'use strict';
 const fs = require('node:fs');
 const path = require('node:path');
-const { db, TYPES_QC } = require('./db.js');
+const D = require('./db.js');
+const { db, TYPES_QC } = D;
 
 const ECRIRE = process.argv.includes('--ecrire');
 const SQUELETTES = process.argv.includes('--squelettes');
@@ -48,16 +53,26 @@ let ajoutes = 0, ignores = 0;
 const inconnus = [], mauvaisVolet = [];
 
 const produit = db.prepare(`SELECT id, code FROM produits WHERE code = ?`);
-const efface = db.prepare(`DELETE FROM qc_points WHERE source = ?`);
+// `cree_par IS NULL` distingue ce que l'import a posé de ce qu'une personne a
+// écrit dans l'app. Sans ce garde-fou, un point saisi à la main avec la même
+// source disparaîtrait au prochain import, sans que personne comprenne où.
+const efface = db.prepare(
+  `DELETE FROM qc_points WHERE source = ? AND cree_par IS NULL`);
 const insere = db.prepare(`INSERT INTO qc_points
   (produit_id, type, titre, detail, consequence, valeur, tolerance, unite,
    ech_type, ech_valeur, frequence, source, rang, schema_url)
   VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)`);
 
+// On efface les trois sources par défaut ET toute source nommée dans les
+// fichiers. Sans ça, une ligne portant sa propre provenance — « atelier »,
+// pour une consigne donnée de vive voix — serait insérée à chaque import sans
+// jamais être retirée, et se dupliquerait à chaque démarrage du service.
 if (ECRIRE) {
-  efface.run(SOURCE);
-  if (SQUELETTES) efface.run(SOURCE_SQ);
-  if (CHARTE) efface.run(SOURCE_CH);
+  const aEffacer = new Set([SOURCE]);
+  if (SQUELETTES) aEffacer.add(SOURCE_SQ);
+  if (CHARTE) aEffacer.add(SOURCE_CH);
+  for (const r of rangs) if (r.source) aEffacer.add(r.source);
+  for (const src of aEffacer) efface.run(src);
 }
 
 /**
@@ -133,6 +148,41 @@ if (doublons.length) {
   for (const d of doublons) console.log(`    ${d}`);
 }
 if (ignores) console.log(`  ${ignores} ligne(s) ignorée(s)`);
+
+// ------------------------------------------------ ce qui ne s'applique pas ici
+// Un point général est juste EN GÉNÉRAL. On l'écarte du produit où il ne veut
+// rien dire, sans l'effacer : le supprimer le retirerait de tous les autres.
+const ecartes = [], introuvables = [];
+{
+  // Les points généraux, indexés par titre normalisé : un identifiant change au
+  // prochain import, pas le titre.
+  const generaux = new Map(
+    db.prepare(`SELECT id, titre FROM qc_points WHERE produit_id IS NULL`).all()
+      .map(q => [empreinte(q.titre), q.id]));
+  // Sans protocole général en base, il n'y a rien à écarter : on ne signale pas
+  // trois « introuvables » qui ne veulent dire que « --squelettes manquait ».
+  if (generaux.size) {
+  if (ECRIRE) db.prepare(`DELETE FROM qc_hors_sujet WHERE cree_par IS NULL`).run();
+  for (const r of tsv('qualite-hors-sujet.tsv')) {
+    const p = r.produit && produit.get(r.produit);
+    const pid = generaux.get(empreinte(r.titre || ''));
+    if (!p || !pid) {
+      introuvables.push(`${r.produit} : « ${r.titre} »`);
+      continue;
+    }
+    if (ECRIRE) D.poserHorsSujet(p.id, pid, r.motif || '', null);
+    ecartes.push(`${r.produit} : « ${r.titre} »`);
+  }
+  }
+}
+if (ecartes.length) {
+  console.log(`\n  ${ecartes.length} point(s) général(aux) écarté(s) d'un produit :`);
+  for (const x of ecartes) console.log(`    ${x}`);
+}
+if (introuvables.length) {
+  console.log(`\n  ${introuvables.length} écart(s) impossible(s) — produit ou point inconnu :`);
+  for (const x of introuvables) console.log(`    ${x}`);
+}
 
 // Ce qui reste sans rien, trié par volume : c'est la vraie sortie du script.
 const nus = db.prepare(`

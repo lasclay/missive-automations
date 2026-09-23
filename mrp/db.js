@@ -267,7 +267,10 @@ CREATE TABLE IF NOT EXISTS item_fil (
   texte          TEXT NOT NULL DEFAULT '',
   regle_le       TEXT,
   regle_par      INTEGER REFERENCES utilisateurs(id),
-  cree_le        TEXT NOT NULL DEFAULT (datetime('now'))
+  cree_le        TEXT NOT NULL DEFAULT (datetime('now')),
+  -- Un message se corrige, mais pas en douce : quelqu'un l'a peut-être déjà
+  -- lu. La date de retouche s'affiche à côté de la signature.
+  modifie_le     TEXT
 );
 CREATE INDEX IF NOT EXISTS idx_fil_item ON item_fil(item_id, id);
 
@@ -349,6 +352,27 @@ CREATE TABLE IF NOT EXISTS qc_points (
   maj_le        TEXT NOT NULL DEFAULT (datetime('now'))
 );
 CREATE INDEX IF NOT EXISTS idx_qc_produit ON qc_points(produit_id, type, rang);
+
+-- Un point général qui ne veut rien dire sur CE produit-là.
+--
+-- « Essai porté — aucune tension aux emmanchures ni à l'entrejambe » est une
+-- bonne consigne pour un manteau et une absurdité pour un tote bag, qui n'a ni
+-- l'un ni l'autre. Le point reste général — il est juste, en général — mais il
+-- sort de la liste de ce produit.
+--
+-- Écarter plutôt que supprimer : effacer le point le retirerait de TOUS les
+-- produits, y compris ceux où il tient la route. Et le motif est obligatoire à
+-- l'écrit, sinon dans six mois personne ne saura si c'était un jugement ou un
+-- clic de trop.
+CREATE TABLE IF NOT EXISTS qc_hors_sujet (
+  id         INTEGER PRIMARY KEY,
+  produit_id INTEGER NOT NULL REFERENCES produits(id) ON DELETE CASCADE,
+  point_id   INTEGER NOT NULL REFERENCES qc_points(id) ON DELETE CASCADE,
+  motif      TEXT NOT NULL DEFAULT '',
+  cree_par   INTEGER REFERENCES utilisateurs(id),
+  cree_le    TEXT NOT NULL DEFAULT (datetime('now')),
+  UNIQUE (produit_id, point_id)
+);
 
 -- Le protocole appliqué à un lot précis. C'est ce qui transforme une page de
 -- consignes en checklist obligatoire : tant qu'un point n'a pas de verdict,
@@ -546,6 +570,10 @@ try { db.exec(`ALTER TABLE qc_controles ADD COLUMN pieces INTEGER`); } catch { /
 // titres qu'on confond. Le nom court vient de correspondances.tsv, qui est la
 // liste de production ; il est vide tant que l'import ne l'a pas rempli, et
 // l'affichage retombe alors sur `nom`.
+// La table item_fil est née sans `modifie_le` : les bases déjà en ligne la
+// portent sans lui, et CREATE TABLE IF NOT EXISTS ne rattrape pas une colonne.
+try { db.exec(`ALTER TABLE item_fil ADD COLUMN modifie_le TEXT`); }
+catch { /* déjà là */ }
 try { db.exec(`ALTER TABLE produits ADD COLUMN nom_court TEXT NOT NULL DEFAULT ''`); }
 catch { /* déjà là */ }
 
@@ -615,7 +643,12 @@ function avancementOrdre(ordreId) {
            COALESCE(SUM(quantite), 0)              AS den,
            COUNT(*)                                AS n
     FROM ordre_items WHERE ordre_id = ?`).get(ordreId);
-  return { pct: r.den ? Math.round(r.num / r.den) : 0, items: r.n };
+  // Le pourcentage seul ne dit pas l'effort : 28 % de 300 pièces et 28 % de
+  // 26 000 ne se planifient pas pareil. On rend aussi les unités, faites et
+  // restantes, pour que l'écran puisse montrer la taille du morceau.
+  const faites = Math.round(r.num / 100);
+  return { pct: r.den ? Math.round(r.num / r.den) : 0, items: r.n,
+           unites: r.den, faites, restant: r.den - faites };
 }
 
 
@@ -665,7 +698,12 @@ function listeFabrication({ inclureTermines = false, lieu = 'tunisie' } = {}) {
              WHERE j.ordre_id = o.id AND j.date < date('now')) AS jalons_passes,
            (SELECT j.titre FROM ordre_jalons j
              WHERE j.ordre_id = o.id AND j.date >= date('now')
-             ORDER BY j.date LIMIT 1) AS echeance_titre
+             ORDER BY j.date LIMIT 1) AS echeance_titre,
+           -- La photo studio de la fiche. Rien n'est hébergé ici : c'est
+           -- l'adresse d'origine, redimensionnée par le CDN à l'affichage.
+           (SELECT f.url FROM produit_photos f WHERE f.produit_id = p.id
+             ORDER BY CASE f.type WHEN 'studio' THEN 0 ELSE 1 END,
+                      f.rang, f.id LIMIT 1) AS photo
     FROM ordre_items i
     JOIN ordres o   ON o.id = i.ordre_id
     JOIN produits p ON p.id = i.produit_id
@@ -695,6 +733,51 @@ function listeFabrication({ inclureTermines = false, lieu = 'tunisie' } = {}) {
        // à date égale, la hiérarchie des familles
     || (RANG_FAMILLE[a.famille] ?? 3) - (RANG_FAMILLE[b.famille] ?? 3)
     || b.restant - a.restant);
+}
+
+/**
+ * La vue d'ensemble des produits, pour le tableau de bord.
+ *
+ * Le tableau de bord disait « 27 243 pièces à faire » sans dire DE QUOI. Or
+ * la question qu'on se pose en ouvrant l'app le matin n'est pas « combien »,
+ * c'est « lesquels » : qu'est-ce qui est fini, qu'est-ce qui n'a pas bougé.
+ * Un chiffre global ne répond jamais à ça, une grille de pièces oui.
+ *
+ * Un produit, une tuile — pas un item d'ordre. Si la même pièce revient dans
+ * deux ordres, elle compte une fois, avec la somme de ses quantités : à
+ * l'atelier c'est le même travail, et la voir deux fois ferait croire à deux
+ * lots distincts.
+ *
+ * `fabrication` accompagne chaque ligne : ce qui vient de Chine est au plan
+ * mais n'est pas du travail d'atelier, et la vue doit pouvoir le dire au lieu
+ * de le mélanger au reste.
+ */
+function apercuProduction() {
+  return db.prepare(`
+    SELECT p.id, p.code, ${NOM_PRODUIT} AS nom, p.famille, p.fabrication,
+           SUM(i.quantite)                    AS quantite,
+           SUM(i.quantite * i.avancement)     AS pondere,
+           MAX(i.maj_le)                      AS maj_le,
+           MIN(i.ordre_id)                    AS ordre_id,
+           (SELECT f.url FROM produit_photos f WHERE f.produit_id = p.id
+             ORDER BY CASE f.type WHEN 'studio' THEN 0 ELSE 1 END,
+                      f.rang, f.id LIMIT 1)   AS photo
+      FROM ordre_items i
+      JOIN ordres o   ON o.id = i.ordre_id
+      JOIN produits p ON p.id = i.produit_id
+     WHERE o.statut IN ('planifie','en_cours')
+     GROUP BY p.id`).all()
+    .map(l => {
+      // L'avancement d'un produit réparti sur deux ordres se pondère par les
+      // quantités : 100 % de 100 pièces et 0 % de 2 000 ne font pas 50 %.
+      const pct = l.quantite ? Math.round(l.pondere / l.quantite) : 0;
+      const fait = Math.round(l.pondere / 100);
+      return { ...l, pct, fait, restant: l.quantite - fait };
+    })
+    // Ce qui n'a pas bougé d'abord, et parmi ça le plus gros morceau : c'est
+    // l'ordre dans lequel on VEUT lire la grille. Le fini part au bout, où il
+    // se regarde comme un bilan plutôt que comme du travail.
+    .sort((a, b) => a.pct - b.pct || b.restant - a.restant);
 }
 
 /** Les N dernières mises à jour d'avancement, tous ordres confondus. */
@@ -1138,15 +1221,42 @@ function protocole(produitId, { generalCompris = true } = {}) {
   const l = db.prepare(
     `SELECT q.*, u.nom AS auteur FROM qc_points q
        LEFT JOIN utilisateurs u ON u.id = q.cree_par
-      WHERE q.produit_id IS ?${generalCompris ? ' OR q.produit_id IS NULL' : ''}
+      WHERE (q.produit_id IS ?${generalCompris ? ' OR q.produit_id IS NULL' : ''})
+        AND q.id NOT IN (SELECT point_id FROM qc_hors_sujet WHERE produit_id IS ?)
       -- Le général passe en dernier : on lit d'abord ce qui est propre au
       -- produit, l'emballage vient à la fin de toute façon.
-      ORDER BY (q.produit_id IS NULL), q.rang, q.id`).all(produitId);
+      ORDER BY (q.produit_id IS NULL), q.rang, q.id`).all(produitId, produitId);
   const par = {};
   for (const cle of Object.keys(TYPES_QC)) par[cle] = [];
   for (const q of l) (par[q.type] ||= []).push(q);
   return { points: l, par, total: l.length };
 }
+
+/**
+ * Ce qui a été écarté d'un produit, avec son motif et qui l'a jugé.
+ *
+ * Affiché sur la fiche, replié : un point mis de côté doit pouvoir être
+ * retrouvé et remis, sinon écarter devient aussi définitif que supprimer.
+ */
+const horsSujet = (produitId) => db.prepare(`
+  SELECT h.*, q.titre, q.type, u.nom AS auteur
+    FROM qc_hors_sujet h
+    JOIN qc_points q ON q.id = h.point_id
+    LEFT JOIN utilisateurs u ON u.id = h.cree_par
+   WHERE h.produit_id = ?
+   ORDER BY q.rang, q.id`).all(produitId);
+
+/** Écarter un point général d'un produit. Rejouable sans faire de doublon. */
+const poserHorsSujet = (produitId, pointId, motif, utilisateurId = null) =>
+  db.prepare(`INSERT INTO qc_hors_sujet (produit_id, point_id, motif, cree_par)
+              VALUES (?,?,?,?)
+              ON CONFLICT(produit_id, point_id) DO UPDATE SET motif = excluded.motif`)
+    .run(produitId, pointId, motif, utilisateurId).changes;
+
+/** Le remettre dans la liste. */
+const retirerHorsSujet = (produitId, pointId) => db.prepare(
+  `DELETE FROM qc_hors_sujet WHERE produit_id = ? AND point_id = ?`)
+  .run(produitId, pointId).changes;
 
 /** Les libellés des sections de la charte, dans l'ordre où on les lit. */
 const SECTIONS_CHARTE = {
@@ -1352,7 +1462,10 @@ function couvertureQC({ lieu = 'tunisie' } = {}) {
            SUM(CASE WHEN q.type = 'cyclage'  THEN 1 ELSE 0 END) AS cyclages,
            (SELECT SUM(i.quantite) FROM ordre_items i
              JOIN ordres o ON o.id = i.ordre_id
-            WHERE i.produit_id = p.id AND o.statut IN ('planifie','en_cours')) AS a_produire
+            WHERE i.produit_id = p.id AND o.statut IN ('planifie','en_cours')) AS a_produire,
+           (SELECT f.url FROM produit_photos f WHERE f.produit_id = p.id
+             ORDER BY CASE f.type WHEN 'studio' THEN 0 ELSE 1 END,
+                      f.rang, f.id LIMIT 1) AS photo
       FROM produits p
       LEFT JOIN qc_points q ON q.produit_id = p.id
      WHERE p.actif = 1 AND p.fabrication = ?
@@ -1403,8 +1516,12 @@ function checklistItem(itemId) {
         ON c.id = (SELECT MAX(x.id) FROM qc_controles x
                     WHERE x.point_id = q.id AND x.item_id = ?)
       LEFT JOIN utilisateurs u ON u.id = c.utilisateur_id
-     WHERE q.produit_id IS ? OR q.produit_id IS NULL
-     ORDER BY (q.produit_id IS NULL), q.rang, q.id`).all(itemId, it.produit_id)
+     WHERE (q.produit_id IS ? OR q.produit_id IS NULL)
+       -- Ce qui est écarté du produit n'a pas à être coché sur son lot : la
+       -- liste doit rester cochable en entier, sinon elle ne l'est jamais.
+       AND q.id NOT IN (SELECT point_id FROM qc_hors_sujet WHERE produit_id = ?)
+     ORDER BY (q.produit_id IS NULL), q.rang, q.id`)
+    .all(itemId, it.produit_id, it.produit_id)
     // L'échantillon se calcule ici, contre la quantité de CE lot : c'est ce qui
     // rend la consigne utilisable sans faire de division.
     .map(q => {
@@ -1536,6 +1653,28 @@ const reglerDemandes = (itemId, utilisateurId) => db.prepare(
     WHERE item_id = ? AND type = 'demande' AND regle_le IS NULL`)
   .run(utilisateurId, itemId).changes;
 
+/**
+ * Corriger son propre message.
+ *
+ * `utilisateur_id = ?` dans la clause, pas seulement dans le contrôle d'accès :
+ * personne ne réécrit les mots de quelqu'un d'autre, pas même par une URL
+ * fabriquée à la main. Un fil où l'on peut se faire changer ses propos ne vaut
+ * plus rien comme trace.
+ */
+const modifierFil = (id, itemId, utilisateurId, texte) => db.prepare(
+  `UPDATE item_fil SET texte = ?, modifie_le = datetime('now')
+    WHERE id = ? AND item_id = ? AND utilisateur_id = ?`)
+  .run(texte, id, itemId, utilisateurId).changes;
+
+/** Retirer son propre message — une note posée sur le mauvais lot. */
+const supprimerFil = (id, itemId, utilisateurId) => db.prepare(
+  `DELETE FROM item_fil WHERE id = ? AND item_id = ? AND utilisateur_id = ?`)
+  .run(id, itemId, utilisateurId).changes;
+
+/** Une entrée précise, pour la présenter en formulaire. */
+const ligneFil = (id, itemId) => db.prepare(
+  `SELECT * FROM item_fil WHERE id = ? AND item_id = ?`).get(id, itemId);
+
 /** Clore une entrée précise, à la main. */
 const reglerFil = (id, itemId, utilisateurId) => db.prepare(
   `UPDATE item_fil SET regle_le = datetime('now'), regle_par = ?
@@ -1613,7 +1752,7 @@ function compteTaches(utilisateurId) {
 const equipe = () => db.prepare(
   `SELECT id, nom, role FROM utilisateurs WHERE actif = 1 ORDER BY nom`).all();
 
-module.exports = { db, prochainNumero, avancementOrdre, CHEMIN,
+module.exports = { db, prochainNumero, avancementOrdre, apercuProduction, CHEMIN,
                    CATEGORIES, RANG_CATEGORIE, MOTIFS, UNITES, qte,
                    uniteAffichee,
                    etatMatieres, etatProduits, alertesStock, besoinsMatieres,
@@ -1626,8 +1765,10 @@ module.exports = { db, prochainNumero, avancementOrdre, CHEMIN,
                    brisProduit, brisParPoint, zonesFragiles, nonConformites,
                    murDesBris,
                    checklistItem, blocageQC, etatQCOrdre,
+                   horsSujet, poserHorsSujet, retirerHorsSujet,
                    filItem, filOrdre, filEnAttente, demandeOuverte,
                    reglerDemandes, reglerFil, TYPES_FIL,
+                   modifierFil, supprimerFil, ligneFil,
                    listeFabrication, dernieresMaj, sansMouvement,
                    progressionRecente, fabriqueAilleurs, variantesItem,
                    RANG_PRIORITE, RANG_FAMILLE, FAMILLES, LIEUX,

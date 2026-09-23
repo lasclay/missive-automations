@@ -1,0 +1,21 @@
+# Les points généraux qui ne veulent rien dire sur un produit précis.
+#
+# Un point général est juste EN GÉNÉRAL. « Aucune tension aux emmanchures ni à
+# l'entrejambe » est une bonne consigne pour un manteau et une absurdité pour un
+# sac. Le point reste au protocole général — on l'écarte de ce produit-là.
+#
+# Écarter, pas supprimer : effacer le point le retirerait de TOUS les produits,
+# y compris ceux où il tient la route. Il disparaît de la fiche et de la liste à
+# cocher du lot, et reste retrouvable, replié, sur la fiche.
+#
+# Le motif est obligatoire. Dans six mois, personne ne saura si c'était un
+# jugement ou un clic de trop.
+#
+# Le point se désigne par son TITRE, comparé sans accents ni ponctuation : un
+# identifiant changerait au prochain import, pas le titre.
+#
+# Importer : node mrp/import_qualite.js --squelettes --hors-sujet --ecrire
+produit	titre	motif
+TOTE	Essai porté — aisance et amplitude	Un tote ne se porte pas sur le corps : il n'a ni emmanchure, ni entrejambe, ni dos.
+TOTE	Essai porté — points de frottement	Ni col ni poignets. Ce qui frotte sur un tote, ce sont les anses — c'est la symétrie qui les regarde.
+TOTE	Fermeture éclair — glissement sur toute la course	Le tote n'a pas de fermeture éclair.

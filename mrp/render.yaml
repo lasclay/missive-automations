@@ -48,3 +48,21 @@ services:
         sync: false
       - key: MRP_ADMIN_MDP
         sync: false               # 8 caractères minimum, sinon le compte n'est pas créé
+
+      # --- le rappel hebdomadaire de l'atelier ---
+      # La tâche se pose toute seule, sans rien à régler. Le COURRIEL, lui,
+      # demande deux clés, et la seconde n'existe que pour ça : la présence du
+      # secret Missive n'est pas un consentement à s'en servir. Sans
+      # MRP_COURRIEL_ARME, le message est composé et écrit au journal, et
+      # personne ne le reçoit.
+      - key: MRP_COURRIEL_ARME
+        sync: false               # « 1 » pour que le rappel parte vraiment
+      - key: MISSIVE_PROXY_SECRET
+        sync: false               # le même que le proxy Missive ; requis en plus
+
+      # --- lire l'état réel de l'extérieur ---
+      # Sans ce jeton, /export.json n'existe pas. 24 caractères minimum, sinon
+      # il est traité comme absent. À générer une fois :
+      #   head -c 32 /dev/urandom | base64
+      - key: MRP_JETON_EXPORT
+        sync: false
