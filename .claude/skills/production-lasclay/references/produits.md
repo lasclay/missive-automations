@@ -34,16 +34,26 @@ charte Miro en décrit **cinq**. Le croisement des deux sources donne :
 | Plan de production | Charte Miro | Lecture |
 | --- | --- | --- |
 | Jaune · Rouge · Vert · Noir | idem | concordant |
-| **Casonnade** | **beige** | même coloris, deux noms |
+| **Casonnade** | **beige** | **un seul coloris**, trois orthographes — le chiffrier perd un s |
 | **Rose** | *absent* | **produit sans fiche** — 55 sacs à lunch, 9 besaces, 10 totes |
-| *(étui)* Beige | *(étui)* Caramel | même coloris, deux noms |
+| *(étui)* Beige | *(étui)* Caramel | probablement le même, à confirmer sur un échantillon |
 
-**Le rose est le cas qui coûte.** Soixante-quatorze pièces sont au plan, et la
-charte ne dit pas s'il se coupe en 10 ou en 12 oz — or l'épaisseur du coton
-dépend précisément de la couleur. **À faire trancher.**
+**Beige = cassonade**, confirmé par Gabriel. `variantes.js` fait pointer les
+trois clés — `beige`, `cassonade`, `casonnade` — sur la teinte relevée au
+tableau, `#c69e7d`, et un test l'épingle : trois pastilles différentes pour un
+seul rouleau de coton feraient couper trois fois la mauvaise couleur.
 
-Les trois lignes de charte portent maintenant la divergence, plutôt que de
-choisir une source en silence.
+**Le rose est le cas qui reste.** Soixante-quatorze pièces au plan, et la charte
+ne dit pas s'il se coupe en 10 ou en 12 oz — or l'épaisseur du coton dépend
+précisément de la couleur. **À faire trancher.**
+
+**Une limite de la table des teintes, assumée.** Le tableau donne **deux rouges
+et deux verts** : les accessoires en viscose (`#9f3a1f`, `#184038`) et les
+isothermes en coton (`#8b2b37`, `#37552f`) ne sont pas teints pareil. Une table
+à une clé par nom ne sait pas le dire, et en choisir un afficherait la mauvaise
+teinte à la moitié du catalogue. L'approximation est gardée — fausse pour tout
+le monde de la même façon, ce qui est moins trompeur qu'une exactitude qui ne
+vaut qu'à moitié. Gris pâle, gris foncé et jaune, eux, sont exacts.
 
 ### 2. Le coton change d'épaisseur selon la couleur
 

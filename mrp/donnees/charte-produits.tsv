@@ -244,8 +244,8 @@ BESACE	coloris	Noir 10 oz (#1a1a1a)
 BESACE	coloris	Rouge 10 oz (#8b2b37)
 BESACE	coloris	Vert 12 oz (#37552f)
 BESACE	coloris	Jaune 10 oz (#f1b92a)
-BESACE	coloris	Casonnade / beige 10 oz (#c69e7d) — « beige » à la charte, « Casonnade » au plan de production : même coloris, deux noms
-BESACE	coloris	Rose — AU PLAN MAIS ABSENT DE LA CHARTE. Produit en 26-27 (55 sacs à lunch, 9 besaces, 10 totes) sans fiche ni épaisseur de coton documentée. À faire trancher : 10 ou 12 oz ?
+BESACE	coloris	Beige 10 oz (#c69e7d) — dit « cassonade » au plan de production, écrit « Casonnade » au chiffrier, sans le second s. Un seul et même coloris.
+BESACE	coloris	Rose — AU PLAN MAIS ABSENT DE LA CHARTE. 9 pièces au plan 26-27, sans fiche ni épaisseur de coton documentée. À faire trancher : 10 ou 12 oz ?
 CACHE-COU	taille	Taille unique (adulte)
 CACHE-COU	coloris	Noir (#1a1a1a)
 CACHE-COU	coloris	Rouge (#9f3a1f)
@@ -264,7 +264,7 @@ ETUI-TEL	taille	Taille unique
 ETUI-TEL	coloris	Noir (#1a1a1a)
 ETUI-TEL	coloris	Rouge (#8b2b37)
 ETUI-TEL	coloris	Vert (#37552f)
-ETUI-TEL	coloris	Caramel (#734b17) — nommé « Beige » au plan de production, « Caramel » à la charte : même coloris, deux noms
+ETUI-TEL	coloris	Caramel (#734b17) — le plan de production l'appelle « Beige ». Deux noms pour ce qui est probablement un seul coloris, à confirmer sur un échantillon
 FOULARD	taille	Taille unique
 FOULARD	coloris	Noir (#1a1a1a)
 FOULARD	coloris	Rouge (#9f3a1f)
@@ -309,8 +309,8 @@ SAC-LUNCH	coloris	Noir 10 oz (#1a1a1a)
 SAC-LUNCH	coloris	Rouge 10 oz (#8b2b37)
 SAC-LUNCH	coloris	Vert 12 oz (#37552f)
 SAC-LUNCH	coloris	Jaune 10 oz (#f1b92a)
-SAC-LUNCH	coloris	Casonnade / beige 10 oz (#c69e7d) — « beige » à la charte, « Casonnade » au plan de production : même coloris, deux noms
-SAC-LUNCH	coloris	Rose — AU PLAN MAIS ABSENT DE LA CHARTE. Produit en 26-27 (55 sacs à lunch, 9 besaces, 10 totes) sans fiche ni épaisseur de coton documentée. À faire trancher : 10 ou 12 oz ?
+SAC-LUNCH	coloris	Beige 10 oz (#c69e7d) — dit « cassonade » au plan de production, écrit « Casonnade » au chiffrier, sans le second s. Un seul et même coloris.
+SAC-LUNCH	coloris	Rose — AU PLAN MAIS ABSENT DE LA CHARTE. 55 pièces au plan 26-27, sans fiche ni épaisseur de coton documentée. À faire trancher : 10 ou 12 oz ?
 SEMELLE-678	taille	5F, 6F, 7F, 8F — les quatre petites pointures du parc
 SEMELLE-9	taille	9F, 10F, 11F, 12F, 13H, 14H, 15H — les sept grandes
 TOTE	taille	Taille unique
@@ -318,8 +318,8 @@ TOTE	coloris	Noir 10 oz (#1a1a1a)
 TOTE	coloris	Rouge 10 oz (#8b2b37)
 TOTE	coloris	Vert 12 oz (#37552f)
 TOTE	coloris	Jaune 10 oz (#f1b92a)
-TOTE	coloris	Casonnade / beige 10 oz (#c69e7d) — « beige » à la charte, « Casonnade » au plan de production : même coloris, deux noms
-TOTE	coloris	Rose — AU PLAN MAIS ABSENT DE LA CHARTE. Produit en 26-27 (55 sacs à lunch, 9 besaces, 10 totes) sans fiche ni épaisseur de coton documentée. À faire trancher : 10 ou 12 oz ?
+TOTE	coloris	Beige 10 oz (#c69e7d) — dit « cassonade » au plan de production, écrit « Casonnade » au chiffrier, sans le second s. Un seul et même coloris.
+TOTE	coloris	Rose — AU PLAN MAIS ABSENT DE LA CHARTE. 10 pièces au plan 26-27, sans fiche ni épaisseur de coton documentée. À faire trancher : 10 ou 12 oz ?
 TUQUE-SPORT	taille	s/m et m/l
 TUQUE-SPORT	coloris	Noir (#1a1a1a)
 TUQUE-VILLE	taille	Femme : XS S M L XL XXL

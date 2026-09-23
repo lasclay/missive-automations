@@ -20,24 +20,36 @@ const plat = (t) => String(t || '')
 /**
  * Les coloris du catalogue, avec leur teinte d'affichage.
  *
- * Ce ne sont pas les couleurs exactes des tissus — personne n'a de nuancier
- * ici. Ce sont des repères : assez justes pour qu'on reconnaisse la pastille
- * d'un coup d'œil, et assumés comme approximatifs.
+ * La plupart sont des repères approximatifs — personne n'avait de nuancier.
+ * Trois viennent maintenant des pastilles du tableau Miro et sont exactes :
+ * gris pâle, gris foncé et jaune.
+ *
+ * DEUX NE PEUVENT PAS L'ÊTRE, et c'est une limite de cette table. Le tableau
+ * donne DEUX rouges et DEUX verts — les accessoires en viscose (#9f3a1f,
+ * #184038) et les isothermes en coton (#8b2b37, #37552f) ne sont pas teints
+ * pareil. Une table à une clé par nom ne sait pas le dire ; en choisir un
+ * ferait afficher la mauvaise teinte à la moitié des produits. On garde donc
+ * l'approximation, qui est fausse pour tout le monde de la même façon — c'est
+ * moins trompeur qu'une exactitude qui ne vaut que pour la moitié du catalogue.
  */
 const COULEURS = {
   'noir':        '#1c1f22',
-  'gris fonce':  '#4a5158',
+  'gris fonce':  '#58585b',   // relevé du tableau Miro
   'gris':        '#7c858d',
-  'gris pale':   '#b9c0c6',
+  'gris pale':   '#b5b5b7',   // relevé du tableau Miro
   'blanc':       '#f1f3f4',
-  'beige':       '#d9c9a8',
-  'casonnade':   '#a9784a',   // cassonade — le chiffrier écrit « Casonnade »
-  'cassonade':   '#a9784a',
+  // Beige et cassonade sont UN SEUL coloris sous trois orthographes : la charte
+  // dit « beige », le plan de production dit « cassonade », et le chiffrier
+  // l'écrit « Casonnade », sans le second s. Les trois clés pointent donc la
+  // même teinte, relevée sur la pastille du tableau. Confirmé par Gabriel.
+  'beige':       '#c69e7d',
+  'cassonade':   '#c69e7d',
+  'casonnade':   '#c69e7d',
   'brun':        '#7a5233',
   'rouge':       '#b3322c',
   'rose':        '#d98aa4',
   'orange':      '#c76a2a',
-  'jaune':       '#d9b23c',
+  'jaune':       '#f1b92a',   // relevé du tableau Miro
   'vert':        '#2f6b46',
   'vert foret':  '#1f4d33',
   'bleu':        '#2f5d8f',

@@ -358,7 +358,18 @@ t("l'atelier peut consulter le suivi",
   const V = require('../variantes.js');
 
   t('un coloris est reconnu et reçoit sa teinte',
-    V.typeVariante('Gris foncé') === 'couleur' && V.teinte('Gris foncé') === '#4a5158');
+    V.typeVariante('Gris foncé') === 'couleur' && V.teinte('Gris foncé') === '#58585b');
+
+  // Beige, cassonade et « Casonnade » sont UN coloris sous trois orthographes :
+  // la charte, le plan et le chiffrier ne l'écrivent pas pareil, et le
+  // chiffrier perd un s. Trois pastilles de teintes différentes pour un seul
+  // rouleau de coton feraient couper trois fois la mauvaise couleur.
+  t('beige, cassonade et la faute du chiffrier sont un seul coloris',
+    V.teinte('Beige') === V.teinte('Cassonade')
+    && V.teinte('Cassonade') === V.teinte('Casonnade')
+    && V.teinte('Beige') === '#c69e7d');
+  t('le rose du plan est un coloris, pas un « autre »',
+    V.typeVariante('Rose') === 'couleur' && Boolean(V.teinte('Rose')));
   t("l'accent et la casse ne changent rien",
     V.teinte('GRIS FONCE') === V.teinte('Gris foncé'));
   t('une taille est reconnue, sans teinte',
