@@ -283,17 +283,27 @@ console.log('\n  Silhouettes, anneaux et images\n');
   const PIC = require('../pictos.js');
   const HREF = '/qualite/planche/fils';
 
-  // Sous un point : l'AMORCE seule. La bande entière pèse six kilo-octets
-  // bruts ; sept points en porteraient quarante-quatre et la page passerait
-  // au travers du plafond. Un panneau, le compte, et un lien.
-  const amorce = PIC.planche('Fils qui dépassent — les retirer et les couper',
+  // Sous un point : la bande entière, chaque panneau cliquable vers SON geste.
+  // Le premier jet n'en montrait qu'un, sur un calcul en octets BRUTS ; c'est
+  // le compressé qui part sur le réseau, et les sept bandes d'une page y
+  // coûtent 770 octets de plus que sept amorces.
+  const bande = PIC.planche('Fils qui dépassent — les retirer et les couper',
     { href: HREF });
-  t('un point connu sort son amorce', amorce.includes('class="pi pi-l"'));
-  t('l\'amorce ne montre qu\'un panneau',
-    (amorce.match(/class="pi-p"/g) || []).length === 1, amorce.length + ' o');
-  t('elle dit combien d\'étapes suivent', amorce.includes('4 étapes'));
-  t('elle mène à la planche', amorce.includes(`href="${HREF}"`));
-  t('l\'amorce reste sous 2,5 Ko', amorce.length < 2500, amorce.length + ' o');
+  t('un point connu sort sa bande', bande.includes('class="pi"'));
+  t('la bande montre les quatre panneaux',
+    (bande.match(/class="pi-p"/g) || []).length === 4);
+  t('chaque panneau mène à SON geste, pas au premier',
+    [1, 2, 3, 4].every(i => bande.includes(`href="${HREF}#p${i}"`)));
+  t('sans lien, les panneaux ne sont pas cliquables',
+    !PIC.planche('Fils qui dépassent — les retirer et les couper').includes('<a '));
+  // Ce qui compte n'est ni le brut, ni une bande isolée : c'est la PAGE, où
+  // sept bandes se compressent les unes contre les autres. Mesurée seule, une
+  // bande fait 1,2 Ko ; les sept ensemble en font 2,3 — la structure se répète
+  // d'un panneau à l'autre et gzip en vit.
+  const gz = (x) => require('node:zlib').gzipSync(Buffer.from(x), { level: 9 }).length;
+  const page = Object.values(PIC.PLANCHES).flat().join('');
+  t('les sept planches d\'une page tiennent sous 3 Ko compressés',
+    gz(page) < 3000, gz(page) + ' o');
 
   // La page : tous les panneaux, chacun avec son ancre. Arriver par #p3 amène
   // au troisième geste, pas en haut de la page — c'est ce qui permet de

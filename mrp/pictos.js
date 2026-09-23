@@ -216,28 +216,28 @@ const panneau = (d, i, classe = 'pi-p') =>
   + `<text x="19" y="26">${i + 1}</text></g></svg>`;
 
 /**
- * L'amorce d'une planche sous un point de contrôle.
+ * La bande sous un point de contrôle : tous les panneaux, dans l'ordre.
  *
- * POURQUOI PAS LA BANDE ENTIÈRE ICI. Quatre panneaux pèsent six kilo-octets
- * bruts ; sept points en porteraient quarante-quatre, et la page passerait au
- * travers du plafond de douze kilo-octets compressés. Un seul panneau —
- * le premier geste — plus le compte des étapes, et le tout est un lien.
+ * CE QUE ÇA COÛTE VRAIMENT. Une bande de quatre panneaux pèse six kilo-octets
+ * BRUTS, et c'est le chiffre qui a d'abord fait renoncer — à tort. Compressée,
+ * la même bande en pèse deux cents : gzip écrase une structure qui se répète
+ * d'un panneau à l'autre. Les sept bandes d'une page coûtent 770 octets de
+ * plus que sept amorces. Raisonner sur le brut quand c'est le compressé qui
+ * part sur le réseau, c'est se priver pour rien.
  *
- * Et c'est aussi la bonne forme : sur un téléphone posé sur une table de
- * coupe, une bande de quatre vignettes ne se lit pas. On ouvre la planche,
- * on suit un geste à la fois.
+ * Chaque panneau est un lien vers SON geste sur la page de la planche : on
+ * clique le troisième, on arrive au troisième, en grand.
  */
 function planche(titre, { href = null } = {}) {
   const k = cle(titre);
   if (!k) return '';
   const p = PLANCHES[k];
-  const dedans = panneau(p[0], 0, 'pi-p')
-    + `<span class="pi-suite">${p.length} étapes</span>`;
-  return href
-    ? `<a class="pi pi-l" href="${href}"
-        aria-label="Procédure illustrée, ${p.length} étapes">${dedans}</a>`
-    : `<span class="pi" role="img"
-        aria-label="Procédure illustrée, ${p.length} étapes">${dedans}</span>`;
+  const corps = p.map((d, i) => href
+    ? `<a class="pi-l" href="${href}#p${i + 1}"
+        aria-label="Agrandir l'étape ${i + 1} sur ${p.length}">${panneau(d, i)}</a>`
+    : panneau(d, i)).join('');
+  return `<div class="pi" role="img"
+    aria-label="Procédure illustrée, ${p.length} étapes">${corps}</div>`;
 }
 
 /**

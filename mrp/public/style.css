@@ -1616,8 +1616,11 @@ table.gantt{min-width:860px}
    Les couleurs sont ÉCRITES dans le SVG, pas prises au thème : une notice
    doit être la même partout, et un tissu qui change de vert entre deux
    téléphones cesse d'être une référence. Seul le cadre suit le thème. */
-.pi{display:inline-flex;align-items:flex-end;gap:9px;margin:9px 0 2px;
-  text-decoration:none;color:inherit}
+.pi{display:flex;flex-wrap:wrap;gap:9px;margin:9px 0 2px}
+/* Chaque panneau est un lien vers son geste en grand : on clique le
+   troisième, on arrive au troisième. Le curseur le dit. */
+a.pi-l{display:block;border-radius:12px;cursor:zoom-in}
+a.pi-l:hover .pi-fond{stroke-width:4}
 .pi-p,.pi-g{flex:0 0 auto;stroke:#17140f;stroke-width:2.4;
   stroke-linejoin:round;stroke-linecap:round}
 .pi-p{width:150px;height:119px}
@@ -1627,11 +1630,6 @@ table.gantt{min-width:860px}
   font:700 17px/1 system-ui,sans-serif}
 /* « 4 étapes » : le seul mot de l'interface autour d'une planche. Il est
    DEHORS, jamais dans le dessin. */
-.pi-suite{font-size:12.5px;font-weight:650;color:var(--gris);
-  padding-bottom:4px;white-space:nowrap}
-.pi-suite::after{content:' \2197'}
-a.pi:hover .pi-fond{stroke-width:3.6}
-a.pi:hover .pi-suite{color:var(--vert)}
 
 /* ---------- la planche en grand : un geste par ligne ---------- */
 .bd{list-style:none;margin:18px 0 0;padding:0;display:flex;flex-direction:column;
