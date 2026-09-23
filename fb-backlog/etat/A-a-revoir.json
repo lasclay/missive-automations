@@ -4422,6 +4422,56 @@
       "motif": "félicitations pour une entente nommée avec une dragonne — répondre confirmerait ou nierait l'issue de l'émission",
       "ecarte_le": "2026-09-18",
       "tir": "A"
+    },
+    {
+      "id": "1678623234271486_1088288533743035",
+      "page_id": "104242204750257",
+      "date": "2026-09-19T17:26:44+0000",
+      "message": "Félicitations pour l'offre que vous avez reçue et acceptée ! Vous pouvez être fière car ce n'est pas une dragonne facile à convaincre ! Je crois qu'elle pourra sûrement vous aider !",
+      "lien": "https://www.facebook.com/reel/1846709969671835/?comment_id=1088288533743035",
+      "motif": "félicitations pour une offre reçue et acceptée d'une dragonne nommée — toute réponse publique confirmerait ou nierait le déroulement et l'issue de l'émission",
+      "ecarte_le": "2026-09-19",
+      "tir": "A"
+    },
+    {
+      "id": "1674454204688389_1055223640909629",
+      "page_id": "104242204750257",
+      "date": "2026-09-20T18:58:05+0000",
+      "message": "Êtes-vous chez plastiques GPR?",
+      "lien": "https://www.facebook.com/reel/939615099187539/?comment_id=1055223640909629",
+      "motif": "question sur un lien d'affaires avec une entreprise nommée (Plastiques GPR) — rien de vérifié sur nos fournisseurs ou nos points de vente, confirmer comme nier serait inventé",
+      "ecarte_le": "2026-09-20",
+      "tir": "A"
+    },
+    {
+      "id": "1674454204688389_2416491205543837",
+      "page_id": "104242204750257",
+      "date": "2026-09-21T11:35:13+0000",
+      "message": "ben oui mettre des graine dans du plastique ca va pogner hahaha lacher pas l'école les gars....",
+      "lien": "https://www.facebook.com/reel/939615099187539/?comment_id=2416491205543837",
+      "motif": "raillerie sur l'emballage plastique des semences — rien de vérifié sur nos emballages, et le ton moqueur n'appelle pas de réponse publique",
+      "ecarte_le": "2026-09-21",
+      "tir": "A"
+    },
+    {
+      "id": "1674454204688389_1648235900194857",
+      "page_id": "104242204750257",
+      "date": "2026-09-22T14:40:53+0000",
+      "message": "Est ce que vous faites des pinces molles ? Pour conduire?",
+      "lien": "https://www.facebook.com/reel/939615099187539/?comment_id=1648235900194857",
+      "motif": "hors des faits verifies: rien dans faits-verifies.json sur des pinces (souples ou non); confirmer ou nier une variante produit serait invente. Intention d'achat 1, a reprendre par un humain.",
+      "ecarte_le": "2026-09-22",
+      "tir": "A"
+    },
+    {
+      "id": "1678623234271486_1645724933871984",
+      "page_id": "104242204750257",
+      "date": "2026-09-23T00:37:44+0000",
+      "message": "Before I order anything more, please deliver what I ordered months ago and wrote you 2 emails about that have gone unanswered!!!!",
+      "lien": "https://www.facebook.com/reel/1846709969671835/?comment_id=1645724933871984",
+      "motif": "plainte de commande (commande non livree, deux courriels sans reponse): jamais de reponse publique, a traiter en prive par le service client. Intention d'achat 5.",
+      "ecarte_le": "2026-09-22",
+      "tir": "A"
     }
   ]
 }

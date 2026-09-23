@@ -11,7 +11,10 @@
  *   POST /structure  {}               → carte de la boîte : organisations, équipes,
  *                                       étiquettes partagées (avec hiérarchie), membres.
  *                                       Chaque bloc dégrade seul → champ `errors`.
- *   POST /list       {filter}         → liste des conversations (ex. "shared_label=ID")
+ *   POST /list       {filter, pages?,  → liste des conversations (ex. "shared_label=ID").
+ *                     since?, until?}    `pages` borne le travail, `since` (unix) borne
+ *                                        l'histoire, `until` reprend au curseur rendu.
+ *                                        Sans bornes : pagine jusqu'à épuisement, comme avant.
  *   POST /conversation {id}           → fil complet nettoyé (NOUS/EUX, daté). Chaque message porte
  *                                       son `id` et, s'il y a lieu, `attachments[]` (métadonnées).
  *   POST /attachment {messageId,
@@ -118,9 +121,32 @@ const SELF = (process.env.MISSIVE_SELF_ADDRESSES ||
 const isUs = (m) => SELF.includes((m.from_field?.address || "").toLowerCase()) || !!m.author?.name;
 
 // --- Handlers ---
-async function listConversations(filter) {
+/**
+ * Liste des conversations, avec DEUX BORNES et un CURSEUR.
+ *
+ * Pourquoi : cette fonction paginait jusqu'à épuisement. Sur une étiquette de
+ * quelques dizaines de fils c'est sans conséquence ; sur `closed=true`, qui
+ * couvre tout l'historique du compte, ça demande des centaines de pages d'un
+ * seul coup. Résultat observé : la requête meurt en timeout côté Render, ou
+ * Missive répond 429 avec « retry_after: 455 » — et les trois essais de 30 s
+ * de `mGet` n'y suffisent pas. On ne pouvait donc PAS lire les fils fermés.
+ *
+ * Trois paramètres, tous facultatifs — sans eux, le comportement d'avant :
+ *
+ *   pages  nombre maximal de pages (50 fils chacune). Borne le TRAVAIL.
+ *   since  horodatage unix : on s'arrête dès qu'une page descend plus bas.
+ *          Borne l'HISTOIRE — « les trois dernières années » et pas plus.
+ *   until  reprend où un appel précédent s'est arrêté.
+ *
+ * Le retour porte `until` quand il reste des pages : le curseur à repasser au
+ * prochain appel. C'est ce qui permet d'avaler un gros historique en tranches
+ * digestes plutôt qu'en une requête qui tombe.
+ */
+async function listConversations(filter, { pages = 0, since = 0, until: depart = null } = {}) {
   const byId = new Map();
-  let until = null;
+  let until = depart || null;
+  let page = 0;
+  let reste = false;
   while (true) {
     let path = `/conversations?${filter}&limit=50`;
     if (until) path += `&until=${until}`;
@@ -128,10 +154,16 @@ async function listConversations(filter) {
     if (conversations.length === 0) break;
     for (const c of conversations) byId.set(c.id, { id: c.id, subject: c.subject || c.latest_message_subject || null, last_activity_at: c.last_activity_at });
     const oldest = conversations[conversations.length - 1].last_activity_at;
-    if (conversations.length < 50 || oldest === until) break;
+    page++;
+    if (conversations.length < 50 || oldest === until) { until = null; break; }
     until = oldest;
+    // Remonté au-delà de la fenêtre demandée : ce qui suit est plus vieux encore.
+    if (since && oldest < since) { until = null; break; }
+    if (pages && page >= pages) { reste = true; break; }
   }
-  return [...byId.values()];
+  const out = { conversations: [...byId.values()], pages: page };
+  if (reste && until) out.until = until;
+  return out;
 }
 
 // `limit` plafonnait à 10 messages : sur un fil de 25, on répondait en n'ayant lu que les 10
@@ -604,7 +636,12 @@ const server = http.createServer(async (req, res) => {
     }
     if (route === "/list") {
       if (!body.filter) return json(res, 400, { error: "filter requis (ex. shared_label=ID)" });
-      return json(res, 200, { conversations: await listConversations(body.filter) });
+      const r = await listConversations(body.filter, {
+        pages: Number(body.pages) || 0,
+        since: Number(body.since) || 0,
+        until: body.until || null,
+      });
+      return json(res, 200, r);
     }
     if (route === "/conversation") {
       if (!body.id) return json(res, 400, { error: "id requis" });

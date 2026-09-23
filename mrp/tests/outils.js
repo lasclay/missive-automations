@@ -358,7 +358,24 @@ t("l'atelier peut consulter le suivi",
   const V = require('../variantes.js');
 
   t('un coloris est reconnu et reçoit sa teinte',
-    V.typeVariante('Gris foncé') === 'couleur' && V.teinte('Gris foncé') === '#4a5158');
+    V.typeVariante('Gris foncé') === 'couleur' && V.teinte('Gris foncé') === '#58585b');
+
+  // Beige, cassonade et « Casonnade » sont UN coloris sous trois orthographes :
+  // la charte, le plan et le chiffrier ne l'écrivent pas pareil, et le
+  // chiffrier perd un s. Trois pastilles de teintes différentes pour un seul
+  // rouleau de coton feraient couper trois fois la mauvaise couleur.
+  t('beige, cassonade et la faute du chiffrier sont un seul coloris',
+    V.teinte('Beige') === V.teinte('Cassonade')
+    && V.teinte('Cassonade') === V.teinte('Casonnade')
+    && V.teinte('Beige') === '#c69e7d');
+  t('le rose du plan est un coloris, pas un « autre »',
+    V.typeVariante('Rose') === 'couleur' && Boolean(V.teinte('Rose')));
+  // Le caramel est un canevas 12 oz plus foncé, pas le beige 10 oz. Les
+  // confondre ferait sortir un étui dans la mauvaise épaisseur de coton.
+  t('le caramel est reconnu, et distinct du beige',
+    V.typeVariante('Caramel') === 'couleur'
+    && V.teinte('Caramel') === '#734b17'
+    && V.teinte('Caramel') !== V.teinte('Beige'));
   t("l'accent et la casse ne changent rien",
     V.teinte('GRIS FONCE') === V.teinte('Gris foncé'));
   t('une taille est reconnue, sans teinte',
@@ -601,10 +618,16 @@ t("l'atelier peut consulter le suivi",
     frequence: 'chaque pièce' }, cQ);
   t('une mesure porte sa valeur et son unité', q3.ok === true);
 
-  t('un volet inconnu est refusé, avec les quatre possibles', (() => {
-    const r = ex('ajouter_point_qc', { produit: 'CC-ADULTE', volet: 'esthetique',
+  t('un volet inconnu est refusé, et les volets valides sont nommés', (() => {
+    const r = ex('ajouter_point_qc', { produit: 'CC-ADULTE', volet: 'fantaisie',
       titre: 'X' }, cQ);
-    return Boolean(r.erreur) && r.erreur.includes('critique');
+    return Boolean(r.erreur) && r.erreur.includes('critique')
+        && r.erreur.includes('esthetique');
+  })());
+  t('« esthetique » est maintenant un volet valide', (() => {
+    const r = ex('ajouter_point_qc', { produit: 'CC-ADULTE', volet: 'esthetique',
+      titre: 'Fils qui dépassent' }, cQ);
+    return r.ok === true;
   })());
   t('un point sans titre est refusé',
     Boolean(ex('ajouter_point_qc', { produit: 'CC-ADULTE', volet: 'critique',
@@ -616,7 +639,7 @@ t("l'atelier peut consulter le suivi",
   // Lecture
   const lu = ex('lire_qualite', { produit: 'CC-ADULTE' }, mQ);
   t('le protocole se lit, groupé par volet',
-    lu.total === 3 && lu.points_critiques.length === 1
+    lu.total === 4 && lu.esthetique.length === 1 && lu.points_critiques.length === 1
       && lu.problemes_frequents.length === 1 && lu.mesures.length === 1,
     JSON.stringify({ t: lu.total }));
   t('la conséquence remonte : c\'est elle qui fait respecter la consigne',
@@ -646,8 +669,9 @@ t("l'atelier peut consulter le suivi",
   // Couverture
   const couv = D.couvertureQC();
   const cc = couv.find(x => x.code === 'CC-ADULTE');
-  t('la couverture compte par volet',
-    cc.points === 3 && cc.critiques === 1 && cc.mesures === 1, JSON.stringify(cc));
+  t('la couverture compte par volet, esthétique compris',
+    cc.points === 4 && cc.critiques === 1 && cc.mesures === 1
+    && cc.esthetiques === 1, JSON.stringify(cc));
   t('les produits sans protocole passent devant',
     couv[0].points === 0, couv[0].code + ' = ' + couv[0].points);
 
@@ -1092,8 +1116,14 @@ t("l'atelier peut consulter le suivi",
   const p = db.prepare(`SELECT * FROM produits WHERE id = ?`).get(pid);
   const html = V.vueProduit({ user: admin, p, photos: [], materiaux: [],
     patrons: [], ordres: [], qc: null, charte: null, bris: null });
+  // Le <h1> porte maintenant la silhouette du produit devant le nom : on
+  // compare donc le texte du titre, pas la chaîne au caractère près.
+  const titreH1 = (h) => (h.match(/<h1>([\s\S]*?)<\/h1>/) || ['', ''])[1]
+    .replace(/<[^>]*>/g, '').trim();
   t('la fiche titre avec le nom d\'usage',
-    html.includes('<h1>Manteau 3 saisons</h1>'));
+    titreH1(html) === 'Manteau 3 saisons', titreH1(html));
+  t('la silhouette du manteau précède le titre',
+    /<h1><i class="sil s-manteau"/.test(html));
   // Le gabarit échappe l'apostrophe : on compare ce qui est réellement servi.
   t('le titre Shopify reste visible sous le code',
     html.includes('vendu sous « Manteau hivernal isolé à l&#39;asclépiade »'));
@@ -1105,7 +1135,7 @@ t("l'atelier peut consulter le suivi",
     photos: [], materiaux: [], patrons: [], ordres: [], qc: null,
     charte: null, bris: null });
   t('sans nom d\'usage, le titre Shopify sert de nom',
-    nu.includes('<h1>Manteau hivernal isolé à l&#39;asclépiade</h1>'));
+    titreH1(nu) === 'Manteau hivernal isolé à l&#39;asclépiade', titreH1(nu));
   t('...et la mention « vendu sous » ne s\'affiche pas',
     !nu.includes('vendu sous'));
 
@@ -1207,9 +1237,12 @@ t("l'atelier peut consulter le suivi",
 
   // Les trois pages du volet se retrouvent sur la fiche.
   t('la fiche porte la sous-navigation du volet',
-    html.includes('sous-nav') && html.includes('/qualite') && html.includes('/mur'));
+    html.includes('sous-nav') && html.includes('/qualite')
+    && html.includes('/retroactions'));
+  t('« Ce qui casse » a bien disparu de la sous-navigation',
+    !V.sousNavProduits('fiches').includes('/mur'));
   t('la page ouverte est marquée dans la sous-navigation',
-    V.sousNavProduits('mur').includes('class="on" aria-current="page"'));
+    V.sousNavProduits('retroactions').includes('class="on" aria-current="page"'));
 
   db.prepare(`DELETE FROM charte WHERE source = 'essai'`).run();
 }
@@ -1270,35 +1303,60 @@ t("l'atelier peut consulter le suivi",
   const V = require('../vues.js');
   // Trois photos de la même couture : de loin, de près, retournée. Le client
   // les envoie ensemble, elles doivent rester ensemble.
-  const b = { id: 1, origine: 'client', zone: 'couture de bretelle',
-    texte: 'La bretelle s\'est décousue', survenu_le: '2026-07-04',
-    photo_url: 'https://drive.google.com/file/d/AAA1/view '
-             + 'https://drive.google.com/file/d/BBB2/view '
-             + 'https://drive.google.com/file/d/CCC3/view' };
-  const html = V.vueMur({ user: admin, groupes: [
-    { id: 1, code: 'GL-30', nom: 'Sac à dos glacière', bris: [b], photos: 1,
-      sansConsigne: 1, zones: [] }] });
+  // Les photos ont déménagé du mur des bris vers les rétroactions clients
+  // négatives, mais les règles qui les gouvernent n'ont pas changé : toujours
+  // redimensionnées au CDN, jamais de « data: » URI, et un fil qui porte
+  // trente-quatre pièces jointes ne les déverse pas toutes dans la page.
+  const ligne = (photos) => ({
+    id: 1, probleme: 'couture', titre: 'Couture décousue ou qui lâche',
+    categorie: 'bris', citation: "La bretelle s'est décousue après deux sorties.",
+    survenu_le: '2026-07-04', de_famille: false, famille: '',
+    photos: photos.join(' '), listePhotos: photos });
+  const vue = (photos) => V.vueRetroactions({
+    user: admin, p: { id: 1, code: 'GL-30', nom: 'Sac à dos glacière' },
+    retro: { famille: null, total: 1, propres: 1, groupes: [
+      { cle: 'couture', titre: 'Couture décousue ou qui lâche', categorie: 'bris',
+        photos: photos.length, propres: 1, lignes: [ligne(photos)] }] },
+    ouvre: 'couture' });
 
-  t('la première photo est demandée en grand',
-    html.includes('lh3.googleusercontent.com/d/AAA1=w640'));
-  t('les autres suivent en vignettes',
-    html.includes('lh3.googleusercontent.com/d/BBB2=w160')
-    && html.includes('lh3.googleusercontent.com/d/CCC3=w160'));
-  t('aucune photo n\'est servie en taille d\'origine',
-    !/lh3\.googleusercontent\.com\/d\/[A-Z0-9]+["' ]/.test(html));
-
-  // Une adresse unique, le cas courant, ne doit pas produire de bande vide.
-  const seule = V.vueMur({ user: admin, groupes: [
-    { id: 1, code: 'GL-30', nom: 'Sac', photos: 1, sansConsigne: 0, zones: [],
-      bris: [{ ...b, photo_url: 'https://drive.google.com/file/d/AAA1/view' }] }] });
-  t('une seule photo ne crée pas de bande de vignettes',
-    !seule.includes('mur-plus'));
+  const trois = vue(['https://drive.google.com/file/d/AAA1/view',
+                     'https://drive.google.com/file/d/BBB2/view',
+                     'https://drive.google.com/file/d/CCC3/view']);
+  t('les photos de clients sont demandées en vignette au CDN',
+    trois.includes('lh3.googleusercontent.com/d/AAA1=w320')
+    && trois.includes('lh3.googleusercontent.com/d/CCC3=w320'));
+  t('aucune image affichée n\'est en taille d\'origine',
+    (trois.match(/<img[^>]+src="[^"]*lh3\.googleusercontent\.com\/d\/[^"=]+"/g) || [])
+      .length === 0);
+  t('le lien de la vignette ouvre bien la pleine taille',
+    trois.includes('href="https://lh3.googleusercontent.com/d/AAA1"'));
 
   // Une « data: » URI ferait porter l'image entière à chaque page servie.
-  const sale = V.vueMur({ user: admin, groupes: [
-    { id: 1, code: 'GL-30', nom: 'Sac', photos: 0, sansConsigne: 0, zones: [],
-      bris: [{ ...b, photo_url: 'data:image/png;base64,iVBOR' }] }] });
+  const sale = vue(['data:image/png;base64,iVBOR']);
   t('une « data: » URI est écartée du rendu', !sale.includes('data:image'));
+
+  // Les pièces jointes sont celles du FIL : un fil qui en porte trente-quatre
+  // les accroche à chacune de ses citations. En montrer six suffit.
+  const beaucoup = vue(Array.from({ length: 12 },
+    (_, i) => `https://drive.google.com/file/d/P${i}/view`));
+  t('au-delà de six photos, le reste est compté et non rendu',
+    (beaucoup.match(/<img[^>]+lh3\.googleusercontent\.com/g) || []).length === 6
+    && beaucoup.includes('+6'));
+
+  // Un groupe qu'on n'a pas ouvert ne porte aucune citation.
+  const ferme = V.vueRetroactions({
+    user: admin, p: { id: 1, code: 'GL-30', nom: 'Sac' },
+    retro: { famille: null, total: 1, propres: 1, groupes: [
+      { cle: 'couture', titre: 'Couture', categorie: 'bris', photos: 0,
+        propres: 1, lignes: [ligne([])] }] }, ouvre: null });
+  t('un groupe fermé ne met aucune citation dans la page',
+    !ferme.includes('La bretelle s'));
+
+  // La mise en garde doit se lire avant les citations, pas après.
+  t('la page dit que ces rétroactions sont négatives et historiques',
+    trois.includes('rétroactions négatives') && trois.includes('historiques'));
+  t('la page dit que la plupart des pièces ne viennent pas de Tunisie',
+    /n.ont pas été\s+fabriquées en Tunisie/.test(trois));
 }
 
 const inconnu = ex('outil_qui_nexiste_pas', {}, c);

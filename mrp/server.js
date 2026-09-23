@@ -34,11 +34,14 @@ const { db, prochainNumero, avancementOrdre, listeFabrication, dernieresMaj,
         filOrdre, filEnAttente, demandeOuverte, reglerDemandes, reglerFil,
         modifierFil, supprimerFil,
         protocoleGeneral, echantillon, lireTableauTailles,
-        brisProduit, brisParPoint, zonesFragiles, nonConformites,
-        murDesBris,
+        brisProduit, brisParPoint,
         etatMatieres, etatProduits, alertesStock,
         nomenclatureProduit, produitsUtilisant, detailBesoin, coutMatiere,
-        mouvements, stocksMatieres, CATEGORIES, UNITES } = require('./db.js');
+        mouvements, stocksMatieres, CATEGORIES, UNITES,
+        qcOrdre, deposerRapport, rapportItem, CATEGORIES_QC,
+        MOTS_RAPPORT, compterMots,
+        retroactionsProduit, couvertureRetro,
+} = require('./db.js');
 const auth = require('./auth.js');
 const V = require('./vues.js');
 const V2 = require('./vues_inventaire.js');
@@ -378,6 +381,26 @@ async function router(req, res, url, user) {
   const admin = user.role === 'admin';
   const refus = () => vers(res, '/?err=' + encodeURIComponent('Action réservée à Admin QC'));
 
+  // ---- les photos envoyées par les clients
+  //
+  // SERVIES ICI, ET NON DANS LES STATIQUES, PARCE QUE LES STATIQUES PASSENT
+  // AVANT LA SESSION. Ce sont des photos de correspondance : elles ne doivent
+  // sortir que pour quelqu'un qui est entré dans l'app. C'est aussi pour ça
+  // qu'elles ne sont pas au Drive — une URL lh3 est lisible par quiconque l'a.
+  //
+  // Le nom est un UUID et rien d'autre : un identifiant qui ne correspond pas
+  // exactement à ce motif ne touche jamais le disque.
+  {
+    const m = p.match(/^\/photo-client\/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})\.jpg$/);
+    if (m) {
+      const f2 = path.join(__dirname, 'photos-clients', `${m[1]}.jpg`);
+      if (!fs.existsSync(f2)) return html(res, V.page({ titre:'Introuvable', user,
+        corps:'<div class="carte"><p class="vide">Cette photo n\'existe pas.</p></div>' }), 404);
+      return envoyer(req, res, fs.readFileSync(f2),
+        { 'content-type': 'image/jpeg', 'cache-control': 'private, max-age=86400' });
+    }
+  }
+
   // ---- tableau de bord
   if (p === '/' ) {
     const ordres = R.ordresListe.all().map(o => ({
@@ -453,6 +476,23 @@ async function router(req, res, url, user) {
     return html(res, V.vueOrdreForm({ user }));
   }
 
+  // ---- rétroactions clients
+  if (p === '/retroactions') {
+    return html(res, V.vueRetroactionsIndex({ user, msg, produits: couvertureRetro() }));
+  }
+  {
+    const mr = p.match(/^\/produits\/(\d+)\/retroactions$/);
+    if (mr) {
+      const pr = R.produit.get(+mr[1]);
+      if (!pr) return html(res, V.page({ titre:'Introuvable', user,
+        corps:'<div class="carte"><p class="vide">Ce produit n\'existe pas.</p></div>' }), 404);
+      const retro = retroactionsProduit(pr.id);
+      const demande = q.get('ouvre');
+      const ouvre = retro.groupes.some(g => g.cle === demande) ? demande : null;
+      return html(res, V.vueRetroactions({ user, msg, p: pr, retro, ouvre }));
+    }
+  }
+
   let m = p.match(/^\/ordres\/(\d+)(\/.*)?$/);
   if (m) {
     const id = +m[1], reste = m[2] || '';
@@ -494,6 +534,25 @@ async function router(req, res, url, user) {
       return vers(res, `/ordres/${id}#i${mi[1]}`);
     }
 
+    // ---- signature du contrôle qualité : le compte rendu d'au moins 50 mots.
+    // Vit ici, et non dans le routeur /qualite, parce que /ordres/:id/... est
+    // capturé plus haut : une route posée plus bas serait injoignable (404).
+    mi = reste.match(/^\/items\/(\d+)\/rapport$/);
+    if (mi && req.method === 'POST') {
+      const it = R.item.get(+mi[1], id);
+      const retour = `/qualite/ordres/${id}?vue=liste`;
+      if (!it) return vers(res, retour + '&err=' + encodeURIComponent('Lot introuvable.'));
+      const f = await corpsFormulaire(req);
+      const r = deposerRapport({ itemId: it.id, texte: f.texte,
+        medias: f.medias, utilisateurId: user.id });
+      // Un refus rouvre le lot : renvoyer la liste repliée ferait reprendre la
+      // navigation à zéro, et le texte qu'on vient d'écrire est déjà perdu.
+      if (r.erreur) return vers(res, `${retour}&ouvert=${it.id}&err=`
+        + encodeURIComponent(r.erreur) + `#lot${it.id}`);
+      return vers(res, retour + '&ok=' + encodeURIComponent(
+        `Contrôle signé — ${r.mots} mots${r.medias ? `, ${r.medias} média(s)` : ''}.`));
+    }
+
     // ---- la checklist qualité d'un lot
     {
       const mq = reste.match(/^\/items\/(\d+)\/qualite(?:\/(\d+))?$/);
@@ -524,9 +583,14 @@ async function router(req, res, url, user) {
             .run(it.id, pt.id, verdict, String(f.mesure || '').trim(),
                  Number.isInteger(vues) && vues >= 0 ? vues : null,
                  String(f.note || '').trim(), user.id);
-          return vers(res, `/ordres/${id}/items/${it.id}/qualite?ok=`
-            + encodeURIComponent(verdict === 'conforme'
-                ? 'Point vérifié.' : 'Écart enregistré.') + `#p${pt.id}`);
+          const avis = encodeURIComponent(verdict === 'conforme'
+            ? 'Point vérifié.' : 'Écart enregistré.');
+          // Le même geste part de deux pages. `retour=liste` dit d'où, pour
+          // ramener l'atelier où il était plutôt que sur la fiche complète.
+          if (f.retour === 'liste')
+            return vers(res, `/qualite/ordres/${id}?vue=liste&cat=${
+              encodeURIComponent(String(f.cat || 'tous'))}&ouvert=${it.id}&ok=${avis}#lot${it.id}`);
+          return vers(res, `/ordres/${id}/items/${it.id}/qualite?ok=${avis}#p${pt.id}`);
         }
 
         return html(res, V.vueChecklist({ user, msg, ordre: o,
@@ -663,7 +727,7 @@ async function router(req, res, url, user) {
         db.prepare(`DELETE FROM ordres WHERE id = ?`).run(id);
         return vers(res, '/ordres?ok=' + encodeURIComponent('Ordre supprimé.'));
       }
-      return html(res, V.page({ titre:'Introuvable', user,
+  return html(res, V.page({ titre:'Introuvable', user,
         corps:'<div class="carte"><p class="vide">Page inconnue.</p></div>' }), 404);
     }
 
@@ -786,6 +850,7 @@ async function router(req, res, url, user) {
       photos: R.photos.all(id), materiaux: R.materiaux.all(id),
       patrons: R.patrons.all(id), ordres: R.ordresDuProduit.all(id),
       qc: protocole(id), charte: charteProduit(id), bris: brisProduit(id),
+      retro: (retroactionsProduit(id) || { total: 0 }).total,
       nomenclature: nomenclatureProduit(id),
       coutMatiere: coutMatiere(id),
       stock: etatProduits().find(x => x.id === id) || null }));
@@ -947,14 +1012,63 @@ async function router(req, res, url, user) {
   }
 
   // ---- le mur des bris : ce que l'atelier regarde
-  if (p === '/mur') {
-    return html(res, V.vueMur({ user, msg, groupes: murDesBris() }));
-  }
+
 
   // ---- contrôle qualité : le protocole de chaque produit
+  // ---- contrôle qualité : trois portes sur une seule base
   if (p === '/qualite') {
-    return html(res, V.vueQualite({ user, msg, couverture: couvertureQC(),
-      general: protocoleGeneral(), zones: zonesFragiles(), nc: nonConformites() }));
+    const couv = couvertureQC();
+    const ordres = db.prepare(
+      `SELECT id FROM ordres WHERE statut IN ('planifie','en_cours')`).all();
+    let aFaire = 0;
+    for (const o of ordres) aFaire += qcOrdre(o.id).filter(l => !l.signe).length;
+    return html(res, V.vueQualiteAccueil({ user, msg, aFaire,
+      ordresActifs: ordres.length, produits: couv.length,
+      general: protocoleGeneral().length }));
+  }
+
+  if (p === '/qualite/produits') {
+    return html(res, V.vueQualiteProduits({ user, msg, produits: couvertureQC() }));
+  }
+
+  if (p === '/qualite/general' && req.method !== 'POST') {
+    return html(res, V.vueQualiteGeneral({ user, msg, general: protocoleGeneral() }));
+  }
+
+  if (p === '/qualite/ordres') {
+    const ordres = db.prepare(`SELECT id, numero, titre FROM ordres
+       WHERE statut IN ('planifie','en_cours') ORDER BY id DESC`).all()
+      .map(o => {
+        const l = qcOrdre(o.id);
+        return { ...o, aFaire: l.filter(x => !x.signe).length,
+                 signes: l.filter(x => x.signe).length,
+                 ecarts: l.reduce((n, x) => n + (x.signe ? 0 : x.ecarts), 0) };
+      });
+    return html(res, V.vueQCOrdres({ user, msg, ordres }));
+  }
+
+  {
+    const m = p.match(/^\/qualite\/ordres\/(\d+)$/);
+    if (m) {
+      const ordre = db.prepare(`SELECT * FROM ordres WHERE id = ?`).get(Number(m[1]));
+      if (!ordre) return vers(res, '/qualite/ordres?err='
+        + encodeURIComponent('Ordre introuvable.'));
+      const lignes = qcOrdre(ordre.id);
+      const CATS = CATEGORIES_QC;
+      const cat = Object.hasOwn(CATS, q.get('cat') || '')
+        ? q.get('cat') : 'tous';
+      const vue = q.get('vue') === 'liste' ? 'liste' : 'cartes';
+      // Le lot déplié, s'il est bien de cet ordre et pas déjà signé.
+      const demande = Number(q.get('ouvert'));
+      const ouvert = lignes.some(l => l.id === demande && !l.signe) ? demande : null;
+      // La sous-liste n'est montée QUE pour le lot ouvert, et seulement en vue
+      // liste : la construire pour les trente lots coûtait trente requêtes et
+      // 300 Ko de HTML pour du contenu replié que personne ne lisait.
+      const checklists = {};
+      if (vue === 'liste' && ouvert) checklists[ouvert] = checklistItem(ouvert);
+      return html(res, V.vueQCOrdre({ user, msg, ordre, lignes, cat, vue,
+        CATS, checklists, ouvert }));
+    }
   }
 
   /**
@@ -973,16 +1087,19 @@ async function router(req, res, url, user) {
     const valeur = (ech === 'ratio' || ech === 'fixe')
       ? (Number.isInteger(n) && n > 0 ? n : null) : null;
     const echRetenu = ((ech === 'ratio' || ech === 'fixe') && valeur === null) ? '' : ech;
+    // Une adresse d'image, ou rien. L'app n'héberge pas : une « data: » URI
+    // ferait porter l'image à chaque affichage de la page.
+    const schema = V.urlAcceptable(f.schema_url) ? String(f.schema_url).trim() : '';
     db.prepare(`INSERT INTO qc_points (produit_id, type, titre, detail, consequence,
                   variante, valeur, tolerance, unite, ech_type, ech_valeur,
-                  frequence, source, cree_par)
-                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)`)
+                  frequence, source, schema_url, cree_par)
+                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`)
       .run(produitId, type, titre,
         String(f.detail || '').trim(), String(f.consequence || '').trim(),
         String(f.variante || '').trim(), String(f.valeur || '').trim(),
         String(f.tolerance || '').trim(), String(f.unite || '').trim(),
         echRetenu, valeur, String(f.frequence || '').trim(),
-        String(f.source || '').trim(), utilisateurId);
+        String(f.source || '').trim(), schema, utilisateurId);
     return { ok: true };
   };
 
@@ -1348,6 +1465,13 @@ async function router(req, res, url, user) {
     return vers(res, '/compte?ok=' + encodeURIComponent(`Nom changé pour « ${r.nom} ».`));
   }
 
+  if (p === '/compte/unites' && req.method === 'POST') {
+    const f = await corpsFormulaire(req);
+    const r = auth.changerUnites(user.id, f.unites);
+    if (r.erreur) return vers(res, '/compte?err=' + encodeURIComponent(r.erreur));
+    return vers(res, '/compte?ok=' + encodeURIComponent(`Unités : ${r.libelle.toLowerCase()}.`));
+  }
+
   return html(res, V.page({ titre:'Introuvable', user,
     corps:'<div class="carte"><p class="vide">Page inconnue.</p></div>' }), 404);
 }
@@ -1368,9 +1492,21 @@ const serveur = http.createServer(async (req, res) => {
 
     if (STATIQUES[p]) {
       const [type, rel] = STATIQUES[p];
-      const buf = fs.readFileSync(path.join(__dirname, rel));
-      return envoyer(req, res, buf,
-        { 'content-type': type, 'cache-control': 'public, max-age=86400' });
+      let buf = fs.readFileSync(path.join(__dirname, rel));
+      // Les silhouettes sont engendrées, pas recopiées dans la feuille : une
+      // copie se désynchronise du jour où l'on ajoute un produit, une
+      // concaténation non. Deux kilo-octets compressés, mis en cache un jour.
+      if (p === '/style.css') {
+        buf = Buffer.concat([buf, Buffer.from(require('./silhouettes.js').css())]);
+      }
+      // Une adresse versionnée (`?v=<empreinte>`) désigne un contenu qui ne
+      // changera jamais : elle se garde un an. Sans version — un signet, un
+      // vieil onglet — on retombe à un jour, parce qu'on ne peut plus
+      // promettre que le fichier est encore celui-là.
+      const versionnee = url.searchParams.has('v');
+      return envoyer(req, res, buf, { 'content-type': type,
+        'cache-control': versionnee
+          ? 'public, max-age=31536000, immutable' : 'public, max-age=86400' });
     }
 
     const cookies = lireCookies(req.headers.cookie);

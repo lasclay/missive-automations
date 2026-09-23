@@ -126,12 +126,10 @@ main{max-width:1100px;margin:0 auto;padding:22px 16px 60px}
 .muted{color:var(--gris);font-size:13px}
 .vide{color:var(--gris);font-style:italic;padding:10px 0}
 
-/* Le bandeau d'un ordre : le pourcentage en gros à gauche, la jauge et le
-   compte de pièces à droite. Avant, « 28 % » flottait seul et ne disait pas
-   s'il restait trois cents pièces ou vingt-six mille. */
+/* Le bandeau d'un ordre : l'anneau à gauche, le pourcentage dedans, le compte
+   de pièces à droite. Avant, « 28 % » flottait seul et ne disait pas s'il
+   restait trois cents pièces ou vingt-six mille. */
 .bandeau{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
-.bandeau-pct{font-size:42px;font-weight:700;letter-spacing:-.04em;line-height:1;
-  font-variant-numeric:tabular-nums;flex:0 0 auto}
 .bandeau-j{flex:1;min-width:220px}
 .bandeau-j p{margin:8px 0 0;font-size:13px}
 .bandeau-j b{color:var(--encre);font-size:15px;font-variant-numeric:tabular-nums}
@@ -162,18 +160,35 @@ td{padding:9px 8px;border-bottom:1px solid var(--ligne);vertical-align:middle}
 tr:last-child td{border-bottom:0}
 .num{text-align:right;font-variant-numeric:tabular-nums}
 
-/* ---------- barre d'avancement ---------- */
-.jauge{height:9px;background:var(--piste);border-radius:99px;overflow:hidden;
-  min-width:90px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.04)}
-.jauge i{display:block;height:100%;background:var(--vert);border-radius:99px;
-  min-width:3px}
+/* ---------- anneau d'avancement ----------
+   Une barre demandait 90 px de large pour se lire et mangeait la colonne.
+   L'anneau dit la même chose dans 20 px de côté. La rotation met le départ
+   à midi plutôt qu'à trois heures. */
+.don{width:20px;height:20px;flex:0 0 20px;display:inline-block;
+  vertical-align:-5px;transform:rotate(-90deg)}
+.don circle{fill:none;stroke-width:4.5}
+.don-p{stroke:var(--piste)}
+.don-v{stroke:var(--vert)}
 /* Quatre états, quatre teintes : à peine entamé, en route, presque là, fini.
    Le pourcentage est toujours écrit à côté — la couleur ne porte pas seule. */
-.jauge.bas i  {background:var(--rouge)}
-.jauge.part i {background:var(--ambre)}
-.jauge.haut i {background:var(--presque)}
-.jauge.plein i{background:var(--vert)}
-.jauge.zero i{background:var(--piste-pleine)}
+.don.bas   .don-v{stroke:var(--rouge)}
+.don.part  .don-v{stroke:var(--ambre)}
+.don.haut  .don-v{stroke:var(--presque)}
+.don.plein .don-v{stroke:var(--vert)}
+/* À zéro il n'y a pas d'arc du tout : c'est la piste qui se fonce, sans quoi
+   « rien de commencé » et « l'anneau n'a pas chargé » se ressemblent. */
+.don.zero .don-p{stroke:var(--piste-pleine)}
+/* Le texte qui suit l'anneau dans une cellule sans conteneur flex. */
+td.av .don,td.c-av .don{margin-right:7px}
+
+/* L'anneau en grand, chiffre au centre. La rotation porte sur les cercles et
+   non sur le <svg> : sur le <svg> elle coucherait aussi le texte. */
+.don-g{width:74px;height:74px;flex:0 0 74px;display:block}
+.don-g circle{fill:none;stroke-width:4.5;transform:rotate(-90deg);
+  transform-origin:50% 50%}
+.don-g .don-t{fill:var(--encre);font:700 13px/1 inherit;letter-spacing:-.02em;
+  font-variant-numeric:tabular-nums;text-anchor:middle;dominant-baseline:central}
+.don-g .don-u{font-size:8px;font-weight:600;fill:var(--gris)}
 .pct{font-variant-numeric:tabular-nums;font-weight:600;font-size:13px;min-width:38px;
   display:inline-block;text-align:right}
 
@@ -245,6 +260,15 @@ textarea{min-height:70px;resize:vertical}
 .mini img{width:100%;height:100%;object-fit:contain;display:block}
 .mini-nu{display:flex;align-items:center;justify-content:center;
   font-size:13px;font-weight:700;color:var(--gris);letter-spacing:.02em}
+/* La silhouette occupe la pastille, pas la hauteur d'une ligne de texte. */
+.mini-nu .sil{width:62%;height:62%;opacity:.55;vertical-align:0}
+
+/* La photo d'une matière, sur sa fiche. Elle sert à distinguer trois tissus
+   noirs que trois noms ne distinguent pas ; elle a donc le droit d'être
+   grande, mais pas de pousser le stock sous la ligne de flottaison. */
+.photo-matiere{margin:14px 0 0;max-width:420px}
+.photo-matiere img{width:100%;height:auto;display:block;border-radius:10px;
+  border:1px solid var(--cadre);background:var(--media)}
 /* La cellule qui porte la pastille : image et texte côte à côte, le texte
    libre de se replier. */
 .avec-mini{display:flex;gap:11px;align-items:flex-start}
@@ -264,6 +288,9 @@ textarea{min-height:70px;resize:vertical}
    la régularité de la grille qui la rend balayable. */
 .tuile-img{position:relative;display:block;aspect-ratio:1;background:var(--media)}
 .tuile-img img{width:100%;height:100%;object-fit:contain;display:block}
+/* Sans photo, la silhouette occupe la vignette : reconnaissable, là où deux
+   lettres de code ne le sont pas — cinq mitaines commencent par « MI ». */
+.tuile-nu .sil{width:44%;height:44%;opacity:.32;margin:0}
 .tuile-nu{position:absolute;inset:0;display:flex;align-items:center;
   justify-content:center;font-size:26px;font-weight:700;color:var(--gris);
   letter-spacing:.03em}
@@ -287,7 +314,6 @@ textarea{min-height:70px;resize:vertical}
 .tuile-code{display:block;font-size:11.5px;font-weight:700;letter-spacing:.02em;
   color:var(--encre);margin-bottom:6px;white-space:nowrap;overflow:hidden;
   text-overflow:ellipsis}
-.tuile .jauge{min-width:0;height:6px}
 .tuile-q{display:block;margin-top:5px;font-size:11.5px;color:var(--gris);
   font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;
   text-overflow:ellipsis}
@@ -344,6 +370,27 @@ textarea{min-height:70px;resize:vertical}
 .photos img{width:100%;aspect-ratio:1/1;object-fit:contain;border-radius:5px;
   display:block;background:var(--fond);border:1px solid var(--ligne)}
 .photos figcaption{font-size:12px;color:var(--gris);margin-top:4px}
+
+/* Un schéma n'est pas une photo produit. Il est plus large que haut (une cote
+   se lit en travers), il porte du trait fin qu'un rapport carré écraserait, et
+   sa légende est une consigne — donc lisible, pas grise. Fond blanc imposé :
+   un dessin au trait noir disparaîtrait sur le fond sombre du thème nuit. */
+.schemas{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.schemas figure{margin:0;display:flex;flex-direction:column}
+.schemas img{width:100%;max-height:200px;object-fit:contain;border-radius:5px;
+  display:block;background:#fff;border:1px solid var(--ligne);padding:6px}
+.schemas figcaption{font-size:13px;color:var(--texte);margin-top:6px;line-height:1.4}
+@media (max-width:720px){
+  .schemas{grid-template-columns:1fr}
+  .schemas img{max-height:none}
+}
+
+/* Une pastille de coloris. Bordure semi-transparente plutôt qu'une couleur
+   fixe : elle doit détourer aussi bien le blanc de l'oreiller que le noir des
+   manteaux, sur fond clair comme sur fond sombre. */
+.charte li.col{display:flex;align-items:center;gap:7px}
+.charte .pastille{width:13px;height:13px;border-radius:50%;flex:0 0 auto;
+  border:1px solid rgba(128,128,128,.55);box-shadow:0 0 0 1px rgba(255,255,255,.25) inset}
 
 /* ---------- commentaires ---------- */
 .comm{border-left:2px solid var(--ligne);padding:2px 0 2px 12px;margin-bottom:12px}
@@ -484,6 +531,7 @@ textarea{min-height:70px;resize:vertical}
 .q-probleme{background:var(--ambre-pale);color:var(--ambre)}
 .q-mesure  {background:var(--bleu-pale);color:var(--bleu)}
 .q-cyclage {background:var(--violet-pale);color:var(--violet)}
+.q-esthetique{background:var(--vert-pale);color:var(--vert)}
 .qc-liste{list-style:none;padding:0;margin:0}
 .qc{display:flex;gap:12px;justify-content:space-between;align-items:flex-start;
   padding:11px 0;border-bottom:1px solid var(--ligne)}
@@ -510,6 +558,7 @@ textarea{min-height:70px;resize:vertical}
 .qc-cpt .q-probleme{background:var(--ambre-pale);color:var(--ambre)}
 .qc-cpt .q-mesure  {background:var(--bleu-pale);color:var(--bleu)}
 .qc-cpt .q-cyclage {background:var(--violet-pale);color:var(--violet)}
+.qc-cpt .q-esthetique{background:var(--vert-pale);color:var(--vert)}
 .qc-vide{color:var(--rouge);font-size:12.5px;font-weight:600}
 .qc-form{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end}
 .qc-form .champ{margin:0;flex:1 1 130px}
@@ -1329,3 +1378,170 @@ table.gantt{min-width:860px}
 
 .pli-t{text-transform:none}
 .pli.mois .pli-t{text-transform:capitalize}
+
+/* ==================== contrôle qualité : les trois portes ==================== */
+
+/* Trois portes sur une seule base. « Par ordre » est la première et la plus
+   large : c'est la seule qui porte une échéance — un conteneur part, et ce qui
+   n'a pas été contrôlé part avec. Les deux autres sont des référentiels. */
+.portes{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:12px;margin-bottom:18px}
+.porte{display:block;padding:16px 18px;border-radius:8px;text-decoration:none;
+  border:1px solid var(--ligne);background:var(--carte);color:var(--texte);
+  transition:border-color .12s,transform .12s}
+.porte:hover{border-color:var(--vert);transform:translateY(-1px)}
+.porte h2{margin:0 0 6px;font-size:17px}
+.porte p{margin:0 0 12px;font-size:13px;color:var(--gris);line-height:1.45}
+.porte-cpt{font-size:13px;color:var(--gris)}
+.porte-cpt b{font-size:22px;color:var(--texte);display:block;line-height:1.1}
+.porte-1{border-left:3px solid var(--vert)}
+.porte-2{border-left:3px solid var(--bleu)}
+.porte-3{border-left:3px solid var(--ardoise)}
+@media (max-width:720px){ .portes{grid-template-columns:1fr} }
+
+/* ---- procédés généraux : numérotés, parce qu'un procédé se suit ---- */
+.procedes{list-style:none;margin:0;padding:0;counter-reset:proc}
+.proc{display:flex;gap:14px;background:var(--carte);border:1px solid var(--ligne);
+  border-radius:6px;padding:14px;margin-bottom:10px}
+.proc-num{flex:0 0 30px;height:30px;border-radius:50%;background:var(--fond);
+  border:1px solid var(--ligne);display:flex;align-items:center;
+  justify-content:center;font-weight:700;font-size:14px;color:var(--gris)}
+.proc-corps{flex:1;min-width:0}
+.proc-corps h3{margin:2px 0 6px;font-size:15px;display:flex;align-items:center;gap:7px}
+.proc-det{margin:0 0 6px;font-size:13.5px;line-height:1.5}
+
+/* ---- les ordres ---- */
+.grille-ordres{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.carte-ordre{display:block;padding:14px 16px;border-radius:6px;text-decoration:none;
+  background:var(--carte);border:1px solid var(--ligne);color:var(--texte)}
+.carte-ordre:hover{border-color:var(--vert)}
+.carte-ordre.fini{opacity:.6}
+.carte-ordre h2{margin:0 0 2px;font-size:16px}
+.co-chiffres{display:flex;gap:14px;margin-top:10px;font-size:13px;align-items:baseline}
+.co-chiffres b{font-size:19px}
+.co-alerte{display:inline-block;margin-top:8px;font-size:12px;padding:2px 7px;
+  border-radius:3px;background:var(--rouge-pale);color:var(--rouge);
+  border:1px solid var(--rouge-ligne)}
+
+/* ---- la barre : catégories non exclusives, et deux vues ---- */
+.qc-barre{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;
+  align-items:center;margin-bottom:14px}
+.qc-onglets{display:flex;flex-wrap:wrap;gap:6px}
+.qc-onglet{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;
+  border-radius:20px;font-size:13px;text-decoration:none;color:var(--texte);
+  border:1px solid var(--ligne);background:var(--carte)}
+.qc-onglet:hover{border-color:var(--gris)}
+.qc-onglet.on{background:var(--encre);color:var(--fond);border-color:var(--encre)}
+.qc-onglet.vidé{opacity:.5}
+.qc-n{font-size:11.5px;padding:0 6px;border-radius:9px;background:var(--fond);
+  color:var(--gris);min-width:18px;text-align:center}
+.qc-onglet.on .qc-n{background:rgba(255,255,255,.22);color:inherit}
+.qc-vues{display:flex;border:1px solid var(--ligne);border-radius:5px;overflow:hidden}
+.qc-vues a{padding:5px 12px;font-size:13px;text-decoration:none;color:var(--gris);
+  background:var(--carte)}
+.qc-vues a.on{background:var(--encre);color:var(--fond)}
+
+/* ---- une carte de lot ---- */
+.qc-lot .b{display:flex;flex-direction:column;gap:5px}
+.qc-etiq{display:flex;flex-wrap:wrap;gap:4px}
+.cat{font-style:normal;font-size:11px;padding:1px 6px;border-radius:3px;
+  border:1px solid var(--ligne);color:var(--gris);background:var(--fond)}
+.cat-volume{border-color:var(--ambre-ligne);background:var(--ambre-pale);color:var(--ambre)}
+.cat-nouveau{border-color:var(--violet-ligne);background:var(--violet-pale);color:var(--violet)}
+.cat-gradation{border-color:var(--bleu-ligne);background:var(--bleu-pale);color:var(--bleu)}
+.et-ok{font-size:12px;color:var(--vert)}
+.et-ko{font-size:12px;color:var(--rouge)}
+.et-attente{font-size:12px;color:var(--gris)}
+.vgn-vide{border-style:dashed}
+
+/* ---- la vue liste : un lot, sa sous-liste, son compte rendu ---- */
+.lots{display:flex;flex-direction:column;gap:10px}
+.lot{background:var(--carte);border:1px solid var(--ligne);border-radius:6px}
+.lot>summary,.lot-ferme{padding:12px 14px;cursor:pointer;display:flex;gap:12px;
+  align-items:center;justify-content:space-between;flex-wrap:wrap}
+.lot-ferme{color:inherit;text-decoration:none}
+.lot-ferme:hover{background:var(--survol,rgba(127,127,127,.08))}
+/* Sans ce chevron, rien ne dit qu'une ligne se déplie : l'atelier lisait la
+   liste comme un tableau mort. */
+.lot-chev{color:var(--gris);font-size:20px;line-height:1;flex:0 0 auto}
+.lot-ferme:hover .lot-chev{color:var(--texte)}
+.lot-nom{display:flex;flex-direction:column}
+.lot-corps{padding:0 14px 14px}
+.lot-liens{display:flex;flex-wrap:wrap;gap:14px;font-size:13px;margin:0 0 10px}
+.ck-sous{list-style:none;margin:0 0 14px;padding:0}
+.ck-mini{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:start;
+  padding:8px 0;border-top:1px solid var(--ligne)}
+.ck-mini .ck-t{font-size:13.5px;display:flex;flex-wrap:wrap;gap:6px;align-items:baseline}
+.ck-proc{text-decoration:none;color:var(--gris);font-size:15px;padding:0 4px}
+.ck-proc:hover{color:var(--vert)}
+.ck-mf{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.ck-mf input{flex:1;min-width:150px;font-size:13px;padding:5px 8px;
+  border:1px solid var(--ligne);border-radius:4px;background:var(--champ);color:var(--texte)}
+.ck-mini.ck-ok{opacity:.65}
+.ck-mini.ck-ko{background:var(--rouge-pale)}
+
+/* Le compte rendu. Cinquante mots, et le formulaire n'apparaît QUE quand la
+   liste est finie : proposer de signer un lot dont six points ne sont pas
+   regardés, c'est inviter à le faire. */
+.rapport{border-top:2px solid var(--ligne);padding-top:12px}
+.rapport h4{margin:0 0 4px;font-size:14px}
+.rapport p{font-size:12.5px;margin:0 0 8px;line-height:1.45}
+.rapport textarea,.rapport input{width:100%;font:inherit;font-size:13.5px;padding:8px;
+  border:1px solid var(--ligne);border-radius:4px;background:var(--champ);
+  color:var(--texte);margin-bottom:8px}
+.lot-bloc{font-size:13px;color:var(--gris);border-top:1px solid var(--ligne);
+  padding-top:10px;margin:0}
+.lot-signe{font-size:13px;color:var(--vert);border-top:1px solid var(--ligne);
+  padding-top:10px;margin:0}
+.signes{list-style:none;margin:10px 0 0;padding:0}
+.signes li{padding:6px 0;border-top:1px solid var(--ligne);font-size:13.5px;
+  display:flex;gap:10px;flex-wrap:wrap;align-items:baseline}
+
+/* ---- rétroactions clients ------------------------------------------------
+   Les groupes sont repliés par défaut : une fiche qui déroulerait 227
+   citations ne se lit pas, et pèserait autant que trois fiches produit sur la
+   ligne tunisienne. On montre les problèmes et leur compte ; la matière ne
+   se déplie qu'au clic. */
+.retro{display:flex;flex-direction:column;gap:8px}
+.retro-g{background:var(--carte);border:1px solid var(--ligne);border-radius:6px}
+.retro-g>summary{padding:11px 14px;cursor:pointer;display:flex;align-items:center;
+  gap:10px;flex-wrap:wrap}
+.retro-g[open]>summary{border-bottom:1px solid var(--ligne)}
+.retro-pastille{flex:0 0 auto;font-size:15px;line-height:1}
+.retro-t{flex:1 1 auto;font-weight:600}
+.retro-n{flex:0 0 auto;background:var(--survol);border-radius:10px;
+  padding:1px 9px;font-size:13px;font-variant-numeric:tabular-nums}
+.retro-ph{flex:0 0 auto;font-size:12px;color:var(--gris)}
+.retro-l{list-style:none;margin:0;padding:4px 14px 14px}
+.retro-l>li{padding:10px 0;border-bottom:1px solid var(--ligne)}
+.retro-l>li:last-child{border-bottom:0}
+.retro-l blockquote{margin:0;font-size:14px;line-height:1.5;
+  border-left:3px solid var(--ligne);padding-left:11px}
+/* Une rétroaction qui ne nomme pas le modèle se voit : on ne la fait pas
+   passer pour une certitude. */
+.retro-l>li.de-famille blockquote{border-left-style:dotted;opacity:.9}
+.retro-meta{margin:5px 0 0 14px;font-size:12px;color:var(--gris);
+  display:flex;gap:10px;flex-wrap:wrap}
+.retro-flou{font-style:italic}
+.retro-photos{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 0 14px}
+.retro-photos img{width:104px;height:104px;object-fit:cover;border-radius:4px;
+  border:1px solid var(--ligne);background:#fff}
+.retro-cpt{display:flex;gap:5px;align-items:center}
+.retro-cpt i{font-style:normal;font-size:12px;background:var(--survol);
+  border-radius:9px;padding:1px 7px}
+.retro-cpt i.flou{opacity:.65}
+.avis{background:var(--survol);border-left:3px solid var(--ligne);
+  padding:9px 12px;border-radius:4px;font-size:13px;margin:0 0 12px}
+.retro-ferme{display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  padding:11px 14px;color:inherit;text-decoration:none;cursor:pointer}
+.retro-ferme:hover{background:var(--survol)}
+.retro-chev{color:var(--gris);font-size:19px;line-height:1;flex:0 0 auto}
+.retro-ferme:hover .retro-chev{color:var(--texte)}
+.entete-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-start}
+.retro-plus{display:flex;align-items:center;justify-content:center;width:104px;
+  height:104px;border:1px dashed var(--ligne);border-radius:4px;
+  color:var(--gris);font-size:13px}
+/* La mise en garde historique : elle doit se lire avant les citations, pas
+   après. Un atelier qui prend ces plaintes pour un bulletin sur son propre
+   travail lit de travers — la plupart des pièces ne sont pas de lui. */
+.avis-hist{border-left-color:var(--jaune,#f1b92a)}

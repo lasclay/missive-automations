@@ -587,6 +587,7 @@ const OUTILS = [
         problemes_frequents: rendre(proto.par.probleme),
         mesures: rendre(proto.par.mesure),
         cyclage: rendre(proto.par.cyclage),
+        esthetique: rendre(proto.par.esthetique),
         emballage: rendre(proto.par.emballage) };
     },
   },
@@ -599,7 +600,8 @@ const OUTILS = [
     role: 'atelier',
     params: { type: 'object', required: ['produit','volet','titre'], properties: {
       produit: { type: 'string' },
-      volet: { type: 'string', enum: ['critique','probleme','mesure','cyclage'],
+      volet: { type: 'string',
+        enum: ['critique','probleme','mesure','cyclage','esthetique','emballage'],
         description: "critique = irrattrapable après coup ; probleme = ça revient "
           + "d'un lot à l'autre ; mesure = une cote ; cyclage = un test." },
       titre: { type: 'string', description: 'La consigne, en une ligne.' },
@@ -616,7 +618,7 @@ const OUTILS = [
       if (!titre) refuser("Il faut dire de quoi il s'agit.");
       if (!D.TYPES_QC[a.volet])
         refuser(`Volet inconnu : « ${a.volet} ». `
-          + `Les quatre : ${Object.keys(D.TYPES_QC).join(', ')}.`);
+          + `Les volets : ${Object.keys(D.TYPES_QC).join(', ')}.`);
       const rang = (db.prepare(
         `SELECT MAX(rang) m FROM qc_points WHERE produit_id = ?`).get(p.id).m || 0) + 1;
       const id = db.prepare(`INSERT INTO qc_points (produit_id, type, titre, detail,

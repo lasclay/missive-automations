@@ -147,17 +147,24 @@ C'est la source qui manquait : ce qu'on produit vraiment, en quelles quantités.
 | `plan-production-2627.tsv` | produit, quantité prévue, prévente déjà encaissée, coût BMB, coût de production | 28 |
 | `plan-variantes-2627.tsv` | la répartition par taille et par coloris, avec son groupe | 133 |
 | `correspondances.tsv` | produit de production → handle Shopify → libellé du plan | 34 |
-| `ajouts-production.tsv` | quantités décidées hors chiffrier, avec leur origine | 2 |
+| `ajouts-production.tsv` | quantités décidées hors chiffrier, avec leur date, leur origine et la ligne qu'elles remplacent | 6 |
 
-**24 333 unités** au total : 24 133 au chiffrier, plus 200 décidés après coup
-(deux tailles de cache-cou enfant, 100 chacune — `ajouts-production.tsv`).
-Le chiffrier seul vaut **233 667 $ de coût de production.** Les cinq plus gros postes :
-semelles 4 665, cache-cous 3 500, gants magiques 2 500, mitaines plein air
-2 000, bandeaux 1 800.
+**26 133 unités sur 30 items** au 23 septembre 2026 : le chiffrier (24 133 pour
+**233 667 $ de coût de production**) plus six ajouts datés. Les cinq plus gros
+postes du chiffrier : semelles 4 665, cache-cous 3 500, gants magiques 2 500,
+mitaines plein air 2 000, bandeaux 1 800.
+
+**Le plan bouge, ce paragraphe non.** `node mrp/import.js` sans `--ecrire` donne
+l'état courant ; c'est lui qui fait foi. Les ajouts recensés à ce jour : deux
+tailles de cache-cou enfant (100 chacune, 25/08), le sac à dos glacière 30L
+(300, 08/09), le bandeau de la tuque urbaine (1 500, confirmé par Gabriel le
+16/09), et le découpage des semelles en 6-7-8F (2 179) et 9F+ (2 486) — qui
+**remplace** la ligne unique du chiffrier au lieu de s'y ajouter.
 
 `correspondances.tsv` est la table qui manquait au §5 : le lien entre un produit
 de production, sa fiche Shopify et sa ligne de plan. Elle porte une colonne
-`confiance` — **13 rattachements sûrs, 21 à clarifier**, et les doutes sont
+`confiance` — au 23 septembre : **15 sûr, 6 à confirmer, 5 non couvert,
+4 partiel, 3 non vendu, 1 non produit** — et les doutes sont
 écrits en note technique sur la fiche produit, visibles dans l'app plutôt
 qu'enterrés ici.
 
@@ -201,8 +208,10 @@ aujourd'hui**. Il faudra les saisir.
 2. **Emplacements.** Le suivi Tunisie cite « palette nº 18 » et « boîte B15 »
    sans nomenclature d'emplacements.
 3. ~~**Correspondance produit Shopify ↔ produit de production.**~~ Faite :
-   `correspondances.tsv`. Reste à confirmer 19 rattachements sur 32 — les
-   doutes sont dans la colonne `confiance` et remontent dans l'app.
+   `correspondances.tsv`. Au 23 septembre, 15 rattachements sont sûrs et
+   19 portent encore une réserve (6 à confirmer, 5 non couvert, 4 partiel,
+   3 non vendu, 1 non produit) — les doutes sont dans la colonne `confiance`
+   et remontent dans l'app plutôt que de rester enterrés ici.
 4. **Patrons.** `../../patrons/` porte les outils de conversion et les
    échantillons, mais aucun inventaire du corpus : quel patron pour quel
    produit, dans quelle version, à quelle échelle. C'est un travail à part
