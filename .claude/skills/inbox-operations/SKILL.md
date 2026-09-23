@@ -48,15 +48,33 @@ dans `missive_structure.json` à la racine.
 ## L'outil
 
 ```bash
-node ops_triage.js                    # rapport, ne touche à rien
-node ops_triage.js --close            # ferme la catégorie SUPERFLU
-node ops_triage.js --equipe admin     # l'autre boîte
-node ops_triage.js --json             # sortie machine
+node ops_triage.js                       # rapport, ne touche à rien
+node ops_triage.js --close               # ferme TOUT ce qui est classé SUPERFLU
+node ops_triage.js --close-ids a,b,c     # ferme EXACTEMENT ces fils, s'ils sont SUPERFLU
+node ops_triage.js --equipe admin        # l'autre boîte
+node ops_triage.js --limite 20           # plafonne le nombre de fils lus
+node ops_triage.js --json                # sortie machine
 ```
 
 Il liste la boîte, lit chaque fil, et classe en cinq catégories. **Lis le rapport avant de
-lancer `--close`** : la liste blanche est faillible, le rapport est ce qui te permet de le
-voir.
+fermer quoi que ce soit** : la liste blanche est faillible, le rapport est ce qui te permet de
+le voir. Un passage complet sur la boîte Operations prend environ **trois minutes**.
+
+**Préfère `--close-ids` à `--close`.** Tu fermes alors exactement ce que tu as lu et approuvé,
+au lieu de refaire confiance au classement d'une seconde passe. Un id qui n'est pas classé
+`SUPERFLU` est refusé et signalé, jamais fermé en silence.
+
+### Ce que le script garantit
+
+- **Il réveille le proxy avant de travailler.** Render endort le service ; un démarrage à
+  froid en pleine lecture ferait passer des fils pour illisibles.
+- **Il reprend les erreurs rejouables** (réseau, 429, 5xx) jusqu'à cinq fois, en doublant
+  l'attente. Il ne reprend jamais un 401 ni un 404 : ceux-là ne se corrigent pas en
+  réessayant, et les rejouer ne fait que retarder le diagnostic.
+- **Il compte les fils illisibles et le dit.** Un tri partiel qui se présente comme complet
+  est un piège ; ces fils restent classés `HUMAIN`, donc intouchés.
+- **Il sort avec le code 2 si une fermeture a échoué.** Un échec silencieux produirait un
+  rapport annonçant du ménage jamais fait.
 
 | Catégorie | Ce que c'est | Ce qu'on en fait |
 | --- | --- | --- |

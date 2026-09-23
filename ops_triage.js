@@ -115,18 +115,64 @@ const SIGNAUX_ACTION = [
   { motif: /renew|renouvel|subscription end|fin d'abonnement/i, quoi: "renouvellement d'abonnement" },
 ];
 
-async function call(route, body, method = "POST") {
+const dors = (ms) => new Promise((r) => setTimeout(r, ms));
+
+/**
+ * Appel au proxy, avec reprise. Render endort le service au repos : le premier
+ * appel d'un passage peut prendre une dizaine de secondes ou mourir carrément.
+ * Sans reprise, un ménage sur trois échouait au tout premier appel — et comme
+ * la Routine tourne sans personne devant, l'échec passait inaperçu.
+ *
+ * On ne reprend QUE ce qui est sûrement rejouable : une erreur réseau, un 429,
+ * ou un 5xx. Un 401 (mauvais secret) et un 404 (route absente) ne se corrigent
+ * pas en réessayant — les rejouer ne fait que retarder le diagnostic.
+ */
+async function call(route, body, method = "POST", essai = 0) {
+  const MAX = 4;
   const opts = {
     method,
     headers: { "Content-Type": "application/json", "X-Proxy-Secret": SECRET || "" },
+    signal: AbortSignal.timeout(90000),
   };
   if (method === "POST") opts.body = JSON.stringify(body || {});
-  const res = await fetch(`${URL}${route}`, opts);
-  const text = await res.text();
-  let json;
-  try { json = JSON.parse(text); } catch { json = { raw: text }; }
-  if (!res.ok) throw new Error(`${route} → ${res.status} ${text.slice(0, 200)}`);
-  return json;
+
+  let res, text;
+  try {
+    res = await fetch(`${URL}${route}`, opts);
+    text = await res.text();
+  } catch (e) {
+    // Panne réseau ou délai dépassé : rejouable.
+    if (essai < MAX) {
+      await dors(2000 * 2 ** essai);
+      return call(route, body, method, essai + 1);
+    }
+    throw new Error(`${route} → injoignable après ${MAX + 1} tentatives (${e.message})`);
+  }
+
+  if (!res.ok) {
+    const rejouable = res.status === 429 || res.status >= 500;
+    if (rejouable && essai < MAX) {
+      await dors(2000 * 2 ** essai);
+      return call(route, body, method, essai + 1);
+    }
+    throw new Error(`${route} → ${res.status} ${text.slice(0, 200)}`);
+  }
+
+  try { return JSON.parse(text); } catch { return { raw: text }; }
+}
+
+/**
+ * Réveille le service avant le vrai travail. `/health` ne coûte rien et absorbe
+ * le démarrage à froid, ce qui évite qu'un fil soit classé HUMAIN « lecture
+ * impossible » simplement parce qu'il est passé pendant le réveil.
+ */
+async function reveiller() {
+  try {
+    await call("/health", null, "GET");
+    return true;
+  } catch (e) {
+    throw new Error(`le proxy Missive ne répond pas : ${e.message}`);
+  }
 }
 
 const adresseDe = (s) => String(s || "").toLowerCase().trim();
@@ -192,12 +238,32 @@ async function main() {
   const args = process.argv.slice(2);
   const fermer = args.includes("--close");
   const enJson = args.includes("--json");
-  const equipeNom = (args[args.indexOf("--equipe") + 1] || "operations").toLowerCase();
-  const limite = args.includes("--limite") ? parseInt(args[args.indexOf("--limite") + 1], 10) : Infinity;
+  // `indexOf` renvoie -1 quand le drapeau est absent, et `-1 + 1 === 0` : la
+  // valeur lue devenait args[0], c'est-à-dire le premier drapeau venu. Résultat,
+  // `ops_triage.js --close` mourait sur « Équipe inconnue : --close » — la
+  // commande même que la Routine lance à chaque passage. Un défaut invisible à
+  // l'essai à blanc, fatal dès qu'on ferme.
+  const valeurDe = (drapeau, defaut = null) => {
+    const i = args.indexOf(drapeau);
+    return i === -1 ? defaut : (args[i + 1] ?? defaut);
+  };
+
+  const equipeNom = String(valeurDe("--equipe", "operations")).toLowerCase();
+  const limiteBrute = valeurDe("--limite");
+  const limite = limiteBrute === null ? Infinity : parseInt(limiteBrute, 10);
+  if (Number.isNaN(limite)) throw new Error(`--limite attend un nombre, reçu : ${limiteBrute}`);
 
   const equipe = EQUIPES[equipeNom];
   if (!equipe) throw new Error(`Équipe inconnue : ${equipeNom}. Choix : ${Object.keys(EQUIPES).join(", ")}`);
-  if (!SECRET) throw new Error("MISSIVE_PROXY_SECRET absent de l'environnement.");
+  if (!SECRET)
+    throw new Error(
+      "MISSIVE_PROXY_SECRET absent de l'environnement (repli PROXY_SECRET). " +
+      "Sans lui, aucun appel n'aboutit : c'est une panne de configuration, pas une boîte vide."
+    );
+
+  // Réveil d'abord. Render endort le service, et un démarrage à froid pendant la
+  // lecture ferait passer des fils pour illisibles.
+  await reveiller();
 
   const { conversations = [] } = await call("/list", { filter: `team_inbox=${equipe.id}` });
   const cibles = conversations.slice(0, limite);
@@ -237,9 +303,31 @@ async function main() {
   const par = (c) => resultats.filter((r) => r.categorie === c);
   const superflu = par("SUPERFLU");
 
+  // Les fils qu'on n'a pas pu lire restent classés HUMAIN (donc intouchés), mais
+  // il faut le DIRE : un tri partiel qui se présente comme complet est un piège.
+  // Sans ce compte, un ménage qui n'a lu que la moitié de la boîte a l'air réussi.
+  const illisibles = resultats.filter((r) => /lecture impossible/.test(r.raison || ""));
+
+  // `--close-ids a,b,c` ferme exactement ces fils, s'ils sont bien classés SUPERFLU.
+  // Sert au passage de la Routine : elle vérifie le rapport, puis ne ferme que ce
+  // qu'elle a vraiment vu, sans relire la boîte une deuxième fois.
+  const cibleIdsBrut = valeurDe("--close-ids");
+  const cibleIds = cibleIdsBrut === null
+    ? null
+    : String(cibleIdsBrut).split(",").map((s) => s.trim()).filter(Boolean);
+
+  const aFermer = cibleIds
+    ? superflu.filter((r) => cibleIds.includes(r.id))
+    : superflu;
+
+  const refuses = cibleIds
+    ? cibleIds.filter((id) => !superflu.some((r) => r.id === id))
+    : [];
+
   const ferme = [];
-  if (fermer) {
-    for (const r of superflu) {
+  const echecs = [];
+  if (fermer || cibleIds) {
+    for (const r of aFermer) {
       try {
         await call("/close", {
           id: r.id,
@@ -248,12 +336,18 @@ async function main() {
         ferme.push(r.id);
       } catch (e) {
         r.erreurFermeture = e.message;
+        echecs.push({ id: r.id, sujet: r.sujet, erreur: e.message });
       }
     }
   }
 
   if (enJson) {
-    console.log(JSON.stringify({ equipe: equipe.nom, total: resultats.length, ferme, resultats }, null, 2));
+    console.log(JSON.stringify(
+      { equipe: equipe.nom, total: resultats.length, ferme, echecs, refuses, illisibles: illisibles.length, resultats },
+      null, 2
+    ));
+    // Même en JSON, un échec doit faire sortir en erreur : c'est ce qui le rend visible.
+    if (echecs.length) process.exit(2);
     return;
   }
 
@@ -267,11 +361,36 @@ async function main() {
     console.log(lot.map(ligne).join("\n"));
     console.log("");
   }
-  console.log(
-    fermer
-      ? `✅ ${ferme.length} fil(s) SUPERFLU fermé(s).`
-      : `ℹ️  Essai à blanc — rien n'a été fermé. Relancer avec --close pour fermer les ${superflu.length} fils SUPERFLU.`
-  );
+
+  if (illisibles.length) {
+    console.log(`⚠️  ${illisibles.length} fil(s) n'ont pas pu être lus et sont restés intouchés.`);
+    console.log(`    Le tri est donc PARTIEL. Ces fils sont classés HUMAIN par prudence :`);
+    console.log(illisibles.map((r) => `      ${r.id} — ${r.sujet}`).join("\n"));
+    console.log("");
+  }
+
+  if (refuses.length) {
+    console.log(`⚠️  ${refuses.length} id(s) demandé(s) via --close-ids n'étaient PAS classés SUPERFLU — non fermés :`);
+    console.log(refuses.map((id) => `      ${id}`).join("\n"));
+    console.log("");
+  }
+
+  if (echecs.length) {
+    console.log(`🔴 ${echecs.length} FERMETURE(S) ÉCHOUÉE(S) — ces fils sont encore ouverts :`);
+    console.log(echecs.map((e) => `      ${e.id} — ${e.sujet}\n        ↳ ${e.erreur}`).join("\n"));
+    console.log("");
+  }
+
+  if (fermer || cibleIds) {
+    console.log(`${echecs.length ? "⚠️ " : "✅"} ${ferme.length} fil(s) fermé(s)${echecs.length ? `, ${echecs.length} en échec` : ""}.`);
+  } else {
+    console.log(`ℹ️  Essai à blanc — rien n'a été fermé. Relancer avec --close pour fermer les ${superflu.length} fils SUPERFLU.`);
+  }
+
+  // Un code de sortie non nul est la seule chose qu'une Routine ne peut pas
+  // confondre avec un succès. Un échec de fermeture silencieux produirait un
+  // rapport qui annonce du ménage jamais fait.
+  if (echecs.length) process.exit(2);
 }
 
 main().catch((e) => {
