@@ -1499,8 +1499,14 @@ const serveur = http.createServer(async (req, res) => {
       if (p === '/style.css') {
         buf = Buffer.concat([buf, Buffer.from(require('./silhouettes.js').css())]);
       }
-      return envoyer(req, res, buf,
-        { 'content-type': type, 'cache-control': 'public, max-age=86400' });
+      // Une adresse versionnée (`?v=<empreinte>`) désigne un contenu qui ne
+      // changera jamais : elle se garde un an. Sans version — un signet, un
+      // vieil onglet — on retombe à un jour, parce qu'on ne peut plus
+      // promettre que le fichier est encore celui-là.
+      const versionnee = url.searchParams.has('v');
+      return envoyer(req, res, buf, { 'content-type': type,
+        'cache-control': versionnee
+          ? 'public, max-age=31536000, immutable' : 'public, max-age=86400' });
     }
 
     const cookies = lireCookies(req.headers.cookie);

@@ -8,6 +8,28 @@
 'use strict';
 const U = require('./unites.js');
 const SIL = require('./silhouettes.js');
+
+/**
+ * Le numéro de version de la feuille de style — l'empreinte de son contenu.
+ *
+ * POURQUOI. La feuille est servie avec un cache d'un jour, ce qui est juste :
+ * quatre-vingt-dix kilo-octets sur la connexion tunisienne ne se retéléchargent
+ * pas à chaque page. Mais sans version dans l'adresse, un déploiement restait
+ * invisible pendant vingt-quatre heures — la page nouvelle avec la feuille
+ * d'hier. Ça s'est vu : les anneaux d'avancement, dont toute la géométrie
+ * vivait dans la feuille, sont sortis en disques noirs de trois cents pixels.
+ *
+ * L'empreinte change avec le contenu, donc l'adresse change avec lui, donc le
+ * navigateur redemande la feuille le jour où elle bouge — et seulement ce
+ * jour-là. Calculée une fois au démarrage : le fichier ne change pas en cours
+ * d'exécution, seul un redéploiement le change, et un redéploiement relance
+ * le processus.
+ */
+const VERSION_CSS = require('node:crypto').createHash('sha256')
+  .update(require('node:fs').readFileSync(
+    require('node:path').join(__dirname, 'public', 'style.css')))
+  .update(SIL.css())
+  .digest('hex').slice(0, 10);
 const { CATEGORIES: CATEGORIES_M, qte: qteFR,
         MOTS_RAPPORT } = require('./db.js');
 
@@ -220,10 +242,11 @@ function classeAvancement(pct) {
 
 function jauge(pct) {
   const cls = classeAvancement(pct);
-  return `<svg class="don ${cls}" viewBox="0 0 20 20" aria-hidden="true">`
+  return `<svg class="don ${cls}" viewBox="0 0 20 20" width="20" height="20"`
+       + ` fill="none" stroke-width="4.5" aria-hidden="true">`
        + `<circle class="don-p" cx="10" cy="10" r="7.5" pathLength="100"/>`
        + (pct > 0 ? `<circle class="don-v" cx="10" cy="10" r="7.5" pathLength="100"`
-                  + ` stroke-dasharray="${pct} 100"/>` : '')
+                  + ` stroke="currentColor" stroke-dasharray="${pct} 100"/>` : '')
        + `</svg>`;
 }
 
@@ -237,11 +260,14 @@ function jauge(pct) {
  */
 function donutGrand(pct) {
   return `<svg class="don-g ${classeAvancement(pct)}" viewBox="0 0 40 40"
+    width="74" height="74" fill="none" stroke-width="4.5"
     role="img" aria-label="${pct} % fait">
     <circle class="don-p" cx="20" cy="20" r="16" pathLength="100"/>
     ${pct > 0 ? `<circle class="don-v" cx="20" cy="20" r="16" pathLength="100"
-      stroke-dasharray="${pct} 100"/>` : ''}
-    <text class="don-t" x="20" y="20">${pct}<tspan class="don-u"> %</tspan></text>
+      stroke="currentColor" stroke-dasharray="${pct} 100"/>` : ''}
+    <text class="don-t" x="20" y="20" fill="currentColor"
+      font-size="13" font-weight="700" text-anchor="middle"
+      dominant-baseline="central">${pct}<tspan class="don-u"> %</tspan></text>
   </svg>`;
 }
 
@@ -261,7 +287,7 @@ function page({ titre, user, corps, actif = '', msg = null }) {
   return `<!doctype html><html lang="fr"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${e(titre)} — Lasclay MRP</title>
-<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/style.css?v=${VERSION_CSS}">
 <link rel="icon" href="/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="/favicon-180.png">
 </head><body>
@@ -295,7 +321,7 @@ ${corps}
 // ------------------------------------------------------------------ connexion
 const vueConnexion = ({ erreur }) => `<!doctype html><html lang="fr"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Connexion — Lasclay MRP</title><link rel="stylesheet" href="/style.css">
+<title>Connexion — Lasclay MRP</title><link rel="stylesheet" href="/style.css?v=${VERSION_CSS}">
 <link rel="icon" href="/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="/favicon-180.png"></head><body>
 <div class="connexion">
