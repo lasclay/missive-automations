@@ -370,6 +370,12 @@ t("l'atelier peut consulter le suivi",
     && V.teinte('Beige') === '#c69e7d');
   t('le rose du plan est un coloris, pas un « autre »',
     V.typeVariante('Rose') === 'couleur' && Boolean(V.teinte('Rose')));
+  // Le caramel est un canevas 12 oz plus foncé, pas le beige 10 oz. Les
+  // confondre ferait sortir un étui dans la mauvaise épaisseur de coton.
+  t('le caramel est reconnu, et distinct du beige',
+    V.typeVariante('Caramel') === 'couleur'
+    && V.teinte('Caramel') === '#734b17'
+    && V.teinte('Caramel') !== V.teinte('Beige'));
   t("l'accent et la casse ne changent rien",
     V.teinte('GRIS FONCE') === V.teinte('Gris foncé'));
   t('une taille est reconnue, sans teinte',

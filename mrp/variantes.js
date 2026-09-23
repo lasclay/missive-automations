@@ -45,6 +45,10 @@ const COULEURS = {
   'beige':       '#c69e7d',
   'cassonade':   '#c69e7d',
   'casonnade':   '#c69e7d',
+  // Le caramel N'EST PAS le beige : c'est un canevas 12 oz, plus foncé. Deux
+  // coloris ET deux épaisseurs de coton — les confondre ferait sortir un étui
+  // dans le mauvais tissu. Le plan de production l'appelle parfois « Beige ».
+  'caramel':     '#734b17',
   'brun':        '#7a5233',
   'rouge':       '#b3322c',
   'rose':        '#d98aa4',

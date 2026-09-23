@@ -6,6 +6,7 @@
  * rend l'application utilisable sur une connexion lente.
  */
 'use strict';
+const U = require('./unites.js');
 const { CATEGORIES: CATEGORIES_M, qte: qteFR } = require('./db.js');
 
 // ------------------------------------------------------------------ utilitaires
@@ -398,6 +399,20 @@ function vueCompte({ user, msg }) {
   </div>
 
   <div class="carte" style="max-width:420px">
+    <h2>Unités</h2>
+    <p class="muted" style="font-size:13px;margin:6px 0 14px">Les fournisseurs
+    écrivent la toile en onces et les longueurs en pouces ; l'atelier travaille
+    en métrique. La source ne change pas — seulement ce que tu lis.</p>
+    <form method="post" action="/compte/unites">
+      <div class="champ"><label for="u">Afficher les mesures en</label>
+        <select id="u" name="unites">${Object.entries(U.MODES).map(([cle, lib]) =>
+          `<option value="${e(cle)}"${(user.unites || U.MODE_DEFAUT) === cle
+            ? ' selected' : ''}>${e(lib)}</option>`).join('')}</select></div>
+      <button class="btn" style="width:100%">Enregistrer</button>
+    </form>
+  </div>
+
+  <div class="carte" style="max-width:420px">
     <h2>Changer mon mot de passe</h2>
     <p class="muted" style="font-size:13px;margin:6px 0 14px">Huit caractères
     minimum. Les sessions ouvertes ailleurs seront fermées — sur les autres
@@ -680,8 +695,12 @@ function schemaQC(q, largeur) {
      loading="lazy" alt="Schéma — ${e(q.titre)}"></a>`;
 }
 
-function pointQC({ q, produitId, editable, action = null }) {
+function pointQC({ q, produitId, editable, action = null, unites }) {
   const mesure = q.type === 'mesure';
+  // La cote porte son unité dans une colonne à part : « 1 » + « po ». Le
+  // texte du détail, lui, peut en contenir en toutes lettres.
+  const cote = U.convertirMesure(q.valeur, q.unite, unites);
+  const detail = U.convertir(q.detail, unites);
   const REGLE = { tout: 'toutes les pièces', lot: 'une fois par lot' };
   const regle = q.ech_type === 'ratio' ? `1 pièce sur ${q.ech_valeur}`
               : q.ech_type === 'fixe' ? `${q.ech_valeur} pièces par lot`
@@ -690,11 +709,11 @@ function pointQC({ q, produitId, editable, action = null }) {
     <div class="qc-quoi">
       <b>${e(q.titre)}</b>
       ${q.produit_id === null ? '<span class="ck-gen">général</span>' : ''}
-      ${mesure && q.valeur ? `<span class="qc-val">${e(q.valeur)}${
-        q.unite ? ' ' + e(q.unite) : ''}${
+      ${mesure && q.valeur ? `<span class="qc-val">${e(cote.valeur)}${
+        cote.unite ? ' ' + e(cote.unite) : ''}${
         q.tolerance ? ` <span class="qc-tol">± ${e(q.tolerance)}</span>` : ''}</span>` : ''}
       ${q.variante ? `<span class="qc-var">${e(q.variante)}</span>` : ''}
-      ${q.detail ? `<span class="qc-det">${e(q.detail)}</span>` : ''}
+      ${detail ? `<span class="qc-det">${e(detail)}</span>` : ''}
       ${q.consequence ? `<span class="qc-cons">Sinon : ${e(q.consequence)}</span>` : ''}
       ${q.appuis ? `<span class="qc-appui">${q.appuis} signalement${
         q.appuis > 1 ? 's' : ''} sur le terrain</span>` : ''}
@@ -1050,7 +1069,7 @@ function vueQualite({ user, msg, couverture, general = [], zones = [], nc = [] }
     étiquetage, finition. Ces points apparaissent sur la checklist de chaque
     lot, sans avoir à les réécrire trente fois.</p>
     ${general.length
-      ? `<ul class="qc-liste">${general.map(q => pointQC({ q, editable: true,
+      ? `<ul class="qc-liste">${general.map(q => pointQC({ q, editable: true, unites: user.unites,
           action: `/qualite/general/${q.id}/supprimer` })).join('')}</ul>`
       : `<p class="vide">Rien encore. La méthode d'emballage est le premier
          candidat : elle est la même partout et personne ne la connaît par
@@ -1094,7 +1113,7 @@ function vueProtocole({ user, p, proto, msg, photos = [], bris = null,
       ${proto.par[cle].length ? `<span class="cpt">${proto.par[cle].length}</span>` : ''}</h2>
     ${proto.par[cle].length
       ? `<ul class="qc-liste">${proto.par[cle].map(q =>
-          pointQC({ q, produitId: p.id, editable })).join('')}</ul>`
+          pointQC({ q, produitId: p.id, editable, unites: user.unites })).join('')}</ul>`
       : `<p class="vide">${aide}</p>`}
   </div>`;
 
@@ -1202,7 +1221,8 @@ function vueProtocole({ user, p, proto, msg, photos = [], bris = null,
              </table></div>
            </div>`
         : `<ul class="qc-liste">${g.map(q =>
-            pointQC({ q, produitId: p.id, editable: true })).join('')}</ul>`).join('')}
+            pointQC({ q, produitId: p.id, editable: true,
+                      unites: user.unites })).join('')}</ul>`).join('')}
     </div>`;
   })()}
   ${volet('cyclage', 'Cyclage et tests',
@@ -1674,8 +1694,8 @@ function vueProduits({ user, produits, msg }) {
  * le TSV, et la pastille n'est qu'un rendu. Un coloris sans code s'affiche
  * sans pastille, ce qui se voit — et dit qu'il manque une référence.
  */
-function ligneCharte(section, texte) {
-  const t = String(texte || '');
+function ligneCharte(section, texte, unites) {
+  const t = U.convertir(String(texte || ''), unites);
   if (section !== 'coloris') return `<li>${e(t)}</li>`;
   const m = t.match(/\(#([0-9a-fA-F]{6})\)/);
   const nom = t.replace(/\s*\(#[0-9a-fA-F]{6}\)/, '');
@@ -1730,7 +1750,8 @@ function vueProduit({ user, p, photos, materiaux, patrons, ordres, msg, qc = nul
     <div class="charte">${Object.entries(SECTIONS_CHARTE).map(([cle, lib]) =>
       (charte.par[cle] || []).length ? `<section class="ch-${cle}">
         <h3>${lib}</h3>
-        <ul>${charte.par[cle].map(c => ligneCharte(cle, c.texte)).join('')}</ul>
+        <ul>${charte.par[cle].map(c =>
+          ligneCharte(cle, c.texte, user.unites)).join('')}</ul>
       </section>` : '').join('')}</div>
   </div>` : ''}
 

@@ -663,7 +663,7 @@ async function router(req, res, url, user) {
         db.prepare(`DELETE FROM ordres WHERE id = ?`).run(id);
         return vers(res, '/ordres?ok=' + encodeURIComponent('Ordre supprimé.'));
       }
-      return html(res, V.page({ titre:'Introuvable', user,
+  return html(res, V.page({ titre:'Introuvable', user,
         corps:'<div class="carte"><p class="vide">Page inconnue.</p></div>' }), 404);
     }
 
@@ -1346,6 +1346,13 @@ async function router(req, res, url, user) {
     const r = auth.changerNom(user.id, f.nom);
     if (r.erreur) return vers(res, '/compte?err=' + encodeURIComponent(r.erreur));
     return vers(res, '/compte?ok=' + encodeURIComponent(`Nom changé pour « ${r.nom} ».`));
+  }
+
+  if (p === '/compte/unites' && req.method === 'POST') {
+    const f = await corpsFormulaire(req);
+    const r = auth.changerUnites(user.id, f.unites);
+    if (r.erreur) return vers(res, '/compte?err=' + encodeURIComponent(r.erreur));
+    return vers(res, '/compte?ok=' + encodeURIComponent(`Unités : ${r.libelle.toLowerCase()}.`));
   }
 
   return html(res, V.page({ titre:'Introuvable', user,

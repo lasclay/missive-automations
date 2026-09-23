@@ -52,6 +52,33 @@ Repère utile qui, lui, tient : une **palette de 300 kg de staple couvre 33 440 
 le 09/09/2026, c'est le Vegeto 250 g qui fait le travail. La ligne reste au fichier avec sa date —
 voir la colonne `retire`.
 
+## Les unités : la source reste impériale, l'affichage s'adapte
+
+Les fournisseurs nord-américains écrivent la toile en **onces par verge carrée**
+et les longueurs en **pouces**. L'atelier tunisien travaille en métrique. Le
+dépôt ne tranche pas : **les fichiers gardent l'unité de la source**, et la
+conversion se fait au rendu selon le réglage de chacun (`unites.js`, réglable
+dans *Mon compte* : métrique, impérial, ou les deux).
+
+Convertir à la saisie ferait perdre la trace ; écrire les deux partout
+alourdirait chaque ligne d'une parenthèse qu'un des deux lecteurs n'utilise
+jamais.
+
+| Unité source | Facteur | Exemple |
+| --- | --- | --- |
+| oz/verge² *(toile)* | **× 33,9057** g/m² | 10 oz ≈ **339 g/m²** · 12 oz ≈ **407 g/m²** |
+| pouce | × 2,54 cm | 50 po = 127 cm |
+| pied | × 30,48 cm | 1 pied = 30 cm |
+| verge | × 0,9144 m | 3,19 verges = 2,92 m |
+| fils/po² | ÷ 6,4516 | 300 fils/po² = 47 fils/cm² |
+
+⚠️ **L'once désigne deux choses sans le dire** : une masse (28,35 g) et une
+masse *surfacique* (once par verge carrée, 33,91 g/m²). Dans tout le corpus
+Lasclay, « 12 oz » est toujours une toile — jamais un poids. Le jour où une
+once de masse apparaîtra, la règle la convertira faux.
+
+**Le défaut est le métrique** : l'atelier est le plus gros lecteur de fiches.
+
 ## Les tissus
 
 | Matière | Prix | Usage |

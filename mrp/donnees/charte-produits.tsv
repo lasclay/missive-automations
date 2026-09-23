@@ -18,6 +18,15 @@
 #   parametre   un réglage de machine : température, durée
 #   note        tout le reste, y compris ce qui reste à confirmer
 #
+# LES UNITÉS SONT CELLES DE LA SOURCE, jamais converties dans le fichier. Les
+# poids de toile sont en onces par verge carrée et les longueurs en pouces,
+# parce que c'est ainsi que les fournisseurs nord-américains les écrivent — et
+# qu'une donnée convertie à la saisie perd sa trace.
+#
+# La conversion se fait à L'AFFICHAGE, selon le réglage de chacun : l'atelier
+# tunisien lit en métrique, Québec lit les fiches fournisseur en impérial.
+# Voir `unites.js`.
+#
 # Importer : node mrp/import_charte.js --ecrire
 produit	section	texte
 MANTEAU-HIVER	matiere	Extérieur : shell noir de type hard shell
@@ -245,7 +254,7 @@ BESACE	coloris	Rouge 10 oz (#8b2b37)
 BESACE	coloris	Vert 12 oz (#37552f)
 BESACE	coloris	Jaune 10 oz (#f1b92a)
 BESACE	coloris	Beige 10 oz (#c69e7d) — dit « cassonade » au plan de production, écrit « Casonnade » au chiffrier, sans le second s. Un seul et même coloris.
-BESACE	coloris	Rose — AU PLAN MAIS ABSENT DE LA CHARTE. 9 pièces au plan 26-27, sans fiche ni épaisseur de coton documentée. À faire trancher : 10 ou 12 oz ?
+BESACE	coloris	Rose 10 oz — 9 pièces au plan 26-27. Absent de la charte Miro, confirmé par Gabriel : c'est du 10 oz, comme le noir, le rouge, le jaune et le beige.
 CACHE-COU	taille	Taille unique (adulte)
 CACHE-COU	coloris	Noir (#1a1a1a)
 CACHE-COU	coloris	Rouge (#9f3a1f)
@@ -264,7 +273,7 @@ ETUI-TEL	taille	Taille unique
 ETUI-TEL	coloris	Noir (#1a1a1a)
 ETUI-TEL	coloris	Rouge (#8b2b37)
 ETUI-TEL	coloris	Vert (#37552f)
-ETUI-TEL	coloris	Caramel (#734b17) — le plan de production l'appelle « Beige ». Deux noms pour ce qui est probablement un seul coloris, à confirmer sur un échantillon
+ETUI-TEL	coloris	Caramel (#734b17) — canevas 12 oz plus foncé, un coloris À PART, à ne pas confondre avec le beige. Le plan de production l'appelle « Beige » : c'est le plan qui nomme mal, pas deux coloris.
 FOULARD	taille	Taille unique
 FOULARD	coloris	Noir (#1a1a1a)
 FOULARD	coloris	Rouge (#9f3a1f)
@@ -310,7 +319,7 @@ SAC-LUNCH	coloris	Rouge 10 oz (#8b2b37)
 SAC-LUNCH	coloris	Vert 12 oz (#37552f)
 SAC-LUNCH	coloris	Jaune 10 oz (#f1b92a)
 SAC-LUNCH	coloris	Beige 10 oz (#c69e7d) — dit « cassonade » au plan de production, écrit « Casonnade » au chiffrier, sans le second s. Un seul et même coloris.
-SAC-LUNCH	coloris	Rose — AU PLAN MAIS ABSENT DE LA CHARTE. 55 pièces au plan 26-27, sans fiche ni épaisseur de coton documentée. À faire trancher : 10 ou 12 oz ?
+SAC-LUNCH	coloris	Rose 10 oz — 55 pièces au plan 26-27. Absent de la charte Miro, confirmé par Gabriel : c'est du 10 oz, comme le noir, le rouge, le jaune et le beige.
 SEMELLE-678	taille	5F, 6F, 7F, 8F — les quatre petites pointures du parc
 SEMELLE-9	taille	9F, 10F, 11F, 12F, 13H, 14H, 15H — les sept grandes
 TOTE	taille	Taille unique
@@ -319,7 +328,7 @@ TOTE	coloris	Rouge 10 oz (#8b2b37)
 TOTE	coloris	Vert 12 oz (#37552f)
 TOTE	coloris	Jaune 10 oz (#f1b92a)
 TOTE	coloris	Beige 10 oz (#c69e7d) — dit « cassonade » au plan de production, écrit « Casonnade » au chiffrier, sans le second s. Un seul et même coloris.
-TOTE	coloris	Rose — AU PLAN MAIS ABSENT DE LA CHARTE. 10 pièces au plan 26-27, sans fiche ni épaisseur de coton documentée. À faire trancher : 10 ou 12 oz ?
+TOTE	coloris	Rose 10 oz — 10 pièces au plan 26-27. Absent de la charte Miro, confirmé par Gabriel : c'est du 10 oz, comme le noir, le rouge, le jaune et le beige.
 TUQUE-SPORT	taille	s/m et m/l
 TUQUE-SPORT	coloris	Noir (#1a1a1a)
 TUQUE-VILLE	taille	Femme : XS S M L XL XXL

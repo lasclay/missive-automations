@@ -583,6 +583,13 @@ catch { /* déjà là */ }
 try { db.exec(`ALTER TABLE qc_points ADD COLUMN schema_url TEXT NOT NULL DEFAULT ''`); }
 catch { /* déjà là */ }
 
+// Les unités que cette personne lit. Les fournisseurs nord-américains écrivent
+// en onces par verge carrée et en pouces ; l'atelier tunisien travaille en
+// métrique. C'est une PRÉFÉRENCE, donc elle vit sur l'utilisateur et non dans
+// `reglages`, qui ne porte qu'un seul jeu pour tout l'atelier.
+try { db.exec(`ALTER TABLE utilisateurs ADD COLUMN unites TEXT NOT NULL DEFAULT 'metrique'`); }
+catch { /* déjà là */ }
+
 try { db.exec(`ALTER TABLE qc_bris ADD COLUMN source_ref TEXT NOT NULL DEFAULT ''`); }
 catch { /* déjà là */ }
 // L'index vient APRÈS la colonne : dans le schéma il partirait avant la
