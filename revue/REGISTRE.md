@@ -5,13 +5,33 @@ la source est `revue/registre.json`, et tout changement d'état passe par le scr
 
 | État | Nombre |
 | --- | --- |
-| proposee | 12 |
+| proposee | 14 |
 | approuvee | 0 |
 | appliquee | 0 |
 | refusee | 0 |
 | reportee | 2 |
 
-## En attente d'approbation (12)
+## En attente d'approbation (14)
+
+### R-20260922-02 — Faire entrer le statut reel des tirs de routine dans la collecte, pas seulement la trace au depot
+
+- **Gravité** : majeur · **Effort** : 1 h · **Proposé le** : 2026-09-22
+- **Source** : revue 2026-09-22
+- **Constat** : La collecte juge les routines sur l'age de leur derniere trace au depot. Une routine qui tire et meurt sur une permission n'ecrit rien : elle ressort « PERIMEE » (campagne, 702,9 h) ou « inverifiable » (etiquettes), deux verdicts qui disent « on ne sait pas » la ou list_triggers dit PENDING sans finished_at et ABANDONNE. Le 22 septembre, la revue a mis trois semaines a nommer une cause que ce champ donnait directement.
+- **Preuve** : revue/collecte.js section routines : verdicts PERIMEE / inverifiable pour trig_01MpfDwYo8AMsBc5GC3SgQvf et trig_016Bq8cq3sQjpCoSFYKJmWiH, alors que leur last_run du jour porte respectivement PENDING (sans finished_at) et ABANDONNED.
+- **Proposition** : Dans collecte.js, quand les outils mcp__* repondent, lire last_run de chaque routine de revue/routines.json et ajouter un verdict distinct par statut : BLOQUEE (PENDING sans finished_at depuis plus d'une heure), ABANDONNEE, ECHOUEE ; garder la mesure de trace comme second signal, et ecrire « inverifiable » uniquement quand les outils ne repondent pas.
+- **Portée** : revue/collecte.js, revue/routines.json (ajouter le trigger_id de chaque routine), revue/snapshot.js pour la ligne ROUGE
+- **Risque** : Le statut du declencheur peut dire SUCCEEDED pour un tir qui n'a rien produit — c'est le piege que la mesure de trace attrape. Les deux signaux doivent coexister, pas se remplacer.
+
+### R-20260922-01 — Pre-approuver les outils dont chaque routine a besoin, pour qu'une demande de permission ne tue plus un tir
+
+- **Gravité** : bloquant · **Effort** : 45 min · **Proposé le** : 2026-09-22
+- **Source** : revue 2026-09-22
+- **Constat** : Deux routines sont mortes le 22 septembre sur une demande d'autorisation qu'aucun humain ne verra : la campagne points de vente (tir 13 h 04, last_run PENDING sans finished_at, session bloquee sur un Bash compose) et le lot d'etiquettes du mardi (tir 11 h 10, last_run ABANDONNE, session bloquee 19 s apres le depart sur mcp__Shopify__graphql_query). Les deux tournent en session non surveillee : le tir est perdu en silence et le verdict au depot se lit « PERIMEE » ou « inverifiable », ce qui masque la vraie cause.
+- **Preuve** : trig_01MpfDwYo8AMsBc5GC3SgQvf last_run status ROUTINE_RUN_STATUS_PENDING, fired_at 2026-09-22T13:04:22Z, session_017hAyqCYoT1XUq2GmWREYwY status_bucket BLOCKED, pending_action tool_name Bash. trig_016Bq8cq3sQjpCoSFYKJmWiH last_run status ROUTINE_RUN_STATUS_ABANDONED, fired_at 2026-09-22T11:10:12Z, session_017MMCL5KaPCBfqwaRewxQc1 pending_action tool_name mcp__Shopify__graphql_query. Les memes routines ont fini normalement les 15 et 17 septembre (container_cc_version 2.1.274 contre 2.1.278 aujourd'hui).
+- **Proposition** : Pour chaque routine non surveillee, declarer a la creation du declencheur la liste des outils qu'elle utilise reellement via extra_allowed_tools (Bash, et le connecteur MCP nomme quand il y en a un), et remplacer dans les prompts les commandes Bash composees par des appels separes ; puis verifier au tir suivant que last_run passe a SUCCEEDED avec un finished_at.
+- **Portée** : trig_01MpfDwYo8AMsBc5GC3SgQvf et trig_016Bq8cq3sQjpCoSFYKJmWiH (update_trigger), prompts des deux routines
+- **Risque** : Pre-approuver des outils elargit ce qu'une session non surveillee peut faire sans qu'on le lui demande : la campagne envoie de vrais courriels a de vrais commerces. La liste doit rester exactement celle des outils utilises, jamais un blanc-seing.
 
 ### R-20260920-01 — Sortir les commentaires « a reprendre » du fichier des ecarts et les remettre en file
 
