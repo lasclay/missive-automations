@@ -78,11 +78,26 @@ function tsv(fichier) {
 // construction : les semelles y sont dans leur emballage, les bandeaux posés à
 // sept couleurs côte à côte. « handle#rang » désigne donc une autre photo de la
 // même fiche, celle qui montre la pièce qu'on doit contrôler.
-function photoDe(handle) {
-  if (!handle) return null;
-  const [nom, rang = '1'] = handle.split('#');
-  const r = tsv(PHOTOS).find(x => x.handle === nom && x.rang === rang);
-  return r ? r.url : null;
+// PLUSIEURS photos, pas une. Une seule vue laisse le modèle inventer le reste :
+// il a rendu les bretelles de la glacière rembourrées et vertes alors que ce
+// sont de simples sangles noires, parce qu'aucune photo fournie ne les montrait
+// de près. Trois vues valent mieux qu'une consigne écrite.
+//
+//   « handle »        les trois premières photos de la fiche
+//   « handle#2,5,9 »  ces vues-là, quand la première est un emballage ou un
+//                     alignement de coloris qui ne montre pas la construction
+function photosDe(handle) {
+  if (!handle) return [];
+  const [nom, rangs] = handle.split('#');
+  const toutes = tsv(PHOTOS).filter(x => x.handle === nom);
+  if (rangs) {
+    return rangs.split(',')
+      .map(r => toutes.find(x => x.rang === r.trim()))
+      .filter(Boolean).map(x => x.url);
+  }
+  return toutes
+    .sort((a, b) => Number(a.rang) - Number(b.rang))
+    .slice(0, 3).map(x => x.url);
 }
 
 async function reference(url) {
@@ -102,16 +117,19 @@ async function dessiner(cle, panneau, precedent) {
   const entree = [{ type: 'text', text: `${STYLE}\n\n${panneau.prompt}` }];
 
   if (panneau.handle) {
-    const url = photoDe(panneau.handle);
-    if (!url) throw new Error(`aucune photo pour le handle « ${panneau.handle} »`);
+    const urls = photosDe(panneau.handle);
+    if (!urls.length) throw new Error(`aucune photo pour le handle « ${panneau.handle} »`);
     entree.push({
       type: 'text',
-      text: 'The reference photograph below shows the actual product. Draw THAT '
-          + 'product — its proportions, its seams, its hardware, its colour — '
-          + 'not a generic equivalent. Do not copy the photograph: redraw it in '
-          + 'the flat instructional style described above.',
+      text: `The next ${urls.length} photographs are different views of the ACTUAL `
+          + 'product. Study them together: they are the authority on its shape, its '
+          + 'proportions, its seams, its stitching, its hardware and its colours — '
+          + 'including the parts the written instruction does not mention. Draw THAT '
+          + 'product, not a generic equivalent, and do not invent a detail you cannot '
+          + 'see in them. Do not copy a photograph: redraw the product in the flat '
+          + 'instructional style described above.',
     });
-    entree.push(await reference(url));
+    for (const u of urls) entree.push(await reference(u));
   }
 
   if (precedent) {
