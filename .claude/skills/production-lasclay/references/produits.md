@@ -26,6 +26,25 @@ manches** — même matières, même isolant, mêmes garnitures.
 C'est ce qui a permis de trancher l'inversion des handles Shopify (voir plus bas) : la charte
 départage là où les photos hésitaient.
 
+### 1bis. Deux coloris produits que la charte ne documente pas
+
+Le plan 26-27 fabrique **six** coloris de sac à lunch, besace et tote bag ; la
+charte Miro en décrit **cinq**. Le croisement des deux sources donne :
+
+| Plan de production | Charte Miro | Lecture |
+| --- | --- | --- |
+| Jaune · Rouge · Vert · Noir | idem | concordant |
+| **Casonnade** | **beige** | même coloris, deux noms |
+| **Rose** | *absent* | **produit sans fiche** — 55 sacs à lunch, 9 besaces, 10 totes |
+| *(étui)* Beige | *(étui)* Caramel | même coloris, deux noms |
+
+**Le rose est le cas qui coûte.** Soixante-quatorze pièces sont au plan, et la
+charte ne dit pas s'il se coupe en 10 ou en 12 oz — or l'épaisseur du coton
+dépend précisément de la couleur. **À faire trancher.**
+
+Les trois lignes de charte portent maintenant la divergence, plutôt que de
+choisir une source en silence.
+
 ### 2. Le coton change d'épaisseur selon la couleur
 
 **12 oz en vert, 10 oz dans toutes les autres couleurs.** Constaté sur le **sac à lunch**, la
