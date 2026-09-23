@@ -233,5 +233,50 @@ console.log('\n  Silhouettes, anneaux et images\n');
       .includes('zoom'));
 }
 
+// ------------------------------------------- 6. l'échelle réelle sur la grille
+{
+  const V_ = require('../vues.js');
+  const base = { id: 1, code: 'X', nom: 'X', nom_court: 'X', photo: '' };
+  const grille = (p) => V_.vueProduits({ user: { nom: 'V', role: 'admin' },
+    produits: [{ ...base, ...p }], msg: null });
+
+  // Trois cache-cous, même pièce en trois tailles, même photo de catalogue
+  // depuis qu'ils ont chacun leur fiche : le nom les distingue, l'image non.
+  const adulte = grille({ cote_l: '29,9', cote_h: '27,1' });
+  const petit  = grille({ cote_l: '22,1', cote_h: '19,9' });
+
+  t('la cote hors tout sort un indicateur d\'échelle',
+    adulte.includes('v-ech') && adulte.includes('29,9 × 27,1 cm'));
+
+  // Le rectangle est à l'échelle, pas décoratif : 29,9 cm doit faire plus de
+  // pixels que 22,1. Sans ça, trois tailles donnent trois carrés identiques
+  // et l'indicateur ment en ayant l'air de dire quelque chose.
+  const px = (h) => { const m = h.match(/width:(\d+)px;height:(\d+)px/);
+                      return m ? [Number(m[1]), Number(m[2])] : null; };
+  const [la, ha] = px(adulte) || [0, 0];
+  const [lp, hp] = px(petit)  || [0, 0];
+  t('le rectangle suit la cote : l\'adulte est plus grand que le petit enfant',
+    la > lp && ha > hp, `${la}×${ha} vs ${lp}×${hp}`);
+  t('et il garde la proportion de la pièce',
+    Math.abs((la / ha) - (29.9 / 27.1)) < 0.05, `${(la / ha).toFixed(3)}`);
+
+  // Rien à inventer là où la cote manque : trente et un produits sur
+  // trente-quatre n'en ont pas, et un rectangle par défaut serait un mensonge.
+  t('sans cote, aucun indicateur', !grille({}).includes('v-ech'));
+  t('une cote seule ne suffit pas',
+    !grille({ cote_l: '29,9' }).includes('v-ech'));
+  t('une cote illisible est ignorée',
+    !grille({ cote_l: 'À FIXER', cote_h: 'À FIXER' }).includes('v-ech'));
+  t('une cote nulle aussi', !grille({ cote_l: '0', cote_h: '0' }).includes('v-ech'));
+
+  // La photo est cadrée, plus rognée : une besace sans ses anses n'est plus
+  // une besace, et c'est la forme qu'on vient reconnaître.
+  const css = fs.readFileSync(
+    path.join(__dirname, '..', 'public', 'style.css'), 'utf8');
+  t('la photo de la grille est cadrée, pas rognée',
+    /\.vignette img\{[^}]*object-fit:contain/.test(css));
+  t('et elle a de l\'air autour', /\.vignette img\{[^}]*padding:1[0-9]px/.test(css));
+}
+
 console.log(`\n  ${ok} réussites, ${ko} échecs\n`);
 process.exit(ko ? 1 : 0);

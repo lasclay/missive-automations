@@ -145,9 +145,17 @@ const R = {
   produitsActifs: db.prepare(`SELECT id, code,
       COALESCE(NULLIF(nom_court, ''), nom) AS nom FROM produits WHERE actif = 1
       ORDER BY 3`),
+  // Les cotes hors tout viennent avec la fiche. Trois produits seulement en
+  // ont — les trois cache-cous —, et ce sont précisément les trois que leur
+  // photo ne distingue pas : même pièce, trois tailles, un carré noir chacun.
+  // L'indicateur d'échelle n'apparaît donc que là où il sert.
   produitsListe: db.prepare(`SELECT p.*,
       (SELECT url FROM produit_photos f WHERE f.produit_id = p.id
-         ORDER BY CASE type WHEN 'studio' THEN 0 ELSE 1 END, rang, id LIMIT 1) AS photo
+         ORDER BY CASE type WHEN 'studio' THEN 0 ELSE 1 END, rang, id LIMIT 1) AS photo,
+      (SELECT valeur FROM qc_points q WHERE q.produit_id = p.id
+         AND q.titre = 'Largeur hors tout' LIMIT 1) AS cote_l,
+      (SELECT valeur FROM qc_points q WHERE q.produit_id = p.id
+         AND q.titre = 'Hauteur hors tout' LIMIT 1) AS cote_h
       FROM produits p WHERE p.actif = 1
      ORDER BY COALESCE(NULLIF(p.nom_court, ''), p.nom)`),
   produit: db.prepare(`SELECT * FROM produits WHERE id = ?`),

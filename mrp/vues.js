@@ -1975,6 +1975,37 @@ function vueOrdreForm({ user, o = null, msg }) {
 }
 
 // ================================================================== produits
+/**
+ * L'échelle réelle d'une pièce, posée sur sa photo.
+ *
+ * LE PROBLÈME. Les trois cache-cous sont la même pièce en trois tailles, et
+ * depuis qu'ils ont chacun leur fiche Shopify, ils portent la même photo de
+ * catalogue : trois carrés noirs identiques dans la grille. Le nom les
+ * distingue, la photo non — et c'est la photo qu'on regarde en premier.
+ *
+ * CE QU'ON DESSINE. Pas une infographie inventée : le rectangle est aux cotes
+ * relevées au schéma de la charte, à une échelle commune à toute la grille.
+ * 29,9 cm fait 33 px, 22,1 en fait 24 — l'écart se voit sans lire. La cote
+ * est écrite à côté, parce qu'un dessin ne se mesure pas.
+ *
+ * POURQUOI ÇA N'APPARAÎT QUE LÀ. Trois produits sur trente-quatre ont leurs
+ * deux cotes hors tout en base. Ce sont exactement les trois que leur photo
+ * ne distingue pas. Le jour où d'autres cotes entrent, l'indicateur suit ;
+ * il ne s'invente rien en attendant.
+ */
+const PX_PAR_CM = 1.12;
+
+function echelle(p) {
+  const n = (v) => { const x = parseFloat(String(v || '').replace(',', '.'));
+                     return Number.isFinite(x) && x > 0 ? x : null; };
+  const [l, h] = [n(p.cote_l), n(p.cote_h)];
+  if (!l || !h) return '';
+  const [pl, ph] = [Math.round(l * PX_PAR_CM), Math.round(h * PX_PAR_CM)];
+  return `<span class="v-ech" title="Cotes hors tout relevées au schéma de la charte">
+    <i style="width:${pl}px;height:${ph}px"></i>
+    <b>${e(String(p.cote_l))} × ${e(String(p.cote_h))} cm</b></span>`;
+}
+
 function vueProduits({ user, produits, msg }) {
   const corps = `
   ${sousNavProduits('fiches')}
@@ -1984,8 +2015,10 @@ function vueProduits({ user, produits, msg }) {
       ? `<a class="btn" href="/produits/nouveau">Nouvelle fiche</a>` : ''}</div>
   ${produits.length ? `<div class="grille">
     ${produits.map(p => `<a class="vignette" href="/produits/${p.id}">
-      ${p.photo ? img(p.photo, { largeur: TAILLES.vignette, alt: p.nom })
-                : `<div class="sans-photo">Pas de photo</div>`}
+      <span class="v-img">${p.photo
+        ? img(p.photo, { largeur: TAILLES.vignette, alt: p.nom })
+        : `<span class="sans-photo">${silhouette(p.code, p.nom)
+            || 'Pas de photo'}</span>`}${echelle(p)}</span>
       <div class="b"><b>${e(p.nom_court || p.nom)}</b>
         <span class="muted">${e(p.code)}</span></div>
     </a>`).join('')}

@@ -393,8 +393,29 @@ textarea{min-height:70px;resize:vertical}
 /* ---------- listes / cartes produits ---------- */
 .grille{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px}
 .vignette{background:var(--carte);border:1px solid var(--ligne);border-radius:6px;overflow:hidden}
-.vignette img{width:100%;height:140px;object-fit:cover;display:block;background:var(--media)}
-.sans-photo{height:140px;display:flex;align-items:center;justify-content:center;background:var(--media);color:var(--gris);font-size:12px}
+/* La photo est CADRÉE, plus rognée. « cover » remplissait le carré en coupant
+   ce qui dépasse : une besace perdait ses anses, un manteau son capuchon. La
+   pièce entière tient maintenant dans le cadre, avec de l'air autour — c'est
+   la forme qu'on vient reconnaître, et une forme coupée n'est plus la forme. */
+.v-img{position:relative;display:block;background:var(--media)}
+.vignette img{width:100%;height:172px;object-fit:contain;display:block;
+  padding:16px;box-sizing:border-box}
+.sans-photo{height:172px;display:flex;align-items:center;justify-content:center;
+  background:var(--media);color:var(--gris);font-size:12px}
+.sans-photo .sil{width:46px;height:46px;opacity:.3;margin:0}
+
+/* ---------- l'échelle réelle, posée sur la photo ----------
+   Le rectangle est aux cotes relevées, à une échelle commune à la grille :
+   deux pièces voisines se comparent à l'œil sans lire les chiffres. Il est
+   posé en bas à gauche, là où les photos de catalogue sont vides. */
+.v-ech{position:absolute;left:8px;bottom:7px;display:flex;align-items:flex-end;
+  gap:6px;pointer-events:none}
+.v-ech i{display:block;flex:0 0 auto;border:1.5px solid var(--encre);
+  border-radius:2px;background:color-mix(in srgb, var(--carte) 62%, transparent)}
+.v-ech b{font-size:10.5px;font-weight:650;letter-spacing:-.01em;
+  font-variant-numeric:tabular-nums;color:var(--encre);white-space:nowrap;
+  background:color-mix(in srgb, var(--carte) 82%, transparent);
+  border-radius:3px;padding:1px 4px;line-height:1.35}
 .vignette .b{padding:10px}
 .vignette .b b{display:block;font-size:14px}
 .photos{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
