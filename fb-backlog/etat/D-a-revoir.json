@@ -11105,6 +11105,27 @@
       "motif": "Identification et interjection, sans contenu.",
       "page_id": "114311920399404",
       "quand": "2026-09-23T19:40:27.439Z"
+    },
+    {
+      "id": "263649742132287_279944320502829",
+      "extrait": "Et en plus un excellent miel 🐝🐝",
+      "motif": "Miel et abeilles sont vérifiés ABSENTS des faits vérifiés : ni confirmer ni contredire, donc pas de réponse.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-23T20:38:47.817Z"
+    },
+    {
+      "id": "263649742132287_279669017197026",
+      "extrait": "Magnifique projet! J'ai contribué.",
+      "motif": "Contribution revendiquée à la campagne de financement participatif : bloc déjà signalé SUIVI HUMAIN REQUIS, invérifiable de notre côté.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-23T20:38:47.817Z"
+    },
+    {
+      "id": "263649742132287_279116290585632",
+      "extrait": "Michel Laurent merci pour ces précisions!",
+      "motif": "Remerciement entre abonnés, sans contenu.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-23T20:38:47.817Z"
     }
   ]
 }
