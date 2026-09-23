@@ -202,6 +202,7 @@ function page({ titre, user, corps, actif = '', msg = null }) {
     ${lienTaches}
     <i class="sep"></i>
     ${lien('/produits', 'Produits', 'produits')}
+    ${lien('/qualite', 'Qualité', 'qualite')}
     ${lien('/inventaire', 'Inventaire', 'inventaire')}
     ${lien('/besoins', 'Besoins', 'besoins')}
     <i class="sep"></i>
@@ -995,7 +996,7 @@ function vueMur({ user, msg, groupes }) {
   : `<div class="carte"><p class="vide">Aucun signalement pour l'instant.
      <code>node bris_missive.js trier</code> en extrait de la boîte support.</p></div>`}`;
 
-  return page({ titre: 'Ce que les clients ont vu', user, corps, msg, actif: 'produits' });
+  return page({ titre: 'Ce que les clients ont vu', user, corps, msg, actif: 'qualite' });
 }
 
 function vueQualite({ user, msg, couverture, general = [], zones = [], nc = [] }) {
@@ -1089,7 +1090,7 @@ function vueQualite({ user, msg, couverture, general = [], zones = [], nc = [] }
   </div>` : `<div class="carte"><p class="vide">Aucun protocole écrit pour l'instant.
     Ouvre un produit et commence par ce qui rate le plus souvent.</p></div>`}`;
 
-  return page({ titre: 'Contrôle qualité', user, corps, msg, actif: 'produits' });
+  return page({ titre: 'Contrôle qualité', user, corps, msg, actif: 'qualite' });
 }
 
 function vueProtocole({ user, p, proto, msg, photos = [], bris = null,
@@ -1267,7 +1268,7 @@ function vueProtocole({ user, p, proto, msg, photos = [], bris = null,
     3 500. Personne ne devrait faire la division en ayant les pièces en main.</p>
   </div>`;
 
-  return page({ titre: `Qualité — ${p.code}`, user, corps, msg, actif: 'produits' });
+  return page({ titre: `Qualité — ${p.code}`, user, corps, msg, actif: 'qualite' });
 }
 
 // ==================================================================== tâches
