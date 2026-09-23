@@ -49,7 +49,7 @@ function fermerSession(jeton) {
 function utilisateurDeSession(jeton) {
   if (!jeton) return null;
   const r = db.prepare(`
-    SELECT u.id, u.courriel, u.nom, u.role
+    SELECT u.id, u.courriel, u.nom, u.role, u.unites
       FROM sessions s JOIN utilisateurs u ON u.id = s.utilisateur_id
      WHERE s.jeton = ? AND s.expire_le > datetime('now') AND u.actif = 1`).get(jeton);
   return r || null;
@@ -123,9 +123,23 @@ function connecter(courriel, mdp) {
     return null;
   }
   if (!verifier(String(mdp || ''), u.mdp_hash)) return null;
-  return { id: u.id, courriel: u.courriel, nom: u.nom, role: u.role };
+  return { id: u.id, courriel: u.courriel, nom: u.nom, role: u.role,
+           unites: u.unites };
+}
+
+/**
+ * Les unités affichées. Un mode inconnu est refusé plutôt que corrigé en
+ * silence : une préférence qu'on croit posée et qui ne l'est pas se remarque
+ * des semaines plus tard, devant une cote lue dans la mauvaise unité.
+ */
+function changerUnites(utilisateurId, mode) {
+  const { MODES } = require('./unites.js');
+  if (!Object.hasOwn(MODES, String(mode)))
+    return { erreur: 'Unité inconnue.' };
+  db.prepare(`UPDATE utilisateurs SET unites = ? WHERE id = ?`).run(mode, utilisateurId);
+  return { mode, libelle: MODES[mode] };
 }
 
 module.exports = { hacher, verifier, ouvrirSession, fermerSession,
                    utilisateurDeSession, creerUtilisateur, connecter, menage,
-                   changerMotDePasse, changerNom };
+                   changerMotDePasse, changerNom, changerUnites };

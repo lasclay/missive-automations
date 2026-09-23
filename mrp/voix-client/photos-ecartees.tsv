@@ -1,0 +1,82 @@
+# Images écartées du distillat, une par ligne, avec le motif.
+#
+# POURQUOI CE FICHIER EXISTE. Les clients envoient des photos de défauts, mais
+# aussi des reçus, des captures de paiement, des courriels et leur visage. Sur
+# 247 images, 67 ne devaient pas entrer dans le MRP : une capture montrait un
+# numéro de carte partiel avec le nom du titulaire, une autre une adresse
+# postale complète avec téléphone, une autre encore un code de carte-cadeau de
+# 100 $ toujours valide.
+#
+# CE TRI S'EST FAIT À L'ŒIL, LES 247 UNE PAR UNE. Aucune règle automatique ne
+# distingue un reçu d'une photo de couture de façon fiable, et se tromper ici
+# ne coûte pas une ligne de moins : ça publie les données d'un client.
+#
+# Format : <fichier>\t<motif>
+
+04aae792-b791-49ce-832d-1ad568b6c58e.jpeg	reçu d’expédition — adresse et code postal
+04e12c42-60ba-4f8e-aa46-b0244dba4ca5.jpg	visage de cliente
+05bf5ec8-45c1-4c66-b85b-a7c9f5c6b60e.jpg	reçu d’expédition — prénom et code-barres
+06631d22-e9a9-4ef1-b4af-125260805d53.jpg	capture de texte, aucune valeur d’atelier
+0a6ab100-aa2e-4eef-9b6b-1ffa063e6b88.png	détails de paiement — carte partielle et nom du titulaire
+0ba93106-c57a-42dd-b200-f5d74edc72f1.jpg	visage (égoportrait)
+0f61b9ac-ddca-49c9-9b2d-9e4866aa4c99.jpg	image vide
+126b77df-059b-406d-b1d0-7263b80ddec1.jpg	capture de commande — articles et prix
+1aecae97-a532-45c1-9f75-a4173634c15f.jpg	image vide
+1dc76017-8c33-47cb-872c-7d970fb38085.jpeg	capture de livraison — numéro de suivi
+1e346c25-b15b-4c44-87a1-428164991991.jpg	capture de texte
+1fd824e0-8e44-4b4c-b33b-d6797693b30f.png	photo sans rapport (décoration)
+223132b2-690f-4c9a-bee7-1dec6ef0bcb4.tiff	image vide
+29f21004-b6a0-4cba-91bc-5178ae1bf196.png	notre propre visuel de catalogue
+2c947e95-6030-4dff-8bfb-5dee75100384.jpg	capture de commande — prix
+2f696937-2053-440b-adbe-6566d9e105b3.png	photo sans rapport
+351476b6-848d-44e9-9315-8c28497bcda2.png	capture de commande — articles et prix
+3fcfc06c-97b8-46d5-98b5-0a2178e16cd3.png	visage
+400b6d0d-731a-44e0-90e0-4b5f4a5700fc.png	image vide
+41174a0e-ad64-49ef-bd1a-b25b60834efe.HEIC	image vide
+491f8918-b82b-42e7-8a4a-39462d66abae.jpg	capture de texte
+4e48a1f2-cff9-45fa-9d17-c65518585720.png	capture de commande — total
+527cae7c-5fa4-41c1-adfc-f6fe8de9f4fa.HEIC	image vide
+540f2b28-3904-4ba9-8ca6-6e4416a7c0ee.png	capture de notification de suivi
+58c7fc41-f98a-403f-9372-7bf43af023d0.PNG	capture Facebook — publicité et noms de contacts
+5a3ea7e4-dc61-4b64-9623-d965033fc71f.jpg	capture de texte
+5c6ccd25-71cf-4ea1-a399-aafbb33b0a3b.heic	image vide
+665129c6-af11-47c2-a5ef-1d23d56dbb34.HEIC	image vide
+79edfb72-79d3-455a-b421-5d987382c9d9.png	courriel — nom et adresse du client
+7fe3a66b-9ff3-4f8d-97c8-95348c962c64.png	remboursement — nom, Mastercard, référence
+8595d1a8-60bf-4ab3-9d7a-4f4c9cd149b4.jpeg	reçu d’expédition
+91450e18-5a93-40e1-9df2-84e35ebd6646.png	détails de paiement — carte partielle et nom
+91cd7ca1-4b3b-47b9-a6c4-649d20f68cd3.heic	image vide
+944f0bc6-39a6-46f0-8361-aa4eeb1200eb.HEIC	image vide
+98d14322-baad-43eb-a341-c25906d95b15.jpeg	aperçu de remboursement — carte partielle
+9ed7ca56-f758-46dc-a456-94eb11a569ae.jpeg	visage
+a9bd37a0-5a38-4ac5-83c9-180a2d4ee1d1.HEIC	image vide
+aabe777c-f3aa-4cfc-a6cb-1a065e308c73.png	reçu d’expédition — destination
+abaeeb9e-aed9-4462-b11a-6a32199447d1.jpeg	étiquette d’envoi visible — code postal
+b587cf3e-1be9-420c-9ab6-9fc06ed1fdb3.png	capture de commande
+b667a229-ee9c-4914-95ad-14bbc8623b9a.png	carte d’affaires — nom et téléphone
+b8a27672-c04c-45d0-bc4c-5f9cdfb14d35.jpg	visage partiel
+b8e3228f-f9d0-4f0f-ac05-ec013f37f49c.png	retour — courriel du client et suivi
+bcd6f07a-ec56-484a-a862-66f500f79a32.png	écran d’administration — courriel du client
+be018ffe-b5cc-4f19-88f3-4f149d591ff8.jpg	capture de texte
+c155c89a-44ce-483e-8256-4a2c84695ffb.png	expédition — courriel du client et suivi
+c4ac2022-d2bd-44ee-a8cd-a2fb2cfea167.png	notre courriel — nom complet de la cliente
+c4e43fe1-aaf6-4159-98e4-1eaf1188523e.png	journal de remboursement — courriel et référence
+c4f9a4eb-6d1e-4ca7-a7ab-b350e54728f5.heic	image vide
+c7573866-7a01-4dbd-9f0a-2167f5882e05.heic	image vide
+c9305d4c-4c04-4ef7-9b0c-61d665b44666.jpg	expédition — nom, adresse, téléphone, courriel
+cbd885f2-19c7-4dcd-993c-40f48d5ae43a.heic	image vide
+cf20021b-750d-4196-85c8-e6b8ab3940b4.jpg	notre propre charte des tailles
+db4b0070-36f8-4ca9-85e0-4ddf0c156ebf.png	notre propre visuel de catalogue
+deddcfb7-3361-4c2e-a339-02d07d04ea12.png	détails de paiement — carte partielle et nom
+e14c3df4-01a3-4c2b-9381-8ea9a4ca7683.HEIC	image vide
+e4089a07-31b0-4002-9f65-2c948e972308.jpeg	effets personnels, pas nos produits
+e429e4bd-4dc9-4972-9004-255a2dd8c38f.heic	image vide
+e4882c5a-e40b-4969-b9ff-24bac1a71b79.png	confirmation de commande — prénom et numéro
+e6146c3c-c4e8-46bd-a52d-dc0b510fd15a.jpg	capture de texte
+e994861a-0038-47f5-b62e-71ff5168a99f.png	notification de commande — numéro
+ebe503f6-48f9-49a7-b827-3c29a3a2ba84.jpeg	facture d’un tiers (retoucherie)
+f4913d2e-5dfe-46d6-b4b3-afa70bec1788.HEIC	image vide
+f798df11-de98-424f-b78b-3dffda57f4af.jpg	étiquette d’envoi — code postal et suivi
+fa48c4fb-4fb8-46c4-ad02-5fcb52f3ec18.jpeg	reçu
+faa467be-1a47-4702-91ab-b887346f6170.jpg	capture de suivi de livraison
+ffd6e687-1d8f-43fd-8bde-213b6b4681f5.jpg	CODE DE CARTE-CADEAU DE 100 $ ENCORE VALIDE

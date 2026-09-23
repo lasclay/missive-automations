@@ -6,7 +6,9 @@
  * rend l'application utilisable sur une connexion lente.
  */
 'use strict';
-const { CATEGORIES: CATEGORIES_M, qte: qteFR } = require('./db.js');
+const U = require('./unites.js');
+const { CATEGORIES: CATEGORIES_M, qte: qteFR,
+        MOTS_RAPPORT } = require('./db.js');
 
 // ------------------------------------------------------------------ utilitaires
 const e = (s) => String(s ?? '').replace(/[&<>"']/g,
@@ -75,6 +77,21 @@ function urlAcceptable(u) {
   if (!s) return false;
   try { return ['http:', 'https:'].includes(new URL(s).protocol); }
   catch { return false; }
+}
+
+/**
+ * Même règle, plus le seul chemin interne que l'app sert elle-même.
+ *
+ * Les photos de clients ne sont pas sur un CDN : ce sont des correspondances,
+ * et une URL publique les rendrait lisibles par quiconque a le lien. Elles
+ * vivent donc dans le dépôt et sortent par `/photo-client/<uuid>.jpg`,
+ * derrière la session. Tout le reste tombe sous la règle générale — surtout
+ * une « data: » URI, qui ferait porter l'image à chaque page servie.
+ */
+const PHOTO_INTERNE = /^\/photo-client\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\.jpg$/;
+function photoRetroAcceptable(u) {
+  const s = String(u || '').trim();
+  return PHOTO_INTERNE.test(s) || urlAcceptable(s);
 }
 
 /**
@@ -398,6 +415,20 @@ function vueCompte({ user, msg }) {
   </div>
 
   <div class="carte" style="max-width:420px">
+    <h2>Unités</h2>
+    <p class="muted" style="font-size:13px;margin:6px 0 14px">Les fournisseurs
+    écrivent la toile en onces et les longueurs en pouces ; l'atelier travaille
+    en métrique. La source ne change pas — seulement ce que tu lis.</p>
+    <form method="post" action="/compte/unites">
+      <div class="champ"><label for="u">Afficher les mesures en</label>
+        <select id="u" name="unites">${Object.entries(U.MODES).map(([cle, lib]) =>
+          `<option value="${e(cle)}"${(user.unites || U.MODE_DEFAUT) === cle
+            ? ' selected' : ''}>${e(lib)}</option>`).join('')}</select></div>
+      <button class="btn" style="width:100%">Enregistrer</button>
+    </form>
+  </div>
+
+  <div class="carte" style="max-width:420px">
     <h2>Changer mon mot de passe</h2>
     <p class="muted" style="font-size:13px;margin:6px 0 14px">Huit caractères
     minimum. Les sessions ouvertes ailleurs seront fermées — sur les autres
@@ -445,7 +476,7 @@ function sousNavProduits(page) {
   return `<nav class="sous-nav">
     ${l('/produits', 'Fiches produits', 'fiches')}
     ${l('/qualite', 'Qualité', 'qualite')}
-    ${l('/mur', 'Ce qui casse', 'mur')}
+    ${l('/retroactions', 'Rétroactions clients négatives', 'retroactions')}
   </nav>`;
 }
 
@@ -655,7 +686,7 @@ function vueAccueil({ user, ordres, jalons, ia = null, salut = null,
 
 // ========================================================== contrôle qualité
 const ICONE_QC = { critique: '!', probleme: '~', mesure: '=', cyclage: '↻',
-                   emballage: '\u25a1' };
+                   esthetique: '\u25c8', emballage: '\u25a1' };
 
 /**
  * Un point de protocole.
@@ -680,8 +711,12 @@ function schemaQC(q, largeur) {
      loading="lazy" alt="Schéma — ${e(q.titre)}"></a>`;
 }
 
-function pointQC({ q, produitId, editable, action = null }) {
+function pointQC({ q, produitId, editable, action = null, unites }) {
   const mesure = q.type === 'mesure';
+  // La cote porte son unité dans une colonne à part : « 1 » + « po ». Le
+  // texte du détail, lui, peut en contenir en toutes lettres.
+  const cote = U.convertirMesure(q.valeur, q.unite, unites);
+  const detail = U.convertir(q.detail, unites);
   const REGLE = { tout: 'toutes les pièces', lot: 'une fois par lot' };
   const regle = q.ech_type === 'ratio' ? `1 pièce sur ${q.ech_valeur}`
               : q.ech_type === 'fixe' ? `${q.ech_valeur} pièces par lot`
@@ -690,11 +725,11 @@ function pointQC({ q, produitId, editable, action = null }) {
     <div class="qc-quoi">
       <b>${e(q.titre)}</b>
       ${q.produit_id === null ? '<span class="ck-gen">général</span>' : ''}
-      ${mesure && q.valeur ? `<span class="qc-val">${e(q.valeur)}${
-        q.unite ? ' ' + e(q.unite) : ''}${
+      ${mesure && q.valeur ? `<span class="qc-val">${e(cote.valeur)}${
+        cote.unite ? ' ' + e(cote.unite) : ''}${
         q.tolerance ? ` <span class="qc-tol">± ${e(q.tolerance)}</span>` : ''}</span>` : ''}
       ${q.variante ? `<span class="qc-var">${e(q.variante)}</span>` : ''}
-      ${q.detail ? `<span class="qc-det">${e(q.detail)}</span>` : ''}
+      ${detail ? `<span class="qc-det">${e(detail)}</span>` : ''}
       ${q.consequence ? `<span class="qc-cons">Sinon : ${e(q.consequence)}</span>` : ''}
       ${q.appuis ? `<span class="qc-appui">${q.appuis} signalement${
         q.appuis > 1 ? 's' : ''} sur le terrain</span>` : ''}
@@ -917,170 +952,334 @@ function ligneBris({ b, produitId, editable }) {
   </li>`;
 }
 
-/**
- * Le mur des bris — la page que l'atelier regarde.
- *
- * Pas un tableau de bord : des photos et des phrases de clients. Le format est
- * délibérément différent du reste de l'app, parce que le but est différent —
- * on ne vient pas chercher un chiffre, on vient comprendre pourquoi une
- * consigne existe.
- *
- * Les photos sont grandes. C'est le seul endroit de l'app où une image compte
- * plus que le texte à côté, et la connexion tunisienne le vaut : le CDN les
- * sert redimensionnées, comme partout.
- */
-function vueMur({ user, msg, groupes }) {
-  const total = groupes.reduce((n, g) => n + g.bris.length, 0);
-  const photos = groupes.reduce((n, g) => n + g.photos, 0);
+function navQC(page) {
+  const l = (href, texte, cle) =>
+    `<a href="${href}"${page === cle ? ' class="on" aria-current="page"' : ''}>${texte}</a>`;
+  return `<nav class="sous-nav">
+    ${l('/qualite', 'Contrôle qualité', 'accueil')}
+    ${l('/qualite/ordres', 'Par ordre de production', 'ordres')}
+    ${l('/qualite/produits', 'Par produit', 'produits')}
+    ${l('/qualite/general', 'Général', 'general')}
+  </nav>`;
+}
 
-  const carte = (b) => {
-    const ph = photosBris(b.photo_url);
-    return `<figure class="mur-c${ph.length ? '' : ' mur-sans'}">
-    ${ph.length
-      ? `<a href="${e(ph[0])}" rel="noopener">
-           <img src="${e(urlImage(ph[0], 640))}" loading="lazy"
-                alt="${e(b.zone || 'Bris signalé')}"></a>`
-      : ''}
-    ${ph.length > 1 ? `<div class="mur-plus">${ph.slice(1).map((u, i) => `
-      <a href="${e(u)}" rel="noopener"><img src="${e(urlImage(u, 160))}"
-         loading="lazy" alt="${e(b.zone || 'Bris signalé')} — vue ${i + 2}"></a>`
-      ).join('')}</div>` : ''}
-    <figcaption>
-      <div class="mur-tete">
-        <span class="br-orig br-${b.origine}">${ORIGINES[b.origine] || b.origine}</span>
-        ${b.zone ? `<b>${e(b.zone)}</b>` : ''}
-        ${b.survenu_le ? `<span class="br-date">${dateFR(b.survenu_le)}</span>` : ''}
+/**
+ * L'accueil du contrôle qualité : par où entrer.
+ *
+ * Trois portes sur une seule base. « Par ordre » est la première parce que
+ * c'est la seule qui porte une ÉCHÉANCE — un conteneur part, et ce qui n'a pas
+ * été contrôlé part avec. Les deux autres sont des référentiels : on y va pour
+ * savoir, pas pour faire.
+ */
+function vueQualiteAccueil({ user, msg, aFaire = 0, ordresActifs = 0,
+                             produits = 0, general = 0 }) {
+  const nb = (n) => Number(n || 0).toLocaleString('fr-CA');
+  const porte = (href, titre, sous, chiffre, libelle, classe) => `
+    <a class="porte ${classe}" href="${href}">
+      <h2>${titre}</h2>
+      <p>${sous}</p>
+      <span class="porte-cpt"><b>${nb(chiffre)}</b> ${libelle}</span>
+    </a>`;
+
+  const corps = `
+  ${navQC('accueil')}
+  <div class="entete"><div><h1>Contrôle qualité</h1>
+    <p class="muted">Ce qu'on vérifie, sur quoi, et ce qui reste à faire</p></div></div>
+
+  <div class="portes">
+    ${porte('/qualite/ordres', 'Par ordre de production',
+      "Ce qui attend un contrôle, lot par lot. C'est ici qu'on travaille : "
+      + 'un conteneur part, et ce qui n\'a pas été contrôlé part avec.',
+      aFaire, aFaire > 1 ? 'lots à contrôler' : 'lot à contrôler', 'porte-1')}
+    ${porte('/qualite/produits', 'Par produit',
+      'Le protocole de chaque pièce : points critiques, cotes, cyclage, '
+      + 'emballage. La source de vérité, celle qu\'on consulte.',
+      produits, produits > 1 ? 'fiches' : 'fiche', 'porte-2')}
+    ${porte('/qualite/general', 'Général',
+      'Les gestes qui valent pour toutes les pièces — fils qui dépassent, '
+      + 'étiquetage, essais de tenue.',
+      general, general > 1 ? 'procédés' : 'procédé', 'porte-3')}
+  </div>
+
+  <p class="qc-pied"><a class="lien" href="/retroactions">Ce que les clients ont
+    écrit quand ça n'allait pas — 487 rétroactions négatives, par produit</a></p>`;
+  return page({ titre: 'Contrôle qualité', user, corps, actif: 'produits', msg });
+}
+
+/** Par produit : les mêmes cartes que l'onglet Produits, vers le protocole. */
+function vueQualiteProduits({ user, msg, produits }) {
+  const sans = produits.filter(p => !p.points).length;
+  const corps = `
+  ${navQC('produits')}
+  <div class="entete"><div><h1>Protocoles par produit</h1>
+    <p class="muted">${produits.length} produit${produits.length > 1 ? 's' : ''}${
+      sans ? ` · <b>${sans}</b> sans aucun protocole` : ''}</p></div></div>
+
+  ${sans ? `<p class="sec">Un protocole vide sur un produit qu'on fabrique par
+  milliers est l'information la plus utile de cette page : la carte le dit.</p>` : ''}
+
+  ${produits.length ? `<div class="grille">
+    ${produits.map(p => `<a class="vignette ${p.points ? '' : 'vgn-vide'}"
+        href="/qualite/${p.id}">
+      ${p.photo ? img(p.photo, { largeur: TAILLES.vignette, alt: p.nom })
+                : `<div class="sans-photo">Pas de photo</div>`}
+      <div class="b"><b>${e(p.nom_court || p.nom)}</b>
+        <span class="muted">${e(p.code)}</span>
+        ${p.points ? `<span class="qc-cpt">
+          ${p.critiques ? `<i class="q-critique" title="points critiques">${p.critiques}</i>` : ''}
+          ${p.problemes ? `<i class="q-probleme" title="problèmes fréquents">${p.problemes}</i>` : ''}
+          ${p.mesures ? `<i class="q-mesure" title="mesures et cotes">${p.mesures}</i>` : ''}
+          ${p.cyclages ? `<i class="q-cyclage" title="cyclage et tests">${p.cyclages}</i>` : ''}
+          ${p.esthetiques ? `<i class="q-esthetique" title="esthétique et quotidien"
+            >${p.esthetiques}</i>` : ''}
+        </span>` : '<span class="qc-vide">aucun protocole</span>'}</div>
+    </a>`).join('')}
+  </div>` : `<div class="carte"><p class="vide">Aucune fiche produit.</p></div>`}`;
+  return page({ titre: 'Qualité par produit', user, corps, actif: 'produits', msg });
+}
+
+/**
+ * Général : les gestes qui valent pour toutes les pièces.
+ *
+ * Numérotés, parce qu'un procédé se suit dans un ordre. Chacun porte sa
+ * conséquence — c'est elle qui le rend incontestable — et son schéma quand il
+ * y en a un.
+ */
+function vueQualiteGeneral({ user, msg, general = [] }) {
+  const corps = `
+  ${navQC('general')}
+  <div class="entete"><div><h1>Procédés généraux</h1>
+    <p class="muted">${general.length} procédé${general.length > 1 ? 's' : ''} ·
+    s'appliquent à <b>toutes</b> les pièces</p></div></div>
+
+  <p class="sec">Ces gestes n'appartiennent à aucun produit : couper les fils
+  qui dépassent, poser l'étiquette du bon sens, éprouver la tenue. Ils
+  apparaissent sur la liste à cocher de <b>chaque</b> lot, sans avoir à être
+  réécrits trente fois. Un procédé absurde sur une pièce donnée ne se supprime
+  pas — il s'écarte de ce produit-là, depuis sa fiche, avec un motif.</p>
+
+  ${general.length ? `<ol class="procedes">
+    ${general.map((q, i) => `<li class="proc proc-${e(q.type)}">
+      <div class="proc-num">${i + 1}</div>
+      <div class="proc-corps">
+        <h3><span class="q-pip q-${e(q.type)}">${ICONE_QC[q.type] || '·'}</span>
+          ${e(q.titre)}</h3>
+        ${q.detail ? `<p class="proc-det">${e(U.convertir(q.detail, user.unites))}</p>` : ''}
+        ${q.valeur ? `<p class="ck-cible">Cible <b>${e(q.valeur)}${
+          q.unite ? ' ' + e(q.unite) : ''}</b>${
+          q.tolerance ? ` ± ${e(q.tolerance)}` : ''}</p>` : ''}
+        ${q.consequence ? `<p class="qc-cons">Sinon : ${e(q.consequence)}</p>` : ''}
+        ${schemaQC(q, TAILLES.galerie)}
+        ${q.frequence ? `<p class="qc-pied"><b>${e(q.frequence)}</b></p>` : ''}
       </div>
-      ${b.texte ? `<blockquote>${e(b.texte)}</blockquote>` : ''}
-      ${b.point_titre
-        ? `<p class="mur-consigne">→ ${e(b.point_titre)}</p>`
-        : '<p class="mur-nu">Aucune consigne n\'en découle encore</p>'}
-    </figcaption>
-  </figure>`;
+    </li>`).join('')}
+  </ol>` : `<div class="carte"><p class="vide">Aucun procédé général.
+    Ce qui est écrit sans produit s'applique à tous.</p></div>`}`;
+  return page({ titre: 'Procédés généraux', user, corps, actif: 'produits', msg });
+}
+
+/** La liste des ordres où il reste du contrôle à faire. */
+function vueQCOrdres({ user, msg, ordres }) {
+  const nb = (n) => Number(n || 0).toLocaleString('fr-CA');
+  const corps = `
+  ${navQC('ordres')}
+  <div class="entete"><div><h1>Contrôle par ordre de production</h1>
+    <p class="muted">${ordres.length} ordre${ordres.length > 1 ? 's' : ''} en cours</p></div></div>
+
+  ${ordres.length ? `<div class="grille-ordres">
+    ${ordres.map(o => `<a class="carte-ordre${o.aFaire ? '' : ' fini'}"
+        href="/qualite/ordres/${o.id}">
+      <h2>${e(o.numero)}</h2>
+      <p class="muted">${e(o.titre || '')}</p>
+      <div class="co-chiffres">
+        <span><b>${nb(o.aFaire)}</b> à contrôler</span>
+        <span class="muted"><b>${nb(o.signes)}</b> signé${o.signes > 1 ? 's' : ''}</span>
+      </div>
+      ${o.ecarts ? `<span class="co-alerte">${o.ecarts} non-conformité${
+        o.ecarts > 1 ? 's' : ''} ouverte${o.ecarts > 1 ? 's' : ''}</span>` : ''}
+    </a>`).join('')}
+  </div>` : `<div class="carte"><p class="vide">Aucun ordre en cours.</p></div>`}`;
+  return page({ titre: 'Qualité par ordre', user, corps, actif: 'produits', msg });
+}
+
+/**
+ * Un ordre de production, côté contrôle qualité.
+ *
+ * DEUX VUES sur les mêmes lots, parce qu'on ne s'en sert pas au même moment :
+ * les CARTES pour choisir quoi attaquer — on reconnaît une pièce à sa photo
+ * bien avant à son code — et la LISTE pour travailler, où chaque point se
+ * coche et se commente sans quitter la page.
+ *
+ * QUATRE CATÉGORIES NON EXCLUSIVES. Un manteau neuf à 1 200 unités est dans
+ * les trois : ce sont trois raisons différentes de le regarder de près, et
+ * n'en montrer qu'une en cacherait deux. Le compteur de chaque onglet dit
+ * combien de lots RESTENT — un lot signé disparaît de partout à la fois.
+ */
+function vueQCOrdre({ user, msg, ordre, lignes, cat = 'tous', vue = 'cartes',
+                      CATS, checklists = {}, ouvert = null }) {
+  const nb = (n) => Number(n || 0).toLocaleString('fr-CA');
+  const restants = lignes.filter(l => !l.signe);
+  const dans = (l, c) => c === 'tous' || l.categories.includes(c);
+  const compte = (c) => restants.filter(l => dans(l, c)).length;
+  const visibles = restants.filter(l => dans(l, cat));
+  const signes = lignes.filter(l => l.signe);
+
+  const onglet = (cle) => {
+    const n = compte(cle);
+    return `<a href="/qualite/ordres/${ordre.id}?cat=${cle}&vue=${vue}"
+      class="qc-onglet${cat === cle ? ' on' : ''}${n ? '' : ' vidé'}"
+      ${cat === cle ? 'aria-current="page"' : ''}
+      title="${e(CATS[cle].aide)}">${e(CATS[cle].titre)}
+      <span class="qc-n">${n}</span></a>`;
+  };
+
+  const etat = (l) => l.vide
+    ? '<span class="qc-vide">aucun protocole</span>'
+    : l.ecarts ? `<span class="et-ko">${l.ecarts} non conforme${l.ecarts > 1 ? 's' : ''}</span>`
+    : l.restants ? `<span class="et-attente">${l.verifies}/${l.total} vérifiés</span>`
+    : '<span class="et-ok">tout vérifié · à signer</span>';
+
+  const carte = (l) => `<div class="vignette qc-lot">
+    <a href="/qualite/ordres/${ordre.id}?cat=${cat}&vue=liste#lot${l.id}">
+      ${l.photo ? img(l.photo, { largeur: TAILLES.vignette, alt: l.nom })
+                : `<div class="sans-photo">Pas de photo</div>`}
+    </a>
+    <div class="b">
+      <b>${e(l.nom)}</b>
+      <span class="muted">${e(l.code)} · ${nb(l.quantite)} unités</span>
+      <span class="qc-etiq">${l.categories.map(c =>
+        `<i class="cat cat-${c}" title="${e(CATS[c].aide)}">${e(CATS[c].titre)}</i>`).join('')}</span>
+      ${etat(l)}
+      <a class="lien" href="/qualite/${l.produit_id}" target="_blank" rel="noopener"
+        >Procédé du produit ↗</a>
+    </div>
+  </div>`;
+
+  // La liste : un lot à la fois déplie sa sous-liste.
+  //
+  // Le corps d'un lot (points à cocher, champs de commentaire, compte rendu)
+  // pèse ~350 octets compressés. Les rendre tous coûtait 10,7 Ko sur un ordre
+  // de 30 lots : le plafond de 12 Ko serait tombé vers 34 lots, et la page
+  // aurait cassé le jour où un ordre grossit. Seul le lot demandé par
+  // « ouvert » porte son corps ; les autres tiennent en une ligne cliquable.
+  // Le poids ne dépend donc plus du nombre de lots.
+  const lien = (l) => `/qualite/ordres/${ordre.id}?cat=${cat}&vue=liste`
+    + `&ouvert=${l.id}#lot${l.id}`;
+
+  const liste = (l) => {
+    const c = checklists[l.id];
+    const tete = `<span class="lot-nom"><b>${e(l.nom)}</b>
+          <span class="muted">${e(l.code)} · ${nb(l.quantite)} unités</span></span>
+        ${etat(l)}`;
+
+    // fermé : une ligne, rien de plus — même allure, un lien au lieu d'un pli
+    if (ouvert !== l.id)
+      return `<a class="lot lot-ferme" id="lot${l.id}" href="${lien(l)}"
+        >${tete}<span class="lot-chev" aria-hidden="true">›</span></a>`;
+
+    return `<details class="lot" id="lot${l.id}" open>
+      <summary>${tete}</summary>
+      <div class="lot-corps">
+        <p class="lot-liens">
+          <a href="/qualite/${l.produit_id}" target="_blank" rel="noopener"
+            >Protocole du produit ↗</a>
+          <a href="/qualite/general" target="_blank" rel="noopener">Procédés généraux ↗</a>
+          <a href="/ordres/${ordre.id}/items/${l.id}/qualite">Liste à cocher complète</a>
+        </p>
+        ${c && !c.vide ? `<ul class="ck-sous">
+          ${c.points.map(q => `<li class="ck-mini ${q.verdict === 'non_conforme' ? 'ck-ko'
+              : q.verdict ? 'ck-ok' : 'ck-attente'}">
+            <span class="q-pip q-${e(q.type)}">${ICONE_QC[q.type] || '·'}</span>
+            <span class="ck-t">${e(q.titre)}
+              ${q.general ? '<span class="ck-gen">général</span>' : ''}
+              ${q.valeur ? (($c) => `<span class="ck-cible">${e($c.valeur)}${
+                $c.unite ? ' ' + e($c.unite) : ''}</span>`
+                )(U.convertirMesure(q.valeur, q.unite, user.unites)) : ''}</span>
+            <a class="ck-proc" href="/qualite/${l.produit_id}#p${q.id}"
+               target="_blank" rel="noopener" title="Voir le procédé">↗</a>
+            <form method="post"
+                  action="/ordres/${ordre.id}/items/${l.id}/qualite/${q.id}" class="ck-mf">
+              <input type="hidden" name="retour" value="liste">
+              <input type="hidden" name="cat" value="${e(cat)}">
+              <input name="note" maxlength="200" placeholder="Commentaire ou question">
+              <button name="verdict" value="conforme" class="btn-mini">Conforme</button>
+              <button name="verdict" value="non_conforme" class="btn-mini rouge">Non</button>
+            </form>
+          </li>`).join('')}
+        </ul>` : `<p class="vide">Aucun protocole pour ce produit — rien n'est exigé.
+          C'est un trou, pas une permission.</p>`}
+        ${rapportForm({ ordre, l, c })}
+      </div>
+    </details>`;
   };
 
   const corps = `
-  ${sousNavProduits('mur')}
-  <div class="entete"><div><h1>Ce que les clients ont vu</h1>
-    <p class="muted">${total} signalement${total > 1 ? 's' : ''},
-      ${photos} avec photo — groupés par produit</p></div></div>
+  ${navQC('ordres')}
+  <div class="entete"><div>
+    <h1>${e(ordre.numero)}</h1>
+    <p class="muted">${e(ordre.titre || '')} · <b>${restants.length}</b> lot${
+      restants.length > 1 ? 's' : ''} à contrôler${
+      signes.length ? ` · ${signes.length} signé${signes.length > 1 ? 's' : ''}` : ''}</p>
+  </div>
+  <a class="btn sec" href="/qualite/ordres">Tous les ordres</a></div>
 
-  <div class="carte mur-intro">
-    <p>Ce ne sont pas des consignes. Ce sont des gens qui ont acheté une pièce
-    et qui écrivent qu'elle a cassé. Les consignes du protocole viennent de
-    là — et une couture qu'on reprend parce qu'on a vu la photo tient mieux
-    qu'une couture qu'on reprend parce que c'est écrit.</p>
+  <div class="qc-barre">
+    <div class="qc-onglets">${Object.keys(CATS).map(onglet).join('')}</div>
+    <div class="qc-vues">
+      <a href="/qualite/ordres/${ordre.id}?cat=${cat}&vue=cartes"
+         class="${vue === 'cartes' ? 'on' : ''}">Cartes</a>
+      <a href="/qualite/ordres/${ordre.id}?cat=${cat}&vue=liste"
+         class="${vue === 'liste' ? 'on' : ''}">Liste à cocher</a>
+    </div>
   </div>
 
-  ${groupes.length ? groupes.map(g => `<div class="carte mur-g" id="p${g.id || ''}">
-    <div class="mur-g-tete">
-      <h2>${g.id ? `<a href="/qualite/${g.id}">${e(g.code)}</a>` : e(g.code)}</h2>
-      <span class="muted">${e(g.nom)}</span>
-      <span class="mur-n">${g.bris.length} signalement${g.bris.length > 1 ? 's' : ''}${
-        g.sansConsigne ? ` · <b>${g.sansConsigne} sans consigne</b>` : ''}</span>
-    </div>
-    ${g.zones.length ? `<p class="mur-zones">${g.zones.map(z =>
-      `<span>${e(z.zone)}${z.n > 1 ? ` <b>×${z.n}</b>` : ''}</span>`).join('')}</p>` : ''}
-    <div class="mur">${g.bris.map(carte).join('')}</div>
-  </div>`).join('')
-  : `<div class="carte"><p class="vide">Aucun signalement pour l'instant.
-     <code>node bris_missive.js trier</code> en extrait de la boîte support.</p></div>`}`;
+  ${visibles.length === 0
+    ? `<div class="carte"><p class="vide">${restants.length
+        ? 'Aucun lot dans cette catégorie.'
+        : 'Tout est contrôlé et signé pour cet ordre.'}</p></div>`
+    : vue === 'cartes'
+      ? `<div class="grille">${visibles.map(carte).join('')}</div>`
+      : `<div class="lots">${visibles.map(liste).join('')}</div>`}
 
-  return page({ titre: 'Ce que les clients ont vu', user, corps, msg, actif: 'produits' });
+  ${signes.length ? `<details class="carte replie">
+    <summary><b>${signes.length}</b> lot${signes.length > 1 ? 's' : ''} signé${
+      signes.length > 1 ? 's' : ''}</summary>
+    <ul class="signes">${signes.map(l => `<li>
+      <b>${e(l.nom)}</b> <span class="muted">${e(l.code)} · ${nb(l.quantite)} unités</span>
+      <a class="lien" href="/ordres/${ordre.id}/items/${l.id}/qualite">Voir le compte rendu</a>
+    </li>`).join('')}</ul>
+  </details>` : ''}`;
+  return page({ titre: `Qualité — ${ordre.numero}`, user, corps, actif: 'produits', msg });
 }
 
-function vueQualite({ user, msg, couverture, general = [], zones = [], nc = [] }) {
-  const sans = couverture.filter(p => !p.points);
-  const avec = couverture.filter(p => p.points);
-  const nb = (n) => Number(n || 0).toLocaleString('fr-CA');
-
-  const rangee = (p) => `<tr>
-    <td><div class="avec-mini">${miniature(p.photo, p.code, { taille: 38 })}<div>
-      <a href="/qualite/${p.id}"><b>${e(p.code)}</b></a><br>
-      <span class="muted">${e(p.nom)}</span></div></div></td>
-    <td class="num">${p.a_produire ? nb(p.a_produire) : '<span class="muted">—</span>'}</td>
-    <td>${p.points ? `<span class="qc-cpt">
-        ${p.critiques ? `<i class="q-critique" title="points critiques">${p.critiques}</i>` : ''}
-        ${p.problemes ? `<i class="q-probleme" title="problèmes fréquents">${p.problemes}</i>` : ''}
-        ${p.mesures ? `<i class="q-mesure" title="mesures">${p.mesures}</i>` : ''}
-        ${p.cyclages ? `<i class="q-cyclage" title="cyclage">${p.cyclages}</i>` : ''}
-      </span>` : '<span class="qc-vide">aucun protocole</span>'}</td>
-    <td><a class="lien" href="/qualite/${p.id}">${p.points ? 'Voir' : 'Écrire'}</a></td>
-  </tr>`;
-
-  const corps = `
-  ${sousNavProduits('qualite')}
-  <div class="entete"><div><h1>Contrôle qualité</h1>
-    <p class="muted">Deux sources, une seule liste : les <b>vérifications de la
-    charte produits</b> — ce que l'équipe a écrit avant de produire — et les
-    <b>retours clients pour bris</b>, échanges et remboursements — ce qui a
-    lâché après</p></div></div>
-
-  ${zones.length || nc.length ? `<div class="carte qc-terrain">
-    <h2>Ce qui casse</h2>
-    <p class="sec">Les retours clients — échange, remboursement, réparation —
-    et les non-conformités relevées à l'atelier. Une zone qui revient sur
-    plusieurs produits n'est pas un défaut de produit, c'est un défaut de
-    méthode.</p>
-    ${zones.length ? `<div class="tbl"><table>
-      <tr><th>Zone</th><th class="num">Signalements</th><th class="num">Produits</th>
-        <th>Consigne écrite ?</th></tr>
-      ${zones.map(z => `<tr>
-        <td><b>${e(z.zone)}</b></td>
-        <td class="num">${z.bris}</td>
-        <td class="num">${z.produits}</td>
-        <td>${z.sans_consigne
-          ? `<span class="qc-vide">${z.sans_consigne} sans consigne</span>`
-          : '<span class="muted">toutes traitées</span>'}</td>
-      </tr>`).join('')}
-    </table></div>` : ''}
-    ${nc.length ? `<h3 class="nc-titre">Non-conformités en cours
-      <span class="cpt">${nc.length}</span></h3>
-      <ul class="nc-liste">${nc.slice(0, 8).map(x => `<li>
-        <a href="/qualite/${x.produit_id}"><b>${e(x.code)}</b></a>
-        · ${e(x.point_titre)}
-        ${x.note ? `<span class="br-txt">« ${e(x.note)} »</span>` : ''}
-        <span class="muted">${e(x.numero)}${x.auteur ? ' · ' + e(x.auteur) : ''}</span>
-      </li>`).join('')}</ul>` : ''}
-  </div>` : ''}
-
-  <div class="carte qc-general">
-    <h2>Protocole général <span class="cpt">${general.length}</span></h2>
-    <p class="sec">Ce qui s'applique à <b>tous</b> les produits — emballage,
-    étiquetage, finition. Ces points apparaissent sur la checklist de chaque
-    lot, sans avoir à les réécrire trente fois.</p>
-    ${general.length
-      ? `<ul class="qc-liste">${general.map(q => pointQC({ q, editable: true,
-          action: `/qualite/general/${q.id}/supprimer` })).join('')}</ul>`
-      : `<p class="vide">Rien encore. La méthode d'emballage est le premier
-         candidat : elle est la même partout et personne ne la connaît par
-         cœur.</p>`}
-    <details class="qc-plus"><summary>Ajouter au protocole général</summary>
-      ${formulaireQC('/qualite/general', { general: true })}
-    </details>
-  </div>
-
-  ${sans.length ? `<div class="carte">
-    <h2>Sans protocole propre <span class="cpt">${sans.length}</span></h2>
-    <p class="sec">Ces produits n'ont que le protocole général — rien qui leur
-    soit propre. Le plus gros volume en tête : c'est là que l'absence coûte le
-    plus cher.</p>
-    <div class="tbl"><table>
-      <tr><th>Produit</th><th class="num">À produire</th><th>Protocole</th><th></th></tr>
-      ${sans.map(rangee).join('')}
-    </table></div>
-  </div>` : ''}
-
-  ${avec.length ? `<div class="carte">
-    <h2>Protocoles écrits <span class="cpt">${avec.length}</span></h2>
-    <div class="tbl"><table>
-      <tr><th>Produit</th><th class="num">À produire</th><th>Points</th><th></th></tr>
-      ${avec.map(rangee).join('')}
-    </table></div>
-  </div>` : `<div class="carte"><p class="vide">Aucun protocole écrit pour l'instant.
-    Ouvre un produit et commence par ce qui rate le plus souvent.</p></div>`}`;
-
-  return page({ titre: 'Contrôle qualité', user, corps, msg, actif: 'produits' });
+/**
+ * Le compte rendu qui ferme le contrôle d'un lot.
+ *
+ * Cinquante mots minimum, et le compteur est devant les yeux pendant qu'on
+ * écrit — sinon on découvre le refus après avoir tapé « ok, tout est beau ».
+ * Le formulaire ne s'affiche que quand la liste est finie : proposer de signer
+ * un lot dont six points ne sont pas regardés, c'est inviter à le faire.
+ */
+function rapportForm({ ordre, l, c }) {
+  if (l.signe) return `<p class="lot-signe">Contrôle signé.
+    <a class="lien" href="/ordres/${ordre.id}/items/${l.id}/qualite">Voir le compte rendu</a></p>`;
+  const pret = !c || c.vide || (!c.restants.length && !c.ecarts.length);
+  if (!pret) return `<p class="lot-bloc">${c.ecarts.length
+    ? `${c.ecarts.length} non-conformité${c.ecarts.length > 1 ? 's' : ''} à corriger`
+    : `${c.restants.length} point${c.restants.length > 1 ? 's' : ''} à vérifier`}
+    avant de pouvoir signer.</p>`;
+  return `<form class="rapport" method="post"
+        action="/ordres/${ordre.id}/items/${l.id}/rapport">
+    <h4>Signer le contrôle</h4>
+    <p class="muted">Ce que tu as vu : les pièces contrôlées, ce qui allait, ce
+    qui a demandé une reprise. <b>${MOTS_RAPPORT} mots minimum</b> — dans six mois,
+    quand un client signalera une couture, ce texte sera la seule chose qui dira
+    ce qui s'est passé.</p>
+    <textarea name="texte" rows="5" required minlength="1"
+      placeholder="Sur les 3 500 cache-cous, j'ai contrôlé…"></textarea>
+    <input name="medias" placeholder="Adresses de photos ou vidéos, séparées par une espace">
+    <button class="btn">Signer le contrôle</button>
+  </form>`;
 }
 
 function vueProtocole({ user, p, proto, msg, photos = [], bris = null,
@@ -1094,7 +1293,7 @@ function vueProtocole({ user, p, proto, msg, photos = [], bris = null,
       ${proto.par[cle].length ? `<span class="cpt">${proto.par[cle].length}</span>` : ''}</h2>
     ${proto.par[cle].length
       ? `<ul class="qc-liste">${proto.par[cle].map(q =>
-          pointQC({ q, produitId: p.id, editable })).join('')}</ul>`
+          pointQC({ q, produitId: p.id, editable, unites: user.unites })).join('')}</ul>`
       : `<p class="vide">${aide}</p>`}
   </div>`;
 
@@ -1129,7 +1328,7 @@ function vueProtocole({ user, p, proto, msg, photos = [], bris = null,
   </div>` : ''}
 
   ${bris ? `<div class="carte qc-bris">
-    <h2>Ce qui casse <span class="cpt">${bris.tous.length}</span>
+    <h2>Bris signalés <span class="cpt">${bris.tous.length}</span>
       ${bris.orphelins.length ? `<span class="br-todo">${bris.orphelins.length}
         sans consigne</span>` : ''}</h2>
     <p class="sec">Commentaires clients, photos, retours d'atelier. C'est la
@@ -1202,7 +1401,8 @@ function vueProtocole({ user, p, proto, msg, photos = [], bris = null,
              </table></div>
            </div>`
         : `<ul class="qc-liste">${g.map(q =>
-            pointQC({ q, produitId: p.id, editable: true })).join('')}</ul>`).join('')}
+            pointQC({ q, produitId: p.id, editable: true,
+                      unites: user.unites })).join('')}</ul>`).join('')}
     </div>`;
   })()}
   ${volet('cyclage', 'Cyclage et tests',
@@ -1664,12 +1864,173 @@ function vueProduits({ user, produits, msg }) {
   return page({ titre: 'Produits', user, corps, actif: 'produits', msg });
 }
 
+/**
+ * Une ligne de charte. Un coloris se lit AVEC sa couleur, pas seulement avec
+ * son nom : « gris pâle » et « gris foncé » se confondent en mots et jamais à
+ * l'œil, et c'est exactement la paire qui se trompe à l'atelier.
+ *
+ * Le code hexadécimal est écrit dans le texte — `Noir (#1a1a1a)` — plutôt que
+ * dans une colonne de plus : la charte reste un texte qu'on lit tel quel dans
+ * le TSV, et la pastille n'est qu'un rendu. Un coloris sans code s'affiche
+ * sans pastille, ce qui se voit — et dit qu'il manque une référence.
+ */
+function ligneCharte(section, texte, unites) {
+  const t = U.convertir(String(texte || ''), unites);
+  if (section !== 'coloris') return `<li>${e(t)}</li>`;
+  const m = t.match(/\(#([0-9a-fA-F]{6})\)/);
+  const nom = t.replace(/\s*\(#[0-9a-fA-F]{6}\)/, '');
+  return `<li class="col">${m
+    ? `<span class="pastille" style="background:#${m[1]}"></span>` : ''}${e(nom)}</li>`;
+}
+
+/* ============================================================ rétroactions ==
+ * Ce que les clients ont écrit, par produit.
+ */
+
+const PASTILLE_RETRO = { bris: '🔧', insatisfaction: '😕', ajustement: '📏' };
+
+/**
+ * Deux mises en garde qui changent la façon de lire toute cette page.
+ *
+ * Elles ne sont pas décoratives : sans elles, l'atelier tunisien lit ces
+ * plaintes comme un bulletin sur son propre travail, alors que la plupart
+ * portent sur des pièces qu'il n'a jamais cousues. Et il les lit comme un
+ * verdict général, alors que rien de positif n'a été collecté.
+ */
+function avertissementHistorique() {
+  return `<p class="avis avis-hist"><b>Ce sont des rétroactions négatives,
+    et historiques.</b> Seules les plaintes ont été relevées — bris,
+    insatisfaction, ajustement : rien de ce que les clients ont écrit de bon
+    n'est ici, et l'absence de compliment ne veut donc rien dire. La majorité
+    de ces pièces <b>n'ont pas été fabriquées en Tunisie</b> ; elles sont
+    incluses par prudence, parce qu'un défaut vu ailleurs peut se répéter
+    ici.</p>`;
+}
+
+/**
+ * Un onglet Rétroactions par produit, groupé par problème.
+ *
+ * LE GROUPEMENT EST LE SUJET. Dérouler 227 citations à la file ne se lit pas,
+ * et pèserait plus lourd que trois fiches produit sur la ligne tunisienne. On
+ * montre les problèmes et leur compte ; la matière qualitative ne se déplie
+ * qu'au clic, un groupe à la fois.
+ */
+function vueRetroactions({ user, p, retro, msg, ouvre = null }) {
+  const { groupes, total, propres, famille } = retro;
+  const deFamille = total - propres;
+
+  // UN SEUL GROUPE PORTE SA MATIÈRE. Les replier tous en gardant leurs
+  // citations dans le HTML faisait 15 Ko compressés sur les mitaines, au-delà
+  // du plafond de 12 Ko : la page était légère à l'œil et lourde sur le fil.
+  // Ici un groupe fermé ne coûte que son titre, et le poids ne dépend plus du
+  // nombre de citations.
+  const lien = (g) => `/produits/${p.id}/retroactions?ouvre=${
+    encodeURIComponent(g.cle)}#g-${e(g.cle)}`;
+
+  const groupe = (g) => {
+    const tete = `<span class="retro-pastille r-${e(g.categorie)}" aria-hidden="true"
+        >${PASTILLE_RETRO[g.categorie] || '·'}</span>
+      <span class="retro-t">${e(g.titre)}</span>
+      <span class="retro-n">${g.lignes.length}</span>
+      ${g.photos ? `<span class="retro-ph" title="${g.photos} photo(s) de client"
+        >${g.photos} 📷</span>` : ''}`;
+
+    if (ouvre !== g.cle)
+      return `<a class="retro-g retro-ferme" id="g-${e(g.cle)}" href="${lien(g)}"
+        >${tete}<span class="retro-chev" aria-hidden="true">›</span></a>`;
+
+    return `<details class="retro-g" id="g-${e(g.cle)}" open>
+    <summary>${tete}</summary>
+    <ul class="retro-l">
+      ${g.lignes.map(l => `<li${l.de_famille ? ' class="de-famille"' : ''}>
+        <blockquote>${e(l.citation)}</blockquote>
+        <p class="retro-meta">
+          ${l.survenu_le ? `<time>${e(l.survenu_le)}</time>` : ''}
+          ${l.de_famille ? `<span class="retro-flou">dit « ${e(l.famille)} »
+            sans préciser le modèle</span>` : ''}
+        </p>
+        ${(() => { const ph = l.listePhotos.filter(photoRetroAcceptable);
+          return ph.length ? `<div class="retro-photos">${ph.slice(0, 6).map(u =>
+          `<a href="${e(urlImage(u))}" rel="noopener" title="Photo du client">
+            ${img(u, { largeur: TAILLES.vignette, alt: 'Photo envoyée par un client' })}</a>`
+        ).join('')}${ph.length > 6
+          ? `<span class="retro-plus">+${ph.length - 6}</span>` : ''}</div>` : ''; })()}
+      </li>`).join('')}
+    </ul>
+  </details>`;
+  };
+
+  const corps = `
+  ${sousNavProduits('retroactions')}
+  <div class="entete"><div>
+    <h1>Rétroactions clients négatives</h1>
+    <p class="muted">${e(p.nom_court || p.nom)} · ${e(p.code)} —
+      <b>${total}</b> rétroaction${total > 1 ? 's' : ''}</p>
+  </div><a class="btn sec" href="/produits/${p.id}">Retour à la fiche</a></div>
+
+  ${total === 0 ? `<div class="carte"><p class="vide">Aucune rétroaction client
+    rattachée à ce produit. Ça ne veut pas dire qu'il n'y en a pas : ça veut
+    dire que personne n'a écrit en le nommant. Un produit neuf, ou peu vendu,
+    est normalement vide ici.</p></div>` : `
+
+  <p class="sec">Les mots des clients, tels qu'ils les ont écrits. Rien d'autre
+  n'en sort : ni nom, ni adresse, ni numéro de commande — l'atelier a besoin du
+  défaut, pas de la personne. Toucher un problème déplie ce qui a été dit.</p>
+
+  ${avertissementHistorique()}
+
+  ${deFamille ? `<p class="avis">${deFamille} de ces ${total} rétroactions disent
+    seulement « ${e(famille)} » sans nommer le modèle. Elles s'affichent sur
+    chacun des modèles de la famille, marquées comme telles : rattacher au
+    hasard enverrait corriger le mauvais produit.</p>` : ''}
+
+  <div class="retro">${groupes.map(groupe).join('')}</div>`}`;
+
+  return page({ titre: `Rétroactions négatives — ${p.nom_court || p.nom}`, user, corps,
+                actif: 'produits', msg });
+}
+
+/** La porte d'entrée : quels produits ont de la matière, lesquels n'ont rien. */
+function vueRetroactionsIndex({ user, produits, msg }) {
+  const avec = produits.filter(p => p.total);
+  const sans = produits.filter(p => !p.total);
+  const corps = `
+  ${sousNavProduits('retroactions')}
+  <div class="entete"><div><h1>Rétroactions clients négatives</h1>
+    <p class="muted">${avec.length} produit${avec.length > 1 ? 's' : ''} avec de la
+      matière · ${sans.length} sans rien</p></div></div>
+
+  <p class="sec">Distillées de 2 282 fils de correspondance. Ce qui est montré,
+  c'est le défaut et les mots qui le décrivent — jamais qui l'a écrit.</p>
+
+  ${avertissementHistorique()}
+
+  <div class="grille">
+    ${produits.map(p => `<a class="vignette ${p.total ? '' : 'vgn-vide'}"
+        href="/produits/${p.id}/retroactions">
+      ${p.photo ? img(p.photo, { largeur: TAILLES.vignette, alt: p.nom })
+                : '<div class="sans-photo">Pas de photo</div>'}
+      <div class="b"><b>${e(p.nom)}</b>
+        <span class="muted">${e(p.code)}</span>
+        ${p.total ? `<span class="retro-cpt">${p.directes ? `<i>${p.directes}</i>` : ''}
+          ${p.deFamille ? `<i class="flou" title="dit « ${e(p.famille)} » sans préciser"
+            >+${p.deFamille}</i>` : ''}</span>`
+          : '<span class="qc-vide">rien d\'écrit</span>'}</div>
+    </a>`).join('')}
+  </div>`;
+  return page({ titre: 'Rétroactions clients négatives', user, corps, actif: 'produits', msg });
+}
+
 function vueProduit({ user, p, photos, materiaux, patrons, ordres, msg, qc = null,
-                      charte = null, bris = null,
+                      charte = null, bris = null, retro = 0,
                       nomenclature = [], stock = null, coutMatiere = null }) {
   const admin = user.role === 'admin';
   const studio = photos.filter(f => f.type === 'studio');
   const contexte = photos.filter(f => f.type === 'contexte');
+  // Les schémas ne sont pas des photos produit : ce sont les dessins cotés et
+  // les détails d'assemblage du tableau Miro, rapatriés. Ils ont leur bloc, en
+  // haut, parce qu'on les regarde AVANT de coudre — pas dans la galerie.
+  const schemas = photos.filter(f => f.type === 'schema');
   const galerie = (liste) => `<div class="photos">${liste.map(f => `<figure>
       <a href="${e(urlImage(f.url))}" rel="noopener" title="Voir en taille réelle">
         ${img(f.url, { largeur: TAILLES.galerie, alt: f.legende || p.nom })}</a>
@@ -1686,7 +2047,23 @@ function vueProduit({ user, p, photos, materiaux, patrons, ordres, msg, qc = nul
     <h1>${e(p.nom_court || p.nom)}</h1>
     <p class="muted">${e(p.code)}${p.nom_court && p.nom !== p.nom_court
       ? ` · vendu sous « ${e(p.nom)} »` : ''}</p>
-  </div>${admin ? `<a class="btn sec" href="/produits/${p.id}/modifier">Modifier</a>` : ''}</div>
+  </div><div class="entete-actions">
+    <a class="btn sec" href="/produits/${p.id}/retroactions">Rétroactions négatives${
+      retro ? ` <span class="retro-n">${retro}</span>` : ''}</a>
+    ${admin ? `<a class="btn sec" href="/produits/${p.id}/modifier">Modifier</a>` : ''}
+  </div></div>
+
+  ${schemas.length ? `<div class="carte">
+    <h2>Schémas et détails d'atelier</h2>
+    <p class="sec">Les dessins de la charte, ici plutôt que dans Miro — l'atelier
+      n'a pas à quitter la page, ni à charger un canevas de plusieurs mégaoctets
+      sur la ligne tunisienne. Toucher une vignette ouvre la pleine taille.</p>
+    <div class="schemas">${schemas.map(f => `<figure>
+      <a href="${e(urlImage(f.url))}" rel="noopener" title="Ouvrir en taille réelle">
+        ${img(f.url, { largeur: TAILLES.galerie, alt: f.legende || `Schéma — ${p.nom}` })}</a>
+      ${f.legende ? `<figcaption>${e(f.legende)}</figcaption>` : ''}
+    </figure>`).join('')}</div>
+  </div>` : ''}
 
   ${charte && !charte.vide ? `<div class="carte">
     <h2>Charte produit</h2>
@@ -1695,7 +2072,8 @@ function vueProduit({ user, p, photos, materiaux, patrons, ordres, msg, qc = nul
     <div class="charte">${Object.entries(SECTIONS_CHARTE).map(([cle, lib]) =>
       (charte.par[cle] || []).length ? `<section class="ch-${cle}">
         <h3>${lib}</h3>
-        <ul>${charte.par[cle].map(c => `<li>${e(c.texte)}</li>`).join('')}</ul>
+        <ul>${charte.par[cle].map(c =>
+          ligneCharte(cle, c.texte, user.unites)).join('')}</ul>
       </section>` : '').join('')}</div>
   </div>` : ''}
 
@@ -1712,17 +2090,6 @@ function vueProduit({ user, p, photos, materiaux, patrons, ordres, msg, qc = nul
     : `<p class="vide">Aucun protocole écrit pour ce produit.</p>`}
     <a class="lien" href="/qualite/${p.id}">${qc.total
       ? 'Voir le protocole complet' : 'Écrire le protocole'} →</a>
-  </div>` : ''}
-
-  ${bris && bris.tous.length ? `<div class="carte">
-    <h2>Ce qui casse</h2>
-    <p class="sec">${bris.tous.length} signalement${bris.tous.length > 1 ? 's' : ''} sur
-      ce produit${nus ? `, dont <b>${nus} sans consigne</b>` : ''}.
-      ${bris.zones.length ? `Les zones : ${bris.zones.slice(0, 4)
-        .map(z => `<b>${e(z.zone)}</b>${z.n > 1 ? ` ×${z.n}` : ''}`).join(', ')}.` : ''}</p>
-    <ul class="br-liste">${bris.tous.slice(0, 3)
-      .map(b => ligneBris({ b, produitId: p.id, editable: false })).join('')}</ul>
-    <a class="lien" href="/mur#p${p.id}">Voir les photos et les mots des clients →</a>
   </div>` : ''}
 
   ${studio.length ? `<div class="carte"><h2>Photos studio</h2>${galerie(studio)}</div>` : ''}
@@ -2700,11 +3067,13 @@ function vueSuivi({ user, msg, recentes, immobiles, progression, jours }) {
   return page({ titre: 'Suivi', user, corps, actif: 'suivi', msg });
 }
 
-module.exports = { e, urlImage, urlAcceptable, img, TAILLES, sousNavProduits, dateFR, dateHeureFR, jauge, page, vueConnexion,
+module.exports = { e, urlImage, urlAcceptable, img, TAILLES, sousNavProduits,
+  vueQualiteAccueil, vueQualiteProduits, vueQualiteGeneral, vueQCOrdres, vueQCOrdre, dateFR, dateHeureFR, jauge, page, vueConnexion,
                    vueCompte,
                    vueAccueil, vueOrdres, vueOrdre, vueOrdreForm,
                    vueProduits, vueProduit, vueProduitForm, vueCedule, vueAssistant,
-                   vuePriorites, vueSuivi, vueTaches, vueQualite, vueProtocole,
-                   vueChecklist, vueMur,
+                   vueRetroactions, vueRetroactionsIndex,
+                   vuePriorites, vueSuivi, vueTaches, vueProtocole,
+                   vueChecklist,
                    PRIORITES, urgence,
                    STATUTS, TYPES_JALON, LIEUX, ROLES };

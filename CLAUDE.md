@@ -17,6 +17,19 @@ chercher (elles s'activent aussi d'elles-mêmes, ou à la main avec `/missive`, 
 | `composio` | Composio : connecteur MCP contre clé de projet, accès aux Pages Facebook, pièges de jetons |
 | `buffer` | Buffer : trois comptes distincts, quel compte détient quel canal, publication vidéo, ce qui est irréversible une fois parti |
 | `video` | regarder une vidéo (URL ou fichier) : trames horodatées à lire + transcription |
+| `production-lasclay` | le MRP maison (`mrp/`) : ordres et avancement, charge et cédule, inventaire et besoins, qualité et bris, fiches produits, charte Miro, patrons et HPGL, audits MRPeasy et ERPNext |
+
+## MRP maison — production Québec ↔ Tunisie
+
+- Application : `mrp/` — Node 22.5, aucune dépendance, rendu serveur, zéro JS client (la connexion
+  tunisienne commande l'architecture). En ligne : `https://lasclay-mrp.onrender.com`.
+- Deux rôles qui sont des lieux : `admin` (Admin QC, pose les priorités) et `atelier`
+  (Atelier Tunisie, **seul à déclarer l'avancement**).
+- État réel de l'extérieur : `GET /export.json` avec l'en-tête `X-MRP-Jeton` — **jamais** la copie
+  locale des TSV, qui ne voit pas ce que l'atelier déclare.
+- Audits de référence : `mrp-audit/` (MRPeasy, 115 écrans relevés) et `mrp/COMPARAISON-ERPNEXT.md`.
+- Patrons et convertisseur HPGL : `patrons/`.
+- Tout le reste — règles de calcul, sources de données, décisions ouvertes : skill `production-lasclay`.
 
 ## General Proxy (opérations) — ShipStation, Omnisend
 

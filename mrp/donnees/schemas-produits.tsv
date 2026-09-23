@@ -1,0 +1,37 @@
+# Schémas et détails d'atelier — les images du tableau Miro, rapatriées.
+#
+# POURQUOI CE FICHIER EXISTE. Les images du tableau Miro vivent derrière
+# l'authentification Miro, et l'URL que l'API rend EXPIRE. Impossible de la
+# stocker : elle serait morte en quelques heures. Elles sont donc rapatriées
+# une fois et redéposées sur le Drive, que `urlImage()` sait déjà convertir en
+# lh3.googleusercontent.com et redimensionner. L'app continue de n'héberger
+# aucun fichier — elle ne porte qu'une adresse, comme pour Shopify.
+#
+# CE QUE ÇA REMPLACE. Un « widget Miro » intégré chargerait plusieurs mégaoctets
+# de canevas dans une page qui en fait cinq kilo-octets, et demanderait à
+# l'atelier de naviguer 633 objets pour trouver sa pièce. Ici, la bonne vignette
+# est à côté du bon point de contrôle.
+#
+# colonnes :
+#   produit     code de correspondances.tsv ; une image peut servir à plusieurs
+#   url         l'adresse Drive — lh3 la sert redimensionnée
+#   legende     ce que l'image montre, en une phrase
+#   rang        ordre d'affichage
+#   miro_item   l'item d'origine, pour retrouver la source et regénérer
+#
+# Regénérer : voir mrp/planches/README.md § « Les schémas Miro ».
+# Importer   : node mrp/import_schemas.js --ecrire
+produit	url	legende	rang	miro_item
+CACHE-COU	https://lh3.googleusercontent.com/d/1JgyztlkrLozPo8wJS0hsrPjaxZQ-X8xh	Cotes finales des trois tailles — petit enfant 22,1 × 19,9 cm · grand enfant 24,8 × 22,7 cm · adulte 29,9 × 27,1 cm	1	3458764681841326213
+CACHE-COU-ENF-18M4A	https://lh3.googleusercontent.com/d/1JgyztlkrLozPo8wJS0hsrPjaxZQ-X8xh	Cotes finales des trois tailles — le petit enfant est le premier schéma, 22,1 × 19,9 cm	1	3458764681841326213
+CACHE-COU-ENF-5A13A	https://lh3.googleusercontent.com/d/1JgyztlkrLozPo8wJS0hsrPjaxZQ-X8xh	Cotes finales des trois tailles — le grand enfant est le deuxième schéma, 24,8 × 22,7 cm	1	3458764681841326213
+SEMELLE-678	https://lh3.googleusercontent.com/d/1Sp73O6Mf4zo6WrNLqhHiu2aIzFZ5lxdW	Emballage en manchon de carton, estampe de taille visible — pas d'étiquette textile	1	3458764681841326221
+SEMELLE-9	https://lh3.googleusercontent.com/d/1Sp73O6Mf4zo6WrNLqhHiu2aIzFZ5lxdW	Emballage en manchon de carton, estampe de taille visible — pas d'étiquette textile	1	3458764681841326221
+MIT-PLEIN-AIR	https://lh3.googleusercontent.com/d/12pfJkxdmY3Cp0krJ4WFBNzE-_ECzMLCc	Jonction main/pouce et couture de la patch de cuir — les deux points annotés en rouge	1	3458764681841326117
+MIT-PLEIN-AIR	https://lh3.googleusercontent.com/d/13G9dTQT4ZRWUHbTs-cf7c9riy0NmBK03	Orientation de l'étiquette : toujours du même sens	2	3458764681841326118
+MIT-POLAR	https://lh3.googleusercontent.com/d/13G9dTQT4ZRWUHbTs-cf7c9riy0NmBK03	Orientation de l'étiquette : toujours du même sens	1	3458764681841326118
+MIT-LAINE	https://lh3.googleusercontent.com/d/13G9dTQT4ZRWUHbTs-cf7c9riy0NmBK03	Orientation de l'étiquette : toujours du même sens	1	3458764681841326118
+MIT-CUIR	https://lh3.googleusercontent.com/d/13G9dTQT4ZRWUHbTs-cf7c9riy0NmBK03	Orientation de l'étiquette : toujours du même sens	1	3458764681841326118
+GLACIERE	https://lh3.googleusercontent.com/d/1G2rtAqYzhEP4tLoULINvqTEmgE1IyG3Z	Bretelles renforcées et attaches — les quatre zones encadrées. C'est la zone la plus signalée du terrain : dix coutures de bretelle.	1	3458764681841326339
+BANDEAU-TUQUE	https://lh3.googleusercontent.com/d/1N6C0wS53vmqiuEd9Alk31KFbNKZ0VEqv	Le bandeau en place dans la tuque — hors tout 8 × 44 cm maximum	1	3458764681841326172
+COUSSIN	https://lh3.googleusercontent.com/d/1_3du7tBsdq2LRXdJq3FsurZwN7V1Sd7F	Pliage en accordéon, sangle fermée, étiquette visible vers le haut	1	3458764681841326242

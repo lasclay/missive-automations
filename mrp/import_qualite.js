@@ -35,19 +35,31 @@ const SOURCE_SQ = 'squelette — à compléter';
 // qu'on efface avant de réécrire, sans toucher au reste.
 const SOURCE_CH = 'charte produits';
 
+// Chaque ligne emporte le nom du fichier d'où elle vient. C'est ce qui permet
+// à l'import d'effacer exactement ce qu'il a posé, même après qu'une `source`
+// a été renommée dans le TSV — un import ne peut atteindre que les sources
+// qu'il porte ENCORE, et trois points du protocole général ont survécu comme
+// ça à deux imports, en doublon, sans que rien ne le signale.
+const FICHIERS = new Set();
 function tsv(nom) {
   const l = fs.readFileSync(path.join(__dirname, 'donnees', nom), 'utf8')
     .trim().split('\n').filter(x => !x.startsWith('#'));
   const cols = l[0].split('\t');
+  FICHIERS.add(nom);
   return l.slice(1).map(r => {
     const v = r.split('\t');
-    return Object.fromEntries(cols.map((k, i) => [k, (v[i] ?? '').trim()]));
+    const o = Object.fromEntries(cols.map((k, i) => [k, (v[i] ?? '').trim()]));
+    o.__fichier = nom;
+    return o;
   });
 }
 
 const rangs = tsv('qualite-amorce.tsv')
   .concat(SQUELETTES ? tsv('qualite-squelettes.tsv') : [])
-  .concat(CHARTE ? tsv('qualite-charte.tsv') : []);
+  // Les cotes AVANT la charte : « Dimensions finales selon le schéma » y est
+  // une consigne sans chiffre, et l'ordre de `rangs` est l'ordre d'autorité.
+  // La version chiffrée doit gagner, sinon la cote reste vide.
+  .concat(CHARTE ? tsv('qualite-cotes.tsv').concat(tsv('qualite-charte.tsv')) : []);
 
 let ajoutes = 0, ignores = 0;
 const inconnus = [], mauvaisVolet = [];
@@ -58,10 +70,21 @@ const produit = db.prepare(`SELECT id, code FROM produits WHERE code = ?`);
 // source disparaîtrait au prochain import, sans que personne comprenne où.
 const efface = db.prepare(
   `DELETE FROM qc_points WHERE source = ? AND cree_par IS NULL`);
+// Le fichier se réclame ses propres lignes. La règle par `source` ne peut
+// atteindre que les sources encore écrites dans le TSV : renommer une source,
+// ou retirer la dernière ligne qui la portait, laisse les anciennes orphelines
+// pour toujours. Trois points du protocole général ont survécu comme ça à
+// deux imports, en doublon, sans que rien ne le signale.
+const effaceFichier = db.prepare(
+  `DELETE FROM qc_points WHERE import_src = ? AND cree_par IS NULL`);
+// `variante` porte la taille quand la cote en dépend : « Standard », « King »,
+// « Homme / L ». Sans elle, une mesure par taille se réduit à une seule ligne
+// et l'atelier ne sait plus laquelle des trois il vérifie.
 const insere = db.prepare(`INSERT INTO qc_points
   (produit_id, type, titre, detail, consequence, valeur, tolerance, unite,
-   ech_type, ech_valeur, frequence, source, rang, schema_url)
-  VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)`);
+   ech_type, ech_valeur, frequence, source, rang, schema_url, variante,
+   import_src)
+  VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`);
 
 // On efface les trois sources par défaut ET toute source nommée dans les
 // fichiers. Sans ça, une ligne portant sa propre provenance — « atelier »,
@@ -73,6 +96,8 @@ if (ECRIRE) {
   if (CHARTE) aEffacer.add(SOURCE_CH);
   for (const r of rangs) if (r.source) aEffacer.add(r.source);
   for (const src of aEffacer) efface.run(src);
+  // Un passage peut lire jusqu'à quatre TSV : on n'efface que ceux-là.
+  for (const nom of FICHIERS) effaceFichier.run(nom);
 }
 
 /**
@@ -108,7 +133,11 @@ for (const r of rangs) {
   if (!TYPES_QC[r.volet]) { mauvaisVolet.push(`${r.produit} : « ${r.volet} »`); ignores++; continue; }
   if (!r.titre) { ignores++; continue; }
   // Le premier fichier lu l'emporte : l'ordre de `rangs` est l'ordre d'autorité.
-  const cleDoublon = `${general ? '*' : p.id}|${empreinte(r.titre)}`;
+  // La taille entre dans la clé : « Dimensions finales » en Standard et en King
+  // sont deux cotes différentes, pas un doublon. Sans ça, l'import n'en garde
+  // qu'une et l'atelier vérifie la mauvaise.
+  const cleDoublon =
+    `${general ? '*' : p.id}|${empreinte(r.titre)}|${empreinte(r.variante || '')}`;
   if (vus.has(cleDoublon)) {
     doublons.push(`${r.produit} : « ${r.titre} » (déjà posé par « ${vus.get(cleDoublon)} »)`);
     ignores++; continue;
@@ -123,7 +152,8 @@ for (const r of rangs) {
     insere.run(p.id, r.volet, r.titre, r.detail, r.consequence,
       r.valeur, r.tolerance, r.unite, ech,
       Number.isInteger(ev) && ev > 0 ? ev : null,
-      r.frequence, r.source || SOURCE, n, r.schema || '');
+      r.frequence, r.source || SOURCE, n, r.schema || '', r.variante || '',
+      r.__fichier || '');
   par[r.volet] = (par[r.volet] || 0) + 1;
   ajoutes++;
 }
