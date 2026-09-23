@@ -85,6 +85,13 @@ const ETAPES = [
   // Ils se rechargent à chaque démarrage comme la charte, et n'effacent que
   // les leurs — une image ajoutée dans l'app porte une source vide.
   { script: 'import_schemas.js', args: ['--ecrire'], quoi: 'schémas d\'atelier' },
+  // Les rétroactions clients négatives, distillées de Missive. Comme la
+  // charte, elles se rechargent à chaque démarrage et n'effacent que les
+  // leurs — une rétroaction saisie dans l'app porte un auteur et survit.
+  // Sans cette ligne, la table reste vide en production et chaque onglet
+  // annonce « aucune rétroaction », ce qui se lit comme une bonne nouvelle.
+  { script: 'import_retroactions.js', args: ['--ecrire'],
+    quoi: 'rétroactions clients' },
 ];
 
 function amorcerDonnees() {
