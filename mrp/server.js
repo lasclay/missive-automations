@@ -1087,16 +1087,19 @@ async function router(req, res, url, user) {
     const valeur = (ech === 'ratio' || ech === 'fixe')
       ? (Number.isInteger(n) && n > 0 ? n : null) : null;
     const echRetenu = ((ech === 'ratio' || ech === 'fixe') && valeur === null) ? '' : ech;
+    // Une adresse d'image, ou rien. L'app n'héberge pas : une « data: » URI
+    // ferait porter l'image à chaque affichage de la page.
+    const schema = V.urlAcceptable(f.schema_url) ? String(f.schema_url).trim() : '';
     db.prepare(`INSERT INTO qc_points (produit_id, type, titre, detail, consequence,
                   variante, valeur, tolerance, unite, ech_type, ech_valeur,
-                  frequence, source, cree_par)
-                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)`)
+                  frequence, source, schema_url, cree_par)
+                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`)
       .run(produitId, type, titre,
         String(f.detail || '').trim(), String(f.consequence || '').trim(),
         String(f.variante || '').trim(), String(f.valeur || '').trim(),
         String(f.tolerance || '').trim(), String(f.unite || '').trim(),
         echRetenu, valeur, String(f.frequence || '').trim(),
-        String(f.source || '').trim(), utilisateurId);
+        String(f.source || '').trim(), schema, utilisateurId);
     return { ok: true };
   };
 
@@ -1489,7 +1492,13 @@ const serveur = http.createServer(async (req, res) => {
 
     if (STATIQUES[p]) {
       const [type, rel] = STATIQUES[p];
-      const buf = fs.readFileSync(path.join(__dirname, rel));
+      let buf = fs.readFileSync(path.join(__dirname, rel));
+      // Les silhouettes sont engendrées, pas recopiées dans la feuille : une
+      // copie se désynchronise du jour où l'on ajoute un produit, une
+      // concaténation non. Deux kilo-octets compressés, mis en cache un jour.
+      if (p === '/style.css') {
+        buf = Buffer.concat([buf, Buffer.from(require('./silhouettes.js').css())]);
+      }
       return envoyer(req, res, buf,
         { 'content-type': type, 'cache-control': 'public, max-age=86400' });
     }

@@ -7,6 +7,7 @@
  */
 'use strict';
 const U = require('./unites.js');
+const SIL = require('./silhouettes.js');
 const { CATEGORIES: CATEGORIES_M, qte: qteFR,
         MOTS_RAPPORT } = require('./db.js');
 
@@ -135,13 +136,20 @@ function img(url, { largeur, hauteur, alt = '', classe = '', style = '' } = {}) 
  * `loading="lazy"` ne les demande que si la ligne arrive à l'écran. Sur la
  * connexion tunisienne, une ligne jamais atteinte ne coûte rien.
  *
- * Sans photo, on ne laisse pas un trou : les deux premières lettres du code
- * tiennent lieu de monogramme. Un carré vide serait pire que pas de carré.
+ * Sans photo, la silhouette du produit. Avant, c'étaient les deux premières
+ * lettres du code — « CA » pour le cache-cou, « MI » pour cinq mitaines
+ * différentes : un monogramme ne distingue que ce qui commence différemment.
+ * La forme, elle, se reconnaît sans lire, et sans coûter une requête. Le code
+ * reste en dernier recours, pour un produit qu'on n'a pas encore dessiné.
  */
 function miniature(url, code = '', { taille = 46 } = {}) {
   const c = 'mini' + (taille === 46 ? '' : ` mini-${taille}`);
   if (urlAcceptable(url))
     return `<span class="${c}">${img(url, { largeur: taille * 2, alt: '' })}</span>`;
+  const forme = SIL.cle(code);
+  if (forme)
+    return `<span class="${c} mini-nu" aria-hidden="true"
+      ><i class="sil s-${forme}"></i></span>`;
   return `<span class="${c} mini-nu" aria-hidden="true">${
     e(String(code).replace(/[^A-Za-z0-9]/g, '').slice(0, 2).toUpperCase())}</span>`;
 }
@@ -176,17 +184,65 @@ const dateHeureFR = (t) => {
 };
 
 /**
- * La barre d'avancement. La couleur dit l'état, pas la marque.
+ * L'avancement, en anneau. La couleur dit l'état, pas la marque.
  *
  * Avant, tout ce qui n'était ni 0 ni 100 était ambre : un item à 90 % avait
  * l'air aussi inquiétant qu'un item à 10 %. Trois seuils valent mieux — pas
  * commencé, en route, presque fini —, et le vert n'arrive qu'au bout.
  * La couleur ne porte jamais seule : le pourcentage est écrit à côté.
+ *
+ * POURQUOI UN ANNEAU ET PLUS UNE BARRE. Une barre a besoin de quatre-vingt-dix
+ * pixels de large pour se lire ; sur une ligne de tableau, elle mangeait la
+ * colonne. Un anneau de vingt pixels dit la même chose dans un carré, et rend
+ * la colonne à ce qui compte. La fraction, elle, ne bouge pas : c'est elle
+ * qu'on vient lire, l'anneau ne fait que la rendre visible de loin.
+ *
+ * `pathLength="100"` normalise la circonférence : le tiret vaut alors
+ * directement le pourcentage, sans passer par 2πr.
  */
+/**
+ * La silhouette d'un produit — voir `silhouettes.js` pour le pourquoi.
+ *
+ * Elle ne remplace jamais le nom, elle le précède : une forme se reconnaît de
+ * loin, un nom se lit. Et comme elle ne porte aucune information que le texte
+ * à côté ne porte pas déjà, elle est `aria-hidden` : un lecteur d'écran n'a
+ * rien à y gagner et tout à y perdre.
+ */
+function silhouette(code, nom = '') {
+  const k = SIL.cle(code, nom);
+  return k ? `<i class="sil s-${k}" aria-hidden="true"></i>` : '';
+}
+
+function classeAvancement(pct) {
+  return pct === 0 ? 'zero' : pct === 100 ? 'plein'
+       : pct < 40 ? 'bas' : pct < 80 ? 'part' : 'haut';
+}
+
 function jauge(pct) {
-  const cls = pct === 0 ? 'zero' : pct === 100 ? 'plein'
-            : pct < 40 ? 'bas' : pct < 80 ? 'part' : 'haut';
-  return `<div class="jauge ${cls}"><i style="width:${pct}%"></i></div>`;
+  const cls = classeAvancement(pct);
+  return `<svg class="don ${cls}" viewBox="0 0 20 20" aria-hidden="true">`
+       + `<circle class="don-p" cx="10" cy="10" r="7.5" pathLength="100"/>`
+       + (pct > 0 ? `<circle class="don-v" cx="10" cy="10" r="7.5" pathLength="100"`
+                  + ` stroke-dasharray="${pct} 100"/>` : '')
+       + `</svg>`;
+}
+
+/**
+ * Le même anneau en grand, le pourcentage posé au centre.
+ *
+ * Le bandeau d'un ordre affichait « 28 % » en corps 42 à côté d'une barre qui
+ * disait la même chose : deux objets pour une information. Le chiffre entre
+ * dans l'anneau, et le bandeau rend la moitié de sa largeur au compte de
+ * pièces — qui est, lui, ce qu'on vient vraiment chercher.
+ */
+function donutGrand(pct) {
+  return `<svg class="don-g ${classeAvancement(pct)}" viewBox="0 0 40 40"
+    role="img" aria-label="${pct} % fait">
+    <circle class="don-p" cx="20" cy="20" r="16" pathLength="100"/>
+    ${pct > 0 ? `<circle class="don-v" cx="20" cy="20" r="16" pathLength="100"
+      stroke-dasharray="${pct} 100"/>` : ''}
+    <text class="don-t" x="20" y="20">${pct}<tspan class="don-u"> %</tspan></text>
+  </svg>`;
 }
 
 // ------------------------------------------------------------------- ossature
@@ -561,15 +617,15 @@ function tuileProduit(x) {
     title="${e(x.nom)} — ${x.pct} %">
     <span class="tuile-img">${urlAcceptable(x.photo)
       ? img(x.photo, { largeur: 240, alt: '' })
-      : `<span class="tuile-nu">${e(String(x.code).replace(/[^A-Za-z0-9]/g, '')
-          .slice(0, 2).toUpperCase())}</span>`}
+      : `<span class="tuile-nu">${silhouette(x.code, x.nom)
+          || e(String(x.code).replace(/[^A-Za-z0-9]/g, '')
+               .slice(0, 2).toUpperCase())}</span>`}
       <b class="tuile-pct">${x.pct}<i>&nbsp;%</i></b>
       ${ailleurs ? `<span class="tuile-lieu">${LIEUX[x.fabrication]
         || e(x.fabrication)}</span>` : ''}
     </span>
     <span class="tuile-b">
-      <b class="tuile-code">${e(x.code)}</b>
-      ${jauge(x.pct)}
+      <b class="tuile-code">${silhouette(x.code, x.nom)}${e(x.code)}</b>
       <span class="tuile-q">${x.pct === 100
         ? `${x.quantite.toLocaleString('fr-CA')} faites`
         // « 3 500 sur 3 500 » se lit comme trois mille cinq cents FAITES.
@@ -902,6 +958,9 @@ function formulaireQC(action, { general = false } = {}) {
     <div class="champ"><label for="qsrc${general ? 'g' : ''}">Source</label>
       <input id="qsrc${general ? 'g' : ''}" name="source" maxlength="80"
              placeholder="Rapport d'amélioration BMB"></div>
+    <div class="champ champ-large"><label for="qsch${general ? 'g' : ''}">Schéma</label>
+      <input id="qsch${general ? 'g' : ''}" name="schema_url" type="url" maxlength="500"
+             placeholder="Adresse d'une image — « bas du zipper » est ambigu en mots"></div>
     <button class="btn">Ajouter${general ? ' au protocole général' : ' au protocole'}</button>
   </form>`;
 }
@@ -1302,7 +1361,7 @@ function vueProtocole({ user, p, proto, msg, photos = [], bris = null,
   <div class="entete"><div>
     <p class="fil-ariane"><a href="/qualite">Contrôle qualité</a> ·
       <a href="/produits/${p.id}">fiche produit</a></p>
-    <h1>${e(p.code)}</h1>
+    <h1>${silhouette(p.code, p.nom)}${e(p.code)}</h1>
     <p class="muted">${e(p.nom)}</p>
   </div></div>
 
@@ -1694,9 +1753,8 @@ function vueOrdre({ user, o, items, jalons, commentaires, produits, pct, msg,
   </div></div>
 
   <div class="carte bandeau">
-    <div class="bandeau-pct">${pct} %</div>
+    ${donutGrand(pct)}
     <div class="bandeau-j">
-      ${jauge(pct)}
       <p class="muted">${total
         ? `<b>${(total - fait).toLocaleString('fr-CA')}</b> pièces restantes
            sur ${total.toLocaleString('fr-CA')} · pondéré par les quantités`
@@ -2045,7 +2103,7 @@ function vueProduit({ user, p, photos, materiaux, patrons, ordres, msg, qc = nul
   const corps = `
   ${sousNavProduits('fiches')}
   <div class="entete"><div>
-    <h1>${e(p.nom_court || p.nom)}</h1>
+    <h1>${silhouette(p.code, p.nom)}${e(p.nom_court || p.nom)}</h1>
     <p class="muted">${e(p.code)}${p.nom_court && p.nom !== p.nom_court
       ? ` · vendu sous « ${e(p.nom)} »` : ''}</p>
   </div><div class="entete-actions">
@@ -2419,7 +2477,8 @@ function gantt({ cal, jalons = [], admin = false }) {
     const g = pos(x.debut), l = Math.max(0.6, pos(x.fin) - g);
     const dehors = dernier && x.fin > dernier;
     return `<tr class="${dehors ? 'g-dehors' : ''}">
-      <th scope="row"><a href="/produits/${x.produit_id}">${e(x.code)}</a>
+      <th scope="row"><a href="/produits/${x.produit_id}">${
+        silhouette(x.code, x.nom)}${e(x.code)}</a>
         <span class="g-h">${Math.round(x.heures).toLocaleString('fr-CA')} h
           · ${x.jours} j</span>
         <span class="g-quand">${dateFR(x.debut)} → ${dateFR(x.fin)}</span>
@@ -3025,7 +3084,8 @@ function vueSuivi({ user, msg, recentes, immobiles, progression, jours }) {
     <div class="tbl"><table class="items">
       <thead><tr><th>Produit</th><th>Avancement</th><th>Dernière maj</th><th>Ordre</th></tr></thead>
       <tbody>${immobiles.map(x => `<tr>
-        <td><b>${e(x.code)}</b> <span class="sec">${e(x.nom)}</span></td>
+        <td><b>${silhouette(x.code, x.nom)}${e(x.code)}</b>
+          <span class="sec">${e(x.nom)}</span></td>
         <td class="c-av">${jauge(x.avancement)}<span class="sec">${x.avancement} %</span></td>
         <td class="c-fige"><b>${x.jours_sans_maj} j</b>
           <span class="sec">depuis le ${dateHeureFR(x.maj_le)}</span></td>
@@ -3068,7 +3128,8 @@ function vueSuivi({ user, msg, recentes, immobiles, progression, jours }) {
   return page({ titre: 'Activité', user, corps, actif: 'suivi', msg });
 }
 
-module.exports = { e, urlImage, urlAcceptable, img, TAILLES, sousNavProduits,
+module.exports = { e, urlImage, urlAcceptable, img, miniature, silhouette,
+  TAILLES, sousNavProduits,
   vueQualiteAccueil, vueQualiteProduits, vueQualiteGeneral, vueQCOrdres, vueQCOrdre, dateFR, dateHeureFR, jauge, page, vueConnexion,
                    vueCompte,
                    vueAccueil, vueOrdres, vueOrdre, vueOrdreForm,

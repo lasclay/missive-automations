@@ -59,7 +59,8 @@ C=$(node -e "const{db}=require('./db.js');console.log(db.prepare('SELECT COUNT(*
 [ "$C" -ge 1 ] && ok "l'atelier peut commenter" || ko "commentaire refusé"
 
 # avancement global pondéré : 2000×70 + 800×20 + 500×0 + 300×10 = 159000 / 3600 = 44 %
-P=$(curl -s -b $CA $B/ordres/1 | grep -oE '>[0-9]+ %<' | head -1 | tr -dc 0-9)
+P=$(curl -s -b $CA $B/ordres/1 \
+  | grep -oE 'aria-label="[0-9]+ % fait"' | head -1 | tr -dc 0-9)
 [ "$P" = 44 ] && ok "avancement global pondéré par les quantités = 44 %" || ko "pondération incorrecte ($P)"
 
 # ---------------------------------------------------------------- le fil d'un item

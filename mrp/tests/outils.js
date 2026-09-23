@@ -1116,8 +1116,14 @@ t("l'atelier peut consulter le suivi",
   const p = db.prepare(`SELECT * FROM produits WHERE id = ?`).get(pid);
   const html = V.vueProduit({ user: admin, p, photos: [], materiaux: [],
     patrons: [], ordres: [], qc: null, charte: null, bris: null });
+  // Le <h1> porte maintenant la silhouette du produit devant le nom : on
+  // compare donc le texte du titre, pas la chaîne au caractère près.
+  const titreH1 = (h) => (h.match(/<h1>([\s\S]*?)<\/h1>/) || ['', ''])[1]
+    .replace(/<[^>]*>/g, '').trim();
   t('la fiche titre avec le nom d\'usage',
-    html.includes('<h1>Manteau 3 saisons</h1>'));
+    titreH1(html) === 'Manteau 3 saisons', titreH1(html));
+  t('la silhouette du manteau précède le titre',
+    /<h1><i class="sil s-manteau"/.test(html));
   // Le gabarit échappe l'apostrophe : on compare ce qui est réellement servi.
   t('le titre Shopify reste visible sous le code',
     html.includes('vendu sous « Manteau hivernal isolé à l&#39;asclépiade »'));
@@ -1129,7 +1135,7 @@ t("l'atelier peut consulter le suivi",
     photos: [], materiaux: [], patrons: [], ordres: [], qc: null,
     charte: null, bris: null });
   t('sans nom d\'usage, le titre Shopify sert de nom',
-    nu.includes('<h1>Manteau hivernal isolé à l&#39;asclépiade</h1>'));
+    titreH1(nu) === 'Manteau hivernal isolé à l&#39;asclépiade', titreH1(nu));
   t('...et la mention « vendu sous » ne s\'affiche pas',
     !nu.includes('vendu sous'));
 

@@ -126,12 +126,10 @@ main{max-width:1100px;margin:0 auto;padding:22px 16px 60px}
 .muted{color:var(--gris);font-size:13px}
 .vide{color:var(--gris);font-style:italic;padding:10px 0}
 
-/* Le bandeau d'un ordre : le pourcentage en gros à gauche, la jauge et le
-   compte de pièces à droite. Avant, « 28 % » flottait seul et ne disait pas
-   s'il restait trois cents pièces ou vingt-six mille. */
+/* Le bandeau d'un ordre : l'anneau à gauche, le pourcentage dedans, le compte
+   de pièces à droite. Avant, « 28 % » flottait seul et ne disait pas s'il
+   restait trois cents pièces ou vingt-six mille. */
 .bandeau{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
-.bandeau-pct{font-size:42px;font-weight:700;letter-spacing:-.04em;line-height:1;
-  font-variant-numeric:tabular-nums;flex:0 0 auto}
 .bandeau-j{flex:1;min-width:220px}
 .bandeau-j p{margin:8px 0 0;font-size:13px}
 .bandeau-j b{color:var(--encre);font-size:15px;font-variant-numeric:tabular-nums}
@@ -162,18 +160,35 @@ td{padding:9px 8px;border-bottom:1px solid var(--ligne);vertical-align:middle}
 tr:last-child td{border-bottom:0}
 .num{text-align:right;font-variant-numeric:tabular-nums}
 
-/* ---------- barre d'avancement ---------- */
-.jauge{height:9px;background:var(--piste);border-radius:99px;overflow:hidden;
-  min-width:90px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.04)}
-.jauge i{display:block;height:100%;background:var(--vert);border-radius:99px;
-  min-width:3px}
+/* ---------- anneau d'avancement ----------
+   Une barre demandait 90 px de large pour se lire et mangeait la colonne.
+   L'anneau dit la même chose dans 20 px de côté. La rotation met le départ
+   à midi plutôt qu'à trois heures. */
+.don{width:20px;height:20px;flex:0 0 20px;display:inline-block;
+  vertical-align:-5px;transform:rotate(-90deg)}
+.don circle{fill:none;stroke-width:4.5}
+.don-p{stroke:var(--piste)}
+.don-v{stroke:var(--vert)}
 /* Quatre états, quatre teintes : à peine entamé, en route, presque là, fini.
    Le pourcentage est toujours écrit à côté — la couleur ne porte pas seule. */
-.jauge.bas i  {background:var(--rouge)}
-.jauge.part i {background:var(--ambre)}
-.jauge.haut i {background:var(--presque)}
-.jauge.plein i{background:var(--vert)}
-.jauge.zero i{background:var(--piste-pleine)}
+.don.bas   .don-v{stroke:var(--rouge)}
+.don.part  .don-v{stroke:var(--ambre)}
+.don.haut  .don-v{stroke:var(--presque)}
+.don.plein .don-v{stroke:var(--vert)}
+/* À zéro il n'y a pas d'arc du tout : c'est la piste qui se fonce, sans quoi
+   « rien de commencé » et « l'anneau n'a pas chargé » se ressemblent. */
+.don.zero .don-p{stroke:var(--piste-pleine)}
+/* Le texte qui suit l'anneau dans une cellule sans conteneur flex. */
+td.av .don,td.c-av .don{margin-right:7px}
+
+/* L'anneau en grand, chiffre au centre. La rotation porte sur les cercles et
+   non sur le <svg> : sur le <svg> elle coucherait aussi le texte. */
+.don-g{width:74px;height:74px;flex:0 0 74px;display:block}
+.don-g circle{fill:none;stroke-width:4.5;transform:rotate(-90deg);
+  transform-origin:50% 50%}
+.don-g .don-t{fill:var(--encre);font:700 13px/1 inherit;letter-spacing:-.02em;
+  font-variant-numeric:tabular-nums;text-anchor:middle;dominant-baseline:central}
+.don-g .don-u{font-size:8px;font-weight:600;fill:var(--gris)}
 .pct{font-variant-numeric:tabular-nums;font-weight:600;font-size:13px;min-width:38px;
   display:inline-block;text-align:right}
 
@@ -245,6 +260,15 @@ textarea{min-height:70px;resize:vertical}
 .mini img{width:100%;height:100%;object-fit:contain;display:block}
 .mini-nu{display:flex;align-items:center;justify-content:center;
   font-size:13px;font-weight:700;color:var(--gris);letter-spacing:.02em}
+/* La silhouette occupe la pastille, pas la hauteur d'une ligne de texte. */
+.mini-nu .sil{width:62%;height:62%;opacity:.55;vertical-align:0}
+
+/* La photo d'une matière, sur sa fiche. Elle sert à distinguer trois tissus
+   noirs que trois noms ne distinguent pas ; elle a donc le droit d'être
+   grande, mais pas de pousser le stock sous la ligne de flottaison. */
+.photo-matiere{margin:14px 0 0;max-width:420px}
+.photo-matiere img{width:100%;height:auto;display:block;border-radius:10px;
+  border:1px solid var(--cadre);background:var(--media)}
 /* La cellule qui porte la pastille : image et texte côte à côte, le texte
    libre de se replier. */
 .avec-mini{display:flex;gap:11px;align-items:flex-start}
@@ -264,6 +288,9 @@ textarea{min-height:70px;resize:vertical}
    la régularité de la grille qui la rend balayable. */
 .tuile-img{position:relative;display:block;aspect-ratio:1;background:var(--media)}
 .tuile-img img{width:100%;height:100%;object-fit:contain;display:block}
+/* Sans photo, la silhouette occupe la vignette : reconnaissable, là où deux
+   lettres de code ne le sont pas — cinq mitaines commencent par « MI ». */
+.tuile-nu .sil{width:44%;height:44%;opacity:.32;margin:0}
 .tuile-nu{position:absolute;inset:0;display:flex;align-items:center;
   justify-content:center;font-size:26px;font-weight:700;color:var(--gris);
   letter-spacing:.03em}
@@ -287,7 +314,6 @@ textarea{min-height:70px;resize:vertical}
 .tuile-code{display:block;font-size:11.5px;font-weight:700;letter-spacing:.02em;
   color:var(--encre);margin-bottom:6px;white-space:nowrap;overflow:hidden;
   text-overflow:ellipsis}
-.tuile .jauge{min-width:0;height:6px}
 .tuile-q{display:block;margin-top:5px;font-size:11.5px;color:var(--gris);
   font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;
   text-overflow:ellipsis}
