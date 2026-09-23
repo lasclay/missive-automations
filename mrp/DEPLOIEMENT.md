@@ -114,9 +114,12 @@ L'import est **idempotent** : le relancer met les quantités à jour sans jamais
 toucher aux avancements saisis. C'est comme ça qu'on répercutera une révision
 du plan.
 
-Résultat attendu : 34 produits, 164 photos, 50 matériaux, l'ordre
-`OP-2026-0001` avec 27 items, **24 333 unités**, le jalon d'expédition au
-1er octobre et 139 répartitions par taille et coloris.
+Résultat attendu, au 23 septembre 2026 : 34 produits, 164 photos, 46 lignes de
+nomenclature, l'ordre `OP-2026-0001` avec **30 items et 26 133 unités**, le jalon
+d'expédition au 1er octobre et 139 répartitions par taille et coloris.
+
+Le plan reçoit des ajouts datés : **l'aperçu de l'import fait foi**, pas ce
+paragraphe. Lance-le d'abord sans `--ecrire` et compare.
 
 Puis les deux imports du contrôle qualité, dans cet ordre — les protocoles
 d'abord, les bris ensuite, parce qu'un bris peut se rattacher à un point :

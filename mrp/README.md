@@ -50,9 +50,14 @@ node import.js --ecrire   # applique
 
 L'import lit `donnees/` et remplit la base : 34 produits avec leurs photos
 Shopify, leurs matériaux, leurs coûts et les consignes d'atelier, plus l'ordre
-de production de la saison tiré du plan 26-27 — **27 items, 24 333 unités**, et
-139 répartitions par taille et coloris. Il en tire aussi **39 matières et 50
-lignes de nomenclature**, soit 46 113 $ de matières engagées par le plan.
+de production de la saison tiré du plan 26-27 — **30 items, 26 133 unités**, et
+139 répartitions par taille et coloris. Il en tire aussi **39 matières et 65
+lignes de nomenclature**, dont 46 entrent dans la base.
+
+Ces chiffres bougent : le plan reçoit des ajouts datés (`donnees/ajouts-production.tsv`)
+et une ligne du chiffrier peut être découpée en deux produits. **`node import.js`
+sans `--ecrire` fait foi** — pas ce paragraphe, qui date de sa dernière relecture
+(23 septembre 2026).
 
 La consommation par unité ne se lit pas dans le chiffrier, elle s'en **déduit** :
 la colonne « consommation » est du texte libre (« 2 pads (4,80 pads/m) », « voir
@@ -579,8 +584,8 @@ Même philosophie que le reste du dépôt. Rien à installer, rien à mettre à 
 Tunisie. Chaque action est un formulaire qui poste et redirige.
 
 **Tout est compressé.** C'est le seul levier qui agit sur toutes les pages d'un
-coup, et il compte : l'ordre de production complet — 27 items, 297 boutons
-d'avancement et 139 lignes de répartition — passe de **61 Ko à 5 Ko**, la liste
+coup, et il compte : l'ordre de production complet — mesuré à 27 items, avec
+297 boutons d'avancement et 139 lignes de répartition — passe de **61 Ko à 5 Ko**, la liste
 de fabrication de 32 à 2 Ko. En dessous de 1 Ko on envoie tel quel, le gain ne
 paierait pas la compression. Aucune page ne dépasse 12 Ko sur le réseau.
 
@@ -818,15 +823,21 @@ leur conception, on ne copie pas leur code.
 ## Backlog
 
 **Fiches produits poussées — à préparer.** Des fiches plus détaillées s'en
-viennent ; le tableau Miro qui sert de référence n'est pas encore accessible.
-Ce qui manque au schéma, ce qu'il faut décider avant de construire, et le
-blocage d'accès : [`FICHES-PRODUITS.md`](FICHES-PRODUITS.md).
+viennent. Le tableau Miro qui sert de référence **est accessible depuis** :
+`uXjVHuYrQSA=`, 633 objets, 64 frames, 26 produits. Le relevé actuel
+(`donnees/charte-produits.tsv`) vient d'un export PDF à 328 px sans couche de
+texte : les schémas de cotes et les vignettes d'étiquettes sont marqués
+`À RELIRE` et se comblent maintenant à la source. Ce qui manque au schéma et ce
+qu'il faut décider avant de construire : [`FICHES-PRODUITS.md`](FICHES-PRODUITS.md).
 
 
-**Le bandeau de la tuque beanie manque au plan.** Le plan prévoit 1 500 tuques
-de ville — tricotées en Chine — mais aucune quantité pour leur bandeau amovible,
-qui lui est fait à l'atelier. S'il en faut un par tuque, il manque 1 500 bandeaux
-au plan de Tunisie. À confirmer avec Gabriel ou Catherine.
+**~~Le bandeau de la tuque beanie manque au plan.~~ Réglé.** Gabriel l'a
+confirmé le 16 septembre 2026 : un bandeau intérieur par tuque, donc 1 500
+pièces faites à l'atelier, le tricot restant en Chine. La ligne est dans
+`donnees/ajouts-production.tsv`. Restent à régler : le patron est neuf,
+l'échantillon est à produire, les cotes hors tout (8 × 44 cm max) sont à valider,
+et le temps porté à la cédule est un plancher posé à la main (2,50 $, le bas du
+barème BMB) — pas une mesure.
 
 **Cinq répartitions par variante s'écartent vraiment du plan** — et ce ne sont
 pas celles annoncées d'abord. Les « trois doublements exacts » du manteau

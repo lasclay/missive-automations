@@ -1,7 +1,7 @@
 ---
 name: production-lasclay
-description: Le MRP maison de Lasclay — l'application de production entre Québec et la Tunisie (mrp/), ses règles de calcul, sa méthode de suivi, ses données sources, et tout ce qui a été appris en auditant MRPeasy et ERPNext. Couvre les ordres de production et l'avancement déclaré, la charge d'atelier et la cédule, l'inventaire matières et le calculateur de besoins, le contrôle qualité et le mur des bris, les fiches produits, la charte Miro, les patrons et le convertisseur HPGL, et ce qui reste à trancher avant de construire la suite.
-when_to_use: Déclenche dès qu'il est question du MRP, de l'ERP, de la production, de l'atelier tunisien, de BMB ou Grada, d'un ordre de production, d'un avancement, de la cédule ou de la charge, d'une nomenclature, d'un inventaire de matières, d'un contrôle qualité, d'une fiche produit, de la charte produits, d'un patron ou d'un fichier HPGL. Déclenche même sans nommer le MRP — « est-ce que le plan rentre », « combien de tissu pour 500 tuques », « où en est la production des cache-cous », « qu'est-ce qu'il faut vérifier avant d'emballer », « pourquoi ce patron sort trop grand », « on devrait acheter MRPeasy ».
+description: Le MRP maison de Lasclay — l'application de production entre Québec et la Tunisie (mrp/), ses règles de calcul, sa méthode de suivi, ses données sources, et tout ce qui a été appris en auditant MRPeasy et ERPNext. Couvre la conception des 34 produits (composition, tailles, coloris, fermetures, patrons partages), les 39 matieres et leurs fournisseurs, les ordres de production et l'avancement declare, la charge d'atelier et la cedule, l'inventaire et le calculateur de besoins, le controle qualite et le mur des bris, la charte Miro relevee integralement, les planches produits en PDF, le convertisseur HPGL, les interdependances entre sources et calculs, et ce qui reste a trancher.
+when_to_use: Déclenche dès qu'il est question du MRP, de l'ERP, de la production, de l'atelier tunisien, de BMB ou Grada, d'un ordre de production, d'un avancement, de la cédule ou de la charge, d'une nomenclature, d'un inventaire de matières, d'un contrôle qualité, d'une fiche produit, de la charte produits, d'un patron ou d'un fichier HPGL. Déclenche même sans nommer le MRP — « est-ce que le plan rentre », « combien de tissu pour 500 tuques », « où en est la production des cache-cous », « qu'est-ce qu'il faut vérifier avant d'emballer », « pourquoi ce patron sort trop grand », « de quoi est fait le manteau », « quels coloris pour le sac a lunch », « quelle fermeture eclair sur la besace », « on devrait acheter MRPeasy ».
 argument-hint: [ce que tu veux savoir ou faire côté production]
 allowed-tools:
   - Bash
@@ -16,7 +16,7 @@ allowed-tools:
 # Production Lasclay — le MRP maison
 
 N'explore pas le dépôt pour retrouver comment fonctionne la production : la carte est ici, et
-les cinq fiches de `references/` portent le détail. Le code et les données vivent dans
+les dix fiches de `references/` portent le détail. Le code et les données vivent dans
 `mrp/` et `patrons/` du dépôt `lasclay/missive-automations`.
 
 ## En une phrase
@@ -93,6 +93,8 @@ matelassé ne compte pas. L'assistant refuse de traduire « presque fini » en 9
 | `mrp/FICHES-PRODUITS.md` | l'état des fiches et ce qu'une fiche « exhaustive ++++ » demanderait |
 | `mrp/COMPARAISON-ERPNEXT.md` | ce que le plus gros ERP libre fait de son ordonnancement |
 | `mrp/donnees/` | 21 fichiers TSV — les sources, avec `SOURCES.md` comme carte |
+| `mrp/planches/` | **35 planches produits en PDF** — photos, composition, vérifications |
+| `mrp/tools/planches.js` | le générateur des planches, régénérable |
 | `mrp-audit/` | l'audit MRPeasy : 2 515 lignes de `.md`, 115 écrans capturés en PDF |
 | `patrons/` | audit d'échelle HPGL, diagnostic PDF, convertisseur PDF → HPGL |
 
@@ -100,8 +102,13 @@ Les fiches de ce skill, quand tu as besoin du détail :
 
 | Fiche | Quand la lire |
 | --- | --- |
+| `references/produits.md` | **le catalogue et la conception** — les 34 produits, les règles qui se répètent, les marges, ce qui casse |
+| `references/charte-miro.md` | **le relevé intégral du tableau** — tailles, coloris avec leurs codes, fermetures spécifiées, vérifications |
+| `references/matieres.md` | les 39 matières, les fournisseurs, l'isolant, l'emballage, l'expédition |
+| `references/interdependances.md` | **qui dépend de quoi** — la chaîne source → fichier → calcul → écran, et ce qui casse quand |
 | `references/app.md` | modules, règles de calcul, modèle de données, variables d'environnement, déploiement, tests |
 | `references/donnees.md` | les sources, ce que porte chaque TSV, les pièges, ce qui n'existe nulle part |
+| `references/images.md` | les quatre gisements d'images, les planches PDF, comment les régénérer |
 | `references/marche.md` | MRPeasy, ERPNext, le PLM textile — les verdicts et ce qu'on en reprend |
 | `references/patrons.md` | HPGL, les trois conventions d'unités, la conversion, DXF-AAMA |
 | `references/decisions.md` | les besoins exprimés, ce qui reste à trancher, le backlog priorisé |
@@ -242,14 +249,19 @@ maintenant** : 633 objets, 64 frames, 26 produits, rangés en bandes par pays (T
 Chaque frame est une fiche produit à deux colonnes : la **fiche technique** (de quoi c'est fait) et
 les **vérifications** (ce qu'on regarde avant d'emballer).
 
-Il est déjà relevé dans le dépôt — `donnees/charte-produits.tsv` (211 lignes en base) et
-`donnees/qualite-charte.tsv` — mais **à partir d'un export PDF basse résolution** : 328 px par
-carte, sans couche de texte. Le corps se lit, **les vignettes d'étiquettes et les schémas de cotes
-non**, et ce qui manquait est marqué `À RELIRE` plutôt que deviné.
+Le tableau a été **relevé intégralement le 23 septembre 2026** — `references/charte-miro.md`.
+Il porte ce que le dépôt n'avait pas : **les tailles et les coloris de chaque produit**, les
+**codes couleur exacts**, et les **fermetures éclair spécifiées** (maille, longueur, séparable ou
+non) sur des pense-bêtes roses.
 
-**Conséquence actionnable :** le tableau étant maintenant lisible directement, les `À RELIRE`
-peuvent être comblés à la source (82 images et 16 documents y sont attachés) au lieu d'être
-devinés. C'est le travail qui débloque les « fiches produits exhaustives ++++ ».
+**Sept écarts** entre le tableau et le relevé TSV du dépôt — qui venait d'un export PDF à 328 px
+sans couche de texte. Trois portent sur des fermetures éclair, un sur des coloris entiers
+(**Jaune et beige** existent et manquaient), un sur l'épaisseur du coton de la glacière. **Le
+tableau fait foi ; les détails sont dans la fiche.**
+
+**Ce qui reste illisible sans l'ouvrir** : les **cotes**, encadrées de liserés rouges mais écrites
+*dans les images*, et les **16 planches d'étiquettes**. C'est le travail qui débloque les « fiches
+produits exhaustives ++++ ».
 
 ## Ce qui reste à trancher
 

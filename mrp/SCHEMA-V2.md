@@ -26,7 +26,8 @@ Il manque exactement les quatre tables qui font le M de MRP :
 | `demande` + `ordre_planifie` | « quand faut-il passer la commande de coton ? » |
 
 Aujourd'hui `produit_materiaux` est une liste de **phrases** — 50 lignes de
-`nom` + `detail` en texte libre. On peut la lire, pas la multiplier par 24 333.
+`nom` + `detail` en texte libre. On peut la lire, pas la multiplier par les
+26 133 unités du plan.
 
 ## 2. Les quatre bonnes idées, à garder telles quelles
 
@@ -43,7 +44,7 @@ Aujourd'hui `produit_materiaux` est une liste de **phrases** — 50 lignes de
      Constaté sur le sac à lunch, la besace, le tote bag et la glacière : c'est
      une règle, pas un cas.
    - *quantité par taille* — un XL ne consomme pas ce que consomme un M.
-     Sans ça, un besoin matière calculé sur un plan de 24 333 unités est faux
+     Sans ça, un besoin matière calculé sur les 26 133 unités du plan est faux
      de plusieurs pour cent.
 
 3. **`operation.site_id`.** Le site est porté par l'opération, pas par le
