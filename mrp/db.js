@@ -661,6 +661,40 @@ db.exec(`CREATE UNIQUE INDEX IF NOT EXISTS idx_bris_ref ON qc_bris(source_ref)
   }
 }
 
+/**
+ * Les sections « taille » et « coloris » ont été ajoutées quand le tableau
+ * Miro a enfin été lisible : il portait les tailles et les couleurs de chaque
+ * produit, que rien dans le dépôt ne disait. Même reconstruction que les
+ * autres CHECK — SQLite ne les modifie pas en place.
+ */
+{
+  const t = db.prepare(
+    `SELECT sql FROM sqlite_master WHERE type='table' AND name='charte'`).get();
+  if (t && !/'coloris'/.test(t.sql)) {
+    db.exec('BEGIN');
+    try {
+      db.exec(`
+        CREATE TABLE charte_n (
+          id         INTEGER PRIMARY KEY,
+          produit_id INTEGER NOT NULL REFERENCES produits(id) ON DELETE CASCADE,
+          section    TEXT NOT NULL DEFAULT 'matiere'
+                     CHECK (section IN ('matiere','isolant','garniture',
+                                        'taille','coloris','parametre','note')),
+          texte      TEXT NOT NULL,
+          rang       INTEGER NOT NULL DEFAULT 0,
+          source     TEXT NOT NULL DEFAULT 'charte produits',
+          cree_le    TEXT NOT NULL DEFAULT (datetime('now'))
+        );
+        INSERT INTO charte_n SELECT id, produit_id, section, texte, rang, source, cree_le
+          FROM charte;
+        DROP TABLE charte;
+        ALTER TABLE charte_n RENAME TO charte;
+        CREATE INDEX IF NOT EXISTS idx_charte_produit ON charte(produit_id, section, rang);`);
+      db.exec('COMMIT');
+    } catch (e) { db.exec('ROLLBACK'); throw e; }
+  }
+}
+
 /** Numéro d'ordre séquentiel : OP-2026-0001 */
 function prochainNumero() {
   const an = new Date().getFullYear();
@@ -1303,6 +1337,12 @@ const SECTIONS_CHARTE = {
   matiere:   'Matières',
   isolant:   'Isolant',
   garniture: 'Garnitures',
+  // Les tailles et les coloris VENDABLES du tableau, qui n'existaient nulle
+  // part dans le dépôt : la répartition d'un lot (`item_variantes`) disait
+  // combien de noirs couper, jamais quelles couleurs le produit a. Ce sont
+  // deux objets différents, et il faut les deux.
+  taille:    'Tailles',
+  coloris:   'Coloris',
   parametre: 'Réglages',
   note:      'À savoir',
 };

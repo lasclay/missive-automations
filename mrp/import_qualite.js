@@ -47,7 +47,10 @@ function tsv(nom) {
 
 const rangs = tsv('qualite-amorce.tsv')
   .concat(SQUELETTES ? tsv('qualite-squelettes.tsv') : [])
-  .concat(CHARTE ? tsv('qualite-charte.tsv') : []);
+  // Les cotes AVANT la charte : « Dimensions finales selon le schéma » y est
+  // une consigne sans chiffre, et l'ordre de `rangs` est l'ordre d'autorité.
+  // La version chiffrée doit gagner, sinon la cote reste vide.
+  .concat(CHARTE ? tsv('qualite-cotes.tsv').concat(tsv('qualite-charte.tsv')) : []);
 
 let ajoutes = 0, ignores = 0;
 const inconnus = [], mauvaisVolet = [];
@@ -58,10 +61,13 @@ const produit = db.prepare(`SELECT id, code FROM produits WHERE code = ?`);
 // source disparaîtrait au prochain import, sans que personne comprenne où.
 const efface = db.prepare(
   `DELETE FROM qc_points WHERE source = ? AND cree_par IS NULL`);
+// `variante` porte la taille quand la cote en dépend : « Standard », « King »,
+// « Homme / L ». Sans elle, une mesure par taille se réduit à une seule ligne
+// et l'atelier ne sait plus laquelle des trois il vérifie.
 const insere = db.prepare(`INSERT INTO qc_points
   (produit_id, type, titre, detail, consequence, valeur, tolerance, unite,
-   ech_type, ech_valeur, frequence, source, rang, schema_url)
-  VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)`);
+   ech_type, ech_valeur, frequence, source, rang, schema_url, variante)
+  VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`);
 
 // On efface les trois sources par défaut ET toute source nommée dans les
 // fichiers. Sans ça, une ligne portant sa propre provenance — « atelier »,
@@ -108,7 +114,11 @@ for (const r of rangs) {
   if (!TYPES_QC[r.volet]) { mauvaisVolet.push(`${r.produit} : « ${r.volet} »`); ignores++; continue; }
   if (!r.titre) { ignores++; continue; }
   // Le premier fichier lu l'emporte : l'ordre de `rangs` est l'ordre d'autorité.
-  const cleDoublon = `${general ? '*' : p.id}|${empreinte(r.titre)}`;
+  // La taille entre dans la clé : « Dimensions finales » en Standard et en King
+  // sont deux cotes différentes, pas un doublon. Sans ça, l'import n'en garde
+  // qu'une et l'atelier vérifie la mauvaise.
+  const cleDoublon =
+    `${general ? '*' : p.id}|${empreinte(r.titre)}|${empreinte(r.variante || '')}`;
   if (vus.has(cleDoublon)) {
     doublons.push(`${r.produit} : « ${r.titre} » (déjà posé par « ${vus.get(cleDoublon)} »)`);
     ignores++; continue;
@@ -123,7 +133,7 @@ for (const r of rangs) {
     insere.run(p.id, r.volet, r.titre, r.detail, r.consequence,
       r.valeur, r.tolerance, r.unite, ech,
       Number.isInteger(ev) && ev > 0 ? ev : null,
-      r.frequence, r.source || SOURCE, n, r.schema || '');
+      r.frequence, r.source || SOURCE, n, r.schema || '', r.variante || '');
   par[r.volet] = (par[r.volet] || 0) + 1;
   ajoutes++;
 }

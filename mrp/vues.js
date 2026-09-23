@@ -1664,6 +1664,25 @@ function vueProduits({ user, produits, msg }) {
   return page({ titre: 'Produits', user, corps, actif: 'produits', msg });
 }
 
+/**
+ * Une ligne de charte. Un coloris se lit AVEC sa couleur, pas seulement avec
+ * son nom : « gris pâle » et « gris foncé » se confondent en mots et jamais à
+ * l'œil, et c'est exactement la paire qui se trompe à l'atelier.
+ *
+ * Le code hexadécimal est écrit dans le texte — `Noir (#1a1a1a)` — plutôt que
+ * dans une colonne de plus : la charte reste un texte qu'on lit tel quel dans
+ * le TSV, et la pastille n'est qu'un rendu. Un coloris sans code s'affiche
+ * sans pastille, ce qui se voit — et dit qu'il manque une référence.
+ */
+function ligneCharte(section, texte) {
+  const t = String(texte || '');
+  if (section !== 'coloris') return `<li>${e(t)}</li>`;
+  const m = t.match(/\(#([0-9a-fA-F]{6})\)/);
+  const nom = t.replace(/\s*\(#[0-9a-fA-F]{6}\)/, '');
+  return `<li class="col">${m
+    ? `<span class="pastille" style="background:#${m[1]}"></span>` : ''}${e(nom)}</li>`;
+}
+
 function vueProduit({ user, p, photos, materiaux, patrons, ordres, msg, qc = null,
                       charte = null, bris = null,
                       nomenclature = [], stock = null, coutMatiere = null }) {
@@ -1711,7 +1730,7 @@ function vueProduit({ user, p, photos, materiaux, patrons, ordres, msg, qc = nul
     <div class="charte">${Object.entries(SECTIONS_CHARTE).map(([cle, lib]) =>
       (charte.par[cle] || []).length ? `<section class="ch-${cle}">
         <h3>${lib}</h3>
-        <ul>${charte.par[cle].map(c => `<li>${e(c.texte)}</li>`).join('')}</ul>
+        <ul>${charte.par[cle].map(c => ligneCharte(cle, c.texte)).join('')}</ul>
       </section>` : '').join('')}</div>
   </div>` : ''}
 

@@ -25,7 +25,7 @@ MANTEAU-HIVER	matiere	Intérieur : shell noir de type soft shell
 MANTEAU-HIVER	matiere	Poche : shell noir de type soft shell
 MANTEAU-HIVER	matiere	Col : polar
 MANTEAU-HIVER	isolant	Vegeto 200 g
-MANTEAU-HIVER	garniture	Fermeture éclair avant
+MANTEAU-HIVER	garniture	Fermeture éclair avant — spirale maille 5 séparable IMPERMÉABLE, taille selon le patron, curseur gauche et droit
 MANTEAU-HIVER	garniture	Poche : fermeture éclair (x3)
 MANTEAU-HIVER	garniture	Ajustement du capuchon : élastique rond
 MANTEAU-HIVER	garniture	Velcro 3 cm
@@ -35,7 +35,7 @@ MANTEAU-3SAISONS	matiere	Intérieur : toile de polyester
 MANTEAU-3SAISONS	matiere	Poche : toile de polyester
 MANTEAU-3SAISONS	matiere	Col : polar
 MANTEAU-3SAISONS	isolant	Vegeto 150 g
-MANTEAU-3SAISONS	garniture	Fermeture éclair avant
+MANTEAU-3SAISONS	garniture	Fermeture éclair avant — spirale maille 5 séparable, taille selon le patron, curseur gauche et droit
 MANTEAU-3SAISONS	garniture	Poche : fermeture éclair (x2)
 MANTEAU-3SAISONS	garniture	Boutons pressions (poche)
 MANTEAU-3SAISONS	garniture	Biais
@@ -45,7 +45,7 @@ VESTE	matiere	Intérieur : toile de polyester
 VESTE	matiere	Poche : toile de polyester
 VESTE	matiere	Col : polar
 VESTE	isolant	Vegeto 150 g
-VESTE	garniture	Fermeture éclair avant
+VESTE	garniture	Fermeture éclair avant — spirale maille 5 séparable, taille selon le patron, curseur gauche et droit
 VESTE	garniture	Poche : fermeture éclair (x2)
 VESTE	garniture	Boutons pressions (poche)
 VESTE	garniture	Biais
@@ -53,7 +53,7 @@ VESTE	garniture	Étiquette Lasclay 1,5 x 4,5 cm
 CHANDAIL	matiere	Extérieur : polar
 CHANDAIL	matiere	Intérieur : polar
 CHANDAIL	isolant	Vegeto 100 g
-CHANDAIL	garniture	Fermeture éclair avant — spirale (coil nylon) #4, non séparable, selon le patron
+CHANDAIL	garniture	Fermeture éclair avant — spirale coil nylon #3, non séparable, selon le patron
 CHANDAIL	garniture	Élastique rond
 CHANDAIL	garniture	Cord-lock
 CHANDAIL	garniture	Biais élastique (manche)
@@ -151,7 +151,7 @@ TOTE	matiere	Intérieur : nylon
 TOTE	isolant	Vegeto 200 g
 TOTE	garniture	Étiquette À CONFIRMER
 TOTE	garniture	Webbing 2,5 cm
-TOTE	garniture	Fermeture éclair — spirale maille 3, non séparable, 20 cm
+TOTE	garniture	Fermeture éclair — spirale maille 3, non séparable, 28 cm
 ETUI-TEL	matiere	Extérieur : coton 12 oz
 ETUI-TEL	matiere	Intérieur : coton 12 oz
 ETUI-TEL	isolant	Vegeto 200 g
@@ -169,7 +169,7 @@ COUSSIN	garniture	Étiquette Lasclay 2,6 x 7,5 cm
 COUSSIN	garniture	Webbing 2,5 cm
 COUSSIN	garniture	Velcro 2,5 cm
 COUSSIN	garniture	Biais vert ou noir
-GLACIERE	matiere	Extérieur : coton — 12 oz en vert, 10 oz en noir
+GLACIERE	matiere	Extérieur : coton — 12 oz en vert, 10 oz en noir (la ligne « coton 12 oz » du tableau contredit ses propres pastilles ; les pastilles font foi)
 GLACIERE	matiere	Intérieur : PVC
 GLACIERE	isolant	Vegeto 250 g
 GLACIERE	garniture	Étiquette À CONFIRMER
@@ -179,13 +179,13 @@ SAC-COUCHAGE-0	matiere	Extérieur : shell de nylon
 SAC-COUCHAGE-0	matiere	Intérieur : shell de nylon
 SAC-COUCHAGE-0	isolant	Vegeto 150 g
 SAC-COUCHAGE-0	garniture	Étiquette Lasclay 2,6 x 7,5 cm
-SAC-COUCHAGE-0	garniture	Fermeture éclair double curseur int/ext — spirale maille 5, non séparable
+SAC-COUCHAGE-0	garniture	Fermeture éclair double curseur int/ext — spirale maille 8, non séparable, taille à confirmer selon le patron
 SAC-COUCHAGE-0	note	La charte donne les deux grammages sans les attribuer ; c'est le plan de production qui tranche — il nomme les variantes « 150 g/m² (0 à 15 °C) » et « 250 g/m² (0 à -18 °C) ».
 SAC-COUCHAGE-18	matiere	Extérieur : shell de nylon
 SAC-COUCHAGE-18	matiere	Intérieur : shell de nylon
 SAC-COUCHAGE-18	isolant	Vegeto 250 g
 SAC-COUCHAGE-18	garniture	Étiquette Lasclay 2,6 x 7,5 cm
-SAC-COUCHAGE-18	garniture	Fermeture éclair double curseur int/ext — spirale maille 5, non séparable
+SAC-COUCHAGE-18	garniture	Fermeture éclair double curseur int/ext — spirale maille 8, non séparable, taille à confirmer selon le patron
 SAC-COUCHAGE-18	note	La charte donne les deux grammages sans les attribuer ; c'est le plan de production qui tranche — il nomme les variantes « 150 g/m² (0 à 15 °C) » et « 250 g/m² (0 à -18 °C) ».
 SAC-COUCHAGE-18	note	À RÉGLER : le plan met les DEUX chaleurs sous ce seul code, alors que SAC-COUCHAGE-0 existe comme produit distinct. Un des deux est en trop, ou la répartition est à déplacer.
 OREILLER-CAMPING	matiere	Côté supérieur : toile de polyester
@@ -230,3 +230,100 @@ TUQUE-VILLE	note	Le tricot vient de Chine, mais le bandeau intérieur est fait p
 SEMELLE-9	note	Dans la charte, cette pièce est sous la carte « Semelle » — le tableau nomme plusieurs produits pareil.
 SAC-COUCHAGE-0	note	Dans la charte, cette pièce est sous la carte « Sac de couchage » — le tableau nomme plusieurs produits pareil.
 SAC-COUCHAGE-18	note	Dans la charte, cette pièce est sous la carte « Sac de couchage » — le tableau nomme plusieurs produits pareil.
+BANDEAU	taille	Taille unique
+BANDEAU	taille	Deux modèles sur le même patron : torsadé et sport
+BANDEAU	coloris	Noir (#1a1a1a)
+BANDEAU	coloris	Rouge (#9f3a1f)
+BANDEAU	coloris	Vert (#184038)
+BANDEAU	coloris	Gris pâle (#b5b5b7)
+BANDEAU	coloris	Gris foncé (#58585b)
+BANDEAU-TUQUE	taille	Taille unique
+BANDEAU-TUQUE	coloris	Noir (#1a1a1a)
+BESACE	taille	Taille unique
+BESACE	coloris	Noir 10 oz (#1a1a1a)
+BESACE	coloris	Rouge 10 oz (#8b2b37)
+BESACE	coloris	Vert 12 oz (#37552f)
+BESACE	coloris	Jaune 10 oz (#f1b92a)
+BESACE	coloris	Beige 10 oz (#c69e7d)
+CACHE-COU	taille	Taille unique (adulte)
+CACHE-COU	coloris	Noir (#1a1a1a)
+CACHE-COU	coloris	Rouge (#9f3a1f)
+CACHE-COU	coloris	Vert (#184038)
+CACHE-COU	coloris	Gris pâle (#b5b5b7)
+CACHE-COU	coloris	Gris foncé (#58585b)
+CACHE-COU-ENF-18M4A	taille	18 mois - 4 ans
+CACHE-COU-ENF-18M4A	coloris	Noir (#1a1a1a) — noir seulement
+CACHE-COU-ENF-5A13A	taille	5 - 13 ans
+CACHE-COU-ENF-5A13A	coloris	Noir (#1a1a1a) — noir seulement
+CHANDAIL	taille	Unisexe : S M L XL XXL
+CHANDAIL	coloris	Noir (#1a1a1a)
+COUSSIN	taille	Taille unique
+COUSSIN	coloris	Vert 12 oz (#37552f)
+ETUI-TEL	taille	Taille unique
+ETUI-TEL	coloris	Noir (#1a1a1a)
+ETUI-TEL	coloris	Rouge (#8b2b37)
+ETUI-TEL	coloris	Vert (#37552f)
+ETUI-TEL	coloris	Caramel (#734b17)
+FOULARD	taille	Taille unique
+FOULARD	coloris	Noir (#1a1a1a)
+FOULARD	coloris	Rouge (#9f3a1f)
+FOULARD	coloris	Vert (#184038)
+FOULARD	coloris	Gris pâle (#b5b5b7)
+GANTS-MAGIQUES	taille	s/m et m/l
+GANTS-MAGIQUES	coloris	Vert
+GLACIERE	taille	Taille unique — 30 L
+GLACIERE	coloris	Noir 10 oz (#1a1a1a)
+GLACIERE	coloris	Vert 12 oz (#37552f)
+MANTEAU-3SAISONS	taille	Femme : XS S M L XL XXL
+MANTEAU-3SAISONS	taille	Homme : S M L XL XXL
+MANTEAU-3SAISONS	coloris	Noir (#1a1a1a)
+MANTEAU-HIVER	taille	Femme : XS S M L XL XXL
+MANTEAU-HIVER	taille	Homme : S M L XL XXL
+MANTEAU-HIVER	coloris	Noir (#1a1a1a)
+MIT-BEBE	taille	Unisexe : XS S M L XL
+MIT-BEBE	coloris	Vert
+MIT-CUIR	taille	Unisexe : XS S M L XL
+MIT-CUIR	coloris	Noir (#1a1a1a)
+MIT-LAINE	taille	Unisexe : XS S M L XL
+MIT-LAINE	coloris	Vert
+MIT-PLEIN-AIR	taille	Femme : XS S M L XL XXL
+MIT-PLEIN-AIR	taille	Homme : S M L XL XXL
+MIT-PLEIN-AIR	coloris	Noir (#1a1a1a)
+MIT-POLAR	taille	Unisexe : XS S M L XL
+MIT-POLAR	coloris	Noir (#1a1a1a)
+MIT-POLAR	coloris	Gris
+MIT-POLAR	coloris	Violet
+MIT-POLAR	coloris	Rouge
+OREILLER	taille	Standard — 26 x 20 po
+OREILLER	taille	Grand (King) — 36 x 20 po
+OREILLER	coloris	Blanc (#ffffff)
+OREILLER-CAMPING	taille	Taille unique
+OREILLER-CAMPING	coloris	Noir et gris (#1a1a1a)
+SAC-COUCHAGE-0	taille	Chaleur : Vegeto 150 g — 0 à 15 °C
+SAC-COUCHAGE-0	coloris	Noir (#1a1a1a)
+SAC-COUCHAGE-18	taille	Chaleur : Vegeto 250 g — 0 à -18 °C
+SAC-COUCHAGE-18	coloris	Noir (#1a1a1a)
+SAC-LUNCH	taille	Taille unique
+SAC-LUNCH	coloris	Noir 10 oz (#1a1a1a)
+SAC-LUNCH	coloris	Rouge 10 oz (#8b2b37)
+SAC-LUNCH	coloris	Vert 12 oz (#37552f)
+SAC-LUNCH	coloris	Jaune 10 oz (#f1b92a)
+SAC-LUNCH	coloris	Beige 10 oz (#c69e7d)
+SEMELLE-678	taille	5F, 6F, 7F, 8F — les quatre petites pointures du parc
+SEMELLE-9	taille	9F, 10F, 11F, 12F, 13H, 14H, 15H — les sept grandes
+TOTE	taille	Taille unique
+TOTE	coloris	Noir 10 oz (#1a1a1a)
+TOTE	coloris	Rouge 10 oz (#8b2b37)
+TOTE	coloris	Vert 12 oz (#37552f)
+TOTE	coloris	Jaune 10 oz (#f1b92a)
+TOTE	coloris	Beige 10 oz (#c69e7d)
+TUQUE-SPORT	taille	s/m et m/l
+TUQUE-SPORT	coloris	Noir (#1a1a1a)
+TUQUE-VILLE	taille	Femme : XS S M L XL XXL
+TUQUE-VILLE	taille	Homme : S M L XL XXL
+TUQUE-VILLE	coloris	Noir (#1a1a1a)
+TUQUE-VILLE	coloris	Jaune (#f1b92a)
+TUQUE-VILLE	coloris	Gris (#b0b0b0)
+VESTE	taille	Femme : XS S M L XL XXL
+VESTE	taille	Homme : S M L XL XXL
+VESTE	coloris	Noir (#1a1a1a)
