@@ -1,7 +1,7 @@
 ---
 name: inbox-operations
-description: Ménage des boîtes d'équipe Missive de Lasclay — Operations, Admin, Support. Dit comment lire une boîte, comment distinguer le superflu d'un dossier vivant, ce qui se ferme tout seul et ce qui ne se ferme jamais. Couvre l'outil de tri `ops_triage.js`, la liste blanche d'expéditeurs machine, les relais qui transportent la parole d'un client, et les notifications qui cachent une urgence.
-when_to_use: Déclenche dès qu'il faut faire le ménage d'une boîte Missive, vider un arriéré, trier des courriels non répondus, ou décider si un fil peut être fermé. Déclenche aussi sans le mot Missive — « nettoie la boîte Operations », « on a trop de courriels non répondus », « qu'est-ce qui traîne dans Admin », « ferme ce qui ne sert à rien », « fais le tri du matin », « est-ce que ce fil peut être fermé ».
+description: Ménage de la boîte d'équipe Missive OPERATIONS de Lasclay — partenariats, revente, fournisseurs, matière première, institutionnel. Dit comment lire la boîte, comment distinguer le superflu d'un dossier vivant, ce qui se ferme tout seul et ce qui ne se ferme jamais. Couvre l'outil de tri `ops_triage.js`, la liste blanche d'expéditeurs machine, les relais qui transportent la parole d'un client, et les notifications qui cachent une urgence. Pour la boîte Admin, c'est le skill `lasclay-admin` qui fait autorité ; pour le service client, `support`.
+when_to_use: Déclenche pour le ménage de la boîte OPERATIONS, et pour sa Routine (lun/mer/ven). Déclenche aussi sans le mot Missive — « nettoie la boîte Operations », « trop de courriels non répondus dans Operations », « qu'est-ce qui traîne côté partenariats », « est-ce que ce fil Operations peut être fermé ». Si la demande porte sur la boîte Admin, charge `lasclay-admin` à la place ; si elle porte sur un client, `support`.
 argument-hint: [la boîte à trier, ou le fil dont tu doutes]
 allowed-tools:
   - Bash(node ops_triage.js:*)
@@ -33,11 +33,25 @@ Une « boîte » ici est une **équipe** Missive, pas une étiquette. La distinc
 l'étiquette `Opérations` et la boîte `LAS Operations` ne contiennent pas la même chose — la
 première a 875 fils sous `Opérations/Facture`, la seconde une soixantaine de fils vivants.
 
-| Boîte | Filtre | Ce qu'on y trouve |
+| Boîte | Filtre | Qui en a la charge |
 | --- | --- | --- |
-| Operations | `team_inbox=7c925f0d-3eca-4535-be20-424078619cef` | partenariats, revente, fournisseurs, matière première, institutionnel |
-| Admin | `team_inbox=a6c74be0-2a27-4c79-9294-a74b447e6dc0` | administratif, embauches, factures |
-| Support | `team_inbox=e184d153-4472-4edd-9b35-f8867cf437a8` | service client — passe par le skill `support`, pas par ici |
+| **Operations** | `team_inbox=7c925f0d-3eca-4535-be20-424078619cef` | **ce skill** — partenariats, revente, fournisseurs, matière première, institutionnel |
+| Admin | `team_inbox=a6c74be0-2a27-4c79-9294-a74b447e6dc0` | skill **`lasclay-admin`**, avec sa propre Routine à 7 h |
+| Support | `team_inbox=e184d153-4472-4edd-9b35-f8867cf437a8` | skill **`support`** — service client, jamais d'auto-fermeture |
+
+**Ne marche pas sur les pieds de `lasclay-admin`.** Les deux skills partagent la même
+philosophie (le doute laisse ouvert) mais pas les mêmes règles : la boîte Admin a des
+échéances datées — paiements, taxes, CNESST — et son skill porte un plafond de 40 fermetures
+par passe et une liste de dossiers chauds à ne jamais toucher. `ops_triage.js` accepte
+`--equipe admin` pour un coup d'œil ponctuel, mais **le ménage d'Admin se fait avec
+`lasclay-admin`**, pas avec ce script.
+
+Un fil de client égaré dans Operations ne se ferme pas : il se **déplace** vers Support et
+reste ouvert.
+
+```bash
+node missive_client.js move <convId> e184d153-4472-4edd-9b35-f8867cf437a8
+```
 
 Les ids viennent de `node missive_client.js structure`, jamais d'une supposition. Le cache est
 dans `missive_structure.json` à la racine.
