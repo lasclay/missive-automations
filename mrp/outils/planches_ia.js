@@ -75,7 +75,12 @@ async function reference(url) {
   return { type: 'image', data: octets.toString('base64'), mime_type: mime };
 }
 
-async function dessiner(cle, panneau) {
+// Les panneaux se CHAÎNENT : chacun reçoit le précédent en référence. Sans ça
+// chaque appel dessine seul, et l'objet change de forme d'un panneau à l'autre
+// — au premier essai le tube du panneau 1 était devenu un carré plat au 3, et
+// la traction s'exerçait sur la mauvaise couture. Une planche qui envoie
+// inspecter le mauvais endroit est pire qu'une planche laide.
+async function dessiner(cle, panneau, precedent) {
   const entree = [{ type: 'text', text: `${STYLE}\n\n${panneau.prompt}` }];
 
   if (panneau.handle) {
@@ -89,6 +94,19 @@ async function dessiner(cle, panneau) {
           + 'the flat instructional style described above.',
     });
     entree.push(await reference(url));
+  }
+
+  if (precedent) {
+    entree.push({
+      type: 'text',
+      text: 'The second image below is the PREVIOUS panel of this same instruction '
+          + 'sequence. Keep the very same object: same shape, same proportions, same '
+          + 'colour, same seams and hardware in the same places, same drawing style, '
+          + 'same background. This panel is the next step of that same gesture on that '
+          + 'same seam — do not switch to a different seam, a different side, or a '
+          + 'different view of the product.',
+    });
+    entree.push({ type: 'image', data: precedent.toString('base64'), mime_type: 'image/png' });
   }
 
   const rep = await fetch(API, {
@@ -140,6 +158,8 @@ async function main() {
 
   fs.mkdirSync(SORTIE, { recursive: true });
 
+  let precedent = null;
+
   for (const r of rangs) {
     const nom     = `${r.planche}-${r.panneau}.png`;
     const chemin  = path.join(SORTIE, nom);
@@ -150,12 +170,21 @@ async function main() {
       continue;
     }
 
-    if (fs.existsSync(chemin) && !refaire) { console.log(`  = ${nom}`); continue; }
+    if (r.panneau === '1') precedent = null;
+
+    if (fs.existsSync(chemin) && !refaire) {
+      console.log(`  = ${nom}`);
+      precedent = fs.readFileSync(chemin);   // sert de référence au suivant
+      continue;
+    }
 
     try {
-      fs.writeFileSync(chemin, await dessiner(r.planche, r));
-      console.log(`  + ${nom}   ${(fs.statSync(chemin).size / 1024).toFixed(0)} Ko`);
+      const image = await dessiner(r.planche, r, precedent);
+      fs.writeFileSync(chemin, image);
+      precedent = image;
+      console.log(`  + ${nom}   ${(image.length / 1024).toFixed(0)} Ko`);
     } catch (e) {
+      precedent = null;   // la chaîne est rompue : ne pas propager un faux repère
       console.log(`  ! ${nom}   ${e.message}`);
     }
   }
