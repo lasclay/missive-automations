@@ -8,6 +8,7 @@
 'use strict';
 const U = require('./unites.js');
 const SIL = require('./silhouettes.js');
+const PIC = require('./pictos.js');
 
 /**
  * Le numéro de version de la feuille de style — l'empreinte de son contenu.
@@ -854,6 +855,7 @@ function pointQC({ q, produitId, editable, action = null, unites }) {
       ${q.appuis ? `<span class="qc-appui">${q.appuis} signalement${
         q.appuis > 1 ? 's' : ''} sur le terrain</span>` : ''}
       ${schemaQC(q, TAILLES.vignette)}
+      ${PIC.planche(q.titre)}
       ${(() => {
         // Les morceaux du pied se joignent par « · ». Les concaténer avec un
         // séparateur en préfixe laisse un « · » orphelin dès que le premier
@@ -906,6 +908,7 @@ function vueChecklist({ user, msg, ordre, c }) {
         q.variante ? ` · ${e(q.variante)}` : ''}</p>` : ''}
       ${q.consequence ? `<p class="qc-cons">Sinon : ${e(q.consequence)}</p>` : ''}
       ${schemaQC(q, TAILLES.vignette)}
+      ${PIC.planche(q.titre)}
       ${q.ech && q.ech.pieces !== null ? `<p class="ck-ech">
         <b>${e(q.ech.texte)}</b>${q.ech.regle ? ` <span>(${e(q.ech.regle)})</span>` : ''}
       </p>` : ''}
@@ -1193,6 +1196,7 @@ function vueQualiteGeneral({ user, msg, general = [] }) {
           q.tolerance ? ` ± ${e(q.tolerance)}` : ''}</p>` : ''}
         ${q.consequence ? `<p class="qc-cons">Sinon : ${e(q.consequence)}</p>` : ''}
         ${schemaQC(q, TAILLES.galerie)}
+        ${PIC.planche(q.titre)}
         ${q.frequence ? `<p class="qc-pied"><b>${e(q.frequence)}</b></p>` : ''}
       </div>
     </li>`).join('')}
@@ -1535,6 +1539,13 @@ function vueProtocole({ user, p, proto, msg, photos = [], bris = null,
   })()}
   ${volet('cyclage', 'Cyclage et tests',
     'Rien encore. Lavages, compressions, tenue de l\'isolant.')}
+  ${/* Ce volet manquait. Les sept points du protocole général sont tous de
+        type « esthetique » : sans lui, ils n'apparaissaient nulle part sur la
+        fiche d'un produit — seulement sur la page des procédés généraux, où
+        personne ne va avant d'emballer. Un point de contrôle qu'on ne voit
+        pas là où on travaille est un point de contrôle qui n'existe pas. */
+    volet('esthetique', 'Esthétique et quotidien',
+    'Rien encore. Fils, propreté, étiquette, tenue à l\'usage.')}
   ${volet('emballage', 'Emballage et finition',
     'Rien encore. Pliage, sachet, étiquette, mise en carton.')}
 

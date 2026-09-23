@@ -1608,3 +1608,25 @@ table.gantt{min-width:860px}
    après. Un atelier qui prend ces plaintes pour un bulletin sur son propre
    travail lit de travers — la plupart des pièces ne sont pas de lui. */
 .avis-hist{border-left-color:var(--jaune,#f1b92a)}
+
+
+/* ---------- les planches de contrôle ----------
+   Le geste, sans un mot. La grammaire est dans pictos.js : un panneau = un
+   geste, numéroté, lu de gauche à droite ; aucun texte hors des chiffres ;
+   le ✓ et le ✗ qualifient le RÉSULTAT, jamais le geste.
+
+   Le trait prend la couleur du texte : rien à refaire pour le mode sombre,
+   et une planche imprimée en noir et blanc garde son sens — seuls le ✓ et
+   le ✗ y perdent leur teinte, et leur forme suffit. */
+.pi{display:flex;gap:7px;flex-wrap:wrap;margin:9px 0 2px}
+.pi-p{width:122px;height:95px;flex:0 0 auto;background:var(--media);
+  border:1px solid var(--cadre);border-radius:7px;
+  fill:none;stroke:currentColor;stroke-width:2.4;
+  stroke-linecap:round;stroke-linejoin:round}
+.pi-num circle{fill:var(--encre);stroke:none}
+.pi-num .pi-n{fill:var(--fond);stroke:none}
+.pi-n{fill:currentColor;stroke:none;font:700 12px/1 inherit;text-anchor:middle}
+.pi-u{fill:currentColor;stroke:none;font:600 9px/1 inherit;text-anchor:middle}
+.pi-oui{stroke:var(--vert)}
+.pi-non{stroke:var(--rouge)}
+@media (max-width:620px){ .pi-p{width:104px;height:81px} }

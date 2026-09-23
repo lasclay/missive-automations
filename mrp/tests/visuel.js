@@ -278,5 +278,54 @@ console.log('\n  Silhouettes, anneaux et images\n');
   t('et elle a de l\'air autour', /\.vignette img\{[^}]*padding:1[0-9]px/.test(css));
 }
 
+// ------------------------------------------------- 7. les planches de contrôle
+{
+  const PIC = require('../pictos.js');
+
+  const fils = PIC.planche('Fils qui dépassent — les retirer et les couper');
+  t('un point connu sort sa planche', fils.includes('class="pi"'));
+  t('quatre panneaux pour les fils',
+    (fils.match(/class="pi-p"/g) || []).length === 4);
+  t('les panneaux sont numérotés, dans l\'ordre',
+    fils.indexOf('>1<') < fils.indexOf('>2<')
+    && fils.indexOf('>2<') < fils.indexOf('>3<'));
+
+  // La décision se montre par le RÉSULTAT : le fil qui vient est un ✗, le fil
+  // qui résiste un ✓. Sans les deux, la planche raconte un geste au lieu de
+  // trancher — et c'est justement la nuance qu'un texte français fait perdre.
+  t('la planche des fils montre les deux issues',
+    fils.includes('pi-oui') && fils.includes('pi-non'));
+
+  // Aucun mot, jamais. Les seuls écrits sont des chiffres : ils se lisent
+  // pareil en français, en arabe et en anglais.
+  const ecrits = [...Object.values(PIC.PLANCHES).flat().join('')
+    .matchAll(/>([^<>]+)<\/(?:text|tspan)>/g)].map(m => m[1].trim());
+  const motsInterdits = ecrits.filter(x => !/^(\d+|min|h|s)$/.test(x));
+  t('aucun mot dans les planches, seulement des chiffres et leurs unités',
+    motsInterdits.length === 0, motsInterdits.join(' | '));
+
+  // Le titre est comparé sans accents ni ponctuation : un import qui remet le
+  // point à neuf lui rend un identifiant neuf, pas un titre neuf.
+  t('le titre se reconnaît sans accents ni ponctuation',
+    PIC.planche('fils qui depassent  les retirer et les couper')
+      .includes('class="pi"'));
+  t('un point sans planche n\'en invente pas',
+    PIC.planche('Vérifier la couleur du fil') === '');
+  t('un titre vide non plus', PIC.planche('') === '' && PIC.planche(null) === '');
+
+  // Le trait prend la couleur du texte : une seule version sert en clair, en
+  // sombre et à l'impression. Un aplat deviendrait illisible en mode sombre.
+  const cssP = fs.readFileSync(
+    path.join(__dirname, '..', 'public', 'style.css'), 'utf8');
+  t('le trait suit la couleur du texte',
+    /\.pi-p\{[^}]*stroke:currentColor/.test(cssP));
+  t('les panneaux ne se remplissent pas', /\.pi-p\{[^}]*fill:none/.test(cssP));
+
+  // Sept planches pour 1,3 Ko compressés — c'est ce qui les rend acceptables
+  // là où cent cinquante images matricielles ne le seraient pas.
+  const brut = Object.values(PIC.PLANCHES).flat().join('').length;
+  t('les sept planches tiennent sous 20 Ko bruts', brut < 20000, `${brut} o`);
+}
+
 console.log(`\n  ${ok} réussites, ${ko} échecs\n`);
 process.exit(ko ? 1 : 0);
