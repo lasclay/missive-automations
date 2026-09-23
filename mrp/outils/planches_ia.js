@@ -17,10 +17,19 @@
 // Il faut GEMINI_API_KEY dans l'environnement (réglages de l'environnement
 // infonuagique, pas le dépôt). Sans elle le script s'arrête en le disant.
 //
-// Les images sortent dans mrp/statique/planches/<planche>-<n>.png. Elles sont
-// versionnées dans le dépôt : ce sont des données de production, pas un cache.
+// Les images sortent dans mrp/statique/planches/ en WebP, versionnées dans le
+// dépôt : ce sont des données de production, pas un cache — une régénération ne
+// redonne PAS le même dessin, alors le fichier est l'original, pas une copie.
+//
+// Deux tailles, parce que la planche se lit en bande puis se zoome :
+//   <planche>-<n>-mini.webp   320 px, la vignette   — 4 vignettes = 15 Ko
+//   <planche>-<n>.webp       1024 px, le zoom       — 30 Ko, chargé au clic
+// Le PNG que rend le modèle ne survit pas : à qualité indiscernable il pèse dix
+// fois plus. Conversion par ffmpeg, qui n'est requis que pour générer — jamais
+// pour servir.
 
 const fs   = require('node:fs');
+const { execFileSync } = require('node:child_process');
 const path = require('node:path');
 
 const RACINE   = path.join(__dirname, '..');
@@ -106,7 +115,7 @@ async function dessiner(cle, panneau, precedent) {
           + 'same seam — do not switch to a different seam, a different side, or a '
           + 'different view of the product.',
     });
-    entree.push({ type: 'image', data: precedent.toString('base64'), mime_type: 'image/png' });
+    entree.push({ type: 'image', data: precedent.data.toString('base64'), mime_type: precedent.mime });
   }
 
   const rep = await fetch(API, {
@@ -127,6 +136,25 @@ async function dessiner(cle, panneau, precedent) {
       if (bloc.type === 'image' && bloc.data) return Buffer.from(bloc.data, 'base64');
 
   throw new Error(`aucune image dans la réponse — ${JSON.stringify(corps).slice(0, 300)}`);
+}
+
+// 1024 px pour le zoom, 320 px pour la vignette. La qualité 88 est le point où
+// un aplat cesse de gagner à monter : 94 double le poids sans rien changer à
+// l'œil sur un dessin au trait.
+function convertir(png, base) {
+  const tmp = `${base}.png`;
+  fs.writeFileSync(tmp, png);
+  try {
+    for (const [suffixe, filtre, q] of [['', null, 88], ['-mini', 'scale=320:-1', 80]]) {
+      const args = ['-loglevel', 'error', '-y', '-i', tmp];
+      if (filtre) args.push('-vf', filtre);
+      args.push('-c:v', 'libwebp', '-quality', String(q), `${base}${suffixe}.webp`);
+      execFileSync('ffmpeg', args);
+    }
+  } finally {
+    fs.unlinkSync(tmp);
+  }
+  return fs.statSync(`${base}.webp`).size + fs.statSync(`${base}-mini.webp`).size;
 }
 
 async function main() {
@@ -161,8 +189,9 @@ async function main() {
   let precedent = null;
 
   for (const r of rangs) {
-    const nom     = `${r.planche}-${r.panneau}.png`;
-    const chemin  = path.join(SORTIE, nom);
+    const base    = path.join(SORTIE, `${r.planche}-${r.panneau}`);
+    const nom     = `${r.planche}-${r.panneau}.webp`;
+    const chemin  = `${base}.webp`;
 
     if (sec) {
       console.log(`\n── ${nom}${r.handle ? '   (référence : ' + r.handle + ')' : ''}`);
@@ -174,15 +203,15 @@ async function main() {
 
     if (fs.existsSync(chemin) && !refaire) {
       console.log(`  = ${nom}`);
-      precedent = fs.readFileSync(chemin);   // sert de référence au suivant
+      precedent = { data: fs.readFileSync(chemin), mime: 'image/webp' };
       continue;
     }
 
     try {
       const image = await dessiner(r.planche, r, precedent);
-      fs.writeFileSync(chemin, image);
-      precedent = image;
-      console.log(`  + ${nom}   ${(image.length / 1024).toFixed(0)} Ko`);
+      const poids = convertir(image, base);
+      precedent = { data: image, mime: 'image/png' };
+      console.log(`  + ${nom}   ${(poids / 1024).toFixed(0)} Ko (vignette comprise)`);
     } catch (e) {
       precedent = null;   // la chaîne est rompue : ne pas propager un faux repère
       console.log(`  ! ${nom}   ${e.message}`);
