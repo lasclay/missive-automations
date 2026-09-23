@@ -11000,6 +11000,111 @@
       "motif": "Identification et interjection admirative entre abonnés, sans contenu : une intervention de la Page n'apporterait rien.",
       "page_id": "114311920399404",
       "quand": "2026-09-23T18:38:19.262Z"
+    },
+    {
+      "id": "263649742132287_280853343745260",
+      "extrait": "J'ai un manteau d'hiver isolé à l'asclépiade et fabriqué au Québec: vraiment chaud.",
+      "motif": "Affirmation « fabriqué au Québec » sur un produit fini : REGLES.md interdit de la reprendre ET d'y apporter la correction. Aucune réponse possible.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-23T19:40:27.439Z"
+    },
+    {
+      "id": "263649742132287_280023063828288",
+      "extrait": "avec impact écologique positif (sous « Voici un bel exemple de vrai produit québécois »)",
+      "motif": "Même piège : l'échange repose sur « vrai produit québécois » pour un produit fini.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-23T19:40:27.439Z"
+    },
+    {
+      "id": "263649742132287_280022463828348",
+      "extrait": "Une petite entreprise québécoise a récemment vu le jour et offre des produits fabriqués à l'aide de la fibre d'asclépiade : https://lasclay.com/",
+      "motif": "Répondre reviendrait à endosser une description du siège de l'entreprise et de la fabrication — question déjà signalée SUIVI HUMAIN REQUIS (localisation de l'entreprise, hors faits vérifiés).",
+      "page_id": "114311920399404",
+      "quand": "2026-09-23T19:40:27.439Z"
+    },
+    {
+      "id": "263649742132287_280021647161763",
+      "extrait": "Une compagnie québécoise a récemment commencé la vente de mitaines isolées à l'aide de cette fibre : https://lasclay.com/",
+      "motif": "Même motif : endosserait une description de l'entreprise et de la fabrication, hors faits vérifiés.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-23T19:40:27.439Z"
+    },
+    {
+      "id": "263649742132287_289062189591042",
+      "extrait": "moi je confectionne des tapis/coussins pour pondoirs… Voir ma page Facebook : Ferme des Murmures",
+      "motif": "Promotion des produits et de la page d'un tiers : nous ne relayons pas.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-23T19:40:27.439Z"
+    },
+    {
+      "id": "263649742132287_282137250283536",
+      "extrait": "Marie-Soleil Véronneau LaSalle",
+      "motif": "Fil d'offre de semences d'un tiers avec virement pour les frais de poste, déjà écarté au tir de 9 h ; ce message n'est qu'une localisation.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-23T19:40:27.439Z"
+    },
+    {
+      "id": "263649742132287_282124420284819",
+      "extrait": "Je les donne, les gens me font seulement un virement pour les frais de poste quand ils habitent loin.",
+      "motif": "Offre de semences d'un tiers avec échange d'argent : nous ne relayons ni ne cautionnons.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-23T19:40:27.439Z"
+    },
+    {
+      "id": "263649742132287_282123636951564",
+      "extrait": "vendez-vous vos semences, je serai intéressée par quelqu'une d'entre elles!",
+      "motif": "Question adressée à un tiers vendeur de semences, dans un fil que nous n'avons pas à investir.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-23T19:40:27.439Z"
+    },
+    {
+      "id": "263649742132287_289416242888970",
+      "extrait": "Contribué et 🤞",
+      "motif": "Porte sur la campagne de financement participatif, bloc déjà signalé SUIVI HUMAIN REQUIS (contribution revendiquée, invérifiable de notre côté).",
+      "page_id": "114311920399404",
+      "quand": "2026-09-23T19:40:27.439Z"
+    },
+    {
+      "id": "291041512726443_291221169375144",
+      "extrait": "Merci Catherine Décarie. Précieux ! 😊",
+      "motif": "Remerciement entre abonnés, sans contenu.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-23T19:40:27.439Z"
+    },
+    {
+      "id": "263649742132287_286368233193771",
+      "extrait": "Yanik Lariviere wouahhh ! Imagine comment le terrain serait beau! 😇🦋",
+      "motif": "Badinage entre proches, sans contenu appelant la Page.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-23T19:40:27.439Z"
+    },
+    {
+      "id": "263649742132287_286153273215267",
+      "extrait": "Marilyn Mocassin",
+      "motif": "Identification d'un proche sans contenu.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-23T19:40:27.439Z"
+    },
+    {
+      "id": "263649742132287_285403146623613",
+      "extrait": "Kate Thibeault tellement!",
+      "motif": "Interjection entre proches, sans contenu.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-23T19:40:27.439Z"
+    },
+    {
+      "id": "263649742132287_284805940016667",
+      "extrait": "Jérôme Bouchard",
+      "motif": "Identification d'un proche sans contenu.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-23T19:40:27.439Z"
+    },
+    {
+      "id": "263649742132287_280513720445889",
+      "extrait": "Sebastien Labonte malade",
+      "motif": "Identification et interjection, sans contenu.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-23T19:40:27.439Z"
     }
   ]
 }
