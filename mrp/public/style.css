@@ -1624,6 +1624,11 @@ a.pi-l:hover .pi-fond{stroke-width:4}
 .pi-p,.pi-g{flex:0 0 auto;stroke:#17140f;stroke-width:2.4;
   stroke-linejoin:round;stroke-linecap:round}
 .pi-p{width:150px;height:119px}
+/* Les planches dessinées sont carrées : la vignette tient la place d'un
+   pictogramme, le grand format n'arrive qu'à l'ouverture de la page BD. */
+.pi-i{width:150px;height:150px;display:block;border-radius:10px}
+.pi-ig{width:min(100%,460px);height:auto;display:block;border-radius:12px}
+a.pi-l:hover .pi-i{outline:2px solid #17140f;outline-offset:-2px}
 .pi-fond{fill:#f7f2e6;stroke:#17140f;stroke-width:2.6}
 .pi-num rect{fill:#17140f;stroke:none}
 .pi-num text{fill:#fff;stroke:none;text-anchor:middle;

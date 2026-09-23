@@ -378,14 +378,58 @@ const panneau = (d, i, classe = 'pi-p') =>
  * Chaque panneau est un lien vers SON geste sur la page de la planche : on
  * clique le troisième, on arrive au troisième, en grand.
  */
+// ── les planches dessinées ───────────────────────────────────────────────
+//
+// Quinze planches ont été dessinées d'après les vraies photos produit et vivent
+// en WebP dans statique/planches/. Le SVG tracé à la main reste là : il sert de
+// repli pour tout point qui n'a pas encore sa planche, et il ne coûte aucune
+// requête. Une planche n'est prise pour dessinée que si ses QUATRE panneaux et
+// leurs vignettes sont là — une série trouée se lit plus mal qu'un pictogramme.
+const DOSSIER = require('node:path').join(__dirname, 'statique', 'planches');
+
+const DESSINS = (() => {
+  const fs = require('node:fs');
+  const vus = new Set();
+  let fichiers = [];
+  try { fichiers = fs.readdirSync(DOSSIER); } catch { return vus; }
+  for (const k of Object.keys(PLANCHES)) {
+    const complet = [1, 2, 3, 4].every(i =>
+      fichiers.includes(`${k}-${i}.webp`) && fichiers.includes(`${k}-${i}-mini.webp`));
+    if (complet) vus.add(k);
+  }
+  return vus;
+})();
+
+// Les images gardent leur nom d'une génération à l'autre : sans empreinte, un
+// navigateur qui a déjà la planche garderait l'ancienne après une correction.
+const VERSION_PL = (() => {
+  const fs = require('node:fs');
+  const h = require('node:crypto').createHash('sha256');
+  for (const k of [...DESSINS].sort())
+    for (let i = 1; i <= 4; i++) {
+      const f = require('node:path').join(DOSSIER, `${k}-${i}.webp`);
+      h.update(k + i + fs.statSync(f).size + fs.statSync(f).mtimeMs);
+    }
+  return h.digest('hex').slice(0, 8);
+})();
+
+const img = (k, i, mini) =>
+  `<img class="${mini ? 'pi-i' : 'pi-ig'}" loading="lazy" decoding="async"`
+  + ` width="${mini ? 320 : 1024}" height="${mini ? 320 : 1024}" alt=""`
+  + ` src="/planches/${k}-${i}${mini ? '-mini' : ''}.webp?v=${VERSION_PL}">`;
+
 function planche(titre, { href = null } = {}) {
   const k = cle(titre);
   if (!k) return '';
   const p = PLANCHES[k];
-  const corps = p.map((d, i) => href
-    ? `<a class="pi-l" href="${href}#p${i + 1}"
-        aria-label="Agrandir l'étape ${i + 1} sur ${p.length}">${panneau(d, i)}</a>`
-    : panneau(d, i)).join('');
+  const dessine = DESSINS.has(k);
+  const corps = p.map((d, i) => {
+    const vue = dessine ? img(k, i + 1, true) : panneau(d, i);
+    return href
+      ? `<a class="pi-l" href="${href}#p${i + 1}"
+          aria-label="Agrandir l'étape ${i + 1} sur ${p.length}">${vue}</a>`
+      : vue;
+  }).join('');
   return `<div class="pi" role="img"
     aria-label="Procédure illustrée, ${p.length} étapes">${corps}</div>`;
 }
@@ -401,9 +445,10 @@ function plancheBD(titre) {
   const k = cle(titre);
   if (!k) return '';
   const p = PLANCHES[k];
+  const dessine = DESSINS.has(k);
   return `<ol class="bd">${p.map((d, i) => `<li class="bd-p" id="p${i + 1}">
-    ${panneau(d, i, 'pi-g')}</li>`).join('')}</ol>`;
+    ${dessine ? img(k, i + 1, false) : panneau(d, i, 'pi-g')}</li>`).join('')}</ol>`;
 }
 
-module.exports = { PLANCHES, PAR_TITRE, RUPTURES, planche, plancheBD,
+module.exports = { DESSINS, VERSION_PL, PLANCHES, PAR_TITRE, RUPTURES, planche, plancheBD,
   cle, empreinte };

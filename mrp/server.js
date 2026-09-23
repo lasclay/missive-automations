@@ -180,6 +180,12 @@ const STATIQUES = {
   '/favicon-180.png':    ['image/png', 'public/favicon-180.png'],
 };
 
+// Les planches d'instruction, servies par nom. Le nom ne change pas d'une
+// génération à l'autre : c'est l'empreinte en « ?v= » qui casse le cache, et
+// c'est elle qui autorise le cache d'un an. Sans version, on sert un jour.
+const PLANCHES_DIR = path.join(__dirname, 'statique', 'planches');
+const PLANCHE_NOM = /^\/planches\/([a-z_]{1,30}-[1-4](?:-mini)?\.webp)$/;
+
 // Un fil regroupe les tours d'une même conversation. Identifiant opaque côté
 // client : on ne fait que vérifier sa forme avant de s'en servir en requête.
 const nouveauFil = () => require('node:crypto').randomBytes(9).toString('hex');
@@ -1547,6 +1553,21 @@ const serveur = http.createServer(async (req, res) => {
       // promettre que le fichier est encore celui-là.
       const versionnee = url.searchParams.has('v');
       return envoyer(req, res, buf, { 'content-type': type,
+        'cache-control': versionnee
+          ? 'public, max-age=31536000, immutable' : 'public, max-age=86400' });
+    }
+
+    // Les planches sont servies avant l'authentification, comme le style et le
+    // favicon : ce sont des dessins de procédure, pas des données d'atelier, et
+    // une image qui redirige vers la page de connexion casserait la planche
+    // chez qui a laissé un onglet ouvert trop longtemps.
+    const planche = p.match(PLANCHE_NOM);
+    if (planche) {
+      let buf;
+      try { buf = fs.readFileSync(path.join(PLANCHES_DIR, planche[1])); }
+      catch { res.writeHead(404); return res.end(); }
+      const versionnee = url.searchParams.has('v');
+      return envoyer(req, res, buf, { 'content-type': 'image/webp',
         'cache-control': versionnee
           ? 'public, max-age=31536000, immutable' : 'public, max-age=86400' });
     }

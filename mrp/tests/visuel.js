@@ -290,8 +290,10 @@ console.log('\n  Silhouettes, anneaux et images\n');
   const bande = PIC.planche('Fils qui dépassent — les retirer et les couper',
     { href: HREF });
   t('un point connu sort sa bande', bande.includes('class="pi"'));
+  // Quatre panneaux, que la planche soit dessinée (WebP) ou tracée (SVG) : le
+  // repli doit donner la même bande, sinon il n'en est pas un.
   t('la bande montre les quatre panneaux',
-    (bande.match(/class="pi-p"/g) || []).length === 4);
+    (bande.match(/class="pi-[pi]"/g) || []).length === 4);
   t('chaque panneau mène à SON geste, pas au premier',
     [1, 2, 3, 4].every(i => bande.includes(`href="${HREF}#p${i}"`)));
   t('sans lien, les panneaux ne sont pas cliquables',
@@ -315,16 +317,20 @@ console.log('\n  Silhouettes, anneaux et images\n');
   // cliquer une étape dans la liste et de tomber dessus.
   const bd = PIC.plancheBD('Fils qui dépassent — les retirer et les couper');
   t('la page porte les quatre panneaux',
-    (bd.match(/class="pi-g"/g) || []).length === 4);
+    (bd.match(/class="pi-(?:g|ig)"/g) || []).length === 4);
   t('chaque panneau porte son ancre',
     ['p1', 'p2', 'p3', 'p4'].every(a => bd.includes(`id="${a}"`)));
+  // La numérotation appartient à la PAGE, jamais à l'image : un chiffre gravé
+  // dans le dessin se relirait mal et ne survivrait pas à un réordonnancement.
+  // Ce sont donc les ancres qui doivent se suivre.
   t('les panneaux sont numérotés dans l\'ordre',
-    bd.indexOf('>1<') < bd.indexOf('>2<') && bd.indexOf('>2<') < bd.indexOf('>3<'));
+    [1, 2, 3].every(i => bd.indexOf(`id="p${i}"`) < bd.indexOf(`id="p${i + 1}"`)));
 
   // La décision se montre par le RÉSULTAT : le fil qui vient est un ✗, le fil
   // qui résiste un ✓. C'est la nuance qu'un texte français fait perdre.
+  const trace = PIC.PLANCHES.fils.join('');
   t('la planche des fils montre les deux issues',
-    bd.includes('#2f7d52') && bd.includes('#d4342a'));
+    trace.includes('#2f7d52') && trace.includes('#d4342a'));
 
   // Aucun mot, jamais. Les seuls écrits sont des chiffres : ils se lisent
   // pareil en français, en arabe et en anglais.
@@ -338,9 +344,43 @@ console.log('\n  Silhouettes, anneaux et images\n');
   // notice doit être la même partout, et un tissu qui change de vert entre
   // deux téléphones cesse d'être une référence.
   t('la pièce porte sa vraie couleur, pas celle du thème',
-    bd.includes('#3c7a59') && !bd.includes('var(--'));
+    trace.includes('#3c7a59') && !trace.includes('var(--'));
   // La couture en pointillé est ce qui fait lire « textile » et pas « bois ».
-  t('la pièce porte sa couture', bd.includes('stroke-dasharray'));
+  t('la pièce porte sa couture', trace.includes('stroke-dasharray'));
+
+  // ── les planches dessinées ─────────────────────────────────────────────
+  // Une planche n'est « dessinée » que complète. Une série trouée — trois
+  // panneaux sur quatre — se lit plus mal qu'un pictogramme, parce que le
+  // geste manquant est justement celui qu'on ne devine pas.
+  const fs = require('node:fs');
+  const dos = require('node:path').join(__dirname, '..', 'statique', 'planches');
+  const sur = fs.existsSync(dos) ? fs.readdirSync(dos) : [];
+  t('toute planche annoncée dessinée a ses quatre panneaux et ses vignettes',
+    [...PIC.DESSINS].every(k => [1, 2, 3, 4].every(i =>
+      sur.includes(`${k}-${i}.webp`) && sur.includes(`${k}-${i}-mini.webp`))));
+
+  // Le nom du fichier ne change pas quand on corrige un dessin : sans
+  // empreinte, l'atelier garderait la planche fausse en cache.
+  t('les images portent une empreinte de version',
+    /src="\/planches\/[a-z_]+-\d(?:-mini)?\.webp\?v=[0-9a-f]{8}"/.test(bande));
+  // Formulé à l'envers exprès : TOUTE source de la bande doit être une
+  // vignette. Un « ou » aurait suffi à rendre le test toujours vrai.
+  const srcs = [...bande.matchAll(/src="([^"]+)"/g)].map(m => m[1]);
+  t('la bande charge la vignette, jamais le grand format',
+    srcs.length === 4 && srcs.every(u => u.includes('-mini.webp?v=')),
+    srcs.join(' '));
+
+  // Le repli n'est pas décoratif : tout point sans planche dessinée doit
+  // continuer à sortir un tracé, et aucun point ne doit sortir du vide.
+  // Non creux par construction : on exige d'abord qu'au moins douze titres
+  // se résolvent, sinon un PAR_TITRE vide ferait passer la boucle à vide.
+  // PAR_TITRE est une Map : Object.keys() y rend une liste VIDE, et la première
+  // version de ce test passait donc à vide sans rien vérifier.
+  const titres = [...PIC.PAR_TITRE.keys()];
+  const rendus = titres.filter(x => PIC.plancheBD(x).includes('class="bd-p"'));
+  t('chaque titre connu sort une planche, dessinée ou tracée',
+    titres.length >= 12 && rendus.length === titres.length,
+    `${rendus.length} sur ${titres.length}`);
 
   t('le titre se reconnaît sans accents ni ponctuation',
     PIC.cle('fils qui depassent  les retirer et les couper') === 'fils');
