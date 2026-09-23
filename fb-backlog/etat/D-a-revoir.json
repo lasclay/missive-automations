@@ -11175,6 +11175,41 @@
       "motif": "Identification d'une connaissance, sans contenu appelant la Page.",
       "page_id": "114311920399404",
       "quand": "2026-09-23T21:39:16.606Z"
+    },
+    {
+      "id": "263649742132287_275624297601498",
+      "extrait": "Contribué. Je souhaite longue vie à votre projet!",
+      "motif": "Contribution revendiquée à la campagne de financement participatif : bloc SUIVI HUMAIN REQUIS, invérifiable de notre côté.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-23T23:38:47.723Z"
+    },
+    {
+      "id": "263649742132287_276244070872854",
+      "extrait": "Sonia Moreau Ah pardon! Voici le bon format 😁😛 (avec image)",
+      "motif": "Fil d'offre de semences d'un tiers, déjà écarté : nous ne le relayons pas, et ce message n'est qu'un ajustement de format.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-23T23:38:47.723Z"
+    },
+    {
+      "id": "263649742132287_274759877687940",
+      "extrait": "Ollie Zimmermann Check this out. This guy built a machine that plants seeds for milkweed for butterflies",
+      "motif": "Identification d'un proche renvoyant à la machine d'un tiers : rien à confirmer ni à relayer.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-23T23:38:47.723Z"
+    },
+    {
+      "id": "263649742132287_276441320853129",
+      "extrait": "Super. Merci pour l'information. 🙂",
+      "motif": "Remerciement à une réponse que nous avons déjà donnée : le fil est clos, relancer n'apporterait rien.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-23T23:38:47.723Z"
+    },
+    {
+      "id": "263649742132287_276149397548988",
+      "extrait": "Alexandre Béland",
+      "motif": "Identification d'un proche sans contenu.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-23T23:38:47.723Z"
     }
   ]
 }
