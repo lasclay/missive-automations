@@ -435,9 +435,13 @@ function vueCompte({ user, msg }) {
  *
  * Ces trois pages parlent de la même chose — ce qu'on fabrique — et se
  * répondent : la fiche dit de quoi la pièce est faite, le protocole dit quoi
- * vérifier, le mur montre ce qui a cassé quand on ne l'a pas vérifié. Les
- * séparer en trois onglets de tête faisait trois sujets ; les regrouper en
- * fait un seul, qu'on parcourt.
+ * vérifier, les rétroactions montrent ce que le client a vécu quand on ne
+ * l'a pas vérifié. Les séparer en trois onglets de tête faisait trois
+ * sujets ; les regrouper en fait un seul, qu'on parcourt.
+ *
+ * Le troisième s'appelait « Ce qui casse ». Trop étroit : un client déçu par
+ * un tissu raide n'a rien de cassé à montrer, et c'est pourtant une
+ * rétroaction que l'atelier doit connaître.
  */
 function sousNavProduits(page) {
   const l = (href, texte, cle) =>
@@ -445,7 +449,7 @@ function sousNavProduits(page) {
   return `<nav class="sous-nav">
     ${l('/produits', 'Fiches produits', 'fiches')}
     ${l('/qualite', 'Qualité', 'qualite')}
-    ${l('/mur', 'Ce qui casse', 'mur')}
+    ${l('/mur', 'Rétroactions négatives', 'mur')}
   </nav>`;
 }
 
@@ -870,6 +874,7 @@ function formulaireQC(action, { general = false } = {}) {
   </form>`;
 }
 
+const { NATURES } = require('./db.js');
 const ORIGINES = { client: 'Client', atelier: 'Atelier', retour: 'Retour',
                    essai: 'Essai' };
 
@@ -889,6 +894,8 @@ function ligneBris({ b, produitId, editable }) {
       ph.length > 1 ? `<span class="br-n">${ph.length}</span>` : ''}</a>` : ''}
     <div class="br-quoi">
       <div class="br-tete">
+        <span class="br-nat br-n-${b.nature || 'bris'}">${
+          NATURES[b.nature] || NATURES.bris}</span>
         <span class="br-orig br-${b.origine}">${ORIGINES[b.origine] || b.origine}</span>
         ${b.zone ? `<b>${e(b.zone)}</b>` : ''}
         ${b.survenu_le ? `<span class="br-date">${dateFR(b.survenu_le)}</span>` : ''}
@@ -947,6 +954,8 @@ function vueMur({ user, msg, groupes }) {
       ).join('')}</div>` : ''}
     <figcaption>
       <div class="mur-tete">
+        <span class="br-nat br-n-${b.nature || 'bris'}">${
+          NATURES[b.nature] || NATURES.bris}</span>
         <span class="br-orig br-${b.origine}">${ORIGINES[b.origine] || b.origine}</span>
         ${b.zone ? `<b>${e(b.zone)}</b>` : ''}
         ${b.survenu_le ? `<span class="br-date">${dateFR(b.survenu_le)}</span>` : ''}
@@ -1142,9 +1151,15 @@ function vueProtocole({ user, p, proto, msg, photos = [], bris = null,
          lâché après trois semaines », c'est ici que ça va.</p>`}
     <details class="qc-plus"><summary>Signaler un bris</summary>
       <form method="post" action="/qualite/${p.id}/bris" class="qc-form">
-        <div class="champ"><label for="bz">Où ça casse</label>
+        <div class="champ"><label for="bn">De quoi il s'agit</label>
+          <select id="bn" name="nature">
+            ${Object.entries(NATURES).map(([k, v]) =>
+              `<option value="${k}">${v}</option>`).join('')}
+          </select></div>
+        <div class="champ"><label for="bz">Où, sur la pièce
+          <span class="sec">une zone, pas un produit</span></label>
           <input id="bz" name="zone" maxlength="80" required
-                 placeholder="Attache de ganse"></div>
+                 placeholder="Attache de ganse, poignet, bas du zipper"></div>
         <div class="champ"><label for="bo">D'où ça vient</label>
           <select id="bo" name="origine">
             ${Object.entries(ORIGINES).map(([k, v]) =>
@@ -1154,7 +1169,7 @@ function vueProtocole({ user, p, proto, msg, photos = [], bris = null,
           <input id="bd" type="date" name="survenu_le"></div>
         <div class="champ champ-large"><label for="bt">Ce qui a été dit, mot pour mot</label>
           <input id="bt" name="texte" maxlength="600"
-                 placeholder="La ganse a lâché après trois semaines d'utilisation normale"></div>
+                 placeholder="La ganse a lâché après trois semaines — ou : le tissu est trop raide au poignet"></div>
         <div class="champ champ-large"><label for="bp">Photo (adresse web)</label>
           <input id="bp" name="photo_url" maxlength="500" inputmode="url"
                  placeholder="https://…">

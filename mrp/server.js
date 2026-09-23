@@ -35,7 +35,7 @@ const { db, prochainNumero, avancementOrdre, listeFabrication, dernieresMaj,
         modifierFil, supprimerFil,
         protocoleGeneral, echantillon, lireTableauTailles,
         brisProduit, brisParPoint, zonesFragiles, nonConformites,
-        murDesBris,
+        murDesBris, NATURES,
         etatMatieres, etatProduits, alertesStock,
         nomenclatureProduit, produitsUtilisant, detailBesoin, coutMatiere,
         mouvements, stocksMatieres, CATEGORIES, UNITES } = require('./db.js');
@@ -1003,16 +1003,19 @@ async function router(req, res, url, user) {
       const f = await corpsFormulaire(req);
       const zone = String(f.zone || '').trim();
       if (!zone) return vers(res, `/qualite/${prod.id}?err=`
-        + encodeURIComponent('Il faut dire où ça casse.'));
+        + encodeURIComponent('Il faut dire où, sur la pièce.'));
       // Même règle que pour les photos produit : une URL, jamais une image
       // embarquée. Une data: URI grossirait la base et chaque page.
       const url = String(f.photo_url || '').trim();
       if (url && !V.urlAcceptable(url)) return vers(res, `/qualite/${prod.id}?err=`
         + encodeURIComponent('Photo : il faut une adresse web (https://…), pas un fichier.'));
       const ORIG = ['client', 'atelier', 'retour', 'essai'];
-      db.prepare(`INSERT INTO qc_bris (produit_id, zone, origine, texte, photo_url,
-                    survenu_le, cree_par) VALUES (?,?,?,?,?,?,?)`)
-        .run(prod.id, zone, ORIG.includes(f.origine) ? f.origine : 'client',
+      // Sans nature déclarée, on inscrit « bris » : c'est ce que la page
+      // recueillait avant d'être élargie, et c'est le défaut le moins faux.
+      const nature = NATURES[f.nature] ? f.nature : 'bris';
+      db.prepare(`INSERT INTO qc_bris (produit_id, zone, nature, origine, texte,
+                    photo_url, survenu_le, cree_par) VALUES (?,?,?,?,?,?,?,?)`)
+        .run(prod.id, zone, nature, ORIG.includes(f.origine) ? f.origine : 'client',
           String(f.texte || '').trim(), url,
           /^\d{4}-\d{2}-\d{2}$/.test(f.survenu_le || '') ? f.survenu_le : null,
           user.id);

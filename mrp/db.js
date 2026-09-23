@@ -513,6 +513,19 @@ for (const sql of [
   `ALTER TABLE produits ADD COLUMN seuil_alerte REAL NOT NULL DEFAULT 0`,
   `ALTER TABLE produits ADD COLUMN emplacement TEXT NOT NULL DEFAULT ''`,
   `ALTER TABLE item_variantes ADD COLUMN groupe TEXT NOT NULL DEFAULT ''`,
+  /*
+   * Un client mécontent ne signale pas toujours un BRIS.
+   *
+   * « Le manteau est raide », « ça pique au poignet », « trop petit pour la
+   * taille annoncée » — rien n'est cassé, et pourtant la personne ne rachètera
+   * pas. Ces rétroactions-là n'ont aucune étiquette dans la boîte support et
+   * elles sont aussi nombreuses que les bris : sur le corpus voix-client,
+   * « déçu » revient 330 fois, « rigide » 116, « trop serré » 79.
+   *
+   * La colonne les distingue. Les 110 lignes déjà en base viennent d'un import
+   * de bris terrain : elles restent des bris, c'est ce qu'elles sont.
+   */
+  `ALTER TABLE qc_bris ADD COLUMN nature TEXT NOT NULL DEFAULT 'bris'`,
 ]) { try { db.exec(sql); } catch { /* colonne déjà présente */ } }
 
 /**
@@ -1358,6 +1371,24 @@ function brisParPoint(produitId) {
  *
  * Les produits avec photos passent devant : c'est ce qui se regarde.
  */
+/**
+ * Ce qu'une rétroaction négative peut être. Trois natures, parce que trois
+ * gestes différents à l'atelier :
+ *
+ *   bris           quelque chose a lâché → un point de contrôle, une couture
+ *                  renforcée, un essai de cyclage
+ *   insatisfaction rien n'est cassé, le produit déçoit → une matière, une
+ *                  finition, parfois une promesse de fiche à corriger
+ *   ajustement     ça ne va pas au corps → un patron, une grille de tailles
+ *
+ * Les confondre ferait chercher une couture là où c'est le tissu qui gratte.
+ */
+const NATURES = {
+  bris:           'Bris',
+  insatisfaction: 'Insatisfaction',
+  ajustement:     'Ajustement et taille',
+};
+
 function murDesBris({ produitId = null } = {}) {
   const l = db.prepare(`
     SELECT b.*, p.id AS pid, p.code, ${NOM_PRODUIT} AS produit_nom, q.titre AS point_titre
@@ -1763,6 +1794,7 @@ module.exports = { db, prochainNumero, avancementOrdre, apercuProduction, CHEMIN
                    charteProduit, SECTIONS_CHARTE,
                    protocoleGeneral, memeVariante, lireTableauTailles,
                    brisProduit, brisParPoint, zonesFragiles, nonConformites,
+                   NATURES,
                    murDesBris,
                    checklistItem, blocageQC, etatQCOrdre,
                    horsSujet, poserHorsSujet, retirerHorsSujet,

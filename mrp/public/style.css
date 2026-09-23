@@ -1329,3 +1329,16 @@ table.gantt{min-width:860px}
 
 .pli-t{text-transform:none}
 .pli.mois .pli-t{text-transform:capitalize}
+
+/* La nature d'une rétroaction : un bris, une insatisfaction, un problème
+   d'ajustement. Trois gestes différents à l'atelier — renforcer une couture,
+   changer une matière, reprendre un patron — donc trois marques distinctes.
+   La page s'appelait « Ce qui casse » ; elle recueille maintenant tout ce que
+   le client a vécu de négatif, y compris ce qui n'a rien cassé. */
+.br-nat{font-size:11px;font-weight:700;padding:1px 7px;border-radius:9px;
+  text-transform:uppercase;letter-spacing:.03em;white-space:nowrap;
+  border:1px solid transparent}
+.br-n-bris{color:var(--rouge);background:var(--rouge-pale);border-color:var(--rouge-ligne)}
+.br-n-insatisfaction{color:var(--ambre);background:var(--ambre-pale);
+  border-color:var(--ambre-ligne)}
+.br-n-ajustement{color:var(--bleu);background:var(--bleu-pale);border-color:var(--bleu-ligne)}
