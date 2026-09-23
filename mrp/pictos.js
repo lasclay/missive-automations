@@ -352,6 +352,31 @@ const PAR_TITRE = new Map([
   ['Ouvrir et fermer chaque fermeture éclair',                 'fermeture'],
   ['Velcro : accroche et tient',                               'velcro'],
   ['Cord-lock présent et qui bloque',                          'cordlock'],
+  // Le même geste, écrit autrement d'un produit à l'autre. Les rattacher ne
+  // coûte aucun dessin : c'est la même planche qui s'affiche.
+  ['Fermeture éclair',                                         'fermeture'],
+  ['Ouvrir et fermer la fermeture éclair',                     'fermeture'],
+  ['Ouvrir et fermer la fermeture éclair à plusieurs reprises', 'fermeture'],
+  ['La fermeture éclair ouvre et ferme facilement',            'fermeture'],
+  ['Fermeture éclair bien tendue',                             'fermeture'],
+  ['Fermeture droite et tendue',                               'fermeture'],
+  ['Fermetures éclair : couleur et glissement problématiques',  'fermeture'],
+  ['Velcro',                                                   'velcro'],
+  ['Plier et attacher le coussin en accordéon au velcro, étiquette visible vers le haut', 'velcro'],
+  ['Billes pour bloquer le cord-lock noir',                    'cordlock'],
+  ['Lacet et élastique bien attachés au cord-lock',            'cordlock'],
+  ['Élastique du capuchon : coulisse et tient',                'cordlock'],
+  ['Logo de l\'étiquette droit',                               'etiquette'],
+  ['Étiquette de taille présente et orientée du même sens que les autres', 'etiquette'],
+  ['Étiquette intégrée à la base gauche de l\'étui',            'etiquette'],
+  ['Taille sur l\'étiquette = taille du patron',                'etiquette'],
+  ['Cuir synthétique conservé pour la paume',                  'mitaine_pouce'],
+  ['Couture de la patch de cuir solide et droite',             'mitaine_pouce'],
+  ['Assemblage sangle et boucle résistant',                    'glaciere_sangle'],
+  ['Bretelles renforcées',                                     'glaciere_sangle'],
+  ['Ganses solidement cousues',                                'glaciere_sangle'],
+  ['Collage adéquat',                                          'semelle_bord'],
+  ['Découpe finale droite et lisse sur la ligne intérieure',   'semelle_bord'],
 ].map(([t, k]) => [empreinte(t), k]));
 
 /** La clé de planche d'un titre, ou null. Null est le cas normal : la plupart
