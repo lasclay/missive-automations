@@ -623,6 +623,44 @@ db.exec(`CREATE UNIQUE INDEX IF NOT EXISTS idx_bris_ref ON qc_bris(source_ref)
   }
 }
 
+/**
+ * Le type « schema » a été ajouté pour les dessins et détails d'atelier
+ * rapatriés du tableau Miro. Même raison de reconstruire que ci-dessus :
+ * SQLite ne modifie pas une contrainte CHECK.
+ *
+ * La colonne `source` dit QUI a posé la ligne. L'import des schémas n'efface
+ * que les siennes — une photo ajoutée à la main dans l'app porte une source
+ * vide et n'est jamais touchée. C'est la règle de tous les imports ici.
+ */
+{
+  const t = db.prepare(
+    `SELECT sql FROM sqlite_master WHERE type='table' AND name='produit_photos'`).get();
+  if (t && !/'schema'/.test(t.sql)) {
+    const aSource = /\bsource\b/.test(t.sql);
+    db.exec('BEGIN');
+    try {
+      db.exec(`
+        CREATE TABLE produit_photos_n (
+          id         INTEGER PRIMARY KEY,
+          produit_id INTEGER NOT NULL REFERENCES produits(id) ON DELETE CASCADE,
+          url        TEXT NOT NULL,
+          type       TEXT NOT NULL DEFAULT 'studio'
+                     CHECK (type IN ('studio','contexte','schema')),
+          legende    TEXT DEFAULT '',
+          rang       INTEGER NOT NULL DEFAULT 0,
+          source     TEXT NOT NULL DEFAULT ''
+        );
+        INSERT INTO produit_photos_n (id, produit_id, url, type, legende, rang, source)
+          SELECT id, produit_id, url, type, legende, rang,
+                 ${aSource ? 'source' : "''"} FROM produit_photos;
+        DROP TABLE produit_photos;
+        ALTER TABLE produit_photos_n RENAME TO produit_photos;
+        CREATE INDEX IF NOT EXISTS idx_photos_produit ON produit_photos(produit_id);`);
+      db.exec('COMMIT');
+    } catch (e) { db.exec('ROLLBACK'); throw e; }
+  }
+}
+
 /** Numéro d'ordre séquentiel : OP-2026-0001 */
 function prochainNumero() {
   const an = new Date().getFullYear();
@@ -702,6 +740,7 @@ function listeFabrication({ inclureTermines = false, lieu = 'tunisie' } = {}) {
            -- La photo studio de la fiche. Rien n'est hébergé ici : c'est
            -- l'adresse d'origine, redimensionnée par le CDN à l'affichage.
            (SELECT f.url FROM produit_photos f WHERE f.produit_id = p.id
+             AND f.type <> 'schema'
              ORDER BY CASE f.type WHEN 'studio' THEN 0 ELSE 1 END,
                       f.rang, f.id LIMIT 1) AS photo
     FROM ordre_items i
@@ -760,6 +799,7 @@ function apercuProduction() {
            MAX(i.maj_le)                      AS maj_le,
            MIN(i.ordre_id)                    AS ordre_id,
            (SELECT f.url FROM produit_photos f WHERE f.produit_id = p.id
+             AND f.type <> 'schema'
              ORDER BY CASE f.type WHEN 'studio' THEN 0 ELSE 1 END,
                       f.rang, f.id LIMIT 1)   AS photo
       FROM ordre_items i
@@ -1464,6 +1504,7 @@ function couvertureQC({ lieu = 'tunisie' } = {}) {
              JOIN ordres o ON o.id = i.ordre_id
             WHERE i.produit_id = p.id AND o.statut IN ('planifie','en_cours')) AS a_produire,
            (SELECT f.url FROM produit_photos f WHERE f.produit_id = p.id
+             AND f.type <> 'schema'
              ORDER BY CASE f.type WHEN 'studio' THEN 0 ELSE 1 END,
                       f.rang, f.id LIMIT 1) AS photo
       FROM produits p

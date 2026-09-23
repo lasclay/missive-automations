@@ -261,8 +261,33 @@ dire — est dans [`METHODE-SUIVI.md`](METHODE-SUIVI.md).
   on n'en sait rien. Ranger trente-six inconnues dans les urgences ferait
   trente-six fausses alertes, et l'atelier cesserait de lire la liste
 
+**Schémas et détails d'atelier — le tableau Miro, dans la fiche**
+
+Les dessins cotés et les détails d'assemblage vivaient dans un tableau Miro que
+l'atelier devait ouvrir à côté. Ils sont maintenant **dans la fiche produit**,
+au-dessus de la charte — on les regarde avant de couper.
+
+- **Pas un widget Miro.** Un `live-embed` charge plusieurs mégaoctets de canevas
+  dans une page qui en fait cinq kilo-octets, et rendrait l'atelier à la
+  navigation d'un tableau de 633 objets pour trouver sa pièce. Ici, la bonne
+  vignette est à côté du bon produit : **la fiche reste à 3 Ko compressés**.
+- **Pas un fichier hébergé non plus.** L'adresse que l'API Miro rend **expire** ;
+  la stocker donnerait un cadre vide le lendemain. Les images sont rapatriées une
+  fois, redéposées sur le Drive, et servies redimensionnées par `lh3` — le même
+  chemin que les photos Drive que `urlImage()` sait déjà traiter.
+- **Un schéma n'est jamais la vignette d'une liste.** C'est un dessin coté, pas
+  une photo de produit ; les trois requêtes de vignette l'excluent.
+- Le cache-cou y gagne ses **cotes des trois tailles** — 22,1 × 19,9 pour le petit
+  enfant, 24,8 × 22,7 pour le grand, 29,9 × 27,1 pour l'adulte. Elles n'existaient
+  dans aucun fichier du dépôt.
+
+`donnees/schemas-produits.tsv` porte les rattachements ; `node import_schemas.js`
+les charge, et n'efface que ses propres lignes. La marche à suivre pour en ajouter
+une est dans [`planches/README.md`](planches/README.md).
+
 **Fiches produits**
 - Photos studio et photos en contexte d'utilisation
+- **Schémas et détails d'atelier** rapatriés du tableau Miro
 - « C'est quoi », « à quoi ça sert, comment ça s'utilise », notes techniques
 - Matériaux et patrons, avec dimensions déclarées
 - Liste des ordres de production où le produit apparaît

@@ -24,6 +24,37 @@ laisser un cadre cassé.
 
 `images-sources.tsv` garde la correspondance nom local ↔ URL d'origine.
 
+## Les schémas Miro — rapatrier une image du tableau
+
+Les images du tableau vivent derrière l'authentification Miro, et **l'adresse que
+l'API rend expire en quelques heures** (`?Expires=…&Signature=…`). Impossible de la
+stocker : elle donnerait un cadre vide le lendemain. Il faut donc rapatrier, puis
+redéposer sur le Drive — que `urlImage()` sait convertir en `lh3.googleusercontent.com`
+et faire redimensionner. **L'app continue de n'héberger aucun fichier.**
+
+La marche à suivre, par image :
+
+1. **Trouver l'item.** Une lecture SVG du tableau donne les `<image id="m…">`.
+   Voir le skill `production-lasclay`, `references/charte-miro.md`.
+2. **Obtenir l'adresse signée** — `mcp__Miro__image_get_url` avec
+   `…/?moveToWidget=<itemId>`.
+3. **Rapatrier** — `curl -sS -o <nom>.png "<download_url>"`.
+   Chromium, lui, ne franchit pas le proxy TLS ; curl a le certificat.
+4. **Déposer sur le Drive** — dossier *MRP — schémas et détails produits*
+   (`10ngE6WyqljFHSMjMacWhq2QHjxL6QLFA`), par le skill `drivepush`. La réponse
+   rend l'identifiant du fichier.
+5. **Inscrire la ligne** dans `donnees/schemas-produits.tsv`, avec l'adresse
+   `https://lh3.googleusercontent.com/d/<id>` et la légende — une phrase qui dit
+   ce que l'image montre, pas ce qu'elle est.
+6. **Importer** — `node mrp/import_schemas.js` en aperçu, puis `--ecrire`.
+   Le service le rejoue à chaque démarrage.
+
+**Vérifier avant de conclure** : `curl -o /dev/null -w '%{http_code}'
+"https://lh3.googleusercontent.com/d/<id>=w600"`. Un 200 dit que le CDN sert
+l'image — et rappelle qu'elle est alors **lisible par quiconque a l'adresse**.
+C'est le prix du CDN, le même que pour les photos Shopify ; à garder en tête pour
+un dessin qu'on ne voudrait pas voir circuler.
+
 ## Ce que les planches ne portent pas
 
 Les **cotes** et les **planches d'étiquettes** : elles vivent dans les images du tableau Miro

@@ -119,7 +119,55 @@ requête est le fichier en base64 **et rien d'autre** ; le jeton et la destinati
 l'appel retombe sur la cible par défaut — **le chiffrier de prévisions**. C'est arrivé trois fois
 le 6 août 2026.
 
-## 4. Ce qui manque encore
+## 4. Les schémas Miro dans l'app — résolu, et comment
+
+**Le problème.** Les images du tableau exigent l'authentification Miro, et
+`image_get_url` rend une adresse **signée qui expire** (`?Expires=…&Signature=…`).
+La stocker donnerait un cadre vide le lendemain.
+
+**Ce qu'on n'a PAS fait, et pourquoi.** Un `live-embed` Miro — le « widget » —
+charge plusieurs mégaoctets de canevas WebGL dans une page qui en fait cinq
+kilo-octets. Ça viole la première contrainte de l'app, ça exige que le tableau soit
+public ou un siège Miro par couturière, et ça rend l'atelier à la navigation de
+633 objets pour trouver sa pièce. **C'est « quitter le MRP » sous un autre nom.**
+
+**Le chemin retenu**, validé de bout en bout le 23/09/2026 :
+
+```
+Miro → image_get_url → curl → Drive (drivepush) → lh3.googleusercontent.com/d/<id>=wN
+                                                   ↑ urlImage() sait déjà le faire
+```
+
+L'app continue de n'héberger aucun fichier : elle porte une adresse, et le CDN
+Google la sert redimensionnée. Mesuré : 6 380 octets d'origine, **3 433 en `=w600`**,
+et la fiche produit reste à **3 245 octets compressés**.
+
+**Ce qui est en place** — `donnees/schemas-produits.tsv`, **7 images pour
+13 rattachements sur 12 produits** :
+
+| Produit(s) | Ce que l'image montre |
+| --- | --- |
+| Cache-cou adulte + les deux enfants | **les cotes des trois tailles** — 22,1 × 19,9 · 24,8 × 22,7 · 29,9 × 27,1 cm |
+| Semelles 6-7-8F et 9F+ | l'emballage en manchon de carton, estampe de taille visible |
+| Mitaine plein air | jonction main/pouce et couture de la patch de cuir, annotées |
+| Les quatre mitaines | **orientation de l'étiquette : toujours du même sens** |
+| Glacière | **bretelles renforcées** — la zone la plus signalée du terrain |
+| Bandeau de tuque | le bandeau en place, hors tout 8 × 44 cm max |
+| Coussin | pliage en accordéon, étiquette visible vers le haut |
+
+**Les invariants, épinglés par `tests/schemas.js`** (11 vérifications) : un schéma
+n'est **jamais** la vignette d'une carte · l'import n'efface que ses lignes
+(`source = 'miro'`) · une `data:` URI est refusée et la feuille continue · une image
+partagée entre produits reste **une** image.
+
+**La contrepartie à connaître.** Une image servie par `lh3` est **lisible par
+quiconque a l'adresse**. C'est la même propriété que les photos Shopify, mais un
+dessin coté n'a pas le même statut qu'une photo de boutique. Vérifié : les sept
+répondent 200 sans authentification. À peser avant d'y mettre un plan de coupe.
+
+Pour en ajouter une : `mrp/planches/README.md` § « Les schémas Miro ».
+
+## 4bis. Ce qui manque encore
 
 - **Aucune image de patron.** `patrons/echantillons/` porte cinq fichiers HPGL, pas de rendu.
   `pdf2hpgl.py` produit bien un SVG de contrôle à l'échelle réelle — mais aucun n'est archivé.

@@ -1670,6 +1670,10 @@ function vueProduit({ user, p, photos, materiaux, patrons, ordres, msg, qc = nul
   const admin = user.role === 'admin';
   const studio = photos.filter(f => f.type === 'studio');
   const contexte = photos.filter(f => f.type === 'contexte');
+  // Les schémas ne sont pas des photos produit : ce sont les dessins cotés et
+  // les détails d'assemblage du tableau Miro, rapatriés. Ils ont leur bloc, en
+  // haut, parce qu'on les regarde AVANT de coudre — pas dans la galerie.
+  const schemas = photos.filter(f => f.type === 'schema');
   const galerie = (liste) => `<div class="photos">${liste.map(f => `<figure>
       <a href="${e(urlImage(f.url))}" rel="noopener" title="Voir en taille réelle">
         ${img(f.url, { largeur: TAILLES.galerie, alt: f.legende || p.nom })}</a>
@@ -1687,6 +1691,18 @@ function vueProduit({ user, p, photos, materiaux, patrons, ordres, msg, qc = nul
     <p class="muted">${e(p.code)}${p.nom_court && p.nom !== p.nom_court
       ? ` · vendu sous « ${e(p.nom)} »` : ''}</p>
   </div>${admin ? `<a class="btn sec" href="/produits/${p.id}/modifier">Modifier</a>` : ''}</div>
+
+  ${schemas.length ? `<div class="carte">
+    <h2>Schémas et détails d'atelier</h2>
+    <p class="sec">Les dessins de la charte, ici plutôt que dans Miro — l'atelier
+      n'a pas à quitter la page, ni à charger un canevas de plusieurs mégaoctets
+      sur la ligne tunisienne. Toucher une vignette ouvre la pleine taille.</p>
+    <div class="schemas">${schemas.map(f => `<figure>
+      <a href="${e(urlImage(f.url))}" rel="noopener" title="Ouvrir en taille réelle">
+        ${img(f.url, { largeur: TAILLES.galerie, alt: f.legende || `Schéma — ${p.nom}` })}</a>
+      ${f.legende ? `<figcaption>${e(f.legende)}</figcaption>` : ''}
+    </figure>`).join('')}</div>
+  </div>` : ''}
 
   ${charte && !charte.vide ? `<div class="carte">
     <h2>Charte produit</h2>

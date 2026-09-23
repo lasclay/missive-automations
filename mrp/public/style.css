@@ -345,6 +345,20 @@ textarea{min-height:70px;resize:vertical}
   display:block;background:var(--fond);border:1px solid var(--ligne)}
 .photos figcaption{font-size:12px;color:var(--gris);margin-top:4px}
 
+/* Un schéma n'est pas une photo produit. Il est plus large que haut (une cote
+   se lit en travers), il porte du trait fin qu'un rapport carré écraserait, et
+   sa légende est une consigne — donc lisible, pas grise. Fond blanc imposé :
+   un dessin au trait noir disparaîtrait sur le fond sombre du thème nuit. */
+.schemas{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.schemas figure{margin:0;display:flex;flex-direction:column}
+.schemas img{width:100%;max-height:200px;object-fit:contain;border-radius:5px;
+  display:block;background:#fff;border:1px solid var(--ligne);padding:6px}
+.schemas figcaption{font-size:13px;color:var(--texte);margin-top:6px;line-height:1.4}
+@media (max-width:720px){
+  .schemas{grid-template-columns:1fr}
+  .schemas img{max-height:none}
+}
+
 /* ---------- commentaires ---------- */
 .comm{border-left:2px solid var(--ligne);padding:2px 0 2px 12px;margin-bottom:12px}
 .comm .qui2{font-size:12.5px;color:var(--gris);margin-bottom:2px}
