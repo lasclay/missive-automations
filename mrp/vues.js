@@ -686,7 +686,7 @@ function vueAccueil({ user, ordres, jalons, ia = null, salut = null,
 
 // ========================================================== contrôle qualité
 const ICONE_QC = { critique: '!', probleme: '~', mesure: '=', cyclage: '↻',
-                   emballage: '\u25a1' };
+                   esthetique: '\u25c8', emballage: '\u25a1' };
 
 /**
  * Un point de protocole.
@@ -1030,6 +1030,8 @@ function vueQualiteProduits({ user, msg, produits }) {
           ${p.problemes ? `<i class="q-probleme" title="problèmes fréquents">${p.problemes}</i>` : ''}
           ${p.mesures ? `<i class="q-mesure" title="mesures et cotes">${p.mesures}</i>` : ''}
           ${p.cyclages ? `<i class="q-cyclage" title="cyclage et tests">${p.cyclages}</i>` : ''}
+          ${p.esthetiques ? `<i class="q-esthetique" title="esthétique et quotidien"
+            >${p.esthetiques}</i>` : ''}
         </span>` : '<span class="qc-vide">aucun protocole</span>'}</div>
     </a>`).join('')}
   </div>` : `<div class="carte"><p class="vide">Aucune fiche produit.</p></div>`}`;

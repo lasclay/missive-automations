@@ -174,5 +174,55 @@ t('les quatre onglets existent, « tous » compris',
     compterMots(rapportItem(iGrad).texte) === MOTS_RAPPORT + 20);
 }
 
+/* ============================ 6. le volet « esthétique et quotidien » ==== */
+
+{
+  const { TYPES_QC } = require('../db.js');
+  t('le volet « esthétique et quotidien » existe',
+    TYPES_QC.esthetique === 'Esthétique et quotidien');
+  // La contrainte vit dans un CHECK : sans reconstruction de table, l'insertion
+  // échoue et le protocole général reste muet sur tout ce qui est esthétique.
+  const p = db.prepare(`INSERT INTO produits (code, nom) VALUES (?, ?)`)
+    .run(`T-EST-${process.pid}`, 'Produit esthétique').lastInsertRowid;
+  let passe = true;
+  try {
+    db.prepare(`INSERT INTO qc_points (produit_id, type, titre)
+                VALUES (?, 'esthetique', ?)`).run(p, 'Fils qui dépassent');
+  } catch { passe = false; }
+  t('un point « esthetique » s\'écrit en base', passe);
+}
+
+/* ================== 7. l'import se réclame ses propres lignes ============ */
+
+{
+  // La règle par `source` ne peut atteindre que les sources ENCORE écrites
+  // dans le TSV. Renommer une source laissait les anciennes lignes orphelines
+  // pour toujours : trois points du protocole général ont survécu comme ça à
+  // deux imports, en doublon, sans que rien ne le signale.
+  const p = db.prepare(`INSERT INTO produits (code, nom) VALUES (?, ?)`)
+    .run(`T-IMP-${process.pid}`, 'Produit import').lastInsertRowid;
+  const pose = (src) => db.prepare(
+    `INSERT INTO qc_points (produit_id, type, titre, source, import_src)
+     VALUES (?, 'critique', 'Un point', ?, 'essai.tsv')`).run(p, src);
+
+  pose('ancienne source');
+  pose('nouvelle source');
+  // Ce que fait l'import : il efface tout ce que SON fichier a écrit.
+  db.prepare(`DELETE FROM qc_points WHERE import_src = ? AND cree_par IS NULL`)
+    .run('essai.tsv');
+  t('effacer par fichier emporte aussi les sources qui ne sont plus utilisées',
+    db.prepare(`SELECT COUNT(*) n FROM qc_points WHERE produit_id = ?`).get(p).n === 0);
+
+  // Le garde-fou historique tient toujours : ce qu'une personne a écrit reste.
+  const u = db.prepare(`INSERT INTO utilisateurs (courriel, mdp_hash, nom, role)
+    VALUES (?,?,?,'admin')`).run(`i${process.pid}@l.com`, 'x', 'T').lastInsertRowid;
+  db.prepare(`INSERT INTO qc_points (produit_id, type, titre, source, import_src, cree_par)
+              VALUES (?, 'critique', 'Écrit à la main', '', 'essai.tsv', ?)`).run(p, u);
+  db.prepare(`DELETE FROM qc_points WHERE import_src = ? AND cree_par IS NULL`)
+    .run('essai.tsv');
+  t('… mais jamais ce qu\'une personne a écrit dans l\'app',
+    db.prepare(`SELECT COUNT(*) n FROM qc_points WHERE produit_id = ?`).get(p).n === 1);
+}
+
 console.log(`\n  ${ok} ok, ${ko} ko\n`);
 process.exit(ko ? 1 : 0);

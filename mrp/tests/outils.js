@@ -618,10 +618,16 @@ t("l'atelier peut consulter le suivi",
     frequence: 'chaque pièce' }, cQ);
   t('une mesure porte sa valeur et son unité', q3.ok === true);
 
-  t('un volet inconnu est refusé, avec les quatre possibles', (() => {
-    const r = ex('ajouter_point_qc', { produit: 'CC-ADULTE', volet: 'esthetique',
+  t('un volet inconnu est refusé, et les volets valides sont nommés', (() => {
+    const r = ex('ajouter_point_qc', { produit: 'CC-ADULTE', volet: 'fantaisie',
       titre: 'X' }, cQ);
-    return Boolean(r.erreur) && r.erreur.includes('critique');
+    return Boolean(r.erreur) && r.erreur.includes('critique')
+        && r.erreur.includes('esthetique');
+  })());
+  t('« esthetique » est maintenant un volet valide', (() => {
+    const r = ex('ajouter_point_qc', { produit: 'CC-ADULTE', volet: 'esthetique',
+      titre: 'Fils qui dépassent' }, cQ);
+    return r.ok === true;
   })());
   t('un point sans titre est refusé',
     Boolean(ex('ajouter_point_qc', { produit: 'CC-ADULTE', volet: 'critique',
@@ -633,7 +639,7 @@ t("l'atelier peut consulter le suivi",
   // Lecture
   const lu = ex('lire_qualite', { produit: 'CC-ADULTE' }, mQ);
   t('le protocole se lit, groupé par volet',
-    lu.total === 3 && lu.points_critiques.length === 1
+    lu.total === 4 && lu.esthetique.length === 1 && lu.points_critiques.length === 1
       && lu.problemes_frequents.length === 1 && lu.mesures.length === 1,
     JSON.stringify({ t: lu.total }));
   t('la conséquence remonte : c\'est elle qui fait respecter la consigne',
@@ -663,8 +669,9 @@ t("l'atelier peut consulter le suivi",
   // Couverture
   const couv = D.couvertureQC();
   const cc = couv.find(x => x.code === 'CC-ADULTE');
-  t('la couverture compte par volet',
-    cc.points === 3 && cc.critiques === 1 && cc.mesures === 1, JSON.stringify(cc));
+  t('la couverture compte par volet, esthétique compris',
+    cc.points === 4 && cc.critiques === 1 && cc.mesures === 1
+    && cc.esthetiques === 1, JSON.stringify(cc));
   t('les produits sans protocole passent devant',
     couv[0].points === 0, couv[0].code + ' = ' + couv[0].points);
 

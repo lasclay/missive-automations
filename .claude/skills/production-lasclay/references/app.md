@@ -269,6 +269,21 @@ emmanchures » est absurde sur un tote bag. Depuis la fiche d'un produit, un tel
 **supprime** pas, il s'**écarte de ce produit-là**, avec un motif obligatoire, et reste retrouvable
 sous « Ne s'applique pas à ce produit » (`donnees/qualite-hors-sujet.tsv`).
 
+**Le volet « esthétique et quotidien »** (6ᵉ volet, ajouté par reconstruction de table — SQLite ne
+modifie pas un CHECK). Onze points généraux : cinq de la direction, six proposés et marqués comme
+tels dans leur `source`.
+
+La séquence de la direction — **frottement 3 min à sec → lavage eau froide et séchage au soleil →
+mouiller, congélateur 2 h, refaire les 3 min** — se fait **sur LA MÊME PIÈCE, dans cet ordre**.
+Les répartir sur trois pièces mesurerait trois pièces neuves, pas l'usure cumulée d'une seule. La
+pièce est sacrifiée : échantillonnage « une fois par lot ». Une photo AVANT est exigée, sinon le
+test ne prouve rien.
+
+**`qc_points.import_src` dit quel TSV a écrit la ligne**, et l'import efface par ce nom. La règle
+d'avant n'effaçait que les `source` encore écrites dans le fichier : renommer une source laissait
+les anciennes lignes orphelines pour toujours. Un passage peut lire jusqu'à quatre TSV, donc
+chaque ligne porte le sien, pas celui du passage.
+
 **L'échantillonnage suit le volume.** La règle est stockée structurée (`ech_type` + `ech_valeur`),
 et la checklist écrit **le nombre**, pas la règle :
 

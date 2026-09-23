@@ -385,12 +385,36 @@ commentaires clients, et disparaît de la liste dès qu'elle est corrigée.
 
 **Squelettes de cyclage et d'essai porté.** `donnees/qualite-squelettes.tsv`
 porte la structure des tests de durabilité de couture (assemblage principal,
-points de contrainte, tenue après cyclage, migration de l'isolant), des essais
-portés (aisance, points de frottement, symétrie, fermeture éclair), la coupe
-des fils qui dépassent, et la **simulation d'hiver québécois** — congélateur,
-puis mouillage, puis 500 frottements sur la zone la plus sollicitée, les trois
-ensemble et non l'un après l'autre. Ce sont des points du **protocole
-général**, puisque ce sont les mêmes gestes quelle que soit la pièce.
+points de contrainte, tenue après cyclage, migration de l'isolant) et des
+essais portés (aisance, points de frottement, symétrie, fermeture éclair).
+Ce sont des points du **protocole général**, puisque ce sont les mêmes gestes
+quelle que soit la pièce.
+
+**Le volet « esthétique et quotidien ».** Comment la pièce se présente, et
+comment elle tient à l'usage ordinaire. Onze points généraux, dont cinq posés
+par la direction :
+
+1. **Fils qui dépassent** — toutes les pièces. Tirer doucement avant de couper :
+   un fil qui vient est un fil qui n'était pas arrêté, donc une couture à
+   reprendre, pas un fil à couper.
+2. **Double frottement — 1. à sec** : 3 minutes sur la zone la plus exposée à
+   l'abrasion, photo AVANT.
+3. **Lavage à l'eau froide, séchage au soleil**, sur la même pièce.
+4. **Double frottement — 2. après gel et humidité** : mouiller légèrement,
+   congélateur 2 h, refaire exactement les 3 minutes sur la même zone.
+5. **Après la séquence : ce qu'on compare.**
+
+**Les points 2 à 5 se font sur LA MÊME PIÈCE, dans cet ordre.** C'est ce qui
+en fait un essai : les répartir sur trois pièces mesurerait trois pièces
+neuves, pas l'usure cumulée d'une seule. La pièce est sacrifiée — d'où
+l'échantillonnage « une fois par lot ».
+
+Six autres points sont **proposés** et portent cette mention dans leur source,
+pour qu'on puisse les retirer sans hésiter : conformité de couleur entre deux
+pièces d'un même lot, propreté (craie, huile de machine, traces de doigts),
+étiquette (sens, position, lisibilité), régularité de la surpiqûre, odeur à
+l'ouverture du sachet, comparaison avec la photo de la boutique. Chacun répond
+à une plainte qui existe dans les rétroactions clients.
 
 **Aucun chiffre de Lasclay n'y figure.** Combien de cycles, quelle charge,
 quelle tolérance — rien de tout ça n'existe dans les sources du dépôt, et
@@ -919,6 +943,13 @@ tromper ici ne coûte pas une ligne de moins : ça publie les données d'un
 client. Les motifs sont dans `voix-client/photos-ecartees.tsv`. Les EXIF sont
 retirés au redimensionnement — une photo de téléphone porte les coordonnées
 GPS du domicile.
+
+**L'import se réclame ses propres lignes.** `qc_points.import_src` porte le
+nom du TSV qui a écrit la ligne, et l'import efface par ce nom. La règle
+précédente n'effaçait que les `source` encore présentes dans le fichier :
+renommer une source, ou retirer la dernière ligne qui la portait, laissait les
+anciennes orphelines pour toujours. Trois points du protocole général ont
+survécu comme ça à deux imports, en doublon, sans que rien ne le signale.
 
 ### Comment le distillat est fabriqué
 

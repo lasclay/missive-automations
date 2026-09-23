@@ -326,7 +326,8 @@ CREATE TABLE IF NOT EXISTS qc_points (
   -- L'emballage, l'étiquetage, la finition ne se réécrivent pas trente fois.
   produit_id    INTEGER REFERENCES produits(id) ON DELETE CASCADE,
   type          TEXT NOT NULL DEFAULT 'critique'
-                CHECK (type IN ('critique','probleme','mesure','cyclage','emballage')),
+                CHECK (type IN ('critique','probleme','mesure','cyclage',
+                                'emballage','esthetique')),
   titre         TEXT NOT NULL,
   detail        TEXT NOT NULL DEFAULT '',
   consequence   TEXT NOT NULL DEFAULT '',   -- ce qui arrive si on le rate
@@ -627,6 +628,79 @@ for (const sql of [
     } catch (e) { db.exec('ROLLBACK'); throw e; }
   }
 }
+/**
+ * Le volet « esthétique et quotidien » s'ajoute : comment la pièce se présente
+ * et comment elle tient à l'usage ordinaire — fils coupés, abrasion, lavage,
+ * froid. Ce n'est pas du cyclage de couture, qui mesure l'endurance d'un
+ * assemblage ; c'est ce que le client voit sur sa pièce après un hiver.
+ *
+ * Même contrainte qu'avant : SQLite ne modifie pas un CHECK, il faut
+ * reconstruire. Le garde est le CHECK lui-même, pas un numéro de version.
+ */
+{
+  const t = db.prepare(
+    `SELECT sql FROM sqlite_master WHERE type='table' AND name='qc_points'`).get();
+  if (t && !/esthetique/.test(t.sql)) {
+    db.exec('BEGIN');
+    try {
+      db.exec(`
+        CREATE TABLE qc_points_n (
+          id            INTEGER PRIMARY KEY,
+          produit_id    INTEGER REFERENCES produits(id) ON DELETE CASCADE,
+          type          TEXT NOT NULL DEFAULT 'critique'
+                        CHECK (type IN ('critique','probleme','mesure','cyclage',
+                                        'emballage','esthetique')),
+          titre         TEXT NOT NULL,
+          detail        TEXT NOT NULL DEFAULT '',
+          consequence   TEXT NOT NULL DEFAULT '',
+          variante      TEXT NOT NULL DEFAULT '',
+          valeur        TEXT NOT NULL DEFAULT '',
+          tolerance     TEXT NOT NULL DEFAULT '',
+          unite         TEXT NOT NULL DEFAULT '',
+          ech_type      TEXT NOT NULL DEFAULT ''
+                        CHECK (ech_type IN ('','tout','ratio','fixe','lot')),
+          ech_valeur    INTEGER,
+          frequence     TEXT NOT NULL DEFAULT '',
+          source        TEXT NOT NULL DEFAULT '',
+          schema_url    TEXT NOT NULL DEFAULT '',
+          rang          INTEGER NOT NULL DEFAULT 0,
+          cree_par      INTEGER REFERENCES utilisateurs(id),
+          cree_le       TEXT NOT NULL DEFAULT (datetime('now')),
+          maj_le        TEXT NOT NULL DEFAULT (datetime('now'))
+        );
+        INSERT INTO qc_points_n
+          SELECT id, produit_id, type, titre, detail, consequence, variante,
+                 valeur, tolerance, unite, ech_type, ech_valeur, frequence,
+                 source, schema_url, rang, cree_par, cree_le, maj_le
+            FROM qc_points;
+        DROP TABLE qc_points;
+        ALTER TABLE qc_points_n RENAME TO qc_points;
+        CREATE INDEX IF NOT EXISTS idx_qc_produit ON qc_points(produit_id, type, rang);`);
+      db.exec('COMMIT');
+    } catch (e) { db.exec('ROLLBACK'); throw e; }
+  }
+}
+
+// Quel fichier a écrit cette ligne. Sans ça, un import ne peut effacer que les
+// `source` qu'il porte ENCORE : renommer une source dans le TSV laisse les
+// anciennes lignes orphelines pour toujours, et personne ne comprend d'où
+// vient le doublon. C'est arrivé sur trois points du protocole général.
+try { db.exec(`ALTER TABLE qc_points ADD COLUMN import_src TEXT NOT NULL DEFAULT ''`); }
+catch { /* déjà là */ }
+
+// Ménage unique : les trois points que le protocole « esthétique et quotidien »
+// a remplacés. Ils portent une source que le TSV n'utilise plus, donc aucun
+// import ne peut les atteindre. Ciblés par cette source exacte, et seulement
+// s'ils n'ont pas été repris à la main.
+try {
+  db.prepare(`DELETE FROM qc_points
+               WHERE cree_par IS NULL AND produit_id IS NULL
+                 AND source IN (
+                   'décrit par la direction — geste exigé sur toutes les pièces',
+                   'décrit par la direction — les 500 frottements sont donnés, le reste est à fixer',
+                   'décrit par la direction — critère de réussite à préciser')`).run();
+} catch { /* table pas encore à cette forme */ }
+
 try { db.exec(`ALTER TABLE qc_controles ADD COLUMN pieces INTEGER`); } catch { /* déjà là */ }
 // Le nom d'usage, celui que tout le monde dit : « Manteau 3 saisons ». Le
 // champ `nom` porte le titre Shopify, écrit pour vendre — « Manteau hivernal
@@ -1304,12 +1378,13 @@ function coutMatiere(produitId) {
 }
 
 // --------------------------------------------------------- contrôle qualité
-/** Les quatre volets d'un protocole, dans l'ordre où on les lit à l'atelier. */
+/** Les six volets d'un protocole, dans l'ordre où on les lit à l'atelier. */
 const TYPES_QC = {
   critique:  'Points critiques',
   probleme:  'Problèmes fréquents',
   mesure:    'Mesures et dimensions',
   cyclage:   'Cyclage et tests',
+  esthetique:'Esthétique et quotidien',
   emballage: 'Emballage et finition',
 };
 
@@ -1611,6 +1686,7 @@ function couvertureQC({ lieu = 'tunisie' } = {}) {
            SUM(CASE WHEN q.type = 'probleme' THEN 1 ELSE 0 END) AS problemes,
            SUM(CASE WHEN q.type = 'mesure'   THEN 1 ELSE 0 END) AS mesures,
            SUM(CASE WHEN q.type = 'cyclage'  THEN 1 ELSE 0 END) AS cyclages,
+           SUM(CASE WHEN q.type = 'esthetique' THEN 1 ELSE 0 END) AS esthetiques,
            (SELECT SUM(i.quantite) FROM ordre_items i
              JOIN ordres o ON o.id = i.ordre_id
             WHERE i.produit_id = p.id AND o.statut IN ('planifie','en_cours')) AS a_produire,

@@ -505,6 +505,7 @@ textarea{min-height:70px;resize:vertical}
 .q-probleme{background:var(--ambre-pale);color:var(--ambre)}
 .q-mesure  {background:var(--bleu-pale);color:var(--bleu)}
 .q-cyclage {background:var(--violet-pale);color:var(--violet)}
+.q-esthetique{background:var(--vert-pale);color:var(--vert)}
 .qc-liste{list-style:none;padding:0;margin:0}
 .qc{display:flex;gap:12px;justify-content:space-between;align-items:flex-start;
   padding:11px 0;border-bottom:1px solid var(--ligne)}
@@ -531,6 +532,7 @@ textarea{min-height:70px;resize:vertical}
 .qc-cpt .q-probleme{background:var(--ambre-pale);color:var(--ambre)}
 .qc-cpt .q-mesure  {background:var(--bleu-pale);color:var(--bleu)}
 .qc-cpt .q-cyclage {background:var(--violet-pale);color:var(--violet)}
+.qc-cpt .q-esthetique{background:var(--vert-pale);color:var(--vert)}
 .qc-vide{color:var(--rouge);font-size:12.5px;font-weight:600}
 .qc-form{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end}
 .qc-form .champ{margin:0;flex:1 1 130px}
