@@ -54,8 +54,9 @@ const STYLE = [
   'background, no photographic texture, no gradient shading, no drop shadows.',
   'ABSOLUTELY NO text of any kind: no letters, no words, no numbers, no labels,',
   'no captions, no watermark, no signature anywhere in the image.',
-  'Hands, when shown, are simple stylised instructional hands, neutral mid-tone,',
-  'no jewellery, no skin detail, no arms beyond the wrist.',
+  'Hands, when shown, are simple stylised instructional hands in a warm light skin',
+  'tone that stands clearly apart from the product, no jewellery, no skin detail,',
+  'no arms beyond the wrist.',
   'Movement is shown with bold red arrows outlined in white.',
   'Square composition, the subject centred and filling most of the frame.',
 ].join(' ');
@@ -70,11 +71,17 @@ function tsv(fichier) {
   });
 }
 
-// La photo de référence : le premier visuel de la fiche Shopify du produit.
-// C'est elle qui empêche le modèle d'inventer un produit plausible mais faux.
+// La photo de référence, prise sur la fiche Shopify du produit : c'est elle qui
+// empêche le modèle d'inventer un produit plausible mais faux.
+//
+// Le premier visuel d'une fiche est choisi pour vendre, pas pour montrer la
+// construction : les semelles y sont dans leur emballage, les bandeaux posés à
+// sept couleurs côte à côte. « handle#rang » désigne donc une autre photo de la
+// même fiche, celle qui montre la pièce qu'on doit contrôler.
 function photoDe(handle) {
   if (!handle) return null;
-  const r = tsv(PHOTOS).find(x => x.handle === handle && x.rang === '1');
+  const [nom, rang = '1'] = handle.split('#');
+  const r = tsv(PHOTOS).find(x => x.handle === nom && x.rang === rang);
   return r ? r.url : null;
 }
 
