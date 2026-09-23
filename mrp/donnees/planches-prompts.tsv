@@ -1,0 +1,21 @@
+# Consignes de dessin, un panneau par ligne.
+#
+# Ce fichier est la SUBSTANCE des planches : le style commun vit dans
+# planches_ia.js, ici on décrit ce que montre chaque panneau. Une planche =
+# quatre panneaux qui se suivent, comme une notice de montage.
+#
+# handle : la fiche Shopify dont la première photo sert de référence au modèle.
+# C'est ce qui fait que le dessin montre le produit de Lasclay et pas un
+# équivalent générique. Laisser vide pour un geste qui ne tient à aucun produit.
+#
+# Aucune consigne ne demande de texte : la planche se lit sans langue, et la
+# numérotation est faite par la page, jamais par l'image.
+#
+# Essayer sans rien appeler :
+#   node mrp/outils/planches_ia.js cachecou_bas --sec
+#
+planche	panneau	handle	prompt
+cachecou_bas	1	cache-cou-asclepiade	A single tubular neck gaiter standing upright, seen from the front, the whole garment visible in the frame. A thin bright red circle is drawn around the lower hem, marking the horizontal bottom seam as the zone to inspect. Nothing else is marked or highlighted. No hands in this panel.
+cachecou_bas	2	cache-cou-asclepiade	Close view of the lower part of the same neck gaiter. Two stylised instructional hands enter from the left and from the right and pinch the fabric, one hand on each side of the horizontal bottom seam, thumb and forefinger gripping the cloth close to the seam line. The seam stays clearly visible between the two hands. The hands are still: no arrows in this panel.
+cachecou_bas	3	cache-cou-asclepiade	The same two hands now pull apart, away from each other, stretching the fabric across the bottom seam. Two bold red arrows outlined in white point outward, one to the left and one to the right, along the direction of the pull. The fabric is taut and the seam holds, flat and closed.
+cachecou_bas	4	cache-cou-asclepiade	A very close split comparison of the same bottom seam, divided by a thin vertical line. On the left half the seam is flat, closed and even, and a green check mark drawn as a pure geometric tick sits beside it. On the right half the same seam has parted slightly, the two fabric edges pulled open and loose stitching thread visible through the gap, and a red cross drawn as two crossed bars sits beside it. No hands in this panel.

@@ -1,0 +1,164 @@
+#!/usr/bin/env node
+'use strict';
+//
+// Planches d'instruction dessinées par Nano Banana (Gemini image).
+//
+// Les planches actuelles sont du SVG tracé à la main : elles tiennent dans la
+// page et ne coûtent aucune requête, mais elles ne ressemblent pas aux
+// produits. Ici on demande un dessin à un modèle d'image, en lui donnant la
+// VRAIE photo Shopify du produit comme référence — pour que la planche du sac
+// à lunch montre celui de Lasclay et pas un générique.
+//
+//   node mrp/outils/planches_ia.js <planche>     une planche
+//   node mrp/outils/planches_ia.js --tout        les quinze
+//   node mrp/outils/planches_ia.js <planche> --sec   n'appelle rien, montre les consignes
+//   node mrp/outils/planches_ia.js <planche> --refaire   régénère ce qui existe déjà
+//
+// Il faut GEMINI_API_KEY dans l'environnement (réglages de l'environnement
+// infonuagique, pas le dépôt). Sans elle le script s'arrête en le disant.
+//
+// Les images sortent dans mrp/statique/planches/<planche>-<n>.png. Elles sont
+// versionnées dans le dépôt : ce sont des données de production, pas un cache.
+
+const fs   = require('node:fs');
+const path = require('node:path');
+
+const RACINE   = path.join(__dirname, '..');
+const PROMPTS  = path.join(RACINE, 'donnees', 'planches-prompts.tsv');
+const PHOTOS   = path.join(RACINE, 'donnees', 'shopify-images.tsv');
+const SORTIE   = path.join(RACINE, 'statique', 'planches');
+
+const MODELE   = 'gemini-3.1-flash-image';
+const API      = 'https://generativelanguage.googleapis.com/v1beta/interactions';
+const REVISION = '2026-05-20';
+
+// Le style est le même partout : c'est lui qui fait qu'une planche ressemble à
+// la suivante. Il ne se répète pas dans le TSV, on le colle devant chaque
+// consigne. « Aucun texte » n'est pas une coquetterie : la planche est lue par
+// un atelier tunisien, et la numérotation est faite par la page, pas l'image.
+const STYLE = [
+  'Technical instruction illustration, in the visual language of IKEA assembly',
+  'manuals and LEGO building steps: clean flat vector drawing, confident dark',
+  'outlines of even weight, a small flat colour palette, plain pale neutral',
+  'background, no photographic texture, no gradient shading, no drop shadows.',
+  'ABSOLUTELY NO text of any kind: no letters, no words, no numbers, no labels,',
+  'no captions, no watermark, no signature anywhere in the image.',
+  'Hands, when shown, are simple stylised instructional hands, neutral mid-tone,',
+  'no jewellery, no skin detail, no arms beyond the wrist.',
+  'Movement is shown with bold red arrows outlined in white.',
+  'Square composition, the subject centred and filling most of the frame.',
+].join(' ');
+
+function tsv(fichier) {
+  const lignes = fs.readFileSync(fichier, 'utf8').split('\n')
+    .filter(l => l.trim() && !l.startsWith('#'));
+  const entetes = lignes.shift().split('\t');
+  return lignes.map(l => {
+    const cases = l.split('\t');
+    return Object.fromEntries(entetes.map((e, i) => [e, (cases[i] || '').trim()]));
+  });
+}
+
+// La photo de référence : le premier visuel de la fiche Shopify du produit.
+// C'est elle qui empêche le modèle d'inventer un produit plausible mais faux.
+function photoDe(handle) {
+  if (!handle) return null;
+  const r = tsv(PHOTOS).find(x => x.handle === handle && x.rang === '1');
+  return r ? r.url : null;
+}
+
+async function reference(url) {
+  const rep = await fetch(url);
+  if (!rep.ok) throw new Error(`photo de référence ${rep.status} — ${url}`);
+  const octets = Buffer.from(await rep.arrayBuffer());
+  const mime = url.toLowerCase().includes('.png') ? 'image/png' : 'image/jpeg';
+  return { type: 'image', data: octets.toString('base64'), mime_type: mime };
+}
+
+async function dessiner(cle, panneau) {
+  const entree = [{ type: 'text', text: `${STYLE}\n\n${panneau.prompt}` }];
+
+  if (panneau.handle) {
+    const url = photoDe(panneau.handle);
+    if (!url) throw new Error(`aucune photo pour le handle « ${panneau.handle} »`);
+    entree.push({
+      type: 'text',
+      text: 'The reference photograph below shows the actual product. Draw THAT '
+          + 'product — its proportions, its seams, its hardware, its colour — '
+          + 'not a generic equivalent. Do not copy the photograph: redraw it in '
+          + 'the flat instructional style described above.',
+    });
+    entree.push(await reference(url));
+  }
+
+  const rep = await fetch(API, {
+    method: 'POST',
+    headers: {
+      'x-goog-api-key': process.env.GEMINI_API_KEY,
+      'Content-Type': 'application/json',
+      'Api-Revision': REVISION,
+    },
+    body: JSON.stringify({ model: MODELE, input: entree }),
+  });
+
+  const corps = await rep.json();
+  if (!rep.ok) throw new Error(`API ${rep.status} — ${JSON.stringify(corps).slice(0, 300)}`);
+
+  for (const etape of corps.steps || [])
+    for (const bloc of etape.content || [])
+      if (bloc.type === 'image' && bloc.data) return Buffer.from(bloc.data, 'base64');
+
+  throw new Error(`aucune image dans la réponse — ${JSON.stringify(corps).slice(0, 300)}`);
+}
+
+async function main() {
+  const args    = process.argv.slice(2);
+  const sec     = args.includes('--sec');
+  const refaire = args.includes('--refaire');
+  const tout    = args.includes('--tout');
+  const voulue  = args.find(a => !a.startsWith('--'));
+
+  if (!tout && !voulue) {
+    console.error('usage : node mrp/outils/planches_ia.js <planche>|--tout [--sec] [--refaire]');
+    process.exit(2);
+  }
+
+  const rangs = tsv(PROMPTS).filter(r => tout || r.planche === voulue);
+  if (!rangs.length) {
+    const connues = [...new Set(tsv(PROMPTS).map(r => r.planche))];
+    console.error(`planche inconnue : ${voulue}`);
+    console.error(`connues : ${connues.join(', ')}`);
+    process.exit(2);
+  }
+
+  if (!sec && !process.env.GEMINI_API_KEY) {
+    console.error('GEMINI_API_KEY absente de l\'environnement.');
+    console.error('Elle s\'ajoute aux réglages de l\'environnement infonuagique, et');
+    console.error('c\'est une NOUVELLE session qui la voit. En attendant : --sec.');
+    process.exit(1);
+  }
+
+  fs.mkdirSync(SORTIE, { recursive: true });
+
+  for (const r of rangs) {
+    const nom     = `${r.planche}-${r.panneau}.png`;
+    const chemin  = path.join(SORTIE, nom);
+
+    if (sec) {
+      console.log(`\n── ${nom}${r.handle ? '   (référence : ' + r.handle + ')' : ''}`);
+      console.log(r.prompt.replace(/(.{88}\S*)\s/g, '$1\n'));
+      continue;
+    }
+
+    if (fs.existsSync(chemin) && !refaire) { console.log(`  = ${nom}`); continue; }
+
+    try {
+      fs.writeFileSync(chemin, await dessiner(r.planche, r));
+      console.log(`  + ${nom}   ${(fs.statSync(chemin).size / 1024).toFixed(0)} Ko`);
+    } catch (e) {
+      console.log(`  ! ${nom}   ${e.message}`);
+    }
+  }
+}
+
+main().catch(e => { console.error(e); process.exit(1); });
