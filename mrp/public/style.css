@@ -1480,6 +1480,11 @@ table.gantt{min-width:860px}
 
 /* ---- une carte de lot ---- */
 .qc-lot .b{display:flex;flex-direction:column;gap:5px}
+/* Le nom du lot mène au même endroit que sa photo : sa liste de points,
+   dépliée. Un nom qui n'est pas un lien se clique quand même, et ne fait
+   rien — c'est un geste perdu par produit et par passage. */
+.qc-lot-nom{text-decoration:none;color:inherit}
+.qc-lot-nom:hover b{color:var(--vert);text-decoration:underline}
 .qc-etiq{display:flex;flex-wrap:wrap;gap:4px}
 .cat{font-style:normal;font-size:11px;padding:1px 6px;border-radius:3px;
   border:1px solid var(--ligne);color:var(--gris);background:var(--fond)}

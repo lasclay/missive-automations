@@ -1262,23 +1262,12 @@ function vueQCOrdre({ user, msg, ordre, lignes, cat = 'tous', vue = 'cartes',
     : l.restants ? `<span class="et-attente">${l.verifies}/${l.total} vérifiés</span>`
     : '<span class="et-ok">tout vérifié · à signer</span>';
 
-  const carte = (l) => `<div class="vignette qc-lot">
-    <a href="/qualite/ordres/${ordre.id}?cat=${cat}&vue=liste#lot${l.id}">
-      ${l.photo ? img(l.photo, { largeur: TAILLES.vignette, alt: l.nom })
-                : `<div class="sans-photo">Pas de photo</div>`}
-    </a>
-    <div class="b">
-      <b>${e(l.nom)}</b>
-      <span class="muted">${e(l.code)} · ${nb(l.quantite)} unités</span>
-      <span class="qc-etiq">${l.categories.map(c =>
-        `<i class="cat cat-${c}" title="${e(CATS[c].aide)}">${e(CATS[c].titre)}</i>`).join('')}</span>
-      ${etat(l)}
-      <a class="lien" href="/qualite/${l.produit_id}" target="_blank" rel="noopener"
-        >Procédé du produit ↗</a>
-    </div>
-  </div>`;
-
-  // La liste : un lot à la fois déplie sa sous-liste.
+  // Le lien d'un lot ouvre SA liste de points, dépliée.
+  //
+  // Il portait « vue=liste » sans « ouvert » : cliquer un produit menait à la
+  // liste des trente lots, tous fermés, avec le sien quelque part dedans. Le
+  // geste voulait dire « montre-moi ce qu'il y a à contrôler sur celui-là »,
+  // et il fallait un second clic pour l'obtenir.
   //
   // Le corps d'un lot (points à cocher, champs de commentaire, compte rendu)
   // pèse ~350 octets compressés. Les rendre tous coûtait 10,7 Ko sur un ordre
@@ -1288,6 +1277,22 @@ function vueQCOrdre({ user, msg, ordre, lignes, cat = 'tous', vue = 'cartes',
   // Le poids ne dépend donc plus du nombre de lots.
   const lien = (l) => `/qualite/ordres/${ordre.id}?cat=${cat}&vue=liste`
     + `&ouvert=${l.id}#lot${l.id}`;
+
+  const carte = (l) => `<div class="vignette qc-lot">
+    <a href="${lien(l)}">
+      ${l.photo ? img(l.photo, { largeur: TAILLES.vignette, alt: l.nom })
+                : `<div class="sans-photo">Pas de photo</div>`}
+    </a>
+    <div class="b">
+      <a class="qc-lot-nom" href="${lien(l)}"><b>${e(l.nom)}</b></a>
+      <span class="muted">${e(l.code)} · ${nb(l.quantite)} unités</span>
+      <span class="qc-etiq">${l.categories.map(c =>
+        `<i class="cat cat-${c}" title="${e(CATS[c].aide)}">${e(CATS[c].titre)}</i>`).join('')}</span>
+      ${etat(l)}
+      <a class="lien" href="/qualite/${l.produit_id}" target="_blank" rel="noopener"
+        >Procédé du produit ↗</a>
+    </div>
+  </div>`;
 
   const liste = (l) => {
     const c = checklists[l.id];

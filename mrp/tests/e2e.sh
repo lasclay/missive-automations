@@ -511,6 +511,31 @@ curl -s -b $CA "$B/qualite/ordres/1?vue=liste" | grep -q 'lot-ferme' \
   && ok "la vue liste tient en une ligne par lot" \
   || ko "la vue liste déplie tout et grossit avec l'ordre"
 
+# Cliquer un produit veut dire « montre-moi ce qu'il y a à contrôler sur
+# celui-là ». Le lien portait « vue=liste » sans « ouvert » : on tombait sur la
+# liste de tous les lots, tous fermés, et il fallait un second clic.
+curl -s -b $CA "$B/qualite/ordres/1?vue=cartes" | grep -q 'vue=liste&ouvert=1#lot1' \
+  && ok "cliquer un produit ouvre sa liste de points, pas la liste de tous" \
+  || ko "la carte d'un lot mène encore à la liste fermée"
+
+# Choisir entre une seule chose n'est pas un choix : avec un seul ordre vivant,
+# l'écran de sélection s'efface. Il reparaît dès qu'il y en a deux. Les tests
+# précédents créent et annulent des ordres, donc on ne suppose pas l'état : on
+# le lit, puis on vérifie la règle dans les deux sens.
+VIVANTS=$(node --no-warnings -e "const{db}=require('./db.js');console.log(
+  db.prepare(\"SELECT COUNT(*) n FROM ordres WHERE statut IN ('planifie','en_cours')\").get().n)" 2>/dev/null)
+[ "$VIVANTS" -gt 1 ] \
+  && { [ "$(curl -s -b $CA -o /dev/null -w '%{http_code}' $B/qualite/ordres)" = 200 ] \
+       && ok "$VIVANTS ordres vivants : l'écran de sélection s'affiche" \
+       || ko "le raccourci s'applique même quand il y a un choix à faire"; }
+# On ne garde qu'un seul ordre vivant, le temps d'une requête.
+node --no-warnings -e "require('./db.js').db.prepare(
+  \"UPDATE ordres SET statut='termine' WHERE id <> 1\").run()" 2>/dev/null
+[ "$(curl -s -b $CA -o /dev/null -w '%{redirect_url}' $B/qualite/ordres)" \
+    = "$B/qualite/ordres/1" ] \
+  && ok "un seul ordre vivant : on tombe dessus sans choisir" \
+  || ko "l'écran de sélection s'affiche encore pour un ordre unique"
+
 # Ouvert, le lot porte ses points et ses liens de procédé, qui s'ouvrent à côté
 # sans faire perdre la page en cours.
 curl -s -b $CA "$B/qualite/ordres/1?vue=liste&ouvert=1" | grep -q 'target="_blank"' \
@@ -1409,14 +1434,13 @@ MRP_DB="$CAT" node --no-warnings -e "
   || ko "le retrait du chanvre n'est expliqué nulle part"
 
 # --- un point général qui ne veut rien dire sur CE produit ----------------
-# « Aucune tension aux emmanchures ni à l'entrejambe » est une bonne consigne
-# pour un manteau et une absurdité sur un tote bag. Le point reste juste EN
-# GÉNÉRAL : on l'écarte de ce produit, on ne l'efface pas — l'effacer le
-# retirerait de tous les autres.
-TOT=$(Z "SELECT id n FROM produits WHERE code='TOTE'")
-[ "$(Z "SELECT COUNT(*) n FROM qc_hors_sujet WHERE produit_id=$TOT")" = 3 ] \
-  && ok "les trois points hors sujet sont écartés du tote" \
-  || ko "les écarts du tote ne sont pas chargés"
+# « Comparer à la photo de la boutique » est une bonne consigne partout, et
+# n'a aucun sens sur un produit qui n'a pas de fiche en ligne. Le point reste
+# juste EN GÉNÉRAL : on l'écarte de ces produits, on ne l'efface pas —
+# l'effacer le retirerait de tous les autres.
+[ "$(Z "SELECT COUNT(*) n FROM qc_hors_sujet")" = 4 ] \
+  && ok "les quatre points hors sujet sont écartés de leur produit" \
+  || ko "les écarts ne sont pas chargés"
 
 # Le coussin pour animaux n'avait aucun protocole. Trois points critiques,
 # dictés par l'atelier : le geste du roulage, les ganses qui portent le poids,
@@ -1431,32 +1455,36 @@ TOT=$(Z "SELECT id n FROM produits WHERE code='TOTE'")
   && ok "l'oreiller : « pas de taches » est un point critique" \
   || ko "le contrôle des taches n'est pas classé critique"
 
+# La tuque de ville n'a pas de fiche en ligne : il n'y a littéralement pas de
+# photo à laquelle la comparer. (L'écart portait avant sur « Essai porté » et
+# « Fermeture éclair », retirés du protocole général le 23/09/2026 — un
+# protocole général ne peut pas supposer un corps à enfiler ni une glissière.)
 MRP_DB="$CAT" node --no-warnings -e "
   const D=require('./db.js');
-  const p=D.db.prepare(\"SELECT id FROM produits WHERE code='TOTE'\").get();
+  const p=D.db.prepare(\"SELECT id FROM produits WHERE code='TUQUE-VILLE'\").get();
   const t=D.protocole(p.id).points.map(q=>q.titre);
-  process.exit(t.some(x=>/Essai porté|Fermeture éclair/.test(x)) ? 1 : 0);" 2>/dev/null \
-  && ok "le protocole du tote ne demande plus d'essai porté ni de fermeture éclair" \
-  || ko "un point écarté figure encore au protocole du tote"
+  process.exit(t.some(x=>/Comparaison avec la photo/.test(x)) ? 1 : 0);" 2>/dev/null \
+  && ok "la tuque de ville ne demande plus la comparaison avec une photo qui n'existe pas" \
+  || ko "un point écarté figure encore au protocole de la tuque de ville"
 
 # … mais il vaut toujours ailleurs : c'est toute la différence avec supprimer.
 MRP_DB="$CAT" node --no-warnings -e "
   const D=require('./db.js');
-  const p=D.db.prepare(\"SELECT id FROM produits WHERE code='MANTEAU-3SAISONS'\").get();
+  const p=D.db.prepare(\"SELECT id FROM produits WHERE code='CACHE-COU'\").get();
   const t=D.protocole(p.id).points.map(q=>q.titre);
-  process.exit(t.some(x=>/Essai porté/.test(x)) ? 0 : 1);" 2>/dev/null \
-  && ok "l'essai porté reste au protocole du manteau" \
+  process.exit(t.some(x=>/Comparaison avec la photo/.test(x)) ? 0 : 1);" 2>/dev/null \
+  && ok "la comparaison reste au protocole du cache-cou adulte, qui a une fiche" \
   || ko "écarter d'un produit a emporté le point partout"
 
 # Un point écarté ne doit pas être exigé sur la liste à cocher d'un lot :
 # une liste qu'on ne peut pas finir de cocher ne se coche jamais.
 MRP_DB="$CAT" node --no-warnings -e "
   const D=require('./db.js');
-  const p=D.db.prepare(\"SELECT id FROM produits WHERE code='TOTE'\").get();
+  const p=D.db.prepare(\"SELECT id FROM produits WHERE code='TUQUE-VILLE'\").get();
   const i=D.db.prepare('SELECT id FROM ordre_items WHERE produit_id=?').get(p.id);
   if (!i) process.exit(0);
   const t=D.checklistItem(i.id).points.map(q=>q.titre);
-  process.exit(t.some(x=>/Fermeture éclair/.test(x)) ? 1 : 0);" 2>/dev/null \
+  process.exit(t.some(x=>/Comparaison avec la photo/.test(x)) ? 1 : 0);" 2>/dev/null \
   && ok "la liste à cocher du lot ne demande pas ce qui est écarté" \
   || ko "un point écarté est exigé sur la checklist"
 

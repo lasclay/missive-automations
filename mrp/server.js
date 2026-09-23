@@ -1044,6 +1044,10 @@ async function router(req, res, url, user) {
                  signes: l.filter(x => x.signe).length,
                  ecarts: l.reduce((n, x) => n + (x.signe ? 0 : x.ecarts), 0) };
       });
+    // Choisir entre une seule chose n'est pas un choix. La plupart du temps
+    // il n'y a qu'un ordre vivant : on tombe dessus directement, et l'écran
+    // de sélection ne reparaît que le jour où il y en a deux.
+    if (ordres.length === 1 && !msg) return vers(res, `/qualite/ordres/${ordres[0].id}`);
     return html(res, V.vueQCOrdres({ user, msg, ordres }));
   }
 
