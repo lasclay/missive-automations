@@ -1059,6 +1059,36 @@ async function router(req, res, url, user) {
     return html(res, V.vueQCOrdres({ user, msg, ordres }));
   }
 
+  /**
+   * Une planche en grand, un geste par écran.
+   *
+   * La clé désigne la planche, pas le point : plusieurs points peuvent un
+   * jour partager le même geste. On retrouve le point par le TITRE, comparé
+   * sans accents ni ponctuation — un identifiant change au prochain import,
+   * pas le titre.
+   *
+   * Le retour est passé en paramètre plutôt que deviné : on arrive ici depuis
+   * la liste à cocher d'un lot ou depuis la fiche d'un produit, et renvoyer
+   * l'atelier au mauvais endroit lui fait perdre sa place.
+   */
+  {
+    const m = p.match(/^\/qualite\/planche\/([a-z_]{1,30})$/);
+    if (m) {
+      const PIC = require('./pictos.js');
+      if (!PIC.PLANCHES[m[1]]) return vers(res, '/qualite?err='
+        + encodeURIComponent('Planche inconnue.'));
+      const point = db.prepare(`SELECT titre, detail, consequence FROM qc_points`)
+        .all().find((q) => PIC.cle(q.titre) === m[1]);
+      if (!point) return vers(res, '/qualite?err='
+        + encodeURIComponent("Ce geste n'est rattaché à aucun point de contrôle."));
+      const r = String(q.get('retour') || '');
+      const retour = /^\/[a-z0-9/?=&#_-]{0,120}$/i.test(r) && r
+        ? { href: r, texte: 'Revenir à la liste' }
+        : { href: '/qualite/general', texte: 'Procédés généraux' };
+      return html(res, V.vuePlanche({ user, msg, point, retour }));
+    }
+  }
+
   {
     const m = p.match(/^\/qualite\/ordres\/(\d+)$/);
     if (m) {

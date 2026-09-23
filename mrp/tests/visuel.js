@@ -281,20 +281,35 @@ console.log('\n  Silhouettes, anneaux et images\n');
 // ------------------------------------------------- 7. les planches de contrôle
 {
   const PIC = require('../pictos.js');
+  const HREF = '/qualite/planche/fils';
 
-  const fils = PIC.planche('Fils qui dépassent — les retirer et les couper');
-  t('un point connu sort sa planche', fils.includes('class="pi"'));
-  t('quatre panneaux pour les fils',
-    (fils.match(/class="pi-p"/g) || []).length === 4);
-  t('les panneaux sont numérotés, dans l\'ordre',
-    fils.indexOf('>1<') < fils.indexOf('>2<')
-    && fils.indexOf('>2<') < fils.indexOf('>3<'));
+  // Sous un point : l'AMORCE seule. La bande entière pèse six kilo-octets
+  // bruts ; sept points en porteraient quarante-quatre et la page passerait
+  // au travers du plafond. Un panneau, le compte, et un lien.
+  const amorce = PIC.planche('Fils qui dépassent — les retirer et les couper',
+    { href: HREF });
+  t('un point connu sort son amorce', amorce.includes('class="pi pi-l"'));
+  t('l\'amorce ne montre qu\'un panneau',
+    (amorce.match(/class="pi-p"/g) || []).length === 1, amorce.length + ' o');
+  t('elle dit combien d\'étapes suivent', amorce.includes('4 étapes'));
+  t('elle mène à la planche', amorce.includes(`href="${HREF}"`));
+  t('l\'amorce reste sous 2,5 Ko', amorce.length < 2500, amorce.length + ' o');
+
+  // La page : tous les panneaux, chacun avec son ancre. Arriver par #p3 amène
+  // au troisième geste, pas en haut de la page — c'est ce qui permet de
+  // cliquer une étape dans la liste et de tomber dessus.
+  const bd = PIC.plancheBD('Fils qui dépassent — les retirer et les couper');
+  t('la page porte les quatre panneaux',
+    (bd.match(/class="pi-g"/g) || []).length === 4);
+  t('chaque panneau porte son ancre',
+    ['p1', 'p2', 'p3', 'p4'].every(a => bd.includes(`id="${a}"`)));
+  t('les panneaux sont numérotés dans l\'ordre',
+    bd.indexOf('>1<') < bd.indexOf('>2<') && bd.indexOf('>2<') < bd.indexOf('>3<'));
 
   // La décision se montre par le RÉSULTAT : le fil qui vient est un ✗, le fil
-  // qui résiste un ✓. Sans les deux, la planche raconte un geste au lieu de
-  // trancher — et c'est justement la nuance qu'un texte français fait perdre.
+  // qui résiste un ✓. C'est la nuance qu'un texte français fait perdre.
   t('la planche des fils montre les deux issues',
-    fils.includes('pi-oui') && fils.includes('pi-non'));
+    bd.includes('#2f7d52') && bd.includes('#d4342a'));
 
   // Aucun mot, jamais. Les seuls écrits sont des chiffres : ils se lisent
   // pareil en français, en arabe et en anglais.
@@ -304,27 +319,30 @@ console.log('\n  Silhouettes, anneaux et images\n');
   t('aucun mot dans les planches, seulement des chiffres et leurs unités',
     motsInterdits.length === 0, motsInterdits.join(' | '));
 
-  // Le titre est comparé sans accents ni ponctuation : un import qui remet le
-  // point à neuf lui rend un identifiant neuf, pas un titre neuf.
+  // Les couleurs sont ÉCRITES dans le dessin, pas prises au thème : une
+  // notice doit être la même partout, et un tissu qui change de vert entre
+  // deux téléphones cesse d'être une référence.
+  t('la pièce porte sa vraie couleur, pas celle du thème',
+    bd.includes('#3c7a59') && !bd.includes('var(--'));
+  // La couture en pointillé est ce qui fait lire « textile » et pas « bois ».
+  t('la pièce porte sa couture', bd.includes('stroke-dasharray'));
+
   t('le titre se reconnaît sans accents ni ponctuation',
-    PIC.planche('fils qui depassent  les retirer et les couper')
-      .includes('class="pi"'));
+    PIC.cle('fils qui depassent  les retirer et les couper') === 'fils');
   t('un point sans planche n\'en invente pas',
-    PIC.planche('Vérifier la couleur du fil') === '');
-  t('un titre vide non plus', PIC.planche('') === '' && PIC.planche(null) === '');
+    PIC.cle('Vérifier la couleur du fil') === null
+    && PIC.planche('Vérifier la couleur du fil') === '');
+  t('un titre vide non plus', PIC.cle('') === null && PIC.cle(null) === null);
 
-  // Le trait prend la couleur du texte : une seule version sert en clair, en
-  // sombre et à l'impression. Un aplat deviendrait illisible en mode sombre.
-  const cssP = fs.readFileSync(
-    path.join(__dirname, '..', 'public', 'style.css'), 'utf8');
-  t('le trait suit la couleur du texte',
-    /\.pi-p\{[^}]*stroke:currentColor/.test(cssP));
-  t('les panneaux ne se remplissent pas', /\.pi-p\{[^}]*fill:none/.test(cssP));
-
-  // Sept planches pour 1,3 Ko compressés — c'est ce qui les rend acceptables
-  // là où cent cinquante images matricielles ne le seraient pas.
-  const brut = Object.values(PIC.PLANCHES).flat().join('').length;
-  t('les sept planches tiennent sous 20 Ko bruts', brut < 20000, `${brut} o`);
+  // Toute clé nommée doit exister, et toute planche dessinée doit être
+  // atteignable : une planche orpheline est du poids mort, une clé sans
+  // planche est une page blanche.
+  const cles = [...PIC.PAR_TITRE.values()];
+  t('chaque titre pointe une planche qui existe',
+    cles.every(k => PIC.PLANCHES[k]), cles.filter(k => !PIC.PLANCHES[k]).join(', '));
+  const orphelines = Object.keys(PIC.PLANCHES).filter(k => !cles.includes(k));
+  t('aucune planche dessinée ne reste inatteignable',
+    orphelines.length === 0, orphelines.join(', '));
 }
 
 console.log(`\n  ${ok} réussites, ${ko} échecs\n`);

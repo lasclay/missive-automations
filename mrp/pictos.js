@@ -1,175 +1,191 @@
 /**
  * Les planches de contrôle — comment faire le geste, sans un mot.
  *
- * POURQUOI PAS DES IMAGES ENGENDRÉES. Ce qui fait qu'une notice IKEA se lit
- * en Tunisie comme au Québec, ce n'est pas le réalisme : c'est la CONTRAINTE.
- * Même trait, même main, mêmes flèches, le ✓ et le ✗ toujours au même endroit,
- * d'une planche à l'autre. Un générateur d'images donnerait cent cinquante
- * styles, cent cinquante mains, et des coutures qui ne veulent rien dire.
- * Et le MRP n'héberge rien : cent cinquante images matricielles, ce sont cent
- * cinquante requêtes sur la connexion tunisienne. Une planche vectorielle
- * pèse quatre cents octets compressés et prend la couleur du thème.
+ * POURQUOI PAS DES IMAGES ENGENDRÉES. Ce qui fait qu'une notice se lit en
+ * Tunisie comme au Québec, ce n'est pas le réalisme : c'est la CONSTANCE.
+ * Même tissu, même main, mêmes flèches, d'une planche à l'autre. Un
+ * générateur donnerait cent cinquante styles et des coutures qui ne veulent
+ * rien dire. Et le MRP n'héberge rien : cent cinquante images matricielles
+ * seraient cent cinquante requêtes sur la connexion tunisienne.
  *
  * LA GRAMMAIRE, qui vaut plus que les dessins eux-mêmes :
  *   — un panneau = un geste, numéroté, lu de gauche à droite ;
  *   — aucun texte, jamais. Les seuls signes écrits sont des CHIFFRES
  *     (3 minutes, 2 heures) et ils sont les mêmes dans les trois langues ;
- *   — une flèche dit le mouvement, jamais une légende ;
- *   — le ✓ et le ✗ ne qualifient pas le geste, ils qualifient le RÉSULTAT :
- *     c'est la seule façon de montrer une décision sans la raconter ;
- *   — le trait ne se remplit pas. Un aplat devient illisible en mode sombre.
+ *   — une flèche ROUGE cernée de blanc dit le mouvement : elle se détache du
+ *     dessin, on voit le geste avant l'objet ;
+ *   — le ✓ et le ✗ qualifient le RÉSULTAT, jamais le geste — c'est la seule
+ *     façon de montrer une décision sans la raconter ;
+ *   — la pièce porte toujours sa COUTURE en pointillé. C'est elle qui fait
+ *     lire « textile » plutôt que « planche de bois ».
+ *
+ * Chaque panneau est tracé dans une boîte de 176 × 140.
  */
 
-// ---------------------------------------------------------------- vocabulaire
-// Tout est tracé dans une boîte de 100 × 78. Les pièces reviennent d'une
-// planche à l'autre : c'est ce qui fait qu'on les reconnaît sans les apprendre.
+const T = { trait:'#17140f', creme:'#f7f2e6', tissu:'#3c7a59', tissuO:'#2a5940',
+  tissuC:'#8fc0a6', peau:'#eec19b', peauO:'#c88f61', acier:'#ccd2d8', acierO:'#8a939c',
+  rouge:'#d4342a', verre:'#dfeaf0', fil:'#e8e3d6', bois:'#b98a52' };
 
-/** Un morceau de tissu, vu à plat. Le bord ondule : c'est ce qui le distingue
- *  d'une boîte, et la seule liberté qu'on prend avec la ligne droite. */
-const tissu = (x, y, l, h) =>
-  `<path d="M${x} ${y + 4}q${l / 4} -5 ${l / 2} 0t${l / 2} 0v${h - 8}q-${l / 4} 5 -${l / 2} 0t-${l / 2} 0z"/>`;
+// ---- le tissu : une pièce souple, avec sa COUTURE. C'est la couture qui fait
+// qu'on lit « textile » et pas « planche de bois ».
+const piece = (x, y, e = 1, coul = T.tissu, ombre = T.tissuO) =>
+ `<g transform="translate(${x} ${y}) scale(${e})">
+  <path d="M2 22C26 8 72 6 104 18L104 44C72 34 26 36 2 50Z" fill="${coul}"/>
+  <path d="M2 50C26 36 72 34 104 44l0 8C72 42 26 44 2 58Z" fill="${ombre}"/>
+  <path d="M2 22C26 8 72 6 104 18l0 34C72 42 26 44 2 58Z" fill="none"/>
+  <path d="M8 44C30 31 70 29 99 39" fill="none" stroke="${T.tissuC}"
+        stroke-width="2" stroke-dasharray="5 4" stroke-linecap="round"/>
+ </g>`;
 
-/**
- * Une main. Trois doigts, pas cinq : à cette taille, cinq doigts font une
- * tache. Quatre variantes ont été dessinées et regardées à la taille réelle —
- * la mitaine et le pincement ne se lisaient pas, celle-ci se lit.
- */
-const main = (x, y, r = 0, e = 1) =>
-  `<g transform="translate(${x} ${y}) rotate(${r}) scale(${e})">`
-  + `<path d="M5 16V9a2.6 2.6 0 0 1 5.2 0v5M10.2 14V6a2.6 2.6 0 0 1 5.2 0v8`
-  + `M15.4 14V8a2.6 2.6 0 0 1 5.2 0v14a8 8 0 0 1-8 8h-3a7 7 0 0 1-7-7v-7`
-  + `a2.6 2.6 0 0 1 5.2 0v2"/></g>`;
+// ---- les fils qui dépassent, partant du bord de la couture
+const filsLibres = (x, y) => `<g transform="translate(${x} ${y})" fill="none"
+  stroke="${T.trait}" stroke-width="2" stroke-linecap="round">
+  <path d="M0 0c8-2 10-8 18-11"/><path d="M1 8c9 0 14-5 22-6"/>
+  <path d="M0 15c7 3 15 0 21 4"/></g>`;
 
-/** Retourner la pièce : une flèche en U, à deux têtes. Elle dit « l'autre
- *  face » sans dire laquelle, ce qui est exactement le propos. */
-const retourner = (x, y, e = 1) =>
-  `<g transform="translate(${x} ${y}) scale(${e})">`
-  + `<path d="M3 6v6a9 9 0 0 0 18 0V6M21 6l-4 4M21 6l4 4M3 6l-3 4M3 6l3 4"/></g>`;
+// ---- une main plus anatomique : paume pleine, pouce distinct, ombre au creux
+const main = (x, y, r = 0, e = 1) => `<g transform="translate(${x} ${y}) rotate(${r}) scale(${e})">
+  <path d="M7 24V6.5a3.2 3.2 0 0 1 6.4 0V13M13.4 13V3.2a3.2 3.2 0 0 1 6.4 0V13
+           M19.8 13V6.5a3.2 3.2 0 0 1 6.4 0v18.5a9.5 9.5 0 0 1-9.5 9.5h-3.4
+           A8.3 8.3 0 0 1 5 39.2V26a3.2 3.2 0 0 1 2-3z" fill="${T.peau}"/>
+  <path d="M13.4 13V3.2M19.8 13V6.5" fill="none" stroke="${T.peauO}" stroke-width="1.6"/>
+  <path d="M8 27c3 2 5 6 5 10" fill="none" stroke="${T.peauO}" stroke-width="1.4" opacity=".75"/>
+ </g>`;
 
-/** Une flèche. Le seul mot du langage. */
-const fleche = (x1, y1, x2, y2) => {
-  const a = Math.atan2(y2 - y1, x2 - x1), t = 4.6;
-  const p = (d) => `${(x2 - t * Math.cos(a - d)).toFixed(1)} ${(y2 - t * Math.sin(a - d)).toFixed(1)}`;
-  return `<path d="M${x1} ${y1}L${x2} ${y2}"/><path d="M${p(0.45)}L${x2} ${y2}L${p(-0.45)}"/>`;
-};
+// ---- de vrais ciseaux : deux lames croisées, deux anneaux, une vis
+const ciseaux = (x, y, r = 0, e = 1) => `<g transform="translate(${x} ${y}) rotate(${r}) scale(${e})">
+  <path d="M2 0 22 30l-4 3L0 5Z" fill="${T.acier}"/>
+  <path d="M26 0 6 30l4 3L28 5Z" fill="${T.acier}"/>
+  <circle cx="20" cy="42" r="6.5" fill="none" stroke-width="3.4"/>
+  <circle cx="8" cy="42" r="6.5" fill="none" stroke-width="3.4"/>
+  <circle cx="14" cy="31" r="2.4" fill="${T.acierO}"/></g>`;
 
-/** Un va-et-vient : deux flèches opposées sur la même ligne. */
-const vaEtVient = (x, y, l) =>
-  fleche(x + l * 0.35, y, x, y) + fleche(x + l * 0.65, y, x + l, y);
+const loupe = (x, y, e = 1) => `<g transform="translate(${x} ${y}) scale(${e})">
+  <circle cx="14" cy="14" r="12.5" fill="${T.verre}"/>
+  <path d="M9 9a7 7 0 0 1 6-3" fill="none" stroke="#fff" stroke-width="2.6" opacity=".85"/>
+  <path d="M23 23 34 34" fill="none" stroke-width="5" stroke-linecap="round"/></g>`;
 
-const ciseaux = (x, y) =>
-  `<g transform="translate(${x} ${y})"><path d="M0 0l11 13M11 0L0 13"/>`
-  + `<circle cx="1.5" cy="15.5" r="2.8"/><circle cx="9.5" cy="15.5" r="2.8"/></g>`;
+const fleche = (d) => `<g><path d="${d}" fill="${T.rouge}" stroke="#fff"
+  stroke-width="4" stroke-linejoin="round"/><path d="${d}" fill="${T.rouge}"
+  stroke="${T.trait}" stroke-width="1.6" stroke-linejoin="round"/></g>`;
 
-const loupe = (x, y) =>
-  `<g transform="translate(${x} ${y})"><circle cx="8" cy="8" r="7.5"/>`
-  + `<path d="M13.5 13.5L19 19"/></g>`;
+const oui = (x,y,e=1) => `<g transform="translate(${x} ${y}) scale(${e})"><circle cx="14" cy="14" r="13"
+  fill="#2f7d52"/><path d="M7.5 14.5l4.5 4.5 9-10" fill="none" stroke="#fff" stroke-width="3.4"/></g>`;
+const non = (x,y,e=1) => `<g transform="translate(${x} ${y}) scale(${e})"><circle cx="14" cy="14" r="13"
+  fill="${T.rouge}"/><path d="M8.5 8.5l11 11M19.5 8.5l-11 11" fill="none" stroke="#fff" stroke-width="3.4"/></g>`;
 
-/** Un chronomètre. Le chiffre est le seul écrit toléré : il se lit pareil en
- *  français, en arabe et en anglais. */
-const chrono = (x, y, n, u) =>
-  `<g transform="translate(${x} ${y})"><circle cx="11" cy="12" r="10"/>`
-  + `<path d="M7.5 0h7M11 2v-2"/>`
-  + `<text x="11" y="16" class="pi-n">${n}</text>`
-  + (u ? `<text x="11" y="32" class="pi-u">${u}</text>` : '') + `</g>`;
+const num = (n) => `<g><rect x="6" y="6" width="26" height="26" rx="7" fill="${T.trait}"/>
+  <text x="19" y="26" fill="#fff" stroke="none" text-anchor="middle"
+    font-family="system-ui,sans-serif" font-weight="700" font-size="17">${n}</text></g>`;
 
-const soleil = (x, y) =>
-  `<g transform="translate(${x} ${y})"><circle cx="9" cy="9" r="5"/>`
-  + `<path d="M9 0v2.5M9 15.5V18M0 9h2.5M15.5 9H18M2.6 2.6l1.8 1.8M13.6 13.6l1.8 1.8`
-  + `M15.4 2.6l-1.8 1.8M4.4 13.6l-1.8 1.8"/></g>`;
 
-const flocon = (x, y, e = 1) =>
-  `<g transform="translate(${x} ${y}) scale(${e})"><path d="M12 2v20M3.3 7l17.4 10`
-  + `M3.3 17l17.4-10M9 5l3 3 3-3M9 19l3-3 3 3M4 11.5l.6 3.5 3.4.2`
-  + `M20 12.5l-.6-3.5-3.4-.2M4 12.5l.6-3.5 3.4-.2M20 11.5l-.6 3.5-3.4.2"/></g>`;
+// ---- l'appareil photo : la preuve AVANT. Sans elle, l'essai ne prouve rien.
+const appareil = (x, y, e = 1) => `<g transform="translate(${x} ${y}) scale(${e})">
+  <path d="M0 10h10l5-7h20l5 7h10a4 4 0 0 1 4 4v26a4 4 0 0 1-4 4H4a4 4 0 0 1-4-4V14a4 4 0 0 1 4-4z"
+        fill="${T.acier}"/>
+  <circle cx="27" cy="27" r="11" fill="${T.verre}"/>
+  <circle cx="27" cy="27" r="5" fill="${T.acierO}"/></g>`;
 
-const goutte = (x, y, e = 1) =>
-  `<g transform="translate(${x} ${y}) scale(${e})"><path d="M5 0C5 0 0 6.2 0 9a5 5 0 0 0 10 0C10 6.2 5 0 5 0z"/></g>`;
+// ---- le chronomètre. Le chiffre est le seul écrit toléré : il se lit pareil
+// en français, en arabe et en anglais.
+const chrono = (x, y, n, u, e = 1) => `<g transform="translate(${x} ${y}) scale(${e})">
+  <rect x="12" y="-6" width="16" height="7" rx="2" fill="${T.acierO}"/>
+  <circle cx="20" cy="22" r="21" fill="${T.acier}"/>
+  <circle cx="20" cy="22" r="16" fill="${T.creme}"/>
+  <text x="20" y="29" fill="${T.trait}" stroke="none" text-anchor="middle"
+    font-family="system-ui,sans-serif" font-weight="700" font-size="19">${n}</text>
+  ${u ? `<text x="20" y="57" fill="${T.trait}" stroke="none" text-anchor="middle"
+    font-family="system-ui,sans-serif" font-weight="600" font-size="13">${u}</text>` : ''}</g>`;
 
-/** Un appareil photo : la preuve AVANT. Sans elle, l'essai ne prouve rien. */
-const appareil = (x, y) =>
-  `<g transform="translate(${x} ${y})"><path d="M0 4h5l2.5-3h9L19 4h5v14H0z"/>`
-  + `<circle cx="12" cy="11" r="4.5"/></g>`;
+// ---- le bac d'eau froide
+const bac = (x, y, e = 1) => `<g transform="translate(${x} ${y}) scale(${e})">
+  <path d="M0 0h116v34a14 14 0 0 1-14 14H14A14 14 0 0 1 0 34Z" fill="${T.verre}"/>
+  <path d="M0 0h116" fill="none"/></g>`;
 
-/** Un téléphone montrant la fiche en ligne. */
-const telephone = (x, y) =>
-  `<g transform="translate(${x} ${y})"><rect x="0" y="0" width="17" height="27" rx="3"/>`
-  + `<path d="M6 3h5"/><path d="M3.5 8h10v11h-10z"/></g>`;
+const flocon = (x, y, e = 1) => `<g transform="translate(${x} ${y}) scale(${e})"
+  fill="none" stroke="#2f6d93" stroke-width="3" stroke-linecap="round">
+  <path d="M0 -16V16M-13.8 -8 13.8 8M-13.8 8 13.8 -8"/>
+  <path d="M-4 -11 0 -7l4-4M-4 11 0 7l4 4M-14 -2l-1 5 4 3M14 2l1-5-4-3M-14 2l-1-5 4-3M14 -2l1 5-4 3"/></g>`;
 
-const oui = (x, y) =>
-  `<g transform="translate(${x} ${y})" class="pi-oui"><circle cx="9" cy="9" r="8.5"/>`
-  + `<path d="M4.8 9.3l3 3 5.5-6.4"/></g>`;
-const non = (x, y) =>
-  `<g transform="translate(${x} ${y})" class="pi-non"><circle cx="9" cy="9" r="8.5"/>`
-  + `<path d="M5.5 5.5l7 7M12.5 5.5l-7 7"/></g>`;
+const goutte = (x, y, e = 1) => `<g transform="translate(${x} ${y}) scale(${e})">
+  <path d="M7 0C7 0 0 9 0 13a7 7 0 0 0 14 0C14 9 7 0 7 0z" fill="#79b4d4"/></g>`;
 
-/** Le numéro du panneau, posé en haut à gauche comme sur une notice. */
-const numero = (n) =>
-  `<g class="pi-num"><circle cx="11" cy="11" r="8.5"/>`
-  + `<text x="11" y="15" class="pi-n">${n}</text></g>`;
+const soleil = (x, y, e = 1) => `<g transform="translate(${x} ${y}) scale(${e})">
+  <circle cx="18" cy="18" r="11" fill="#f0b429"/>
+  <path d="M18 0v5M18 31v5M0 18h5M31 18h5M5.3 5.3l3.5 3.5M27.2 27.2l3.5 3.5M30.7 5.3l-3.5 3.5M8.8 27.2l-3.5 3.5"
+        fill="none" stroke="#f0b429" stroke-width="3.4" stroke-linecap="round"/></g>`;
 
-// ------------------------------------------------------------------ planches
-// Chaque entrée : une suite de panneaux. Un panneau = un geste.
+// ---- la table : deux traits sous la pièce. « À plat », pas sur une corde.
+const table = (x, y) => `<g><path d="M${x} ${y}h144M${x + 14} ${y + 9}h116"
+  fill="none" stroke-width="3" stroke-linecap="round"/></g>`;
 
+// ---- l'étiquette, prise dans la couture sur toute sa largeur
+const etiquette = (x, y, r = 0) => `<g transform="translate(${x} ${y}) rotate(${r})">
+  <rect x="0" y="0" width="52" height="26" rx="3" fill="${T.fil}"/>
+  <path d="M9 9h34M9 17h22" fill="none" stroke-width="2.4"/></g>`;
+
+// ---- la même, prise d'un seul côté : un coin pend
+const etiquetteDecousue = (x, y) => `<g transform="translate(${x} ${y})">
+  <path d="M0 0h52v26l-52-8Z" fill="${T.fil}"/>
+  <path d="M9 8h30M9 16h18" fill="none" stroke-width="2.4"/></g>`;
+
+const telephone = (x, y, e = 1) => `<g transform="translate(${x} ${y}) scale(${e})">
+  <rect x="0" y="0" width="40" height="64" rx="7" fill="${T.acier}"/>
+  <rect x="5" y="9" width="30" height="46" rx="2" fill="${T.verre}"/>
+  <path d="M15 5h10" fill="none" stroke-width="2.4"/>
+  <path d="M9 40C16 30 30 30 31 39l0 12H9Z" fill="${T.tissu}" stroke-width="1.8"/></g>`;
+
+// -------------------------------------------------------------- les planches
 const PLANCHES = {
   fils: [
-    // Les DEUX faces : la flèche en U le dit, la loupe dit qu'on regarde.
-    tissu(8, 26, 54, 28) + `<path d="M24 38l-8 -8M38 36l-7 -9M52 40l-6 -10"/>`
-      + loupe(66, 20) + retourner(34, 60, 0.9),
-    // Tirer doucement AVANT de couper.
-    tissu(4, 30, 40, 26) + `<path d="M34 42l24 -6"/>` + main(90, 43, 168, 0.95)
-      + fleche(52, 66, 84, 58),
-    // Le fil vient : la couture n'était pas arrêtée. On recoud, on ne coupe pas.
-    tissu(4, 28, 38, 24) + `<path d="M32 40l26 -5"/>` + main(88, 41, 168, 0.9)
-      + non(66, 58),
-    // Le fil résiste : c'est un vrai fil à couper.
-    tissu(6, 30, 46, 26) + `<path d="M40 42l14 -4"/>` + ciseaux(58, 30)
-      + oui(74, 54),
+    piece(10, 48, 1.05) + filsLibres(118, 58) + loupe(86, 16, 0.95)
+      + fleche('M46 118c-11 0-18-7-18-15h-7l11-13 11 13h-7c0 4 4 7 10 7z')
+      + fleche('M84 118c11 0 18-7 18-15h7l-11-13-11 13h7c0 4-4 7-10 7z'),
+    piece(6, 54, 0.9) + `<path d="M96 70 140 82" fill="none" stroke-width="2.6"/>`
+      + main(156, 86, 172, 0.95)
+      + fleche('M66 118h32v-7l16 11-16 11v-7H66z'),
+    piece(6, 52, 0.9) + `<path d="M84 66 138 78" fill="none" stroke-width="2.6"/>`
+      + `<path d="M14 88C34 76 70 74 96 83" fill="none" stroke="${T.rouge}"
+           stroke-width="3" stroke-dasharray="7 5"/>`
+      + main(156, 82, 172, 0.95) + non(114, 104, 0.9),
+    piece(6, 54, 0.9) + `<path d="M96 70 124 62" fill="none" stroke-width="2.6"/>`
+      + ciseaux(108, 16, 0, 1.05) + oui(20, 100, 0.9),
   ],
   frottement_sec: [
-    appareil(12, 20) + fleche(42, 30, 62, 30) + tissu(62, 22, 30, 22),
-    tissu(10, 30, 54, 28) + `<circle cx="37" cy="44" r="11" stroke-dasharray="3 3"/>`
-      + main(26, 6, 0, 0.95) + vaEtVient(20, 70, 34),
-    chrono(38, 24, '3', 'min'),
+    appareil(16, 40) + fleche('M68 74h24v-7l16 11-16 11v-7H68z') + piece(108, 52, 0.55),
+    piece(10, 54, 0.95) + `<ellipse cx="72" cy="78" rx="20" ry="11" fill="none"
+        stroke="${T.rouge}" stroke-width="2.6" stroke-dasharray="6 4"/>`
+      + main(64, 6, 0, 1.0)
+      + fleche('M36 124h84v-6l13 9-13 9v-6H36z') + fleche('M120 124H36v-6l-13 9 13 9v-6z'),
+    chrono(62, 34, '3', 'min'),
   ],
   lavage: [
-    // Eau froide : le flocon DANS le bac, plus gros que le bac ne l'écrase.
-    `<path d="M12 32h58v18a8 8 0 0 1-8 8H20a8 8 0 0 1-8-8z"/>` + flocon(30, 34, 1.05)
-      + goutte(20, 12, 0.95) + goutte(56, 14, 0.95),
-    // Au soleil ET à plat : les deux dans le même panneau, sinon ils se
-    // ressemblent trop pour être deux gestes.
-    soleil(42, 4) + tissu(14, 34, 62, 24) + `<path d="M8 66h84M18 73h64"/>`,
+    bac(30, 52) + flocon(72, 66, 1.3) + goutte(44, 22, 1.3) + goutte(104, 26, 1.3),
+    soleil(70, 10, 1.1) + piece(30, 62, 0.95) + table(16, 116),
   ],
   frottement_gel: [
-    goutte(26, 12, 1.15) + goutte(44, 10, 1.15) + goutte(62, 14, 1.15)
-      + tissu(14, 38, 60, 24),
-    flocon(20, 22, 1.15) + chrono(58, 24, '2', 'h'),
-    tissu(10, 30, 54, 28) + `<circle cx="37" cy="44" r="11" stroke-dasharray="3 3"/>`
-      + main(26, 6, 0, 0.95) + vaEtVient(20, 70, 34),
-    chrono(38, 24, '3', 'min'),
+    goutte(44, 20, 1.5) + goutte(78, 16, 1.5) + goutte(112, 22, 1.5) + piece(26, 62, 0.9),
+    flocon(32, 44, 1.6) + chrono(96, 40, '2', 'h'),
+    piece(10, 54, 0.95) + `<ellipse cx="72" cy="78" rx="20" ry="11" fill="none"
+        stroke="${T.rouge}" stroke-width="2.6" stroke-dasharray="6 4"/>`
+      + main(64, 6, 0, 1.0)
+      + fleche('M36 124h84v-6l13 9-13 9v-6H36z') + fleche('M120 124H36v-6l-13 9 13 9v-6z'),
+    chrono(62, 34, '3', 'min'),
   ],
   comparer: [
-    tissu(14, 26, 62, 24) + `<path d="M8 58h84M18 65h64"/>`,
-    appareil(6, 26) + `<path d="M32 36h10"/>` + tissu(46, 28, 42, 24) + loupe(60, 4),
-    oui(24, 30) + non(58, 30),
+    piece(30, 56, 0.95) + table(16, 110),
+    appareil(8, 50) + fleche('M58 76h16v-6l13 9-13 9v-6H58z') + piece(88, 58, 0.7)
+      + loupe(118, 26, 0.9),
+    oui(36, 52, 1.3) + non(102, 52, 1.3),
   ],
   etiquette: [
-    // Prise dans la couture sur toute sa largeur, à l'endroit.
-    tissu(8, 18, 78, 22) + `<path d="M8 30h78"/>`
-      + `<rect x="30" y="42" width="30" height="16" rx="1.5"/>`
-      + `<path d="M36 48h18M36 53h12"/>` + oui(68, 44),
-    // À l'envers.
-    tissu(8, 18, 78, 22) + `<path d="M8 30h78"/>`
-      + `<g transform="translate(60 58) rotate(180)"><rect x="0" y="0" width="30" height="16" rx="1.5"/>`
-      + `<path d="M6 6h18M6 11h12"/></g>` + non(68, 44),
-    // Pas prise sur toute sa largeur : un coin pend.
-    tissu(8, 18, 78, 22) + `<path d="M8 30h78"/>`
-      + `<path d="M30 42h30v16l-30 -5z"/>` + non(68, 44),
+    piece(14, 34, 1.3) + etiquette(56, 86, 0) + oui(128, 96, 0.85),
+    piece(14, 34, 1.3) + etiquette(56, 86, 180) + non(128, 96, 0.85),
+    piece(14, 34, 1.3) + etiquetteDecousue(56, 86) + non(128, 96, 0.85),
   ],
   photo_boutique: [
-    // Le soleil couvre les DEUX : c'est le propos, « à la même lumière ».
-    soleil(42, 2) + telephone(10, 28) + loupe(32, 38) + tissu(50, 34, 40, 22),
-    oui(24, 30) + non(58, 30),
+    soleil(74, 6, 0.95) + telephone(22, 52) + loupe(70, 58, 0.8) + piece(96, 66, 0.6),
+    oui(36, 52, 1.3) + non(102, 52, 1.3),
   ],
 };
 
@@ -188,14 +204,55 @@ const PAR_TITRE = new Map([
   ['Comparaison avec la photo de la boutique', 'photo_boutique'],
 ].map(([t, k]) => [empreinte(t), k]));
 
-/** La planche d'un point, ou rien. Rien est un cas normal : la plupart des
- *  points n'en ont pas encore, et un dessin approximatif serait pire. */
-function planche(titre) {
-  const k = PAR_TITRE.get(empreinte(titre));
-  if (!k || !PLANCHES[k]) return '';
-  return `<div class="pi" role="img" aria-label="Procédure illustrée, ${
-    PLANCHES[k].length} étapes">${PLANCHES[k].map((p, i) =>
-    `<svg viewBox="0 0 100 78" class="pi-p">${numero(i + 1)}${p}</svg>`).join('')}</div>`;
+/** La clé de planche d'un titre, ou null. Null est le cas normal : la plupart
+ *  des points n'ont pas de planche, et un dessin approximatif serait pire. */
+const cle = (titre) => PAR_TITRE.get(empreinte(titre)) || null;
+
+const panneau = (d, i, classe = 'pi-p') =>
+  `<svg viewBox="0 0 176 140" class="${classe}" aria-hidden="true">`
+  + `<rect x="1.5" y="1.5" width="173" height="137" rx="12" class="pi-fond"/>`
+  + d
+  + `<g class="pi-num"><rect x="6" y="6" width="26" height="26" rx="7"/>`
+  + `<text x="19" y="26">${i + 1}</text></g></svg>`;
+
+/**
+ * L'amorce d'une planche sous un point de contrôle.
+ *
+ * POURQUOI PAS LA BANDE ENTIÈRE ICI. Quatre panneaux pèsent six kilo-octets
+ * bruts ; sept points en porteraient quarante-quatre, et la page passerait au
+ * travers du plafond de douze kilo-octets compressés. Un seul panneau —
+ * le premier geste — plus le compte des étapes, et le tout est un lien.
+ *
+ * Et c'est aussi la bonne forme : sur un téléphone posé sur une table de
+ * coupe, une bande de quatre vignettes ne se lit pas. On ouvre la planche,
+ * on suit un geste à la fois.
+ */
+function planche(titre, { href = null } = {}) {
+  const k = cle(titre);
+  if (!k) return '';
+  const p = PLANCHES[k];
+  const dedans = panneau(p[0], 0, 'pi-p')
+    + `<span class="pi-suite">${p.length} étapes</span>`;
+  return href
+    ? `<a class="pi pi-l" href="${href}"
+        aria-label="Procédure illustrée, ${p.length} étapes">${dedans}</a>`
+    : `<span class="pi" role="img"
+        aria-label="Procédure illustrée, ${p.length} étapes">${dedans}</span>`;
 }
 
-module.exports = { PLANCHES, PAR_TITRE, planche, empreinte };
+/**
+ * La planche en grand, un panneau par ligne — la page « bande dessinée ».
+ *
+ * Le panneau porte son ancre : arriver par `#p3` amène au troisième geste,
+ * pas en haut de la page. C'est ce qui permet de cliquer une étape dans la
+ * liste à cocher et de tomber dessus.
+ */
+function plancheBD(titre) {
+  const k = cle(titre);
+  if (!k) return '';
+  const p = PLANCHES[k];
+  return `<ol class="bd">${p.map((d, i) => `<li class="bd-p" id="p${i + 1}">
+    ${panneau(d, i, 'pi-g')}</li>`).join('')}</ol>`;
+}
+
+module.exports = { PLANCHES, PAR_TITRE, planche, plancheBD, cle, empreinte };

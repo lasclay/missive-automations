@@ -1611,22 +1611,46 @@ table.gantt{min-width:860px}
 
 
 /* ---------- les planches de contrôle ----------
-   Le geste, sans un mot. La grammaire est dans pictos.js : un panneau = un
-   geste, numéroté, lu de gauche à droite ; aucun texte hors des chiffres ;
-   le ✓ et le ✗ qualifient le RÉSULTAT, jamais le geste.
+   Le geste, sans un mot. La grammaire est dans pictos.js.
 
-   Le trait prend la couleur du texte : rien à refaire pour le mode sombre,
-   et une planche imprimée en noir et blanc garde son sens — seuls le ✓ et
-   le ✗ y perdent leur teinte, et leur forme suffit. */
-.pi{display:flex;gap:7px;flex-wrap:wrap;margin:9px 0 2px}
-.pi-p{width:122px;height:95px;flex:0 0 auto;background:var(--media);
-  border:1px solid var(--cadre);border-radius:7px;
-  fill:none;stroke:currentColor;stroke-width:2.4;
-  stroke-linecap:round;stroke-linejoin:round}
-.pi-num circle{fill:var(--encre);stroke:none}
-.pi-num .pi-n{fill:var(--fond);stroke:none}
-.pi-n{fill:currentColor;stroke:none;font:700 12px/1 inherit;text-anchor:middle}
-.pi-u{fill:currentColor;stroke:none;font:600 9px/1 inherit;text-anchor:middle}
-.pi-oui{stroke:var(--vert)}
-.pi-non{stroke:var(--rouge)}
-@media (max-width:620px){ .pi-p{width:104px;height:81px} }
+   Les couleurs sont ÉCRITES dans le SVG, pas prises au thème : une notice
+   doit être la même partout, et un tissu qui change de vert entre deux
+   téléphones cesse d'être une référence. Seul le cadre suit le thème. */
+.pi{display:inline-flex;align-items:flex-end;gap:9px;margin:9px 0 2px;
+  text-decoration:none;color:inherit}
+.pi-p,.pi-g{flex:0 0 auto;stroke:#17140f;stroke-width:2.4;
+  stroke-linejoin:round;stroke-linecap:round}
+.pi-p{width:150px;height:119px}
+.pi-fond{fill:#f7f2e6;stroke:#17140f;stroke-width:2.6}
+.pi-num rect{fill:#17140f;stroke:none}
+.pi-num text{fill:#fff;stroke:none;text-anchor:middle;
+  font:700 17px/1 system-ui,sans-serif}
+/* « 4 étapes » : le seul mot de l'interface autour d'une planche. Il est
+   DEHORS, jamais dans le dessin. */
+.pi-suite{font-size:12.5px;font-weight:650;color:var(--gris);
+  padding-bottom:4px;white-space:nowrap}
+.pi-suite::after{content:' \2197'}
+a.pi:hover .pi-fond{stroke-width:3.6}
+a.pi:hover .pi-suite{color:var(--vert)}
+
+/* ---------- la planche en grand : un geste par ligne ---------- */
+.bd{list-style:none;margin:18px 0 0;padding:0;display:flex;flex-direction:column;
+  gap:14px;align-items:center}
+.bd-p{margin:0;scroll-margin-top:76px}
+.pi-g{width:min(100%,460px);height:auto;display:block}
+.bd-cons{margin:10px 0 0}
+.bd-pied{margin:22px 0 0;text-align:center}
+@media (max-width:620px){ .pi-p{width:126px;height:100px} }
+
+/* Une étape dont le geste est dessiné se signale : le titre devient un lien
+   et porte une pastille. Sans pastille, pas de planche — et on ne clique pas
+   pour rien. */
+a.ck-td{text-decoration:none;color:inherit}
+a.ck-td:hover{color:var(--vert)}
+.ck-pl{display:inline-block;width:15px;height:12px;margin-left:7px;
+  vertical-align:-1px;border:1.6px solid currentColor;border-radius:3px;
+  opacity:.55;position:relative}
+.ck-pl::after{content:'';position:absolute;left:3px;top:2.4px;
+  border-left:5px solid currentColor;border-top:3.2px solid transparent;
+  border-bottom:3.2px solid transparent}
+a.ck-td:hover .ck-pl{opacity:1}

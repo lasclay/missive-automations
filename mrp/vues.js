@@ -855,7 +855,7 @@ function pointQC({ q, produitId, editable, action = null, unites }) {
       ${q.appuis ? `<span class="qc-appui">${q.appuis} signalement${
         q.appuis > 1 ? 's' : ''} sur le terrain</span>` : ''}
       ${schemaQC(q, TAILLES.vignette)}
-      ${PIC.planche(q.titre)}
+      ${PIC.planche(q.titre, { href: `/qualite/planche/${PIC.cle(q.titre)}` })}
       ${(() => {
         // Les morceaux du pied se joignent par « · ». Les concaténer avec un
         // séparateur en préfixe laisse un « · » orphelin dès que le premier
@@ -908,7 +908,7 @@ function vueChecklist({ user, msg, ordre, c }) {
         q.variante ? ` · ${e(q.variante)}` : ''}</p>` : ''}
       ${q.consequence ? `<p class="qc-cons">Sinon : ${e(q.consequence)}</p>` : ''}
       ${schemaQC(q, TAILLES.vignette)}
-      ${PIC.planche(q.titre)}
+      ${PIC.planche(q.titre, { href: `/qualite/planche/${PIC.cle(q.titre)}` })}
       ${q.ech && q.ech.pieces !== null ? `<p class="ck-ech">
         <b>${e(q.ech.texte)}</b>${q.ech.regle ? ` <span>(${e(q.ech.regle)})</span>` : ''}
       </p>` : ''}
@@ -1196,7 +1196,7 @@ function vueQualiteGeneral({ user, msg, general = [] }) {
           q.tolerance ? ` ± ${e(q.tolerance)}` : ''}</p>` : ''}
         ${q.consequence ? `<p class="qc-cons">Sinon : ${e(q.consequence)}</p>` : ''}
         ${schemaQC(q, TAILLES.galerie)}
-        ${PIC.planche(q.titre)}
+        ${PIC.planche(q.titre, { href: `/qualite/planche/${PIC.cle(q.titre)}` })}
         ${q.frequence ? `<p class="qc-pied"><b>${e(q.frequence)}</b></p>` : ''}
       </div>
     </li>`).join('')}
@@ -1322,11 +1322,24 @@ function vueQCOrdre({ user, msg, ordre, lignes, cat = 'tous', vue = 'cartes',
           ${c.points.map(q => `<li class="ck-mini ${q.verdict === 'non_conforme' ? 'ck-ko'
               : q.verdict ? 'ck-ok' : 'ck-attente'}">
             <span class="q-pip q-${e(q.type)}">${ICONE_QC[q.type] || '·'}</span>
-            <span class="ck-t">${e(q.titre)}
+            ${(() => {
+              // Le titre devient un lien QUAND le geste est dessiné : on
+              // tombe sur la planche, un panneau par écran, et on revient à
+              // sa place dans la liste. Sans planche, le titre reste du
+              // texte — un lien qui mène à rien coûte un geste pour rien.
+              const k = PIC.cle(q.titre);
+              const dedans = `${e(q.titre)}
               ${q.general ? '<span class="ck-gen">général</span>' : ''}
               ${q.valeur ? (($c) => `<span class="ck-cible">${e($c.valeur)}${
                 $c.unite ? ' ' + e($c.unite) : ''}</span>`
-                )(U.convertirMesure(q.valeur, q.unite, user.unites)) : ''}</span>
+                )(U.convertirMesure(q.valeur, q.unite, user.unites)) : ''}`;
+              return k
+                ? `<a class="ck-t ck-td" href="/qualite/planche/${k}?retour=${
+                    encodeURIComponent(lien(l))}"
+                    title="Voir le geste en images">${dedans}
+                    <i class="ck-pl" aria-hidden="true"></i></a>`
+                : `<span class="ck-t">${dedans}</span>`;
+            })()}
             <a class="ck-proc" href="/qualite/${l.produit_id}#p${q.id}"
                target="_blank" rel="noopener" title="Voir le procédé">↗</a>
             <form method="post"
@@ -1412,6 +1425,28 @@ function rapportForm({ ordre, l, c }) {
     <input name="medias" placeholder="Adresses de photos ou vidéos, séparées par une espace">
     <button class="btn">Signer le contrôle</button>
   </form>`;
+}
+
+/**
+ * Une planche en grand, un geste par écran.
+ *
+ * C'est la page qu'on ouvre en atelier, le téléphone posé à côté de la
+ * machine. Pas de texte dans les dessins : le titre et le détail sont au-
+ * dessus, en français, pour qui les lit ; les panneaux se suivent en dessous
+ * et se comprennent sans.
+ */
+function vuePlanche({ user, msg, point, retour }) {
+  const corps = `
+  <p class="fil-ariane"><a href="${e(retour.href)}">${e(retour.texte)}</a></p>
+  <div class="entete"><div>
+    <h1>${e(point.titre)}</h1>
+    ${point.detail ? `<p class="muted">${e(point.detail)}</p>` : ''}
+  </div></div>
+  ${point.consequence
+    ? `<p class="qc-cons bd-cons">Sinon : ${e(point.consequence)}</p>` : ''}
+  ${PIC.plancheBD(point.titre)}
+  <p class="bd-pied"><a class="btn sec" href="${e(retour.href)}">Revenir</a></p>`;
+  return page({ titre: point.titre, user, corps, actif: 'qualite', msg });
 }
 
 function vueProtocole({ user, p, proto, msg, photos = [], bris = null,
@@ -3245,6 +3280,7 @@ function vueSuivi({ user, msg, recentes, immobiles, progression, jours }) {
 }
 
 module.exports = { e, urlImage, urlAcceptable, img, miniature, silhouette,
+  vuePlanche,
   TAILLES, sousNavProduits,
   vueQualiteAccueil, vueQualiteProduits, vueQualiteGeneral, vueQCOrdres, vueQCOrdre, dateFR, dateHeureFR, jauge, page, vueConnexion,
                    vueCompte,
