@@ -10412,6 +10412,482 @@
       "motif": "Remarque mesurée dans un échange sur l'envahissement. Répondable, mais nous avons déjà publié trois fois aujourd'hui la nuance « agressive n'est pas envahissante » sur ce même fil — à reprendre un autre jour pour ne pas radoter.",
       "page_id": "114311920399404",
       "quand": "2026-09-21T23:38:30.030Z"
+    },
+    {
+      "id": "291041512726443_303861074777820",
+      "extrait": "Johanne Piché je sais, mais je ne voulais pas faire trop peur à tous les enthousiastes de monarques 😊",
+      "motif": "Doublon : la même personne a écrit le même message deux fois dans le fil, à deux abonnées différentes. Nous avons répondu hier à 22 h au jumeau (303861244777803) — pas de seconde réponse identique.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T11:38:42.470Z"
+    },
+    {
+      "id": "291041512726443_303857441444850",
+      "extrait": "Therese Nault merci",
+      "motif": "Remerciement entre abonnées, sans contenu.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T11:38:42.470Z"
+    },
+    {
+      "id": "291041512726443_303842081446386",
+      "extrait": "Karina Charest Castro Katie June Dre Katie April Mv",
+      "motif": "Identifications seules, sans contenu.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T13:38:48.708Z"
+    },
+    {
+      "id": "291041512726443_303689931461601",
+      "extrait": "Catherine Décarie Merci",
+      "motif": "Remerciement à une de nos propres réponses, rien à ajouter.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T13:38:48.708Z"
+    },
+    {
+      "id": "291041512726443_303559488141312",
+      "extrait": "Françoise Désautels bonjour! Non ce n’est pas trop tard.",
+      "motif": "Même réponse, plus courte, que le commentaire 303559064808021 auquel nous répondons — une seule intervention par échange.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T13:38:48.708Z"
+    },
+    {
+      "id": "291041512726443_303229508174310",
+      "extrait": "June Pearl oui vraiment j'adore",
+      "motif": "Échange entre abonnées, sans contenu.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T13:38:48.708Z"
+    },
+    {
+      "id": "291041512726443_291941532636441",
+      "extrait": "Je viens de voir sur le site se l'ascley qu'il faut en commander minimum 2 pour que ca fonctionne hihi",
+      "motif": "Porte sur les conditions d'un code promo, dans un fil où quelqu'un dit que le code ne fonctionne pas. Question de commande et de rabais : ne se règle pas en commentaire public, et nous ne confirmons pas des conditions de boutique que nous n'avons pas vérifiées.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T14:40:31.901Z"
+    },
+    {
+      "id": "263649742132287_303733258123935",
+      "extrait": "Asclépiade & papillons monarques Désolé, mais je trouve la réponse un peu égoïste ! Si on vous donne, ne serait-ce pas intéressant justement de redonner un peu ?",
+      "motif": "SUIVI HUMAIN REQUIS — Reproche public adressé à la Page au sujet d'une de ses propres réponses sur le sociofinancement (la Ruche, contreparties, GoFundMe). Tout un fil s'est formé là-dessus (voir aussi 308831867614074, 305479574615970, 329356168894977, 322449589585635). C'est une polémique sur une position passée de la Page, sans aucun fait vérifié de notre côté : le tir D ne s'en mêle pas. À trancher par quelqu'un qui connaît le dossier.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T14:40:31.901Z"
+    },
+    {
+      "id": "263649742132287_308831867614074",
+      "extrait": "Alain de Lamirande Il y a plusieurs méthodes de socio-financement... Donner sans attendre quelque chose en retour n'est-il pas le vrai sens de faire un don ?",
+      "motif": "Même polémique sur le sociofinancement et les contreparties — hors de nos faits vérifiés, et débat sur une position passée de la Page.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T14:40:31.901Z"
+    },
+    {
+      "id": "263649742132287_305479574615970",
+      "extrait": "Alain de Lamirande la nature du projet rend sûrement difficile l’établissement de contrepartie attirante...",
+      "motif": "Même polémique sur le sociofinancement et les contreparties.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T14:40:31.901Z"
+    },
+    {
+      "id": "263649742132287_329356168894977",
+      "extrait": "Alain de Lamirande la définition de don : Larousse... Petit Robert...",
+      "motif": "Même polémique, argument de dictionnaire sur la définition de « don ». Rien à y répondre qui relève de nous.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T14:40:31.901Z"
+    },
+    {
+      "id": "263649742132287_322449589585635",
+      "extrait": "Alain de Lamirande il faut élargir la compréhension de se faire redonner en retour. C’est aussi un peu égoïste de donner avec attente de recevoir en retour.",
+      "motif": "Même polémique sur le sens du don.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T14:40:31.901Z"
+    },
+    {
+      "id": "263649742132287_293359102494684",
+      "extrait": "Asclépiade & papillons monarques Serait-il possible de créer une pétition pour demander le financement nescessaire au gouvernement?",
+      "motif": "Question sincère mais qui demanderait une position sur le financement public d'un tiers — hors de nos faits vérifiés. À laisser à qui connaît le dossier.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T14:40:31.901Z"
+    },
+    {
+      "id": "263649742132287_280528667111061",
+      "extrait": "Les Dragons à la télé pourraient peut-être lui venir en aide?",
+      "motif": "Suggestion sur le financement d'un tiers, hors de nos faits vérifiés.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T14:40:31.901Z"
+    },
+    {
+      "id": "263649742132287_325453999285194",
+      "extrait": "Monoculture ...non !",
+      "motif": "Objection lancée sans développement sur les pratiques de culture, dont nous n'avons aucun fait vérifié. Rien à répondre sans improviser.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T14:40:31.901Z"
+    },
+    {
+      "id": "263649742132287_295380185625909",
+      "extrait": "Virginie Michaud Bonjour! Je suis intéressée par l’Aster de Nouvelle Angleterre et la Monarde fistuleuse. Comment procédez vous pour l’achat?",
+      "motif": "Question adressée à une autre abonnée au sujet de sa propre banque de semences — transaction entre tiers, pas la nôtre.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T14:40:31.901Z"
+    },
+    {
+      "id": "263649742132287_282126556951272",
+      "extrait": "Virginie Michaud Dans quelle ville habitez-vous?",
+      "motif": "Même échange privé entre deux abonnées, aucune question pour nous.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T14:40:31.901Z"
+    },
+    {
+      "id": "291041512726443_293541272476467",
+      "extrait": "Mélanie C’est ça des graines d’asclepiades? 🤣🤣🤣🤣",
+      "motif": "Blague entre abonnées, sans question.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T14:40:31.901Z"
+    },
+    {
+      "id": "263649742132287_329356882228239",
+      "extrait": "Alain Marchildon je confirme, çà sent très bon !!!",
+      "motif": "Porte sur l'odeur de la plante, qui ne figure pas dans nos faits vérifiés — comme le commentaire équivalent écarté hier.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T14:40:31.901Z"
+    },
+    {
+      "id": "263649742132287_322751359555458",
+      "extrait": "Daniel c'est ca qu'on a, il faut prendre les autres et les mettre ensemble... ;)",
+      "motif": "Message allusif entre abonnés, incompréhensible hors contexte.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T14:40:31.901Z"
+    },
+    {
+      "id": "263649742132287_320776049752989",
+      "extrait": "Deux papillons monarques ont passé quelques jours dans mon pré. Je vais vérifier si j'ai des chenilles dans les jours/semaines qui viennent!",
+      "motif": "Même personne et même récit que 320772646419996, auquel nous répondons. Photo regardée : un pré avec un large massif de plants à larges feuilles devant une cour de campagne, aucun papillon visible — rien qui change la réponse.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T14:40:31.901Z"
+    },
+    {
+      "id": "263649742132287_274330027730925",
+      "extrait": "Je me suis laissé dire que plusieurs utilisent du glyphosate (roundup) sur TOUT leur champs avant de faire les semis... Est-ce vrai ?",
+      "motif": "SUIVI HUMAIN REQUIS — Question directe à la Page sur l'usage de glyphosate par les cultivateurs d'asclépiade. Nos faits vérifiés ne couvrent que les néonicotinoïdes (à éviter), rien sur les pratiques réelles des producteurs. La Page a déjà pris position là-dessus par le passé (« aucun pesticide, c'est un code d'honneur »), affirmation qui ne figure pas dans nos faits vérifiés : le tir D ne la répétera pas et n'inventera pas de réponse. Allégation sur la chaîne d'approvisionnement, à traiter par quelqu'un qui a les données.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T15:40:13.302Z"
+    },
+    {
+      "id": "263649742132287_270870004743594",
+      "extrait": "Désolée, je me suis mélangée de toxine, c'est la cardenoline dans l'asclépiade... peut causer un arrêt cardiaque... (+ lien La Presse)",
+      "motif": "SUIVI HUMAIN REQUIS — Affirmation détaillée sur la cardiotoxicité pour l'humain (palpitations, arrêt cardiaque), échangée entre deux abonnés. Nos faits vérifiés couvrent le bétail et l'absence de cas documenté chez l'enfant ou l'animal de compagnie, mais pas la pharmacologie humaine. Une allégation de risque cardiaque qui circule sur la Page mérite un œil humain. Vignette de lien illisible (68 octets).",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T15:40:13.302Z"
+    },
+    {
+      "id": "263649742132287_270864184744176",
+      "extrait": "Virginie Michaud qu'est-ce qu'un cardiotoxique? Comment une substance peut-elle être toxique spécifiquement pour le système cardiaque?",
+      "motif": "Question adressée à une autre abonnée, dans le même échange sur la cardiotoxicité — hors de nos faits vérifiés.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T15:40:13.302Z"
+    },
+    {
+      "id": "263649742132287_273899861107275",
+      "extrait": "Est-ce que vous traitez l'asclepiade avant de rembourrer les manteaux? Ou c'est seulement comprimé?",
+      "motif": "Question légitime sur le procédé de fabrication, qui ne figure pas dans nos faits vérifiés. Répondable par quelqu'un qui connaît la production ; le tir D n'invente pas.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T15:40:13.302Z"
+    },
+    {
+      "id": "263649742132287_271559401341321",
+      "extrait": "non j'y allais avec ce qui était écris. Donc la culture a commencé avant que l'équipement ne soit existante?... pourquoi aucun grand joueur n'est intéressé à faire une offre?",
+      "motif": "Contestation de l'historique et du modèle d'affaires du projet, en réponse à un commentaire passé de la Page. Même polémique qu'à 10 h — hors de nos faits vérifiés.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T15:40:13.302Z"
+    },
+    {
+      "id": "263649742132287_271105468053381",
+      "extrait": "Le saviez-vous? Les abeilles butinent l’asclépiade et cela donne un très bon goût au miel, essayez le !",
+      "motif": "Abeilles et miel sont tous deux absents de nos faits vérifiés — ni à confirmer ni à contredire.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T15:40:13.302Z"
+    },
+    {
+      "id": "263649742132287_320612479769346",
+      "extrait": "c’est plus sans le sens que des semences peuvent aller s’implanter dans des champs avoisinant … et se retrouver dans l’ensillage",
+      "motif": "Préoccupation fondée sur le foin et l'ensilage — exactement le sujet auquel nous avons répondu ce matin à 10 h sur cette même publication. Pas de seconde réponse le même jour sur le même thème.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T15:40:13.302Z"
+    },
+    {
+      "id": "263649742132287_315356156961645",
+      "extrait": "Salut !:) nous en vendons sur notre site aussi @thomasmielhoney.ca",
+      "motif": "Promotion d'un site commercial tiers dans nos commentaires — nous ne relayons pas.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T15:40:13.302Z"
+    },
+    {
+      "id": "263649742132287_308834110947183",
+      "extrait": "Véro Begin Vous trouverez tout ici... https://www.ecoumene.com/produit/semences/...",
+      "motif": "Renvoi vers un vendeur de semences tiers — nous ne relayons pas. Vignette de lien non téléchargeable (erreur 400).",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T15:40:13.302Z"
+    },
+    {
+      "id": "263649742132287_308834900947104",
+      "extrait": "Douce Labelle Vous pouvez communiquer avec le porteur de ce projet, Martin Bélanger... sur le lien qui est publié pour faire un don...",
+      "motif": "Coordonnées d'un tiers et mécanique de la campagne de dons — hors de notre périmètre.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T15:40:13.302Z"
+    },
+    {
+      "id": "263649742132287_308833440947250",
+      "extrait": "Josiane Grenier C,est possible de le faire en allant sur la page de don...",
+      "motif": "Même chose : mise en relation avec un tiers via la campagne de dons.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T15:40:13.302Z"
+    },
+    {
+      "id": "263649742132287_308392744324653",
+      "extrait": "... bonne idée les Dragons à la tele !",
+      "motif": "Suggestion sur le financement d'un tiers, hors de nos faits vérifiés.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T15:40:13.302Z"
+    },
+    {
+      "id": "263649742132287_307159797781281",
+      "extrait": "Vous devriez peut-être faire application à l'emission Dans l'oeil du dragon... c'est un super beau projet!!",
+      "motif": "Suggestion sur le financement d'un tiers, hors de nos faits vérifiés.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T15:40:13.302Z"
+    },
+    {
+      "id": "263649742132287_274510414379553",
+      "extrait": "Virginie Michaud int. puis-je avoir cette liste? svp je ne peux pas agrandir les caracteres!",
+      "motif": "Demande adressée à une autre abonnée au sujet de sa propre banque de semences.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T15:40:13.302Z"
+    },
+    {
+      "id": "263649742132287_320701503093777",
+      "extrait": "Dominique Lepage la fleur que ramassais en marchant !",
+      "motif": "Souvenir partagé avec une connaissance, sans question.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T15:40:13.302Z"
+    },
+    {
+      "id": "263649742132287_319965449834049",
+      "extrait": "Véronique Martel je t’attends dans le jardin 🪴 😻",
+      "motif": "Échange entre amies, sans contenu.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T15:40:13.302Z"
+    },
+    {
+      "id": "263649742132287_306525021178092",
+      "extrait": "Marianne Paquette C CAAAAA",
+      "motif": "Identification sans contenu.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T15:40:13.302Z"
+    },
+    {
+      "id": "291041512726443_302931971537397",
+      "extrait": "Lisez ce guide de plantation : https://fr.davidsuzuki.org/publication-scientifique/guide-de-plantation-dasclepiade",
+      "motif": "Renvoi vers un guide tiers — nous ne relayons pas de liens externes. Capture regardée : le guide de la Fondation David Suzuki concorde avec nos faits vérifiés (semences non stratifiées, au moins 30 jours à 5 °C, floraison à la deuxième année). Il indique environ 1 cm de profondeur là où nous disons ~5 mm ; écart mineur, non relevé publiquement.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T17:40:22.621Z"
+    },
+    {
+      "id": "291041512726443_303188574845070",
+      "extrait": "Therese Nault elle vont sortir l'année prochaine 🤷‍♂️",
+      "motif": "Même échange sur la stratification que 302899254874002, auquel nous répondons — une seule intervention par fil.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T17:40:22.621Z"
+    },
+    {
+      "id": "291041512726443_302405471590047",
+      "extrait": "C est fais hâte de les planter",
+      "motif": "Message d'enthousiasme sans question. Écarté pour ne pas répéter une quatrième fois en deux jours le même remerciement accompagné des mêmes repères de semis.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T17:40:22.621Z"
+    },
+    {
+      "id": "291041512726443_302137921616802",
+      "extrait": "Élyse Millette bonne idée ☺️",
+      "motif": "Échange entre abonnées, sans contenu.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T17:40:22.621Z"
+    },
+    {
+      "id": "291041512726443_301627878334473",
+      "extrait": "Nathalie Levesque haha drôle de timing 😃 merci de l'info 😉",
+      "motif": "Échange entre abonnées, sans contenu.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T17:40:22.621Z"
+    },
+    {
+      "id": "291041512726443_301516578345603",
+      "extrait": "Valérie Courchesne c’est ça j’disais",
+      "motif": "Message allusif entre abonnées, sans contenu.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T17:40:22.621Z"
+    },
+    {
+      "id": "291041512726443_301312911699303",
+      "extrait": "Christine Morin oui",
+      "motif": "Réponse d'un mot entre abonnées à la question « Est-ce Québécois ? ». Sans contenu, et l'origine du produit n'est pas un terrain où le tir D s'avance.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T18:39:52.167Z"
+    },
+    {
+      "id": "NOTE-FAITS-VERIFIES-odeur",
+      "extrait": "Observation interne, pas un commentaire",
+      "motif": "À VÉRIFIER PAR UN HUMAIN — La photo des sachets Lasclay (commentaire 301182791712315) montre que notre propre emballage promet « le parfumer d'une enivrante odeur florale ». Or l'odeur de la plante ne figure pas dans faits-verifies.json, et le tir D a écarté deux commentaires sur l'odeur pour cette raison (« Ça sent très bon », 21 sept. et 22 sept.). Si l'emballage l'affirme, le fait mériterait d'être ajouté aux faits vérifiés — ou l'emballage corrigé. Aucune réponse publiée sur l'odeur d'ici là.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T18:39:52.167Z"
+    },
+    {
+      "id": "291041512726443_300376585126269",
+      "extrait": "En fait je voulais savoir où vous êtes situé. Parfois, on voit passer des annonces et au final ça provient de la France.",
+      "motif": "SUIVI HUMAIN REQUIS — Question directe et légitime à la Page sur l'endroit d'où nous opérons, posée par méfiance envers les annonces qui viennent d'ailleurs. Y répondre oblige à distinguer le siège de l'entreprise du lieu de fabrication, or REGLES.md interdit au tir D d'affirmer « fabriqué au Québec » pour un produit fini comme d'en faire la correction. Aucun fait de localisation dans faits-verifies.json. À répondre par quelqu'un qui peut le formuler sans risque.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T20:38:58.510Z"
+    },
+    {
+      "id": "263649742132287_303732761457318",
+      "extrait": "Moi j'embarque ! ... faites un Kickstarter et vendez des oreillers avec de la fibre d'asclépiade ... 80$US par oreiller !",
+      "motif": "Proposition d'affaires accompagnée d'un prix. REGLES.md interdit tout chiffre de prix, et le sociofinancement du projet est hors de notre périmètre.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T20:38:58.510Z"
+    },
+    {
+      "id": "263649742132287_302293998267861",
+      "extrait": "Comme ça doit sentir bon, dans ces champs!!",
+      "motif": "Troisième commentaire sur l'odeur écarté pour la même raison : elle n'est pas dans nos faits vérifiés. Voir la note NOTE-FAITS-VERIFIES-odeur consignée au tir de 14 h — notre propre emballage, lui, promet une odeur florale.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T20:38:58.510Z"
+    },
+    {
+      "id": "291041512726443_300428428454418",
+      "extrait": "Muriel Fawer tres tres tres envahissant...",
+      "motif": "Troisième répétition de la même affirmation par la même personne dans le même fil. Nous y avons répondu ce matin à 7 h (303860054777922).",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T20:38:58.510Z"
+    },
+    {
+      "id": "291041512726443_300525558444705",
+      "extrait": "Cécile Gosselin on pourrait en échapper un peu partout 😊",
+      "motif": "Idée de semer un peu partout, déjà nuancée ce midi à 14 h (« semer chez soi, ou là où on est le bienvenu »). Pas de seconde intervention le même jour.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T20:38:58.510Z"
+    },
+    {
+      "id": "263649742132287_303947214769206",
+      "extrait": "Encourageons les merveilleux produits du Québec.🙂",
+      "motif": "Encouragement sans question, et sur un terrain — l'origine des produits — où le tir D ne s'avance pas.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T20:38:58.510Z"
+    },
+    {
+      "id": "263649742132287_303179311512663",
+      "extrait": "Il faut continuer à contribuer,presque rendu au but",
+      "motif": "Encouragement à la campagne de dons d'un tiers — hors de notre périmètre.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T20:38:58.510Z"
+    },
+    {
+      "id": "291041512726443_300507685113159",
+      "extrait": "Sann Ville oui stp",
+      "motif": "Échange entre abonnés, sans contenu.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T20:38:58.510Z"
+    },
+    {
+      "id": "291041512726443_300360885127839",
+      "extrait": "quelle bonne odeur !!!",
+      "motif": "Quatrième commentaire écarté sur l'odeur, absente de nos faits vérifiés. Voir NOTE-FAITS-VERIFIES-odeur (tir de 14 h) : notre propre emballage promet pourtant une odeur florale.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T21:38:12.482Z"
+    },
+    {
+      "id": "291041512726443_300130858484175",
+      "extrait": "Oui et ça sent bon !!",
+      "motif": "Cinquième commentaire écarté sur l'odeur, même raison. La fréquence du sujet renforce la note laissée à un humain.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T21:38:12.482Z"
+    },
+    {
+      "id": "291041512726443_300360205127907",
+      "extrait": "Lise Machabee oui j'ai aussi fais ca lolll",
+      "motif": "Échange entre abonnées sur des souvenirs de bricolage, sans contenu ni question.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T21:38:12.482Z"
+    },
+    {
+      "id": "291041512726443_299936528503608",
+      "extrait": "Sylvie Lemieux tu m'enverras des photos! 😉",
+      "motif": "Échange entre amies ; nous répondons au message auquel il réagit (299935705170357).",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T21:38:12.482Z"
+    },
+    {
+      "id": "291041512726443_299552891875305",
+      "extrait": "Moi aussi j’ai succombé 😊",
+      "motif": "Message d'achat sans question. Écarté pour ne pas répéter une fois de plus le même remerciement, déjà servi plusieurs fois ces deux derniers jours.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T22:38:55.324Z"
+    },
+    {
+      "id": "291041512726443_298325868664674",
+      "extrait": "Lise Pelletier oui sa se replante moi j’en ai mi dans le champs derrière le garage dans les plates bande pas en mettre c’est très très envahissant",
+      "motif": "Même échange sur la transplantation que 301300428367218, auquel nous avons répondu cet après-midi à 14 h (refus de conseiller la transplantation, chemin des gousses d'automne). L'avertissement « très très envahissant » a lui aussi été nuancé plusieurs fois aujourd'hui. Pas de troisième intervention dans le même fil.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T23:38:24.743Z"
+    },
+    {
+      "id": "291041512726443_298656881964906",
+      "extrait": "Claudine Hill Goulet Mes soeurs et moi on se bricolait des petits moutons avec les fruits verts et des cure-dents.",
+      "motif": "Souvenir d'enfance partagé entre abonnées, sans question. Le fil parent porte aussi sur le parfum, sujet absent de nos faits vérifiés.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T23:38:24.743Z"
+    },
+    {
+      "id": "291041512726443_298112338686027",
+      "extrait": "Mary-Eve Jacques-Piché j'en ai déjà en avant ! :-)",
+      "motif": "Échange entre abonnées, sans contenu.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T23:38:24.743Z"
+    },
+    {
+      "id": "291041512726443_297806945383233",
+      "extrait": "Annie Bouchard 🦋😉💙",
+      "motif": "Émojis seuls, sans contenu.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T23:38:24.743Z"
+    },
+    {
+      "id": "263649742132287_297802812050313",
+      "extrait": "Marion Deschênes",
+      "motif": "Identification seule, sans contenu.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-22T23:38:24.743Z"
+    },
+    {
+      "id": "291041512726443_296964465467481",
+      "extrait": "oui je sais mais j'en aurais pas acheté de cette commune. J'en ai plein près de chez moi.",
+      "motif": "Même déception exprimée dans le même échange que 296958965468031, auquel nous répondons — une seule intervention.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-23T00:38:54.543Z"
+    },
+    {
+      "id": "291041512726443_296610918836169",
+      "extrait": "Muriel Fawer elle ira rapidement dans votre gazon. Vous n’avez qu’à les enlever.",
+      "motif": "Quatrième passage du même fil sur l'envahissement, et même interlocutrice qu'à 7 h ce matin. Remarque au demeurant mesurée ; nous n'y revenons pas.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-23T00:38:54.543Z"
+    },
+    {
+      "id": "291041512726443_297330128764248",
+      "extrait": "Rose St-Laurent",
+      "motif": "Identification seule, sans contenu.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-23T00:38:54.543Z"
+    },
+    {
+      "id": "291041512726443_296952402135354",
+      "extrait": "Athéna Fortin 😍",
+      "motif": "Identification et émoji, sans contenu.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-23T00:38:54.543Z"
     }
   ]
 }

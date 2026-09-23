@@ -1816,8 +1816,16 @@
       "quand": "2026-09-21T23:29:56.334Z",
       "confirme": true,
       "texte": "We carry seed rather than live plants — eleven Asclepias species, all hardy through zones 3 to 9."
+    },
+    {
+      "id": "122121236618483418_2800967863626700",
+      "reponse_id": "122121236618483418_2244738502987711",
+      "page_id": "368305119707866",
+      "quand": "2026-09-22T20:27:11.419Z",
+      "confirme": true,
+      "texte": "We sell the seed ourselves — eleven species of Asclepias, none of them tropical."
     }
   ],
-  "derniere_execution": "2026-09-21T23:29:56.335Z",
-  "total": 227
+  "derniere_execution": "2026-09-22T20:27:11.420Z",
+  "total": 228
 }
