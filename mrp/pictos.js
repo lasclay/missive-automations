@@ -320,6 +320,18 @@ const PAR_TITRE = new Map([
   // dépannage : ce qui se contrôle n'est plus la matière, c'est qu'une paire
   // ne soit jamais dépareillée. Et les deux étiquettes ont désormais une
   // distance, pas seulement un sens.
+  // La densité est un contrôle À PART du test de traction : l'un se vérifie à
+  // la machine en comptant, l'autre sur la pièce finie en tirant.
+  //
+  // La première version de cette planche dessinait une couture en travers de
+  // la paume. Elle n'existe pas. La zone est le BAS DU POUCE, là où la couture
+  // qui contourne le pouce rejoint celle qui longe le bord de la main — le
+  // point où les pièces de patron se rencontrent. Et la rupture ne se contente
+  // pas de s'ouvrir : l'isolant blanc sort, c'est ce que les clients
+  // photographient. Les deux faits viennent des photos de l'onglet
+  // « Rétroactions négatives », pas d'une intuition.
+  ['Densité de couture à la jonction main/pouce : 10 points par pouce',
+   'points_pouce'],
   ['Paume : même cuir sur les deux mitaines d\'une paire', 'paire_cuir'],
   ['Étiquettes de taille et de composition : même sens, à 1 po à l\'intérieur',
    'etiquette_mitaine'],
