@@ -67,7 +67,7 @@ sourire de trop, à cet endroit-là, se lit comme du mépris.
    L'isolant est cultivé et transformé au Québec ; l'assemblage textile se fait surtout en Tunisie
    depuis juillet 2026. C'est une interdiction de **revendiquer**, jamais une obligation de
    **déclarer**. Voir « Ne jamais s'auto-corriger sur un compliment » ci-dessous : c'est la règle
-   la plus violée des sept.
+   la plus violée des huit.
 5. **Jamais « acheter sauve un monarque ».** Le lien est systémique, pas transactionnel.
 6. **Ne rien inventer.** Si la question sort des faits vérifiés, ne pas répondre : consigner le
    commentaire dans `a-revoir.json` pour traitement humain.
