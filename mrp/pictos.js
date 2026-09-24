@@ -369,6 +369,23 @@ const PAR_TITRE = new Map([
   ['Étirement et retour du tricot', 'gant_etirement'],
   ['Broderie : tirer sur le motif et lire l\u2019envers', 'broderie_tshirt'],
   ['Bandeau cousu tout le tour, à la bonne hauteur', 'tuqueville_bandeau'],
+  // Les cotes et la gradation. Le même geste partout — mesurer à plat, aligner
+  // les tailles, une règle en travers — mais pas la même pièce : un titre par
+  // famille, donc une planche par famille.
+  //
+  // La planche de la mitaine NUMÉROTE ses huit cotes, de 1 à 8, dans l'ordre
+  // exact où le point les énumère. C'est la seule entorse à « aucun texte » de
+  // tout le jeu, et elle est voulue : un chiffre ne se traduit pas, et sans lui
+  // la liste écrite et le dessin ne se rejoignent nulle part.
+  ['Cotes hors-tout et incréments de gradation, contre le patron', 'cotes_mitaine'],
+  ['Cotes de la semelle et incréments de pointure, contre le patron',
+   'cotes_semelle'],
+  ['Cotes du tube et incréments de gradation, contre le patron', 'cotes_cachecou'],
+  // Les deux mesures de l'essai sont celles du guide publié sur lasclay.com et
+  // pas d'autres : la largeur des jointures et la longueur hors tout de la
+  // main. La planche les montre dans cet ordre, sinon l'atelier mesurerait ce
+  // qui lui semble logique, et le guide ne serait plus validé par rien.
+  ['Essai par une personne de chaque taille, mains mesurées', 'essai_mitaine'],
   ['Paume : même cuir sur les deux mitaines d\'une paire', 'paire_cuir'],
   ['Étiquettes de taille et de composition : même sens, à 1 po à l\'intérieur',
    'etiquette_mitaine'],
