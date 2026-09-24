@@ -1411,10 +1411,11 @@ S=$(MRP_DB="$CAT" node --no-warnings -e "
 # Le total est écrit en dur EXPRÈS : c'est ce qui attrape une ligne d'origine
 # restée à côté de ses morceaux. Il se met donc à jour à la main, et seulement
 # quand on a ajouté quelque chose au plan en le sachant. Dernier mouvement :
-# 26 133 → 26 503 le 24/09/2026, les 370 t-shirts brodés (228 vendus en
-# prévente, majorés). Avant : 24 633 → 26 133 le 16/09/2026, les 1 500
-# bandeaux de la tuque de ville.
-[ "$(Z "SELECT SUM(quantite) n FROM ordre_items")" = 26503 ] \
+# 26 133 → 26 633 le 24/09/2026, les t-shirts brodés — 370 à l'entrée au plan
+# (228 vendus en prévente, majorés), portés à 500 le jour même, aux mêmes
+# proportions. Avant : 24 633 → 26 133 le 16/09/2026, les 1 500 bandeaux de
+# la tuque de ville.
+[ "$(Z "SELECT SUM(quantite) n FROM ordre_items")" = 26633 ] \
   && ok "découper une ligne du plan ne change pas le total à produire" \
   || ko "le total a bougé — la ligne d'origine compte encore"
 
