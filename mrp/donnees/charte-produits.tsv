@@ -337,11 +337,11 @@ TOTE	coloris	Beige 10 oz (#c69e7d) — dit « cassonade » au plan de production
 TOTE	coloris	Rose 10 oz — 10 pièces au plan 26-27. Absent de la charte Miro, confirmé par Gabriel : c'est du 10 oz, comme le noir, le rouge, le jaune et le beige.
 TUQUE-SPORT	taille	s/m et m/l
 TUQUE-SPORT	coloris	Noir (#1a1a1a)
-TUQUE-VILLE	taille	Femme : XS S M L XL XXL
-TUQUE-VILLE	taille	Homme : S M L XL XXL
+TUQUE-VILLE	taille	Taille unique — c'est la COULEUR qui varie : noir, gris cendré, jaune paille
 TUQUE-VILLE	coloris	Noir (#1a1a1a)
 TUQUE-VILLE	coloris	Jaune (#f1b92a)
 TUQUE-VILLE	coloris	Gris (#b0b0b0)
+TUQUE-VILLE	note	La tuque de ville n'est PAS graduée. La charte lui donnait « Femme XS-XXL // Homme S-XXL » — c'est la gradation des mitaines et des manteaux, recopiée par erreur. Shopify ne lui connaît qu'une option, la couleur, et trois variantes qui sont trois coloris. Confirmé par Admin QC le 24/09/2026. Les trois rétroactions « trop petit » ne sont donc pas un problème de gradation : c'est une taille unique qui ne va pas à tout le monde, et ça se règle au patron, pas au contrôle.
 VESTE	taille	Femme : XS S M L XL XXL
 VESTE	taille	Homme : S M L XL XXL
 VESTE	coloris	Noir (#1a1a1a)
