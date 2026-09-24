@@ -1527,9 +1527,11 @@ if(!/en tout/.test(h)){console.error('le total général a disparu');process.exi
 
 # Le coussin pour animaux n'avait aucun protocole. Trois points critiques,
 # dictés par l'atelier : le geste du roulage, les ganses qui portent le poids,
-# et l'intérieur, que l'animal atteint.
-[ "$(Z "SELECT COUNT(*) n FROM qc_points q JOIN produits p ON p.id=q.produit_id WHERE p.code='COUSSIN-ANIMAL' AND q.type='critique'")" = 3 ] \
-  && ok "le coussin pour animaux a ses trois points critiques" \
+# et l'intérieur, que l'animal atteint. Un quatrième s'est ajouté le
+# 24/09/2026 — la compression du garnissage, le bris le plus fréquent du
+# catalogue sur les pièces garnies.
+[ "$(Z "SELECT COUNT(*) n FROM qc_points q JOIN produits p ON p.id=q.produit_id WHERE p.code='COUSSIN-ANIMAL' AND q.type='critique'")" = 4 ] \
+  && ok "le coussin pour animaux a ses quatre points critiques" \
   || ko "le protocole du coussin pour animaux manque"
 
 # Une tache ne se rattrape pas après coup : c'est la définition du volet

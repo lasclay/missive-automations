@@ -357,6 +357,18 @@ const PAR_TITRE = new Map([
   ['La cannette et la bouteille entrent et tiennent', 'manchon_diametre'],
   ['Cote du bandeau fini, sur trois pièces du lot', 'bandeau_cote'],
   ['Finition des bords : aucun fil, aucun bord vif', 'etui_finition'],
+  // Les mitaines partagent leurs quatre pièces de patron, donc le même geste au
+  // même endroit — mais pas la même allure. La plein air a un panneau de cuir
+  // en paume, les autres non : deux titres, deux planches, une seule consigne.
+  ['Jonction main/pouce : 10 points par pouce', 'pouce_mitaine'],
+  ['Fermeture éclair du sac de couchage : tirer de part et d\u2019autre du ruban',
+   'fermeture_couchage'],
+  ['Fermeture du col : tirer de part et d\u2019autre du ruban', 'fermeture_chandail'],
+  ['Compression du garnissage : aucune fibre ne sort', 'garnissage_fuite'],
+  ['La bouteille entre, et la ganse tient le sac plein', 'sacvin_ganse'],
+  ['Étirement et retour du tricot', 'gant_etirement'],
+  ['Broderie : tirer sur le motif et lire l\u2019envers', 'broderie_tshirt'],
+  ['Bandeau cousu tout le tour, à la bonne hauteur', 'tuqueville_bandeau'],
   ['Paume : même cuir sur les deux mitaines d\'une paire', 'paire_cuir'],
   ['Étiquettes de taille et de composition : même sens, à 1 po à l\'intérieur',
    'etiquette_mitaine'],
