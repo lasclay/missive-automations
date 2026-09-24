@@ -142,7 +142,7 @@ SEMELLE-9	matiere	Mesh de TPU
 SEMELLE-9	isolant	Vegeto 150 g
 SEMELLE-9	parametre	Presse : 170 °C, 45 secondes
 SEMELLE-678	parametre	Surjet du pourtour après la presse — durabilité et finition
-CACHE-COU-ENF-5A13A	note	La bille ne bloque RIEN : l'élastique la traverse librement, sans nœud. Elle sert de prise — c'est elle qu'on tient pour serrer, et son rôle est le confort tactile. CONTREDIT la charte, qui la nomme « Bille noire (stopper) », et le point de contrôle « Billes pour bloquer le cord-lock noir ». Admin QC, 24/09/2026.
+CACHE-COU-ENF-5A13A	note	La bille bloque bien le cord-lock : elle est plus grosse que son trou et l'empêche de sortir du cordon. Mais l'élastique la TRAVERSE librement — aucun nœud à la bille, le joint de l'élastique est ailleurs. Elle sert aussi de prise au moment de serrer. Précisé par l'Admin QC, 24/09/2026.
 MANTEAU-HIVER	note	Curseur de la fermeture éclair du côté DROIT de qui porte le manteau, sur tous les modèles. CONTREDIT la fiche Miro, qui dit « côté curseur femme : gauche, homme : droit » — l'Admin QC ne reconnaît pas cette règle par genre (23/09/2026). Le point de contrôle s'appelle encore « Côté curseur selon le genre » : à renommer.
 MIT-PLEIN-AIR	note	Le cuir synthétique couvre la PAUME seulement — il s'arrête à la couture du pouce, qui reste en soft-shell nu. Relevé sur la photo de la fiche le 23/09/2026, après qu'une planche l'eut dessiné à tort sur le pouce.
 SEMELLE-9	parametre	Surjet du pourtour après la presse — durabilité et finition
