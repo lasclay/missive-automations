@@ -345,3 +345,9 @@ TUQUE-VILLE	coloris	Gris (#b0b0b0)
 VESTE	taille	Femme : XS S M L XL XXL
 VESTE	taille	Homme : S M L XL XXL
 VESTE	coloris	Noir (#1a1a1a)
+TSHIRT-BRODE	matiere	Coton 100 %
+TSHIRT-BRODE	garniture	Broderie — deux motifs : papillon et asclépiade, chenille monarque
+TSHIRT-BRODE	taille	XS, S, M, L, XL, 2XL — unisexe
+TSHIRT-BRODE	coloris	Crème, Noir
+TSHIRT-BRODE	note	AUCUNE fibre d'asclépiade : c'est du coton brodé, et la fiche Shopify le dit explicitement. Ne pas lui chercher un isolant ni lui appliquer les contrôles d'isolation.
+TSHIRT-BRODE	note	Produit né d'une prévente : 228 vendus avant production. Les quantités du plan sont ces ventes majorées, pas une prévision.
