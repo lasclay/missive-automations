@@ -791,10 +791,17 @@ C'est la phase qui décide de la saison. En novembre, il est trop tard pour déc
 
 ## 13. Livres cités (diapo p.13 du deck A)
 
-- **$100M Offers** — Alex Hormozi
-- **Sell Like Crazy** — Sabri Suby → **lu en entier, voir
-  [`sell-like-crazy-methode-et-adaptation.md`](sell-like-crazy-methode-et-adaptation.md)**
-- **Expert Secrets** — Russell Brunson
+**Les trois sont maintenant dépouillés**, chacun dans son document :
+
+| Livre | Ce qu'il apporte | Document |
+| --- | --- | --- |
+| **$100M Offers** — Alex Hormozi | L'équation de la valeur, et comment sortir de la comparaison de prix | [`100m-offers-methode-et-adaptation.md`](100m-offers-methode-et-adaptation.md) |
+| **Sell Like Crazy** — Sabri Suby | L'offre du Parrain, la garantie, les titres, le courriel | [`sell-like-crazy-methode-et-adaptation.md`](sell-like-crazy-methode-et-adaptation.md) |
+| **Expert Secrets** — Russell Brunson | La nouvelle opportunité, et les trois croyances à briser | [`expert-secrets-methode-et-adaptation.md`](expert-secrets-methode-et-adaptation.md) |
+
+⚠️ Seul Suby a été **lu en entier** (PDF fourni). Les deux autres sont reconstitués à partir de
+leur structure vérifiée et des cadres publics des auteurs — chaque document le dit en tête et ne
+contient aucune citation inventée.
 
 Le livre de Suby couvre précisément ce que la conférence ne couvre pas : **l'offre, la garantie,
 les formules de titre, la séquence de nurturing et le courriel.** Il complète ce guide sur trois
