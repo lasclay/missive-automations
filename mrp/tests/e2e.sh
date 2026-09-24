@@ -1411,8 +1411,10 @@ S=$(MRP_DB="$CAT" node --no-warnings -e "
 # Le total est écrit en dur EXPRÈS : c'est ce qui attrape une ligne d'origine
 # restée à côté de ses morceaux. Il se met donc à jour à la main, et seulement
 # quand on a ajouté quelque chose au plan en le sachant. Dernier mouvement :
-# 24 633 → 26 133 le 16/09/2026, les 1 500 bandeaux de la tuque de ville.
-[ "$(Z "SELECT SUM(quantite) n FROM ordre_items")" = 26133 ] \
+# 26 133 → 26 503 le 24/09/2026, les 370 t-shirts brodés (228 vendus en
+# prévente, majorés). Avant : 24 633 → 26 133 le 16/09/2026, les 1 500
+# bandeaux de la tuque de ville.
+[ "$(Z "SELECT SUM(quantite) n FROM ordre_items")" = 26503 ] \
   && ok "découper une ligne du plan ne change pas le total à produire" \
   || ko "le total a bougé — la ligne d'origine compte encore"
 
@@ -1454,7 +1456,12 @@ MRP_DB="$CAT" node --no-warnings -e "
 # n'a aucun sens sur un produit qui n'a pas de fiche en ligne. Le point reste
 # juste EN GÉNÉRAL : on l'écarte de ces produits, on ne l'efface pas —
 # l'effacer le retirerait de tous les autres.
-[ "$(Z "SELECT COUNT(*) n FROM qc_hors_sujet")" = 37 ] \
+# Compté en dur, comme le total du plan : un écart qui disparaît sans qu'on
+# l'ait décidé remet un point sur une fiche où il ne veut rien dire, et
+# personne ne le verrait. Dernier mouvement : 37 → 115 le 24/09/2026, la
+# séquence d'abrasion restreinte aux mitaines et aux gants (3 points × 26
+# produits).
+[ "$(Z "SELECT COUNT(*) n FROM qc_hors_sujet")" = 115 ] \
   && ok "le point hors sujet est écarté de son produit" \
   || ko "l'écart n'est pas chargé"
 
@@ -1486,7 +1493,7 @@ MRP_DB="$CAT" node --no-warnings -e "
 
 # Le bandeau n'est pas un produit : c'est la pièce cousue à l'intérieur de la
 # tuque beanie, jamais vendue ni vue. Tout ce qui s'inspecte sur un vêtement
-# fini — abrasion, lavage, étiquette, fils apparents — s'inspecte sur la tuque
+# fini — lavage, étiquette, fils apparents — s'inspecte sur la tuque
 # montée. Sur la pièce seule il ne reste que sa coupe. Si un point général
 # revient un jour se poser dessus, ce test tombe.
 MRP_DB="$CAT" node --no-warnings -e "
@@ -1502,7 +1509,7 @@ MRP_DB="$CAT" node --no-warnings -e "
   const D=require('./db.js');
   const p=D.db.prepare(\"SELECT id FROM produits WHERE code='TUQUE-VILLE'\").get();
   const t=D.protocole(p.id).points.map(q=>q.titre);
-  process.exit(t.some(x=>/Étiquette/.test(x)) && t.some(x=>/Double frottement/.test(x)) ? 0 : 1);" 2>/dev/null \
+  process.exit(t.some(x=>/Étiquette/.test(x)) && t.some(x=>/Fils qui dépassent/.test(x)) ? 0 : 1);" 2>/dev/null \
   && ok "écarter du bandeau n'a rien retiré à la tuque qui le contient" \
   || ko "un point a disparu de la tuque de ville"
 
