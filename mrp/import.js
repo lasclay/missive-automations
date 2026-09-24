@@ -96,6 +96,7 @@ const remplacees = new Set(ajouts.map(r => r.remplace).filter(Boolean));
  */
 const ORDRES = tsv('ordres.tsv').filter(r => r.titre).map(r => ({
   titre: r.titre, note: r.note || '', expedition: r.expedition || '',
+  transport: r.transport || '',
   fichiers: String(r.fichiers || '').split(';').map(x => x.trim()).filter(Boolean),
 }));
 if (!ORDRES.length) {
@@ -636,10 +637,16 @@ try {
     const dejaLa = db.prepare(`SELECT id FROM ordre_jalons
         WHERE ordre_id = ? AND type = 'expedition'`).get(o.id);
     if (!dejaLa && EXPEDITION) {
+      // Le mode de transport s'écrit sur le jalon : « 24 octobre » ne se lit
+      // pas pareil selon qu'on prend l'avion ou le bateau, et c'est l'atelier
+      // qui règle sa cédule dessus.
+      const titre = 'Expédition vers le Canada'
+                  + (d.transport ? ` (${d.transport})` : '');
       db.prepare(`INSERT INTO ordre_jalons (ordre_id, titre, date, type, note)
-          VALUES (?,?,?,?,?)`).run(o.id, 'Expédition vers le Canada', EXPEDITION,
+          VALUES (?,?,?,?,?)`).run(o.id, titre, EXPEDITION,
           'expedition', 'Tout ce qui n\'est pas fini à cette date ne part pas.');
-      dire(`  Jalon d'expédition posé au ${EXPEDITION} (${o.numero}).`);
+      dire(`  Jalon d'expédition posé au ${EXPEDITION} (${o.numero}`
+         + `${d.transport ? `, ${d.transport}` : ''}).`);
     } else if (!dejaLa) {
       dire(`  ${o.numero} sans jalon d'expédition : aucune date fixée.`);
     }

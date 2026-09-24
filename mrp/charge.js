@@ -401,6 +401,51 @@ function poserCapacite({ postes, heures_jour, jours_semaine }) {
 }
 
 /**
+ * La faisabilité échéance par échéance, en cumulé.
+ *
+ * POURQUOI ÇA NE PEUT PAS ÊTRE UNE SEULE DATE. Tant qu'il n'y avait qu'un
+ * ordre de production, comparer TOUTES les heures à LA date d'expédition
+ * était juste. Depuis qu'il y en a deux — le plan de la saison au 1er octobre,
+ * les t-shirts de prévente au 24 octobre par avion — la même arithmétique
+ * ment deux fois : elle réclame les 96 h des t-shirts pour le 1er octobre,
+ * qui n'est pas leur date, et elle ne dit rien de ce qui doit tenir au 24.
+ *
+ * La lecture juste est CUMULATIVE : ce qui est dû le 24 octobre ne dispose pas
+ * de tout l'atelier, il passe après ce qui est dû le 1er. Pour chaque échéance
+ * D, on compare donc la somme des heures dues à D ou AVANT au temps ouvrable
+ * d'ici D. Une échéance lointaine peut ainsi manquer de temps à cause de ce
+ * qui la précède, et c'est exactement ce qu'un atelier vit.
+ *
+ * Les tâches sans échéance — un ordre sans jalon — sont hors de ce calcul :
+ * rien ne dit pour quand elles sont dues. Elles restent au total général.
+ */
+function echeances(taches, cap = capacite(), fermes = joursEnPause(),
+                   aujourdhui = new Date().toISOString().slice(0, 10)) {
+  const dates = [...new Set(taches.map(t => t.echeance).filter(Boolean))].sort();
+  return dates.map((date) => {
+    const heures = taches.filter(t => t.echeance && t.echeance <= date)
+                         .reduce((s, t) => s + (t.heures || 0), 0);
+    const jours = joursOuvres(aujourdhui, date, cap, fermes);
+    const dispo = jours * cap.postes * cap.heures_jour;
+    return { date, heures, jours, dispo, marge: dispo - heures,
+             manque: heures > dispo };
+  });
+}
+
+/**
+ * L'échéance qui commande : celle dont la marge est la plus mince, en heures.
+ * C'est elle, et pas la plus proche, qui décide si le plan tient — une date
+ * lointaine chargée de tout ce qui la précède peut manquer là où la première
+ * passait. Rien à comparer, rien à rendre.
+ */
+function echeanceCommandante(taches, cap = capacite(), fermes = joursEnPause(),
+                             aujourdhui = new Date().toISOString().slice(0, 10)) {
+  const e = echeances(taches, cap, fermes, aujourdhui);
+  if (!e.length) return null;
+  return e.reduce((pire, x) => (x.marge < pire.marge ? x : pire));
+}
+
+/**
  * Ce que les items sans temps connu coûteraient, en fourchette.
  *
  * « La charge réelle est plus élevée » est vrai mais inutilisable : on ne sait
@@ -569,7 +614,8 @@ function joursOuvres(du, au, cap = capacite(), fermes = joursEnPause()) {
   return n;
 }
 
-module.exports = { tempsChrono, coutsConfection, assemblageBMB, assemblageEstime,
+module.exports = { echeances, echeanceCommandante,
+                   tempsChrono, coutsConfection, assemblageBMB, assemblageEstime,
                    tempsUnitaire,
                    secondes, calendrier, chargeInconnue, joursOuvres,
                    pauses, poserPause, retirerPause, joursEnPause,

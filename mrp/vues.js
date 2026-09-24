@@ -2706,32 +2706,56 @@ function vueCedule({ user, jalons, msg, cal = null }) {
   }).length;
   const verdict = () => {
     if (!cal || !cal.taches.length) return '';
-    const echeance = jalons.filter(j => j.date >= auj).map(j => j.date).sort()[0];
     const c = cal.cap;
-    let dispo = null, jours = 0;
-    if (echeance) {
-      // Les fermetures se déduisent : « 42 jours ouvrés d'ici l'expédition »
-      // est faux si l'atelier ferme deux semaines au milieu, et c'est
-      // exactement le genre de faux qui fait dire « ça rentre ».
-      jours = C.joursOuvres(auj, echeance, c, C.joursEnPause(pz));
-      dispo = jours * c.postes * c.heures_jour;
+    // Les fermetures se déduisent : « 42 jours ouvrés d'ici l'expédition » est
+    // faux si l'atelier ferme deux semaines au milieu, et c'est exactement le
+    // genre de faux qui fait dire « ça rentre ».
+    const fermes = C.joursEnPause(pz);
+    // Il y a plusieurs ordres, donc plusieurs dates. Ce n'est PAS la plus
+    // proche qui décide : une échéance lointaine porte tout ce qui la précède
+    // et peut manquer là où la première passait. `echeanceCommandante` prend
+    // celle dont la marge est la plus mince, en cumulé.
+    let toutes = C.echeances(cal.taches, c, fermes, auj);
+    // Repli : des tâches sans échéance et un jalon quand même. Ça arrive quand
+    // le calendrier ne vient pas de `listeFabrication` — un calcul monté à la
+    // main, un appel de l'extérieur. Sans ce repli, la page perdrait tout
+    // verdict là où l'ancienne version en rendait un juste.
+    if (!toutes.length) {
+      const d = jalons.filter(j => j.date >= auj).map(j => j.date).sort()[0];
+      if (d) {
+        const jrs = C.joursOuvres(auj, d, c, fermes);
+        const dp = jrs * c.postes * c.heures_jour;
+        toutes = [{ date: d, heures: cal.heuresTotal, jours: jrs, dispo: dp,
+                    marge: dp - cal.heuresTotal, manque: cal.heuresTotal > dp }];
+      }
     }
-    const manque = dispo !== null && cal.heuresTotal > dispo;
+    const pire = toutes.length
+      ? toutes.reduce((p, x) => (x.marge < p.marge ? x : p)) : null;
+    const echeance = pire ? pire.date : null;
+    const dispo = pire ? pire.dispo : null;
+    const jours = pire ? pire.jours : 0;
+    // Le total porté par le verdict est celui de l'échéance qui commande, pas
+    // celui de tout le carnet : réclamer pour le 1er octobre des heures dues
+    // le 24 ferait mentir le chiffre qui suit.
+    const heuresDues = pire ? pire.heures : cal.heuresTotal;
+    const manque = pire ? pire.manque : false;
     const postesRequis = dispo !== null && jours > 0
-      ? Math.ceil(cal.heuresTotal / (jours * c.heures_jour)) : null;
+      ? Math.ceil(heuresDues / (jours * c.heures_jour)) : null;
 
     // Ce que les items sans temps connu coûteraient. Une marge de 131 h ne veut
     // rien dire si ce qui n'est pas compté en demande 400 : le verdict doit le
     // dire, sinon « ça rentre » est un piège.
     const inc = C.chargeInconnue(cal.taches);
-    const marge = dispo !== null ? dispo - cal.heuresTotal : null;
+    const marge = dispo !== null ? dispo - heuresDues : null;
     const fragile = !manque && marge !== null && inc.connu && inc.median > marge;
     const nb = (h) => Math.round(h).toLocaleString('fr-CA');
 
     return `<div class="carte ${manque ? 'verdict-non'
       : fragile ? 'verdict-fragile' : 'verdict-oui'}">
       <div class="chiffres">
-        <div class="c"><b>${Math.round(cal.heuresTotal).toLocaleString('fr-CA')}</b>heures de travail</div>
+        <div class="c"><b>${Math.round(heuresDues).toLocaleString('fr-CA')}</b>heures de travail
+          ${toutes.length > 1 ? `<span class="sec">dues d'ici le ${dateFR(echeance)}
+            · ${Math.round(cal.heuresTotal).toLocaleString('fr-CA')} h en tout</span>` : ''}</div>
         ${dispo !== null ? `<div class="c"><b>${dispo.toLocaleString('fr-CA')}</b>heures disponibles
           <span class="sec">${jours} jours ouvrés d'ici le ${dateFR(echeance)}${
             joursFermes ? `, ${joursFermes} retiré${joursFermes > 1 ? 's' : ''} par les pauses` : ''}</span></div>` : ''}
@@ -2742,7 +2766,7 @@ function vueCedule({ user, jalons, msg, cal = null }) {
           ? '<span class="sec">lecture prudente · non confirmée</span>' : ''}</div>
       </div>
       ${manque ? `<p class="verdict-txt"><b>Ça ne rentre pas.</b> Il manque
-        ${nb(cal.heuresTotal - dispo)} heures.
+        ${nb(heuresDues - dispo)} heures.
         À ${c.heures_jour} h par jour, il faudrait <b>${postesRequis} postes</b>
         au lieu de ${c.postes} — ou déplacer une partie du plan.</p>`
       : fragile ? `<p class="verdict-txt"><b>Ça rentre sur le papier</b>, avec
@@ -2752,6 +2776,15 @@ function vueCedule({ user, jalons, msg, cal = null }) {
         probablement pas.</p>`
       : dispo !== null ? `<p class="verdict-txt"><b>Ça rentre</b>, avec
         ${nb(marge)} heures de marge.</p>` : ''}
+      ${toutes.length > 1 ? `<div class="verdict-ech"><p class="verdict-note">
+        Plusieurs ordres, plusieurs dates. Ce qui est dû le plus tard passe
+        APRÈS ce qui est dû avant : chaque ligne cumule donc tout ce qui la
+        précède.</p><ul class="ech-liste">${toutes.map(e => `<li${
+          e.date === echeance ? ' class="ech-pire"' : ''}><b>${dateFR(e.date)}</b>
+          ${nb(e.heures)} h dues, ${e.dispo.toLocaleString('fr-CA')} h
+          disponibles en ${e.jours} jours ouvrés — ${e.manque
+            ? `<b>il manque ${nb(-e.marge)} h</b>` : `${nb(e.marge)} h de marge`}
+          </li>`).join('')}</ul></div>` : ''}
       ${cal.sansTemps ? `<p class="verdict-note">${cal.sansTemps} items n'ont
         aucun temps connu — ni chronométré, ni déductible d'un coût de
         confection. Ils comptent pour <b>zéro heure</b> dans le total

@@ -570,6 +570,55 @@ t("l'atelier peut consulter le suivi",
   t('le calendrier commence un jour ouvré',
     new Date(cal4.debut + 'T00:00:00Z').getUTCDay() !== 0, cal4.debut);
 
+  // --- plusieurs ordres, plusieurs échéances ------------------------------
+  // Tant qu'il n'y avait qu'un ordre, comparer tout le travail à LA date
+  // d'expédition suffisait. Avec deux dates, la même arithmétique réclame pour
+  // la première des heures dues à la seconde. La lecture juste est cumulative.
+  const CAP = { postes: 1, heures_jour: 8, jours_semaine: 5 };
+  const SANS_PAUSE = new Set();
+  // Deux lundis : du 2026-01-05 au 2026-01-12 il y a 5 jours ouvrés, et
+  // jusqu'au 2026-01-19 il y en a 10.
+  const TACHES = [
+    { code: 'A', heures: 30, echeance: '2026-01-12' },
+    { code: 'B', heures: 50, echeance: '2026-01-19' },
+  ];
+  const ech = C.echeances(TACHES, CAP, SANS_PAUSE, '2026-01-05');
+  t('une échéance par date, dans l\'ordre',
+    ech.length === 2 && ech[0].date === '2026-01-12' && ech[1].date === '2026-01-19',
+    ech.map(e => e.date).join(' '));
+  t('chaque échéance cumule ce qui la précède',
+    ech[0].heures === 30 && ech[1].heures === 80,
+    ech.map(e => e.heures).join(' / '));
+  t('le temps disponible se compte en jours ouvrés',
+    ech[0].dispo === 40 && ech[1].dispo === 80,
+    ech.map(e => e.dispo).join(' / '));
+  t('la première passe, la seconde tient tout juste',
+    ech[0].manque === false && ech[1].manque === false);
+
+  // Et le cas qui justifie tout : la date LOINTAINE est celle qui coince,
+  // parce qu'elle porte ce qui la précède. Prendre la plus proche dirait
+  // « ça rentre » sur un plan qui ne rentre pas.
+  const SERRE = [
+    { code: 'A', heures: 10, echeance: '2026-01-12' },
+    { code: 'B', heures: 90, echeance: '2026-01-19' },
+  ];
+  const pire = C.echeanceCommandante(SERRE, CAP, SANS_PAUSE, '2026-01-05');
+  t('c\'est la marge la plus mince qui commande, pas la date la plus proche',
+    pire.date === '2026-01-19' && pire.manque === true,
+    pire.date + ' marge ' + pire.marge);
+  t('la plus proche, elle, passait largement',
+    C.echeances(SERRE, CAP, SANS_PAUSE, '2026-01-05')[0].marge === 30);
+
+  // Une tâche sans échéance — un ordre sans jalon — n'est due nulle part :
+  // l'attribuer à la première date inventerait une contrainte.
+  const ORPHELINE = [...SERRE, { code: 'C', heures: 500, echeance: null }];
+  t('une tâche sans échéance ne charge aucune date',
+    C.echeances(ORPHELINE, CAP, SANS_PAUSE, '2026-01-05')
+      .every((e, i) => e.heures === C.echeances(SERRE, CAP, SANS_PAUSE, '2026-01-05')[i].heures));
+  t('sans aucune échéance, il n\'y a rien à commander',
+    C.echeanceCommandante([{ code: 'C', heures: 5, echeance: null }],
+      CAP, SANS_PAUSE, '2026-01-05') === null);
+
   // --- ce que les items sans temps connu coûteraient
   // « La charge réelle est plus élevée » est vrai et inutilisable : dix heures
   // ou mille ? La fourchette est ce qui rend une marge jugeable.

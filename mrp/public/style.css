@@ -1308,6 +1308,15 @@ table.gantt tbody tr:nth-child(even) .g-piste{background:var(--carte)}
 .verdict-oui .verdict-txt b:first-child{color:var(--vert)}
 .verdict-fragile .verdict-txt b:first-child{color:var(--ambre)}
 .verdict-note{margin:10px 0 0;font-size:12.5px;color:var(--gris);line-height:1.5}
+.verdict-ech{margin-top:12px;padding-top:10px;border-top:1px solid var(--ligne)}
+.ech-liste{margin:8px 0 0;padding:0;list-style:none;font-size:12.5px;line-height:1.7}
+.ech-liste li{color:var(--gris)}
+.ech-liste b{color:var(--encre);margin-right:6px}
+/* L'échéance qui commande est celle sur laquelle le verdict est calculé.
+   Sans cette marque, deux lignes d'apparence égale laissent croire que le
+   chiffre du haut vient de la première — et c'est rarement elle. */
+.ech-pire{color:var(--encre)}
+.ech-pire::before{content:"▸ ";color:var(--rouge)}
 .chiffres .c .sec{display:block;font-size:11px;color:var(--gris);margin-top:2px}
 .cap-form{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap}
 .cap-form .champ{margin:0;min-width:110px}

@@ -514,9 +514,14 @@ fi
 # --- le contrôle par ordre de production ---------------------------------
 # La porte prioritaire. Les onglets ne sont pas exclusifs : un même lot peut
 # être à la fois grand volume et gradué, et doit se voir dans les deux.
-for CAT in tous volume nouveau gradation; do
-  curl -s -b $CA "$B/qualite/ordres/1?cat=$CAT" | grep -q 'qc-onglet' \
-    || ko "l'onglet $CAT ne rend pas ses onglets"
+# ONGLET, pas CAT : plus bas, `CAT` est le chemin de la base du catalogue.
+# Réutiliser le nom ici laissait CAT=gradation derrière la boucle, et tout
+# `MRP_DB="$CAT"` écrit avant la ligne qui le redéfinit ouvrait une base vide
+# nommée « gradation » — un test qui interroge le vide passe ou échoue pour la
+# mauvaise raison, sans rien dire.
+for ONGLET in tous volume nouveau gradation; do
+  curl -s -b $CA "$B/qualite/ordres/1?cat=$ONGLET" | grep -q 'qc-onglet' \
+    || ko "l'onglet $ONGLET ne rend pas ses onglets"
 done
 ok "les quatre onglets du contrôle par ordre répondent"
 
@@ -1456,13 +1461,39 @@ case "$T" in
   *) ko "les t-shirts ne sont pas sur un ordre distinct ($T)" ;;
 esac
 
-# Et cet ordre-là n'a PAS de jalon d'expédition : personne n'a fixé la date de
-# départ vers le Canada. En inventer une commanderait la cédule d'un ordre
-# entier en ayant l'air d'une donnée. Ce test tombe le jour où la date est
-# posée dans donnees/ordres.tsv — et c'est alors ce test qu'on corrige.
-[ "$(Z "SELECT COUNT(*) n FROM ordre_jalons j JOIN ordres o ON o.id=j.ordre_id WHERE o.titre LIKE 'T-shirts%'")" = 0 ] \
-  && ok "l'ordre des t-shirts ne porte aucune date inventée" \
-  || ko "un jalon est apparu sur un ordre sans date fixée"
+# Et cet ordre-là part AVANT celui de la saison est faux : il part après, le
+# 24 octobre, par avion — décidé le 24/09/2026. Le mode de transport est sur
+# le jalon parce que « 24 octobre » ne se lit pas pareil selon qu'on prend
+# l'avion ou le bateau, et que c'est l'atelier qui règle sa cédule dessus.
+J=$(MRP_DB="$CAT" node --no-warnings -e "
+  const {db}=require('./db.js');
+  const j=db.prepare(\"SELECT j.date, j.titre FROM ordre_jalons j JOIN ordres o \
+     ON o.id=j.ordre_id WHERE o.titre LIKE 'T-shirts%' AND j.type='expedition'\").get();
+  console.log(j ? j.date+'|'+j.titre : 'AUCUN');" 2>/dev/null)
+case "$J" in
+  "2026-10-24|Expédition vers le Canada (avion)")
+    ok "les t-shirts partent le 24 octobre, par avion" ;;
+  *) ko "la date ou le mode d'expédition des t-shirts a changé ($J)" ;;
+esac
+
+# --- deux ordres, deux dates : le verdict doit dire LAQUELLE il calcule ----
+# Le plan de la saison part le 1er octobre, les t-shirts le 24 par avion.
+# Comparer TOUT le travail à la date la plus proche réclamerait pour octobre
+# des heures dues fin octobre ; n'en montrer qu'une cacherait l'autre.
+MRP_DB="$CAT" node --no-warnings -e "
+const V=require('./vues.js'), C=require('./charge.js');
+const {listeFabrication, db}=require('./db.js');
+const cal=C.calendrier(listeFabrication());
+const jalons=db.prepare(\"SELECT j.*, o.numero, o.titre AS ordre_titre FROM ordre_jalons j \
+   JOIN ordres o ON o.id=j.ordre_id ORDER BY j.date\").all();
+const h=V.vueCedule({user:{id:1,role:'admin',nom:'A'},jalons,msg:{},cal}).replace(/\s+/g,' ');
+const veut=['01/10/2026','24/10/2026','ech-liste','ech-pire'];
+for(const x of veut) if(!h.includes(x)){console.error('manque : '+x);process.exit(1)}
+// le verdict porte les heures dues à l'échéance qui commande, pas le carnet
+// entier : le total général est relégué en second, marqué comme tel.
+if(!/en tout/.test(h)){console.error('le total général a disparu');process.exit(1)}
+" 2>&1 && ok "la cédule montre les deux échéances et celle qui commande" \
+  || ko "la cédule ne distingue pas les deux échéances"
 
 # --- une matière qu'on cesse d'employer ----------------------------------
 # `nomenclatures.tsv` recopie les fiches COGS : une matière retirée n'en est
