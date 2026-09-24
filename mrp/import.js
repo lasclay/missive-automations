@@ -84,9 +84,37 @@ const cogs = new Map(tsv('cogs-tunisie.tsv').map(r => [r.produit, r]));
  */
 const ajouts = tsv('ajouts-production.tsv');
 const remplacees = new Set(ajouts.map(r => r.remplace).filter(Boolean));
-const plan = new Map([...tsv('plan-production-2627.tsv'), ...ajouts]
-  .filter(r => Number(r.quantite_prevue) > 0 && !remplacees.has(r.produit))
-  .map(r => [r.produit, r]));
+
+/**
+ * Les ordres de production, déclarés dans `donnees/ordres.tsv`. Il n'y en
+ * avait qu'un, et son titre vivait en dur ici ; un deuxième est arrivé — les
+ * t-shirts de prévente — avec sa propre échéance et son propre périmètre.
+ *
+ * Chaque ligne de plan appartient à UN ordre, et le sait : sans ça les 500
+ * t-shirts se seraient fondus dans les 26 133 pièces de la saison et auraient
+ * hérité de la date d'expédition d'octobre, qui n'est pas la leur.
+ */
+const ORDRES = tsv('ordres.tsv').filter(r => r.titre).map(r => ({
+  titre: r.titre, note: r.note || '', expedition: r.expedition || '',
+  fichiers: String(r.fichiers || '').split(';').map(x => x.trim()).filter(Boolean),
+}));
+if (!ORDRES.length) {
+  console.error('\n  Aucun ordre déclaré dans donnees/ordres.tsv — rien à planifier.\n');
+  process.exit(1);
+}
+
+const plan = new Map();
+for (const o of ORDRES)
+  for (const f of o.fichiers)
+    for (const r of tsv(f)) {
+      if (!(Number(r.quantite_prevue) > 0) || remplacees.has(r.produit)) continue;
+      // Une ligne dans deux ordres serait une quantité comptée deux fois.
+      const vu = plan.get(r.produit);
+      if (vu && vu._ordre !== o.titre)
+        throw new Error(`« ${r.produit} » est dans deux ordres : `
+                      + `« ${vu._ordre} » et « ${o.titre} ».`);
+      plan.set(r.produit, { ...r, _ordre: o.titre });
+    }
 const variantesPlan = new Map();
 for (const r of tsv('plan-variantes-2627.tsv')) {
   if (!variantesPlan.has(r.produit)) variantesPlan.set(r.produit, []);
@@ -322,7 +350,7 @@ if (retirees.length) {
        + `${r.cout_par_produit ? ` (−${r.cout_par_produit} $/unité)` : ''} : ${r.retire}`);
 }
 const auPlan = lignes.filter(l => l.plan);
-dire(`  ${auPlan.length} au plan de production 26-27, `
+dire(`  ${auPlan.length} rattachés à un ordre de production, `
    + `${auPlan.reduce((n, l) => n + Number(l.plan.quantite_prevue), 0).toLocaleString('fr-CA')} `
    + `unités\n`);
 const orphelins = [...plan.keys()].filter(k => !corresp.some(c => c.alias_plan === k));
@@ -582,37 +610,41 @@ try {
   process.exit(1);
 }
 
-// ------------------------------------------------- l'ordre de production
-// Un seul ordre pour la saison, reconnaissable à son numéro. Relancer l'import
-// met à jour les quantités SANS toucher aux avancements : c'est l'atelier qui
-// les déclare, un import n'a pas à écraser ça.
-const TITRE_ORDRE = 'Plan de production 26-27 — prévente automne';
+// ------------------------------------------------- les ordres de production
+// Un ordre par ligne de `donnees/ordres.tsv`, reconnaissable à son titre.
+// Relancer l'import met à jour les quantités SANS toucher aux avancements :
+// c'est l'atelier qui les déclare, un import n'a pas à écraser ça.
 
 db.exec('BEGIN');
 try {
-  let o = db.prepare(`SELECT * FROM ordres WHERE titre = ?`).get(TITRE_ORDRE);
-  if (!o) {
-    const { prochainNumero } = require('./db.js');
-    const id = db.prepare(`INSERT INTO ordres (numero, titre, statut, note)
-        VALUES (?,?,?,?)`).run(prochainNumero(), TITRE_ORDRE, 'planifie',
-        'Importé du chiffrier « QUANTITÉS FINALES — PLAN DE PRODUCTION 26-27 ». '
-      + 'Les quantités se remettent à jour par un nouvel import ; les avancements '
-      + 'se saisissent dans l\'app.').lastInsertRowid;
-    o = db.prepare(`SELECT * FROM ordres WHERE id = ?`).get(id);
-    dire(`  Ordre ${o.numero} créé.`);
-  }
+  const ordres = ORDRES.map((d) => {
+    let o = db.prepare(`SELECT * FROM ordres WHERE titre = ?`).get(d.titre);
+    if (!o) {
+      const { prochainNumero } = require('./db.js');
+      const id = db.prepare(`INSERT INTO ordres (numero, titre, statut, note)
+          VALUES (?,?,?,?)`).run(prochainNumero(), d.titre, 'planifie', d.note)
+          .lastInsertRowid;
+      o = db.prepare(`SELECT * FROM ordres WHERE id = ?`).get(id);
+      dire(`  Ordre ${o.numero} créé — ${d.titre}.`);
+    }
 
-  // La date d'expédition vers le Canada commande tout le reste : c'est elle
-  // qui détermine ce qui doit être fini, et donc l'ordre de fabrication.
-  const EXPEDITION = process.env.MRP_EXPEDITION || '2026-10-01';
-  const dejaLa = db.prepare(`SELECT id FROM ordre_jalons
-      WHERE ordre_id = ? AND type = 'expedition'`).get(o.id);
-  if (!dejaLa) {
-    db.prepare(`INSERT INTO ordre_jalons (ordre_id, titre, date, type, note)
-        VALUES (?,?,?,?,?)`).run(o.id, 'Expédition vers le Canada', EXPEDITION,
-        'expedition', 'Tout ce qui n\'est pas fini à cette date ne part pas.');
-    dire(`  Jalon d'expédition posé au ${EXPEDITION}.`);
-  }
+    // La date d'expédition vers le Canada commande tout le reste : c'est elle
+    // qui détermine ce qui doit être fini, et donc l'ordre de fabrication.
+    // Vide, aucun jalon n'est posé : une date inventée commanderait la cédule
+    // d'un ordre entier en ayant l'air d'une donnée. Québec la met dans l'app.
+    const EXPEDITION = d.expedition;
+    const dejaLa = db.prepare(`SELECT id FROM ordre_jalons
+        WHERE ordre_id = ? AND type = 'expedition'`).get(o.id);
+    if (!dejaLa && EXPEDITION) {
+      db.prepare(`INSERT INTO ordre_jalons (ordre_id, titre, date, type, note)
+          VALUES (?,?,?,?,?)`).run(o.id, 'Expédition vers le Canada', EXPEDITION,
+          'expedition', 'Tout ce qui n\'est pas fini à cette date ne part pas.');
+      dire(`  Jalon d'expédition posé au ${EXPEDITION} (${o.numero}).`);
+    } else if (!dejaLa) {
+      dire(`  ${o.numero} sans jalon d'expédition : aucune date fixée.`);
+    }
+    return { ...o, _titre: d.titre };
+  });
 
   const trouveItem = db.prepare(`SELECT * FROM ordre_items
       WHERE ordre_id = ? AND produit_id = ?`);
@@ -628,10 +660,15 @@ try {
   const poseVar = db.prepare(`INSERT INTO item_variantes
       (item_id, groupe, nom, quantite, rang) VALUES (?,?,?,?,?)`);
 
-  let nItems = 0, nMaj = 0, unites = 0, rang = 0, nVar = 0;
+  let nItems = 0, nMaj = 0, unites = 0, nVar = 0;
   const ecarts = [], arrondis = [];
-  for (const l of lignes) {
-    if (!l.plan) continue;
+  const parOrdre = [];
+  for (const o of ordres) {
+    // Le rang repart à 1 dans chaque ordre : c'est un rang DANS l'ordre, pas
+    // une position globale.
+    let rang = 0, nO = 0, uO = 0;
+    for (const l of lignes) {
+    if (!l.plan || l.plan._ordre !== o._titre) continue;
     const pr = idProduit.get(l.code); if (!pr) continue;
     const q = Number(l.plan.quantite_prevue);
     // « 0 déjà en prévente » n'apprend rien : pas de prévente, pas de note.
@@ -641,7 +678,7 @@ try {
     let itemId;
     if (ex) { majItem.run(q, note, ex.id); itemId = ex.id; nMaj++; }
     else { itemId = poseItem.run(o.id, pr.id, q, note, ++rang).lastInsertRowid; nItems++; }
-    unites += q;
+    unites += q; nO++; uO += q;
 
     const vs = variantesPlan.get(l.plan.produit) || [];
     videVar.run(itemId);
@@ -661,10 +698,14 @@ try {
       (arrondi ? arrondis : ecarts).push(
         `${l.code} : ${somme} en variantes pour ${q} au plan (${d > 0 ? '+' : ''}${d})`);
     }
+    }
+    parOrdre.push(`${o.numero} ${o._titre} : ${nO} produit${nO > 1 ? 's' : ''}, `
+                + `${uO.toLocaleString('fr-CA')} unités`);
   }
   db.exec('COMMIT');
   dire(`  ${nItems} items créés, ${nMaj} mis à jour — `
      + `${unites.toLocaleString('fr-CA')} unités à produire`);
+  for (const x of parOrdre) dire(`    · ${x}`);
   dire(`  ${nVar} variantes réparties (taille, coloris)`);
   if (arrondis.length)
     dire(`  ${arrondis.length} répartitions à ±1 % du plan : arrondi des `
@@ -677,7 +718,7 @@ try {
   dire('  Les avancements déjà saisis n\'ont pas été touchés.\n');
 } catch (e) {
   db.exec('ROLLBACK');
-  console.error(`\n  Ordre de production non créé : ${e.message}\n`);
+  console.error(`\n  Ordres de production non créés : ${e.message}\n`);
 }
 
 // -------------------------------------------------------- ce qui manque encore

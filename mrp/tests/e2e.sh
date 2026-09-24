@@ -1436,6 +1436,34 @@ MRP_DB="$CAT" node --no-warnings -e "
   && ok "la cédule compte les grandes pointures à leur propre temps" \
   || ko "les deux semelles sont chiffrées au même temps"
 
+# --- les t-shirts sont un ORDRE à part, pas une ligne de plus -------------
+# Le t-shirt ne vient pas du chiffrier de la saison : il s'est vendu en
+# prévente après, et sa livraison est promise en novembre, pas au départ
+# d'octobre. Fondu dans le plan 26-27, il aurait hérité de la mauvaise
+# échéance et ses 500 pièces auraient disparu dans 26 133.
+T=$(MRP_DB="$CAT" node --no-warnings -e "
+  const {db}=require('./db.js');
+  const r=db.prepare(\"SELECT o.numero, o.titre FROM ordre_items i \
+     JOIN produits p ON p.id=i.produit_id JOIN ordres o ON o.id=i.ordre_id \
+     WHERE p.code='TSHIRT-BRODE'\").get();
+  const n=db.prepare('SELECT COUNT(*) n FROM ordres').get().n;
+  const seul=db.prepare(\"SELECT COUNT(*) n FROM ordre_items i JOIN ordres o \
+     ON o.id=i.ordre_id WHERE o.titre LIKE 'T-shirts%'\").get().n;
+  console.log((r?r.titre:'AUCUN')+'|'+n+'|'+seul);" 2>/dev/null)
+case "$T" in
+  "T-shirts brodés — prévente automne 2026|2|1")
+    ok "les t-shirts ont leur propre ordre de production" ;;
+  *) ko "les t-shirts ne sont pas sur un ordre distinct ($T)" ;;
+esac
+
+# Et cet ordre-là n'a PAS de jalon d'expédition : personne n'a fixé la date de
+# départ vers le Canada. En inventer une commanderait la cédule d'un ordre
+# entier en ayant l'air d'une donnée. Ce test tombe le jour où la date est
+# posée dans donnees/ordres.tsv — et c'est alors ce test qu'on corrige.
+[ "$(Z "SELECT COUNT(*) n FROM ordre_jalons j JOIN ordres o ON o.id=j.ordre_id WHERE o.titre LIKE 'T-shirts%'")" = 0 ] \
+  && ok "l'ordre des t-shirts ne porte aucune date inventée" \
+  || ko "un jalon est apparu sur un ordre sans date fixée"
+
 # --- une matière qu'on cesse d'employer ----------------------------------
 # `nomenclatures.tsv` recopie les fiches COGS : une matière retirée n'en est
 # pas effacée, sinon l'écart de coût avec le chiffrier devient inexplicable.
