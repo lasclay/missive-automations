@@ -1776,8 +1776,16 @@
       "quand": "2026-09-24T15:08:34.295Z",
       "confirme": true,
       "texte": "Glad to hear it. The flowers get most of the attention, and the leaves do the quieter work: monarch caterpillars feed on milkweed and nothing else."
+    },
+    {
+      "id": "1678623234271486_29443234515266699",
+      "reponse_id": "1678623234271486_1838304574278647",
+      "page_id": "104242204750257",
+      "quand": "2026-09-24T21:07:40.000Z",
+      "confirme": true,
+      "texte": "L'idée est notée, merci. On évite par contre de s'engager sur ce qui n'existe pas encore : ce qui est offert se trouve sur lasclay.com, et les nouveautés passent d'abord par l'infolettre."
     }
   ],
-  "derniere_execution": "2026-09-24T15:08:34.296Z",
-  "total": 222
+  "derniere_execution": "2026-09-24T21:07:40.000Z",
+  "total": 223
 }
