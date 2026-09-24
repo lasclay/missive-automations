@@ -17,6 +17,10 @@
 # La colonne « source » dit d'où vient la phrase. Vide = « notes techniques »,
 # la relecture décrite plus haut. « atelier » = une consigne donnée de vive
 # voix par ceux qui font le geste, notée ici pour qu'elle ne se reperde pas.
+# « direction — décision Admin QC » = un point né de la révision produit par
+# produit, et non d'une phrase qui existait déjà ailleurs. L'import se
+# réclame ses propres lignes par `import_src` : ajouter une source ici ne
+# laisse rien d'orphelin en base.
 # Un point ajouté dans l'app porte le nom de qui l'a écrit — c'est plus fort
 # qu'un fichier, et l'import n'y touche jamais.
 #
@@ -45,3 +49,4 @@ MIT-PLEIN-AIR	critique	Cuir synthétique conservé pour la paume							notes tec
 MANTEAU-HIVER	probleme	Ajustements selon le rapport d'amélioration	Certains points avec Grada Mode, d'autres chez BMB						notes techniques
 MANTEAU-3SAISONS	probleme	Ajustements selon le rapport d'amélioration	Certains points avec Grada Mode, d'autres chez BMB						notes techniques
 BANDEAU	critique	Deux modèles, même patron, assemblage différent	Torsadé (plusieurs couleurs) et sport (noir seulement)	Assemblage croisé entre les deux modèles					notes techniques
+TUQUE-SPORT	cyclage	Essai porté par au moins six personnes de gabarits différents	Faire essayer une tuque du lot à au moins six personnes de gabarits différents, hommes et femmes, et dans les deux tailles (s/m et m/l). Noter pour chacune si elle couvre les oreilles, si elle serre au front, si elle remonte. Six essais ne valident pas une cote : ils attrapent une taille qui ne va à personne, ce qu'aucune mesure à plat ne montre.	« Trop petit » est déjà le premier motif de retour sur ce produit — cinq fois, et aucun contrôle ne le voyait venir	6		personnes	lot	direction — décision Admin QC, 24/09/2026

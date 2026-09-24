@@ -313,6 +313,9 @@ const PAR_TITRE = new Map([
   ['Après la séquence : ce qu’on compare', 'comparer'],
   ['Étiquette — sens, position, lisibilité', 'etiquette'],
   ['Comparaison avec la photo de la boutique', 'photo_boutique'],
+  // Un point né de la révision produit par produit : cinq retours « trop
+  // petit » sur la tuque sport, et aucune mesure à plat ne les voyait.
+  ['Essai porté par au moins six personnes de gabarits différents', 'essai_porte'],
   // Les points de rupture. Les deux premiers existaient déjà au protocole :
   // le corpus n'a fait que confirmer qu'ils portent sur la bonne zone.
   ['Assemblage de la jonction main/pouce solide', 'mitaine_pouce'],
