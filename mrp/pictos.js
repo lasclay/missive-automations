@@ -336,9 +336,11 @@ const PAR_TITRE = new Map([
   ['Fermetures éclair : couleur et glissement problématiques',  'fermeture'],
   ['Velcro',                                                   'velcro'],
   ['Plier et attacher le coussin en accordéon au velcro, étiquette visible vers le haut', 'velcro'],
-  ['Billes pour bloquer le cord-lock noir',                    'cordlock'],
-  ['Lacet et élastique bien attachés au cord-lock',            'cordlock'],
   ['Élastique du capuchon : coulisse et tient',                'cordlock'],
+  // La bille n'est pas un cord-lock : c'est ce qui empêche le cord-lock de
+  // sortir du cordon. Norme enfant — aucune pièce détachable.
+  ['Billes pour bloquer le cord-lock noir',           'bille'],
+  ['Lacet et élastique bien attachés au cord-lock',   'bille'],
   ['Logo de l\'étiquette droit',                               'etiquette'],
   ['Étiquette de taille présente et orientée du même sens que les autres', 'etiquette'],
   ['Étiquette intégrée à la base gauche de l\'étui',            'etiquette'],
