@@ -489,7 +489,7 @@ async function cmdPublier(fichier, tir) {
   // plutôt que d'en laisser passer la moitié.
   const tirets = lot
     .map((r, i) => ({ i, r }))
-    .filter(({ r }) => typeof r.message === "string" && /[\u2014\u2013]/.test(r.message));
+    .filter(({ r }) => typeof r.message === "string" && /[\u2014\u2013]|--/.test(r.message));
   if (tirets.length) {
     for (const { i, r } of tirets) {
       console.error(`entrée ${i} (${r.id}) contient un cadratin ou demi-cadratin`);

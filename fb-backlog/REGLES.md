@@ -77,7 +77,8 @@ sourire de trop, à cet endroit-là, se lit comme du mépris.
    d'écriture d'IA le plus reconnaissable qui existe, et il trahit la Page à lui seul. Dans une
    incise, on écrit comme une personne qui tape sur un clavier : une virgule, un deux-points, un
    point, une parenthèse, ou deux phrases. Le trait d'union simple (-) entre deux mots composés
-   reste normal. Cette interdiction vaut pour les quatre tirs.
+   reste normal, mais le double trait d'union (--) employé comme incise tombe sous la
+   même interdiction. Cette interdiction vaut pour les quatre tirs.
 
 ## Ne jamais s'auto-corriger sur un compliment
 
