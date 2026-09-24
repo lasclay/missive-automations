@@ -178,6 +178,14 @@ const STATIQUES = {
   '/style.css':          ['text/css; charset=utf-8', 'public/style.css'],
   '/favicon.png':        ['image/png', 'public/favicon-32.png'],
   '/favicon-180.png':    ['image/png', 'public/favicon-180.png'],
+  // EXCEPTION ASSUMÉE À « L'APP N'HÉBERGE AUCUN FICHIER ». Les schémas sont des
+  // adresses vers le Drive, où vivent les images du tableau Miro. Celle-ci est
+  // différente : c'est une image que le MRP a FABRIQUÉE — la photo d'origine
+  // plus une flèche rouge qui désigne le bandeau, parce que sans elle on ne
+  // sait pas ce qu'on regarde dans cette tuque. L'originale reste au Drive,
+  // intacte, et reste la source. Comme les planches, c'est une donnée de
+  // production, pas un cache.
+  '/schema/bandeau-tuque.png': ['image/png', 'public/schema-bandeau-tuque.png'],
 };
 
 // Les planches d'instruction, servies par nom. Le nom ne change pas d'une

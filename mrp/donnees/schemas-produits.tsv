@@ -7,6 +7,13 @@
 # lh3.googleusercontent.com et redimensionner. L'app continue de n'héberger
 # aucun fichier — elle ne porte qu'une adresse, comme pour Shopify.
 #
+# UNE SEULE LIGNE FAIT EXCEPTION. Le bandeau de la tuque de ville pointe vers
+# /schema/bandeau-tuque.png, servie par l'app : c'est la photo Miro d'origine
+# À LAQUELLE ON A AJOUTÉ UNE FLÈCHE ROUGE. Sans elle, la photo montre une
+# tuque retournée et personne ne devine lequel des deux tissus est le bandeau.
+# L'originale reste au Drive sous l'id 1N6C0wS53vmqiuEd9Alk31KFbNKZ0VEqv,
+# intacte, et reste la source de celle-ci.
+#
 # CE QUE ÇA REMPLACE. Un « widget Miro » intégré chargerait plusieurs mégaoctets
 # de canevas dans une page qui en fait cinq kilo-octets, et demanderait à
 # l'atelier de naviguer 633 objets pour trouver sa pièce. Ici, la bonne vignette
@@ -33,5 +40,5 @@ MIT-POLAR	https://lh3.googleusercontent.com/d/13G9dTQT4ZRWUHbTs-cf7c9riy0NmBK03	
 MIT-LAINE	https://lh3.googleusercontent.com/d/13G9dTQT4ZRWUHbTs-cf7c9riy0NmBK03	Orientation de l'étiquette : toujours du même sens	1	3458764681841326118
 MIT-CUIR	https://lh3.googleusercontent.com/d/13G9dTQT4ZRWUHbTs-cf7c9riy0NmBK03	Orientation de l'étiquette : toujours du même sens	1	3458764681841326118
 GLACIERE	https://lh3.googleusercontent.com/d/1G2rtAqYzhEP4tLoULINvqTEmgE1IyG3Z	Bretelles renforcées et attaches — les quatre zones encadrées. C'est la zone la plus signalée du terrain : dix coutures de bretelle.	1	3458764681841326339
-BANDEAU-TUQUE	https://lh3.googleusercontent.com/d/1N6C0wS53vmqiuEd9Alk31KFbNKZ0VEqv	Le bandeau en place dans la tuque — hors tout 8 × 44 cm maximum	1	3458764681841326172
+BANDEAU-TUQUE	/schema/bandeau-tuque.png	Le bandeau en place dans la tuque — hors tout 8 × 44 cm maximum	1	3458764681841326172
 COUSSIN	https://lh3.googleusercontent.com/d/1_3du7tBsdq2LRXdJq3FsurZwN7V1Sd7F	Pliage en accordéon, sangle fermée, étiquette visible vers le haut	1	3458764681841326242

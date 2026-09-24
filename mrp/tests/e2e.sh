@@ -1495,6 +1495,47 @@ if(!/en tout/.test(h)){console.error('le total général a disparu');process.exi
 " 2>&1 && ok "la cédule montre les deux échéances et celle qui commande" \
   || ko "la cédule ne distingue pas les deux échéances"
 
+# --- la photo fléchée du bandeau de tuque ---------------------------------
+# C'est la seule image que le MRP sert lui-même comme schéma : la photo Miro
+# du bandeau PLUS une flèche rouge, sans laquelle on voit une tuque retournée
+# sans savoir lequel des deux tissus est le bandeau.
+#
+# Elle a été refusée en silence par DEUX gardes successives — celle de
+# l'import, celle de la vue — chacune écrite pour bloquer une « data: » URI.
+# Une adresse racine n'a aucun des défauts qu'elles visaient. Ce test tient la
+# chaîne entière : le fichier existe, la route le sert, et il ressort sur les
+# deux pages qui le montrent.
+[ -f "public/schema-bandeau-tuque.png" ] \
+  && ok "l'image fléchée du bandeau est au dépôt" \
+  || ko "l'image fléchée du bandeau a disparu du dépôt"
+
+# Pas de curl ici : à ce point du script le serveur de $B a déjà été remplacé
+# par les blocs qui précèdent. On vérifie la déclaration, puis le rendu — qui
+# est ce qui compte, parce que c'est la vue qui refusait l'adresse.
+grep -q "'/schema/bandeau-tuque.png': \['image/png'" server.js \
+  && ok "la route statique de l'image fléchée est déclarée" \
+  || ko "la route statique de l'image fléchée a disparu"
+
+MRP_DB="$CAT" node --no-warnings -e "
+  const V=require('./vues.js'), D=require('./db.js');
+  const p=D.db.prepare(\"SELECT * FROM produits WHERE code='TUQUE-VILLE'\").get();
+  const h=V.vueProtocole({user:{id:1,role:'admin',nom:'A'},msg:{},p,
+    proto:D.protocole(p.id), photos:[], bris:D.brisProduit(p.id),
+    appuis:D.brisParPoint(p.id), ecartes:D.horsSujet(p.id)});
+  process.exit(h.includes('/schema/bandeau-tuque.png') ? 0 : 1);" 2>/dev/null \
+  && ok "la vue rend bien la photo fléchée sur le point" \
+  || ko "la vue refuse encore l'adresse de la photo fléchée"
+
+BT=$(MRP_DB="$CAT" node --no-warnings -e "
+  const V=require('./vues.js'), D=require('./db.js');
+  const p=D.db.prepare(\"SELECT id FROM produits WHERE code='TUQUE-VILLE'\").get();
+  const q=D.protocole(p.id).points.find(x=>/^Bandeau cousu/.test(x.titre));
+  if(!q){console.log('POINT ABSENT');process.exit(0)}
+  console.log(q.schema_url||'SANS SCHEMA');" 2>/dev/null)
+[ "$BT" = "/schema/bandeau-tuque.png" ] \
+  && ok "le point du bandeau porte la photo fléchée" \
+  || ko "le point du bandeau ne porte pas la photo fléchée ($BT)"
+
 # --- une matière qu'on cesse d'employer ----------------------------------
 # `nomenclatures.tsv` recopie les fiches COGS : une matière retirée n'en est
 # pas effacée, sinon l'écart de coût avec le chiffrier devient inexplicable.

@@ -119,6 +119,22 @@ function photoRetroAcceptable(u) {
 }
 
 /**
+ * Même règle encore, pour les schémas, plus le seul dossier de schémas que
+ * l'app sert elle-même.
+ *
+ * Un schéma est normalement une adresse vers le Drive, où vivent les images du
+ * tableau Miro. Un seul ne l'est pas : la photo du bandeau de tuque, à laquelle
+ * le MRP a ajouté une flèche rouge — sans elle, on voit une tuque retournée
+ * sans savoir lequel des deux tissus est le bandeau. Cette image-là, le MRP l'a
+ * fabriquée, donc il la sert. L'originale reste au Drive et reste la source.
+ */
+const SCHEMA_INTERNE = /^\/schema\/[a-z0-9-]+\.(png|jpe?g|webp|svg)$/;
+function schemaAcceptable(u) {
+  const s = String(u || '').trim();
+  return SCHEMA_INTERNE.test(s) || urlAcceptable(s);
+}
+
+/**
  * Les photos d'un bris, dans l'ordre où le client les a envoyées.
  *
  * Un même signalement arrive souvent avec trois clichés de la même couture :
@@ -826,7 +842,7 @@ const ICONE_QC = { critique: '!', probleme: '~', mesure: '=', cyclage: '↻',
  */
 function schemaQC(q, largeur) {
   const u = String(q.schema_url || '').trim();
-  if (!urlAcceptable(u)) return '';
+  if (!schemaAcceptable(u)) return '';
   return `<a class="qc-schema" href="${e(u)}" rel="noopener"
      title="Ouvrir le schéma en taille réelle"><img src="${e(urlImage(u, largeur))}"
      loading="lazy" alt="Schéma — ${e(q.titre)}"></a>`;
