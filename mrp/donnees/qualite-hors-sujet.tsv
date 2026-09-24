@@ -35,6 +35,13 @@
 # l'étiquette, les fils apparents — s'inspecte sur la tuque montée, où ces
 # points restent tous actifs. Sur la pièce seule, il ne reste que sa coupe :
 # 8 x 44 cm. Décision Admin QC.
+#
+# 24/09/2026 — le cache-cou adulte perd toute la séquence d'abrasion. Il ne
+# frotte contre rien : il se porte au cou, sans surface d'appui. Le double
+# frottement éprouve une zone exposée à l'usure — paume d'une mitaine, fond d'un
+# sac, assise d'un coussin — et ce produit n'en a pas. Les quatre points partent
+# ensemble parce qu'ils sont une seule procédure : le lavage n'existe au
+# protocole que pour révéler ce que le frottement a fait. Décision Admin QC.
 produit	titre	motif
 BANDEAU-TUQUE	Comparaison avec la photo de la boutique	Aucune fiche en ligne : le bandeau tuque urbaine ne se vend pas, il n'y a pas de photo à laquelle comparer.
 BANDEAU-TUQUE	Fils qui dépassent — les retirer et les couper	Pièce intérieure prise entre la coque et la doublure de la TUQUE-VILLE : ses fils ne sont ni vus ni touchés une fois la tuque montée. Le point reste actif sur la tuque finie. Décision Admin QC, 23/09/2026.
@@ -43,3 +50,7 @@ BANDEAU-TUQUE	Lavage à l’eau froide, séchage au soleil	Le bandeau ne se lave
 BANDEAU-TUQUE	Double frottement — 2. après gel et humidité	Deuxième moitié de la séquence de lavage, qui ne se fait pas sur la pièce seule. Décision Admin QC, 23/09/2026.
 BANDEAU-TUQUE	Après la séquence : ce qu’on compare	Sans séquence de lavage sur la pièce, il n'y a rien à comparer. La comparaison se fait sur la TUQUE-VILLE. Décision Admin QC, 23/09/2026.
 BANDEAU-TUQUE	Étiquette — sens, position, lisibilité	Composant intérieur non vendu : il ne porte pas d'étiquette. C'est la TUQUE-VILLE qui en porte une, et le point y reste actif. Décision Admin QC, 23/09/2026.
+CACHE-COU	Double frottement — 1. à sec	Un cache-cou ne frotte contre rien : porté au cou, il n'a pas de surface d'appui exposée à l'abrasion. Décision Admin QC, 24/09/2026.
+CACHE-COU	Lavage à l’eau froide, séchage au soleil	Deuxième temps de la séquence d'abrasion, écartée en entier sur ce produit : le lavage n'est au protocole que pour révéler ce que le frottement a fait. Décision Admin QC, 24/09/2026.
+CACHE-COU	Double frottement — 2. après gel et humidité	Troisième temps de la séquence d'abrasion, écartée en entier sur ce produit. Décision Admin QC, 24/09/2026.
+CACHE-COU	Après la séquence : ce qu’on compare	Sans séquence d'abrasion, il n'y a rien à comparer. Décision Admin QC, 24/09/2026.

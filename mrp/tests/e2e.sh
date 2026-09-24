@@ -1438,7 +1438,7 @@ MRP_DB="$CAT" node --no-warnings -e "
 # n'a aucun sens sur un produit qui n'a pas de fiche en ligne. Le point reste
 # juste EN GÉNÉRAL : on l'écarte de ces produits, on ne l'efface pas —
 # l'effacer le retirerait de tous les autres.
-[ "$(Z "SELECT COUNT(*) n FROM qc_hors_sujet")" = 7 ] \
+[ "$(Z "SELECT COUNT(*) n FROM qc_hors_sujet")" = 11 ] \
   && ok "le point hors sujet est écarté de son produit" \
   || ko "l'écart n'est pas chargé"
 
