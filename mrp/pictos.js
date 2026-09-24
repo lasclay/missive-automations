@@ -332,6 +332,16 @@ const PAR_TITRE = new Map([
   // « Rétroactions négatives », pas d'une intuition.
   ['Densité de couture à la jonction main/pouce : 10 points par pouce',
    'points_pouce'],
+  // Les tests nés des défaillances réelles, relevées dans le mur des bris et
+  // les rétroactions clients. Chaque planche montre LE geste sur LE produit :
+  // une planche partagée entre deux familles a déjà montré un sac rouge sur un
+  // manteau, et on ne l'a vu que parce qu'un humain a cliqué.
+  ['Quincaillerie sous charge : boucle du rabat et ajusteurs de bretelle',
+   'glaciere_quincaillerie'],
+  ['La boucle claque et tient le sac plein soulevé par la poignée',
+   'saclunch_boucle'],
+  ['Flexion à l\u2019avant-pied : plier vingt fois', 'semelle_flexion'],
+  ['Compression du tube : aucune fibre ne sort', 'cachecou_fuite'],
   ['Paume : même cuir sur les deux mitaines d\'une paire', 'paire_cuir'],
   ['Étiquettes de taille et de composition : même sens, à 1 po à l\'intérieur',
    'etiquette_mitaine'],
