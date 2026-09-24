@@ -11,6 +11,12 @@
 # bretelle décousues là-bas — c'est que la consigne existait et qu'elle n'a pas
 # été tenue. Ça vaut mieux qu'une consigne qui manquait.
 #
+# Les TITRES sont le relevé de la charte, et le restent. Quand la révision
+# produit par produit ajoute une précision que la charte ne chiffrait pas — une
+# densité de points, une distance — elle va dans le `detail` et porte sa date et
+# son auteur, pour qu'on puisse la contester sans confondre ce que la charte
+# disait et ce qu'on a décidé depuis.
+#
 # Mêmes colonnes que qualite-amorce.tsv. Importer :
 #   node mrp/import_qualite.js --ecrire mrp/donnees/qualite-charte.tsv
 produit	volet	titre	detail	consequence	valeur	tolerance	unite	frequence	source	schema
@@ -45,7 +51,7 @@ MIT-PLEIN-AIR	mesure	Élastique au poignet pas trop serré							charte produits
 MIT-PLEIN-AIR	mesure	Élastique à la hauteur de la base du pouce							charte produits
 MIT-PLEIN-AIR	probleme	Lacet bien intégré au niveau du poignet							charte produits
 MIT-PLEIN-AIR	critique	La mitaine gauche est identique à la droite		Une paire dépareillée est invendable					charte produits
-MIT-PLEIN-AIR	probleme	Étiquette de taille présente et orientée du même sens que les autres		Une étiquette à l'envers se voit dès le déballage					charte produits	https://drive.google.com/file/d/1VKNPGchhfZR98Q9L2WlvP_rivuXx05YO/view
+MIT-PLEIN-AIR	probleme	Étiquettes de taille et de composition : même sens, à 1 po à l'intérieur	Les DEUX étiquettes — taille et composition — posées à 1 po à l'intérieur de la mitaine, toutes deux dans le même sens, sur toutes les pièces du lot. Position posée par Admin QC le 24/09/2026 ; la charte disait le sens, pas la distance. Une étiquette cousue trop haut dépasse, trop bas elle frotte la main.	Une étiquette à l'envers ou mal placée se voit dès le déballage					charte produits	https://drive.google.com/file/d/1VKNPGchhfZR98Q9L2WlvP_rivuXx05YO/view
 MIT-POLAR	critique	Assemblage de la jonction main/pouce solide							charte produits
 MIT-POLAR	mesure	Élastique au poignet pas trop serré							charte produits
 MIT-POLAR	mesure	Élastique à la hauteur de la base du pouce							charte produits
