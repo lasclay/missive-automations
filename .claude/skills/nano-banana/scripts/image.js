@@ -6,7 +6,7 @@
 //   node .claude/skills/nano-banana/scripts/image.js "une consigne" sortie.webp
 //     --ref <fichier-ou-url>     photo de référence (répétable, jusqu'à 6)
 //     --suite <image>            l'image précédente d'une série, pour la continuité
-//     --taille <px>              largeur de la vignette produite (défaut 320, 0 = aucune)
+//     --taille <px>              largeur de la vignette produite (défaut 260, 0 = aucune)
 //     --qualite <1-100>          qualité WebP du grand format (défaut 88)
 //     --png                      garder le PNG brut au lieu de convertir
 //     --modele <id>              défaut gemini-3.1-flash-image
@@ -28,7 +28,7 @@ const REVISION = '2026-05-20';
 
 function args() {
   const a = process.argv.slice(2);
-  const o = { refs: [], modele: 'gemini-3.1-flash-image', taille: 320, qualite: 88 };
+  const o = { refs: [], modele: 'gemini-3.1-flash-image', taille: 260, qualite: 88 };
   const libres = [];
   for (let i = 0; i < a.length; i++) {
     switch (a[i]) {
@@ -137,7 +137,7 @@ async function main() {
       '-c:v', 'libwebp', '-quality', String(o.qualite), `${base}.webp`]);
     if (o.taille > 0) {
       execFileSync('ffmpeg', ['-loglevel', 'error', '-y', '-i', tmp,
-        '-vf', `scale=${o.taille}:-1`, '-c:v', 'libwebp', '-quality', '80', `${base}-mini.webp`]);
+        '-vf', `scale=${o.taille}:-1`, '-c:v', 'libwebp', '-quality', '76', `${base}-mini.webp`]);
     }
   } finally { fs.unlinkSync(tmp); }
 

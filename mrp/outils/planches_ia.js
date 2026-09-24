@@ -24,7 +24,7 @@
 // redonne PAS le même dessin, alors le fichier est l'original, pas une copie.
 //
 // Deux tailles, parce que la planche se lit en bande puis se zoome :
-//   <planche>-<n>-mini.webp   320 px, la vignette   — 4 vignettes = 15 Ko
+//   <planche>-<n>-mini.webp   260 px, la vignette   — la bande s'affiche à 150 px
 //   <planche>-<n>.webp       1024 px, le zoom       — 30 Ko, chargé au clic
 // Le PNG que rend le modèle ne survit pas : à qualité indiscernable il pèse dix
 // fois plus. Conversion par ffmpeg, qui n'est requis que pour générer — jamais
@@ -172,7 +172,11 @@ function convertir(png, base) {
   const tmp = `${base}.png`;
   fs.writeFileSync(tmp, png);
   try {
-    for (const [suffixe, filtre, q] of [['', null, 88], ['-mini', 'scale=320:-1', 80]]) {
+    // 260 px et non 320 : la bande s'affiche à 150 px, donc 260 laisse encore de
+    // quoi pour un écran dense, et coupe un tiers du poids. Mesuré sur les
+    // planches les plus chargées : 78 Ko la fiche produit à 320, 52 à 260, sans
+    // différence visible à l'œil.
+    for (const [suffixe, filtre, q] of [['', null, 88], ['-mini', 'scale=260:-1', 76]]) {
       const args = ['-loglevel', 'error', '-y', '-i', tmp];
       if (filtre) args.push('-vf', filtre);
       args.push('-c:v', 'libwebp', '-quality', String(q), `${base}${suffixe}.webp`);

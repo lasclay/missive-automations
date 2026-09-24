@@ -298,19 +298,22 @@ console.log('\n  Silhouettes, anneaux et images\n');
     [1, 2, 3, 4].every(i => bande.includes(`href="${HREF}#p${i}"`)));
   t('sans lien, les panneaux ne sont pas cliquables',
     !PIC.planche('Fils qui dépassent — les retirer et les couper').includes('<a '));
-  // Ce qui compte n'est ni le brut, ni une bande isolée : c'est la PAGE, où
-  // sept bandes se compressent les unes contre les autres. Mesurée seule, une
-  // bande fait 1,2 Ko ; les sept ensemble en font 2,3 — la structure se répète
-  // d'un panneau à l'autre et gzip en vit.
-  const gz = (x) => require('node:zlib').gzipSync(Buffer.from(x), { level: 9 }).length;
-  // Ce qu'une PAGE porte vraiment : les sept procédés généraux, qui
-  // apparaissent sous chaque produit. Mesurer les quinze planches du module
-  // reviendrait à mesurer ce que personne ne télécharge d'un coup.
-  const GENERAUX = ['fils', 'frottement_sec', 'lavage', 'frottement_gel',
-    'comparer', 'etiquette', 'photo_boutique'];
-  const page = GENERAUX.map(k => PIC.PLANCHES[k].join('')).join('');
-  t('les sept procédés généraux d\'une page tiennent sous 3 Ko compressés',
-    gz(page) < 3000, gz(page) + ' o');
+  // Le budget ne se mesure plus en SVG compressé : les planches générales sont
+  // devenues des images, et ce qui part sur le réseau ce sont les vignettes.
+  // Une fiche produit porte les procédés généraux ; c'est ce lot-là qu'on pèse,
+  // pas les trente-cinq planches du module, que personne ne charge d'un coup.
+  const GENERAUX = ['fils', 'frottement', 'etiquette', 'photo_boutique'];
+  const dossier = require('node:path').join(__dirname, '..', 'statique', 'planches');
+  const pesees = GENERAUX.filter(k => PIC.DESSINS.has(k));
+  const octets = pesees.reduce((a, k) => a + [1, 2, 3, 4].reduce((b, i) =>
+    b + fs.statSync(require('node:path').join(dossier, `${k}-${i}-mini.webp`)).size, 0), 0);
+  // Le plafond est posé à 20 Ko par planche affichée, pas à un total fixe : une
+  // fiche qui gagne une planche gagne du poids légitimement, mais une planche
+  // qui double de poids est une régression. Mesuré : les plus chargées font
+  // 13 Ko la bande de quatre vignettes, les plus simples 6 Ko.
+  t('une bande de vignettes reste sous 20 Ko par planche',
+    pesees.length > 0 && octets < pesees.length * 20000,
+    `${pesees.length} planche(s), ${Math.round(octets / 1024)} Ko`);
 
   // La page : tous les panneaux, chacun avec son ancre. Arriver par #p3 amène
   // au troisième geste, pas en haut de la page — c'est ce qui permet de
@@ -352,7 +355,6 @@ console.log('\n  Silhouettes, anneaux et images\n');
   // Une planche n'est « dessinée » que complète. Une série trouée — trois
   // panneaux sur quatre — se lit plus mal qu'un pictogramme, parce que le
   // geste manquant est justement celui qu'on ne devine pas.
-  const fs = require('node:fs');
   const dos = require('node:path').join(__dirname, '..', 'statique', 'planches');
   const sur = fs.existsSync(dos) ? fs.readdirSync(dos) : [];
   t('toute planche annoncée dessinée a ses quatre panneaux et ses vignettes',
@@ -376,11 +378,16 @@ console.log('\n  Silhouettes, anneaux et images\n');
   // se résolvent, sinon un PAR_TITRE vide ferait passer la boucle à vide.
   // PAR_TITRE est une Map : Object.keys() y rend une liste VIDE, et la première
   // version de ce test passait donc à vide sans rien vérifier.
+  // L'invariant qui compte n'est pas « tout titre s'affiche » — une planche peut
+  // être rattachée avant d'être dessinée, et c'est voulu : ça permet d'écrire
+  // les rattachements sans attendre les images. C'est que cle() ne rende JAMAIS
+  // une clé derrière laquelle il n'y a rien, sinon l'atelier voit un cadre vide.
   const titres = [...PIC.PAR_TITRE.keys()];
-  const rendus = titres.filter(x => PIC.plancheBD(x).includes('class="bd-p"'));
-  t('chaque titre connu sort une planche, dessinée ou tracée',
-    titres.length >= 12 && rendus.length === titres.length,
-    `${rendus.length} sur ${titres.length}`);
+  const resolus = titres.filter(x => PIC.cle(x));
+  const vides = resolus.filter(x => !PIC.plancheBD(x).includes('class="bd-p"'));
+  t('aucun titre résolu ne sort une planche vide',
+    titres.length >= 12 && resolus.length >= 12 && vides.length === 0,
+    vides.join(', ') || `${resolus.length} titres résolus sur ${titres.length}`);
 
   t('le titre se reconnaît sans accents ni ponctuation',
     PIC.cle('fils qui depassent  les retirer et les couper') === 'fils');
@@ -392,11 +399,23 @@ console.log('\n  Silhouettes, anneaux et images\n');
   // Toute clé nommée doit exister, et toute planche dessinée doit être
   // atteignable : une planche orpheline est du poids mort, une clé sans
   // planche est une page blanche.
+  // Une planche existe de trois façons : tracée en SVG, dessinée en WebP, ou
+  // déclarée dans les consignes et pas encore dessinée. Un titre qui pointe
+  // ailleurs est une faute de frappe qui ne s'affichera jamais.
+  const declarees = new Set(fs.readFileSync(
+    require('node:path').join(__dirname, '..', 'donnees', 'planches-prompts.tsv'), 'utf8')
+    .split('\n').filter(l => l.trim() && !l.startsWith('#') && !l.startsWith('planche\t'))
+    .map(l => l.split('\t')[0]));
+  const existe = k => PIC.PLANCHES[k] || PIC.DESSINS.has(k) || declarees.has(k);
   const cles = [...PIC.PAR_TITRE.values()];
-  t('chaque titre pointe une planche qui existe',
-    cles.every(k => PIC.PLANCHES[k]), cles.filter(k => !PIC.PLANCHES[k]).join(', '));
-  const orphelines = Object.keys(PIC.PLANCHES).filter(k => !cles.includes(k));
-  t('aucune planche dessinée ne reste inatteignable',
+  t('chaque titre pointe une planche qui existe quelque part',
+    cles.length >= 40 && cles.every(existe), cles.filter(k => !existe(k)).join(', '));
+
+  // Une planche que plus aucun titre ne nomme est du poids mort : elle se
+  // télécharge peut-être et ne s'affiche jamais.
+  const orphelines = [...new Set([...Object.keys(PIC.PLANCHES), ...PIC.DESSINS])]
+    .filter(k => !cles.includes(k));
+  t('aucune planche ne reste inatteignable',
     orphelines.length === 0, orphelines.join(', '));
 }
 

@@ -261,33 +261,6 @@ const PLANCHES = {
     piece(6, 54, 0.9) + `<path d="M96 70 124 62" fill="none" stroke-width="2.6"/>`
       + ciseaux(108, 16, 0, 1.05) + oui(20, 100, 0.9),
   ],
-  frottement_sec: [
-    appareil(16, 40) + fleche('M68 74h24v-7l16 11-16 11v-7H68z') + piece(108, 52, 0.55),
-    piece(10, 54, 0.95) + `<ellipse cx="72" cy="78" rx="20" ry="11" fill="none"
-        stroke="${T.rouge}" stroke-width="2.6" stroke-dasharray="6 4"/>`
-      + main(64, 6, 0, 1.0)
-      + fleche('M36 124h84v-6l13 9-13 9v-6H36z') + fleche('M120 124H36v-6l-13 9 13 9v-6z'),
-    chrono(62, 34, '3', 'min'),
-  ],
-  lavage: [
-    bac(30, 52) + flocon(72, 66, 1.3) + goutte(44, 22, 1.3) + goutte(104, 26, 1.3),
-    soleil(70, 10, 1.1) + piece(30, 62, 0.95) + table(16, 116),
-  ],
-  frottement_gel: [
-    goutte(44, 20, 1.5) + goutte(78, 16, 1.5) + goutte(112, 22, 1.5) + piece(26, 62, 0.9),
-    flocon(32, 44, 1.6) + chrono(96, 40, '2', 'h'),
-    piece(10, 54, 0.95) + `<ellipse cx="72" cy="78" rx="20" ry="11" fill="none"
-        stroke="${T.rouge}" stroke-width="2.6" stroke-dasharray="6 4"/>`
-      + main(64, 6, 0, 1.0)
-      + fleche('M36 124h84v-6l13 9-13 9v-6H36z') + fleche('M120 124H36v-6l-13 9 13 9v-6z'),
-    chrono(62, 34, '3', 'min'),
-  ],
-  comparer: [
-    piece(30, 56, 0.95) + table(16, 110),
-    appareil(8, 50) + fleche('M58 76h16v-6l13 9-13 9v-6H58z') + piece(88, 58, 0.7)
-      + loupe(118, 26, 0.9),
-    oui(36, 52, 1.3) + non(102, 52, 1.3),
-  ],
   etiquette: [
     piece(14, 34, 1.3) + etiquette(56, 86, 0) + oui(128, 96, 0.85),
     piece(14, 34, 1.3) + etiquette(56, 86, 180) + non(128, 96, 0.85),
@@ -377,11 +350,85 @@ const PAR_TITRE = new Map([
   ['Ganses solidement cousues',                                'glaciere_sangle'],
   ['Collage adéquat',                                          'semelle_bord'],
   ['Découpe finale droite et lisse sur la ligne intérieure',   'semelle_bord'],
+  // ── les vingt-trois planches nées dessinées ────────────────────────────
+  // Le double frottement, le lavage et la comparaison sont UNE procédure en
+  // quatre temps : le protocole exige la même pièce d'un bout à l'autre.
+  ['Double frottement — 1. à sec',                    'frottement'],
+  ['Lavage à l\u2019eau froide, séchage au soleil',      'frottement'],
+  ['Double frottement — 2. après gel et humidité',    'frottement'],
+  ['Après la séquence : ce qu\u2019on compare',          'frottement'],
+  ['Barre-tack (point de bride) présent à la base de la fermeture', 'fermeture'],
+  // Quatre points d'élastique sont un seul examen de l'élastique.
+  ['Élastique au poignet pas trop serré',             'elastique'],
+  ['Élastique à la hauteur de la base du pouce',      'elastique'],
+  ['Excédent d\'élastique',                            'elastique'],
+  ['Élastiques bien pris dans la couture d\'assemblage', 'elastique'],
+  ['Lacet bien intégré au niveau du poignet',         'lacet_poignet'],
+  ['Crochets et lacet de la ganse : tirer',           'ganse_crochets'],
+  ['Crochet métallique pour ganse',                   'ganse_crochets'],
+  ['Sangle assemblée avec ses crochets métalliques, une par étui, placée à l\'intérieur du sac', 'ganse_crochets'],
+  ['Lacet bien intégré pour la sangle',               'ganse_crochets'],
+  ['Presser la pochette avant d\'y insérer l\'isolant', 'presser_isolant'],
+  ['Presser le col avant d\'y insérer l\'isolant',      'presser_isolant'],
+  ['Doublure de PVC sans trou',                       'doublure_trous'],
+  ['Doublure de nylon sans trou',                     'doublure_trous'],
+  ['Poche avant sans trou',                           'doublure_trous'],
+  ['La fibre est répartie de manière uniforme',       'fibre_repartie'],
+  ['La fibre ne doit pas être visible à la jonction de la base du gant', 'fibre_repartie'],
+  ['Répartition de la fibre et des retailles de vegeto uniforme', 'fibre_repartie'],
+  ['Fibre d\'asclépiade par gant',                     'fibre_repartie'],
+  ['Matelassage droit',                               'matelassage'],
+  ['Matelassage pas droit',                           'matelassage'],
+  ['Début et fin du biais intégrés sous la sangle de rangement', 'biais_sangle'],
+  ['Départ et fin du biais sous la ganse de rangement', 'biais_sangle'],
+  ['Boutonnière à l\'arrière',                         'boutonniere'],
+  ['Viseline pour solidifier les boutonnières',       'boutonniere'],
+  ['AUCUNE pièce détachable — vérifier l\'absence',    'enfants_detachable'],
+  ['Norme des produits pour enfants : aucune pièce ne doit être détachable', 'enfants_detachable'],
+  ['Pas de tache de colle sur le produit',            'taches'],
+  ['Pas de taches',                                   'taches'],
+  ['Droit fil respecté, élasticité du bon côté',      'droit_fil'],
+  ['Biais élastique des manches régulier',            'manches_egales'],
+  ['Ouverture de la manche égale des deux côtés',     'manches_egales'],
+  ['La mitaine gauche est identique à la droite',     'paire_identique'],
+  ['Porter le gant pour l\'assouplir',                 'assouplir'],
+  ['Finition des coutures intérieures',               'coutures_interieures'],
+  ['Éviter l\'asclépiade dans les coutures',           'coutures_interieures'],
+  ['Côté curseur selon le genre',                     'curseur_genre'],
+  ['Rouler, dérouler, attacher',                      'rouler'],
+  ['Emballage dans le carton sans comprimer',         'emballage_carton'],
+  ['Emballage et estampe = bonne taille',             'emballage_carton'],
+  ['Utiliser le gabarit du conteneur',                'emballage_carton'],
+  ['Les 2 rubans de ganses à la même hauteur',        'ganses_hauteur'],
+  ['Vérifier la concordance des lots de tissu',       'lots_tissu'],
+  // Mesurer est un geste : à plat, ruban détendu, sans tirer.
+  ['Dimensions de coupe',                             'mesures'],
+  ['Dimensions finales selon le schéma des tailles',  'mesures'],
+  ['Dimensions finies',                               'mesures'],
+  ['Dimensions hors tout du bandeau',                 'mesures'],
+  ['Hauteur hors tout',                               'mesures'],
+  ['Largeur hors tout',                               'mesures'],
+  ['Gradation — l\'écart entre tailles n\'est PAS uniforme', 'gradation'],
+  ['Gradation — longueur de manche entre deux tailles', 'gradation'],
+  ['Gradation — longueur du corps entre deux tailles', 'gradation'],
+  ['Gradation — tour de hanche entre deux tailles',   'gradation'],
+  ['Gradation — tour de poitrine entre deux tailles', 'gradation'],
 ].map(([t, k]) => [empreinte(t), k]));
 
-/** La clé de planche d'un titre, ou null. Null est le cas normal : la plupart
- *  des points n'ont pas de planche, et un dessin approximatif serait pire. */
-const cle = (titre) => PAR_TITRE.get(empreinte(titre)) || null;
+/** La clé de planche d'un titre, ou null.
+ *
+ *  Null est le cas normal : tout point n'a pas de planche, et un dessin
+ *  approximatif serait pire que rien. Une clé n'est rendue que si quelque chose
+ *  existe derrière — images complètes ou tracé SVG. Un titre peut donc être
+ *  rattaché à une planche dont les images ne sont pas encore générées : il se
+ *  comporte alors comme s'il n'en avait pas, et s'allume tout seul le jour où
+ *  elles arrivent. C'est ce qui permet de rattacher les titres AVANT de dessiner
+ *  sans jamais afficher un cadre vide à l'atelier. */
+const cle = (titre) => {
+  const k = PAR_TITRE.get(empreinte(titre));
+  if (!k) return null;
+  return (DESSINS.has(k) || PLANCHES[k]) ? k : null;
+};
 
 const panneau = (d, i, classe = 'pi-p') =>
   `<svg viewBox="0 0 176 140" class="${classe}" aria-hidden="true">`
@@ -417,7 +464,9 @@ const DESSINS = (() => {
   const vus = new Set();
   let fichiers = [];
   try { fichiers = fs.readdirSync(DOSSIER); } catch { return vus; }
-  for (const k of Object.keys(PLANCHES)) {
+  const cles = new Set([...Object.keys(PLANCHES),
+    ...fichiers.map(f => f.replace(/-\d(?:-mini)?\.webp$/, ''))]);
+  for (const k of cles) {
     const complet = [1, 2, 3, 4].every(i =>
       fichiers.includes(`${k}-${i}.webp`) && fichiers.includes(`${k}-${i}-mini.webp`));
     if (complet) vus.add(k);
@@ -446,8 +495,9 @@ const img = (k, i, mini) =>
 function planche(titre, { href = null } = {}) {
   const k = cle(titre);
   if (!k) return '';
-  const p = PLANCHES[k];
   const dessine = DESSINS.has(k);
+  const p = PLANCHES[k] || (dessine ? [0, 1, 2, 3] : null);
+  if (!p) return '';
   const corps = p.map((d, i) => {
     const vue = dessine ? img(k, i + 1, true) : panneau(d, i);
     return href
@@ -469,8 +519,9 @@ function planche(titre, { href = null } = {}) {
 function plancheBD(titre) {
   const k = cle(titre);
   if (!k) return '';
-  const p = PLANCHES[k];
   const dessine = DESSINS.has(k);
+  const p = PLANCHES[k] || (dessine ? [0, 1, 2, 3] : null);
+  if (!p) return '';
   return `<ol class="bd">${p.map((d, i) => `<li class="bd-p" id="p${i + 1}">
     ${dessine ? img(k, i + 1, false) : panneau(d, i, 'pi-g')}</li>`).join('')}</ol>`;
 }
