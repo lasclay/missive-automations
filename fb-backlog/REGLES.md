@@ -73,6 +73,11 @@ sourire de trop, à cet endroit-là, se lit comme du mépris.
    commentaire dans `a-revoir.json` pour traitement humain.
 7. **Ne jamais répondre à une plainte de commande.** Ce sont des dossiers clients, pas des
    questions. Les laisser au support.
+8. **Jamais de cadratin (—) ni de demi-cadratin (–) dans une réponse publiée.** C'est le tic
+   d'écriture d'IA le plus reconnaissable qui existe, et il trahit la Page à lui seul. Dans une
+   incise, on écrit comme une personne qui tape sur un clavier : une virgule, un deux-points, un
+   point, une parenthèse, ou deux phrases. Le trait d'union simple (-) entre deux mots composés
+   reste normal. Cette interdiction vaut pour les quatre tirs.
 
 ## Ne jamais s'auto-corriger sur un compliment
 

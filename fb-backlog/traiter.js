@@ -483,6 +483,23 @@ async function cmdCandidats(tir, nDemande) {
 async function cmdPublier(fichier, tir) {
   const lot = JSON.parse(fs.readFileSync(fichier, "utf8"));
   if (!Array.isArray(lot) || !lot.length) throw new Error("fichier vide ou mal formé");
+
+  // Garde-fou 8 de REGLES.md : le cadratin est le tic d'écriture d'IA le plus
+  // reconnaissable. On refuse le lot entier avant de publier quoi que ce soit,
+  // plutôt que d'en laisser passer la moitié.
+  const tirets = lot
+    .map((r, i) => ({ i, r }))
+    .filter(({ r }) => typeof r.message === "string" && /[\u2014\u2013]/.test(r.message));
+  if (tirets.length) {
+    for (const { i, r } of tirets) {
+      console.error(`entrée ${i} (${r.id}) contient un cadratin ou demi-cadratin`);
+    }
+    throw new Error(
+      `${tirets.length} réponse(s) contiennent un cadratin (—) ou un demi-cadratin (–). ` +
+      "Interdits : voir le garde-fou 8 de REGLES.md. Réécrire l'incise avec une virgule, " +
+      "un deux-points, un point ou une parenthèse, puis relancer. Rien n'a été publié."
+    );
+  }
   const vus = idsRepondus(tir);
   const etat = repondus(tir);
   let publiees = 0;
