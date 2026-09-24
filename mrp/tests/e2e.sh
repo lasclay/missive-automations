@@ -50,6 +50,22 @@ V=$(node -e "const{db}=require('./db.js');console.log(db.prepare('SELECT avancem
 R=$(curl -s -b $CO -o /dev/null -w '%{redirect_url}' $B/ordres/nouveau)
 case "$R" in *err=*) ok "l'atelier ne peut pas créer d'ordre" ;; *) ko "création autorisée à l'atelier" ;; esac
 
+# Chaque planche atteignable doit s'ouvrir. La route ne testait que le tracé
+# SVG, si bien que les vingt-quatre planches nées dessinées — sans tracé, rien
+# que des images — répondaient toutes « Planche inconnue ». Aucun test ne
+# passait par la route : ils vérifiaient le rendu, jamais l'ouverture.
+CLES=$(node --no-warnings -e "
+  const P=require('./pictos.js');
+  const k=new Set([...Object.keys(P.PLANCHES), ...P.DESSINS]);
+  console.log([...k].join(' '));" 2>/dev/null)
+RATE=""
+for K in $CLES; do
+  R=$(curl -s -b $CO -o /dev/null -w '%{redirect_url}' "$B/qualite/planche/$K")
+  case "$R" in *Planche+inconnue*|*Planche%20inconnue*) RATE="$RATE $K" ;; esac
+done
+[ -z "$RATE" ] && ok "chaque planche s'ouvre par sa route" \
+  || ko "planches refusées par la route :$RATE"
+
 curl -s -b $CO -o /dev/null -X POST $B/ordres/1/items/2/supprimer
 N=$(node -e "const{db}=require('./db.js');console.log(db.prepare('SELECT COUNT(*) n FROM ordre_items').get().n)" 2>/dev/null)
 [ "$N" = 4 ] && ok "l'atelier ne peut pas supprimer d'item" || ko "item supprimé par l'atelier"

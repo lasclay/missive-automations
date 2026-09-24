@@ -1081,8 +1081,12 @@ async function router(req, res, url, user) {
     const m = p.match(/^\/qualite\/planche\/([a-z_]{1,30})$/);
     if (m) {
       const PIC = require('./pictos.js');
-      if (!PIC.PLANCHES[m[1]]) return vers(res, '/qualite?err='
-        + encodeURIComponent('Planche inconnue.'));
+      // Une planche existe de deux façons : tracée en SVG, ou dessinée en
+      // images. Ne tester que le tracé rejetait les vingt-quatre planches nées
+      // dessinées — tous leurs points menaient à « Planche inconnue ».
+      if (!PIC.PLANCHES[m[1]] && !PIC.DESSINS.has(m[1]))
+        return vers(res, '/qualite?err='
+          + encodeURIComponent('Planche inconnue.'));
       const point = db.prepare(`SELECT titre, detail, consequence FROM qc_points`)
         .all().find((q) => PIC.cle(q.titre) === m[1]);
       if (!point) return vers(res, '/qualite?err='
