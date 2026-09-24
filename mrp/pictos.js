@@ -342,6 +342,17 @@ const PAR_TITRE = new Map([
    'saclunch_boucle'],
   ['Flexion à l\u2019avant-pied : plier vingt fois', 'semelle_flexion'],
   ['Compression du tube : aucune fibre ne sort', 'cachecou_fuite'],
+  // La veste et les manteaux subissent le MÊME geste sur le MÊME montage, mais
+  // pas sur la même pièce. Un seul titre leur donnerait une seule planche, et
+  // le point du manteau montrerait une veste sans manches — l'erreur qu'on a
+  // déjà faite en partageant une planche entre un sac et un vêtement.
+  ['Fermeture éclair de la veste : tirer de part et d\u2019autre du ruban',
+   'fermeture_couture'],
+  ['Fermeture éclair du manteau : tirer de part et d\u2019autre du ruban',
+   'fermeture_manteau'],
+  ['Couture longitudinale : tirer de part et d\u2019autre', 'foulard_couture'],
+  ['Doublure à l\u2019ouverture : tirer vers l\u2019intérieur', 'besace_doublure'],
+  ['Dessous : frotter et plier la semelle antidérapante', 'pantoufle_dessous'],
   ['Paume : même cuir sur les deux mitaines d\'une paire', 'paire_cuir'],
   ['Étiquettes de taille et de composition : même sens, à 1 po à l\'intérieur',
    'etiquette_mitaine'],
