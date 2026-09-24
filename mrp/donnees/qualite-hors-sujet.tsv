@@ -56,8 +56,9 @@
 # et le polyester brossé depuis 2024.
 #
 # Le lavage RESTE sur huit produits, par décision explicite : les deux manteaux,
-# les mitaines laine, cuir et bébé, les deux sacs de couchage et l'oreiller de
-# camping. Trois de leurs matières — laine, cuir, toile de polyester — ne
+# les mitaines LAINE (MIT-LAINE), les mitaines CUIR + LAINE (MIT-CUIR — le code
+# ne dit que le cuir, mais la pièce porte les deux), les mitaines bébé, les deux
+# sacs de couchage et l'oreiller de camping. Trois de leurs matières — laine, cuir, toile de polyester — ne
 # figurent dans AUCUN des quatre inventaires, donc rien ne permet de les dire
 # éprouvées.
 produit	titre	motif
