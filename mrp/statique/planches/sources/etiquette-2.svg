@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <!-- La tige fait tout le panneau : en bas l'étiquette est à l'endroit,
+         en haut elle est cousue à l'envers. C'est lisible même en vignette. -->
+    <g id="feuille">
+      <path d="M0,-52 C34,-26 34,20 0,50 C-34,20 -34,-26 0,-52 Z"
+            fill="#3f8f45" stroke="#1a1a1a" stroke-width="5"/>
+      <path d="M0,-42 L0,50" stroke="#1a1a1a" stroke-width="4" fill="none"/>
+      <path d="M-20,-14 L0,-2 M20,-14 L0,-2 M-20,14 L0,26 M20,14 L0,26"
+            stroke="#1a1a1a" stroke-width="3.5" fill="none"/>
+      <path d="M0,50 L0,86" stroke="#1a1a1a" stroke-width="7"
+            fill="none" stroke-linecap="round"/>
+    </g>
+    <g id="moitie">
+      <path d="M36,300 Q256,248 476,300 L476,506 Q256,558 36,506 Z"
+            fill="#232323" stroke="#1a1a1a" stroke-width="5"/>
+      <path d="M140,521 Q256,548 372,521" stroke="#9a9a9a" stroke-width="4"
+            stroke-dasharray="14 11" fill="none"/>
+      <rect x="166" y="524" width="180" height="258" rx="7"
+            fill="#f4f1e6" stroke="#1a1a1a" stroke-width="5"/>
+    </g>
+  </defs>
+
+  <rect width="1024" height="1024" fill="#efebe2"/>
+  <line x1="512" y1="60" x2="512" y2="964" stroke="#1a1a1a" stroke-width="3"/>
+
+  <use href="#moitie"/>
+  <use href="#feuille" transform="translate(256 645)"/>
+  <path d="M170,150 L220,200 L312,102" fill="none" stroke="#3f8f45"
+        stroke-width="30" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <g transform="translate(512 0)">
+    <use href="#moitie"/>
+    <use href="#feuille" transform="translate(256 645) rotate(180)"/>
+    <g stroke="#c62828" stroke-width="30" stroke-linecap="round">
+      <line x1="190" y1="104" x2="298" y2="212"/>
+      <line x1="298" y1="104" x2="190" y2="212"/>
+    </g>
+  </g>
+</svg>

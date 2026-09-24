@@ -50,9 +50,14 @@ node import.js --ecrire   # applique
 
 L'import lit `donnees/` et remplit la base : 34 produits avec leurs photos
 Shopify, leurs matériaux, leurs coûts et les consignes d'atelier, plus l'ordre
-de production de la saison tiré du plan 26-27 — **27 items, 24 333 unités**, et
-139 répartitions par taille et coloris. Il en tire aussi **39 matières et 50
-lignes de nomenclature**, soit 46 113 $ de matières engagées par le plan.
+de production de la saison tiré du plan 26-27 — **30 items, 26 133 unités**, et
+139 répartitions par taille et coloris. Il en tire aussi **39 matières et 65
+lignes de nomenclature**, dont 46 entrent dans la base.
+
+Ces chiffres bougent : le plan reçoit des ajouts datés (`donnees/ajouts-production.tsv`)
+et une ligne du chiffrier peut être découpée en deux produits. **`node import.js`
+sans `--ecrire` fait foi** — pas ce paragraphe, qui date de sa dernière relecture
+(23 septembre 2026).
 
 La consommation par unité ne se lit pas dans le chiffrier, elle s'en **déduit** :
 la colonne « consommation » est du texte libre (« 2 pads (4,80 pads/m) », « voir
@@ -256,8 +261,33 @@ dire — est dans [`METHODE-SUIVI.md`](METHODE-SUIVI.md).
   on n'en sait rien. Ranger trente-six inconnues dans les urgences ferait
   trente-six fausses alertes, et l'atelier cesserait de lire la liste
 
+**Schémas et détails d'atelier — le tableau Miro, dans la fiche**
+
+Les dessins cotés et les détails d'assemblage vivaient dans un tableau Miro que
+l'atelier devait ouvrir à côté. Ils sont maintenant **dans la fiche produit**,
+au-dessus de la charte — on les regarde avant de couper.
+
+- **Pas un widget Miro.** Un `live-embed` charge plusieurs mégaoctets de canevas
+  dans une page qui en fait cinq kilo-octets, et rendrait l'atelier à la
+  navigation d'un tableau de 633 objets pour trouver sa pièce. Ici, la bonne
+  vignette est à côté du bon produit : **la fiche reste à 3 Ko compressés**.
+- **Pas un fichier hébergé non plus.** L'adresse que l'API Miro rend **expire** ;
+  la stocker donnerait un cadre vide le lendemain. Les images sont rapatriées une
+  fois, redéposées sur le Drive, et servies redimensionnées par `lh3` — le même
+  chemin que les photos Drive que `urlImage()` sait déjà traiter.
+- **Un schéma n'est jamais la vignette d'une liste.** C'est un dessin coté, pas
+  une photo de produit ; les trois requêtes de vignette l'excluent.
+- Le cache-cou y gagne ses **cotes des trois tailles** — 22,1 × 19,9 pour le petit
+  enfant, 24,8 × 22,7 pour le grand, 29,9 × 27,1 pour l'adulte. Elles n'existaient
+  dans aucun fichier du dépôt.
+
+`donnees/schemas-produits.tsv` porte les rattachements ; `node import_schemas.js`
+les charge, et n'efface que ses propres lignes. La marche à suivre pour en ajouter
+une est dans [`planches/README.md`](planches/README.md).
+
 **Fiches produits**
 - Photos studio et photos en contexte d'utilisation
+- **Schémas et détails d'atelier** rapatriés du tableau Miro
 - « C'est quoi », « à quoi ça sert, comment ça s'utilise », notes techniques
 - Matériaux et patrons, avec dimensions déclarées
 - Liste des ordres de production où le produit apparaît
@@ -320,7 +350,7 @@ d'un lot, la connexion se fait avec la répartition réelle du lot :
 - sans répartition déclarée, **aucune taille n'est écartée** — on ne sait pas,
   donc on n'enlève rien.
 
-**Ce qui casse — la preuve qui fait écrire une consigne.** Un commentaire
+**Les bris signalés — la preuve qui fait écrire une consigne.** Un commentaire
 client, une photo de couture ouverte, un retour d'atelier : `qc_bris` garde la
 phrase **mot pour mot** (reformuler un client, c'est perdre ce qui rendait la
 phrase utile) avec sa zone, sa date et son origine. Aucune photo n'est
@@ -340,11 +370,14 @@ La boucle se ferme en trois temps :
 Un signalement dont personne n'a tiré de consigne est marqué comme tel : c'est
 la file de travail du contrôle qualité.
 
-**Les zones qui cassent, tous produits confondus.** La page Qualité ouvre sur
-« Ce qui casse » : combien de signalements par zone, **sur combien de produits
-différents**, et combien sans consigne. Une zone qui revient sur cinq produits
-n'est pas un défaut de produit, c'est un défaut de méthode — et c'est la
-question que les commentaires clients permettent enfin de poser.
+**Les zones qui cassent, tous produits confondus.** Ce bandeau a été retiré de
+la page Qualité en même temps que le mur des bris : les **rétroactions clients
+négatives** le remplacent, et leur groupement par problème répond à la même
+question — une zone qui revient sur cinq produits n'est pas un défaut de
+produit, c'est un défaut de méthode. Le calcul par zone (`zonesFragiles`)
+existe toujours dans `db.js`, sans surface pour l'instant ; il se rebrancherait
+sur les rétroactions plutôt que sur `qc_bris` si la vue croisée redevient
+utile.
 
 **Une non-conformité d'atelier est une observation de terrain, en plus tôt.**
 Une case « non conforme » cochée par Montassar remonte au même endroit que les
@@ -353,9 +386,35 @@ commentaires clients, et disparaît de la liste dès qu'elle est corrigée.
 **Squelettes de cyclage et d'essai porté.** `donnees/qualite-squelettes.tsv`
 porte la structure des tests de durabilité de couture (assemblage principal,
 points de contrainte, tenue après cyclage, migration de l'isolant) et des
-essais portés (aisance, points de frottement, symétrie, fermeture éclair). Ce
-sont des points du **protocole général**, puisque ce sont les mêmes gestes
+essais portés (aisance, points de frottement, symétrie, fermeture éclair).
+Ce sont des points du **protocole général**, puisque ce sont les mêmes gestes
 quelle que soit la pièce.
+
+**Le volet « esthétique et quotidien ».** Comment la pièce se présente, et
+comment elle tient à l'usage ordinaire. Onze points généraux, dont cinq posés
+par la direction :
+
+1. **Fils qui dépassent** — toutes les pièces. Tirer doucement avant de couper :
+   un fil qui vient est un fil qui n'était pas arrêté, donc une couture à
+   reprendre, pas un fil à couper.
+2. **Double frottement — 1. à sec** : 3 minutes sur la zone la plus exposée à
+   l'abrasion, photo AVANT.
+3. **Lavage à l'eau froide, séchage au soleil**, sur la même pièce.
+4. **Double frottement — 2. après gel et humidité** : mouiller légèrement,
+   congélateur 2 h, refaire exactement les 3 minutes sur la même zone.
+5. **Après la séquence : ce qu'on compare.**
+
+**Les points 2 à 5 se font sur LA MÊME PIÈCE, dans cet ordre.** C'est ce qui
+en fait un essai : les répartir sur trois pièces mesurerait trois pièces
+neuves, pas l'usure cumulée d'une seule. La pièce est sacrifiée — d'où
+l'échantillonnage « une fois par lot ».
+
+Six autres points sont **proposés** et portent cette mention dans leur source,
+pour qu'on puisse les retirer sans hésiter : conformité de couleur entre deux
+pièces d'un même lot, propreté (craie, huile de machine, traces de doigts),
+étiquette (sens, position, lisibilité), régularité de la surpiqûre, odeur à
+l'ouverture du sachet, comparaison avec la photo de la boutique. Chacun répond
+à une plainte qui existe dans les rétroactions clients.
 
 **Aucun chiffre de Lasclay n'y figure.** Combien de cycles, quelle charge,
 quelle tolérance — rien de tout ça n'existe dans les sources du dépôt, et
@@ -367,10 +426,21 @@ mesure. `node mrp/import_qualite.js --squelettes --ecrire` les charge.
   avant l'isolant » se discute ; « sinon il fond et devient rigide » ne se
   discute pas. Chaque point peut porter sa conséquence, et elle s'affiche en
   rouge sous la consigne.
-- **La page d'accueil du volet montre d'abord ce qui n'a AUCUN protocole**, le
-  plus gros volume en tête : c'est là que l'absence coûte le plus cher. Un
-  protocole vide sur un produit fabriqué à 4 665 unités est l'information la
-  plus utile de la page.
+- **`/qualite` est un carrefour à trois portes**, parce qu'on n'arrive pas au
+  contrôle qualité avec la même question selon le moment :
+
+  | Porte | La question à laquelle elle répond |
+  | --- | --- |
+  | **Par ordre de production** | « un conteneur part — qu'est-ce qui n'a pas été contrôlé ? » |
+  | **Par produit** | « comment contrôle-t-on CETTE pièce ? » |
+  | **Général** | « quels gestes valent pour tout ce qu'on fabrique ? » |
+
+  La première est la porte de travail, et elle est en tête. Les deux autres sont
+  la **source de vérité** : on les consulte, on n'y coche rien.
+- **La page par produit montre d'abord ce qui n'a AUCUN protocole**, le plus
+  gros volume en tête : c'est là que l'absence coûte le plus cher. Un protocole
+  vide sur un produit fabriqué à 4 665 unités est l'information la plus utile
+  de la page.
 - **L'atelier écrit autant que Québec.** C'est Montassar qui voit les défauts ;
   lui interdire d'écrire garderait l'information là où elle ne sert à personne.
   Chaque point porte le nom de qui l'a ajouté.
@@ -402,6 +472,54 @@ porte donc sa checklist, dérivée du protocole de son produit :
 - Sur la page de l'ordre, l'état qualité de chaque lot s'affiche **à côté du
   sélecteur d'avancement** — là où on s'apprête à déclarer 100 % et où on va se
   faire refuser.
+
+**Le contrôle par ordre de production — `/qualite/ordres/:id`.** La porte de
+travail. On choisit un ordre actif, puis on trie les lots par **catégories qui
+ne sont pas exclusives** :
+
+| Onglet | Ce qu'il retient |
+| --- | --- |
+| Tous les produits | tout ce que l'ordre contient |
+| Grands volumes | plus de 1 000 unités — une erreur s'y multiplie |
+| Nouveaux produits | jamais produits avant, **Québec compris** |
+| Complexes et gradués | plus d'une taille : manteaux, mitaines |
+
+Un manteau de 1 200 unités est dans trois onglets à la fois. C'est voulu : les
+onglets sont des angles d'attaque, pas des tiroirs. Ce qui rend ce chevauchement
+sûr, c'est la règle suivante.
+
+- **Un lot signé disparaît de PARTOUT, en un seul geste.** Il n'existe qu'une
+  signature par lot, pas une par onglet : sans ça, cocher dans « Grands
+  volumes » laisserait le lot en attente dans « Complexes et gradués », et
+  personne ne saurait lequel des deux dit vrai.
+- **Deux vues sur la même liste.** *Cartes* montre les photos — on reconnaît la
+  pièce avant de lire son code. *Liste à cocher* déplie, lot par lot, chaque
+  point avec son champ de commentaire, ses boutons Conforme / Non, et un lien
+  de procédé qui s'ouvre **à côté** (`target="_blank"`) : on consulte la source
+  de vérité sans perdre le contrôle en cours.
+- **Un seul lot déplié à la fois** (`?ouvert=N`). Rendre les trente corps coûtait
+  10,7 Ko compressés et 292 Ko bruts : le plafond de 12 Ko serait tombé vers 34
+  lots, et la page aurait cassé le jour où un ordre grossit. Replié, le poids ne
+  dépend plus du nombre de lots.
+
+**Signer un contrôle demande d'écrire.** Cocher les cases ne suffit pas :
+
+1. **Tous les points vérifiés, aucune non-conformité ouverte.** Sinon le
+   formulaire de signature n'apparaît même pas — il annonce ce qui manque.
+2. **Un compte rendu d'au moins 50 mots** (`MOTS_RAPPORT` dans `db.js`, et
+   l'écran affiche cette constante plutôt qu'un nombre recopié). Dans six mois,
+   quand un client signalera une couture, ce texte sera la seule chose qui dira
+   ce qui s'est passé.
+3. **Des photos ou vidéos, par leur adresse.** L'app n'héberge aucun fichier :
+   une adresse qui n'est pas `http(s)` est refusée, comme partout ailleurs.
+
+Les trois refus tombent **dans cet ordre**, et l'ordre compte : dire « il manque
+40 mots » à quelqu'un qui n'a encore rien contrôlé l'envoie écrire au lieu
+d'aller regarder les pièces. Un refus **rouvre le lot** là où on était.
+
+Un compte rendu se réécrit et **remplace** le précédent : un lot a un compte
+rendu, pas un historique de brouillons (`qc_rapports`, contrainte `UNIQUE` sur
+`item_id`).
 
 **Amorce.** 25 points sur 15 produits viennent de
 `donnees/qualite-amorce.tsv` — une relecture à la main des notes techniques,
@@ -579,8 +697,8 @@ Même philosophie que le reste du dépôt. Rien à installer, rien à mettre à 
 Tunisie. Chaque action est un formulaire qui poste et redirige.
 
 **Tout est compressé.** C'est le seul levier qui agit sur toutes les pages d'un
-coup, et il compte : l'ordre de production complet — 27 items, 297 boutons
-d'avancement et 139 lignes de répartition — passe de **61 Ko à 5 Ko**, la liste
+coup, et il compte : l'ordre de production complet — mesuré à 27 items, avec
+297 boutons d'avancement et 139 lignes de répartition — passe de **61 Ko à 5 Ko**, la liste
 de fabrication de 32 à 2 Ko. En dessous de 1 Ko on envoie tel quel, le gain ne
 paierait pas la compression. Aucune page ne dépasse 12 Ko sur le réseau.
 
@@ -755,16 +873,136 @@ Ce qui n'est **pas** couvert : le jugement du modèle. Après un changement de
 modèle ou de consigne, essayer à la main quelques phrases réelles — dont une
 référence ambiguë et une demande hors des droits de l'utilisateur.
 
+## Rétroactions clients négatives — la voix du client dans l'atelier
+
+> « Rien comme l'émotion d'un client insatisfait pour donner à des gens qui
+> posent seulement les briques du mur une impression de la bâtisse que ça
+> donne. »
+
+L'équipe de production est en Tunisie et ne voit jamais le produit après
+l'expédition. **487 rétroactions**, distillées de **2 282 fils** de
+correspondance Missive, vivent maintenant sur les fiches produits :
+`/retroactions`, et un onglet par produit. **Elles remplacent « Ce qui
+casse »**, dont le mur (`/mur`) et les bandeaux ont été retirés : les 110 bris
+qu'il montrait venaient tous de Missive, aucun n'était rattaché à un point de
+protocole, et les 487 rétroactions les couvrent mieux.
+
+**Deux mises en garde s'affichent en tête de chaque page, et elles ne sont pas
+décoratives :**
+
+- **Ce sont des rétroactions NÉGATIVES.** Seules les plaintes ont été relevées
+  — bris, insatisfaction, ajustement. Rien de ce que les clients ont écrit de
+  bon n'est là, et l'absence de compliment ne veut donc rien dire.
+- **Elles sont HISTORIQUES, et la majorité de ces pièces n'ont pas été
+  fabriquées en Tunisie.** Elles sont incluses par prudence : un défaut vu
+  ailleurs peut se répéter ici. Sans cette phrase, l'atelier lit ces plaintes
+  comme un bulletin sur son propre travail.
+
+Ce qui reste de l'ancien module de bris : `qc_bris` et ses données sont
+conservées, et la carte **« Bris signalés »** de la fiche protocole reste —
+ce n'est pas un mur historique, c'est l'outil vivant où l'atelier signale un
+bris et en tire une consigne.
+
+**Groupées par problème, repliées par défaut.** Une fiche qui déroulerait
+227 citations ne se lit pas. La page montre les problèmes et leur compte —
+« Trop grand 111 », « Couture décousue ou qui lâche 13 » — et **un seul groupe
+porte sa matière**, celui qu'on ouvre (`?ouvre=<clé>`). Les replier tous en
+gardant leurs citations dans le HTML faisait 15 Ko compressés sur les
+mitaines, au-delà du plafond de 12 Ko. Replié : 1,8 Ko.
+
+**Anonyme par construction.** Ce qui entre dans le MRP, c'est le défaut, la
+citation, la date et la photo. Jamais le nom, l'adresse, le courriel, le
+numéro de commande ou de suivi. `tests/retroactions.js` le vérifie sur les
+487 citations du TSV versionné, à chaque exécution de la suite — c'est ce test
+qui a trouvé deux numéros de commande passés à travers.
+
+**Quand le modèle n'est pas nommé, on ne tranche pas.** 222 des 487
+rétroactions disent « mes mitaines » sans dire lequel des cinq modèles.
+Rattacher au hasard enverrait l'atelier corriger le mauvais produit. Ces
+lignes portent une **famille** (`mitaines`, `manteaux`, `tuques`), s'affichent
+sur chaque modèle de la famille, et sont marquées comme telles. La table
+`FAMILLES_RETRO` est explicite et non déduite d'un préfixe de code :
+l'appartenance d'un produit à une famille est un jugement, elle se relit.
+
+**Les photos sont servies par l'app, derrière son mot de passe.** C'est une
+exception assumée à « l'app n'héberge aucun fichier » : cette règle existait
+pour ne pas dupliquer le CDN de Shopify, et ici il n'y a pas de CDN. Des
+photos de correspondance client sur une URL publique (Drive, lh3) seraient
+lisibles par quiconque a le lien. Elles vivent donc dans le dépôt privé
+(`photos-clients/`, 180 vignettes, 15 Mo) et se servent par
+`/photo-client/<uuid>.jpg`, **dans le routeur et non dans les statiques** —
+les statiques passent avant la session.
+
+**67 des 247 images reçues ont été écartées, une par une, à l'œil.** Les
+clients envoient des photos de défauts, mais aussi des reçus, des captures de
+paiement, des courriels et leur visage. Parmi les écartées : un numéro de
+carte partiel avec le nom du titulaire, une adresse postale complète avec
+téléphone, et **un code de carte-cadeau de 100 $ encore valide**. Aucune règle
+automatique ne distingue un reçu d'une photo de couture de façon fiable, et se
+tromper ici ne coûte pas une ligne de moins : ça publie les données d'un
+client. Les motifs sont dans `voix-client/photos-ecartees.tsv`. Les EXIF sont
+retirés au redimensionnement — une photo de téléphone porte les coordonnées
+GPS du domicile.
+
+**L'import se réclame ses propres lignes.** `qc_points.import_src` porte le
+nom du TSV qui a écrit la ligne, et l'import efface par ce nom. La règle
+précédente n'effaçait que les `source` encore présentes dans le fichier :
+renommer une source, ou retirer la dernière ligne qui la portait, laissait les
+anciennes orphelines pour toujours. Trois points du protocole général ont
+survécu comme ça à deux imports, en doublon, sans que rien ne le signale.
+
+### Comment le distillat est fabriqué
+
+```bash
+node mrp/voix-client/outils/distiller.js      # 2 282 fils → donnees/retroactions.tsv
+node mrp/import_retroactions.js --ecrire      # le TSV → la base
+```
+
+**87 % du « texte client » était notre propre courriel.** Un message marqué
+« pas de nous » contient presque toujours notre réponse citée en dessous. Un
+comptage naïf trouvait « ça a bloqué chez nos sous-traitants » dans des
+dizaines de fils : c'est notre infolettre, renvoyée par le client.
+`outils/deciter.js` coupe au premier marqueur de citation et écarte en plus ce
+qui est notre voix (« nos glacières sont conçues pour… », « 20 % de rabais »).
+
+**Le produit doit être nommé PRÈS du défaut.** Prendre le premier produit du
+fil donnait des attributions fausses et crédibles : « une couture de mon
+manteau a cédé » rangé sous `GLACIERE`, parce que le mot « glacière » traînait
+trente lignes plus loin. L'attribution se fait sur la mention la plus proche,
+dans une fenêtre de 500 caractères, familles comprises.
+
+**Un grep ne suffit pas, et le lexique le dit.** « Ne lâchez pas ! » est un
+encouragement québécois, « Lacasse » un nom de famille, « fracasse » parle de
+notre record de ventes. Le vocabulaire et ses exceptions vivent dans
+`outils/lexique.js`, séparés du moteur : c'est la partie qui se corrige à la
+lecture des résultats.
+
+**« Déçu » seul ne crée pas de rétroaction.** C'est une émotion, pas un
+défaut, et le groupe ramassait surtout des retards de livraison. Il ne compte
+que s'il nomme quelque chose de matériel — tissu, couture, finition — ce qu'un
+atelier peut aller regarder. Le groupe est passé de 99 à 9.
+
+**Ce que le classement laisse encore passer.** Des phrases de logistique
+gardent leur signal de taille (« les mitaines trop petites seront expédiées
+cette semaine ») ; 62 fils portent un problème sans qu'aucun produit ni
+famille ne soit nommé. Le corpus brut reste dans `voix-client/fils/`, avec les
+noms et les adresses : **le dépôt est privé et doit le rester.**
+
 ## Modèle de données
 
 ```
 utilisateurs ─┬─ sessions
               ├─ ordres ─┬─ ordre_items ─┬─ avancement_historique
-              │          │               └─ item_variantes  (taille × coloris)
+              │          │               ├─ item_variantes  (taille × coloris)
+              │          │               └─ qc_rapports     (1 par lot : le
+              │          │                  compte rendu qui signe le contrôle)
               │          ├─ ordre_jalons          (cédule)
               │          └─ ordre_commentaires
               ├─ agent_tours ── agent_actions        (assistant + annulation)
               ├─ produits ─┬─ produit_photos      (studio | contexte)
+              │             ├─ produit_retroactions (la voix du client ;
+              │             │    produit_id NULL + famille = « des mitaines,
+              │             │    sans dire lesquelles »)
               │             ├─ produit_materiaux   (texte libre, pour la fiche)
               │             ├─ produit_patrons
               │             └─ nomenclature ──┐    (calculable, pour les besoins)
@@ -818,15 +1056,21 @@ leur conception, on ne copie pas leur code.
 ## Backlog
 
 **Fiches produits poussées — à préparer.** Des fiches plus détaillées s'en
-viennent ; le tableau Miro qui sert de référence n'est pas encore accessible.
-Ce qui manque au schéma, ce qu'il faut décider avant de construire, et le
-blocage d'accès : [`FICHES-PRODUITS.md`](FICHES-PRODUITS.md).
+viennent. Le tableau Miro qui sert de référence **est accessible depuis** :
+`uXjVHuYrQSA=`, 633 objets, 64 frames, 26 produits. Le relevé actuel
+(`donnees/charte-produits.tsv`) vient d'un export PDF à 328 px sans couche de
+texte : les schémas de cotes et les vignettes d'étiquettes sont marqués
+`À RELIRE` et se comblent maintenant à la source. Ce qui manque au schéma et ce
+qu'il faut décider avant de construire : [`FICHES-PRODUITS.md`](FICHES-PRODUITS.md).
 
 
-**Le bandeau de la tuque beanie manque au plan.** Le plan prévoit 1 500 tuques
-de ville — tricotées en Chine — mais aucune quantité pour leur bandeau amovible,
-qui lui est fait à l'atelier. S'il en faut un par tuque, il manque 1 500 bandeaux
-au plan de Tunisie. À confirmer avec Gabriel ou Catherine.
+**~~Le bandeau de la tuque beanie manque au plan.~~ Réglé.** Gabriel l'a
+confirmé le 16 septembre 2026 : un bandeau intérieur par tuque, donc 1 500
+pièces faites à l'atelier, le tricot restant en Chine. La ligne est dans
+`donnees/ajouts-production.tsv`. Restent à régler : le patron est neuf,
+l'échantillon est à produire, les cotes hors tout (8 × 44 cm max) sont à valider,
+et le temps porté à la cédule est un plancher posé à la main (2,50 $, le bas du
+barème BMB) — pas une mesure.
 
 **Cinq répartitions par variante s'écartent vraiment du plan** — et ce ne sont
 pas celles annoncées d'abord. Les « trois doublements exacts » du manteau

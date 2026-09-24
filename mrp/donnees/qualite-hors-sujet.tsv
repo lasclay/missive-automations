@@ -15,7 +15,31 @@
 # identifiant changerait au prochain import, pas le titre.
 #
 # Importer : node mrp/import_qualite.js --squelettes --hors-sujet --ecrire
+#
+# 23/09/2026 — les trois écarts d'origine visaient « Essai porté » (deux fois)
+# et « Fermeture éclair », retirés du protocole général le même jour : pas tous
+# les produits ont une fermeture éclair ni un corps à enfiler, et un protocole
+# général qui suppose les deux n'est pas général. L'écart qui reste porte donc
+# sur un point qui, lui, vaut partout — sauf là où il n'y a littéralement pas
+# de photo à regarder.
+#
+# Le même jour, plus tard : la tuque de ville et les deux cache-cous enfant
+# ont été écartés eux aussi, puis remis. Ils n'avaient pas de fiche Shopify au
+# relevé d'août ; ils en ont une depuis. Un écart n'est bon que tant que son
+# motif l'est — celui-là a tenu quelques heures.
+#
+# 23/09/2026, en fin de journée — le bandeau de tuque urbaine perd tout son
+# protocole général. Ce n'est pas un produit : c'est le bandeau INTÉRIEUR de la
+# tuque beanie (TUQUE-VILLE), cousu entre la coque et la doublure, jamais vendu
+# ni vu. Ce qui s'inspecte sur un vêtement fini — l'abrasion, le lavage,
+# l'étiquette, les fils apparents — s'inspecte sur la tuque montée, où ces
+# points restent tous actifs. Sur la pièce seule, il ne reste que sa coupe :
+# 8 x 44 cm. Décision Admin QC.
 produit	titre	motif
-TOTE	Essai porté — aisance et amplitude	Un tote ne se porte pas sur le corps : il n'a ni emmanchure, ni entrejambe, ni dos.
-TOTE	Essai porté — points de frottement	Ni col ni poignets. Ce qui frotte sur un tote, ce sont les anses — c'est la symétrie qui les regarde.
-TOTE	Fermeture éclair — glissement sur toute la course	Le tote n'a pas de fermeture éclair.
+BANDEAU-TUQUE	Comparaison avec la photo de la boutique	Aucune fiche en ligne : le bandeau tuque urbaine ne se vend pas, il n'y a pas de photo à laquelle comparer.
+BANDEAU-TUQUE	Fils qui dépassent — les retirer et les couper	Pièce intérieure prise entre la coque et la doublure de la TUQUE-VILLE : ses fils ne sont ni vus ni touchés une fois la tuque montée. Le point reste actif sur la tuque finie. Décision Admin QC, 23/09/2026.
+BANDEAU-TUQUE	Double frottement — 1. à sec	Le bandeau ne frotte contre rien, il est enfermé dans la tuque. L'abrasion se teste sur la TUQUE-VILLE finie, où le point reste actif. Décision Admin QC, 23/09/2026.
+BANDEAU-TUQUE	Lavage à l’eau froide, séchage au soleil	Le bandeau ne se lave jamais seul : il part au lavage dans la tuque. La séquence se fait sur la TUQUE-VILLE. Décision Admin QC, 23/09/2026.
+BANDEAU-TUQUE	Double frottement — 2. après gel et humidité	Deuxième moitié de la séquence de lavage, qui ne se fait pas sur la pièce seule. Décision Admin QC, 23/09/2026.
+BANDEAU-TUQUE	Après la séquence : ce qu’on compare	Sans séquence de lavage sur la pièce, il n'y a rien à comparer. La comparaison se fait sur la TUQUE-VILLE. Décision Admin QC, 23/09/2026.
+BANDEAU-TUQUE	Étiquette — sens, position, lisibilité	Composant intérieur non vendu : il ne porte pas d'étiquette. C'est la TUQUE-VILLE qui en porte une, et le point y reste actif. Décision Admin QC, 23/09/2026.

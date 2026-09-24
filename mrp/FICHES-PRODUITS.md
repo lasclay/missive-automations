@@ -33,13 +33,24 @@ n'existe aucun inventaire des patrons.
 ## Ce qui s'en vient
 
 Un tableau Miro sert de référence — c'est la fiche que la direction veut voir
-« en version exhaustive ++++ ». Il n'a pas encore pu être lu : le tableau
-`uXjVLEALayg=` renvoie « Board access denied », le compte Miro connecté ici ne
-voyant que « Refonte site web » et « Boutique et ramassage ».
+« en version exhaustive ++++ ». **Il est accessible** : « Charte produits Lasclay
+(copie MRP) », `uXjVHuYrQSA=`, à
+<https://miro.com/app/board/uXjVHuYrQSA=/>. Le blocage d'août portait sur
+`uXjVLEALayg=` ; c'est la copie qui a débloqué la lecture.
 
-**Pour débloquer** : partager le tableau avec le compte de la connexion
-(utilisateur `3458764678911239441`, équipe `3458764678911072163`), ou vérifier
-dans claude.ai → Paramètres → Connecteurs quel compte Miro est rattaché.
+Ce qu'il contient : **633 objets, 64 frames, 26 produits**, rangés en bandes par
+pays (TUNISIE, CHINE) — 265 zones de texte, 176 formes, **82 images**,
+**16 documents**, 15 pense-bêtes. Chaque frame est une fiche à deux colonnes : la
+**fiche technique** (beige, de quoi c'est fait) et les **vérifications** (jaune,
+ce qu'on regarde avant d'emballer).
+
+**Ce qui reste à faire de cet accès.** Le relevé en base
+(`donnees/charte-produits.tsv` et `donnees/qualite-charte.tsv`) vient d'un export
+PDF à 328 px par carte, **sans couche de texte** : le corps des fiches se lit,
+les vignettes d'étiquettes et les schémas de cotes non. Ces trous sont marqués
+`À RELIRE` plutôt que devinés — et ils se comblent maintenant à la source, les
+82 images du tableau étant lisibles. **C'est le travail qui débloque les fiches
+« exhaustives ++++ ».**
 
 ---
 

@@ -11,7 +11,8 @@
  *   /matieres/:id une matière : son stock, son histoire, qui la consomme
  */
 'use strict';
-const { e, page, img, dateFR, dateHeureFR } = require('./vues.js');
+const { e, page, img, miniature, urlImage, urlAcceptable,
+        dateFR, dateHeureFR } = require('./vues.js');
 const { CATEGORIES, MOTIFS, UNITES, qte, uniteAffichee } = require('./db.js');
 
 const uniteFR = (u, n) => (u ? uniteAffichee(u, n === undefined ? 1 : n) : '');
@@ -35,6 +36,10 @@ function pastille(m) {
 /* ===================================================================== hub */
 
 function vueInventaire({ user, msg, matieres, alertes, produits, categorie }) {
+  // La colonne de vignettes n'apparaît que le jour où une matière a une photo.
+  // Trente-neuf carrés gris portant deux lettres du code n'apprennent rien à
+  // personne : ils occupent la place qu'ils promettent de remplir.
+  const avecPhotos = matieres.some(m => urlAcceptable(m.photo_url));
   const admin = user.role === 'admin';
 
   const alerte = (titre, lignes, rendu, explication) => !lignes.length ? '' : `
@@ -118,9 +123,13 @@ function vueInventaire({ user, msg, matieres, alertes, produits, categorie }) {
         <th class="num">Manque</th><th>État</th>
       </tr></thead>
       <tbody>${matieres.map(m => `<tr>
-        <td data-l="Matière"><a href="/matieres/${m.id}">${e(m.nom)}</a>
+        <td data-l="Matière">${avecPhotos ? '<div class="avec-mini">' + miniature(
+          m.photo_url, m.code, { taille: 38, zoom: { cle: `m${m.id}`,
+            href: `/matieres/${m.id}`, titre: m.nom } }) + '<div>' : ''}
+          <a href="/matieres/${m.id}">${e(m.nom)}</a>
           <span class="sec">${e(CATEGORIES[m.categorie] || m.categorie)}${
-            m.cout_unite ? ` · ${argent(m.cout_unite)}/${uniteFR(m.unite)}` : ''}</span></td>
+            m.cout_unite ? ` · ${argent(m.cout_unite)}/${uniteFR(m.unite)}` : ''}</span>
+        ${avecPhotos ? '</div></div>' : ''}</td>
         <td data-l="Stock" class="num">${m.suivi_stock
           ? (m.jamais_compte ? '<span class="sec">—</span>'
                              : qte(m.stock, uniteFR(m.unite)))
@@ -215,6 +224,12 @@ function vueMatiere({ user, msg, m, mouvements, besoin, produits }) {
     ${m.cout_unite ? ` · ${argent(m.cout_unite)} / ${e(u)}` : ''}
     ${m.fournisseur ? ` · ${e(m.fournisseur)}` : ''}
     ${m.delai_jours ? ` · délai ${m.delai_jours} j` : ''}</p>
+
+  ${urlAcceptable(m.photo_url) ? `<figure class="photo-matiere">
+    <a href="${e(urlImage(m.photo_url))}" rel="noopener"
+       title="Voir en taille réelle">${img(m.photo_url, {
+         largeur: 640, alt: `${m.nom} — photo de la matière` })}</a>
+  </figure>` : ''}
 
   ${m.note ? `<div class="msg doux">${e(m.note)}</div>` : ''}
 

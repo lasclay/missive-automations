@@ -18,7 +18,7 @@ node mrp.js demo >/dev/null 2>&1
 node mrp.js utilisateur:creer a@test.com motdepasse1 "Admin" admin >/dev/null 2>&1
 node mrp.js utilisateur:creer o@test.com motdepasse2 "Atelier" atelier >/dev/null 2>&1
 PORT=$PORT MRP_SANS_AMORCE=1 MRP_SANS_RAPPELS=1 node --no-warnings server.js >/dev/null 2>&1 & SRV=$!
-trap 'kill $SRV 2>/dev/null' EXIT
+trap 'kill $SRV 2>/dev/null || true' EXIT
 sleep 1.5
 B="http://localhost:$PORT"; CA=$(mktemp); CO=$(mktemp)
 
@@ -59,7 +59,8 @@ C=$(node -e "const{db}=require('./db.js');console.log(db.prepare('SELECT COUNT(*
 [ "$C" -ge 1 ] && ok "l'atelier peut commenter" || ko "commentaire refusé"
 
 # avancement global pondéré : 2000×70 + 800×20 + 500×0 + 300×10 = 159000 / 3600 = 44 %
-P=$(curl -s -b $CA $B/ordres/1 | grep -oE '>[0-9]+ %<' | head -1 | tr -dc 0-9)
+P=$(curl -s -b $CA $B/ordres/1 \
+  | grep -oE 'aria-label="[0-9]+ % fait"' | head -1 | tr -dc 0-9)
 [ "$P" = 44 ] && ok "avancement global pondéré par les quantités = 44 %" || ko "pondération incorrecte ($P)"
 
 # ---------------------------------------------------------------- le fil d'un item
@@ -206,7 +207,10 @@ A=$(MRP_DB="$(mktemp -d)/apercu.db" node --no-warnings -e "
 
 # ce qui compte n'est pas le poids du HTML mais ce qui part sur le réseau
 for u in / /ordres /ordres/1 /produits /produits/1 /cedule /priorites /suivi \
-         /inventaire /besoins /calendrier; do
+         /inventaire /besoins /calendrier \
+         /qualite /qualite/produits /qualite/general /qualite/ordres \
+         '/qualite/ordres/1' '/qualite/ordres/1?vue=liste' \
+         '/qualite/ordres/1?vue=liste&ouvert=1'; do
   S=$(curl -s -b $CA "$B$u" -H 'Accept-Encoding: gzip' -o /dev/null -w '%{size_download}')
   [ "$S" -lt 12000 ] || ko "page $u trop lourde sur le réseau ($S octets compressés)"
 done
@@ -432,11 +436,119 @@ curl -s -b $CO -o /dev/null -w '%{redirect_url}' -X POST $B/assistant/1/annuler 
   || ko "assistant : annulation croisée permise"
 
 # --- contrôle qualité ----------------------------------------------------
-# Ce qui compte n'est pas le nombre de points, c'est QUELS produits n'en ont
-# aucun — et que le plus gros volume passe devant.
+# /qualite est un carrefour à trois portes. Chacune est vérifiée ici parce que
+# chacune est une route distincte : une seule cassée passerait inaperçue.
 Q=$(curl -s -b $CA $B/qualite)
-echo "$Q" | grep -q 'Sans protocole' \
-  && ok "la page qualité montre d'abord ce qui n'a rien" || ko "page qualité vide"
+for porte in /qualite/general /qualite/produits /qualite/ordres; do
+  echo "$Q" | grep -q "$porte" || ko "la porte $porte manque à l'accueil qualité"
+done
+echo "$Q" | grep -q '/qualite/ordres' \
+  && ok "l'accueil qualité offre ses trois portes" || ko "accueil qualité vide"
+
+# Ce qui compte n'est pas le nombre de points, c'est QUELS produits n'en ont
+# aucun. L'information a déménagé de /qualite vers /qualite/produits quand le
+# carrefour est apparu ; elle doit rester au premier coup d'œil.
+curl -s -b $CA $B/qualite/produits | grep -q 'aucun protocole' \
+  && ok "la page par produit montre d'abord ce qui n'a rien" \
+  || ko "les produits sans protocole ne se voient plus"
+
+# Les procédés généraux : la page que l'atelier lit avant de toucher un lot.
+curl -s -b $CO $B/qualite/general | grep -q 'Procédés généraux' \
+  && ok "l'atelier accède aux procédés généraux" || ko "procédés généraux muets"
+
+# --- rétroactions clients -------------------------------------------------
+# Chaque produit a son onglet, y compris ceux dont personne n'a jamais parlé :
+# un produit absent de la liste est un produit dont on ne se demande jamais ce
+# que les clients en disent.
+curl -s -b $CO $B/retroactions | grep -q 'Rétroactions clients' \
+  && ok "l'atelier accède aux rétroactions clients" || ko "page des rétroactions muette"
+
+curl -s -b $CO $B/produits/1/retroactions | grep -q 'Rétroactions clients' \
+  && ok "un produit a son onglet de rétroactions" || ko "onglet de rétroactions absent"
+
+# LA RÈGLE QUI COMPTE : les photos de clients ne sortent jamais sans session.
+# Elles ne sont pas au Drive pour cette raison, et elles ne doivent surtout
+# pas être servies comme un fichier statique — ceux-là passent avant la session.
+PH=$(MRP_DB="$DB" node --no-warnings -e "
+  const fs=require('fs'), path=require('path');
+  const D=require('./db.js');
+  const dir=path.join(__dirname,'photos-clients');
+  const f=fs.existsSync(dir) ? fs.readdirSync(dir).find(x=>x.endsWith('.jpg')) : null;
+  if(!f) process.exit(0);
+  const p=D.db.prepare('SELECT id FROM produits LIMIT 1').get();
+  D.db.prepare(\"INSERT INTO produit_retroactions (produit_id,probleme,titre,categorie,citation,photos,source_ref) VALUES (?,'couture','Couture décousue','bris',?,?,'missive:test')\")
+    .run(p.id, 'Semence e2e : une couture a lâché après deux sorties, photo à l appui.', '/photo-client/'+f);
+  console.log('/photo-client/'+f);" 2>/dev/null)
+[ -n "$PH" ] && ok "une rétroaction avec photo est en place pour le test" \
+  || ko "aucune photo de client à tester — les gardes d'accès ne seraient pas vérifiées"
+if [ -n "$PH" ]; then
+  [ "$(curl -s -b $CO -o /dev/null -w '%{http_code}' "$B$PH")" = 200 ] \
+    && ok "une photo de client se sert dans une session ouverte" \
+    || ko "photo de client inaccessible malgré la session"
+  [ "$(curl -s -o /dev/null -w '%{http_code}' "$B$PH")" = 303 ] \
+    && ok "la même photo est refusée sans session" \
+    || ko "UNE PHOTO DE CLIENT SORT SANS SESSION"
+fi
+
+# Un nom qui n'est pas un UUID ne doit jamais toucher le disque.
+[ "$(curl -s -b $CO -o /dev/null -w '%{http_code}' "$B/photo-client/../../db.js")" = 404 ] \
+  && ok "la route des photos refuse une traversée de répertoire" \
+  || ko "traversée de répertoire possible sur les photos"
+
+# --- le contrôle par ordre de production ---------------------------------
+# La porte prioritaire. Les onglets ne sont pas exclusifs : un même lot peut
+# être à la fois grand volume et gradué, et doit se voir dans les deux.
+for CAT in tous volume nouveau gradation; do
+  curl -s -b $CA "$B/qualite/ordres/1?cat=$CAT" | grep -q 'qc-onglet' \
+    || ko "l'onglet $CAT ne rend pas ses onglets"
+done
+ok "les quatre onglets du contrôle par ordre répondent"
+
+# Deux vues sur la même liste : cartes et liste à cocher. Repliée, la liste ne
+# montre qu'une ligne par lot — c'est ce qui garde la page sous le plafond quel
+# que soit le nombre de lots.
+curl -s -b $CA "$B/qualite/ordres/1?vue=liste" | grep -q 'lot-ferme' \
+  && ok "la vue liste tient en une ligne par lot" \
+  || ko "la vue liste déplie tout et grossit avec l'ordre"
+
+# Cliquer un produit veut dire « montre-moi ce qu'il y a à contrôler sur
+# celui-là ». Le lien portait « vue=liste » sans « ouvert » : on tombait sur la
+# liste de tous les lots, tous fermés, et il fallait un second clic.
+curl -s -b $CA "$B/qualite/ordres/1?vue=cartes" | grep -q 'vue=liste&ouvert=1#lot1' \
+  && ok "cliquer un produit ouvre sa liste de points, pas la liste de tous" \
+  || ko "la carte d'un lot mène encore à la liste fermée"
+
+# Choisir entre une seule chose n'est pas un choix : avec un seul ordre vivant,
+# l'écran de sélection s'efface. Il reparaît dès qu'il y en a deux. Les tests
+# précédents créent et annulent des ordres, donc on ne suppose pas l'état : on
+# le lit, puis on vérifie la règle dans les deux sens.
+VIVANTS=$(node --no-warnings -e "const{db}=require('./db.js');console.log(
+  db.prepare(\"SELECT COUNT(*) n FROM ordres WHERE statut IN ('planifie','en_cours')\").get().n)" 2>/dev/null)
+[ "$VIVANTS" -gt 1 ] \
+  && { [ "$(curl -s -b $CA -o /dev/null -w '%{http_code}' $B/qualite/ordres)" = 200 ] \
+       && ok "$VIVANTS ordres vivants : l'écran de sélection s'affiche" \
+       || ko "le raccourci s'applique même quand il y a un choix à faire"; }
+# On ne garde qu'un seul ordre vivant, le temps d'une requête.
+node --no-warnings -e "require('./db.js').db.prepare(
+  \"UPDATE ordres SET statut='termine' WHERE id <> 1\").run()" 2>/dev/null
+[ "$(curl -s -b $CA -o /dev/null -w '%{redirect_url}' $B/qualite/ordres)" \
+    = "$B/qualite/ordres/1" ] \
+  && ok "un seul ordre vivant : on tombe dessus sans choisir" \
+  || ko "l'écran de sélection s'affiche encore pour un ordre unique"
+
+# Ouvert, le lot porte ses points et ses liens de procédé, qui s'ouvrent à côté
+# sans faire perdre la page en cours.
+curl -s -b $CA "$B/qualite/ordres/1?vue=liste&ouvert=1" | grep -q 'target="_blank"' \
+  && ok "un lot ouvert donne ses procédés sans quitter le contrôle" \
+  || ko "le lot ouvert n'a pas ses liens de procédé"
+
+# Le garde-fou : pas de signature sans compte rendu. C'est la règle qui fait
+# tenir tout le reste — un lot coché sans rien écrire ne prouve rien.
+curl -s -b $CO -o /dev/null -w '%{redirect_url}' -X POST \
+  $B/ordres/1/items/1/rapport --data 'texte=tout est beau' \
+  | grep -q 'err=' \
+  && ok "un compte rendu trop court ne signe pas le contrôle" \
+  || ko "le contrôle s'est signé sans compte rendu"
 
 PQ=$(MRP_DB="$DB" node --no-warnings -e "
 const{db}=require('./db.js');
@@ -503,8 +615,9 @@ const{db}=require('./db.js');
 console.log(db.prepare('SELECT COUNT(*) n FROM qc_points WHERE produit_id IS NULL').get().n)" 2>/dev/null)" = 1 ] \
   && ok "un point général s'écrit sans produit" || ko "protocole général non créé"
 
-curl -s -b $CA $B/qualite | grep -q 'Protocole général' \
-  && ok "le protocole général a sa place en tête de la page" || ko "protocole général absent"
+curl -s -b $CA $B/qualite/general | grep -q 'Plier en trois' \
+  && ok "le point général se lit sur la page des procédés généraux" \
+  || ko "protocole général absent"
 
 # il doit apparaître sur la checklist de N'IMPORTE quel lot
 curl -s -b $CO $B/ordres/1/items/1/qualite | grep -q 'Plier en trois' \
@@ -611,8 +724,13 @@ console.log(db.prepare('SELECT COUNT(*) n FROM qc_bris WHERE point_id IS NULL').
 curl -s -b $CA $B/qualite/$PB | grep -q 'signalements sur le terrain' \
   && ok "le point affiche combien de signalements l'appuient" || ko "appuis non affichés"
 
+curl -s -b $CA $B/qualite | grep -q '/retroactions' \
+  && ok "la page Qualité renvoie aux rétroactions clients négatives" \
+  || ko "la page Qualité ne mène nulle part côté retours clients"
+
 curl -s -b $CA $B/qualite | grep -q 'Ce qui casse' \
-  && ok "les zones fragiles remontent sur la page Qualité" || ko "zones absentes"
+  && ko "« Ce qui casse » traîne encore sur la page Qualité" \
+  || ok "« Ce qui casse » a bien disparu de la page Qualité"
 
 # un bris d'un autre produit ne se transforme pas en consigne ici
 AUTRE=$(MRP_DB="$DB" node --no-warnings -e "
@@ -1316,14 +1434,13 @@ MRP_DB="$CAT" node --no-warnings -e "
   || ko "le retrait du chanvre n'est expliqué nulle part"
 
 # --- un point général qui ne veut rien dire sur CE produit ----------------
-# « Aucune tension aux emmanchures ni à l'entrejambe » est une bonne consigne
-# pour un manteau et une absurdité sur un tote bag. Le point reste juste EN
-# GÉNÉRAL : on l'écarte de ce produit, on ne l'efface pas — l'effacer le
-# retirerait de tous les autres.
-TOT=$(Z "SELECT id n FROM produits WHERE code='TOTE'")
-[ "$(Z "SELECT COUNT(*) n FROM qc_hors_sujet WHERE produit_id=$TOT")" = 3 ] \
-  && ok "les trois points hors sujet sont écartés du tote" \
-  || ko "les écarts du tote ne sont pas chargés"
+# « Comparer à la photo de la boutique » est une bonne consigne partout, et
+# n'a aucun sens sur un produit qui n'a pas de fiche en ligne. Le point reste
+# juste EN GÉNÉRAL : on l'écarte de ces produits, on ne l'efface pas —
+# l'effacer le retirerait de tous les autres.
+[ "$(Z "SELECT COUNT(*) n FROM qc_hors_sujet")" = 7 ] \
+  && ok "le point hors sujet est écarté de son produit" \
+  || ko "l'écart n'est pas chargé"
 
 # Le coussin pour animaux n'avait aucun protocole. Trois points critiques,
 # dictés par l'atelier : le geste du roulage, les ganses qui portent le poids,
@@ -1338,32 +1455,59 @@ TOT=$(Z "SELECT id n FROM produits WHERE code='TOTE'")
   && ok "l'oreiller : « pas de taches » est un point critique" \
   || ko "le contrôle des taches n'est pas classé critique"
 
+# Le bandeau tuque urbaine n'a pas de fiche en ligne : il n'y a littéralement
+# pas de photo à laquelle le comparer. (La tuque de ville en a une depuis le
+# 22/09/2026 — son écart est tombé le jour même où il avait été posé.) (L'écart portait avant sur « Essai porté » et
+# « Fermeture éclair », retirés du protocole général le 23/09/2026 — un
+# protocole général ne peut pas supposer un corps à enfiler ni une glissière.)
 MRP_DB="$CAT" node --no-warnings -e "
   const D=require('./db.js');
-  const p=D.db.prepare(\"SELECT id FROM produits WHERE code='TOTE'\").get();
+  const p=D.db.prepare(\"SELECT id FROM produits WHERE code='BANDEAU-TUQUE'\").get();
   const t=D.protocole(p.id).points.map(q=>q.titre);
-  process.exit(t.some(x=>/Essai porté|Fermeture éclair/.test(x)) ? 1 : 0);" 2>/dev/null \
-  && ok "le protocole du tote ne demande plus d'essai porté ni de fermeture éclair" \
-  || ko "un point écarté figure encore au protocole du tote"
+  process.exit(t.some(x=>/Comparaison avec la photo/.test(x)) ? 1 : 0);" 2>/dev/null \
+  && ok "le bandeau tuque ne demande plus la comparaison avec une photo qui n'existe pas" \
+  || ko "un point écarté figure encore au protocole du bandeau tuque"
+
+# Le bandeau n'est pas un produit : c'est la pièce cousue à l'intérieur de la
+# tuque beanie, jamais vendue ni vue. Tout ce qui s'inspecte sur un vêtement
+# fini — abrasion, lavage, étiquette, fils apparents — s'inspecte sur la tuque
+# montée. Sur la pièce seule il ne reste que sa coupe. Si un point général
+# revient un jour se poser dessus, ce test tombe.
+MRP_DB="$CAT" node --no-warnings -e "
+  const D=require('./db.js');
+  const p=D.db.prepare(\"SELECT id FROM produits WHERE code='BANDEAU-TUQUE'\").get();
+  const t=D.protocole(p.id).points.map(q=>q.titre);
+  process.exit(t.length===1 && /Dimensions/.test(t[0]) ? 0 : 1);" 2>/dev/null \
+  && ok "le bandeau tuque ne garde que sa cote" \
+  || ko "le bandeau tuque a autre chose que ses dimensions au contrôle"
+
+# Les mêmes points restent entiers sur la tuque, elle, qui se vend et se porte.
+MRP_DB="$CAT" node --no-warnings -e "
+  const D=require('./db.js');
+  const p=D.db.prepare(\"SELECT id FROM produits WHERE code='TUQUE-VILLE'\").get();
+  const t=D.protocole(p.id).points.map(q=>q.titre);
+  process.exit(t.some(x=>/Étiquette/.test(x)) && t.some(x=>/Double frottement/.test(x)) ? 0 : 1);" 2>/dev/null \
+  && ok "écarter du bandeau n'a rien retiré à la tuque qui le contient" \
+  || ko "un point a disparu de la tuque de ville"
 
 # … mais il vaut toujours ailleurs : c'est toute la différence avec supprimer.
 MRP_DB="$CAT" node --no-warnings -e "
   const D=require('./db.js');
-  const p=D.db.prepare(\"SELECT id FROM produits WHERE code='MANTEAU-3SAISONS'\").get();
+  const p=D.db.prepare(\"SELECT id FROM produits WHERE code='CACHE-COU'\").get();
   const t=D.protocole(p.id).points.map(q=>q.titre);
-  process.exit(t.some(x=>/Essai porté/.test(x)) ? 0 : 1);" 2>/dev/null \
-  && ok "l'essai porté reste au protocole du manteau" \
+  process.exit(t.some(x=>/Comparaison avec la photo/.test(x)) ? 0 : 1);" 2>/dev/null \
+  && ok "la comparaison reste au protocole du cache-cou adulte, qui a une fiche" \
   || ko "écarter d'un produit a emporté le point partout"
 
 # Un point écarté ne doit pas être exigé sur la liste à cocher d'un lot :
 # une liste qu'on ne peut pas finir de cocher ne se coche jamais.
 MRP_DB="$CAT" node --no-warnings -e "
   const D=require('./db.js');
-  const p=D.db.prepare(\"SELECT id FROM produits WHERE code='TOTE'\").get();
+  const p=D.db.prepare(\"SELECT id FROM produits WHERE code='BANDEAU-TUQUE'\").get();
   const i=D.db.prepare('SELECT id FROM ordre_items WHERE produit_id=?').get(p.id);
   if (!i) process.exit(0);
   const t=D.checklistItem(i.id).points.map(q=>q.titre);
-  process.exit(t.some(x=>/Fermeture éclair/.test(x)) ? 1 : 0);" 2>/dev/null \
+  process.exit(t.some(x=>/Comparaison avec la photo/.test(x)) ? 1 : 0);" 2>/dev/null \
   && ok "la liste à cocher du lot ne demande pas ce qui est écarté" \
   || ko "un point écarté est exigé sur la checklist"
 

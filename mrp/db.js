@@ -326,7 +326,8 @@ CREATE TABLE IF NOT EXISTS qc_points (
   -- L'emballage, l'étiquetage, la finition ne se réécrivent pas trente fois.
   produit_id    INTEGER REFERENCES produits(id) ON DELETE CASCADE,
   type          TEXT NOT NULL DEFAULT 'critique'
-                CHECK (type IN ('critique','probleme','mesure','cyclage','emballage')),
+                CHECK (type IN ('critique','probleme','mesure','cyclage',
+                                'emballage','esthetique')),
   titre         TEXT NOT NULL,
   detail        TEXT NOT NULL DEFAULT '',
   consequence   TEXT NOT NULL DEFAULT '',   -- ce qui arrive si on le rate
@@ -395,6 +396,70 @@ CREATE TABLE IF NOT EXISTS qc_controles (
   cree_le       TEXT NOT NULL DEFAULT (datetime('now'))
 );
 CREATE INDEX IF NOT EXISTS idx_qcc_item ON qc_controles(item_id, point_id, id);
+
+-- Le compte rendu qui FERME le contrôle qualité d'un lot.
+--
+-- Cocher une case dit « j'ai regardé ». Ça ne dit pas ce qu'on a vu. Un lot de
+-- 3 500 cache-cous passe des semaines en production et repart dans un
+-- conteneur : six mois plus tard, quand un client signale une couture, la
+-- seule chose qui permette de savoir ce qui s'est passé est une phrase écrite
+-- par celui qui avait les pièces en main.
+--
+-- D'où le plancher de cinquante mots. Il n'est pas là pour faire écrire, il
+-- est là pour empêcher « ok » — qui est ce qu'on écrit quand on est pressé, et
+-- qui ne vaut rien six mois plus tard. Les médias sont des ADRESSES, jamais
+-- des fichiers : l'app n'héberge rien.
+--
+-- LES RÉTROACTIONS CLIENTS — ce que les clients ont écrit quand un produit a
+-- cassé, mal vieilli, ou simplement déçu.
+--
+-- Distillées de 2 282 fils Missive par mrp/voix-client/outils/distiller.js.
+-- Ce qui entre ici est ANONYME PAR CONSTRUCTION : la citation, le problème, la
+-- date, les photos. Jamais le nom, l'adresse ou le numéro de commande. Un
+-- atelier a besoin du défaut, pas de la personne.
+--
+-- « produit_id » peut être NULL. Beaucoup de clients écrivent « mes mitaines »
+-- sans dire lequel des cinq modèles : rattacher au hasard enverrait quelqu'un
+-- corriger le mauvais produit. Ces lignes portent « famille » à la place, et
+-- s'affichent sur chaque produit de la famille, en disant ce qu'elles sont.
+CREATE TABLE IF NOT EXISTS produit_retroactions (
+  id            INTEGER PRIMARY KEY,
+  produit_id    INTEGER REFERENCES produits(id) ON DELETE CASCADE,
+  -- « mitaines », « manteaux », « tuques » — quand le modèle n'est pas dit.
+  famille       TEXT NOT NULL DEFAULT '',
+  -- La clé de regroupement : c'est elle qui titre le menu déroulant. Une
+  -- rétroaction qui ne se range sous aucun problème ne se corrige pas.
+  probleme      TEXT NOT NULL,
+  titre         TEXT NOT NULL,
+  categorie     TEXT NOT NULL DEFAULT 'bris'
+                CHECK (categorie IN ('bris','insatisfaction','ajustement')),
+  citation      TEXT NOT NULL,             -- les mots du client, tels quels
+  -- Des ADRESSES séparées par une espace, jamais un fichier : l'app n'héberge
+  -- rien. Voir produit_photos pour la même règle.
+  photos        TEXT NOT NULL DEFAULT '',
+  survenu_le    TEXT,                      -- AAAA-MM-JJ
+  -- « missive:<filId> » — opaque, pour remonter à la source depuis le dépôt
+  -- privé. C'est aussi la clé qui rend l'import rejouable.
+  source_ref    TEXT NOT NULL DEFAULT '',
+  cree_par      INTEGER REFERENCES utilisateurs(id),
+  cree_le       TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE INDEX IF NOT EXISTS idx_retro_produit ON produit_retroactions(produit_id);
+CREATE INDEX IF NOT EXISTS idx_retro_famille ON produit_retroactions(famille);
+CREATE UNIQUE INDEX IF NOT EXISTS idx_retro_source
+  ON produit_retroactions(source_ref, probleme, citation);
+
+--
+-- Un rapport par item, et c'est lui qui fait disparaître le lot de toutes les
+-- listes de contrôle à faire.
+CREATE TABLE IF NOT EXISTS qc_rapports (
+  id             INTEGER PRIMARY KEY,
+  item_id        INTEGER NOT NULL UNIQUE REFERENCES ordre_items(id) ON DELETE CASCADE,
+  texte          TEXT NOT NULL,
+  medias         TEXT NOT NULL DEFAULT '',   -- adresses séparées par une espace
+  utilisateur_id INTEGER REFERENCES utilisateurs(id),
+  cree_le        TEXT NOT NULL DEFAULT (datetime('now'))
+);
 
 -- Ce qui casse, et où. La preuve de terrain qui justifie un point du protocole.
 --
@@ -563,6 +628,79 @@ for (const sql of [
     } catch (e) { db.exec('ROLLBACK'); throw e; }
   }
 }
+/**
+ * Le volet « esthétique et quotidien » s'ajoute : comment la pièce se présente
+ * et comment elle tient à l'usage ordinaire — fils coupés, abrasion, lavage,
+ * froid. Ce n'est pas du cyclage de couture, qui mesure l'endurance d'un
+ * assemblage ; c'est ce que le client voit sur sa pièce après un hiver.
+ *
+ * Même contrainte qu'avant : SQLite ne modifie pas un CHECK, il faut
+ * reconstruire. Le garde est le CHECK lui-même, pas un numéro de version.
+ */
+{
+  const t = db.prepare(
+    `SELECT sql FROM sqlite_master WHERE type='table' AND name='qc_points'`).get();
+  if (t && !/esthetique/.test(t.sql)) {
+    db.exec('BEGIN');
+    try {
+      db.exec(`
+        CREATE TABLE qc_points_n (
+          id            INTEGER PRIMARY KEY,
+          produit_id    INTEGER REFERENCES produits(id) ON DELETE CASCADE,
+          type          TEXT NOT NULL DEFAULT 'critique'
+                        CHECK (type IN ('critique','probleme','mesure','cyclage',
+                                        'emballage','esthetique')),
+          titre         TEXT NOT NULL,
+          detail        TEXT NOT NULL DEFAULT '',
+          consequence   TEXT NOT NULL DEFAULT '',
+          variante      TEXT NOT NULL DEFAULT '',
+          valeur        TEXT NOT NULL DEFAULT '',
+          tolerance     TEXT NOT NULL DEFAULT '',
+          unite         TEXT NOT NULL DEFAULT '',
+          ech_type      TEXT NOT NULL DEFAULT ''
+                        CHECK (ech_type IN ('','tout','ratio','fixe','lot')),
+          ech_valeur    INTEGER,
+          frequence     TEXT NOT NULL DEFAULT '',
+          source        TEXT NOT NULL DEFAULT '',
+          schema_url    TEXT NOT NULL DEFAULT '',
+          rang          INTEGER NOT NULL DEFAULT 0,
+          cree_par      INTEGER REFERENCES utilisateurs(id),
+          cree_le       TEXT NOT NULL DEFAULT (datetime('now')),
+          maj_le        TEXT NOT NULL DEFAULT (datetime('now'))
+        );
+        INSERT INTO qc_points_n
+          SELECT id, produit_id, type, titre, detail, consequence, variante,
+                 valeur, tolerance, unite, ech_type, ech_valeur, frequence,
+                 source, schema_url, rang, cree_par, cree_le, maj_le
+            FROM qc_points;
+        DROP TABLE qc_points;
+        ALTER TABLE qc_points_n RENAME TO qc_points;
+        CREATE INDEX IF NOT EXISTS idx_qc_produit ON qc_points(produit_id, type, rang);`);
+      db.exec('COMMIT');
+    } catch (e) { db.exec('ROLLBACK'); throw e; }
+  }
+}
+
+// Quel fichier a écrit cette ligne. Sans ça, un import ne peut effacer que les
+// `source` qu'il porte ENCORE : renommer une source dans le TSV laisse les
+// anciennes lignes orphelines pour toujours, et personne ne comprend d'où
+// vient le doublon. C'est arrivé sur trois points du protocole général.
+try { db.exec(`ALTER TABLE qc_points ADD COLUMN import_src TEXT NOT NULL DEFAULT ''`); }
+catch { /* déjà là */ }
+
+// Ménage unique : les trois points que le protocole « esthétique et quotidien »
+// a remplacés. Ils portent une source que le TSV n'utilise plus, donc aucun
+// import ne peut les atteindre. Ciblés par cette source exacte, et seulement
+// s'ils n'ont pas été repris à la main.
+try {
+  db.prepare(`DELETE FROM qc_points
+               WHERE cree_par IS NULL AND produit_id IS NULL
+                 AND source IN (
+                   'décrit par la direction — geste exigé sur toutes les pièces',
+                   'décrit par la direction — les 500 frottements sont donnés, le reste est à fixer',
+                   'décrit par la direction — critère de réussite à préciser')`).run();
+} catch { /* table pas encore à cette forme */ }
+
 try { db.exec(`ALTER TABLE qc_controles ADD COLUMN pieces INTEGER`); } catch { /* déjà là */ }
 // Le nom d'usage, celui que tout le monde dit : « Manteau 3 saisons ». Le
 // champ `nom` porte le titre Shopify, écrit pour vendre — « Manteau hivernal
@@ -581,6 +719,13 @@ catch { /* déjà là */ }
 // schéma de la charte tranche. Une ADRESSE, comme partout — l'app n'héberge
 // rien, et le CDN sert l'image redimensionnée.
 try { db.exec(`ALTER TABLE qc_points ADD COLUMN schema_url TEXT NOT NULL DEFAULT ''`); }
+catch { /* déjà là */ }
+
+// Les unités que cette personne lit. Les fournisseurs nord-américains écrivent
+// en onces par verge carrée et en pouces ; l'atelier tunisien travaille en
+// métrique. C'est une PRÉFÉRENCE, donc elle vit sur l'utilisateur et non dans
+// `reglages`, qui ne porte qu'un seul jeu pour tout l'atelier.
+try { db.exec(`ALTER TABLE utilisateurs ADD COLUMN unites TEXT NOT NULL DEFAULT 'metrique'`); }
 catch { /* déjà là */ }
 
 try { db.exec(`ALTER TABLE qc_bris ADD COLUMN source_ref TEXT NOT NULL DEFAULT ''`); }
@@ -618,6 +763,78 @@ db.exec(`CREATE UNIQUE INDEX IF NOT EXISTS idx_bris_ref ON qc_bris(source_ref)
         ALTER TABLE ordre_jalons_n RENAME TO ordre_jalons;
         CREATE INDEX IF NOT EXISTS idx_jalons_ordre ON ordre_jalons(ordre_id);
         CREATE INDEX IF NOT EXISTS idx_jalons_date  ON ordre_jalons(date);`);
+      db.exec('COMMIT');
+    } catch (e) { db.exec('ROLLBACK'); throw e; }
+  }
+}
+
+/**
+ * Le type « schema » a été ajouté pour les dessins et détails d'atelier
+ * rapatriés du tableau Miro. Même raison de reconstruire que ci-dessus :
+ * SQLite ne modifie pas une contrainte CHECK.
+ *
+ * La colonne `source` dit QUI a posé la ligne. L'import des schémas n'efface
+ * que les siennes — une photo ajoutée à la main dans l'app porte une source
+ * vide et n'est jamais touchée. C'est la règle de tous les imports ici.
+ */
+{
+  const t = db.prepare(
+    `SELECT sql FROM sqlite_master WHERE type='table' AND name='produit_photos'`).get();
+  if (t && !/'schema'/.test(t.sql)) {
+    const aSource = /\bsource\b/.test(t.sql);
+    db.exec('BEGIN');
+    try {
+      db.exec(`
+        CREATE TABLE produit_photos_n (
+          id         INTEGER PRIMARY KEY,
+          produit_id INTEGER NOT NULL REFERENCES produits(id) ON DELETE CASCADE,
+          url        TEXT NOT NULL,
+          type       TEXT NOT NULL DEFAULT 'studio'
+                     CHECK (type IN ('studio','contexte','schema')),
+          legende    TEXT DEFAULT '',
+          rang       INTEGER NOT NULL DEFAULT 0,
+          source     TEXT NOT NULL DEFAULT ''
+        );
+        INSERT INTO produit_photos_n (id, produit_id, url, type, legende, rang, source)
+          SELECT id, produit_id, url, type, legende, rang,
+                 ${aSource ? 'source' : "''"} FROM produit_photos;
+        DROP TABLE produit_photos;
+        ALTER TABLE produit_photos_n RENAME TO produit_photos;
+        CREATE INDEX IF NOT EXISTS idx_photos_produit ON produit_photos(produit_id);`);
+      db.exec('COMMIT');
+    } catch (e) { db.exec('ROLLBACK'); throw e; }
+  }
+}
+
+/**
+ * Les sections « taille » et « coloris » ont été ajoutées quand le tableau
+ * Miro a enfin été lisible : il portait les tailles et les couleurs de chaque
+ * produit, que rien dans le dépôt ne disait. Même reconstruction que les
+ * autres CHECK — SQLite ne les modifie pas en place.
+ */
+{
+  const t = db.prepare(
+    `SELECT sql FROM sqlite_master WHERE type='table' AND name='charte'`).get();
+  if (t && !/'coloris'/.test(t.sql)) {
+    db.exec('BEGIN');
+    try {
+      db.exec(`
+        CREATE TABLE charte_n (
+          id         INTEGER PRIMARY KEY,
+          produit_id INTEGER NOT NULL REFERENCES produits(id) ON DELETE CASCADE,
+          section    TEXT NOT NULL DEFAULT 'matiere'
+                     CHECK (section IN ('matiere','isolant','garniture',
+                                        'taille','coloris','parametre','note')),
+          texte      TEXT NOT NULL,
+          rang       INTEGER NOT NULL DEFAULT 0,
+          source     TEXT NOT NULL DEFAULT 'charte produits',
+          cree_le    TEXT NOT NULL DEFAULT (datetime('now'))
+        );
+        INSERT INTO charte_n SELECT id, produit_id, section, texte, rang, source, cree_le
+          FROM charte;
+        DROP TABLE charte;
+        ALTER TABLE charte_n RENAME TO charte;
+        CREATE INDEX IF NOT EXISTS idx_charte_produit ON charte(produit_id, section, rang);`);
       db.exec('COMMIT');
     } catch (e) { db.exec('ROLLBACK'); throw e; }
   }
@@ -702,6 +919,7 @@ function listeFabrication({ inclureTermines = false, lieu = 'tunisie' } = {}) {
            -- La photo studio de la fiche. Rien n'est hébergé ici : c'est
            -- l'adresse d'origine, redimensionnée par le CDN à l'affichage.
            (SELECT f.url FROM produit_photos f WHERE f.produit_id = p.id
+             AND f.type <> 'schema'
              ORDER BY CASE f.type WHEN 'studio' THEN 0 ELSE 1 END,
                       f.rang, f.id LIMIT 1) AS photo
     FROM ordre_items i
@@ -760,6 +978,7 @@ function apercuProduction() {
            MAX(i.maj_le)                      AS maj_le,
            MIN(i.ordre_id)                    AS ordre_id,
            (SELECT f.url FROM produit_photos f WHERE f.produit_id = p.id
+             AND f.type <> 'schema'
              ORDER BY CASE f.type WHEN 'studio' THEN 0 ELSE 1 END,
                       f.rang, f.id LIMIT 1)   AS photo
       FROM ordre_items i
@@ -1159,12 +1378,13 @@ function coutMatiere(produitId) {
 }
 
 // --------------------------------------------------------- contrôle qualité
-/** Les quatre volets d'un protocole, dans l'ordre où on les lit à l'atelier. */
+/** Les six volets d'un protocole, dans l'ordre où on les lit à l'atelier. */
 const TYPES_QC = {
   critique:  'Points critiques',
   probleme:  'Problèmes fréquents',
   mesure:    'Mesures et dimensions',
   cyclage:   'Cyclage et tests',
+  esthetique:'Esthétique et quotidien',
   emballage: 'Emballage et finition',
 };
 
@@ -1263,6 +1483,12 @@ const SECTIONS_CHARTE = {
   matiere:   'Matières',
   isolant:   'Isolant',
   garniture: 'Garnitures',
+  // Les tailles et les coloris VENDABLES du tableau, qui n'existaient nulle
+  // part dans le dépôt : la répartition d'un lot (`item_variantes`) disait
+  // combien de noirs couper, jamais quelles couleurs le produit a. Ce sont
+  // deux objets différents, et il faut les deux.
+  taille:    'Tailles',
+  coloris:   'Coloris',
   parametre: 'Réglages',
   note:      'À savoir',
 };
@@ -1460,10 +1686,12 @@ function couvertureQC({ lieu = 'tunisie' } = {}) {
            SUM(CASE WHEN q.type = 'probleme' THEN 1 ELSE 0 END) AS problemes,
            SUM(CASE WHEN q.type = 'mesure'   THEN 1 ELSE 0 END) AS mesures,
            SUM(CASE WHEN q.type = 'cyclage'  THEN 1 ELSE 0 END) AS cyclages,
+           SUM(CASE WHEN q.type = 'esthetique' THEN 1 ELSE 0 END) AS esthetiques,
            (SELECT SUM(i.quantite) FROM ordre_items i
              JOIN ordres o ON o.id = i.ordre_id
             WHERE i.produit_id = p.id AND o.statut IN ('planifie','en_cours')) AS a_produire,
            (SELECT f.url FROM produit_photos f WHERE f.produit_id = p.id
+             AND f.type <> 'schema'
              ORDER BY CASE f.type WHEN 'studio' THEN 0 ELSE 1 END,
                       f.rang, f.id LIMIT 1) AS photo
       FROM produits p
@@ -1572,6 +1800,125 @@ function blocageQC(itemId, valeur) {
         + `sur ${c.item.code} : ${c.restants.map(x => `« ${x.titre} »`).join(', ')}.` };
   return null;
 }
+
+/** Le plancher du compte rendu. Voir le commentaire de `qc_rapports`. */
+const MOTS_RAPPORT = 50;
+
+/** Compte les mots d'un texte, à la façon dont un humain les compterait. */
+function compterMots(texte) {
+  return String(texte || '').trim().split(/\s+/).filter(m => /[\p{L}\p{N}]/u.test(m)).length;
+}
+
+/**
+ * Dépose le compte rendu qui ferme le contrôle d'un lot.
+ *
+ * Trois refus, dans cet ordre — du plus structurel au plus rattrapable :
+ * un lot dont la checklist n'est pas finie ne se signe pas (on signerait des
+ * points qu'on n'a pas regardés) ; un compte rendu trop court ne vaut rien ;
+ * une adresse de média qui n'est pas http fait porter le fichier à la base.
+ */
+function deposerRapport({ itemId, texte, medias = '', utilisateurId }) {
+  const item = db.prepare(`SELECT * FROM ordre_items WHERE id = ?`).get(itemId);
+  if (!item) return { erreur: 'Lot introuvable.' };
+
+  const c = checklistItem(itemId);
+  if (c && !c.vide) {
+    if (c.ecarts.length)
+      return { erreur: `${c.ecarts.length} non-conformité(s) encore ouverte(s) : `
+        + c.ecarts.map(x => `« ${x.titre} »`).join(', ') + '. Corrige et revérifie.' };
+    if (c.restants.length)
+      return { erreur: `${c.restants.length} point(s) pas encore vérifié(s) : `
+        + c.restants.map(x => `« ${x.titre} »`).join(', ') + '.' };
+  }
+
+  const mots = compterMots(texte);
+  if (mots < MOTS_RAPPORT)
+    return { erreur: `Le compte rendu fait ${mots} mot${mots > 1 ? 's' : ''} ; `
+      + `il en faut au moins ${MOTS_RAPPORT}. Décris ce que tu as vu : les pièces `
+      + 'contrôlées, ce qui allait, ce qui a demandé une reprise.' };
+
+  const liens = String(medias || '').split(/\s+/).filter(Boolean);
+  const mauvais = liens.filter(u => !/^https?:\/\//.test(u));
+  if (mauvais.length)
+    return { erreur: `Adresse refusée : ${mauvais[0]}. Une photo ou une vidéo se `
+      + "donne par son adresse — l'app n'héberge aucun fichier." };
+
+  db.prepare(`INSERT INTO qc_rapports (item_id, texte, medias, utilisateur_id)
+              VALUES (?,?,?,?)
+              ON CONFLICT(item_id) DO UPDATE SET
+                texte = excluded.texte, medias = excluded.medias,
+                utilisateur_id = excluded.utilisateur_id,
+                cree_le = datetime('now')`)
+    .run(itemId, String(texte).trim(), liens.join(' '), utilisateurId || null);
+  return { mots, medias: liens.length };
+}
+
+/** Le compte rendu d'un lot, s'il existe. */
+const rapportItem = (itemId) => db.prepare(`
+  SELECT r.*, u.nom AS auteur FROM qc_rapports r
+    LEFT JOIN utilisateurs u ON u.id = r.utilisateur_id
+   WHERE r.item_id = ?`).get(itemId) || null;
+
+/**
+ * Les lots d'un ordre qui demandent encore un contrôle, avec leurs catégories.
+ *
+ * LES CATÉGORIES NE SONT PAS EXCLUSIVES : un manteau neuf à 1 200 unités est
+ * dans les trois. C'est voulu — ce sont trois raisons différentes de regarder
+ * le même lot de plus près, et n'en montrer qu'une en cacherait deux.
+ *
+ * Ce qui les décide :
+ *   volume     plus de 1 000 unités au lot
+ *   nouveau    la famille du produit, telle que posée par la direction
+ *   gradation  le produit a PLUS D'UNE taille à sa charte. Manteaux et
+ *              mitaines, mais aussi les semelles et leurs onze pointures :
+ *              là où il y a des tailles, il y a un risque de les mélanger.
+ */
+const SEUIL_VOLUME = 1000;
+
+function qcOrdre(ordreId) {
+  const lignes = db.prepare(`
+    SELECT i.id, i.quantite, i.avancement, p.id AS produit_id, p.code,
+           ${NOM_PRODUIT} AS nom, p.famille,
+           (SELECT f.url FROM produit_photos f WHERE f.produit_id = p.id
+             AND f.type <> 'schema'
+             ORDER BY CASE f.type WHEN 'studio' THEN 0 ELSE 1 END,
+                      f.rang, f.id LIMIT 1) AS photo,
+           (SELECT COUNT(*) FROM charte c
+             WHERE c.produit_id = p.id AND c.section = 'taille'
+               AND lower(c.texte) NOT LIKE 'taille unique%') AS lignes_taille,
+           (SELECT COUNT(*) FROM qc_rapports r WHERE r.item_id = i.id) AS signe
+      FROM ordre_items i
+      JOIN produits p ON p.id = i.produit_id
+     WHERE i.ordre_id = ?
+     ORDER BY i.rang, i.id`).all(ordreId);
+
+  return lignes.map(l => {
+    const c = checklistItem(l.id);
+    const cats = [];
+    if (l.quantite > SEUIL_VOLUME) cats.push('volume');
+    if (l.famille === 'nouveau') cats.push('nouveau');
+    if (l.lignes_taille > 0) cats.push('gradation');
+    return { ...l, signe: Boolean(l.signe), categories: cats,
+             total: c ? c.total : 0, verifies: c ? c.verifies : 0,
+             restants: c ? c.restants.length : 0,
+             ecarts: c ? c.ecarts.length : 0,
+             vide: c ? c.vide : true };
+  });
+}
+
+/** Les catégories, leur libellé et ce qu'elles veulent dire. */
+const CATEGORIES_QC = {
+  tous:      { titre: 'Tous les produits', aide: "Tout ce que l'ordre contient." },
+  volume:    { titre: 'Grands volumes',
+               aide: `Plus de ${SEUIL_VOLUME.toLocaleString('fr-CA')} unités : un défaut `
+                   + "s'y répète des milliers de fois avant qu'on le voie." },
+  nouveau:   { titre: 'Nouveaux produits',
+               aide: "Jamais produits avant, ici ou au Québec. Rien n'a encore "
+                   + 'été appris dessus.' },
+  gradation: { titre: 'Complexes et gradués',
+               aide: 'Plus d\'une taille : manteaux, mitaines, semelles. Là où il '
+                   + 'y a des tailles, il y a un risque de les mélanger.' },
+};
 
 /** L'état qualité de chaque item d'un ordre, pour la page de l'ordre. */
 function etatQCOrdre(ordreId) {
@@ -1752,7 +2099,96 @@ function compteTaches(utilisateurId) {
 const equipe = () => db.prepare(
   `SELECT id, nom, role FROM utilisateurs WHERE actif = 1 ORDER BY nom`).all();
 
-module.exports = { db, prochainNumero, avancementOrdre, apercuProduction, CHEMIN,
+/* =========================================================== rétroactions ===
+ * Ce que les clients ont écrit. Distillé de Missive, anonyme par construction.
+ */
+
+/**
+ * Quels produits une rétroaction « de famille » concerne.
+ *
+ * Un client qui écrit « mes mitaines sont décousues » ne dit pas lequel des
+ * cinq modèles. Plutôt que de trancher au hasard — ce qui enverrait l'atelier
+ * corriger le mauvais produit — la rétroaction s'affiche sur les cinq, en
+ * disant ce qu'elle est. Table explicite et non déduite d'un préfixe de code :
+ * l'appartenance d'un produit à une famille est un jugement, il se relit.
+ */
+const FAMILLES_RETRO = {
+  mitaines: ['MIT-PLEIN-AIR', 'MIT-POLAR', 'MIT-LAINE', 'MIT-CUIR', 'MIT-BEBE'],
+  manteaux: ['MANTEAU-HIVER', 'MANTEAU-3SAISONS'],
+  tuques:   ['TUQUE-SPORT', 'TUQUE-VILLE', 'BANDEAU-TUQUE'],
+};
+
+/** La famille de rétroactions d'un produit, s'il en a une. */
+function familleRetro(code) {
+  for (const [fam, codes] of Object.entries(FAMILLES_RETRO))
+    if (codes.includes(code)) return fam;
+  return null;
+}
+
+/**
+ * Les rétroactions d'un produit, GROUPÉES PAR PROBLÈME.
+ *
+ * Le groupement est le sujet, pas un détail d'affichage : une page qui
+ * déroulerait 222 citations à la file ne se lit pas, et pèserait autant que
+ * trois fiches produit. On montre les problèmes et leur compte ; la matière
+ * ne se déplie qu'au clic, sur demande.
+ */
+function retroactionsProduit(produitId) {
+  const p = db.prepare(`SELECT code FROM produits WHERE id = ?`).get(produitId);
+  if (!p) return null;
+  const fam = familleRetro(p.code);
+
+  const lignes = db.prepare(`
+    SELECT id, probleme, titre, categorie, citation, photos, survenu_le,
+           produit_id IS NULL AS de_famille, famille
+      FROM produit_retroactions
+     WHERE produit_id = ?
+        OR (produit_id IS NULL AND famille = ?)
+     ORDER BY survenu_le DESC, id DESC`).all(produitId, fam || '\u0000');
+
+  const groupes = new Map();
+  for (const l of lignes) {
+    if (!groupes.has(l.probleme))
+      groupes.set(l.probleme, { cle: l.probleme, titre: l.titre,
+        categorie: l.categorie, lignes: [], photos: 0, propres: 0 });
+    const g = groupes.get(l.probleme);
+    l.de_famille = Boolean(l.de_famille);
+    l.listePhotos = String(l.photos || '').split(' ').filter(Boolean);
+    g.lignes.push(l);
+    g.photos += l.listePhotos.length;
+    if (!l.de_famille) g.propres++;
+  }
+  // Le plus fréquent en tête : c'est ce qui mérite d'être corrigé en premier.
+  const ordonnes = [...groupes.values()].sort((a, b) => b.lignes.length - a.lignes.length);
+  return { famille: fam, total: lignes.length,
+           propres: lignes.filter(l => !l.de_famille).length,
+           groupes: ordonnes };
+}
+
+/** Combien de rétroactions par produit — pour la page d'ensemble. */
+function couvertureRetro() {
+  return db.prepare(`
+    SELECT p.id, p.code, ${NOM_PRODUIT} AS nom,
+           (SELECT f.url FROM produit_photos f WHERE f.produit_id = p.id
+             AND f.type <> 'schema'
+             ORDER BY CASE f.type WHEN 'studio' THEN 0 ELSE 1 END, f.rang, f.id
+             LIMIT 1) AS photo,
+           (SELECT COUNT(*) FROM produit_retroactions r WHERE r.produit_id = p.id) AS directes
+      FROM produits p WHERE p.actif = 1
+     ORDER BY directes DESC, p.code`).all()
+    .map(p => {
+      const fam = familleRetro(p.code);
+      const famille = fam ? db.prepare(
+        `SELECT COUNT(*) n FROM produit_retroactions
+          WHERE produit_id IS NULL AND famille = ?`).get(fam).n : 0;
+      return { ...p, famille: fam, deFamille: famille, total: p.directes + famille };
+    });
+}
+
+module.exports = {
+  retroactionsProduit, couvertureRetro, familleRetro, FAMILLES_RETRO,
+  deposerRapport, rapportItem, qcOrdre, compterMots,
+  MOTS_RAPPORT, CATEGORIES_QC, SEUIL_VOLUME, db, prochainNumero, avancementOrdre, apercuProduction, CHEMIN,
                    CATEGORIES, RANG_CATEGORIE, MOTIFS, UNITES, qte,
                    uniteAffichee,
                    etatMatieres, etatProduits, alertesStock, besoinsMatieres,

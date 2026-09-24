@@ -1,0 +1,74 @@
+# Blocs « Vérifications » des fiches de procédé Miro, relevés intégralement.
+#
+# Le relevé de la charte qui existait déjà (charte-produits.tsv) ne couvrait que
+# le tableau des MATIÈRES : de quoi la pièce est faite. Les fiches portent aussi,
+# à côté, ce que l'atelier doit VÉRIFIER — et ça n'était nulle part.
+#
+# Relevé du 23/09/2026, board « Charte produits Lasclay (copie MRP) »,
+# 25 blocs sur 64 fiches. Le numéro de frame est conservé pour pouvoir y
+# retourner : il est stable tant que personne ne recrée la fiche.
+#
+# ATTENTION — ce fichier est un RELEVÉ, pas une source de points de contrôle.
+# Il sert à comparer ce que le MRP demande avec ce que le procédé demande. Les
+# écarts sont notés dans la colonne « etat » :
+#   au_mrp     le point existe déjà dans le MRP
+#   manquant   le procédé le demande, le MRP ne le vérifie pas
+#   absent     le MRP le vérifie, le procédé ne le demande pas
+#
+frame	produit	verification	etat
+28-29-30	Manteaux	Ouvrir et fermer chaque fermeture éclair	au_mrp
+28-29-30	Manteaux	Barre-tack (point de bride) présent à la base de la fermeture	manquant
+28-29-30	Manteaux	Fermeture éclair bien tendue	manquant
+28-29-30	Manteaux	Côté curseur femme : gauche — homme : droit	manquant
+28-29-30	Manteaux	Étiquette : logo droit	manquant
+28-29-30	Manteaux	Taille sur l'étiquette = taille du patron	manquant
+31	Chandail polar	Ouvrir et fermer la fermeture éclair, bien tendue	au_mrp
+31	Chandail polar	Étiquette : logo droit, taille = taille du patron	manquant
+31	Chandail polar	Biais : ouverture de la manche égale des deux côtés	au_mrp
+31	Chandail polar	Éviter de mettre de l'asclépiade dans les coutures	manquant
+31	Chandail polar	Presser le col AVANT d'y insérer l'isolant, sinon il fond et devient rigide	manquant
+32	Mitaine plein air	Assemblage jonction main/pouce solide	au_mrp
+32	Mitaine plein air	Couture de la patch de cuir solide et droite	au_mrp
+32	Mitaine plein air	Élastique au poignet pas trop serré, et à la hauteur de la base du pouce	au_mrp
+32	Mitaine plein air	Lacet bien intégré au niveau du poignet	au_mrp
+32	Mitaine plein air	La mitaine gauche est identique à la droite	au_mrp
+32	Mitaine plein air	Étiquette de taille	au_mrp
+33-34-35	Mitaines polar, laine, cuir	Jonction main/pouce, élastiques, lacet — patron mitaine polar	au_mrp
+36	Mitaines bébé	Lacet et élastique bien attachés au cord-lock	au_mrp
+36	Mitaines bébé	Élastiques bien pris dans la couture d'assemblage	au_mrp
+36	Mitaines bébé	Norme enfants : aucune pièce détachable	au_mrp
+37	Mitaine de laine	La fibre est répartie de manière uniforme	manquant
+37	Mitaine de laine	La fibre ne doit pas être visible à la jonction de la base du gant	manquant
+38-39	Bandeaux	Droit fil / élasticité du bon côté	au_mrp
+40	Matelassé	Matelassage droit	manquant
+41	Cache-cou	Droit fil / élasticité du bon côté	au_mrp
+41	Cache-cou	Boutonnière à l'arrière	manquant
+41	Cache-cou	Élastique avec excédents de 1 po maximum	manquant
+41	Cache-cou	Presser la pochette AVANT d'y insérer l'isolant (rebord droit, sans plis)	manquant
+41	Cache-cou	Dimensions finales selon le schéma des tailles	au_mrp
+42	Semelle	Collage adéquat	au_mrp
+42	Semelle	Emballage et estampe = bonne taille	au_mrp
+42	Semelle	Découpe finale droite et lisse SUR LA LIGNE INTÉRIEURE	au_mrp
+42	Semelle	Emballage carton : ne pas comprimer pour ne pas déformer	au_mrp
+43	Bandeau tuque urbaine	Dimensions hors tout max. 8 cm x 44 cm — et rien d'autre	au_mrp
+44	Tote bag	Assemblage sangle ET BOUCLE résistante : point de couture Heavy duty	manquant
+45	Sac (doublure nylon)	Assemblage sangle et boucle résistante	manquant
+45	Sac (doublure nylon)	Poche avant sans trou	manquant
+45	Sac (doublure nylon)	Doublure de nylon sans trou	manquant
+46	Sac (doublure nylon)	Assemblage sangle résistante, doublure de nylon sans trou	manquant
+47	Étui de téléphone	Ouvrir et fermer la fermeture éclair à plusieurs reprises	au_mrp
+47	Étui de téléphone	Fermeture éclair bien tendue	manquant
+47	Étui de téléphone	Lacet bien intégré pour la sangle	au_mrp
+47	Étui de téléphone	Étiquette intégrée à la base GAUCHE de l'étui	manquant
+47	Étui de téléphone	Assemblage de la sangle avec les crochets métalliques, rangée dans le sac	au_mrp
+48	Coussin	Intégration du début et de la fin du biais sous la sangle de rangement	manquant
+48	Coussin	Velcro : plier en accordéon, étiquette visible vers le haut	manquant
+48	Coussin	Pas de tache de colle sur le produit	manquant
+49	Sac de couchage	Matelassage droit	manquant
+49	Sac de couchage	Fermeture droite et tendue	manquant
+50	Rembourré	Répartition de la fibre et des retailles de vegeto uniforme	manquant
+63	Housse	Fermeture éclair ouvre et ferme facilement	manquant
+63	Housse	Pas de taches	manquant
+66	Glacière	Assemblage sangle résistante	au_mrp
+66	Glacière	Doublure de PVC sans trou	au_mrp
+66	Glacière	Bretelles renforcées	au_mrp
