@@ -47,6 +47,19 @@
 # cache-cou. Même raison : la séquence éprouve une surface d'appui exposée à
 # l'usure — paume d'une mitaine, fond d'un sac, assise d'un coussin — et un
 # bandeau n'en est pas une. Décision Admin QC.
+#
+# 24/09/2026 — le lavage sort de vingt-trois produits d'un coup. Raison unique :
+# le tissu est connu et éprouvé, donc le laver n'apprend rien. Ce n'est pas une
+# intuition : les quatre inventaires de matières premières du Drive, exercices
+# 2023 à 2026, montrent la viscose, le polar, le wadding, le mesh, le PVC et le
+# shell Commander WP présents CHAQUE année ; le canevas de coton, l'oxford nylon
+# et le polyester brossé depuis 2024.
+#
+# Le lavage RESTE sur huit produits, par décision explicite : les deux manteaux,
+# les mitaines laine, cuir et bébé, les deux sacs de couchage et l'oreiller de
+# camping. Trois de leurs matières — laine, cuir, toile de polyester — ne
+# figurent dans AUCUN des quatre inventaires, donc rien ne permet de les dire
+# éprouvées.
 produit	titre	motif
 BANDEAU-TUQUE	Comparaison avec la photo de la boutique	Aucune fiche en ligne : le bandeau tuque urbaine ne se vend pas, il n'y a pas de photo à laquelle comparer.
 BANDEAU-TUQUE	Fils qui dépassent — les retirer et les couper	Pièce intérieure prise entre la coque et la doublure de la TUQUE-VILLE : ses fils ne sont ni vus ni touchés une fois la tuque montée. Le point reste actif sur la tuque finie. Décision Admin QC, 23/09/2026.
@@ -63,3 +76,26 @@ BANDEAU	Double frottement — 1. à sec	Le bandeau n'est pas une pièce soumise 
 BANDEAU	Lavage à l’eau froide, séchage au soleil	Tissu connu et éprouvé : le lavage n'apprendrait rien sur une viscose déjà en production depuis des saisons. Ce n'est pas seulement le deuxième temps de la séquence d'abrasion écartée — c'est une raison à part. Décision Admin QC, 24/09/2026.
 BANDEAU	Double frottement — 2. après gel et humidité	Troisième temps de la séquence d'abrasion, écartée en entier sur ce produit. Décision Admin QC, 24/09/2026.
 BANDEAU	Après la séquence : ce qu’on compare	Sans séquence d'abrasion, il n'y a rien à comparer. Décision Admin QC, 24/09/2026.
+BESACE	Lavage à l’eau froide, séchage au soleil	Tissu connu et éprouvé : le lavage n'apprendrait rien. Validé sur les quatre inventaires de matières premières du Drive, 2023 à 2026 — la matière y est présente chaque année. Décision Admin QC, 24/09/2026.
+CACHE-COU-ENF-18M4A	Lavage à l’eau froide, séchage au soleil	Tissu connu et éprouvé : le lavage n'apprendrait rien. Validé sur les quatre inventaires de matières premières du Drive, 2023 à 2026 — la matière y est présente chaque année. Décision Admin QC, 24/09/2026.
+CACHE-COU-ENF-5A13A	Lavage à l’eau froide, séchage au soleil	Tissu connu et éprouvé : le lavage n'apprendrait rien. Validé sur les quatre inventaires de matières premières du Drive, 2023 à 2026 — la matière y est présente chaque année. Décision Admin QC, 24/09/2026.
+CHANDAIL	Lavage à l’eau froide, séchage au soleil	Tissu connu et éprouvé : le lavage n'apprendrait rien. Validé sur les quatre inventaires de matières premières du Drive, 2023 à 2026 — la matière y est présente chaque année. Décision Admin QC, 24/09/2026.
+COUSSIN	Lavage à l’eau froide, séchage au soleil	Tissu connu et éprouvé : le lavage n'apprendrait rien. Validé sur les quatre inventaires de matières premières du Drive, 2023 à 2026 — la matière y est présente chaque année. Décision Admin QC, 24/09/2026.
+COUSSIN-ANIMAL	Lavage à l’eau froide, séchage au soleil	Tissu connu et éprouvé : le lavage n'apprendrait rien. Validé sur les quatre inventaires de matières premières du Drive, 2023 à 2026 — la matière y est présente chaque année. Décision Admin QC, 24/09/2026.
+ETUI-TEL	Lavage à l’eau froide, séchage au soleil	Tissu connu et éprouvé : le lavage n'apprendrait rien. Validé sur les quatre inventaires de matières premières du Drive, 2023 à 2026 — la matière y est présente chaque année. Décision Admin QC, 24/09/2026.
+FOULARD	Lavage à l’eau froide, séchage au soleil	Tissu connu et éprouvé : le lavage n'apprendrait rien. Validé sur les quatre inventaires de matières premières du Drive, 2023 à 2026 — la matière y est présente chaque année. Décision Admin QC, 24/09/2026.
+GANTS-MAGIQUES	Lavage à l’eau froide, séchage au soleil	Tissu connu et éprouvé : le lavage n'apprendrait rien. Validé sur les quatre inventaires de matières premières du Drive, 2023 à 2026 — la matière y est présente chaque année. Décision Admin QC, 24/09/2026.
+GLACIERE	Lavage à l’eau froide, séchage au soleil	Tissu connu et éprouvé : le lavage n'apprendrait rien. Validé sur les quatre inventaires de matières premières du Drive, 2023 à 2026 — la matière y est présente chaque année. Décision Admin QC, 24/09/2026.
+MANCHON	Lavage à l’eau froide, séchage au soleil	Tissu connu et éprouvé : le lavage n'apprendrait rien. Validé sur les quatre inventaires de matières premières du Drive, 2023 à 2026 — la matière y est présente chaque année. Décision Admin QC, 24/09/2026.
+MIT-PLEIN-AIR	Lavage à l’eau froide, séchage au soleil	Tissu connu et éprouvé : le lavage n'apprendrait rien. Validé sur les quatre inventaires de matières premières du Drive, 2023 à 2026 — la matière y est présente chaque année. Décision Admin QC, 24/09/2026.
+MIT-POLAR	Lavage à l’eau froide, séchage au soleil	Tissu connu et éprouvé : le lavage n'apprendrait rien. Validé sur les quatre inventaires de matières premières du Drive, 2023 à 2026 — la matière y est présente chaque année. Décision Admin QC, 24/09/2026.
+OREILLER	Lavage à l’eau froide, séchage au soleil	Tissu connu et éprouvé : le lavage n'apprendrait rien. Validé sur les quatre inventaires de matières premières du Drive, 2023 à 2026 — la matière y est présente chaque année. Décision Admin QC, 24/09/2026.
+PANTOUFLES	Lavage à l’eau froide, séchage au soleil	Tissu connu et éprouvé : le lavage n'apprendrait rien. Validé sur les quatre inventaires de matières premières du Drive, 2023 à 2026 — la matière y est présente chaque année. Décision Admin QC, 24/09/2026.
+SAC-LUNCH	Lavage à l’eau froide, séchage au soleil	Tissu connu et éprouvé : le lavage n'apprendrait rien. Validé sur les quatre inventaires de matières premières du Drive, 2023 à 2026 — la matière y est présente chaque année. Décision Admin QC, 24/09/2026.
+SAC-VIN	Lavage à l’eau froide, séchage au soleil	Tissu connu et éprouvé : le lavage n'apprendrait rien. Validé sur les quatre inventaires de matières premières du Drive, 2023 à 2026 — la matière y est présente chaque année. Décision Admin QC, 24/09/2026.
+SEMELLE-678	Lavage à l’eau froide, séchage au soleil	Écarté malgré le Mylar, qui n'apparaît qu'à l'inventaire 2026 : décision explicite de l'Admin QC, 24/09/2026. C'est la seule matière neuve du catalogue, et le lavage n'est pas le contrôle qui l'éprouverait — la presse et le pourtour le font déjà.
+SEMELLE-9	Lavage à l’eau froide, séchage au soleil	Écarté malgré le Mylar, qui n'apparaît qu'à l'inventaire 2026 : décision explicite de l'Admin QC, 24/09/2026. C'est la seule matière neuve du catalogue, et le lavage n'est pas le contrôle qui l'éprouverait — la presse et le pourtour le font déjà.
+TOTE	Lavage à l’eau froide, séchage au soleil	Tissu connu et éprouvé : le lavage n'apprendrait rien. Validé sur les quatre inventaires de matières premières du Drive, 2023 à 2026 — la matière y est présente chaque année. Décision Admin QC, 24/09/2026.
+TUQUE-SPORT	Lavage à l’eau froide, séchage au soleil	Tissu connu et éprouvé : le lavage n'apprendrait rien. Validé sur les quatre inventaires de matières premières du Drive, 2023 à 2026 — la matière y est présente chaque année. Décision Admin QC, 24/09/2026.
+TUQUE-VILLE	Lavage à l’eau froide, séchage au soleil	Tissu connu et éprouvé : le lavage n'apprendrait rien. Validé sur les quatre inventaires de matières premières du Drive, 2023 à 2026 — la matière y est présente chaque année. Décision Admin QC, 24/09/2026.
+VESTE	Lavage à l’eau froide, séchage au soleil	Tissu connu et éprouvé : le lavage n'apprendrait rien. Validé sur les quatre inventaires de matières premières du Drive, 2023 à 2026 — la matière y est présente chaque année. Décision Admin QC, 24/09/2026.
