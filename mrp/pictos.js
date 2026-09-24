@@ -352,9 +352,7 @@ const PAR_TITRE = new Map([
    'fermeture_manteau'],
   ['Couture longitudinale : tirer de part et d\u2019autre', 'foulard_couture'],
   ['Doublure à l\u2019ouverture : tirer vers l\u2019intérieur', 'besace_doublure'],
-  ['Dessous : frotter et plier la semelle antidérapante', 'pantoufle_dessous'],
   ['Isolant réparti et coutures intérieures complètes', 'tuque_isolant'],
-  ['La cannette et la bouteille entrent et tiennent', 'manchon_diametre'],
   ['Cote du bandeau fini, sur trois pièces du lot', 'bandeau_cote'],
   ['Finition des bords : aucun fil, aucun bord vif', 'etui_finition'],
   // Les mitaines partagent leurs quatre pièces de patron, donc le même geste au
@@ -365,7 +363,6 @@ const PAR_TITRE = new Map([
    'fermeture_couchage'],
   ['Fermeture du col : tirer de part et d\u2019autre du ruban', 'fermeture_chandail'],
   ['Compression du garnissage : aucune fibre ne sort', 'garnissage_fuite'],
-  ['La bouteille entre, et la ganse tient le sac plein', 'sacvin_ganse'],
   ['Étirement et retour du tricot', 'gant_etirement'],
   ['Broderie : tirer sur le motif et lire l\u2019envers', 'broderie_tshirt'],
   ['Bandeau cousu tout le tour, à la bonne hauteur', 'tuqueville_bandeau'],

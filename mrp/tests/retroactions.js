@@ -140,12 +140,22 @@ t('la glacière n\'appartient à aucune famille', familleRetro('GLACIERE') === n
 
 {
   // Un produit sans rétroaction doit répondre, et dire son vide.
-  const p = db.prepare(`SELECT id FROM produits WHERE code = 'MANCHON'`).get();
-  if (p) {
-    const r = retroactionsProduit(p.id);
-    t('un produit sans rétroaction rend une réponse vide, pas une erreur',
-      r && Array.isArray(r.groupes));
-  }
+  //
+  // Le produit était MANCHON, retiré du catalogue le 24/09/2026. Le test était
+  // enveloppé dans un `if (p)` : il ne tombait donc pas, il DISPARAISSAIT — et
+  // la suite restait verte en ayant cessé de vérifier quoi que ce soit. Plus
+  // de garde : si le code choisi s'en va à son tour, le test le dit.
+  // Le témoin est créé ICI, pas emprunté au catalogue : ce test tournait sur
+  // MANCHON, et le jour où ce produit est sorti du catalogue il n'a pas
+  // échoué — il a disparu, parce qu'un `if (p)` l'entourait. Un test qui
+  // s'évapore quand sa donnée s'en va est pire qu'un test absent : la suite
+  // reste verte en ayant cessé de vérifier.
+  const id = db.prepare(`INSERT INTO produits (code, nom) VALUES (?, ?)`)
+    .run(`TEMOIN-SANS-RETRO-${process.pid}`, 'Témoin sans rétroaction').lastInsertRowid;
+  const r = retroactionsProduit(id);
+  t('un produit sans rétroaction rend une réponse vide, pas une erreur',
+    Boolean(r) && Array.isArray(r.groupes) && r.groupes.length === 0,
+    JSON.stringify(r));
 }
 
 t('un produit inconnu rend null plutôt que de planter',

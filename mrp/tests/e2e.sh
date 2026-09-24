@@ -1561,8 +1561,9 @@ BT=$(MRP_DB="$CAT" node --no-warnings -e "
 # l'ait décidé remet un point sur une fiche où il ne veut rien dire, et
 # personne ne le verrait. Dernier mouvement : 37 → 115 le 24/09/2026, la
 # séquence d'abrasion restreinte aux mitaines et aux gants (3 points × 26
-# produits).
-[ "$(Z "SELECT COUNT(*) n FROM qc_hors_sujet")" = 115 ] \
+# produits). Puis 115 → 103 le 24/09/2026 : les pantoufles, le sac à vin et le
+# manchon sortent du catalogue, et leurs douze écarts avec eux.
+[ "$(Z "SELECT COUNT(*) n FROM qc_hors_sujet")" = 103 ] \
   && ok "le point hors sujet est écarté de son produit" \
   || ko "l'écart n'est pas chargé"
 
