@@ -5,13 +5,23 @@ la source est `revue/registre.json`, et tout changement d'état passe par le scr
 
 | État | Nombre |
 | --- | --- |
-| proposee | 14 |
+| proposee | 15 |
 | approuvee | 0 |
 | appliquee | 0 |
 | refusee | 0 |
 | reportee | 2 |
 
-## En attente d'approbation (14)
+## En attente d'approbation (15)
+
+### R-20260923-01 — Comparer chaque soir la liste des declencheurs actifs a revue/routines.json, et signaler tout ecart
+
+- **Gravité** : majeur · **Effort** : 45 min · **Proposé le** : 2026-09-23
+- **Source** : revue 2026-09-23
+- **Constat** : Douze declencheurs sont actifs, neuf figurent dans revue/routines.json. Les trois absents ont ete crees le 23 septembre et deux agissent en production : le menage Operations ferme des fils Missive, le menage Admin ferme et deplace des fils, la publication Instagram publie sur @lasclay et @milkweed.company. La revue ne les a vues que parce que j'ai appele list_triggers a la main ; un soir sans cet appel, elles restent invisibles. R-20260831-01 propose de reconcilier l'inventaire une fois — ce qui manque est la verification, sans quoi le meme angle mort revient des la prochaine routine creee.
+- **Preuve** : list_triggers du 2026-09-23 : 12 declencheurs enabled, dont trig_01SSRZnRvzCwVPQoo6M8AzDE (cree 15:02, tir 15:20 SUCCEEDED 14 min), trig_01G26EWgRP5xAqhiFdnLvNEe (cree 15:02) et trig_01MfAh73aAznQCjAerLnALGE (cree 23:53). revue/routines.json : 9 entrees, aucune avec un trigger_id.
+- **Proposition** : Dans collecte.js, quand les outils mcp__* repondent, lister les declencheurs actifs et comparer par trigger_id aux entrees de revue/routines.json ; ecrire dans la collecte une section `inventaire` qui nomme les routines actives absentes de l'inventaire et les entrees de l'inventaire sans declencheur actif, et faire remonter le compte au snapshot comme ligne ROUGE quand il n'est pas nul.
+- **Portée** : revue/collecte.js, revue/routines.json (champ trigger_id par entree), revue/snapshot.js
+- **Risque** : L'ecart se lira aussi quand les outils mcp__* ne repondent pas : il faut alors ecrire `inventaire non verifie` et non `aucun ecart`, sinon la revue se rassure toute seule.
 
 ### R-20260922-02 — Faire entrer le statut reel des tirs de routine dans la collecte, pas seulement la trace au depot
 
