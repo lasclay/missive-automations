@@ -12078,6 +12078,90 @@
       "motif": "Odeur ou parfum: absent des faits verifies (NOTE-FAITS-VERIFIES-odeur)",
       "page_id": "114311920399404",
       "quand": "2026-09-25T18:39:23.742Z"
+    },
+    {
+      "id": "118638713300058_144102694086993",
+      "extrait": "si c'est cultive au moins vous ne touchez pas a la nature. Donc dites le !",
+      "motif": "Nous somme de declarer si la matiere vient de culture ou de cueillette sauvage: notre approvisionnement n'est pas dans les faits verifies. A SIGNALER A UN HUMAIN",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T19:40:01.871Z"
+    },
+    {
+      "id": "118638713300058_144077620756167",
+      "extrait": "perdez pas votre temp a faire comprendre a des idiots",
+      "motif": "Insulte, meme si elle nous est favorable",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T19:40:01.871Z"
+    },
+    {
+      "id": "118638713300058_144038087426787",
+      "extrait": "(aucun texte)",
+      "motif": "Aucun contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T19:40:01.871Z"
+    },
+    {
+      "id": "118638713300058_144011924096070",
+      "extrait": "Cultive tes plantes / Laisse la nature tranquille / Exploitation",
+      "motif": "Diatribe adressee a la Page",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T19:40:01.871Z"
+    },
+    {
+      "id": "118638713300058_143997044097558",
+      "extrait": "Les pepinieres vendent la plante decorative ... Les graines sont identiques a ceux de la plante sauvage",
+      "motif": "Affirmation sur les semences vendues en pepiniere: ni confirmable ni corrigeable avec les faits verifies",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T19:40:01.871Z"
+    },
+    {
+      "id": "118638713300058_143916567438939",
+      "extrait": "Francine Dionne : *soupir*",
+      "motif": "Aucun contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T19:40:01.871Z"
+    },
+    {
+      "id": "118638713300058_143842600779669",
+      "extrait": "Claire Marcotte interessant!",
+      "motif": "Echange entre abonnes, aucun contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T19:40:01.871Z"
+    },
+    {
+      "id": "118638713300058_143595864137676",
+      "extrait": "c'est mieux ca que la fourrure ou le synthetique!",
+      "motif": "Comparaison de matieres: hors faits verifies, et dans le fil polemique",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T19:40:01.871Z"
+    },
+    {
+      "id": "118638713300058_142897017540894",
+      "extrait": "J'adore le parfum de ces fleurs",
+      "motif": "Odeur ou parfum: absent des faits verifies (NOTE-FAITS-VERIFIES-odeur)",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T19:40:01.871Z"
+    },
+    {
+      "id": "118638713300058_142065487624047",
+      "extrait": "Seul le fil est utilise comme isolant...les graines restantes serviront pour semence",
+      "motif": "Affirmations sur notre procede et notre rendement de culture: hors faits verifies",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T19:40:01.871Z"
+    },
+    {
+      "id": "118638713300058_142036910960238",
+      "extrait": "L'asclepiade etait melangee a la fibre de la laine tout en la filant a la main",
+      "motif": "Affirmation historique non verifiee",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T19:40:01.871Z"
+    },
+    {
+      "id": "118638713300058_141709794326283",
+      "extrait": "oui que l on repandait la semence a tout vent !",
+      "motif": "Souvenir echange entre abonnes, aucun contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T19:40:01.871Z"
     }
   ]
 }

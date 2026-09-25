@@ -8636,8 +8636,40 @@
       "quand": "2026-09-25T14:53:16.762Z",
       "confirme": true,
       "texte": "Offre notée ! 😄 Une talle dans la cour qui en produit assez pour un oreiller, c'est signe qu'elle se plaît chez vous."
+    },
+    {
+      "id": "118638713300058_144152730748656",
+      "reponse_id": "118638713300058_2314845382663977",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T19:40:27.043Z",
+      "confirme": true,
+      "texte": "Porter l'eau du lac à la main pendant deux canicules, puis voir la Ville les faucher : c'est décourageant, et vous n'êtes pas la seule à vivre ça. 🦋 La consigne qu'on répète le plus souvent, c'est justement de ne pas tondre en juin, quand les jeunes pousses portent déjà des chenilles. Et ce que vous avez fait n'est pas perdu : la talle repart de ses rhizomes au printemps."
+    },
+    {
+      "id": "118638713300058_143699244127338",
+      "reponse_id": "118638713300058_1579937959782329",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T19:41:31.329Z",
+      "confirme": true,
+      "texte": "Ça arrive, même quand tout est bien fait. 🙂 Trois choses aident : le plein soleil, une talle plutôt qu'un plant isolé, et une source de nectar tardif à proximité pour les adultes. Et s'ils manquent à l'appel, c'est d'abord la perte des lieux de reproduction qui est en cause, le facteur numéro un de leur déclin."
+    },
+    {
+      "id": "129460988884497_142817010882228",
+      "reponse_id": "129460988884497_1741839873768112",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T19:43:51.897Z",
+      "confirme": true,
+      "texte": "Ce stade-là passe vite, c'est pour ça qu'on le voit si rarement. 🦋 Merci, ça fait plaisir !"
+    },
+    {
+      "id": "118638713300058_142770590886870",
+      "reponse_id": "118638713300058_1050391234669823",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T19:47:46.358Z",
+      "confirme": true,
+      "texte": "Un filet sur la corde à linge, on n'avait jamais entendu celle-là ! 😄 Et c'est la bonne saison : à l'automne, les gousses s'ouvrent d'elles-mêmes."
     }
   ],
-  "total": 1079,
-  "derniere_execution": "2026-09-25T14:53:16.762Z"
+  "total": 1083,
+  "derniere_execution": "2026-09-25T19:47:46.358Z"
 }
