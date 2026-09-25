@@ -21246,6 +21246,106 @@
    "motif": "Meme fil inflammabilite, boutade sans contenu.",
    "ecarte_le": "2026-09-25",
    "tir": "C"
+  },
+  {
+   "id": "636669209072161_1018876717000395",
+   "page_id": "262382158951470",
+   "date": "2025-05-09T01:46:25+0000",
+   "message": "My Mother's yard is SO full. I save plants, but never get anything.",
+   "lien": "https://www.facebook.com/1067098316029246/posts/636669209072161?comment_id=1018876717000395",
+   "motif": "Trop ambigu pour repondre sur les faits: « I save plants, but never get anything » peut vouloir dire aucune levee, ou aucun monarque. Les deux reponses seraient contradictoires.",
+   "ecarte_le": "2026-09-25",
+   "tir": "C"
+  },
+  {
+   "id": "636669209072161_2825849324289956",
+   "page_id": "262382158951470",
+   "date": "2025-05-08T23:31:37+0000",
+   "message": "Barb Flagel Those explosive moments of awareness!",
+   "lien": "https://www.facebook.com/1067098316029246/posts/636669209072161?comment_id=1849023822594487&reply_comment_id=2825849324289956",
+   "motif": "Approbation courte dans un sous-fil, sans question ni contenu a repondre.",
+   "ecarte_le": "2026-09-25",
+   "tir": "C"
+  },
+  {
+   "id": "636669209072161_2062653094259239",
+   "page_id": "262382158951470",
+   "date": "2025-05-08T22:31:16+0000",
+   "message": "Cameron Beasley perfectly said You are my hero",
+   "lien": "https://www.facebook.com/1067098316029246/posts/636669209072161?comment_id=2052622471871864&reply_comment_id=2062653094259239",
+   "motif": "Diatribe fiscale entre abonnes, hors faits verifies, ne nous est pas adressee.",
+   "ecarte_le": "2026-09-25",
+   "tir": "C"
+  },
+  {
+   "id": "636669209072161_23876731405296443",
+   "page_id": "262382158951470",
+   "date": "2025-05-08T21:47:54+0000",
+   "message": "Kathy Conrad they're tearing the ESA down and taking away protections, even for butterfly species.",
+   "lien": "https://www.facebook.com/1067098316029246/posts/636669209072161?comment_id=3860938814158210&reply_comment_id=23876731405296443",
+   "motif": "Statut legal du monarque et demantelement de l'ESA. Aucun fait verifie sur le statut legal dans faits-verifies.json: c'est un trou confirme, pas un probleme de repetition. Theme le plus reporte de la Page, a ajouter aux faits verifies avant de pouvoir y repondre.",
+   "ecarte_le": "2026-09-25",
+   "tir": "C"
+  },
+  {
+   "id": "636669209072161_29459545387024048",
+   "page_id": "262382158951470",
+   "date": "2025-05-08T11:56:41+0000",
+   "message": "...and stop buying avocados from Mexico.",
+   "lien": "https://www.facebook.com/1067098316029246/posts/636669209072161?comment_id=29459545387024048",
+   "motif": "Consigne de boycott des avocats: hors faits verifies, aucune source de notre cote.",
+   "ecarte_le": "2026-09-25",
+   "tir": "C"
+  },
+  {
+   "id": "636669209072161_1010575781188838",
+   "page_id": "262382158951470",
+   "date": "2025-05-08T10:53:12+0000",
+   "message": "I am planted milkweed seeds everywhere",
+   "lien": "https://www.facebook.com/1067098316029246/posts/636669209072161?comment_id=1010575781188838",
+   "motif": "Recit d'une ligne. Le fait de la stratification a froid est sorti il y a environ 22 h dans cette meme section (2026-09-24 16 h 50 UTC) et sert cette heure-ci sur 2323266554734378, ou il est reellement utile. On le reserve.",
+   "ecarte_le": "2026-09-25",
+   "tir": "C"
+  },
+  {
+   "id": "636669209072161_1226942312364615",
+   "page_id": "262382158951470",
+   "date": "2025-05-07T20:36:15+0000",
+   "message": "Laurel Crespo sorry Laurel...your comment got buried...can't find it",
+   "lien": "https://www.facebook.com/1067098316029246/posts/636669209072161?comment_id=1315377212881624&reply_comment_id=1226942312364615",
+   "motif": "Message de service entre abonnes (« ton commentaire est enterre »), rien a repondre.",
+   "ecarte_le": "2026-09-25",
+   "tir": "C"
+  },
+  {
+   "id": "636669209072161_1418585629139887",
+   "page_id": "262382158951470",
+   "date": "2025-05-07T20:31:34+0000",
+   "message": "Diane Duffy - I like letting mine seed naturally- but, you can just plant them- make sure they’re dry though, otherwise they won’t grow!",
+   "lien": "https://www.facebook.com/1067098316029246/posts/636669209072161?comment_id=1315377212881624&reply_comment_id=1418585629139887",
+   "motif": "Conseil entre abonnes sur le sechage des graines. Meme theme semis et froid que 2323266554734378, publie cette heure-ci: deux reponses semblables dans la meme section.",
+   "ecarte_le": "2026-09-25",
+   "tir": "C"
+  },
+  {
+   "id": "636669209072161_1145878767295985",
+   "page_id": "262382158951470",
+   "date": "2025-05-07T19:50:44+0000",
+   "message": "Please make sure you are planting the correct milkweed. So e are not helpful to the monarch butterfly because they can harbor harmful pests and diseases.",
+   "lien": "https://www.facebook.com/1067098316029246/posts/636669209072161?comment_id=1145878767295985",
+   "motif": "Mise en garde sur les especes qui hebergeraient parasites et maladies. Le volet pathogenes (OE, asclepiade tropicale) est un trou confirme des faits verifies, et la seule phrase que nous pourrions opposer (onze especes, aucune tropicale) est sortie il y a environ 15 h dans cette meme section.",
+   "ecarte_le": "2026-09-25",
+   "tir": "C"
+  },
+  {
+   "id": "636669209072161_1322209788881426",
+   "page_id": "262382158951470",
+   "date": "2025-05-07T15:23:00+0000",
+   "message": "Allergic to milkweed",
+   "lien": "https://www.facebook.com/1067098316029246/posts/636669209072161?comment_id=1322209788881426",
+   "motif": "« Allergic to milkweed »: aucun fait verifie sur les reactions allergiques au latex. Inventer est exclu.",
+   "ecarte_le": "2026-09-25",
+   "tir": "C"
   }
  ]
 }
