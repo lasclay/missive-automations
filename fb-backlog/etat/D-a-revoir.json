@@ -12204,6 +12204,69 @@
       "motif": "Reponse a une identification faite par le fondateur, aucun contenu",
       "page_id": "114311920399404",
       "quand": "2026-09-25T23:38:40.174Z"
+    },
+    {
+      "id": "132458928584703_138671931296736",
+      "extrait": "C est aussi l antidote de l herbe a puce",
+      "motif": "Usage medicinal: absent des faits verifies, SUIVI HUMAIN REQUIS",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T23:41:08.255Z"
+    },
+    {
+      "id": "132458928584703_138133714683891",
+      "extrait": "Ca sent telllement bon!!",
+      "motif": "Odeur ou parfum: absent des faits verifies (NOTE-FAITS-VERIFIES-odeur)",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T23:41:08.255Z"
+    },
+    {
+      "id": "132458928584703_136933054803957",
+      "extrait": "en faire une meche pour une lampe a l'huile artisanale serait efficace",
+      "motif": "Absorption de l'huile non verifiee, et suggestion de meche de lampe: risque d'incendie, pas a nous d'encourager",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T23:41:08.255Z"
+    },
+    {
+      "id": "132458928584703_136609288169667",
+      "extrait": "wow ca a plein de proprietes interessantes!",
+      "motif": "Renvoie a des proprietes non precisees, aucune n'est verifiee",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T23:41:08.255Z"
+    },
+    {
+      "id": "132458928584703_136550741508855",
+      "extrait": "(emojis seulement)",
+      "motif": "Aucun contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T23:41:08.255Z"
+    },
+    {
+      "id": "132458928584703_136334531530476",
+      "extrait": "dommage il y a plaint de champs inoccupes",
+      "motif": "Sous-fil dont la racine demande s'il existe des manteaux FAITS AU QUEBEC: garde-fou 4, on ne dit ni l'un ni la correction",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T23:41:08.255Z"
+    },
+    {
+      "id": "132458928584703_136251758205420",
+      "extrait": "c'est la plante sur le terrain de golf",
+      "motif": "Identification d'une amie, aucun contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T23:41:08.255Z"
+    },
+    {
+      "id": "132458928584703_136110041552925",
+      "extrait": "ok merci",
+      "motif": "Remerciement sans contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T23:41:08.255Z"
+    },
+    {
+      "id": "132458928584703_135651781598751",
+      "extrait": "une raison que je ne connaissais pas ! Ca me fait mille et deux raisons!",
+      "motif": "Enthousiasme sans contenu; le fil porte sur le latex utilise comme colle, usage non verifie",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T23:41:08.255Z"
     }
   ]
 }
