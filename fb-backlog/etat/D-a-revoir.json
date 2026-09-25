@@ -11749,6 +11749,118 @@
       "motif": "Autocollant sans texte ni contenu: rien à quoi répondre",
       "page_id": "114311920399404",
       "quand": "2026-09-24T23:39:09.655Z"
+    },
+    {
+      "id": "118638713300058_143992150764714",
+      "extrait": "le prix des manteaux etait exorbitant ... a un cout raisonnable",
+      "motif": "Le commentaire porte pour l'essentiel sur le prix: aucun chiffre de prix ne se donne publiquement, et repondre a la seule derniere ligne serait evasif",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T11:39:26.423Z"
+    },
+    {
+      "id": "118638713300058_146757070488222",
+      "extrait": "combien d'alpagas sont morts d'avoir ete tondus pour leur laine ?",
+      "motif": "Prise de bec entre abonnes sur le bien-etre animal et la laine: hors faits verifies",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T11:39:26.423Z"
+    },
+    {
+      "id": "118638713300058_143695954127667",
+      "extrait": "on ne devrait pas payer les yeux de la tete pour en acheter",
+      "motif": "Question de prix",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T11:39:26.423Z"
+    },
+    {
+      "id": "118638713300058_142971250866804",
+      "extrait": "la transformation en fibre va beaucoup polluer ??? combien de litres d'eau potable",
+      "motif": "SUIVI HUMAIN REQUIS. Procede de fabrication et empreinte eau: absents des faits verifies",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T11:39:26.423Z"
+    },
+    {
+      "id": "118638713300058_144050390758890",
+      "extrait": "la meme arrogance avec lequel vous justifier un invasion d humains",
+      "motif": "Diatribe adressee a la Page",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T11:39:26.423Z"
+    },
+    {
+      "id": "118638713300058_145265017304094",
+      "extrait": "Je ne crois pas que la culture de l'asclepiade menace les papillons monarques",
+      "motif": "Abonne qui nous defend dans un fil polemique ou la Page est deja intervenue plusieurs fois: y revenir attiserait la dispute",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T11:39:26.423Z"
+    },
+    {
+      "id": "118638713300058_144215667409029",
+      "extrait": "Le monsieur fache doit etre nu, habiter dans une grotte",
+      "motif": "Insultes entre abonnes",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T11:39:26.423Z"
+    },
+    {
+      "id": "118638713300058_144100637420532",
+      "extrait": "et toi ton cerveau tu l'a laisse au vestiaire ??",
+      "motif": "Insultes entre abonnes",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T11:39:26.423Z"
+    },
+    {
+      "id": "118638713300058_144087410755188",
+      "extrait": "Le monsieur fache doit etre nu, habiter dans une grotte",
+      "motif": "Insultes entre abonnes",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T11:39:26.423Z"
+    },
+    {
+      "id": "118638713300058_144038504093412",
+      "extrait": "Et pourquoi le faire ????? Vous achetez deja chinois",
+      "motif": "Prise de bec entre abonnes, provenance et achat local, hors faits verifies",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T11:39:26.423Z"
+    },
+    {
+      "id": "118638713300058_144013100762619",
+      "extrait": "mentalite de colon-isateur ... rapacer la planete",
+      "motif": "Diatribe adressee a la Page",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T11:39:26.423Z"
+    },
+    {
+      "id": "118638713300058_144011137429482",
+      "extrait": "mentalite de colon-isateur ... rapacer la planete",
+      "motif": "Diatribe adressee a la Page (copie du meme message)",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T11:39:26.423Z"
+    },
+    {
+      "id": "118638713300058_144010977429498",
+      "extrait": "mentalite de colon-isateur ... rapacer la planete",
+      "motif": "Diatribe recopiee a un autre abonne",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T11:39:26.423Z"
+    },
+    {
+      "id": "118638713300058_141711620992767",
+      "extrait": "oui mais d apres vous ou se retrouve le plus gros des semences !?",
+      "motif": "Sous-entend que la recolte prend le gros des semences; repondre defendrait la recolte dans un fil polemique deja tres charge",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T11:39:26.423Z"
+    },
+    {
+      "id": "122652202898709_125309152633014",
+      "extrait": "Comment tu les appretes? Je suis curieuse?",
+      "motif": "NOTE-FAITS-VERIFIES-comestibilite. La comestibilite est absente des faits verifies, MAIS la question repond a un commentaire de NOTRE propre Page qui affirmait que les cosses videes se mangent et que c'est delicieux. Meme configuration que NOTE-FAITS-VERIFIES-odeur: la Page a deja avance publiquement un fait que le referentiel ne couvre pas. A trancher par un humain.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T11:39:26.423Z"
+    },
+    {
+      "id": "122652202898709_634115795045612",
+      "extrait": "oui car elles ne sont pas mures",
+      "motif": "Maturite des graines et moment de la recolte: non couverts par les faits verifies",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T11:39:26.423Z"
     }
   ]
 }
