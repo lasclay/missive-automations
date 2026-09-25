@@ -1912,8 +1912,16 @@
       "quand": "2026-09-25T15:32:42.041Z",
       "confirme": true,
       "texte": "Yes. Monarch caterpillars feed on milkweed leaves, so that is precisely what these are."
+    },
+    {
+      "id": "122121236618483418_670511635983012",
+      "reponse_id": "122121236618483418_1850849726275505",
+      "page_id": "368305119707866",
+      "quand": "2026-09-25T19:27:23.925Z",
+      "confirme": true,
+      "texte": "Six of them on the one plant, at every size, and the leaves have paid for it. That is the arrangement working as it should."
     }
   ],
-  "derniere_execution": "2026-09-25T15:32:42.041Z",
-  "total": 239
+  "derniere_execution": "2026-09-25T19:27:23.926Z",
+  "total": 240
 }
