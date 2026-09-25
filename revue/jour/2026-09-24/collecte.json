@@ -1,0 +1,4247 @@
+{
+ "jour": "2026-09-24",
+ "fuseau": "America/Toronto",
+ "fenetre_utc": {
+  "debut": "2026-09-24T04:00:00.000Z",
+  "fin": "2026-09-25T04:00:00.000Z",
+  "decalage_minutes": -240
+ },
+ "genere_le": "2026-09-25T01:41:57.937Z",
+ "branches_connues": [
+  "origin/claude/a2x-app-replacement-9i93wy",
+  "origin/claude/audit-apm-unanswered-messages-wo3zo1",
+  "origin/claude/audit-lasclay-shopify-pages-mb7a5t",
+  "origin/claude/audit-previsions-pari-ywoalj",
+  "origin/claude/auto-merge-false-positives-mcbsc3",
+  "origin/claude/batch-packing-slip-analysis-ju72hk",
+  "origin/claude/bookkeeping-built-in-browser-8t3ye8",
+  "origin/claude/bypass-permissions-code-cloud-l0qxy3",
+  "origin/claude/chief",
+  "origin/claude/composio-facebook-moderation-9czg82",
+  "origin/claude/concis-output-mode-5qa1md",
+  "origin/claude/confident-tesla-ahmjl2",
+  "origin/claude/daily-review-routine-hbxozc",
+  "origin/claude/dazzling-pasteur-6fw08h",
+  "origin/claude/doc-taches-illustre-ksdvr0",
+  "origin/claude/ecommerce-optimization-videos-k2c1dt",
+  "origin/claude/facebook-ads-video-guide-o4xaku",
+  "origin/claude/finance-skill-review-xvq8u4",
+  "origin/claude/fred-investment-analysis-ehkump",
+  "origin/claude/funny-cray-g7yrrx",
+  "origin/claude/gallant-bohr-vtwug9",
+  "origin/claude/gourmet-sauvage-discount-code-1e2t71",
+  "origin/claude/happy-returns-proxy-skill-4dvipj",
+  "origin/claude/hermes-agent-lasclay-l4fdk1",
+  "origin/claude/jobs-mit-transcript-analysis-yvftwo",
+  "origin/claude/klaviyo-audit-alternatives-awlhbf",
+  "origin/claude/klaviyo-dragons-den-newsletter-ilibqo",
+  "origin/claude/klaviyo-newsletter-drafts-m9lzov",
+  "origin/claude/lasclay-ad-performance-audit-7qz8p7",
+  "origin/claude/lasclay-bimi-setup-amiamh",
+  "origin/claude/lasclay-faq-redesign-fmqy81",
+  "origin/claude/lasclay-funding-programs-aiwetn",
+  "origin/claude/lasclay-gift-card-25-x546mv",
+  "origin/claude/lasclay-infolettre-rechauffement-fs8srr",
+  "origin/claude/lasclay-negative-reviews-outreach-g2ddoc",
+  "origin/claude/lasclay-retail-expansion-v6jay7",
+  "origin/claude/lasclay-support-email-skill-zqqcmp",
+  "origin/claude/lasclay-viral-video-plan-94y6kk",
+  "origin/claude/meta-mcp-servers-8ynr89",
+  "origin/claude/milkweed-seeds-redirects-j1k0xf",
+  "origin/claude/missive-cleanup-inbox-xk2d5x",
+  "origin/claude/missive-cleanup-oa6mjf",
+  "origin/claude/missive-corpo-opportunities-1r3xaw",
+  "origin/claude/missive-email-filter-script-gkyxya",
+  "origin/claude/missive-g6xc72",
+  "origin/claude/missive-proxy-generic-setup-614cpz",
+  "origin/claude/missive-proxy-shipment-notification-l1eh8z",
+  "origin/claude/missive-t438gw",
+  "origin/claude/missive-work-l9u2p6",
+  "origin/claude/mobile-menu-boutique-hidden-rwx5pg",
+  "origin/claude/mrpeasy-audit-lasclay-krdpnh",
+  "origin/claude/new-session-ux8sdv",
+  "origin/claude/nice-ritchie-nwszam",
+  "origin/claude/omniroute-evaluation-s166ig",
+  "origin/claude/press-release-dragons-itdcbp",
+  "origin/claude/quirky-cray-0o9frl",
+  "origin/claude/reload-skills-3jpj6r",
+  "origin/claude/reload-skills-5xcm2o",
+  "origin/claude/reload-skills-ottbp3",
+  "origin/claude/reload-skills-pck94t",
+  "origin/claude/reload-skills-r1ve6i",
+  "origin/claude/reload-skills-tsf447",
+  "origin/claude/reload-skills-xiwvf0",
+  "origin/claude/revue-quotidienne",
+  "origin/claude/scripts-render-deploy-bug-w0d1kf",
+  "origin/claude/shipstation-audit-clone-0gwmgr",
+  "origin/claude/shipstation-lasclay-access-k7rydf",
+  "origin/claude/shopify-admin-optimization-awtp7d",
+  "origin/claude/shopify-clients-postal-analysis-ka80yv",
+  "origin/claude/shopify-newsletter-saturday-6i6svk",
+  "origin/claude/shopify-shipping-skill-vqxg2a",
+  "origin/claude/tarifs-douaniers-us-admissibilite-gryvqo",
+  "origin/claude/tax-data-bc-sask-manitoba-3p6hol",
+  "origin/claude/tiktok-copywriting-technique-y1kmo0",
+  "origin/claude/unique-plastique-research-jujoqk",
+  "origin/claude/video-analysis-capability-cd681q",
+  "origin/claude/wizardly-goodall-knr9hj",
+  "origin/main"
+ ],
+ "git": {
+  "commits": 85,
+  "lignes_ajoutees": 5319,
+  "lignes_retirees": 474,
+  "par_branche": {
+   "claude/revue-quotidienne": [
+    "997ef141",
+    "a046075e",
+    "a4100819",
+    "aa994553",
+    "bc19943f",
+    "0ef15331",
+    "7dad6a4a",
+    "1dd34589",
+    "bb2d6da0",
+    "0397c102",
+    "c3289513",
+    "0b34b6c2",
+    "df616c00",
+    "860b5a1a",
+    "f8442173",
+    "1f751886",
+    "035f35c6",
+    "b2b8ec72",
+    "d5100fbd",
+    "585d8a52",
+    "e60172bb",
+    "23be64e5",
+    "943cc531",
+    "d6db72dd",
+    "92efc10c",
+    "b05d8af3",
+    "d863ce83",
+    "75463003",
+    "162825c1",
+    "32902239",
+    "0904bb6c",
+    "aff79782",
+    "4afba00e",
+    "e82b8f51",
+    "057428d5",
+    "dc350ea1",
+    "64f7c511",
+    "97ff77d0",
+    "6bf99478",
+    "fcd8d64e",
+    "0d167e0f",
+    "d4bf41fc",
+    "0cd7157f",
+    "216e2f02",
+    "1436587e",
+    "12f8e745",
+    "f404f0af",
+    "faf93fe8",
+    "3f6a8c7e",
+    "d72d3be9",
+    "adb42787",
+    "8ade4338",
+    "cb2c0434",
+    "65a9de35",
+    "f8213800",
+    "1c2e7ee8",
+    "3ba8b288",
+    "6461d14a",
+    "bf425073",
+    "c87158c0",
+    "0b9c5bbd",
+    "3f4db062",
+    "1105c93a",
+    "d2c46b50",
+    "062550be",
+    "a1bb573f",
+    "d82dbf45",
+    "b344390f",
+    "95dcfcb7",
+    "c82151bf",
+    "9b77e547",
+    "781d6cba",
+    "0f33533b",
+    "1a51b751",
+    "6838e67d",
+    "fa48e020",
+    "644d75a0",
+    "55419054",
+    "bde5b4e4",
+    "2c3f5219",
+    "9d59329a",
+    "f046c33f",
+    "2d71d3ef"
+   ],
+   "origin/claude/facebook-ads-video-guide-o4xaku": [
+    "8ff70aaf"
+   ],
+   "origin/claude/chief": [
+    "ee5001c0"
+   ]
+  },
+  "liste": [
+   {
+    "sha": "997ef141",
+    "date": "2026-09-24T21:08:29-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog tir A: 1 ecartee, dossier de commande a reprendre en prive (21 h Est)",
+    "ajouts": 10,
+    "retraits": 0,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/A-a-revoir.json",
+      "ajouts": 10,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "a046075e",
+    "date": "2026-09-24T20:48:53-04:00",
+    "auteur": "Claude",
+    "sujet": "Backlog Facebook tir C: 0 reponse, 12 ecartees (25 septembre, 20 h EST du 24)",
+    "ajouts": 120,
+    "retraits": 0,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/C-a-revoir.json",
+      "ajouts": 120,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "a4100819",
+    "date": "2026-09-24T20:39:25-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog: tir D - 1 reponse publiee (20h)",
+    "ajouts": 11,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/D-journal.jsonl",
+      "ajouts": 1,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/D-repondus.json",
+      "ajouts": 10,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "aa994553",
+    "date": "2026-09-24T20:31:42-04:00",
+    "auteur": "Claude",
+    "sujet": "Tir B 20h: 2 publiees, 18 ecartees",
+    "ajouts": 200,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/B-a-revoir.json",
+      "ajouts": 180,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/B-journal.jsonl",
+      "ajouts": 2,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/B-repondus.json",
+      "ajouts": 18,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "bc19943f",
+    "date": "2026-09-24T19:57:25-04:00",
+    "auteur": "Claude",
+    "sujet": "Backlog Facebook tir C: 4 reponses publiees, 16 ecartees (24 septembre, 19 h)",
+    "ajouts": 198,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/C-a-revoir.json",
+      "ajouts": 160,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/C-journal.jsonl",
+      "ajouts": 4,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/C-repondus.json",
+      "ajouts": 34,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "0ef15331",
+    "date": "2026-09-24T19:49:38-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog: tir D - 3 reponses publiees, 2 ecartees (19h)",
+    "ajouts": 43,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/D-a-revoir.json",
+      "ajouts": 14,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/D-journal.jsonl",
+      "ajouts": 3,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/D-repondus.json",
+      "ajouts": 26,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "7dad6a4a",
+    "date": "2026-09-24T19:26:48-04:00",
+    "auteur": "Claude",
+    "sujet": "Tir B 19h: 0 publiee, 3 ecartees",
+    "ajouts": 30,
+    "retraits": 0,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/B-a-revoir.json",
+      "ajouts": 30,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "1dd34589",
+    "date": "2026-09-24T18:47:13-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog: tir D - 4 reponses publiees, 4 ecartees (18h)",
+    "ajouts": 66,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/D-a-revoir.json",
+      "ajouts": 28,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/D-journal.jsonl",
+      "ajouts": 4,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/D-repondus.json",
+      "ajouts": 34,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "bb2d6da0",
+    "date": "2026-09-24T18:28:32-04:00",
+    "auteur": "Claude",
+    "sujet": "Tir B 18h: 1 publiee mais dupliquee, incident documente",
+    "ajouts": 98,
+    "retraits": 0,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/INCIDENT-500-tirB.md",
+      "ajouts": 69,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/B-a-revoir.json",
+      "ajouts": 20,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/B-journal.jsonl",
+      "ajouts": 1,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/B-repondus.json",
+      "ajouts": 8,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "0397c102",
+    "date": "2026-09-24T18:14:50-04:00",
+    "auteur": "Claude",
+    "sujet": "Pantoufles, sac à vin et manchon sortent du MRP : produits discontinués",
+    "ajouts": 55,
+    "retraits": 153,
+    "fichiers": [
+     {
+      "fichier": "mrp/donnees/SOURCES.md",
+      "ajouts": 1,
+      "retraits": 1
+     },
+     {
+      "fichier": "mrp/donnees/bris-terrain.tsv",
+      "ajouts": 0,
+      "retraits": 3
+     },
+     {
+      "fichier": "mrp/donnees/correspondances.tsv",
+      "ajouts": 0,
+      "retraits": 3
+     },
+     {
+      "fichier": "mrp/donnees/planches-prompts.tsv",
+      "ajouts": 0,
+      "retraits": 12
+     },
+     {
+      "fichier": "mrp/donnees/qualite-amorce.tsv",
+      "ajouts": 0,
+      "retraits": 3
+     },
+     {
+      "fichier": "mrp/donnees/qualite-hors-sujet.tsv",
+      "ajouts": 0,
+      "retraits": 12
+     },
+     {
+      "fichier": "mrp/donnees/retroactions.tsv",
+      "ajouts": 0,
+      "retraits": 15
+     },
+     {
+      "fichier": "mrp/donnees/shopify-images.tsv",
+      "ajouts": 0,
+      "retraits": 29
+     },
+     {
+      "fichier": "mrp/donnees/shopify-produits.tsv",
+      "ajouts": 0,
+      "retraits": 3
+     },
+     {
+      "fichier": "mrp/donnees/shopify-variantes.tsv",
+      "ajouts": 0,
+      "retraits": 19
+     },
+     {
+      "fichier": "mrp/pictos.js",
+      "ajouts": 0,
+      "retraits": 3
+     },
+     {
+      "fichier": "mrp/planches/PLANCHES-PRODUITS.pdf",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/planches/README.md",
+      "ajouts": 2,
+      "retraits": 1
+     },
+     {
+      "fichier": "mrp/planches/images-sources.tsv",
+      "ajouts": 33,
+      "retraits": 32
+     },
+     {
+      "fichier": "mrp/silhouettes.js",
+      "ajouts": 0,
+      "retraits": 9
+     },
+     {
+      "fichier": "mrp/statique/planches/manchon_diametre-1-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/manchon_diametre-1.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/manchon_diametre-2-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/manchon_diametre-2.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/manchon_diametre-3-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/manchon_diametre-3.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/manchon_diametre-4-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/manchon_diametre-4.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/pantoufle_dessous-1-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/pantoufle_dessous-1.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/pantoufle_dessous-2-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/pantoufle_dessous-2.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/pantoufle_dessous-3-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/pantoufle_dessous-3.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/pantoufle_dessous-4-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/pantoufle_dessous-4.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/sacvin_ganse-1-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/sacvin_ganse-1.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/sacvin_ganse-2-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/sacvin_ganse-2.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/sacvin_ganse-3-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/sacvin_ganse-3.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/sacvin_ganse-4-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/sacvin_ganse-4.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/tests/e2e.sh",
+      "ajouts": 3,
+      "retraits": 2
+     },
+     {
+      "fichier": "mrp/tests/retroactions.js",
+      "ajouts": 16,
+      "retraits": 6
+     }
+    ]
+   },
+   {
+    "sha": "c3289513",
+    "date": "2026-09-24T17:44:40-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog: tir D - 2 reponses publiees, 8 ecartees (17h)",
+    "ajouts": 76,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/D-a-revoir.json",
+      "ajouts": 56,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/D-journal.jsonl",
+      "ajouts": 2,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/D-repondus.json",
+      "ajouts": 18,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "0b34b6c2",
+    "date": "2026-09-24T17:26:33-04:00",
+    "auteur": "Claude",
+    "sujet": "Tir B 17h: 0 publiee, 10 ecartees",
+    "ajouts": 100,
+    "retraits": 0,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/B-a-revoir.json",
+      "ajouts": 100,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "df616c00",
+    "date": "2026-09-24T17:11:29-04:00",
+    "auteur": "Claude",
+    "sujet": "Les tailles viennent de Shopify : neuf produits ne concordaient pas",
+    "ajouts": 27,
+    "retraits": 19,
+    "fichiers": [
+     {
+      "fichier": "mrp/donnees/charte-produits.tsv",
+      "ajouts": 25,
+      "retraits": 17
+     },
+     {
+      "fichier": "mrp/donnees/qualite-amorce.tsv",
+      "ajouts": 2,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "860b5a1a",
+    "date": "2026-09-24T17:08:03-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog tir A: 1 reponse publiee (17 h Est)",
+    "ajouts": 11,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/A-journal.jsonl",
+      "ajouts": 1,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/A-repondus.json",
+      "ajouts": 10,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "f8442173",
+    "date": "2026-09-24T17:03:01-04:00",
+    "auteur": "Claude",
+    "sujet": "Backlog Facebook tir C: 3 reponses publiees, 6 ecartees (24 septembre, 16 h)",
+    "ajouts": 89,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/C-a-revoir.json",
+      "ajouts": 60,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/C-journal.jsonl",
+      "ajouts": 3,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/C-repondus.json",
+      "ajouts": 26,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "1f751886",
+    "date": "2026-09-24T16:53:04-04:00",
+    "auteur": "Claude",
+    "sujet": "La tuque de ville n'est pas graduée : taille unique, trois coloris",
+    "ajouts": 2,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "mrp/donnees/charte-produits.tsv",
+      "ajouts": 2,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "035f35c6",
+    "date": "2026-09-24T16:44:09-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog: tir D - 2 reponses publiees, 6 ecartees (16h)",
+    "ajouts": 62,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/D-a-revoir.json",
+      "ajouts": 42,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/D-journal.jsonl",
+      "ajouts": 2,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/D-repondus.json",
+      "ajouts": 18,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "b2b8ec72",
+    "date": "2026-09-24T16:33:17-04:00",
+    "auteur": "Claude",
+    "sujet": "Procédé de validation des cotes et de la gradation : mitaines, semelles, cache-cou",
+    "ajouts": 48,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "mrp/donnees/planches-prompts.tsv",
+      "ajouts": 16,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/donnees/qualite-amorce.tsv",
+      "ajouts": 15,
+      "retraits": 2
+     },
+     {
+      "fichier": "mrp/pictos.js",
+      "ajouts": 17,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/cotes_cachecou-1-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/cotes_cachecou-1.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/cotes_cachecou-2-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/cotes_cachecou-2.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/cotes_cachecou-3-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/cotes_cachecou-3.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/cotes_cachecou-4-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/cotes_cachecou-4.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/cotes_mitaine-1-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/cotes_mitaine-1.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/cotes_mitaine-2-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/cotes_mitaine-2.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/cotes_mitaine-3-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/cotes_mitaine-3.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/cotes_mitaine-4-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/cotes_mitaine-4.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/cotes_semelle-1-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/cotes_semelle-1.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/cotes_semelle-2-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/cotes_semelle-2.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/cotes_semelle-3-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/cotes_semelle-3.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/cotes_semelle-4-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/cotes_semelle-4.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/essai_mitaine-1-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/essai_mitaine-1.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/essai_mitaine-2-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/essai_mitaine-2.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/essai_mitaine-3-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/essai_mitaine-3.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/essai_mitaine-4-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/essai_mitaine-4.webp",
+      "ajouts": 0,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "d5100fbd",
+    "date": "2026-09-24T16:26:29-04:00",
+    "auteur": "Claude",
+    "sujet": "Tir B 16h: 0 publiee, 7 ecartees",
+    "ajouts": 70,
+    "retraits": 0,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/B-a-revoir.json",
+      "ajouts": 70,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "585d8a52",
+    "date": "2026-09-24T15:50:29-04:00",
+    "auteur": "Claude",
+    "sujet": "Une flèche rouge sur la photo du bandeau : on voit enfin de quoi on parle",
+    "ajouts": 81,
+    "retraits": 4,
+    "fichiers": [
+     {
+      "fichier": "mrp/donnees/qualite-amorce.tsv",
+      "ajouts": 1,
+      "retraits": 1
+     },
+     {
+      "fichier": "mrp/donnees/schemas-produits.tsv",
+      "ajouts": 8,
+      "retraits": 1
+     },
+     {
+      "fichier": "mrp/import_schemas.js",
+      "ajouts": 6,
+      "retraits": 1
+     },
+     {
+      "fichier": "mrp/public/schema-bandeau-tuque.png",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/server.js",
+      "ajouts": 8,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/tests/e2e.sh",
+      "ajouts": 41,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/vues.js",
+      "ajouts": 17,
+      "retraits": 1
+     }
+    ]
+   },
+   {
+    "sha": "e60172bb",
+    "date": "2026-09-24T15:49:19-04:00",
+    "auteur": "Claude",
+    "sujet": "Backlog Facebook tir C: 0 reponse, 1 ecartee (24 septembre, 15 h)",
+    "ajouts": 10,
+    "retraits": 0,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/C-a-revoir.json",
+      "ajouts": 10,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "8ff70aaf",
+    "date": "2026-09-24T15:48:24-04:00",
+    "auteur": "Claude",
+    "sujet": "Intègre les deux autres livres de la conférence : Hormozi et Brunson",
+    "ajouts": 495,
+    "retraits": 6,
+    "fichiers": [
+     {
+      "fichier": "docs/100m-offers-methode-et-adaptation.md",
+      "ajouts": 278,
+      "retraits": 0
+     },
+     {
+      "fichier": "docs/README.md",
+      "ajouts": 10,
+      "retraits": 2
+     },
+     {
+      "fichier": "docs/expert-secrets-methode-et-adaptation.md",
+      "ajouts": 196,
+      "retraits": 0
+     },
+     {
+      "fichier": "docs/meta-ads-saison-forte-2026.md",
+      "ajouts": 11,
+      "retraits": 4
+     }
+    ]
+   },
+   {
+    "sha": "23be64e5",
+    "date": "2026-09-24T15:42:10-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog: tir D - 3 reponses publiees (15h)",
+    "ajouts": 29,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/D-journal.jsonl",
+      "ajouts": 3,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/D-repondus.json",
+      "ajouts": 26,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "943cc531",
+    "date": "2026-09-24T15:38:02-04:00",
+    "auteur": "Claude",
+    "sujet": "La vraie photo du bandeau revient sur le point qui le contrôle",
+    "ajouts": 7,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "mrp/donnees/qualite-amorce.tsv",
+      "ajouts": 7,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "d6db72dd",
+    "date": "2026-09-24T15:31:55-04:00",
+    "auteur": "Claude",
+    "sujet": "Les quatorze derniers produits ont leur test de défaillance",
+    "ajouts": 64,
+    "retraits": 3,
+    "fichiers": [
+     {
+      "fichier": "mrp/donnees/planches-prompts.tsv",
+      "ajouts": 32,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/donnees/qualite-amorce.tsv",
+      "ajouts": 15,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/pictos.js",
+      "ajouts": 12,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/broderie_tshirt-1-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/broderie_tshirt-1.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/broderie_tshirt-2-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/broderie_tshirt-2.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/broderie_tshirt-3-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/broderie_tshirt-3.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/broderie_tshirt-4-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/broderie_tshirt-4.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/fermeture_chandail-1-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/fermeture_chandail-1.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/fermeture_chandail-2-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/fermeture_chandail-2.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/fermeture_chandail-3-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/fermeture_chandail-3.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/fermeture_chandail-4-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/fermeture_chandail-4.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/fermeture_couchage-1-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/fermeture_couchage-1.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/fermeture_couchage-2-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/fermeture_couchage-2.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/fermeture_couchage-3-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/fermeture_couchage-3.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/fermeture_couchage-4-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/fermeture_couchage-4.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/gant_etirement-1-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/gant_etirement-1.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/gant_etirement-2-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/gant_etirement-2.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/gant_etirement-3-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/gant_etirement-3.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/gant_etirement-4-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/gant_etirement-4.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/garnissage_fuite-1-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/garnissage_fuite-1.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/garnissage_fuite-2-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/garnissage_fuite-2.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/garnissage_fuite-3-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/garnissage_fuite-3.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/garnissage_fuite-4-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/garnissage_fuite-4.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/pouce_mitaine-1-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/pouce_mitaine-1.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/pouce_mitaine-2-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/pouce_mitaine-2.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/pouce_mitaine-3-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/pouce_mitaine-3.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/pouce_mitaine-4-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/pouce_mitaine-4.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/sacvin_ganse-1-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/sacvin_ganse-1.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/sacvin_ganse-2-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/sacvin_ganse-2.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/sacvin_ganse-3-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/sacvin_ganse-3.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/sacvin_ganse-4-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/sacvin_ganse-4.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/tuqueville_bandeau-1-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/tuqueville_bandeau-1.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/tuqueville_bandeau-2-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/tuqueville_bandeau-2.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/tuqueville_bandeau-3-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/tuqueville_bandeau-3.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/tuqueville_bandeau-4-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/tuqueville_bandeau-4.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/tests/e2e.sh",
+      "ajouts": 5,
+      "retraits": 3
+     }
+    ]
+   },
+   {
+    "sha": "92efc10c",
+    "date": "2026-09-24T15:26:29-04:00",
+    "auteur": "Claude",
+    "sujet": "Tir B 15h: 0 publiee, 11 ecartees",
+    "ajouts": 110,
+    "retraits": 0,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/B-a-revoir.json",
+      "ajouts": 110,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "b05d8af3",
+    "date": "2026-09-24T15:19:56-04:00",
+    "auteur": "Claude",
+    "sujet": "Quatre tests de plus : tuque sport, manchon, bandeau, étui",
+    "ajouts": 8,
+    "retraits": 4,
+    "fichiers": [
+     {
+      "fichier": "mrp/donnees/planches-prompts.tsv",
+      "ajouts": 4,
+      "retraits": 4
+     },
+     {
+      "fichier": "mrp/pictos.js",
+      "ajouts": 4,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/bandeau_cote-1-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/bandeau_cote-1.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/bandeau_cote-2-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/bandeau_cote-2.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/bandeau_cote-3-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/bandeau_cote-3.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/bandeau_cote-4-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/bandeau_cote-4.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/etui_finition-1-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/etui_finition-1.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/etui_finition-2-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/etui_finition-2.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/etui_finition-3-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/etui_finition-3.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/etui_finition-4-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/etui_finition-4.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/manchon_diametre-1-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/manchon_diametre-1.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/manchon_diametre-2-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/manchon_diametre-2.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/manchon_diametre-3-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/manchon_diametre-3.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/manchon_diametre-4-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/manchon_diametre-4.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/tuque_isolant-1-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/tuque_isolant-1.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/tuque_isolant-2-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/tuque_isolant-2.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/tuque_isolant-3-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/tuque_isolant-3.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/tuque_isolant-4-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/tuque_isolant-4.webp",
+      "ajouts": 0,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "d863ce83",
+    "date": "2026-09-24T15:14:46-04:00",
+    "auteur": "Claude",
+    "sujet": "Cinq tests de plus : fermetures, foulard, besace, pantoufles",
+    "ajouts": 57,
+    "retraits": 0,
+    "fichiers": [
+     {
+      "fichier": "mrp/donnees/planches-prompts.tsv",
+      "ajouts": 36,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/donnees/qualite-amorce.tsv",
+      "ajouts": 10,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/pictos.js",
+      "ajouts": 11,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/besace_doublure-1-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/besace_doublure-1.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/besace_doublure-2-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/besace_doublure-2.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/besace_doublure-3-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/besace_doublure-3.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/besace_doublure-4-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/besace_doublure-4.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/fermeture_couture-1-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/fermeture_couture-1.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/fermeture_couture-2-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/fermeture_couture-2.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/fermeture_couture-3-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/fermeture_couture-3.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/fermeture_couture-4-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/fermeture_couture-4.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/fermeture_manteau-1-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/fermeture_manteau-1.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/fermeture_manteau-2-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/fermeture_manteau-2.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/fermeture_manteau-3-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/fermeture_manteau-3.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/fermeture_manteau-4-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/fermeture_manteau-4.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/foulard_couture-1-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/foulard_couture-1.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/foulard_couture-2-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/foulard_couture-2.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/foulard_couture-3-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/foulard_couture-3.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/foulard_couture-4-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/foulard_couture-4.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/pantoufle_dessous-1-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/pantoufle_dessous-1.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/pantoufle_dessous-2-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/pantoufle_dessous-2.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/pantoufle_dessous-3-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/pantoufle_dessous-3.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/pantoufle_dessous-4-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/pantoufle_dessous-4.webp",
+      "ajouts": 0,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "75463003",
+    "date": "2026-09-24T15:08:36-04:00",
+    "auteur": "Claude",
+    "sujet": "Quatre tests nés des bris réels : glacière, sac à lunch, semelles, cache-cou",
+    "ajouts": 33,
+    "retraits": 0,
+    "fichiers": [
+     {
+      "fichier": "mrp/donnees/planches-prompts.tsv",
+      "ajouts": 16,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/donnees/qualite-amorce.tsv",
+      "ajouts": 7,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/pictos.js",
+      "ajouts": 10,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/cachecou_fuite-1-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/cachecou_fuite-1.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/cachecou_fuite-2-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/cachecou_fuite-2.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/cachecou_fuite-3-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/cachecou_fuite-3.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/cachecou_fuite-4-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/cachecou_fuite-4.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/glaciere_quincaillerie-1-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/glaciere_quincaillerie-1.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/glaciere_quincaillerie-2-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/glaciere_quincaillerie-2.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/glaciere_quincaillerie-3-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/glaciere_quincaillerie-3.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/glaciere_quincaillerie-4-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/glaciere_quincaillerie-4.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/saclunch_boucle-1-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/saclunch_boucle-1.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/saclunch_boucle-2-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/saclunch_boucle-2.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/saclunch_boucle-3-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/saclunch_boucle-3.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/saclunch_boucle-4-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/saclunch_boucle-4.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/semelle_flexion-1-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/semelle_flexion-1.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/semelle_flexion-2-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/semelle_flexion-2.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/semelle_flexion-3-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/semelle_flexion-3.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/semelle_flexion-4-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/semelle_flexion-4.webp",
+      "ajouts": 0,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "162825c1",
+    "date": "2026-09-24T15:00:39-04:00",
+    "auteur": "Claude",
+    "sujet": "La planche de densité, refaite sur la vraie jonction et la vraie rupture",
+    "ajouts": 17,
+    "retraits": 1,
+    "fichiers": [
+     {
+      "fichier": "mrp/donnees/planches-prompts.tsv",
+      "ajouts": 4,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/donnees/qualite-amorce.tsv",
+      "ajouts": 1,
+      "retraits": 1
+     },
+     {
+      "fichier": "mrp/pictos.js",
+      "ajouts": 12,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/points_pouce-1-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/points_pouce-1.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/points_pouce-2-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/points_pouce-2.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/points_pouce-3-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/points_pouce-3.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/points_pouce-4-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/points_pouce-4.webp",
+      "ajouts": 0,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "32902239",
+    "date": "2026-09-24T14:49:20-04:00",
+    "auteur": "Claude",
+    "sujet": "Backlog Facebook tir C: 0 reponse, 1 ecartee (24 septembre, 14 h)",
+    "ajouts": 10,
+    "retraits": 0,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/C-a-revoir.json",
+      "ajouts": 10,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "0904bb6c",
+    "date": "2026-09-24T14:46:00-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog: tir D - 2 reponses publiees (14h)",
+    "ajouts": 20,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/D-journal.jsonl",
+      "ajouts": 2,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/D-repondus.json",
+      "ajouts": 18,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "aff79782",
+    "date": "2026-09-24T14:28:01-04:00",
+    "auteur": "Claude",
+    "sujet": "Tir B 14h: 0 publiee, 18 ecartees",
+    "ajouts": 180,
+    "retraits": 0,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/B-a-revoir.json",
+      "ajouts": 180,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "4afba00e",
+    "date": "2026-09-24T13:55:20-04:00",
+    "auteur": "Claude",
+    "sujet": "Backlog Facebook tir C: 2 reponses publiees, 8 ecartees (24 septembre, 13 h)",
+    "ajouts": 100,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/C-a-revoir.json",
+      "ajouts": 80,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/C-journal.jsonl",
+      "ajouts": 2,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/C-repondus.json",
+      "ajouts": 18,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "e82b8f51",
+    "date": "2026-09-24T13:42:50-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog: tir D - 1 reponse publiee (13h)",
+    "ajouts": 11,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/D-journal.jsonl",
+      "ajouts": 1,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/D-repondus.json",
+      "ajouts": 10,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "057428d5",
+    "date": "2026-09-24T12:50:33-04:00",
+    "auteur": "Claude",
+    "sujet": "Backlog Facebook tir C: 1 reponse publiee, 1 ecartee (24 septembre, 12 h)",
+    "ajouts": 21,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/C-a-revoir.json",
+      "ajouts": 10,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/C-journal.jsonl",
+      "ajouts": 1,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/C-repondus.json",
+      "ajouts": 10,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "dc350ea1",
+    "date": "2026-09-24T12:50:21-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog: tir D - 4 reponses publiees, 7 ecartees (12h)",
+    "ajouts": 87,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/D-a-revoir.json",
+      "ajouts": 49,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/D-journal.jsonl",
+      "ajouts": 4,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/D-repondus.json",
+      "ajouts": 34,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "64f7c511",
+    "date": "2026-09-24T11:53:59-04:00",
+    "auteur": "Claude",
+    "sujet": "Backlog Facebook tir C: 2 reponses publiees, 13 ecartees (24 septembre, 11 h)",
+    "ajouts": 150,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/C-a-revoir.json",
+      "ajouts": 130,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/C-journal.jsonl",
+      "ajouts": 2,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/C-repondus.json",
+      "ajouts": 18,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "97ff77d0",
+    "date": "2026-09-24T11:39:52-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog: tir D - 1 reponse publiee, 3 ecartees (11h)",
+    "ajouts": 32,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/D-a-revoir.json",
+      "ajouts": 21,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/D-journal.jsonl",
+      "ajouts": 1,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/D-repondus.json",
+      "ajouts": 10,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "6bf99478",
+    "date": "2026-09-24T11:27:05-04:00",
+    "auteur": "Claude",
+    "sujet": "Tir B 11h: 0 publiee, 5 ecartees",
+    "ajouts": 50,
+    "retraits": 0,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/B-a-revoir.json",
+      "ajouts": 50,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "fcd8d64e",
+    "date": "2026-09-24T11:08:58-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog tir A: 1 publiee, 1 ecartee (11 h Est)",
+    "ajouts": 21,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/A-a-revoir.json",
+      "ajouts": 10,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/A-journal.jsonl",
+      "ajouts": 1,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/A-repondus.json",
+      "ajouts": 10,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "0d167e0f",
+    "date": "2026-09-24T11:04:06-04:00",
+    "auteur": "Claude",
+    "sujet": "Backlog Facebook tir C: 3 reponses publiees, 17 ecartees (24 septembre, 10 h)",
+    "ajouts": 199,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/C-a-revoir.json",
+      "ajouts": 170,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/C-journal.jsonl",
+      "ajouts": 3,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/C-repondus.json",
+      "ajouts": 26,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "d4bf41fc",
+    "date": "2026-09-24T10:57:54-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog: tir D - 4 reponses publiees, 10 ecartees (10h)",
+    "ajouts": 108,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/D-a-revoir.json",
+      "ajouts": 70,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/D-journal.jsonl",
+      "ajouts": 4,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/D-repondus.json",
+      "ajouts": 34,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "0cd7157f",
+    "date": "2026-09-24T09:51:42-04:00",
+    "auteur": "Claude",
+    "sujet": "Backlog Facebook tir C: 2 reponses publiees, 18 ecartees (24 septembre, 9 h)",
+    "ajouts": 200,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/C-a-revoir.json",
+      "ajouts": 180,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/C-journal.jsonl",
+      "ajouts": 2,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/C-repondus.json",
+      "ajouts": 18,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "216e2f02",
+    "date": "2026-09-24T09:40:31-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog: tir D - 1 reponse publiee, 9 ecartees (9h)",
+    "ajouts": 74,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/D-a-revoir.json",
+      "ajouts": 63,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/D-journal.jsonl",
+      "ajouts": 1,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/D-repondus.json",
+      "ajouts": 10,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "1436587e",
+    "date": "2026-09-24T09:26:23-04:00",
+    "auteur": "Claude",
+    "sujet": "Tir B 9h: 0 publiee, 3 ecartees",
+    "ajouts": 30,
+    "retraits": 0,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/B-a-revoir.json",
+      "ajouts": 30,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "12f8e745",
+    "date": "2026-09-24T09:09:08-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog tir A: 1 reponse publiee (9 h Est)",
+    "ajouts": 12,
+    "retraits": 3,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/A-journal.jsonl",
+      "ajouts": 1,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/A-repondus.json",
+      "ajouts": 11,
+      "retraits": 3
+     }
+    ]
+   },
+   {
+    "sha": "f404f0af",
+    "date": "2026-09-24T08:51:30-04:00",
+    "auteur": "Claude",
+    "sujet": "Backlog Facebook tir C: 1 reponse publiee, 2 ecartees (24 septembre, 8 h)",
+    "ajouts": 31,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/C-a-revoir.json",
+      "ajouts": 20,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/C-journal.jsonl",
+      "ajouts": 1,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/C-repondus.json",
+      "ajouts": 10,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "faf93fe8",
+    "date": "2026-09-24T08:39:46-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog: tir D - 0 reponse, 3 ecartees (8h)",
+    "ajouts": 21,
+    "retraits": 0,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/D-a-revoir.json",
+      "ajouts": 21,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "3f6a8c7e",
+    "date": "2026-09-24T08:27:10-04:00",
+    "auteur": "Claude",
+    "sujet": "Tir B 8h: 0 publiee, 1 ecartee",
+    "ajouts": 10,
+    "retraits": 0,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/B-a-revoir.json",
+      "ajouts": 10,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "d72d3be9",
+    "date": "2026-09-24T07:53:48-04:00",
+    "auteur": "Claude",
+    "sujet": "Backlog Facebook tir C: 3 reponses publiees, 7 ecartees (24 septembre, 7 h)",
+    "ajouts": 99,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/C-a-revoir.json",
+      "ajouts": 70,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/C-journal.jsonl",
+      "ajouts": 3,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/C-repondus.json",
+      "ajouts": 26,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "adb42787",
+    "date": "2026-09-24T07:48:50-04:00",
+    "auteur": "Claude",
+    "sujet": "Retirer la planche de densité : elle montrait une couture inventée",
+    "ajouts": 0,
+    "retraits": 9,
+    "fichiers": [
+     {
+      "fichier": "mrp/donnees/planches-prompts.tsv",
+      "ajouts": 0,
+      "retraits": 4
+     },
+     {
+      "fichier": "mrp/pictos.js",
+      "ajouts": 0,
+      "retraits": 5
+     },
+     {
+      "fichier": "mrp/statique/planches/points_pouce-1-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/points_pouce-1.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/points_pouce-2-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/points_pouce-2.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/points_pouce-3-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/points_pouce-3.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/points_pouce-4-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/points_pouce-4.webp",
+      "ajouts": 0,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "8ade4338",
+    "date": "2026-09-24T07:45:32-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog: tir D - 2 reponses publiees, 8 ecartees (7h)",
+    "ajouts": 76,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/D-a-revoir.json",
+      "ajouts": 56,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/D-journal.jsonl",
+      "ajouts": 2,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/D-repondus.json",
+      "ajouts": 18,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "cb2c0434",
+    "date": "2026-09-24T07:27:16-04:00",
+    "auteur": "Claude",
+    "sujet": "Tir B 7h: 1 publiee, 4 ecartees",
+    "ajouts": 51,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/B-a-revoir.json",
+      "ajouts": 40,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/B-journal.jsonl",
+      "ajouts": 1,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/B-repondus.json",
+      "ajouts": 10,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "ee5001c0",
+    "date": "2026-09-24T07:15:24-04:00",
+    "auteur": "Claude",
+    "sujet": "Chief : trois routines hors inventaire dont deux en production ; tir B muet par manque de corpus",
+    "ajouts": 2,
+    "retraits": 0,
+    "fichiers": [
+     {
+      "fichier": "memoire/journal.jsonl",
+      "ajouts": 2,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "65a9de35",
+    "date": "2026-09-24T06:49:38-04:00",
+    "auteur": "Claude",
+    "sujet": "Backlog Facebook tir C: 0 reponse, 1 ecartee (24 septembre, 6 h)",
+    "ajouts": 10,
+    "retraits": 0,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/C-a-revoir.json",
+      "ajouts": 10,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "f8213800",
+    "date": "2026-09-24T06:26:47-04:00",
+    "auteur": "Claude",
+    "sujet": "Tir B 6h: 1 publiee, 6 ecartees",
+    "ajouts": 71,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/B-a-revoir.json",
+      "ajouts": 60,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/B-journal.jsonl",
+      "ajouts": 1,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/B-repondus.json",
+      "ajouts": 10,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "1c2e7ee8",
+    "date": "2026-09-24T06:17:32-04:00",
+    "auteur": "Claude",
+    "sujet": "Mitaines plein air : quatre décisions de la révision qualité",
+    "ajouts": 35,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "mrp/donnees/planches-prompts.tsv",
+      "ajouts": 12,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/donnees/qualite-amorce.tsv",
+      "ajouts": 4,
+      "retraits": 1
+     },
+     {
+      "fichier": "mrp/donnees/qualite-charte.tsv",
+      "ajouts": 7,
+      "retraits": 1
+     },
+     {
+      "fichier": "mrp/pictos.js",
+      "ajouts": 12,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/etiquette_mitaine-1-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/etiquette_mitaine-1.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/etiquette_mitaine-2-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/etiquette_mitaine-2.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/etiquette_mitaine-3-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/etiquette_mitaine-3.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/etiquette_mitaine-4-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/etiquette_mitaine-4.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/paire_cuir-1-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/paire_cuir-1.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/paire_cuir-2-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/paire_cuir-2.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/paire_cuir-3-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/paire_cuir-3.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/paire_cuir-4-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/paire_cuir-4.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/points_pouce-1-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/points_pouce-1.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/points_pouce-2-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/points_pouce-2.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/points_pouce-3-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/points_pouce-3.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/points_pouce-4-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/points_pouce-4.webp",
+      "ajouts": 0,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "3ba8b288",
+    "date": "2026-09-24T05:55:20-04:00",
+    "auteur": "Claude",
+    "sujet": "Les t-shirts partent le 24 octobre par avion, et la cédule compte par échéance",
+    "ajouts": 209,
+    "retraits": 30,
+    "fichiers": [
+     {
+      "fichier": "mrp/charge.js",
+      "ajouts": 47,
+      "retraits": 1
+     },
+     {
+      "fichier": "mrp/donnees/ordres.tsv",
+      "ajouts": 8,
+      "retraits": 4
+     },
+     {
+      "fichier": "mrp/import.js",
+      "ajouts": 9,
+      "retraits": 2
+     },
+     {
+      "fichier": "mrp/public/style.css",
+      "ajouts": 9,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/tests/e2e.sh",
+      "ajouts": 41,
+      "retraits": 10
+     },
+     {
+      "fichier": "mrp/tests/outils.js",
+      "ajouts": 49,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/vues.js",
+      "ajouts": 46,
+      "retraits": 13
+     }
+    ]
+   },
+   {
+    "sha": "6461d14a",
+    "date": "2026-09-24T05:39:03-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog: tir D - 0 reponse, 2 ecartees (5h)",
+    "ajouts": 14,
+    "retraits": 0,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/D-a-revoir.json",
+      "ajouts": 14,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "bf425073",
+    "date": "2026-09-24T05:19:58-04:00",
+    "auteur": "Claude",
+    "sujet": "Les t-shirts brodés ont leur propre ordre de production",
+    "ajouts": 137,
+    "retraits": 37,
+    "fichiers": [
+     {
+      "fichier": "mrp/donnees/ordres.tsv",
+      "ajouts": 19,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/donnees/plan-production-2627.tsv",
+      "ajouts": 0,
+      "retraits": 1
+     },
+     {
+      "fichier": "mrp/donnees/plan-tshirts-2026.tsv",
+      "ajouts": 13,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/import.js",
+      "ajouts": 77,
+      "retraits": 36
+     },
+     {
+      "fichier": "mrp/tests/e2e.sh",
+      "ajouts": 28,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "c87158c0",
+    "date": "2026-09-24T05:10:18-04:00",
+    "auteur": "Claude",
+    "sujet": "Tuque sport : un essai porté par six personnes de gabarits différents",
+    "ajouts": 12,
+    "retraits": 0,
+    "fichiers": [
+     {
+      "fichier": "mrp/donnees/planches-prompts.tsv",
+      "ajouts": 4,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/donnees/qualite-amorce.tsv",
+      "ajouts": 5,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/pictos.js",
+      "ajouts": 3,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/essai_porte-1-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/essai_porte-1.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/essai_porte-2-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/essai_porte-2.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/essai_porte-3-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/essai_porte-3.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/essai_porte-4-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/essai_porte-4.webp",
+      "ajouts": 0,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "0b9c5bbd",
+    "date": "2026-09-24T05:02:24-04:00",
+    "auteur": "Claude",
+    "sujet": "Mitaine : le cuir ne monte pas sur la face interne du pouce",
+    "ajouts": 4,
+    "retraits": 4,
+    "fichiers": [
+     {
+      "fichier": "mrp/donnees/planches-prompts.tsv",
+      "ajouts": 4,
+      "retraits": 4
+     },
+     {
+      "fichier": "mrp/statique/planches/mitaine_pouce-1-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/mitaine_pouce-1.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/mitaine_pouce-2-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/mitaine_pouce-2.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/mitaine_pouce-3-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/mitaine_pouce-3.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/mitaine_pouce-4-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/mitaine_pouce-4.webp",
+      "ajouts": 0,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "3f4db062",
+    "date": "2026-09-24T05:00:51-04:00",
+    "auteur": "Claude",
+    "sujet": "Le t-shirt brodé monte à 500 unités, mêmes proportions",
+    "ajouts": 29,
+    "retraits": 28,
+    "fichiers": [
+     {
+      "fichier": "mrp/donnees/correspondances.tsv",
+      "ajouts": 1,
+      "retraits": 1
+     },
+     {
+      "fichier": "mrp/donnees/plan-production-2627.tsv",
+      "ajouts": 1,
+      "retraits": 1
+     },
+     {
+      "fichier": "mrp/donnees/plan-variantes-2627.tsv",
+      "ajouts": 22,
+      "retraits": 22
+     },
+     {
+      "fichier": "mrp/tests/e2e.sh",
+      "ajouts": 5,
+      "retraits": 4
+     }
+    ]
+   },
+   {
+    "sha": "1105c93a",
+    "date": "2026-09-24T04:57:55-04:00",
+    "auteur": "Claude",
+    "sujet": "L'abrasion ne se teste que sur les mitaines et les gants",
+    "ajouts": 96,
+    "retraits": 6,
+    "fichiers": [
+     {
+      "fichier": "mrp/donnees/qualite-hors-sujet.tsv",
+      "ajouts": 84,
+      "retraits": 1
+     },
+     {
+      "fichier": "mrp/tests/e2e.sh",
+      "ajouts": 12,
+      "retraits": 5
+     }
+    ]
+   },
+   {
+    "sha": "d2c46b50",
+    "date": "2026-09-24T04:57:44-04:00",
+    "auteur": "Claude",
+    "sujet": "Le t-shirt brodé entre au plan : 370 unités, 24 variantes",
+    "ajouts": 37,
+    "retraits": 0,
+    "fichiers": [
+     {
+      "fichier": "mrp/donnees/assemblage-estime.tsv",
+      "ajouts": 1,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/donnees/charte-produits.tsv",
+      "ajouts": 6,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/donnees/correspondances.tsv",
+      "ajouts": 1,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/donnees/plan-production-2627.tsv",
+      "ajouts": 1,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/donnees/plan-variantes-2627.tsv",
+      "ajouts": 24,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/donnees/shopify-produits.tsv",
+      "ajouts": 1,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/silhouettes.js",
+      "ajouts": 3,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "062550be",
+    "date": "2026-09-24T04:44:37-04:00",
+    "auteur": "Claude",
+    "sujet": "La veste garde le lavage, comme les manteaux",
+    "ajouts": 1,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "mrp/donnees/qualite-hors-sujet.tsv",
+      "ajouts": 0,
+      "retraits": 1
+     },
+     {
+      "fichier": "mrp/tests/e2e.sh",
+      "ajouts": 1,
+      "retraits": 1
+     }
+    ]
+   },
+   {
+    "sha": "a1bb573f",
+    "date": "2026-09-24T04:43:38-04:00",
+    "auteur": "Claude",
+    "sujet": "Mitaines : le code MIT-CUIR cache la laine, la charte le dit maintenant",
+    "ajouts": 4,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "mrp/donnees/charte-produits.tsv",
+      "ajouts": 1,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/donnees/qualite-hors-sujet.tsv",
+      "ajouts": 3,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "d82dbf45",
+    "date": "2026-09-24T04:42:33-04:00",
+    "auteur": "Claude",
+    "sujet": "Le lavage sort de vingt-trois produits, sur preuve d'inventaire",
+    "ajouts": 37,
+    "retraits": 1,
+    "fichiers": [
+     {
+      "fichier": "mrp/donnees/qualite-hors-sujet.tsv",
+      "ajouts": 36,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/tests/e2e.sh",
+      "ajouts": 1,
+      "retraits": 1
+     }
+    ]
+   },
+   {
+    "sha": "b344390f",
+    "date": "2026-09-24T04:39:35-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog: tir D - 1 reponse publiee, sans cadratin (4h)",
+    "ajouts": 11,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/D-journal.jsonl",
+      "ajouts": 1,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/D-repondus.json",
+      "ajouts": 10,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "95dcfcb7",
+    "date": "2026-09-24T04:31:35-04:00",
+    "auteur": "Claude",
+    "sujet": "Bandeau torsadé : 10 points à 6, l'abrasion et le lavage écartés",
+    "ajouts": 10,
+    "retraits": 1,
+    "fichiers": [
+     {
+      "fichier": "mrp/donnees/qualite-hors-sujet.tsv",
+      "ajouts": 9,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/tests/e2e.sh",
+      "ajouts": 1,
+      "retraits": 1
+     }
+    ]
+   },
+   {
+    "sha": "c82151bf",
+    "date": "2026-09-24T04:26:51-04:00",
+    "auteur": "Claude",
+    "sujet": "Les planches dessinées s'ouvraient sur « Planche inconnue »",
+    "ajouts": 36,
+    "retraits": 8,
+    "fichiers": [
+     {
+      "fichier": "mrp/public/style.css",
+      "ajouts": 14,
+      "retraits": 6
+     },
+     {
+      "fichier": "mrp/server.js",
+      "ajouts": 6,
+      "retraits": 2
+     },
+     {
+      "fichier": "mrp/tests/e2e.sh",
+      "ajouts": 16,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "9b77e547",
+    "date": "2026-09-24T04:26:51-04:00",
+    "auteur": "Claude",
+    "sujet": "Tir B 4h: 0 publiee, 1 ecartee",
+    "ajouts": 10,
+    "retraits": 0,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/B-a-revoir.json",
+      "ajouts": 10,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "781d6cba",
+    "date": "2026-09-24T03:24:18-04:00",
+    "auteur": "Claude",
+    "sujet": "Bille : plus de nœud, l'élastique traverse la bille",
+    "ajouts": 0,
+    "retraits": 0,
+    "fichiers": [
+     {
+      "fichier": "mrp/statique/planches/bille-1-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/bille-1.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/bille-2-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/bille-2.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/bille-3-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/bille-3.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/bille-4-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/bille-4.webp",
+      "ajouts": 0,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "0f33533b",
+    "date": "2026-09-24T03:16:40-04:00",
+    "auteur": "Claude",
+    "sujet": "Bille : elle bloque bien le cord-lock, mais l'élastique la traverse",
+    "ajouts": 4,
+    "retraits": 4,
+    "fichiers": [
+     {
+      "fichier": "mrp/donnees/charte-produits.tsv",
+      "ajouts": 1,
+      "retraits": 1
+     },
+     {
+      "fichier": "mrp/donnees/planches-prompts.tsv",
+      "ajouts": 3,
+      "retraits": 3
+     }
+    ]
+   },
+   {
+    "sha": "1a51b751",
+    "date": "2026-09-24T03:13:36-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog tir A: retrait des cadratins des 58 reponses deja publiees",
+    "ajouts": 481,
+    "retraits": 59,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/A-corrections-cadratin.json",
+      "ajouts": 422,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/A-repondus.json",
+      "ajouts": 59,
+      "retraits": 59
+     }
+    ]
+   },
+   {
+    "sha": "6838e67d",
+    "date": "2026-09-24T03:13:22-04:00",
+    "auteur": "Claude",
+    "sujet": "Cache-cou adulte : révision des points, et la bille qui ne bloque rien",
+    "ajouts": 31,
+    "retraits": 9,
+    "fichiers": [
+     {
+      "fichier": "mrp/db.js",
+      "ajouts": 14,
+      "retraits": 3
+     },
+     {
+      "fichier": "mrp/donnees/charte-produits.tsv",
+      "ajouts": 1,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/donnees/planches-prompts.tsv",
+      "ajouts": 4,
+      "retraits": 4
+     },
+     {
+      "fichier": "mrp/donnees/qualite-cotes.tsv",
+      "ajouts": 0,
+      "retraits": 1
+     },
+     {
+      "fichier": "mrp/donnees/qualite-hors-sujet.tsv",
+      "ajouts": 11,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/tests/e2e.sh",
+      "ajouts": 1,
+      "retraits": 1
+     }
+    ]
+   },
+   {
+    "sha": "fa48e020",
+    "date": "2026-09-24T03:09:24-04:00",
+    "auteur": "Claude",
+    "sujet": "Planche bille : les quatre panneaux dessinés",
+    "ajouts": 0,
+    "retraits": 0,
+    "fichiers": [
+     {
+      "fichier": "mrp/statique/planches/bille-1-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/bille-1.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/bille-2-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/bille-2.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/bille-3-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/bille-3.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/bille-4-mini.webp",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/bille-4.webp",
+      "ajouts": 0,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "644d75a0",
+    "date": "2026-09-24T03:03:05-04:00",
+    "auteur": "Claude",
+    "sujet": "La bille du cache-cou enfant a sa propre planche",
+    "ajouts": 8,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "mrp/donnees/planches-prompts.tsv",
+      "ajouts": 4,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/pictos.js",
+      "ajouts": 4,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "55419054",
+    "date": "2026-09-24T02:51:23-04:00",
+    "auteur": "Claude",
+    "sujet": "Curseur : à droite de qui porte le manteau, et non selon le genre",
+    "ajouts": 133,
+    "retraits": 10,
+    "fichiers": [
+     {
+      "fichier": "mrp/donnees/charte-produits.tsv",
+      "ajouts": 1,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/donnees/planches-prompts.tsv",
+      "ajouts": 4,
+      "retraits": 4
+     },
+     {
+      "fichier": "mrp/outils/planches_ia.js",
+      "ajouts": 27,
+      "retraits": 6
+     },
+     {
+      "fichier": "mrp/statique/planches/sources/curseur_genre-1.png",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/sources/curseur_genre-1.svg",
+      "ajouts": 22,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/sources/curseur_genre-2.png",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/sources/curseur_genre-2.svg",
+      "ajouts": 18,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/sources/curseur_genre-3.png",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/sources/curseur_genre-3.svg",
+      "ajouts": 18,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/sources/curseur_genre-4.png",
+      "ajouts": 0,
+      "retraits": 0
+     },
+     {
+      "fichier": "mrp/statique/planches/sources/curseur_genre-4.svg",
+      "ajouts": 43,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "bde5b4e4",
+    "date": "2026-09-24T02:50:53-04:00",
+    "auteur": "Claude",
+    "sujet": "fb-backlog: la regle 4 est la plus violee des huit, pas des sept",
+    "ajouts": 1,
+    "retraits": 1,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/REGLES.md",
+      "ajouts": 1,
+      "retraits": 1
+     }
+    ]
+   },
+   {
+    "sha": "2c3f5219",
+    "date": "2026-09-24T02:48:09-04:00",
+    "auteur": "Claude",
+    "sujet": "Etendre l'interdiction du cadratin au double trait d'union",
+    "ajouts": 3,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/REGLES.md",
+      "ajouts": 2,
+      "retraits": 1
+     },
+     {
+      "fichier": "fb-backlog/traiter.js",
+      "ajouts": 1,
+      "retraits": 1
+     }
+    ]
+   },
+   {
+    "sha": "9d59329a",
+    "date": "2026-09-24T02:48:06-04:00",
+    "auteur": "Claude",
+    "sujet": "Backlog Facebook: interdire le cadratin dans les reponses publiees",
+    "ajouts": 22,
+    "retraits": 0,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/REGLES.md",
+      "ajouts": 5,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/traiter.js",
+      "ajouts": 17,
+      "retraits": 0
+     }
+    ]
+   },
+   {
+    "sha": "f046c33f",
+    "date": "2026-09-24T00:52:53-04:00",
+    "auteur": "Claude",
+    "sujet": "Backlog Facebook tir C: 1 reponse publiee, 2 ecartees (24 septembre, 0 h)",
+    "ajouts": 31,
+    "retraits": 2,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/C-a-revoir.json",
+      "ajouts": 20,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/C-journal.jsonl",
+      "ajouts": 1,
+      "retraits": 0
+     },
+     {
+      "fichier": "fb-backlog/etat/C-repondus.json",
+      "ajouts": 10,
+      "retraits": 2
+     }
+    ]
+   },
+   {
+    "sha": "2d71d3ef",
+    "date": "2026-09-24T00:26:59-04:00",
+    "auteur": "Claude",
+    "sujet": "Tir B 0h: 0 publiee, 2 ecartees",
+    "ajouts": 20,
+    "retraits": 0,
+    "fichiers": [
+     {
+      "fichier": "fb-backlog/etat/B-a-revoir.json",
+      "ajouts": 20,
+      "retraits": 0
+     }
+    ]
+   }
+  ],
+  "tete_main": "997ef141"
+ },
+ "facebook": {
+  "presents": true,
+  "tirs": {
+   "A": {
+    "page": "Lasclay",
+    "publiees": 3,
+    "confirmees": 3,
+    "non_confirmees": 0,
+    "erreurs": [],
+    "ecartes_du_jour": 2,
+    "dernier_journal": "2026-09-24T21:07:40.001Z",
+    "ecartes_total": 449,
+    "motifs_du_jour": [
+     "Affirme que l'asclepiade est comestible. Rien de verifie la-dessus dans faits-verifies.json, et le sujet touche la salubrite alimentaire (latex amer). Ni confirmer ni contredire sans source: a trancher par un humain.",
+     "Dossier de commande: la personne dit ne pas avoir de reponse et demande un contact prive pour une commande. Garde-fou 7, aucune reponse publique. A reprendre par le support en message prive (intention d'achat 3, relance a faire)."
+    ],
+    "heures_sans_publication": [
+     "10",
+     "13",
+     "14",
+     "15",
+     "16"
+    ],
+    "repartition": [
+     {
+      "heure": "09",
+      "n": 1
+     },
+     {
+      "heure": "10",
+      "n": 0
+     },
+     {
+      "heure": "11",
+      "n": 1
+     },
+     {
+      "heure": "13",
+      "n": 0
+     },
+     {
+      "heure": "14",
+      "n": 0
+     },
+     {
+      "heure": "15",
+      "n": 0
+     },
+     {
+      "heure": "16",
+      "n": 0
+     },
+     {
+      "heure": "17",
+      "n": 1
+     }
+    ]
+   },
+   "B": {
+    "page": "The Milkweed Company",
+    "publiees": 5,
+    "confirmees": 5,
+    "non_confirmees": 0,
+    "erreurs": [],
+    "ecartes_du_jour": 91,
+    "dernier_journal": "2026-09-25T00:31:17.540Z",
+    "ecartes_total": 2749,
+    "motifs_du_jour": [
+     "rapproche lasclepiade du chanvre - aucune question, et le chanvre sort des faits verifies",
+     "message decousu adresse a un tiers, remede populaire du cuivre et de largenterie - hors de portee de la Page",
+     "diatribe: negation du dereglement climatique, theorie sur Pearl Harbor, accusation dendoctrinement - aucune question, rien a repondre",
+     "constat de rarefaction sans question - la seule reponse possible serait de vendre la semence, deja publiee deux fois sur ce billet",
+     "echange entre abonnes sur le statut de mauvaise herbe nuisible au Maryland et en Virginie-Occidentale - reglementation hors des faits verifies",
+     "recit de filage de la soie en fil - la filabilite de la fibre est un trou des faits verifies, merite un humain",
+     "remarque sur la quenouille - aucune question, hors des faits verifies",
+     "reponse enthousiaste a notre propre commentaire affirmant que nous plantons des quantites massives dasclepiade - la Page achete de cultivateurs commerciaux, repondre ici reconduirait ou corrigerait publiquement laffirmation, decision humaine",
+     "souvenir de cueillette de guerre - meme theme que le commentaire servi dans ce lot, on ne publie pas deux textes voisins sur le meme fil",
+     "mention minimale dune talle au jardin, aucune question - toute reponse serait du remplissage",
+     "echange entre abonnes sur limportance de lasclepiade pour le monarque - aucune question, et le sujet est sature",
+     "message inintelligible, rien a repondre",
+     "mise en cause de lepandage dherbicide sur les emprises routieres - hors des faits verifies",
+     "affirmation que les talles dasclepiade signalaient luranium dans le sol et servaient aux prospecteurs - aucune question, et la Page ne peut ni confirmer ni corriger sans sortir des faits verifies",
+     "remerciement general sans question - la Page a deja publie deux reconnaissances sur ce billet aujourdhui, une troisieme sonnerait automatique",
+     "echange entre abonnes decouvrant lusage textile - aucune question adressee a la Page",
+     "fin de dispute entre abonnes sur le statut de mauvaise herbe, ton excede - rien a repondre",
+     "mention breve dune plantation en Illinois, aucune question",
+     "remarque dadmiration sans contenu, rien a repondre",
+     "affirmation historique sur les recherches dEdison en Floride pour remplacer le caoutchouc - hors des faits verifies, la Page ne peut ni confirmer ni nuancer",
+     "remarque patriotique generale, aucune question",
+     "MERITE UN HUMAIN: belle-mere de 89 ans qui a ramasse les cosses enfant sur une ferme laitiere du Michigan et qui a ignore toute sa vie a quoi elles servaient. La seule reponse qui vaudrait serait de lui dire enfin a quoi elles servaient, ce qui touche les gilets de sauvetage et la flottabilite, un trou des faits verifies",
+     "du jour: un abonne corrige lui-meme un autre sur la distinction envahissante contre indigene, exactement ce que disent les faits verifies - la Page naurait rien a ajouter et endosserait un abonne contre un autre",
+     "echange entre abonnes sur le partage de la ressource avec le monarque",
+     "remerciement general sans question",
+     "rapprochement avec une bande dessinee de Boys Life, invérifiable",
+     "MERITE UN HUMAIN: affirme que lasclepiade empoisonne et ballonne le betail - toxicite animale, trou des faits verifies, sujet recurrent depuis une semaine",
+     "allusion aux allergies - les allegations hypoallergeniques sont un trou des faits verifies",
+     "MERITE UN HUMAIN: affirme que lasclepiade guerit lherbe a puce - remede populaire sur une plante a latex irritant, la Page ne peut ni confirmer ni laisser croire",
+     "statut de mauvaise herbe nuisible et amendes, hors des faits verifies",
+     "MERITE UN HUMAIN: conseils detailles de consommation des cosses, avec distinction entre especes comestibles et non comestibles - la comestibilite est un trou des faits verifies et le conseil circule sans contradiction",
+     "plante jugee nuisible dans les champs de foin, hors des faits verifies",
+     "souvenir de cueillette de guerre deja resolu par labonne lui-meme, et meme theme que celui deja traite",
+     "abonne qui en corrige un autre sur lorigine de la fibre, correction deja juste",
+     "remarque hors sujet sur les genres",
+     "abonne qui invective les autres commentateurs sur leur comprehension de lecture - la Page ne peut pas endosser",
+     "echange sur lorigine du surnom Mae West des gilets, touche les gilets de sauvetage, trou des faits verifies",
+     "meme echange sur Mae West, meme motif",
+     "MERITE UN HUMAIN: un abonne affirme dans notre propre fil que lannonce vient dun cultivateur dasclepiade, donc que nous cultivons - or Lasclay achete de cultivateurs commerciaux. Corriger contredirait publiquement notre propre commentaire toujours en ligne qui dit que nous plantons des quantites massives",
+     "reponse dun mot a notre propre commentaire, aucun contenu"
+    ],
+    "heures_sans_publication": [
+     "09",
+     "10",
+     "11",
+     "13",
+     "14",
+     "15",
+     "16",
+     "17"
+    ],
+    "repartition": [
+     {
+      "heure": "09",
+      "n": 0
+     },
+     {
+      "heure": "10",
+      "n": 0
+     },
+     {
+      "heure": "11",
+      "n": 0
+     },
+     {
+      "heure": "13",
+      "n": 0
+     },
+     {
+      "heure": "14",
+      "n": 0
+     },
+     {
+      "heure": "15",
+      "n": 0
+     },
+     {
+      "heure": "16",
+      "n": 0
+     },
+     {
+      "heure": "17",
+      "n": 0
+     }
+    ]
+   },
+   "C": {
+    "page": "Milkweed & Monarchs",
+    "publiees": 22,
+    "confirmees": 22,
+    "non_confirmees": 0,
+    "erreurs": [],
+    "ecartes_du_jour": 93,
+    "dernier_journal": "2026-09-24T23:56:44.538Z",
+    "ecartes_total": 2095,
+    "motifs_du_jour": [
+     "diatribe politique (extinction imputee a une administration) — hors faits verifies, aucune reponse possible sans prendre parti",
+     "simple mention d'un nom de club de jardinage, aucune question ni recit a repondre",
+     "insulte personnelle entre deux abonnes dans un echange politique (« Communist Parasite », « f'n loser ») : diatribe hors faits verifies, rien a repondre sans envenimer",
+     "« ou la planter » : plein soleil et plantation en talle publies il y a 16 h dans cette meme section, trop pres pour rejouer le meme fait",
+     "echange d'insultes politiques entre deux abonnes : diatribe, hors faits verifies",
+     "acheter des plants en jardinerie : la moitie utile de la reponse est la mise en garde neonicotinoides, publiee il y a 8 h dans cette section. A reprendre avec un angle neuf",
+     "insultes entre abonnes dans le meme fil politique : rien a repondre",
+     "reaction d'une ligne dans le meme fil d'insultes : aucun contenu a traiter",
+     "insulte directe dans le fil politique : diatribe, hors faits verifies",
+     "transplanter de l'asclepiade sauvage : rien de source sur la reprise apres transplantation, et ce serait un troisieme aveu de lacune dans le meme tir. A reprendre",
+     "« que l'Etat plante de l'asclepiade a la place des poiriers » : rien de source sur les programmes de plantation publics, et le registre bord de route / terrain public vient d'etre publie il y a 1 h dans cette section",
+     "semer en roulant a velo, abonne qui dit vouloir copier : aucun fait source frais pour porter la reponse (la stratification a l'automne, seule matiere solide ici, a ete publiee il y a 10 h). A reprendre",
+     "« how's yours doing, any grow? » adresse a un autre abonne apres deux jours : la reponse tiendrait sur la stratification, publiee il y a 11 h",
+     "sous-fil politique sarcastique sur l'administration : hors faits verifies",
+     "« endangered ne veut pas dire protege » : statut juridique publie il y a 15 h dans cette meme section. A reprendre",
+     "« un truc pour que ca pousse vraiment bien, j'essaie chaque annee sans succes » : 33e signalement d'echec de germination. La reponse tient entierement sur le traitement par le froid, publie il y a 11 h. A REPRENDRE EN PRIORITE des que l'ecart depasse 24 h",
+     "« comment la contenir » : agressive n'est pas envahissante publie il y a 2 h dans cette section",
+     "« d'ou les graines sont-elles postees ? » : question d'achat directe, mais AUCUN fait verifie sur le lieu d'expedition des commandes. Ne pas inventer. A soumettre pour enrichissement de faits-verifies.json",
+     "« comment les avez-vous demarrees ? » : meme fait que ci-dessus, stratification publiee il y a 11 h",
+     "epandage municipal contre les moustiques : la reponse sur les pesticides a ete publiee il y a 2 h. A reprendre, le temoignage est precis et merite une reponse",
+     "« je la laisse pousser » : deja repondu plusieurs fois cette semaine, rien de neuf a ajouter",
+     "trois mots d'enthousiasme, rien a repondre",
+     "phrase tronquee et incomprehensible, rien a traiter",
+     "simple identification d'une autre personne, aucun contenu",
+     "note de jardinage generale sans question",
+     "demande explicite de documentation sur le statut d'espece menacee : exactement notre fait, mais publie il y a 15 h dans cette section. A REPRENDRE, la personne demande une source",
+     "slogan d'encouragement, rien a repondre",
+     "« swamp milkweed la meilleure » : la comparaison entre especes par humidite n'est pas dans les faits verifies, et le cadrage d'incarnata reste suspendu",
+     "identification d'une personne suivie d'un emoji, aucun contenu",
+     "« a la ferme ou je suis on en a » : constat sans question",
+     "deux mots d'enthousiasme entre abonnes, aucun contenu",
+     "recit de plantation sans question ; la reponse retomberait sur le semis d'automne, publie il y a 12 h",
+     "champ de 3 acres plein d'asclepiade, des centaines de monarques : tres beau, mais le registre acreage vient d'etre publie il y a 1 h. A reprendre",
+     "« plusieurs varietes dans mon jardin du Sud-Ouest » : la liste des 11 especes a ete publiee il y a 4 h",
+     "« PLANTEZ SEULEMENT DES ESPECES INDIGENES » : on est d'accord, meme fait que ci-dessus, publie il y a 4 h",
+     "constat de croissance sans question",
+     "« toxique pour les chiens » : le fait de toxicite est traite ce tir-ci dans la reponse a la capture d'ecran. A reprendre a un autre tir",
+     "meme avertissement sur les chiens, meme fait deja engage ce tir-ci",
+     "constat de plantation sans question",
+     "quatre mots, rien a repondre"
+    ],
+    "heures_sans_publication": [
+     "14",
+     "15"
+    ],
+    "repartition": [
+     {
+      "heure": "09",
+      "n": 2
+     },
+     {
+      "heure": "10",
+      "n": 2
+     },
+     {
+      "heure": "11",
+      "n": 3
+     },
+     {
+      "heure": "13",
+      "n": 2
+     },
+     {
+      "heure": "14",
+      "n": 0
+     },
+     {
+      "heure": "15",
+      "n": 0
+     },
+     {
+      "heure": "16",
+      "n": 2
+     },
+     {
+      "heure": "17",
+      "n": 1
+     }
+    ]
+   },
+   "D": {
+    "page": "Asclepiade & papillons monarques",
+    "publiees": 31,
+    "confirmees": 31,
+    "non_confirmees": 0,
+    "erreurs": [],
+    "ecartes_du_jour": 0,
+    "dernier_journal": "2026-09-25T00:38:50.876Z",
+    "ecartes_total": 1659,
+    "motifs_du_jour": [],
+    "heures_sans_publication": [],
+    "repartition": [
+     {
+      "heure": "09",
+      "n": 1
+     },
+     {
+      "heure": "10",
+      "n": 4
+     },
+     {
+      "heure": "11",
+      "n": 1
+     },
+     {
+      "heure": "13",
+      "n": 1
+     },
+     {
+      "heure": "14",
+      "n": 2
+     },
+     {
+      "heure": "15",
+      "n": 3
+     },
+     {
+      "heure": "16",
+      "n": 2
+     },
+     {
+      "heure": "17",
+      "n": 2
+     }
+    ]
+   }
+  },
+  "total_publiees": 61,
+  "total_non_confirmees": 0
+ },
+ "routines": {
+  "present": true,
+  "total": 9,
+  "perimees": [
+   "Campagne points de vente"
+  ],
+  "inverifiables": [
+   "Ramassages Lasclay — resynchro de l'artefact",
+   "Ramassages Lasclay — lot d'étiquettes du mardi"
+  ],
+  "fiches": [
+   {
+    "id": "trig_01LP9vqvuYF6D8gcGoCaCKYo",
+    "nom": "Backlog Facebook — tir A (Lasclay)",
+    "cron_utc": "6 * * * *",
+    "horaire": "9 h à 17 h Est, pause à midi",
+    "note": "Chaque tir peut sauter volontairement (1 chance sur 6, 2 sur 6 la fin de semaine). Un trou d'une heure n'est pas un incident ; une journée entière sans ligne en est un.",
+    "trace": "jsonl",
+    "entrees_total": 230,
+    "derniere_trace": "2026-09-24T21:07:40.001Z",
+    "age_h": 4.6,
+    "seuil_h": 30,
+    "verdict": "à jour"
+   },
+   {
+    "id": "trig_017dWSszcNm3FirksENWC2ZX",
+    "nom": "Backlog Facebook — tir B (The Milkweed Company)",
+    "cron_utc": "24 * * * *",
+    "horaire": "9 h à 17 h Est, pause à midi",
+    "note": "Page à faible volume : plusieurs heures sans publication sont normales, l'écart se lit dans B-a-revoir.json.",
+    "trace": "jsonl",
+    "entrees_total": 234,
+    "derniere_trace": "2026-09-25T00:31:17.540Z",
+    "age_h": 1.2,
+    "seuil_h": 48,
+    "verdict": "à jour"
+   },
+   {
+    "id": "trig_01CV6P1ik7jjZ8B7dXcTP2D5",
+    "nom": "Backlog Facebook — tir C (Milkweed & Monarchs)",
+    "cron_utc": "47 * * * *",
+    "horaire": "9 h à 17 h Est, pause à midi",
+    "note": "Le plus gros débit des quatre tirs.",
+    "trace": "jsonl",
+    "entrees_total": 888,
+    "derniere_trace": "2026-09-24T23:56:44.538Z",
+    "age_h": 1.8,
+    "seuil_h": 30,
+    "verdict": "à jour"
+   },
+   {
+    "id": "trig_012UUNPBDS9xYrw93aBCCpwB",
+    "nom": "Backlog Facebook — tir D (Asclépiade & papillons monarques)",
+    "cron_utc": "36 * * * *",
+    "horaire": "9 h à 17 h Est, pause à midi",
+    "note": null,
+    "trace": "jsonl",
+    "entrees_total": 1047,
+    "derniere_trace": "2026-09-25T00:38:50.876Z",
+    "age_h": 1.1,
+    "seuil_h": 30,
+    "verdict": "à jour"
+   },
+   {
+    "id": "trig_01MpfDwYo8AMsBc5GC3SgQvf",
+    "nom": "Campagne points de vente",
+    "cron_utc": "0 13 * * 2-4",
+    "horaire": "mardi, mercredi, jeudi le matin",
+    "note": "Ne tourne pas le lundi ni le vendredi. Quand la file est vide, elle ne produit plus rien : vérifier file_attente.json avant d'appeler ça une panne.",
+    "trace": "git",
+    "chemin": "retail-expansion/",
+    "derniere_trace": "2026-08-24T18:50:21.000Z",
+    "age_h": 750.9,
+    "seuil_h": 192,
+    "verdict": "PÉRIMÉE"
+   },
+   {
+    "id": "trig_014uVrxtQCEYJHfepum5czgv",
+    "nom": "Sync skills claude.ai → repo",
+    "cron_utc": "23 10 * * *",
+    "horaire": "tous les jours",
+    "note": "Ne committe QUE s'il y a un changement. L'absence de commit est le cas normal — cette trace ne prouve rien à elle seule.",
+    "trace": "git",
+    "chemin": ".claude/skills/",
+    "derniere_trace": "2026-09-24T00:23:34.000Z",
+    "age_h": 25.3,
+    "seuil_h": 1440,
+    "verdict": "à jour"
+   },
+   {
+    "id": "trig_01UKZahS3efWGPqGWR5L9cht",
+    "nom": "Ramassages Lasclay — resynchro de l'artefact",
+    "cron_utc": "0 13,16,19,22,1 * * *",
+    "horaire": "cinq fois par jour",
+    "note": "Ne laisse aucune trace dans le dépôt : elle republie un artefact. Sans outils mcp__*, la revue ne peut pas la vérifier — le dire au lieu de la déclarer saine.",
+    "trace": "aucune",
+    "verdict": "invérifiable",
+    "detail": "cette routine ne laisse aucune trace dans le dépôt ; sans outils mcp__* la revue ne peut pas se prononcer"
+   },
+   {
+    "id": "trig_016Bq8cq3sQjpCoSFYKJmWiH",
+    "nom": "Ramassages Lasclay — lot d'étiquettes du mardi",
+    "cron_utc": "0 11 * * 2",
+    "horaire": "mardi matin",
+    "note": "Livre des fichiers dans la session, rien dans le dépôt. Même angle mort que la précédente.",
+    "trace": "aucune",
+    "verdict": "invérifiable",
+    "detail": "cette routine ne laisse aucune trace dans le dépôt ; sans outils mcp__* la revue ne peut pas se prononcer"
+   },
+   {
+    "id": "trig_017tFgWR75UBgBu5FhwJQ9Bh",
+    "nom": "Revue quotidienne — contrôle qualité",
+    "cron_utc": "41 1 * * *",
+    "horaire": "21 h 40 Est",
+    "note": "La revue se surveille elle-même : un tour qui ne committe rien est un tour raté.",
+    "trace": "git",
+    "chemin": "revue/",
+    "derniere_trace": "2026-09-24T01:45:41.000Z",
+    "age_h": 23.9,
+    "seuil_h": 48,
+    "verdict": "à jour"
+   }
+  ]
+ },
+ "sante": [
+  {
+   "service": "missive-proxy",
+   "url": "https://proxy-missive.onrender.com/health",
+   "statut": 200,
+   "ok": true,
+   "ms": 375,
+   "extrait": "{\"ok\":true,\"service\":\"missive-proxy\"}"
+  },
+  {
+   "service": "general-proxy",
+   "url": "https://general-proxy-5muf.onrender.com/connectors",
+   "statut": 200,
+   "ok": true,
+   "ms": 294,
+   "extrait": "{\"connectors\":{\"shipstation\":{\"description\":\"ShipStation v1 (commandes, expéditions, suivi) — accès complet (lecture + écriture; les étiquettes débitent le wallet).\",\"enabled\":true,\"actions\":[\"orders\",\"order\",\"shipments\",\"fulfillments\",\"carriers\",\"stores\",\"warehouses\",\"listtags\",\"carrier\",\"listservi"
+  },
+  {
+   "service": "finance-proxy",
+   "url": "https://qbo-proxy-0jhc.onrender.com/health",
+   "statut": 200,
+   "ok": true,
+   "ms": 393,
+   "extrait": "{\"ok\":true,\"service\":\"finance-proxy\"}"
+  }
+ ],
+ "registre": {
+  "present": true,
+  "total": 17,
+  "par_etat": {
+   "proposee": 15,
+   "reportee": 2
+  },
+  "a_appliquer": [],
+  "en_attente": [
+   {
+    "id": "R-20260923-01",
+    "titre": "Comparer chaque soir la liste des declencheurs actifs a revue/routines.json, et signaler tout ecart",
+    "gravite": "majeur",
+    "propose_le": "2026-09-23"
+   },
+   {
+    "id": "R-20260922-02",
+    "titre": "Faire entrer le statut reel des tirs de routine dans la collecte, pas seulement la trace au depot",
+    "gravite": "majeur",
+    "propose_le": "2026-09-22"
+   },
+   {
+    "id": "R-20260922-01",
+    "titre": "Pre-approuver les outils dont chaque routine a besoin, pour qu'une demande de permission ne tue plus un tir",
+    "gravite": "bloquant",
+    "propose_le": "2026-09-22"
+   },
+   {
+    "id": "R-20260920-01",
+    "titre": "Sortir les commentaires « a reprendre » du fichier des ecarts et les remettre en file",
+    "gravite": "majeur",
+    "propose_le": "2026-09-20"
+   },
+   {
+    "id": "R-20260912-01",
+    "titre": "Juger les tirs du backlog sur le travail qui reste, pas sur le temps ecoule",
+    "gravite": "majeur",
+    "propose_le": "2026-09-12"
+   },
+   {
+    "id": "R-20260905-01",
+    "titre": "Faire entrer les echecs 502 et les doublons dans la mesure de qualite",
+    "gravite": "majeur",
+    "propose_le": "2026-09-05"
+   },
+   {
+    "id": "R-20260903-01",
+    "titre": "Compter le reproche d'inauthenticite sur des formes multi-mots, validees sur trois cas connus",
+    "gravite": "majeur",
+    "propose_le": "2026-09-03"
+   },
+   {
+    "id": "R-20260831-04",
+    "titre": "Recolter les trous de faits-verifies.json que les motifs d'ecart nomment deja",
+    "gravite": "mineur",
+    "propose_le": "2026-08-31"
+   },
+   {
+    "id": "R-20260831-03",
+    "titre": "Compter les brouillons non envoyes et leur age dans la collecte",
+    "gravite": "majeur",
+    "propose_le": "2026-08-31"
+   },
+   {
+    "id": "R-20260831-02",
+    "titre": "Router les ecarts marques « a traiter par un humain » hors du fichier a-revoir",
+    "gravite": "majeur",
+    "propose_le": "2026-08-31"
+   },
+   {
+    "id": "R-20260831-01",
+    "titre": "Reconcilier l'inventaire des routines, et cesser de supposer mcp__* absent",
+    "gravite": "majeur",
+    "propose_le": "2026-08-31"
+   },
+   {
+    "id": "R-20260830-03",
+    "titre": "Trancher dans REGLES.md le cas des felicitations generiques sur un billet deja repondu",
+    "gravite": "mineur",
+    "propose_le": "2026-08-30"
+   },
+   {
+    "id": "R-20260830-02",
+    "titre": "Compter les ecarts du tir D, qui n'entrent dans aucun total",
+    "gravite": "majeur",
+    "propose_le": "2026-08-30"
+   },
+   {
+    "id": "R-20260830-01",
+    "titre": "Mesurer la campagne points de vente sur ses envois, pas sur ses commits",
+    "gravite": "majeur",
+    "propose_le": "2026-08-30"
+   },
+   {
+    "id": "R-20260829-01",
+    "titre": "Rendre les journaux Render lisibles par la revue",
+    "gravite": "majeur",
+    "propose_le": "2026-08-29"
+   }
+  ]
+ },
+ "revues_precedentes": [
+  {
+   "jour": "2026-09-23",
+   "revue": "revue/jour/2026-09-23/revue.md"
+  },
+  {
+   "jour": "2026-09-22",
+   "revue": "revue/jour/2026-09-22/revue.md"
+  },
+  {
+   "jour": "2026-09-21",
+   "revue": "revue/jour/2026-09-21/revue.md"
+  },
+  {
+   "jour": "2026-09-20",
+   "revue": "revue/jour/2026-09-20/revue.md"
+  },
+  {
+   "jour": "2026-09-19",
+   "revue": "revue/jour/2026-09-19/revue.md"
+  },
+  {
+   "jour": "2026-09-18",
+   "revue": "revue/jour/2026-09-18/revue.md"
+  },
+  {
+   "jour": "2026-09-17",
+   "revue": "revue/jour/2026-09-17/revue.md"
+  }
+ ],
+ "non_collecte": [
+  "Statut déclaré des routines (last_run) : MCP list_triggers, indisponible dans une session de Routine — la section routines ci-dessus juge sur la trace, pas sur le statut.",
+  "Sessions Claude du jour : MCP list_sessions, indisponible dans une session de Routine — leur trace exploitable est faite de commits, branches et artefacts.",
+  "Conversations Missive : node missive_client.js — l'agent le fait.",
+  "Journaux Render : aucune RENDER_API_KEY dans l'environnement, seules les sondes HTTP ci-dessus sont possibles."
+ ]
+}

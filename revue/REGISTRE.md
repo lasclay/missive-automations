@@ -5,13 +5,23 @@ la source est `revue/registre.json`, et tout changement d'état passe par le scr
 
 | État | Nombre |
 | --- | --- |
-| proposee | 15 |
+| proposee | 16 |
 | approuvee | 0 |
 | appliquee | 0 |
 | refusee | 0 |
 | reportee | 2 |
 
-## En attente d'approbation (15)
+## En attente d'approbation (16)
+
+### R-20260924-01 — Mettre la campagne points de vente en pause le temps de trouver pourquoi ses tirs ne livrent rien
+
+- **Gravité** : majeur · **Effort** : 5 min pour la pause, le diagnostic est a part · **Proposé le** : 2026-09-24
+- **Source** : revue 2026-09-24
+- **Constat** : Trois tirs mesures finissent SUCCEEDED, depensent de l'argent et ne produisent aucun envoi ni aucun commit : 17 sept. 1,40 $ US, 23 sept. 4,74 $, 24 sept. 1,38 $ — 7,52 $ au total. journal_envois.json compte 30 entrees dont la derniere du 6 aout, et la branche retail-expansion n'a pas bouge depuis le 24 aout. La routine tire les mardis, mercredis et jeudis : la depense se repete trois fois par semaine, et chaque tir laisse une session REVIEW_READY que personne ne lit. Tant que la cause n'est pas trouvee, chaque tir supplementaire ne fait que couter.
+- **Preuve** : trig_01MpfDwYo8AMsBc5GC3SgQvf last_run SUCCEEDED fired_at 2026-09-24T13:03:22Z finished_at 13:08:26 ; sessions session_01JtoX9bUfE3Djoot75yod1q (17 sept., cost_usd 1.395), session_01QEz7goqRjcW7AhEfgUFN9f (23 sept., cost_usd 4.739), session_01KPSAbDHqwfzWsbi9GghP4A (24 sept., cost_usd 1.378), toutes status_bucket REVIEW_READY et unread. origin/claude/lasclay-retail-expansion-v6jay7 dernier commit bc8f3097 du 2026-08-24 ; journal_envois.json 30 entrees, derniere date 2026-08-06.
+- **Proposition** : Desactiver trig_01MpfDwYo8AMsBc5GC3SgQvf avec update_trigger (enabled: false) — jamais delete_trigger, l'historique et le prompt doivent rester — puis lire la session du 24 septembre pour trouver ou le tour s'arrete, et ne reactiver qu'une fois un envoi verifie dans journal_envois.json.
+- **Portée** : trig_01MpfDwYo8AMsBc5GC3SgQvf uniquement ; aucun fichier du depot
+- **Risque** : La pause arrete aussi les relances dues aux commerces deja contactes : les fiches a l'etat envoye depuis plus de huit jours attendront plus longtemps. Rien ne part aujourd'hui de toute facon, donc la pause ne retire rien — mais elle doit etre levee des que la cause est connue, pas oubliee.
 
 ### R-20260923-01 — Comparer chaque soir la liste des declencheurs actifs a revue/routines.json, et signaler tout ecart
 
