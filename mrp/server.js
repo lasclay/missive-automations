@@ -29,7 +29,7 @@ const { db, prochainNumero, avancementOrdre, listeFabrication, dernieresMaj,
         apercuProduction,
         taches, tache, compteTaches, equipe,
         protocole, couvertureQC, TYPES_QC, charteProduit,
-        checklistItem, blocageQC, etatQCOrdre,
+        checklistItem, blocageQC, etatQCOrdre, grilleCotes, enregistrerReleves,
         horsSujet, poserHorsSujet, retirerHorsSujet,
         filOrdre, filEnAttente, demandeOuverte, reglerDemandes, reglerFil,
         modifierFil, supprimerFil,
@@ -626,7 +626,27 @@ async function router(req, res, url, user) {
         }
 
         return html(res, V.vueChecklist({ user, msg, ordre: o,
-          c: checklistItem(it.id) }));
+          c: checklistItem(it.id), grille: grilleCotes(it.produit_id, { itemId: it.id }) }));
+      }
+    }
+
+    // ---- les mesures réelles d'un lot, à côté des cotes théoriques
+    // Ouvert aux deux rôles : c'est l'atelier qui a la pièce et le ruban.
+    {
+      const mc = reste.match(/^\/items\/(\d+)\/cotes$/);
+      if (mc && req.method === 'POST') {
+        const it = R.item.get(+mc[1], id);
+        if (!it) return vers(res, `/ordres/${id}?err=` + encodeURIComponent('Item introuvable.'));
+        const f = await corpsFormulaire(req);
+        const r = enregistrerReleves(it.produit_id, it.id, user.id, f);
+        const rt = String(f.retour || '');
+        const base = /^\/[a-z0-9/?=&_%.-]{0,200}$/i.test(rt) && !rt.startsWith('//')
+          ? rt : `/ordres/${id}/items/${it.id}/qualite`;
+        const avis = r.illisibles.length
+          ? 'err=' + encodeURIComponent(`${r.n} mesure(s) enregistrée(s) ; illisible(s) : ${r.illisibles.join(', ')}.`)
+          : 'ok=' + encodeURIComponent(r.n ? `${r.n} mesure${r.n > 1 ? 's' : ''} enregistrée${r.n > 1 ? 's' : ''}.`
+                                           : 'Aucune mesure nouvelle.');
+        return vers(res, base + (base.includes('?') ? '&' : '?') + avis + '#cotes');
       }
     }
 
@@ -1121,7 +1141,18 @@ async function router(req, res, url, user) {
       const retour = /^\/[a-z0-9/?=&#_-]{0,120}$/i.test(r) && r
         ? { href: r, texte: 'Revenir à la liste' }
         : { href: '/qualite/general', texte: 'Procédés généraux' };
-      return html(res, V.vuePlanche({ user, msg, point, retour }));
+      // Arrivée depuis un lot (la liste à cocher passe `item`) : la grille des
+      // cotes y est éditable, pour saisir les mesures sans changer de page.
+      let grille = null, action = null;
+      const itemId = Number(q.get('item')) || 0;
+      const pp = db.prepare(`SELECT produit_id FROM qc_points WHERE id = ?`).get(point.id);
+      const lot = itemId ? db.prepare(`SELECT id, ordre_id, produit_id FROM ordre_items WHERE id = ?`).get(itemId) : null;
+      if (lot && pp && lot.produit_id === pp.produit_id) {
+        grille = grilleCotes(lot.produit_id, { itemId: lot.id });
+        action = `/ordres/${lot.ordre_id}/items/${lot.id}/cotes`;
+      } else if (pp && pp.produit_id) grille = grilleCotes(pp.produit_id);
+      return html(res, V.vuePlanche({ user, msg, point, retour, grille, action,
+        ici: req.url.replace(/[?&](ok|err)=[^&#]*/g, '').replace(/#.*$/, '') }));
     }
   }
 
@@ -1321,6 +1352,7 @@ async function router(req, res, url, user) {
       }
       return html(res, V.vueProtocole({ user, msg, p: prod,
         proto: protocole(prod.id), photos: R.photos.all(prod.id),
+        grille: grilleCotes(prod.id),
         bris: brisProduit(prod.id), appuis: brisParPoint(prod.id),
         ecartes: horsSujet(prod.id) }));
     }

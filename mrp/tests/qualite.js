@@ -260,5 +260,60 @@ t('les quatre onglets existent, « tous » compris',
     !gen || db.prepare(`SELECT COUNT(*) n FROM qc_hors_sujet WHERE cree_par = ?`).get(u).n === 1);
 }
 
+/* ============================== cotes : théorique à côté du réel ========= */
+{
+  const { coteFinie, PERTE } = require('../import_cotes.js');
+  const D = require('../db.js');
+  const V = require('../vues.js');
+  // La formule : une largeur perd (π/2 − 1) × épaisseur, une longueur fermée
+  // d'un seul bout la moitié, un diamètre rien.
+  t('une largeur à plat perd (π/2 − 1) × épaisseur',
+    Math.abs(coteFinie(143, 2, 16) - (143 - PERTE * 16)) < 0.06);
+  t('une longueur fermée d\'un bout n\'en perd que la moitié',
+    Math.abs(coteFinie(314, 1, 16) - (314 - PERTE * 8)) < 0.06);
+  t('sans cote de patron, pas de théorique (pièce étalon)', coteFinie(null, 1, 12) === null);
+  // Le jugement.
+  t('dans la tolérance = vert', D.ecartCote(134, 136, '± 3').etat === 'ok');
+  t('hors tolérance = rouge', D.ecartCote(134, 140, '± 3').etat === 'ko');
+  t('un minimum se juge par-dessous seulement',
+    D.ecartCote(140, 150, 'min').etat === 'ok' && D.ecartCote(140, 130, 'min').etat === 'ko');
+  t('sans théorique, on montre sans juger', D.ecartCote(null, 200, '± 5').etat === 'info');
+
+  const mp = db.prepare(`SELECT id FROM produits WHERE code = 'MIT-POLAR'`).get().id;
+  db.prepare(`DELETE FROM cotes_theoriques WHERE produit_id = ?`).run(mp);
+  const insT = db.prepare(`INSERT INTO cotes_theoriques (produit_id, num, nom, taille, rang_taille,
+    couture_mm, valeur_mm, tolerance, titre_point, ep_statut, ep_detail) VALUES (?,?,?,?,?,?,?,?,?,?,?)`);
+  const TITRE = 'Cotes hors-tout et incréments de gradation, contre le patron';
+  insT.run(mp, 1, 'Largeur', 'S', 1, 133, 125, '± 3', TITRE, 'supposée', 'corps 14 mm');
+  insT.run(mp, 1, 'Largeur', 'M', 2, 143, 135, '± 3', TITRE, 'supposée', 'corps 14 mm');
+  insT.run(mp, 5, 'Coin → bout du pouce', 'M', 2, null, null, '± 5', TITRE, 'supposée', 'corps 14 mm');
+  const o2 = db.prepare(`INSERT INTO ordres (numero, titre, statut) VALUES (?,?, 'planifie')`)
+    .run(`OP-COT-${process.pid}`, 'Cotes').lastInsertRowid;
+  const lotA = db.prepare(`INSERT INTO ordre_items (ordre_id, produit_id, quantite) VALUES (?,?,?)`)
+    .run(o2, mp, 5).lastInsertRowid;
+  const lotB = db.prepare(`INSERT INTO ordre_items (ordre_id, produit_id, quantite) VALUES (?,?,?)`)
+    .run(o2, mp, 5).lastInsertRowid;
+  const r1 = D.enregistrerReleves(mp, lotA, u,
+    { v_1_M: '136,5', v_1_S: '', v_5_M: '202', v_9_M: '10', v_1_XL: '99', v_1_S2: 'x', retour: '/' });
+  t('la virgule décimale passe, une case vide n\'écrit rien, une cote inconnue est ignorée',
+    r1.n === 2 && r1.illisibles.length === 0, JSON.stringify(r1));
+  const r2 = D.enregistrerReleves(mp, lotA, u, { v_1_M: '136.5', v_1_S: 'abc' });
+  t('une valeur inchangée n\'est pas une nouvelle mesure ; l\'illisible est nommé',
+    r2.n === 0 && r2.illisibles.length === 1, JSON.stringify(r2));
+  D.enregistrerReleves(mp, lotB, u, { v_1_M: '141' });
+  const gA = D.grilleCotes(mp, { itemId: lotA });
+  const gB = D.grilleCotes(mp, { itemId: lotB });
+  const cM = (g, n) => g.lignes.find(l => l.num === n).cases.M;
+  t('chaque lot voit SES mesures', cM(gA, 1).reel.valeur_mm === 136.5 && cM(gB, 1).reel.valeur_mm === 141);
+  t('136,5 contre 135 ± 3 : vert ; 141 : rouge', cM(gA, 1).etat === 'ok' && cM(gB, 1).etat === 'ko');
+  t('la cote 5 sans théorique garde sa mesure', cM(gA, 5).theo === null && cM(gA, 5).reel.valeur_mm === 202);
+  const h = V.grilleCotesHTML(gA, { action: '/ordres/1/items/1/cotes', retour: '/x' });
+  t('la grille éditable a un champ par case, prérempli, et le bouton',
+    h.includes('name="v_1_M"') && h.includes('value="136,5"') && h.includes('Enregistrer les mesures réelles'));
+  t('elle dit que l\'épaisseur est supposée', h.includes('épaisseur supposée'));
+  const hl = V.grilleCotesHTML(D.grilleCotes(mp));
+  t('en lecture seule, pas de champ', !hl.includes('<input') && hl.includes('gc-ko'));
+}
+
 console.log(`\n  ${ok} ok, ${ko} ko\n`);
 process.exit(ko ? 1 : 0);

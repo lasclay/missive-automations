@@ -848,7 +848,61 @@ function schemaQC(q, largeur) {
      loading="lazy" alt="Schéma — ${e(q.titre)}"></a>`;
 }
 
-function pointQC({ q, produitId, editable, action = null, unites }) {
+
+/**
+ * La grille des cotes : une ligne par cote, et pour chaque taille la valeur
+ * THÉORIQUE à côté de la valeur RÉELLE. Côte à côte, parce que c'est comme ça
+ * que l'écart se voit : un chiffre seul ne dit pas s'il est bon.
+ *
+ * Éditable (un lot est ouvert) : la colonne « réel » est un champ, prérempli
+ * de la dernière mesure de CE lot ; un seul bouton enregistre toute la grille.
+ * Lecture seule (la page du protocole) : la dernière mesure, tous lots.
+ *
+ * Aucun JavaScript : un formulaire, des champs, un bouton. La ligne tunisienne
+ * décide de l'architecture.
+ */
+function grilleCotesHTML(g, { action = null, retour = '' } = {}) {
+  if (!g) return '';
+  const nb = (v) => v === null || v === undefined ? '' :
+    (Math.round(v * 10) / 10).toLocaleString('fr-CA');
+  const tete = `<tr><th rowspan="2" class="gc-nom">Cote (mm)</th>${
+    g.tailles.map(t => `<th colspan="2" class="gc-t">${e(t)}</th>`).join('')}</tr>
+    <tr>${g.tailles.map(() => '<th class="gc-sous">théo.</th><th class="gc-sous">réel</th>').join('')}</tr>`;
+  const corps = g.lignes.map(l => `<tr>
+    <th class="gc-nom"><span class="gc-num">${l.num}</span> ${e(l.nom)}${
+      l.tolerance ? ` <small>${e(l.tolerance)}</small>` : ''}</th>
+    ${g.tailles.map(t => {
+      const c = l.cases[t] || {};
+      const theo = c.theo === null || c.theo === undefined
+        ? '<td class="gc-theo gc-etalon" title="À relever sur la pièce étalon">étalon</td>'
+        : `<td class="gc-theo">${Math.round(c.theo)}</td>`;
+      const r = c.reel;
+      const ecart = r && c.ecart !== null
+        ? `<span class="gc-ecart">${c.ecart > 0 ? '+' : ''}${nb(c.ecart)}</span>` : '';
+      const reel = action
+        ? `<td class="gc-reel gc-${c.etat}"><input name="v_${l.num}_${e(t)}" inputmode="decimal"
+             autocomplete="off" size="4" value="${r ? nb(r.valeur_mm) : ''}"
+             aria-label="${e(l.nom)}, ${e(t)}, mesure réelle">${ecart}</td>`
+        : `<td class="gc-reel gc-${r ? c.etat : 'vide'}"${
+             r ? ` title="${e(r.par || '')} · ${e(r.cree_le)}"` : ''}>${r ? nb(r.valeur_mm) : '—'}${ecart}</td>`;
+      return theo + reel;
+    }).join('')}
+  </tr>`).join('');
+  const note = `<p class="gc-note">Théorique = cote du patron sur la ligne de couture, moins
+    l'arrondi des bords sur l'épaisseur à plat (${e(g.epDetail)}${
+    g.epStatut === 'supposée' ? ', <b>épaisseur supposée — à mesurer sur une vraie pièce</b>' : ''}).
+    Vert : dans la tolérance. Rouge : hors tolérance.</p>`;
+  const table = `<div class="gc-defile"><table class="grille-cotes">
+    <thead>${tete}</thead><tbody>${corps}</tbody></table></div>`;
+  if (!action) return `<div class="gc" id="cotes">${table}${note}</div>`;
+  return `<form method="post" action="${e(action)}" class="gc" id="cotes">
+    <input type="hidden" name="retour" value="${e(retour)}">
+    ${table}${note}
+    <p><button class="btn">Enregistrer les mesures réelles</button></p>
+  </form>`;
+}
+
+function pointQC({ q, produitId, editable, action = null, unites, grille = null }) {
   const mesure = q.type === 'mesure';
   // La cote porte son unité dans une colonne à part : « 1 » + « po ». Le
   // texte du détail, lui, peut en contenir en toutes lettres.
@@ -871,6 +925,7 @@ function pointQC({ q, produitId, editable, action = null, unites }) {
       ${q.appuis ? `<span class="qc-appui">${q.appuis} signalement${
         q.appuis > 1 ? 's' : ''} sur le terrain</span>` : ''}
       ${schemaQC(q, TAILLES.vignette)}
+      ${grille && q.titre === grille.titrePoint ? grilleCotesHTML(grille) : ''}
       ${PIC.planche(q.titre, { href: `/qualite/planche/${PIC.cle(q.titre)}` })}
       ${(() => {
         // Les morceaux du pied se joignent par « · ». Les concaténer avec un
@@ -904,7 +959,7 @@ function pointQC({ q, produitId, editable, action = null, unites }) {
  * mieux que deux sur un téléphone d'atelier, et un verdict qui part tout seul
  * ne se perd pas quand la page se recharge sur une connexion capricieuse.
  */
-function vueChecklist({ user, msg, ordre, c }) {
+function vueChecklist({ user, msg, ordre, c, grille = null }) {
   const { item, points, total, verifies, ecarts, restants, complet, vide } = c;
 
   const ligne = (q) => {
@@ -924,6 +979,9 @@ function vueChecklist({ user, msg, ordre, c }) {
         q.variante ? ` · ${e(q.variante)}` : ''}</p>` : ''}
       ${q.consequence ? `<p class="qc-cons">Sinon : ${e(q.consequence)}</p>` : ''}
       ${schemaQC(q, TAILLES.vignette)}
+      ${grille && q.titre === grille.titrePoint ? grilleCotesHTML(grille, {
+        action: `/ordres/${ordre.id}/items/${item.id}/cotes`,
+        retour: `/ordres/${ordre.id}/items/${item.id}/qualite` }) : ''}
       ${PIC.planche(q.titre, { href: `/qualite/planche/${PIC.cle(q.titre)}` })}
       ${q.ech && q.ech.pieces !== null ? `<p class="ck-ech">
         <b>${e(q.ech.texte)}</b>${q.ech.regle ? ` <span>(${e(q.ech.regle)})</span>` : ''}
@@ -1351,7 +1409,7 @@ function vueQCOrdre({ user, msg, ordre, lignes, cat = 'tous', vue = 'cartes',
                 )(U.convertirMesure(q.valeur, q.unite, user.unites)) : ''}`;
               return k
                 ? `<a class="ck-t ck-td" href="/qualite/planche/${k}?point=${
-                    q.id}&amp;retour=${encodeURIComponent(lien(l))}"
+                    q.id}&amp;item=${l.id}&amp;retour=${encodeURIComponent(lien(l))}"
                     title="Voir le geste en images">${dedans}
                     <i class="ck-pl" aria-hidden="true"></i></a>`
                 : `<span class="ck-t">${dedans}</span>`;
@@ -1451,7 +1509,7 @@ function rapportForm({ ordre, l, c }) {
  * dessus, en français, pour qui les lit ; les panneaux se suivent en dessous
  * et se comprennent sans.
  */
-function vuePlanche({ user, msg, point, retour }) {
+function vuePlanche({ user, msg, point, retour, grille = null, action = null, ici = '' }) {
   const corps = `
   <p class="fil-ariane"><a href="${e(retour.href)}">${e(retour.texte)}</a></p>
   <div class="entete"><div>
@@ -1461,12 +1519,14 @@ function vuePlanche({ user, msg, point, retour }) {
   ${point.consequence
     ? `<p class="qc-cons bd-cons">Sinon : ${e(point.consequence)}</p>` : ''}
   <div class="bd-schema">${schemaQC(point, TAILLES.plein)}</div>
+  ${grille && point.titre === grille.titrePoint
+    ? grilleCotesHTML(grille, action ? { action, retour: ici } : {}) : ''}
   ${PIC.plancheBD(point.titre)}
   <p class="bd-pied"><a class="btn sec" href="${e(retour.href)}">Revenir</a></p>`;
   return page({ titre: point.titre, user, corps, actif: 'qualite', msg });
 }
 
-function vueProtocole({ user, p, proto, msg, photos = [], bris = null,
+function vueProtocole({ user, p, proto, msg, photos = [], bris = null, grille = null,
                        appuis = {}, ecartes = [] }) {
   const editable = true;   // les deux rôles écrivent : c'est l'atelier qui voit les défauts
   // Chaque point sait combien de bris l'appuient : c'est ce qui le rend
@@ -1477,7 +1537,7 @@ function vueProtocole({ user, p, proto, msg, photos = [], bris = null,
       ${proto.par[cle].length ? `<span class="cpt">${proto.par[cle].length}</span>` : ''}</h2>
     ${proto.par[cle].length
       ? `<ul class="qc-liste">${proto.par[cle].map(q =>
-          pointQC({ q, produitId: p.id, editable, unites: user.unites })).join('')}</ul>`
+          pointQC({ q, produitId: p.id, editable, unites: user.unites, grille })).join('')}</ul>`
       : `<p class="vide">${aide}</p>`}
   </div>`;
 
@@ -3329,7 +3389,7 @@ function vueSuivi({ user, msg, recentes, immobiles, progression, jours }) {
   return page({ titre: 'Activité', user, corps, actif: 'suivi', msg });
 }
 
-module.exports = { e, urlImage, urlAcceptable, img, miniature, silhouette,
+module.exports = { e, grilleCotesHTML, urlImage, urlAcceptable, img, miniature, silhouette,
   vuePlanche,
   TAILLES, sousNavProduits,
   vueQualiteAccueil, vueQualiteProduits, vueQualiteGeneral, vueQCOrdres, vueQCOrdre, dateFR, dateHeureFR, jauge, page, vueConnexion,

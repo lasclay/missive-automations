@@ -1,0 +1,17 @@
+# Quels produits suivent quelle famille de cotes, et avec quelle épaisseur à plat.
+#
+# L'ÉPAISSEUR À PLAT est celle de la pièce finie posée sur la table, les deux
+# faces ensemble, mesurée au pied à coulisse sans écraser. Elle fait la
+# différence entre la cote du patron et la cote finie : un bord rembourré
+# s'arrondit, et la largeur à plat perd (π/2 − 1) × épaisseur. Sur une mitaine
+# de 15 mm d'épaisseur, c'est 9 mm de largeur. Ignorer ça ferait déclarer
+# trop étroites toutes les mitaines conformes.
+#
+# « statut » dit d'où vient le chiffre : « supposée » tant que personne ne l'a
+# mesurée sur une vraie pièce, « mesurée » ensuite. La grille l'affiche.
+# titre_point : le point du protocole sous lequel la grille s'affiche.
+produit	famille	titre_point	ep_corps	ep_pouce	ep_manchette	statut
+MIT-PLEIN-AIR	mitaines-adultes	Cotes hors-tout et incréments de gradation, contre le patron	16	12	5	supposée
+MIT-POLAR	mitaines-adultes	Cotes hors-tout et incréments de gradation, contre le patron	14	10	5	supposée
+MIT-LAINE	mitaines-adultes	Cotes hors-tout et incréments de gradation, contre le patron	14	10	5	supposée
+MIT-CUIR	mitaines-adultes	Cotes hors-tout et incréments de gradation, contre le patron	15	11	5	supposée

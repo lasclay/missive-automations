@@ -256,6 +256,13 @@ async function main() {
 
     if (r.panneau === '1') precedent = null;
 
+    // Un panneau DESSINÉ À LA MAIN (tracé exact, pas un dessin de modèle) ne se
+    // régénère jamais, même avec --refaire : un modèle d'image place mal une
+    // flèche de cote, et c'est précisément ce qu'on a dû corriger.
+    const exact = /^EXACT\b/.test(r.prompt);
+    if (exact) { console.log(`  = ${nom}   (tracé exact, ${r.prompt.slice(6, 60)}…)`);
+      if (fs.existsSync(chemin)) precedent = { data: fs.readFileSync(chemin), mime: 'image/webp' };
+      continue; }
     const vise = depuis && Number(r.panneau) >= depuis && Number(r.panneau) <= jusqua;
     if (fs.existsSync(chemin) && !refaire && !vise) {
       console.log(`  = ${nom}`);
