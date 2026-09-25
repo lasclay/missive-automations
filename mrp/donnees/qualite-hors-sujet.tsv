@@ -35,11 +35,138 @@
 # l'étiquette, les fils apparents — s'inspecte sur la tuque montée, où ces
 # points restent tous actifs. Sur la pièce seule, il ne reste que sa coupe :
 # 8 x 44 cm. Décision Admin QC.
+#
+# 24/09/2026 — le cache-cou adulte perd toute la séquence d'abrasion. Il ne
+# frotte contre rien : il se porte au cou, sans surface d'appui. Le double
+# frottement éprouve une zone exposée à l'usure — paume d'une mitaine, fond d'un
+# sac, assise d'un coussin — et ce produit n'en a pas. Les quatre points partent
+# ensemble parce qu'ils sont une seule procédure : le lavage n'existe au
+# protocole que pour révéler ce que le frottement a fait. Décision Admin QC.
+#
+# 24/09/2026 — le bandeau torsadé perd la séquence d'abrasion, comme le
+# cache-cou. Même raison : la séquence éprouve une surface d'appui exposée à
+# l'usure — paume d'une mitaine, fond d'un sac, assise d'un coussin — et un
+# bandeau n'en est pas une. Décision Admin QC.
+#
+# 24/09/2026 — le lavage sort de vingt-trois produits d'un coup. Raison unique :
+# le tissu est connu et éprouvé, donc le laver n'apprend rien. Ce n'est pas une
+# intuition : les quatre inventaires de matières premières du Drive, exercices
+# 2023 à 2026, montrent la viscose, le polar, le wadding, le mesh, le PVC et le
+# shell Commander WP présents CHAQUE année ; le canevas de coton, l'oxford nylon
+# et le polyester brossé depuis 2024.
+#
+# Le lavage RESTE sur huit produits, par décision explicite : les deux manteaux,
+# les mitaines LAINE (MIT-LAINE), les mitaines CUIR + LAINE (MIT-CUIR — le code
+# ne dit que le cuir, mais la pièce porte les deux), les mitaines bébé, les deux
+# sacs de couchage et l'oreiller de camping. Trois de leurs matières — laine, cuir, toile de polyester — ne
+# figurent dans AUCUN des quatre inventaires, donc rien ne permet de les dire
+# éprouvées.
 produit	titre	motif
 BANDEAU-TUQUE	Comparaison avec la photo de la boutique	Aucune fiche en ligne : le bandeau tuque urbaine ne se vend pas, il n'y a pas de photo à laquelle comparer.
 BANDEAU-TUQUE	Fils qui dépassent — les retirer et les couper	Pièce intérieure prise entre la coque et la doublure de la TUQUE-VILLE : ses fils ne sont ni vus ni touchés une fois la tuque montée. Le point reste actif sur la tuque finie. Décision Admin QC, 23/09/2026.
-BANDEAU-TUQUE	Double frottement — 1. à sec	Le bandeau ne frotte contre rien, il est enfermé dans la tuque. L'abrasion se teste sur la TUQUE-VILLE finie, où le point reste actif. Décision Admin QC, 23/09/2026.
+BANDEAU-TUQUE	Double frottement — 1. à sec	Le bandeau ne frotte contre rien, il est enfermé dans la tuque. Et depuis le 24/09/2026 l'abrasion ne se teste plus que sur les mitaines et les gants : elle est donc écartée de la TUQUE-VILLE aussi. Décision Admin QC.
 BANDEAU-TUQUE	Lavage à l’eau froide, séchage au soleil	Le bandeau ne se lave jamais seul : il part au lavage dans la tuque. La séquence se fait sur la TUQUE-VILLE. Décision Admin QC, 23/09/2026.
 BANDEAU-TUQUE	Double frottement — 2. après gel et humidité	Deuxième moitié de la séquence de lavage, qui ne se fait pas sur la pièce seule. Décision Admin QC, 23/09/2026.
 BANDEAU-TUQUE	Après la séquence : ce qu’on compare	Sans séquence de lavage sur la pièce, il n'y a rien à comparer. La comparaison se fait sur la TUQUE-VILLE. Décision Admin QC, 23/09/2026.
 BANDEAU-TUQUE	Étiquette — sens, position, lisibilité	Composant intérieur non vendu : il ne porte pas d'étiquette. C'est la TUQUE-VILLE qui en porte une, et le point y reste actif. Décision Admin QC, 23/09/2026.
+CACHE-COU	Double frottement — 1. à sec	Un cache-cou ne frotte contre rien : porté au cou, il n'a pas de surface d'appui exposée à l'abrasion. Décision Admin QC, 24/09/2026.
+CACHE-COU	Lavage à l’eau froide, séchage au soleil	Deuxième temps de la séquence d'abrasion, écartée en entier sur ce produit : le lavage n'est au protocole que pour révéler ce que le frottement a fait. Décision Admin QC, 24/09/2026.
+CACHE-COU	Double frottement — 2. après gel et humidité	Troisième temps de la séquence d'abrasion, écartée en entier sur ce produit. Décision Admin QC, 24/09/2026.
+CACHE-COU	Après la séquence : ce qu’on compare	Sans séquence d'abrasion, il n'y a rien à comparer. Décision Admin QC, 24/09/2026.
+BANDEAU	Double frottement — 1. à sec	Le bandeau n'est pas une pièce soumise à l'abrasion : il n'a pas de surface d'appui exposée à l'usure. Décision Admin QC, 24/09/2026.
+BANDEAU	Lavage à l’eau froide, séchage au soleil	Tissu connu et éprouvé : le lavage n'apprendrait rien sur une viscose déjà en production depuis des saisons. Ce n'est pas seulement le deuxième temps de la séquence d'abrasion écartée — c'est une raison à part. Décision Admin QC, 24/09/2026.
+BANDEAU	Double frottement — 2. après gel et humidité	Troisième temps de la séquence d'abrasion, écartée en entier sur ce produit. Décision Admin QC, 24/09/2026.
+BANDEAU	Après la séquence : ce qu’on compare	Sans séquence d'abrasion, il n'y a rien à comparer. Décision Admin QC, 24/09/2026.
+BESACE	Lavage à l’eau froide, séchage au soleil	Tissu connu et éprouvé : le lavage n'apprendrait rien. Validé sur les quatre inventaires de matières premières du Drive, 2023 à 2026 — la matière y est présente chaque année. Décision Admin QC, 24/09/2026.
+CACHE-COU-ENF-18M4A	Lavage à l’eau froide, séchage au soleil	Tissu connu et éprouvé : le lavage n'apprendrait rien. Validé sur les quatre inventaires de matières premières du Drive, 2023 à 2026 — la matière y est présente chaque année. Décision Admin QC, 24/09/2026.
+CACHE-COU-ENF-5A13A	Lavage à l’eau froide, séchage au soleil	Tissu connu et éprouvé : le lavage n'apprendrait rien. Validé sur les quatre inventaires de matières premières du Drive, 2023 à 2026 — la matière y est présente chaque année. Décision Admin QC, 24/09/2026.
+CHANDAIL	Lavage à l’eau froide, séchage au soleil	Tissu connu et éprouvé : le lavage n'apprendrait rien. Validé sur les quatre inventaires de matières premières du Drive, 2023 à 2026 — la matière y est présente chaque année. Décision Admin QC, 24/09/2026.
+COUSSIN	Lavage à l’eau froide, séchage au soleil	Tissu connu et éprouvé : le lavage n'apprendrait rien. Validé sur les quatre inventaires de matières premières du Drive, 2023 à 2026 — la matière y est présente chaque année. Décision Admin QC, 24/09/2026.
+COUSSIN-ANIMAL	Lavage à l’eau froide, séchage au soleil	Tissu connu et éprouvé : le lavage n'apprendrait rien. Validé sur les quatre inventaires de matières premières du Drive, 2023 à 2026 — la matière y est présente chaque année. Décision Admin QC, 24/09/2026.
+ETUI-TEL	Lavage à l’eau froide, séchage au soleil	Tissu connu et éprouvé : le lavage n'apprendrait rien. Validé sur les quatre inventaires de matières premières du Drive, 2023 à 2026 — la matière y est présente chaque année. Décision Admin QC, 24/09/2026.
+FOULARD	Lavage à l’eau froide, séchage au soleil	Tissu connu et éprouvé : le lavage n'apprendrait rien. Validé sur les quatre inventaires de matières premières du Drive, 2023 à 2026 — la matière y est présente chaque année. Décision Admin QC, 24/09/2026.
+GANTS-MAGIQUES	Lavage à l’eau froide, séchage au soleil	Tissu connu et éprouvé : le lavage n'apprendrait rien. Validé sur les quatre inventaires de matières premières du Drive, 2023 à 2026 — la matière y est présente chaque année. Décision Admin QC, 24/09/2026.
+GLACIERE	Lavage à l’eau froide, séchage au soleil	Tissu connu et éprouvé : le lavage n'apprendrait rien. Validé sur les quatre inventaires de matières premières du Drive, 2023 à 2026 — la matière y est présente chaque année. Décision Admin QC, 24/09/2026.
+MIT-PLEIN-AIR	Lavage à l’eau froide, séchage au soleil	Tissu connu et éprouvé : le lavage n'apprendrait rien. Validé sur les quatre inventaires de matières premières du Drive, 2023 à 2026 — la matière y est présente chaque année. Décision Admin QC, 24/09/2026.
+MIT-POLAR	Lavage à l’eau froide, séchage au soleil	Tissu connu et éprouvé : le lavage n'apprendrait rien. Validé sur les quatre inventaires de matières premières du Drive, 2023 à 2026 — la matière y est présente chaque année. Décision Admin QC, 24/09/2026.
+OREILLER	Lavage à l’eau froide, séchage au soleil	Tissu connu et éprouvé : le lavage n'apprendrait rien. Validé sur les quatre inventaires de matières premières du Drive, 2023 à 2026 — la matière y est présente chaque année. Décision Admin QC, 24/09/2026.
+SAC-LUNCH	Lavage à l’eau froide, séchage au soleil	Tissu connu et éprouvé : le lavage n'apprendrait rien. Validé sur les quatre inventaires de matières premières du Drive, 2023 à 2026 — la matière y est présente chaque année. Décision Admin QC, 24/09/2026.
+SEMELLE-678	Lavage à l’eau froide, séchage au soleil	Écarté malgré le Mylar, qui n'apparaît qu'à l'inventaire 2026 : décision explicite de l'Admin QC, 24/09/2026. C'est la seule matière neuve du catalogue, et le lavage n'est pas le contrôle qui l'éprouverait — la presse et le pourtour le font déjà.
+SEMELLE-9	Lavage à l’eau froide, séchage au soleil	Écarté malgré le Mylar, qui n'apparaît qu'à l'inventaire 2026 : décision explicite de l'Admin QC, 24/09/2026. C'est la seule matière neuve du catalogue, et le lavage n'est pas le contrôle qui l'éprouverait — la presse et le pourtour le font déjà.
+TOTE	Lavage à l’eau froide, séchage au soleil	Tissu connu et éprouvé : le lavage n'apprendrait rien. Validé sur les quatre inventaires de matières premières du Drive, 2023 à 2026 — la matière y est présente chaque année. Décision Admin QC, 24/09/2026.
+TUQUE-SPORT	Lavage à l’eau froide, séchage au soleil	Tissu connu et éprouvé : le lavage n'apprendrait rien. Validé sur les quatre inventaires de matières premières du Drive, 2023 à 2026 — la matière y est présente chaque année. Décision Admin QC, 24/09/2026.
+TUQUE-VILLE	Lavage à l’eau froide, séchage au soleil	Tissu connu et éprouvé : le lavage n'apprendrait rien. Validé sur les quatre inventaires de matières premières du Drive, 2023 à 2026 — la matière y est présente chaque année. Décision Admin QC, 24/09/2026.
+#
+# 24/09/2026 — l'abrasion se restreint aux pièces qui y sont soumises : mitaines
+# et gants. La séquence de frottement (à sec, après gel, comparaison) est écartée
+# partout ailleurs. Le LAVAGE n'en fait pas partie : il suit sa propre règle, et
+# reste actif là où il a été gardé. Décision Admin QC.
+TUQUE-SPORT	Double frottement — 1. à sec	Une tuque ne s'appuie contre rien. L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+TUQUE-SPORT	Double frottement — 2. après gel et humidité	Une tuque ne s'appuie contre rien. L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+TUQUE-SPORT	Après la séquence : ce qu’on compare	Une tuque ne s'appuie contre rien. L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+TUQUE-VILLE	Double frottement — 1. à sec	Une tuque ne s'appuie contre rien. L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+TUQUE-VILLE	Double frottement — 2. après gel et humidité	Une tuque ne s'appuie contre rien. L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+TUQUE-VILLE	Après la séquence : ce qu’on compare	Une tuque ne s'appuie contre rien. L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+FOULARD	Double frottement — 1. à sec	Un foulard pend, il ne frotte pas. L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+FOULARD	Double frottement — 2. après gel et humidité	Un foulard pend, il ne frotte pas. L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+FOULARD	Après la séquence : ce qu’on compare	Un foulard pend, il ne frotte pas. L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+SEMELLE-678	Double frottement — 1. à sec	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+SEMELLE-678	Double frottement — 2. après gel et humidité	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+SEMELLE-678	Après la séquence : ce qu’on compare	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+COUSSIN	Double frottement — 1. à sec	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+COUSSIN	Double frottement — 2. après gel et humidité	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+COUSSIN	Après la séquence : ce qu’on compare	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+BESACE	Double frottement — 1. à sec	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+BESACE	Double frottement — 2. après gel et humidité	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+BESACE	Après la séquence : ce qu’on compare	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+SAC-LUNCH	Double frottement — 1. à sec	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+SAC-LUNCH	Double frottement — 2. après gel et humidité	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+SAC-LUNCH	Après la séquence : ce qu’on compare	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+TOTE	Double frottement — 1. à sec	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+TOTE	Double frottement — 2. après gel et humidité	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+TOTE	Après la séquence : ce qu’on compare	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+GLACIERE	Double frottement — 1. à sec	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+GLACIERE	Double frottement — 2. après gel et humidité	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+GLACIERE	Après la séquence : ce qu’on compare	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+MANTEAU-HIVER	Double frottement — 1. à sec	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+MANTEAU-HIVER	Double frottement — 2. après gel et humidité	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+MANTEAU-HIVER	Après la séquence : ce qu’on compare	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+VESTE	Double frottement — 1. à sec	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+VESTE	Double frottement — 2. après gel et humidité	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+VESTE	Après la séquence : ce qu’on compare	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+SAC-COUCHAGE-0	Double frottement — 1. à sec	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+SAC-COUCHAGE-0	Double frottement — 2. après gel et humidité	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+SAC-COUCHAGE-0	Après la séquence : ce qu’on compare	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+SAC-COUCHAGE-18	Double frottement — 1. à sec	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+SAC-COUCHAGE-18	Double frottement — 2. après gel et humidité	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+SAC-COUCHAGE-18	Après la séquence : ce qu’on compare	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+ETUI-TEL	Double frottement — 1. à sec	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+ETUI-TEL	Double frottement — 2. après gel et humidité	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+ETUI-TEL	Après la séquence : ce qu’on compare	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+CHANDAIL	Double frottement — 1. à sec	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+CHANDAIL	Double frottement — 2. après gel et humidité	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+CHANDAIL	Après la séquence : ce qu’on compare	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+COUSSIN-ANIMAL	Double frottement — 1. à sec	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+COUSSIN-ANIMAL	Double frottement — 2. après gel et humidité	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+COUSSIN-ANIMAL	Après la séquence : ce qu’on compare	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+OREILLER	Double frottement — 1. à sec	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+OREILLER	Double frottement — 2. après gel et humidité	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+OREILLER	Après la séquence : ce qu’on compare	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+MANTEAU-3SAISONS	Double frottement — 1. à sec	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+MANTEAU-3SAISONS	Double frottement — 2. après gel et humidité	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+MANTEAU-3SAISONS	Après la séquence : ce qu’on compare	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+OREILLER-CAMPING	Double frottement — 1. à sec	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+OREILLER-CAMPING	Double frottement — 2. après gel et humidité	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+OREILLER-CAMPING	Après la séquence : ce qu’on compare	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+SEMELLE-9	Double frottement — 1. à sec	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+SEMELLE-9	Double frottement — 2. après gel et humidité	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+SEMELLE-9	Après la séquence : ce qu’on compare	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+CACHE-COU-ENF-18M4A	Double frottement — 1. à sec	Porté au cou, il n'a pas de surface d'appui exposée à l'usure. L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+CACHE-COU-ENF-18M4A	Double frottement — 2. après gel et humidité	Porté au cou, il n'a pas de surface d'appui exposée à l'usure. L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+CACHE-COU-ENF-18M4A	Après la séquence : ce qu’on compare	Porté au cou, il n'a pas de surface d'appui exposée à l'usure. L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+CACHE-COU-ENF-5A13A	Double frottement — 1. à sec	Porté au cou, il n'a pas de surface d'appui exposée à l'usure. L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+CACHE-COU-ENF-5A13A	Double frottement — 2. après gel et humidité	Porté au cou, il n'a pas de surface d'appui exposée à l'usure. L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+CACHE-COU-ENF-5A13A	Après la séquence : ce qu’on compare	Porté au cou, il n'a pas de surface d'appui exposée à l'usure. L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+TSHIRT-BRODE	Double frottement — 1. à sec	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+TSHIRT-BRODE	Double frottement — 2. après gel et humidité	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.
+TSHIRT-BRODE	Après la séquence : ce qu’on compare	L'abrasion ne se teste que sur les pièces qui y sont soumises — mitaines et gants. Décision Admin QC, 24/09/2026.

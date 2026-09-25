@@ -50,6 +50,22 @@ V=$(node -e "const{db}=require('./db.js');console.log(db.prepare('SELECT avancem
 R=$(curl -s -b $CO -o /dev/null -w '%{redirect_url}' $B/ordres/nouveau)
 case "$R" in *err=*) ok "l'atelier ne peut pas créer d'ordre" ;; *) ko "création autorisée à l'atelier" ;; esac
 
+# Chaque planche atteignable doit s'ouvrir. La route ne testait que le tracé
+# SVG, si bien que les vingt-quatre planches nées dessinées — sans tracé, rien
+# que des images — répondaient toutes « Planche inconnue ». Aucun test ne
+# passait par la route : ils vérifiaient le rendu, jamais l'ouverture.
+CLES=$(node --no-warnings -e "
+  const P=require('./pictos.js');
+  const k=new Set([...Object.keys(P.PLANCHES), ...P.DESSINS]);
+  console.log([...k].join(' '));" 2>/dev/null)
+RATE=""
+for K in $CLES; do
+  R=$(curl -s -b $CO -o /dev/null -w '%{redirect_url}' "$B/qualite/planche/$K")
+  case "$R" in *Planche+inconnue*|*Planche%20inconnue*) RATE="$RATE $K" ;; esac
+done
+[ -z "$RATE" ] && ok "chaque planche s'ouvre par sa route" \
+  || ko "planches refusées par la route :$RATE"
+
 curl -s -b $CO -o /dev/null -X POST $B/ordres/1/items/2/supprimer
 N=$(node -e "const{db}=require('./db.js');console.log(db.prepare('SELECT COUNT(*) n FROM ordre_items').get().n)" 2>/dev/null)
 [ "$N" = 4 ] && ok "l'atelier ne peut pas supprimer d'item" || ko "item supprimé par l'atelier"
@@ -498,9 +514,14 @@ fi
 # --- le contrôle par ordre de production ---------------------------------
 # La porte prioritaire. Les onglets ne sont pas exclusifs : un même lot peut
 # être à la fois grand volume et gradué, et doit se voir dans les deux.
-for CAT in tous volume nouveau gradation; do
-  curl -s -b $CA "$B/qualite/ordres/1?cat=$CAT" | grep -q 'qc-onglet' \
-    || ko "l'onglet $CAT ne rend pas ses onglets"
+# ONGLET, pas CAT : plus bas, `CAT` est le chemin de la base du catalogue.
+# Réutiliser le nom ici laissait CAT=gradation derrière la boucle, et tout
+# `MRP_DB="$CAT"` écrit avant la ligne qui le redéfinit ouvrait une base vide
+# nommée « gradation » — un test qui interroge le vide passe ou échoue pour la
+# mauvaise raison, sans rien dire.
+for ONGLET in tous volume nouveau gradation; do
+  curl -s -b $CA "$B/qualite/ordres/1?cat=$ONGLET" | grep -q 'qc-onglet' \
+    || ko "l'onglet $ONGLET ne rend pas ses onglets"
 done
 ok "les quatre onglets du contrôle par ordre répondent"
 
@@ -1395,8 +1416,11 @@ S=$(MRP_DB="$CAT" node --no-warnings -e "
 # Le total est écrit en dur EXPRÈS : c'est ce qui attrape une ligne d'origine
 # restée à côté de ses morceaux. Il se met donc à jour à la main, et seulement
 # quand on a ajouté quelque chose au plan en le sachant. Dernier mouvement :
-# 24 633 → 26 133 le 16/09/2026, les 1 500 bandeaux de la tuque de ville.
-[ "$(Z "SELECT SUM(quantite) n FROM ordre_items")" = 26133 ] \
+# 26 133 → 26 633 le 24/09/2026, les t-shirts brodés — 370 à l'entrée au plan
+# (228 vendus en prévente, majorés), portés à 500 le jour même, aux mêmes
+# proportions. Avant : 24 633 → 26 133 le 16/09/2026, les 1 500 bandeaux de
+# la tuque de ville.
+[ "$(Z "SELECT SUM(quantite) n FROM ordre_items")" = 26633 ] \
   && ok "découper une ligne du plan ne change pas le total à produire" \
   || ko "le total a bougé — la ligne d'origine compte encore"
 
@@ -1416,6 +1440,101 @@ MRP_DB="$CAT" node --no-warnings -e "
   process.exit(t('SEMELLE-9') > t('SEMELLE-678') ? 0 : 1);" 2>/dev/null \
   && ok "la cédule compte les grandes pointures à leur propre temps" \
   || ko "les deux semelles sont chiffrées au même temps"
+
+# --- les t-shirts sont un ORDRE à part, pas une ligne de plus -------------
+# Le t-shirt ne vient pas du chiffrier de la saison : il s'est vendu en
+# prévente après, et sa livraison est promise en novembre, pas au départ
+# d'octobre. Fondu dans le plan 26-27, il aurait hérité de la mauvaise
+# échéance et ses 500 pièces auraient disparu dans 26 133.
+T=$(MRP_DB="$CAT" node --no-warnings -e "
+  const {db}=require('./db.js');
+  const r=db.prepare(\"SELECT o.numero, o.titre FROM ordre_items i \
+     JOIN produits p ON p.id=i.produit_id JOIN ordres o ON o.id=i.ordre_id \
+     WHERE p.code='TSHIRT-BRODE'\").get();
+  const n=db.prepare('SELECT COUNT(*) n FROM ordres').get().n;
+  const seul=db.prepare(\"SELECT COUNT(*) n FROM ordre_items i JOIN ordres o \
+     ON o.id=i.ordre_id WHERE o.titre LIKE 'T-shirts%'\").get().n;
+  console.log((r?r.titre:'AUCUN')+'|'+n+'|'+seul);" 2>/dev/null)
+case "$T" in
+  "T-shirts brodés — prévente automne 2026|2|1")
+    ok "les t-shirts ont leur propre ordre de production" ;;
+  *) ko "les t-shirts ne sont pas sur un ordre distinct ($T)" ;;
+esac
+
+# Et cet ordre-là part AVANT celui de la saison est faux : il part après, le
+# 24 octobre, par avion — décidé le 24/09/2026. Le mode de transport est sur
+# le jalon parce que « 24 octobre » ne se lit pas pareil selon qu'on prend
+# l'avion ou le bateau, et que c'est l'atelier qui règle sa cédule dessus.
+J=$(MRP_DB="$CAT" node --no-warnings -e "
+  const {db}=require('./db.js');
+  const j=db.prepare(\"SELECT j.date, j.titre FROM ordre_jalons j JOIN ordres o \
+     ON o.id=j.ordre_id WHERE o.titre LIKE 'T-shirts%' AND j.type='expedition'\").get();
+  console.log(j ? j.date+'|'+j.titre : 'AUCUN');" 2>/dev/null)
+case "$J" in
+  "2026-10-24|Expédition vers le Canada (avion)")
+    ok "les t-shirts partent le 24 octobre, par avion" ;;
+  *) ko "la date ou le mode d'expédition des t-shirts a changé ($J)" ;;
+esac
+
+# --- deux ordres, deux dates : le verdict doit dire LAQUELLE il calcule ----
+# Le plan de la saison part le 1er octobre, les t-shirts le 24 par avion.
+# Comparer TOUT le travail à la date la plus proche réclamerait pour octobre
+# des heures dues fin octobre ; n'en montrer qu'une cacherait l'autre.
+MRP_DB="$CAT" node --no-warnings -e "
+const V=require('./vues.js'), C=require('./charge.js');
+const {listeFabrication, db}=require('./db.js');
+const cal=C.calendrier(listeFabrication());
+const jalons=db.prepare(\"SELECT j.*, o.numero, o.titre AS ordre_titre FROM ordre_jalons j \
+   JOIN ordres o ON o.id=j.ordre_id ORDER BY j.date\").all();
+const h=V.vueCedule({user:{id:1,role:'admin',nom:'A'},jalons,msg:{},cal}).replace(/\s+/g,' ');
+const veut=['01/10/2026','24/10/2026','ech-liste','ech-pire'];
+for(const x of veut) if(!h.includes(x)){console.error('manque : '+x);process.exit(1)}
+// le verdict porte les heures dues à l'échéance qui commande, pas le carnet
+// entier : le total général est relégué en second, marqué comme tel.
+if(!/en tout/.test(h)){console.error('le total général a disparu');process.exit(1)}
+" 2>&1 && ok "la cédule montre les deux échéances et celle qui commande" \
+  || ko "la cédule ne distingue pas les deux échéances"
+
+# --- la photo fléchée du bandeau de tuque ---------------------------------
+# C'est la seule image que le MRP sert lui-même comme schéma : la photo Miro
+# du bandeau PLUS une flèche rouge, sans laquelle on voit une tuque retournée
+# sans savoir lequel des deux tissus est le bandeau.
+#
+# Elle a été refusée en silence par DEUX gardes successives — celle de
+# l'import, celle de la vue — chacune écrite pour bloquer une « data: » URI.
+# Une adresse racine n'a aucun des défauts qu'elles visaient. Ce test tient la
+# chaîne entière : le fichier existe, la route le sert, et il ressort sur les
+# deux pages qui le montrent.
+[ -f "public/schema-bandeau-tuque.png" ] \
+  && ok "l'image fléchée du bandeau est au dépôt" \
+  || ko "l'image fléchée du bandeau a disparu du dépôt"
+
+# Pas de curl ici : à ce point du script le serveur de $B a déjà été remplacé
+# par les blocs qui précèdent. On vérifie la déclaration, puis le rendu — qui
+# est ce qui compte, parce que c'est la vue qui refusait l'adresse.
+grep -q "'/schema/bandeau-tuque.png': \['image/png'" server.js \
+  && ok "la route statique de l'image fléchée est déclarée" \
+  || ko "la route statique de l'image fléchée a disparu"
+
+MRP_DB="$CAT" node --no-warnings -e "
+  const V=require('./vues.js'), D=require('./db.js');
+  const p=D.db.prepare(\"SELECT * FROM produits WHERE code='TUQUE-VILLE'\").get();
+  const h=V.vueProtocole({user:{id:1,role:'admin',nom:'A'},msg:{},p,
+    proto:D.protocole(p.id), photos:[], bris:D.brisProduit(p.id),
+    appuis:D.brisParPoint(p.id), ecartes:D.horsSujet(p.id)});
+  process.exit(h.includes('/schema/bandeau-tuque.png') ? 0 : 1);" 2>/dev/null \
+  && ok "la vue rend bien la photo fléchée sur le point" \
+  || ko "la vue refuse encore l'adresse de la photo fléchée"
+
+BT=$(MRP_DB="$CAT" node --no-warnings -e "
+  const V=require('./vues.js'), D=require('./db.js');
+  const p=D.db.prepare(\"SELECT id FROM produits WHERE code='TUQUE-VILLE'\").get();
+  const q=D.protocole(p.id).points.find(x=>/^Bandeau cousu/.test(x.titre));
+  if(!q){console.log('POINT ABSENT');process.exit(0)}
+  console.log(q.schema_url||'SANS SCHEMA');" 2>/dev/null)
+[ "$BT" = "/schema/bandeau-tuque.png" ] \
+  && ok "le point du bandeau porte la photo fléchée" \
+  || ko "le point du bandeau ne porte pas la photo fléchée ($BT)"
 
 # --- une matière qu'on cesse d'employer ----------------------------------
 # `nomenclatures.tsv` recopie les fiches COGS : une matière retirée n'en est
@@ -1438,15 +1557,23 @@ MRP_DB="$CAT" node --no-warnings -e "
 # n'a aucun sens sur un produit qui n'a pas de fiche en ligne. Le point reste
 # juste EN GÉNÉRAL : on l'écarte de ces produits, on ne l'efface pas —
 # l'effacer le retirerait de tous les autres.
-[ "$(Z "SELECT COUNT(*) n FROM qc_hors_sujet")" = 7 ] \
+# Compté en dur, comme le total du plan : un écart qui disparaît sans qu'on
+# l'ait décidé remet un point sur une fiche où il ne veut rien dire, et
+# personne ne le verrait. Dernier mouvement : 37 → 115 le 24/09/2026, la
+# séquence d'abrasion restreinte aux mitaines et aux gants (3 points × 26
+# produits). Puis 115 → 103 le 24/09/2026 : les pantoufles, le sac à vin et le
+# manchon sortent du catalogue, et leurs douze écarts avec eux.
+[ "$(Z "SELECT COUNT(*) n FROM qc_hors_sujet")" = 103 ] \
   && ok "le point hors sujet est écarté de son produit" \
   || ko "l'écart n'est pas chargé"
 
 # Le coussin pour animaux n'avait aucun protocole. Trois points critiques,
 # dictés par l'atelier : le geste du roulage, les ganses qui portent le poids,
-# et l'intérieur, que l'animal atteint.
-[ "$(Z "SELECT COUNT(*) n FROM qc_points q JOIN produits p ON p.id=q.produit_id WHERE p.code='COUSSIN-ANIMAL' AND q.type='critique'")" = 3 ] \
-  && ok "le coussin pour animaux a ses trois points critiques" \
+# et l'intérieur, que l'animal atteint. Un quatrième s'est ajouté le
+# 24/09/2026 — la compression du garnissage, le bris le plus fréquent du
+# catalogue sur les pièces garnies.
+[ "$(Z "SELECT COUNT(*) n FROM qc_points q JOIN produits p ON p.id=q.produit_id WHERE p.code='COUSSIN-ANIMAL' AND q.type='critique'")" = 4 ] \
+  && ok "le coussin pour animaux a ses quatre points critiques" \
   || ko "le protocole du coussin pour animaux manque"
 
 # Une tache ne se rattrape pas après coup : c'est la définition du volet
@@ -1470,7 +1597,7 @@ MRP_DB="$CAT" node --no-warnings -e "
 
 # Le bandeau n'est pas un produit : c'est la pièce cousue à l'intérieur de la
 # tuque beanie, jamais vendue ni vue. Tout ce qui s'inspecte sur un vêtement
-# fini — abrasion, lavage, étiquette, fils apparents — s'inspecte sur la tuque
+# fini — lavage, étiquette, fils apparents — s'inspecte sur la tuque
 # montée. Sur la pièce seule il ne reste que sa coupe. Si un point général
 # revient un jour se poser dessus, ce test tombe.
 MRP_DB="$CAT" node --no-warnings -e "
@@ -1486,7 +1613,7 @@ MRP_DB="$CAT" node --no-warnings -e "
   const D=require('./db.js');
   const p=D.db.prepare(\"SELECT id FROM produits WHERE code='TUQUE-VILLE'\").get();
   const t=D.protocole(p.id).points.map(q=>q.titre);
-  process.exit(t.some(x=>/Étiquette/.test(x)) && t.some(x=>/Double frottement/.test(x)) ? 0 : 1);" 2>/dev/null \
+  process.exit(t.some(x=>/Étiquette/.test(x)) && t.some(x=>/Fils qui dépassent/.test(x)) ? 0 : 1);" 2>/dev/null \
   && ok "écarter du bandeau n'a rien retiré à la tuque qui le contient" \
   || ko "un point a disparu de la tuque de ville"
 

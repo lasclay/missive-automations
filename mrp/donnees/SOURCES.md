@@ -34,7 +34,7 @@ Extrait par opération bulk sur l'API Admin, le 2026-08-24.
 **Ce qui cloche, et qu'il faudra trancher**
 
 - **Seulement 195 variantes sur 906 ont un SKU.** Les produits récents (étui de
-  téléphone, mitaines urbaines, manchons, coussin pour animaux) n'en ont
+  téléphone, mitaines urbaines, coussin pour animaux) n'en ont
   aucun. Un MRP a besoin d'un identifiant stable par variante : soit on
   généralise les SKU dans Shopify, soit le MRP porte sa propre nomenclature et
   garde l'`id` de variante Shopify comme clé de rapprochement.

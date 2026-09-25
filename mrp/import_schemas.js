@@ -58,7 +58,12 @@ for (const r of rangs) {
   const p = r.produit ? produit.get(r.produit) : null;
   if (!p) { inconnus.push(r.produit || '(vide)'); ignorees++; continue; }
   // Une `data:` URI ferait porter le fichier à la base ET à chaque page servie.
-  if (!/^https?:\/\//.test(r.url)) {
+  // Une adresse RACINE (« /schema/… ») n'a ni l'un ni l'autre défaut : elle est
+  // courte en base et le fichier se sert une fois, mis en cache. Elle est donc
+  // admise — c'est par elle que passe l'image du bandeau de tuque, la photo
+  // Miro fléchée que le MRP a fabriquée et sert lui-même.
+  if (!/^https?:\/\//.test(r.url)
+      && !/^\/[\w/-]+\.(png|jpe?g|webp|svg)$/.test(r.url)) {
     mauvaiseUrl.push(`${r.produit} : ${r.url || '(vide)'}`); ignorees++; continue;
   }
   const rang = Number(r.rang) || (parProduit.get(p.id) || 0) + 1;

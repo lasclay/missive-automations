@@ -313,6 +313,79 @@ const PAR_TITRE = new Map([
   ['Après la séquence : ce qu’on compare', 'comparer'],
   ['Étiquette — sens, position, lisibilité', 'etiquette'],
   ['Comparaison avec la photo de la boutique', 'photo_boutique'],
+  // Un point né de la révision produit par produit : cinq retours « trop
+  // petit » sur la tuque sport, et aucune mesure à plat ne les voyait.
+  ['Essai porté par au moins six personnes de gabarits différents', 'essai_porte'],
+  // Mitaines plein air, révision du 24/09/2026. Le vrai cuir est accepté en
+  // dépannage : ce qui se contrôle n'est plus la matière, c'est qu'une paire
+  // ne soit jamais dépareillée. Et les deux étiquettes ont désormais une
+  // distance, pas seulement un sens.
+  // La densité est un contrôle À PART du test de traction : l'un se vérifie à
+  // la machine en comptant, l'autre sur la pièce finie en tirant.
+  //
+  // La première version de cette planche dessinait une couture en travers de
+  // la paume. Elle n'existe pas. La zone est le BAS DU POUCE, là où la couture
+  // qui contourne le pouce rejoint celle qui longe le bord de la main — le
+  // point où les pièces de patron se rencontrent. Et la rupture ne se contente
+  // pas de s'ouvrir : l'isolant blanc sort, c'est ce que les clients
+  // photographient. Les deux faits viennent des photos de l'onglet
+  // « Rétroactions négatives », pas d'une intuition.
+  ['Densité de couture à la jonction main/pouce : 10 points par pouce',
+   'points_pouce'],
+  // Les tests nés des défaillances réelles, relevées dans le mur des bris et
+  // les rétroactions clients. Chaque planche montre LE geste sur LE produit :
+  // une planche partagée entre deux familles a déjà montré un sac rouge sur un
+  // manteau, et on ne l'a vu que parce qu'un humain a cliqué.
+  ['Quincaillerie sous charge : boucle du rabat et ajusteurs de bretelle',
+   'glaciere_quincaillerie'],
+  ['La boucle claque et tient le sac plein soulevé par la poignée',
+   'saclunch_boucle'],
+  ['Flexion à l\u2019avant-pied : plier vingt fois', 'semelle_flexion'],
+  ['Compression du tube : aucune fibre ne sort', 'cachecou_fuite'],
+  // La veste et les manteaux subissent le MÊME geste sur le MÊME montage, mais
+  // pas sur la même pièce. Un seul titre leur donnerait une seule planche, et
+  // le point du manteau montrerait une veste sans manches — l'erreur qu'on a
+  // déjà faite en partageant une planche entre un sac et un vêtement.
+  ['Fermeture éclair de la veste : tirer de part et d\u2019autre du ruban',
+   'fermeture_couture'],
+  ['Fermeture éclair du manteau : tirer de part et d\u2019autre du ruban',
+   'fermeture_manteau'],
+  ['Couture longitudinale : tirer de part et d\u2019autre', 'foulard_couture'],
+  ['Doublure à l\u2019ouverture : tirer vers l\u2019intérieur', 'besace_doublure'],
+  ['Isolant réparti et coutures intérieures complètes', 'tuque_isolant'],
+  ['Cote du bandeau fini, sur trois pièces du lot', 'bandeau_cote'],
+  ['Finition des bords : aucun fil, aucun bord vif', 'etui_finition'],
+  // Les mitaines partagent leurs quatre pièces de patron, donc le même geste au
+  // même endroit — mais pas la même allure. La plein air a un panneau de cuir
+  // en paume, les autres non : deux titres, deux planches, une seule consigne.
+  ['Jonction main/pouce : 10 points par pouce', 'pouce_mitaine'],
+  ['Fermeture éclair du sac de couchage : tirer de part et d\u2019autre du ruban',
+   'fermeture_couchage'],
+  ['Fermeture du col : tirer de part et d\u2019autre du ruban', 'fermeture_chandail'],
+  ['Compression du garnissage : aucune fibre ne sort', 'garnissage_fuite'],
+  ['Étirement et retour du tricot', 'gant_etirement'],
+  ['Broderie : tirer sur le motif et lire l\u2019envers', 'broderie_tshirt'],
+  ['Bandeau cousu tout le tour, à la bonne hauteur', 'tuqueville_bandeau'],
+  // Les cotes et la gradation. Le même geste partout — mesurer à plat, aligner
+  // les tailles, une règle en travers — mais pas la même pièce : un titre par
+  // famille, donc une planche par famille.
+  //
+  // La planche de la mitaine NUMÉROTE ses huit cotes, de 1 à 8, dans l'ordre
+  // exact où le point les énumère. C'est la seule entorse à « aucun texte » de
+  // tout le jeu, et elle est voulue : un chiffre ne se traduit pas, et sans lui
+  // la liste écrite et le dessin ne se rejoignent nulle part.
+  ['Cotes hors-tout et incréments de gradation, contre le patron', 'cotes_mitaine'],
+  ['Cotes de la semelle et incréments de pointure, contre le patron',
+   'cotes_semelle'],
+  ['Cotes du tube et incréments de gradation, contre le patron', 'cotes_cachecou'],
+  // Les deux mesures de l'essai sont celles du guide publié sur lasclay.com et
+  // pas d'autres : la largeur des jointures et la longueur hors tout de la
+  // main. La planche les montre dans cet ordre, sinon l'atelier mesurerait ce
+  // qui lui semble logique, et le guide ne serait plus validé par rien.
+  ['Essai par une personne de chaque taille, mains mesurées', 'essai_mitaine'],
+  ['Paume : même cuir sur les deux mitaines d\'une paire', 'paire_cuir'],
+  ['Étiquettes de taille et de composition : même sens, à 1 po à l\'intérieur',
+   'etiquette_mitaine'],
   // Les points de rupture. Les deux premiers existaient déjà au protocole :
   // le corpus n'a fait que confirmer qu'ils portent sur la bonne zone.
   ['Assemblage de la jonction main/pouce solide', 'mitaine_pouce'],
@@ -336,9 +409,11 @@ const PAR_TITRE = new Map([
   ['Fermetures éclair : couleur et glissement problématiques',  'fermeture'],
   ['Velcro',                                                   'velcro'],
   ['Plier et attacher le coussin en accordéon au velcro, étiquette visible vers le haut', 'velcro'],
-  ['Billes pour bloquer le cord-lock noir',                    'cordlock'],
-  ['Lacet et élastique bien attachés au cord-lock',            'cordlock'],
   ['Élastique du capuchon : coulisse et tient',                'cordlock'],
+  // La bille n'est pas un cord-lock : c'est ce qui empêche le cord-lock de
+  // sortir du cordon. Norme enfant — aucune pièce détachable.
+  ['Billes pour bloquer le cord-lock noir',           'bille'],
+  ['Lacet et élastique bien attachés au cord-lock',   'bille'],
   ['Logo de l\'étiquette droit',                               'etiquette'],
   ['Étiquette de taille présente et orientée du même sens que les autres', 'etiquette'],
   ['Étiquette intégrée à la base gauche de l\'étui',            'etiquette'],

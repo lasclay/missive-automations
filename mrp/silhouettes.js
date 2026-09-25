@@ -38,12 +38,10 @@ const TRACES = {
   glaciere:  'M9.8 2.8h4.4c.6 0 1 .4 1 1v2.2h-6.4V3.8c0-.6.4-1 1-1zM3.4 7.4h17.2v3.2H3.4zM4.6 11.8h14.8v7.4a2.2 2.2 0 0 1-2.2 2.2H6.8a2.2 2.2 0 0 1-2.2-2.2z',
   manteau:   'M9.4 2.6 12 5.6l2.6-3 4.6 2.2 1.8 6.6-3.2 1v9.2H6.2V12.4l-3.2-1 1.8-6.6zm1.7 3.9h1.8v13h-1.8z',
   veste:     'M9.2 2.6 4.8 5v16.4h5V9.8h4.4v11.6h5V5l-4.4-2.4L12 7z',
+  tshirt:    'M9 2.8 3.6 5.4 5.8 9.8 8.4 8.6V21h7.2V8.6l2.6 1.2 2.2-4.4L15 2.8a3.2 3.2 0 0 1-6 0z',
   chandail:  'M9.4 2.8h5.2l5.2 3-2.4 6.6-2-1V21H8.6v-9.6l-2 1-2.4-6.6z',
   couchage:  'M7.4 3.2h5.2c4.6 0 8.4 3.8 8.4 8.4v6.6a3 3 0 0 1-3 3H7.4a4 4 0 0 1-4-4V7.2a4 4 0 0 1 4-4zm1 2.6a1.3 1.3 0 0 0 0 2.6h4.4a1.3 1.3 0 0 0 0-2.6z',
   etui:      'M8.4 2.2h7.2a2.6 2.6 0 0 1 2.6 2.6v14.4a2.6 2.6 0 0 1-2.6 2.6H8.4a2.6 2.6 0 0 1-2.6-2.6V4.8a2.6 2.6 0 0 1 2.6-2.6zm1.4 2.2a.8.8 0 0 0 0 1.6h4.4a.8.8 0 0 0 0-1.6z',
-  manchon:   'M7.2 4.6h9.6l-1 14.6a2.2 2.2 0 0 1-2.2 2h-3.2a2.2 2.2 0 0 1-2.2-2zm9.9 3.2h1.3a2.6 2.6 0 0 1 0 5.2h-1.6l.1-2h1.5a.6.6 0 0 0 0-1.2h-1.4z',
-  sacvin:    'M10.4 2.2h3.2v2h-3.2zM10.8 4.4h2.4v4.6h-2.4zM7.4 9.2h9.2l.9 10.4a1.7 1.7 0 0 1-1.7 1.8H8.2a1.7 1.7 0 0 1-1.7-1.8z',
-  pantoufle: 'M3.6 15.4c0-1.2.8-2.1 2-2.5 2.6-.9 4-2.2 5.4-3.6a4.6 4.6 0 0 1 3.3-1.4h.3a5.6 5.6 0 0 1 5.6 5.6v1.7a3.4 3.4 0 0 1-3.4 3.4H6.4a2.8 2.8 0 0 1-2.8-2.8zM14.6 9.6c-1.7 0-3 .8-3.8 2.1l3.8 1.4 3.8-1.4c-.8-1.3-2.1-2.1-3.8-2.1z',
 };
 
 // Le code produit décide, jamais le nom : un nom se renomme, un code non.
@@ -65,11 +63,9 @@ const PAR_CODE = {
   'MANTEAU-HIVER': 'manteau', 'MANTEAU-3SAISONS': 'manteau',
   'VESTE': 'veste',
   'CHANDAIL': 'chandail',
+  'TSHIRT-BRODE': 'tshirt',
   'SAC-COUCHAGE-0': 'couchage', 'SAC-COUCHAGE-18': 'couchage',
   'ETUI-TEL': 'etui',
-  'MANCHON': 'manchon',
-  'SAC-VIN': 'sacvin',
-  'PANTOUFLES': 'pantoufle',
 };
 
 // Un produit créé après coup n'a pas sa ligne ici. Plutôt que de ne rien
@@ -91,12 +87,10 @@ const PAR_MOT = [
   [/glaci[èe]re/i,               'glaciere'],
   [/manteau|parka/i,             'manteau'],
   [/veste|gilet/i,               'veste'],
+  [/t-?shirt|tee-?shirt/i,       'tshirt'],
   [/chandail|pull/i,             'chandail'],
   [/sac de couchage/i,           'couchage'],
   [/étui|etui|t[ée]l[ée]phone/i, 'etui'],
-  [/manchon/i,                   'manchon'],
-  [/vin|bouteille/i,             'sacvin'],
-  [/pantoufle|chausson/i,        'pantoufle'],
 ];
 
 /** La clé de silhouette d'un produit, ou null si on ne sait pas. */

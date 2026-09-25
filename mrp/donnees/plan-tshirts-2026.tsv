@@ -1,0 +1,13 @@
+# Ordre de production des t-shirts brodés — prévente automne 2026.
+#
+# Ce n'est NI le chiffrier de la saison, NI un ajout à celui-ci : c'est un
+# autre ordre de production. Le t-shirt n'existait pas quand le plan 26-27 a
+# été fait, il s'est vendu en prévente avant qu'une pièce soit cousue, et sa
+# livraison est promise en novembre — pas au départ d'octobre comme le reste.
+# Le mélanger au plan de la saison aurait noyé 500 pièces dans 26 133 et leur
+# aurait donné la mauvaise échéance.
+#
+# Les colonnes sont celles des autres fichiers de plan : `donnees/ordres.tsv`
+# dit à quel ordre celui-ci appartient.
+produit	quantite_prevue	prevente_2026	cout_unitaire_bmb	cout_total_bmb	cout_prod_unitaire	cout_total	origine	remplace
+T-shirt brodé	500	228					Créé le 24/09/2026 à partir de la prévente Shopify : 228 vendus sur 24 variantes avant qu'une pièce existe. Quantité portée à 500 le même jour par Admin QC, aux proportions du vendu.	

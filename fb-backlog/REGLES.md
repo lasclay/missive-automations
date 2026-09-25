@@ -67,12 +67,18 @@ sourire de trop, à cet endroit-là, se lit comme du mépris.
    L'isolant est cultivé et transformé au Québec ; l'assemblage textile se fait surtout en Tunisie
    depuis juillet 2026. C'est une interdiction de **revendiquer**, jamais une obligation de
    **déclarer**. Voir « Ne jamais s'auto-corriger sur un compliment » ci-dessous : c'est la règle
-   la plus violée des sept.
+   la plus violée des huit.
 5. **Jamais « acheter sauve un monarque ».** Le lien est systémique, pas transactionnel.
 6. **Ne rien inventer.** Si la question sort des faits vérifiés, ne pas répondre : consigner le
    commentaire dans `a-revoir.json` pour traitement humain.
 7. **Ne jamais répondre à une plainte de commande.** Ce sont des dossiers clients, pas des
    questions. Les laisser au support.
+8. **Jamais de cadratin (—) ni de demi-cadratin (–) dans une réponse publiée.** C'est le tic
+   d'écriture d'IA le plus reconnaissable qui existe, et il trahit la Page à lui seul. Dans une
+   incise, on écrit comme une personne qui tape sur un clavier : une virgule, un deux-points, un
+   point, une parenthèse, ou deux phrases. Le trait d'union simple (-) entre deux mots composés
+   reste normal, mais le double trait d'union (--) employé comme incise tombe sous la
+   même interdiction. Cette interdiction vaut pour les quatre tirs.
 
 ## Ne jamais s'auto-corriger sur un compliment
 

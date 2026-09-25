@@ -1,6 +1,7 @@
 # Planches produits
 
-`PLANCHES-PRODUITS.pdf` — **35 pages, une par produit de production** : photos, composition selon
+`PLANCHES-PRODUITS.pdf` — **32 produits de production**, une page chacun sauf ceux dont les
+vérifications débordent (38 pages au total le 24/09/2026 : le protocole a beaucoup grossi) : photos, composition selon
 la charte, et vérifications avant emballage. Document de référence pour l'atelier, et support de
 conception pour le MRP.
 

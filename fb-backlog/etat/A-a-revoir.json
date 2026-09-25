@@ -4472,6 +4472,26 @@
       "motif": "plainte de commande (commande non livree, deux courriels sans reponse): jamais de reponse publique, a traiter en prive par le service client. Intention d'achat 5.",
       "ecarte_le": "2026-09-22",
       "tir": "A"
+    },
+    {
+      "id": "1678623234271486_2387326078739125",
+      "page_id": "104242204750257",
+      "date": "2026-09-24T14:01:03+0000",
+      "message": "L'asclépiade. Elle aussi comestible.",
+      "lien": "https://www.facebook.com/reel/1846709969671835/?comment_id=2387326078739125",
+      "motif": "Affirme que l'asclepiade est comestible. Rien de verifie la-dessus dans faits-verifies.json, et le sujet touche la salubrite alimentaire (latex amer). Ni confirmer ni contredire sans source: a trancher par un humain.",
+      "ecarte_le": "2026-09-24",
+      "tir": "A"
+    },
+    {
+      "id": "1685109530289523_1616267410034723",
+      "page_id": "104242204750257",
+      "date": "2026-09-25T00:20:52+0000",
+      "message": "Bravo! Svp, m’écrire en privé sur Messenger. J’essaie de vous rejoindre pour une commande et je n’ai pas de réponse…",
+      "lien": "https://www.facebook.com/reel/1056707667195383/?comment_id=1616267410034723",
+      "motif": "Dossier de commande: la personne dit ne pas avoir de reponse et demande un contact prive pour une commande. Garde-fou 7, aucune reponse publique. A reprendre par le support en message prive (intention d'achat 3, relance a faire).",
+      "ecarte_le": "2026-09-24",
+      "tir": "A"
     }
   ]
 }

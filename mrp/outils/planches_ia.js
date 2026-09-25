@@ -86,8 +86,16 @@ function tsv(fichier) {
 //   « handle »        les trois premières photos de la fiche
 //   « handle#2,5,9 »  ces vues-là, quand la première est un emballage ou un
 //                     alignement de coloris qui ne montre pas la construction
+// « fichier:chemin » désigne un schéma tracé à la main plutôt qu'une photo
+// Shopify. Sert quand la géométrie doit être EXACTE et que le modèle ne la
+// commet pas sur commande : un curseur d'un côté plutôt que de l'autre, une
+// étiquette retournée. On lui donne alors le schéma comme référence et il le
+// redessine dans le style des autres planches, au lieu d'inventer le miroir.
 function photosDe(handle) {
   if (!handle) return [];
+  if (handle.startsWith('fichier:')) {
+    return handle.slice(8).split(',').map(f => path.join(RACINE, f.trim()));
+  }
   const [nom, rangs] = handle.split('#');
   const toutes = tsv(PHOTOS).filter(x => x.handle === nom);
   if (rangs) {
@@ -100,11 +108,18 @@ function photosDe(handle) {
     .slice(0, 3).map(x => x.url);
 }
 
-async function reference(url) {
-  const rep = await fetch(url);
-  if (!rep.ok) throw new Error(`photo de référence ${rep.status} — ${url}`);
-  const octets = Buffer.from(await rep.arrayBuffer());
-  const mime = url.toLowerCase().includes('.png') ? 'image/png' : 'image/jpeg';
+async function reference(source) {
+  let octets;
+  if (/^https?:\/\//.test(source)) {
+    const rep = await fetch(source);
+    if (!rep.ok) throw new Error(`photo de référence ${rep.status} — ${source}`);
+    octets = Buffer.from(await rep.arrayBuffer());
+  } else {
+    octets = fs.readFileSync(source);
+  }
+  const bas = source.toLowerCase().split('?')[0];
+  const mime = bas.endsWith('.png') ? 'image/png'
+    : bas.endsWith('.webp') ? 'image/webp' : 'image/jpeg';
   return { type: 'image', data: octets.toString('base64'), mime_type: mime };
 }
 
@@ -121,7 +136,13 @@ async function dessiner(cle, panneau, precedent) {
     if (!urls.length) throw new Error(`aucune photo pour le handle « ${panneau.handle} »`);
     entree.push({
       type: 'text',
-      text: `The next ${urls.length} photographs are different views of the ACTUAL `
+      text: panneau.handle.startsWith('fichier:')
+        ? 'The next image is a hand-drawn DIAGRAM, crude on purpose. It is not a '
+          + 'style reference: it is the authority on GEOMETRY — which side things '
+          + 'are on, which way they face, where they sit relative to each other. '
+          + 'Reproduce that geometry exactly, mirrored nowhere, and redraw it in '
+          + 'the flat instructional style described above.'
+        : `The next ${urls.length} photographs are different views of the ACTUAL `
           + 'product. Study them together: they are the authority on its shape, its '
           + 'proportions, its seams, its stitching, its hardware and its colours — '
           + 'including the parts the written instruction does not mention. Draw THAT '

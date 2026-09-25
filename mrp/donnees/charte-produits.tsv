@@ -28,6 +28,15 @@
 # Voir `unites.js`.
 #
 # Importer : node mrp/import_charte.js --ecrire
+# LES TAILLES VIENNENT DE SHOPIFY, ET DE NULLE PART AILLEURS.
+# C'est la boutique qui dit ce qui part chez le client ; une taille à la charte
+# que Shopify ne vend pas n'est pas fabriquée, et une taille vendue que la
+# charte ignore l'est quand même. Le 24/09/2026, neuf produits ne concordaient
+# pas : une tuque de ville à qui on avait recopié la gradation des manteaux,
+# une mitaine bébé à cinq tailles alors qu'elle n'en a qu'une, une pointure de
+# semelle qui n'existe pas. Vérifier contre les options Shopify avant de
+# toucher à une ligne « taille ». Décision Admin QC.
+#
 produit	section	texte
 MANTEAU-HIVER	matiere	Extérieur : shell noir de type hard shell
 MANTEAU-HIVER	matiere	Intérieur : shell noir de type soft shell
@@ -142,6 +151,9 @@ SEMELLE-9	matiere	Mesh de TPU
 SEMELLE-9	isolant	Vegeto 150 g
 SEMELLE-9	parametre	Presse : 170 °C, 45 secondes
 SEMELLE-678	parametre	Surjet du pourtour après la presse — durabilité et finition
+CACHE-COU-ENF-5A13A	note	La bille bloque bien le cord-lock : elle est plus grosse que son trou et l'empêche de sortir du cordon. Mais l'élastique la TRAVERSE librement — aucun nœud à la bille, le joint de l'élastique est ailleurs. Elle sert aussi de prise au moment de serrer. Précisé par l'Admin QC, 24/09/2026.
+MIT-CUIR	note	Le code dit « cuir » et la pièce porte cuir ET laine : cuir de mouton à l'extérieur, doublure de laine. À ne pas confondre avec MIT-LAINE, qui est en laine seule. Précisé par l'Admin QC, 24/09/2026.
+MANTEAU-HIVER	note	Curseur de la fermeture éclair du côté DROIT de qui porte le manteau, sur tous les modèles. CONTREDIT la fiche Miro, qui dit « côté curseur femme : gauche, homme : droit » — l'Admin QC ne reconnaît pas cette règle par genre (23/09/2026). Le point de contrôle s'appelle encore « Côté curseur selon le genre » : à renommer.
 MIT-PLEIN-AIR	note	Le cuir synthétique couvre la PAUME seulement — il s'arrête à la couture du pouce, qui reste en soft-shell nu. Relevé sur la photo de la fiche le 23/09/2026, après qu'une planche l'eut dessiné à tort sur le pouce.
 SEMELLE-9	parametre	Surjet du pourtour après la presse — durabilité et finition
 SEMELLE-9	note	Pas d'étiquette textile : emballage de type manchon en carton, plié et collé au ruban
@@ -264,11 +276,11 @@ CACHE-COU	coloris	Rouge (#9f3a1f)
 CACHE-COU	coloris	Vert (#184038)
 CACHE-COU	coloris	Gris pâle (#b5b5b7)
 CACHE-COU	coloris	Gris foncé (#58585b)
-CACHE-COU-ENF-18M4A	taille	18 mois - 4 ans
+CACHE-COU-ENF-18M4A	taille	18 mois à 4 ans
 CACHE-COU-ENF-18M4A	coloris	Noir (#1a1a1a) — noir seulement
-CACHE-COU-ENF-5A13A	taille	5 - 13 ans
+CACHE-COU-ENF-5A13A	taille	5 à 14 ans
 CACHE-COU-ENF-5A13A	coloris	Noir (#1a1a1a) — noir seulement
-CHANDAIL	taille	Unisexe : S M L XL XXL
+CHANDAIL	taille	Unisexe : S M L XL 2XL
 CHANDAIL	coloris	Noir (#1a1a1a)
 COUSSIN	taille	Taille unique
 COUSSIN	coloris	Vert 12 oz (#37552f)
@@ -282,33 +294,32 @@ FOULARD	coloris	Noir (#1a1a1a)
 FOULARD	coloris	Rouge (#9f3a1f)
 FOULARD	coloris	Vert (#184038)
 FOULARD	coloris	Gris pâle (#b5b5b7)
-GANTS-MAGIQUES	taille	s/m et m/l
+GANTS-MAGIQUES	taille	S/M (femme) et L/XL (homme)
 GANTS-MAGIQUES	coloris	Vert
 GLACIERE	taille	Taille unique — 30 L
 GLACIERE	coloris	Noir 10 oz (#1a1a1a)
 GLACIERE	coloris	Vert 12 oz (#37552f)
-MANTEAU-3SAISONS	taille	Femme : XS S M L XL XXL
-MANTEAU-3SAISONS	taille	Homme : S M L XL XXL
+MANTEAU-3SAISONS	taille	Femme : XS S M L XL 2XL
+MANTEAU-3SAISONS	taille	Homme : XS S M L XL 2XL
 MANTEAU-3SAISONS	coloris	Noir (#1a1a1a)
-MANTEAU-HIVER	taille	Femme : XS S M L XL XXL
-MANTEAU-HIVER	taille	Homme : S M L XL XXL
+MANTEAU-HIVER	taille	Femme : XS S M L XL 2XL
+MANTEAU-HIVER	taille	Homme : XS S M L XL 2XL
 MANTEAU-HIVER	coloris	Noir (#1a1a1a)
-MIT-BEBE	taille	Unisexe : XS S M L XL
+MIT-BEBE	taille	0-24 mois — taille unique
 MIT-BEBE	coloris	Vert
 MIT-CUIR	taille	Unisexe : XS S M L XL
 MIT-CUIR	coloris	Noir (#1a1a1a)
 MIT-LAINE	taille	Unisexe : XS S M L XL
 MIT-LAINE	coloris	Vert
-MIT-PLEIN-AIR	taille	Femme : XS S M L XL XXL
-MIT-PLEIN-AIR	taille	Homme : S M L XL XXL
+MIT-PLEIN-AIR	taille	Unisexe : XS S M L XL
 MIT-PLEIN-AIR	coloris	Noir (#1a1a1a)
 MIT-POLAR	taille	Unisexe : XS S M L XL
 MIT-POLAR	coloris	Noir (#1a1a1a)
 MIT-POLAR	coloris	Gris
 MIT-POLAR	coloris	Violet
 MIT-POLAR	coloris	Rouge
-OREILLER	taille	Standard — 26 x 20 po
-OREILLER	taille	Grand (King) — 36 x 20 po
+OREILLER	taille	Standard — 20 x 26 po
+OREILLER	taille	Très grand — 20 x 36 po
 OREILLER	coloris	Blanc (#ffffff)
 OREILLER-CAMPING	taille	Taille unique
 OREILLER-CAMPING	coloris	Noir et gris (#1a1a1a)
@@ -324,7 +335,7 @@ SAC-LUNCH	coloris	Jaune 10 oz (#f1b92a)
 SAC-LUNCH	coloris	Beige 10 oz (#c69e7d) — dit « cassonade » au plan de production, écrit « Casonnade » au chiffrier, sans le second s. Un seul et même coloris.
 SAC-LUNCH	coloris	Rose 10 oz — 55 pièces au plan 26-27. Absent de la charte Miro, confirmé par Gabriel : c'est du 10 oz, comme le noir, le rouge, le jaune et le beige.
 SEMELLE-678	taille	5F, 6F, 7F, 8F — les quatre petites pointures du parc
-SEMELLE-9	taille	9F, 10F, 11F, 12F, 13H, 14H, 15H — les sept grandes
+SEMELLE-9	taille	9F-7H, 10F-8H, 11F-9H, 12F-10H, 11H, 12H, 13H, 14H — les huit grandes
 TOTE	taille	Taille unique
 TOTE	coloris	Noir 10 oz (#1a1a1a)
 TOTE	coloris	Rouge 10 oz (#8b2b37)
@@ -332,13 +343,19 @@ TOTE	coloris	Vert 12 oz (#37552f)
 TOTE	coloris	Jaune 10 oz (#f1b92a)
 TOTE	coloris	Beige 10 oz (#c69e7d) — dit « cassonade » au plan de production, écrit « Casonnade » au chiffrier, sans le second s. Un seul et même coloris.
 TOTE	coloris	Rose 10 oz — 10 pièces au plan 26-27. Absent de la charte Miro, confirmé par Gabriel : c'est du 10 oz, comme le noir, le rouge, le jaune et le beige.
-TUQUE-SPORT	taille	s/m et m/l
+TUQUE-SPORT	taille	S/M et M/L
 TUQUE-SPORT	coloris	Noir (#1a1a1a)
-TUQUE-VILLE	taille	Femme : XS S M L XL XXL
-TUQUE-VILLE	taille	Homme : S M L XL XXL
+TUQUE-VILLE	taille	Taille unique — c'est la COULEUR qui varie : noir, gris cendré, jaune paille
 TUQUE-VILLE	coloris	Noir (#1a1a1a)
 TUQUE-VILLE	coloris	Jaune (#f1b92a)
 TUQUE-VILLE	coloris	Gris (#b0b0b0)
-VESTE	taille	Femme : XS S M L XL XXL
-VESTE	taille	Homme : S M L XL XXL
+TUQUE-VILLE	note	La tuque de ville n'est PAS graduée. La charte lui donnait « Femme XS-XXL // Homme S-XXL » — c'est la gradation des mitaines et des manteaux, recopiée par erreur. Shopify ne lui connaît qu'une option, la couleur, et trois variantes qui sont trois coloris. Confirmé par Admin QC le 24/09/2026. Les trois rétroactions « trop petit » ne sont donc pas un problème de gradation : c'est une taille unique qui ne va pas à tout le monde, et ça se règle au patron, pas au contrôle.
+VESTE	taille	Femme : XS S M L XL 2XL
+VESTE	taille	Homme : XS S M L XL 2XL
 VESTE	coloris	Noir (#1a1a1a)
+TSHIRT-BRODE	matiere	Coton 100 %
+TSHIRT-BRODE	garniture	Broderie — deux motifs : papillon et asclépiade, chenille monarque
+TSHIRT-BRODE	taille	XS, S, M, L, XL, 2XL — unisexe
+TSHIRT-BRODE	coloris	Crème, Noir
+TSHIRT-BRODE	note	AUCUNE fibre d'asclépiade : c'est du coton brodé, et la fiche Shopify le dit explicitement. Ne pas lui chercher un isolant ni lui appliquer les contrôles d'isolation.
+TSHIRT-BRODE	note	Produit né d'une prévente : 228 vendus avant production. Les quantités du plan sont ces ventes majorées, pas une prévision.

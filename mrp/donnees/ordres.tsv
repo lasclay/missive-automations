@@ -1,0 +1,23 @@
+# Les ordres de production, et les fichiers de plan que chacun rassemble.
+#
+# Il n'y en avait qu'un, et son titre était écrit en dur dans import.js. Un
+# deuxième est arrivé — les t-shirts de prévente — et un ordre ne se déduit
+# pas d'une ligne de plan : il a sa propre échéance, son propre périmètre, et
+# l'atelier le voit comme un bloc de travail. C'est donc une donnée.
+#
+# `fichiers` : les fichiers de donnees/ dont les lignes forment cet ordre,
+# séparés par des points-virgules. Une ligne appartient à UN seul ordre.
+#
+# `expedition` : la date de départ vers le Canada, qui commande tout le reste.
+# `transport` : avion, bateau… Il ne change aucun calcul, mais il change la
+# lecture de la date : le 24 octobre par avion n'est pas le 24 octobre par
+# bateau. Il s'affiche donc sur le jalon.
+#
+# `expedition` LAISSÉE VIDE quand personne ne l'a fixée — aucun jalon n'est posé, et Québec
+# la met dans l'app. Une date inventée ici aurait l'air d'une donnée et
+# commanderait la cédule de tout un ordre.
+#
+# Le numéro (OP-AAAA-NNNN) est attribué à la création et ne bouge plus.
+titre	fichiers	expedition	transport	note
+Plan de production 26-27 — prévente automne	plan-production-2627.tsv;ajouts-production.tsv	2026-10-01		Importé du chiffrier « QUANTITÉS FINALES — PLAN DE PRODUCTION 26-27 », plus les quantités décidées hors chiffrier. Les quantités se remettent à jour par un nouvel import ; les avancements se saisissent dans l'app.
+T-shirts brodés — prévente automne 2026	plan-tshirts-2026.tsv	2026-10-24	avion	228 t-shirts vendus en prévente avant qu'une pièce existe, production portée à 500. La boutique promet la livraison en novembre 2026. Départ PAR AVION, au plus tard le 24 octobre 2026 — décidé par Admin QC le 24/09/2026. C'est un maximum, pas une cible : les 500 pièces doivent être finies AVANT cette date, sinon elles ratent la promesse de novembre.

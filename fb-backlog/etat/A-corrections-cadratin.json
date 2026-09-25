@@ -1,0 +1,422 @@
+{
+  "objet": "Retrait des cadratins des reponses deja publiees sur la Page Lasclay",
+  "motif": "Garde-fou 8 de REGLES.md, ajoute le 24 septembre 2026.",
+  "quand": "2026-09-24T07:13:30+00:00",
+  "tir": "A",
+  "page_id": "104242204750257",
+  "methode": "connecteur facebook, action edit : le commentaire garde sa place dans le fil et personne n'est renotifie. Chaque edition relue aupres de Meta.",
+  "total_reperes": 58,
+  "corriges": 57,
+  "absents": [
+    "1678623234271486_2055260138441842"
+  ],
+  "detail": [
+    {
+      "id": "1674454204688389_922536753910191",
+      "reponse_id": "1674454204688389_3315636282158010",
+      "conforme": true,
+      "avant": "Merci pour le retour ! Solides et qui tiennent bien, c'est précisément ce qu'on visait — ça fait plaisir de lire que c'est au rendez-vous.",
+      "apres": "Merci pour le retour ! Solides et qui tiennent bien, c'est précisément ce qu'on visait, et ça fait plaisir de lire que c'est au rendez-vous."
+    },
+    {
+      "id": "1503500508450427_1460467608878676",
+      "reponse_id": "1503500508450427_2144357356176276",
+      "conforme": true,
+      "avant": "Bonjour, on peut vous rassurer : une fois installée, l'asclépiade demande très peu. Tout se joue au départ. Nos graines ne sont pas stratifiées, il leur faut une trentaine de jours de froid — soit un semis d'automne qui laisse l'hiver s'en charger, soit un mois au réfrigérateur avant de semer au printemps. Ensuite, du plein soleil et de la patience : du feuillage la première année, des fleurs la deuxième. Pour l'espèce, la commune (syriaca) est indigène et la plus vigoureuse, mais elle s'étend par rhizomes ; si l'espace est compté, la tubéreuse ou l'incarnata restent plus sages. Et pour les monarques, ce qui compte le plus n'est pas l'espèce mais la talle : quelques plants ensemble valent mieux qu'un seul isolé.",
+      "apres": "Bonjour, on peut vous rassurer : une fois installée, l'asclépiade demande très peu. Tout se joue au départ. Nos graines ne sont pas stratifiées, il leur faut une trentaine de jours de froid, soit un semis d'automne qui laisse l'hiver s'en charger, soit un mois au réfrigérateur avant de semer au printemps. Ensuite, du plein soleil et de la patience : du feuillage la première année, des fleurs la deuxième. Pour l'espèce, la commune (syriaca) est indigène et la plus vigoureuse, mais elle s'étend par rhizomes ; si l'espace est compté, la tubéreuse ou l'incarnata restent plus sages. Et pour les monarques, ce qui compte le plus n'est pas l'espèce mais la talle : quelques plants ensemble valent mieux qu'un seul isolé."
+    },
+    {
+      "id": "1503607451773066_1052328481297665",
+      "reponse_id": "1503607451773066_1061544536801367",
+      "conforme": true,
+      "avant": "Votre inquiétude est fondée, et c'est même le seul risque réellement documenté : l'asclépiade séchée dans les balles de foin, que le bétail ne peut plus trier. Au pâturage, les animaux l'évitent d'eux-mêmes, le latex est très amer ; le problème vient de la fauche et du séchage. Il n'y a pas de contradiction avec ce qu'on fait — personne n'a intérêt à ce qu'elle se retrouve dans un champ de foin.",
+      "apres": "Votre inquiétude est fondée, et c'est même le seul risque réellement documenté : l'asclépiade séchée dans les balles de foin, que le bétail ne peut plus trier. Au pâturage, les animaux l'évitent d'eux-mêmes, le latex est très amer ; le problème vient de la fauche et du séchage. Il n'y a pas de contradiction avec ce qu'on fait. Personne n'a intérêt à ce qu'elle se retrouve dans un champ de foin."
+    },
+    {
+      "id": "1498545598945918_866676826391553",
+      "reponse_id": "1498545598945918_2540945409752804",
+      "conforme": true,
+      "avant": "Merci. Ce genre de chose se voit surtout après coup — sur le moment, c'est bien plus tâtonnant que ça n'en a l'air une fois raconté.",
+      "apres": "Merci. Ce genre de chose se voit surtout après coup. Sur le moment, c'est bien plus tâtonnant que ça n'en a l'air une fois raconté."
+    },
+    {
+      "id": "1503607451773066_3262749450551402",
+      "reponse_id": "1503607451773066_1757742388882096",
+      "conforme": true,
+      "avant": "L'idée est notée, merci. Pour l'instant chaque sachet ne contient qu'une seule espèce, ce qui permet de choisir celle qui convient au milieu — plein soleil, sol sec ou humide, espace disponible. Rien n'empêche par contre de commander deux ou trois espèces et de les semer côte à côte.",
+      "apres": "L'idée est notée, merci. Pour l'instant chaque sachet ne contient qu'une seule espèce, ce qui permet de choisir celle qui convient au milieu : plein soleil, sol sec ou humide, espace disponible. Rien n'empêche par contre de commander deux ou trois espèces et de les semer côte à côte."
+    },
+    {
+      "id": "1497110025756142_1248019406773995",
+      "reponse_id": "1497110025756142_4506279432850758",
+      "conforme": true,
+      "avant": "Bonne question, et la réponse honnête est qu'on n'a pas de cote officielle à vous donner. Ce qu'on peut dire : la fibre d'asclépiade est creuse, l'air isolant est dans la fibre et non entre les fibres, alors elle ne perd pas son pouvoir isolant en étant compressée. C'est ce qui permet de rester mince sans sacrifier la chaleur — précisément l'enjeu quand on travaille des mains toute la journée. Pour l'offre courante et la suite : lasclay.com et l'infolettre.",
+      "apres": "Bonne question, et la réponse honnête est qu'on n'a pas de cote officielle à vous donner. Ce qu'on peut dire : la fibre d'asclépiade est creuse, l'air isolant est dans la fibre et non entre les fibres, alors elle ne perd pas son pouvoir isolant en étant compressée. C'est ce qui permet de rester mince sans sacrifier la chaleur, précisément l'enjeu quand on travaille des mains toute la journée. Pour l'offre courante et la suite : lasclay.com et l'infolettre."
+    },
+    {
+      "id": "1497110025756142_1089671320018107",
+      "reponse_id": "1497110025756142_1801168017563796",
+      "conforme": true,
+      "avant": "Votre cas est parmi les plus exigeants : peu de mouvement, longues heures, et il faut garder le doigté sur des commandes. L'asclépiade a un avantage précis là-dessus — sa fibre est creuse, donc l'isolation ne dépend pas de l'épaisseur ni du gonflant, et elle tient même comprimée. Par contre, aucune cote de température officielle de notre part : seulement des témoignages. Ce qui est offert se trouve sur lasclay.com, et l'infolettre annonce la suite.",
+      "apres": "Votre cas est parmi les plus exigeants : peu de mouvement, longues heures, et il faut garder le doigté sur des commandes. L'asclépiade a un avantage précis là-dessus, sa fibre est creuse, donc l'isolation ne dépend pas de l'épaisseur ni du gonflant, et elle tient même comprimée. Par contre, aucune cote de température officielle de notre part : seulement des témoignages. Ce qui est offert se trouve sur lasclay.com, et l'infolettre annonce la suite."
+    },
+    {
+      "id": "1503540845113060_926512003314618",
+      "reponse_id": "1503540845113060_1079303817973784",
+      "conforme": true,
+      "avant": "La remarque se défend. Un ordre de grandeur, par contre : environ dix millions de graines ont été distribuées en Amérique du Nord sur cinq campagnes, et chaque commande textile repart avec un sachet. L'effet vient surtout du nombre de terrains où l'asclépiade s'installe — et une talle bien partie se ressème ensuite d'elle-même, année après année.",
+      "apres": "La remarque se défend. Un ordre de grandeur, par contre : environ dix millions de graines ont été distribuées en Amérique du Nord sur cinq campagnes, et chaque commande textile repart avec un sachet. L'effet vient surtout du nombre de terrains où l'asclépiade s'installe. Et une talle bien partie se ressème ensuite d'elle-même, année après année."
+    },
+    {
+      "id": "1503540845113060_1468937798209942",
+      "reponse_id": "1503540845113060_1743512716941902",
+      "conforme": true,
+      "avant": "L'inquiétude est compréhensible, mais c'est très faisable. Le seul vrai piège est le froid : des graines gardées au sec à l'intérieur depuis l'automne n'ont pas eu leur période de dormance. Donnez-leur une trentaine de jours au réfrigérateur, dans un sac scellé sur un essuie-tout humide, puis semez au printemps. Sans ce passage au froid, la germination est très décevante — c'est la cause numéro un des semis ratés.",
+      "apres": "L'inquiétude est compréhensible, mais c'est très faisable. Le seul vrai piège est le froid : des graines gardées au sec à l'intérieur depuis l'automne n'ont pas eu leur période de dormance. Donnez-leur une trentaine de jours au réfrigérateur, dans un sac scellé sur un essuie-tout humide, puis semez au printemps. Sans ce passage au froid, la germination est très décevante. C'est la cause numéro un des semis ratés."
+    },
+    {
+      "id": "1503540845113060_2018924915353450",
+      "reponse_id": "1503540845113060_1099150359141637",
+      "conforme": true,
+      "avant": "Bonjour, ce sont les feuilles qui comptent le plus dans cette histoire : les chenilles en dépendent entièrement. C'est d'ailleurs pour ça qu'on ne récolte que les follicules, à l'automne, une fois la migration passée — le feuillage n'est jamais touché. Si vos plants sont établis depuis plusieurs années, vous avez déjà la partie difficile de faite.",
+      "apres": "Bonjour, ce sont les feuilles qui comptent le plus dans cette histoire : les chenilles en dépendent entièrement. C'est d'ailleurs pour ça qu'on ne récolte que les follicules, à l'automne, une fois la migration passée. Le feuillage n'est jamais touché. Si vos plants sont établis depuis plusieurs années, vous avez déjà la partie difficile de faite."
+    },
+    {
+      "id": "1498545598945918_979917747945227",
+      "reponse_id": "1498545598945918_1085951420563244",
+      "conforme": true,
+      "avant": "Merci beaucoup, ces mots-là font du bien. L'entreprise suit son cours et la saison de récolte approche — c'est ce qui garde le cap. Bonne fin d'été à vous.",
+      "apres": "Merci beaucoup, ces mots-là font du bien. L'entreprise suit son cours et la saison de récolte approche, c'est ce qui garde le cap. Bonne fin d'été à vous."
+    },
+    {
+      "id": "1498545598945918_1874298139957978",
+      "reponse_id": "1498545598945918_28147625838211349",
+      "conforme": true,
+      "avant": "Merci. Le nombre de messages reçus sous ce texte dépasse largement ce qu'on a l'habitude de voir — on les lit tous, même quand on n'arrive pas à répondre à chacun. Bonne fin de journée à vous.",
+      "apres": "Merci. Le nombre de messages reçus sous ce texte dépasse largement ce qu'on a l'habitude de voir. On les lit tous, même quand on n'arrive pas à répondre à chacun. Bonne fin de journée à vous."
+    },
+    {
+      "id": "1503500508450427_930878246259562",
+      "reponse_id": "1503500508450427_29303761009212586",
+      "conforme": true,
+      "avant": "Bonjour, votre description dit beaucoup en peu de mots. Une précision sur ce qui a été soulevé plus haut : l'asclépiade commune est indigène ici et se propage par rhizomes — agressive dans une planche de culture, certainement, mais ce n'est pas la même chose qu'une espèce envahissante venue d'ailleurs. En bordure de champ ou sur un terrain qu'on laisse aller, c'est justement ce qui la rend utile. Et pour la chasse aux papillons avec les petits-enfants, tout repose sur les feuilles : c'est d'elles que dépendent les chenilles.",
+      "apres": "Bonjour, votre description dit beaucoup en peu de mots. Une précision sur ce qui a été soulevé plus haut : l'asclépiade commune est indigène ici et se propage par rhizomes. Agressive dans une planche de culture, certainement, mais ce n'est pas la même chose qu'une espèce envahissante venue d'ailleurs. En bordure de champ ou sur un terrain qu'on laisse aller, c'est justement ce qui la rend utile. Et pour la chasse aux papillons avec les petits-enfants, tout repose sur les feuilles : c'est d'elles que dépendent les chenilles."
+    },
+    {
+      "id": "1498545598945918_4374448266144371",
+      "reponse_id": "1498545598945918_1326217503901984",
+      "conforme": true,
+      "avant": "Bonjour, la question mérite une réponse franche plutôt qu'une formule. La fibre reste québécoise : l'asclépiade est cultivée ici et transformée ici, et c'est le cœur du produit. L'assemblage textile, lui, se fait surtout en Tunisie depuis juillet — c'est ce qui permet à l'entreprise de continuer. On préfère le dire clairement plutôt que de laisser croire que tout se fait ici.",
+      "apres": "Bonjour, la question mérite une réponse franche plutôt qu'une formule. La fibre reste québécoise : l'asclépiade est cultivée ici et transformée ici, et c'est le cœur du produit. L'assemblage textile, lui, se fait surtout en Tunisie depuis juillet, c'est ce qui permet à l'entreprise de continuer. On préfère le dire clairement plutôt que de laisser croire que tout se fait ici."
+    },
+    {
+      "id": "1498545598945918_1516799180005158",
+      "reponse_id": "1498545598945918_2114241399455016",
+      "conforme": true,
+      "avant": "Thank you. Kind words travel further than people think — they've made this stretch a good deal easier. All the best to you.",
+      "apres": "Thank you. Kind words travel further than people think, and they've made this stretch a good deal easier. All the best to you."
+    },
+    {
+      "id": "1498545598945918_1149924637142012",
+      "reponse_id": "1498545598945918_1981638542547453",
+      "conforme": true,
+      "avant": "Merci pour ce message. Vous avez perdu votre mère de la même maladie et vous prenez quand même le temps d'écrire ça — ce n'est pas rien. Nos pensées vous accompagnent, et merci pour vos mots sur l'entreprise.",
+      "apres": "Merci pour ce message. Vous avez perdu votre mère de la même maladie et vous prenez quand même le temps d'écrire ça. Ce n'est pas rien. Nos pensées vous accompagnent, et merci pour vos mots sur l'entreprise."
+    },
+    {
+      "id": "1498545598945918_1611599323378534",
+      "reponse_id": "1498545598945918_1792740995258596",
+      "conforme": true,
+      "avant": "Merci pour ce message. Pour vos graines : si elles sont encore dans leur sachet, l'automne est le bon moment pour les mettre en terre — le froid de l'hiver fait la stratification à votre place. La première année, la plante travaille surtout ses racines ; la floraison arrive à la deuxième. Côté climat, rien à craindre : l'espèce tient de la zone 3 à la zone 9.",
+      "apres": "Merci pour ce message. Pour vos graines : si elles sont encore dans leur sachet, l'automne est le bon moment pour les mettre en terre, le froid de l'hiver fait la stratification à votre place. La première année, la plante travaille surtout ses racines ; la floraison arrive à la deuxième. Côté climat, rien à craindre : l'espèce tient de la zone 3 à la zone 9."
+    },
+    {
+      "id": "1498545598945918_1486221409880672",
+      "reponse_id": "1498545598945918_2246509319478920",
+      "conforme": true,
+      "avant": "Merci — et content de savoir que vos mitaines font leur travail. C'est le genre de retour qui compte le plus de ce côté-ci.",
+      "apres": "Merci, et content de savoir que vos mitaines font leur travail. C'est le genre de retour qui compte le plus de ce côté-ci."
+    },
+    {
+      "id": "1498545598945918_1922553405067560",
+      "reponse_id": "1498545598945918_2583885475362829",
+      "conforme": true,
+      "avant": "Merci, et content d'apprendre que vous en gardez encore. C'est la même matière que celle qu'on récolte dans les follicules à l'automne, une fois la migration passée — les feuilles, elles, restent aux chenilles. Au plaisir de vous recroiser.",
+      "apres": "Merci, et content d'apprendre que vous en gardez encore. C'est la même matière que celle qu'on récolte dans les follicules à l'automne, une fois la migration passée. Les feuilles, elles, restent aux chenilles. Au plaisir de vous recroiser."
+    },
+    {
+      "id": "1498545598945918_1645375016643089",
+      "reponse_id": "1498545598945918_1028068396716059",
+      "conforme": true,
+      "avant": "Merci. Cinquante monarques en une saison, c'est beaucoup — vous faites dans votre cour ce que les campagnes de semences tentent à grande échelle : environ dix millions de graines distribuées en Amérique du Nord sur cinq campagnes. Sans plants, il n'y a rien à élever.",
+      "apres": "Merci. Cinquante monarques en une saison, c'est beaucoup. Vous faites dans votre cour ce que les campagnes de semences tentent à grande échelle : environ dix millions de graines distribuées en Amérique du Nord sur cinq campagnes. Sans plants, il n'y a rien à élever."
+    },
+    {
+      "id": "1497110025756142_2025586571636924",
+      "reponse_id": "1497110025756142_2191404211477213",
+      "conforme": true,
+      "avant": "Bonjour, c'est précisément le problème que la fibre creuse cherche à régler : l'air isolant se trouve dans la fibre elle-même, pas dans une épaisseur ajoutée, et il résiste à l'écrasement. On n'annonce par contre aucune cote de température — il n'en existe pas d'officielle. Pour la pêche blanche, ce sont les longues heures sans bouger qui décident, et c'est là que le rapport minceur-chaleur compte le plus.",
+      "apres": "Bonjour, c'est précisément le problème que la fibre creuse cherche à régler : l'air isolant se trouve dans la fibre elle-même, pas dans une épaisseur ajoutée, et il résiste à l'écrasement. On n'annonce par contre aucune cote de température, il n'en existe pas d'officielle. Pour la pêche blanche, ce sont les longues heures sans bouger qui décident, et c'est là que le rapport minceur-chaleur compte le plus."
+    },
+    {
+      "id": "1497691782364633_2156036751834537",
+      "reponse_id": "1497691782364633_2082444662363617",
+      "conforme": true,
+      "avant": "Bonjour, la gamme de tailles offerte en ce moment est celle qui apparaît sur lasclay.com. Votre remarque est notée telle quelle — c'est ce genre de demande qui finit par faire bouger une gamme —, mais on évite d'annoncer ce qu'on ne peut pas encore tenir. Les changements passent par l'infolettre.",
+      "apres": "Bonjour, la gamme de tailles offerte en ce moment est celle qui apparaît sur lasclay.com. Votre remarque est notée telle quelle, c'est ce genre de demande qui finit par faire bouger une gamme. On évite par contre d'annoncer ce qu'on ne peut pas encore tenir. Les changements passent par l'infolettre."
+    },
+    {
+      "id": "1491340309666447_931465979466774",
+      "reponse_id": "1491340309666447_1622377596222946",
+      "conforme": true,
+      "avant": "Merci — venant d'une couturière de métier, la remarque a un autre poids. C'est au montage que les journées difficiles se jouent, et vous savez mieux que la plupart ce qu'un patron peut coûter avant de tenir.",
+      "apres": "Merci. Venant d'une couturière de métier, la remarque a un autre poids. C'est au montage que les journées difficiles se jouent, et vous savez mieux que la plupart ce qu'un patron peut coûter avant de tenir."
+    },
+    {
+      "id": "1491340309666447_1320423679900171",
+      "reponse_id": "1491340309666447_2253968892064214",
+      "conforme": true,
+      "avant": "L'idée revient assez souvent pour être notée. On évite par contre de s'engager sur ce qui n'existe pas encore : ce qui est offert se trouve sur lasclay.com, et les nouveautés passent d'abord par l'infolettre. Ce qu'on peut dire, c'est que l'air isolant de la fibre creuse tient même comprimé — pour un sac, ce n'est pas un détail anodin.",
+      "apres": "L'idée revient assez souvent pour être notée. On évite par contre de s'engager sur ce qui n'existe pas encore : ce qui est offert se trouve sur lasclay.com, et les nouveautés passent d'abord par l'infolettre. Ce qu'on peut dire, c'est que l'air isolant de la fibre creuse tient même comprimé, et pour un sac, ce n'est pas un détail anodin."
+    },
+    {
+      "id": "1489445836522561_1414888466795105",
+      "reponse_id": "1489445836522561_1382187037412170",
+      "conforme": true,
+      "avant": "Bonjour, quelques repères : plein soleil, et en talle plutôt qu'un plant isolé — un groupe se repère beaucoup mieux. Prévoyez des fleurs à nectar tardif à proximité pour les adultes, évitez les plants traités aux néonicotinoïdes autour, et ne tondez pas en juin : c'est là que les œufs et les jeunes chenilles sont dans le feuillage. Une précision utile aussi : nos graines ne sont pas stratifiées, alors semées cet automne, l'hiver fait le froid nécessaire tout seul.",
+      "apres": "Bonjour, quelques repères : plein soleil, et en talle plutôt qu'un plant isolé, un groupe se repère beaucoup mieux. Prévoyez des fleurs à nectar tardif à proximité pour les adultes, évitez les plants traités aux néonicotinoïdes autour, et ne tondez pas en juin : c'est là que les œufs et les jeunes chenilles sont dans le feuillage. Une précision utile aussi : nos graines ne sont pas stratifiées, alors semées cet automne, l'hiver fait le froid nécessaire tout seul."
+    },
+    {
+      "id": "1489445836522561_1465116171801300",
+      "reponse_id": "1489445836522561_1625305772575855",
+      "conforme": true,
+      "avant": "Bonjour, oui : Lasclay achète d'agriculteurs qui en cultivent commercialement, l'entreprise se concentrant sur la transformation. Le plus simple est de nous écrire en message privé — l'équipe pourra vous dire où en sont les besoins et à qui parler.",
+      "apres": "Bonjour, oui : Lasclay achète d'agriculteurs qui en cultivent commercialement, l'entreprise se concentrant sur la transformation. Le plus simple est de nous écrire en message privé : l'équipe pourra vous dire où en sont les besoins et à qui parler."
+    },
+    {
+      "id": "1491340309666447_1190320546507891",
+      "reponse_id": "1491340309666447_2112158436392922",
+      "conforme": true,
+      "avant": "Bonjour, la réponse honnête : il n'existe pas de cote de température officielle pour ce manteau, et on refuse d'en inventer une — c'est d'ailleurs pour ça que vous ne trouvez l'information nulle part. Ce qu'on a, ce sont des témoignages de clients jusqu'à -30 et des essais internes. Le principe est que l'air isolant se trouve dans la fibre creuse elle-même, donc l'isolation ne s'écrase pas. Avec un mince polar en dessous, le reste dépendra surtout de votre activité : immobile ou en mouvement, ce n'est pas le même manteau. Pour un avis ajusté à votre usage, écrivez-nous en message privé.",
+      "apres": "Bonjour, la réponse honnête : il n'existe pas de cote de température officielle pour ce manteau, et on refuse d'en inventer une, c'est d'ailleurs pour ça que vous ne trouvez l'information nulle part. Ce qu'on a, ce sont des témoignages de clients jusqu'à -30 et des essais internes. Le principe est que l'air isolant se trouve dans la fibre creuse elle-même, donc l'isolation ne s'écrase pas. Avec un mince polar en dessous, le reste dépendra surtout de votre activité : immobile ou en mouvement, ce n'est pas le même manteau. Pour un avis ajusté à votre usage, écrivez-nous en message privé."
+    },
+    {
+      "id": "1491340309666447_779799551381251",
+      "reponse_id": "1491340309666447_1071358542349524",
+      "conforme": true,
+      "avant": "Merci pour ce retour, la partie la moins flatteuse comprise — ce sont celles-là qui servent le plus. On ne va pas contredire ce que vous avez vécu côté ajustement. Pour le reste, pelleter à ‑30 rejoint ce que d'autres nous rapportent ; c'est d'ailleurs le seul repère qu'on ait, des témoignages, aucune cote officielle.",
+      "apres": "Merci pour ce retour, la partie la moins flatteuse comprise. Ce sont celles-là qui servent le plus. On ne va pas contredire ce que vous avez vécu côté ajustement. Pour le reste, pelleter à -30 rejoint ce que d'autres nous rapportent ; c'est d'ailleurs le seul repère qu'on ait, des témoignages, aucune cote officielle."
+    },
+    {
+      "id": "1489445836522561_952642570778082",
+      "reponse_id": "1489445836522561_1089521063529486",
+      "conforme": true,
+      "avant": "Merci — en parler chaque année à des élèves du secondaire fait plus de chemin que bien des campagnes. Si des questions précises sortent de vos cours, elles sont les bienvenues ici.",
+      "apres": "Merci. En parler chaque année à des élèves du secondaire fait plus de chemin que bien des campagnes. Si des questions précises sortent de vos cours, elles sont les bienvenues ici."
+    },
+    {
+      "id": "1491340309666447_1941515483154680",
+      "reponse_id": "1491340309666447_1622570549212964",
+      "conforme": true,
+      "avant": "Merci pour le retour, la raideur comprise — c'est le genre de détail qu'on veut entendre plutôt que de le deviner. Content que le froid ne se rende plus jusqu'aux mains. Bonne saison avec la tuque.",
+      "apres": "Merci pour le retour, la raideur comprise. C'est le genre de détail qu'on veut entendre plutôt que de le deviner. Content que le froid ne se rende plus jusqu'aux mains. Bonne saison avec la tuque."
+    },
+    {
+      "id": "1491340309666447_1936308953650464",
+      "reponse_id": "1491340309666447_1731351094790719",
+      "conforme": true,
+      "avant": "Merci. On essaie surtout de ne pas annoncer plus que ce qu'on peut tenir — c'est peut-être ça qui ressort du texte. Le reste, ce sont des journées ordinaires mises bout à bout.",
+      "apres": "Merci. On essaie surtout de ne pas annoncer plus que ce qu'on peut tenir, c'est peut-être ça qui ressort du texte. Le reste, ce sont des journées ordinaires mises bout à bout."
+    },
+    {
+      "id": "1491340309666447_886329497627181",
+      "reponse_id": "1491340309666447_1090728313652875",
+      "conforme": true,
+      "avant": "Merci — et content de voir le sac jaune en service. Une photo comme celle-là en dit plus long qu'une fiche produit. Bon reste de saison.",
+      "apres": "Merci, et content de voir le sac jaune en service. Une photo comme celle-là en dit plus long qu'une fiche produit. Bon reste de saison."
+    },
+    {
+      "id": "1483881967078948_1560851745026368",
+      "reponse_id": "1483881967078948_2230593021674472",
+      "conforme": true,
+      "avant": "Merci — et bon à savoir pour les sous-plats. Les retours sur les petits articles nous reviennent plus rarement, ils sont d'autant plus utiles.",
+      "apres": "Merci, et bon à savoir pour les sous-plats. Les retours sur les petits articles nous reviennent plus rarement, ils sont d'autant plus utiles."
+    },
+    {
+      "id": "1489445836522561_1443358987328452",
+      "reponse_id": "1489445836522561_1000154219701261",
+      "conforme": true,
+      "avant": "Des talles déjà installées sur une terre bio, c'est un bon point de départ : ça vous dit tout de suite que le sol convient. On sera curieux d'avoir des nouvelles de vos essais. Quand vous en serez là, passez par le message privé — c'est l'équipe qui suit les besoins en approvisionnement. Bonne saison à vous.",
+      "apres": "Des talles déjà installées sur une terre bio, c'est un bon point de départ : ça vous dit tout de suite que le sol convient. On sera curieux d'avoir des nouvelles de vos essais. Quand vous en serez là, passez par le message privé : c'est l'équipe qui suit les besoins en approvisionnement. Bonne saison à vous."
+    },
+    {
+      "id": "1471550908312054_1493101026153987",
+      "reponse_id": "1471550908312054_1413056810748063",
+      "conforme": true,
+      "avant": "Bonjour, il n'y a pas de salle de montre : tout passe par le site. Si un accessoire vous intéresse en particulier — matière, dimensions, finition — écrivez-nous en message privé, c'est plus simple de répondre au cas par cas.",
+      "apres": "Bonjour, il n'y a pas de salle de montre : tout passe par le site. Si un accessoire vous intéresse en particulier (matière, dimensions, finition), écrivez-nous en message privé, c'est plus simple de répondre au cas par cas."
+    },
+    {
+      "id": "1471550908312054_1676243893381942",
+      "reponse_id": "1471550908312054_2570784346690371",
+      "conforme": true,
+      "avant": "Oui. Cycle délicat à l'eau froide, savon doux, pas d'assouplissant, puis séchage à plat à l'air libre — jamais à la sécheuse. Tout est détaillé dans les guides d'entretien, sur lasclay.com.",
+      "apres": "Oui. Cycle délicat à l'eau froide, savon doux, pas d'assouplissant, puis séchage à plat à l'air libre, jamais à la sécheuse. Tout est détaillé dans les guides d'entretien, sur lasclay.com."
+    },
+    {
+      "id": "1471550908312054_950362810647793",
+      "reponse_id": "1471550908312054_1433379825363547",
+      "conforme": true,
+      "avant": "Remarque notée pour les photos : on montre beaucoup la fibre et rarement la plante entière. Et vous l'avez bien vue à St-Armand — c'est une vivace indigène, elle s'installe d'elle-même le long des champs et des chemins.",
+      "apres": "Remarque notée pour les photos : on montre beaucoup la fibre et rarement la plante entière. Et vous l'avez bien vue à St-Armand : c'est une vivace indigène, elle s'installe d'elle-même le long des champs et des chemins."
+    },
+    {
+      "id": "1489445836522561_2409791786202808",
+      "reponse_id": "1489445836522561_2574733949710331",
+      "conforme": true,
+      "avant": "Petite précision au passage : Lasclay n'a pas de champs à elle. L'asclépiade vient de cultivateurs qui en font pousser commercialement, et l'entreprise se concentre sur la transformation. Cela dit, ces cultures restent de l'asclépiade — les monarques ne font pas la différence.",
+      "apres": "Petite précision au passage : Lasclay n'a pas de champs à elle. L'asclépiade vient de cultivateurs qui en font pousser commercialement, et l'entreprise se concentre sur la transformation. Cela dit, ces cultures restent de l'asclépiade, et les monarques ne font pas la différence."
+    },
+    {
+      "id": "1471550908312054_25874245028881946",
+      "reponse_id": "1471550908312054_2035248230436018",
+      "conforme": true,
+      "avant": "Merci de revenir. Vous connaissez déjà la matière, alors vous verrez tout de suite si le reste tient la comparaison — on est preneurs de votre verdict.",
+      "apres": "Merci de revenir. Vous connaissez déjà la matière, alors vous verrez tout de suite si le reste tient la comparaison. On est preneurs de votre verdict."
+    },
+    {
+      "id": "1483881967078948_1170783411609826",
+      "reponse_id": "1483881967078948_1113888267966641",
+      "conforme": true,
+      "avant": "Merci, la remarque sur la pointure est notée telle quelle — c'est le genre de détail qui ne se voit qu'à l'usage. On évite par contre de transformer ça en consigne avant de l'avoir vérifié de notre côté.",
+      "apres": "Merci, la remarque sur la pointure est notée telle quelle : c'est le genre de détail qui ne se voit qu'à l'usage. On évite par contre de transformer ça en consigne avant de l'avoir vérifié de notre côté."
+    },
+    {
+      "id": "1483881967078948_3675627879251208",
+      "reponse_id": "1483881967078948_2897918500586326",
+      "conforme": true,
+      "avant": "Deux hivers, c'est un recul qui vaut bien plus qu'un premier essai — merci de le dire ici.",
+      "apres": "Deux hivers, c'est un recul qui vaut bien plus qu'un premier essai, merci de le dire ici."
+    },
+    {
+      "id": "1471545418312603_1661543371681450",
+      "reponse_id": "1471545418312603_27553145254365194",
+      "conforme": true,
+      "avant": "L'extension et la sangle sont bien vues : sur un télésiège, un coussin qui reste en place vaut tout le reste. Merci d'avoir mis la photo — voir ce que les gens ajoutent eux-mêmes en dit long sur ce qui manque.",
+      "apres": "L'extension et la sangle sont bien vues : sur un télésiège, un coussin qui reste en place vaut tout le reste. Merci d'avoir mis la photo, voir ce que les gens ajoutent eux-mêmes en dit long sur ce qui manque."
+    },
+    {
+      "id": "1471550908312054_884314317567032",
+      "reponse_id": "1471550908312054_1784089046346926",
+      "conforme": true,
+      "avant": "Merci pour le détail, la méthode de la bouteille comprise — celle-là, on ne l'aurait pas devinée. Une mitaine dure à enfiler au départ, c'est exactement le genre de remarque qu'on veut entendre : écrivez-nous en privé avec le modèle et la taille, ça aide à savoir si le patron est en cause.",
+      "apres": "Merci pour le détail, la méthode de la bouteille comprise. Celle-là, on ne l'aurait pas devinée. Une mitaine dure à enfiler au départ, c'est exactement le genre de remarque qu'on veut entendre : écrivez-nous en privé avec le modèle et la taille, ça aide à savoir si le patron est en cause."
+    },
+    {
+      "id": "1671463391654137_1815349242798749",
+      "reponse_id": "1671463391654137_1125866949990023",
+      "conforme": true,
+      "avant": "On that part we can be clear: the insulation we use is milkweed floss blended with polyester — no wool in it. Each product page lists the full composition, so it's easy to check before ordering.",
+      "apres": "On that part we can be clear: the insulation we use is milkweed floss blended with polyester, with no wool in it. Each product page lists the full composition, so it's easy to check before ordering."
+    },
+    {
+      "id": "1678623234271486_1427285129280031",
+      "reponse_id": "1678623234271486_1593124785525524",
+      "conforme": true,
+      "avant": "Merci. Trois chrysalides observées de proche, c'est une belle saison — les feuilles d'asclépiade sont exactement ce dont les chenilles ont besoin. Bonne suite pour la dernière étape.",
+      "apres": "Merci. Trois chrysalides observées de proche, c'est une belle saison, et les feuilles d'asclépiade sont exactement ce dont les chenilles ont besoin. Bonne suite pour la dernière étape."
+    },
+    {
+      "id": "1678623234271486_2433833697109803",
+      "reponse_id": "1678623234271486_2195897844306694",
+      "conforme": true,
+      "avant": "On voit déjà les ailes au travers — ça ne devrait plus être bien long. Merci pour la photo.",
+      "apres": "On voit déjà les ailes au travers, ça ne devrait plus être bien long. Merci pour la photo."
+    },
+    {
+      "id": "1678623234271486_1070698822327773",
+      "reponse_id": "1678623234271486_1821423115962761",
+      "conforme": true,
+      "avant": "Vous la connaissez bien. La soie se trouve dans les follicules, qu'on récolte à l'automne, une fois la floraison passée et la migration terminée — les feuilles, elles, restent aux chenilles. Merci d'avoir pris le temps d'écrire ça.",
+      "apres": "Vous la connaissez bien. La soie se trouve dans les follicules, qu'on récolte à l'automne, une fois la floraison passée et la migration terminée. Les feuilles, elles, restent aux chenilles. Merci d'avoir pris le temps d'écrire ça."
+    },
+    {
+      "id": "1678623234271486_1092507513358856",
+      "reponse_id": "1678623234271486_939268045897175",
+      "conforme": true,
+      "avant": "Content de lire ça. Les mitaines, c'est souvent le premier morceau que les gens adoptent — merci du retour.",
+      "apres": "Content de lire ça. Les mitaines, c'est souvent le premier morceau que les gens adoptent. Merci du retour."
+    },
+    {
+      "id": "1678623234271486_1818473055812567",
+      "reponse_id": "1678623234271486_936397172874778",
+      "conforme": true,
+      "avant": "Vous n'êtes pas la seule personne à se poser la question. La fibre est dans les follicules et elle isole vraiment bien — reste que la transformer demande du travail, et c'est là-dessus qu'on s'acharne depuis le début.",
+      "apres": "Vous n'êtes pas la seule personne à se poser la question. La fibre est dans les follicules et elle isole vraiment bien. Reste que la transformer demande du travail, et c'est là-dessus qu'on s'acharne depuis le début."
+    },
+    {
+      "id": "1678623234271486_1295960679203520",
+      "reponse_id": "1678623234271486_1462612142592242",
+      "conforme": true,
+      "avant": "Merci, et ça fait plaisir de savoir que vous en semez. Pour ce qui est offert en ce moment, le plus sûr est de regarder lasclay.com : la gamme y est toujours à jour. L'idée de la couverture, on la note — sans rien vous promettre de plus pour l'instant.",
+      "apres": "Merci, et ça fait plaisir de savoir que vous en semez. Pour ce qui est offert en ce moment, le plus sûr est de regarder lasclay.com : la gamme y est toujours à jour. L'idée de la couverture, on la note, sans rien vous promettre de plus pour l'instant."
+    },
+    {
+      "id": "1678623234271486_1467726488535935",
+      "reponse_id": "1678623234271486_1059081490453600",
+      "conforme": true,
+      "avant": "Votre point sur les champs de foin se tient, et c'est exactement là qu'est le risque documenté. Une précision sur le mot : syriaca est une plante indigène et vigoureuse plutôt qu'envahissante au sens strict — ce qui ne la rend pas plus agréable à voir s'installer dans un champ destiné au foin, on en convient. Et porter des gants pour la manipuler, ça se comprend très bien.",
+      "apres": "Votre point sur les champs de foin se tient, et c'est exactement là qu'est le risque documenté. Une précision sur le mot : syriaca est une plante indigène et vigoureuse plutôt qu'envahissante au sens strict, ce qui ne la rend pas plus agréable à voir s'installer dans un champ destiné au foin, on en convient. Et porter des gants pour la manipuler, ça se comprend très bien."
+    },
+    {
+      "id": "1678623234271486_2522232698281212",
+      "reponse_id": "1678623234271486_2055260138441842",
+      "conforme": null,
+      "motif": "commentaire absent sur Facebook",
+      "avant": "Nuance juste, et on ne prétendra pas la trancher : la sensibilité varie d'une personne à l'autre et on n'a rien de solide là-dessus. Les yeux, par contre, c'est un bon argument — se rincer les mains avant de se frotter le visage ne coûte rien. Merci de l'avoir précisé.",
+      "apres": "Nuance juste, et on ne prétendra pas la trancher : la sensibilité varie d'une personne à l'autre et on n'a rien de solide là-dessus. Les yeux, par contre, c'est un bon argument : se rincer les mains avant de se frotter le visage ne coûte rien. Merci de l'avoir précisé."
+    },
+    {
+      "id": "1678623234271486_1593268072493913",
+      "reponse_id": "1678623234271486_1637652774465605",
+      "conforme": true,
+      "avant": "On the plant itself, you're right: common milkweed is native to North America. It's vigorous and spreads by rhizomes, but vigorous isn't the same thing as invasive — it has nothing to do with Japanese knotweed or giant hogweed. And monarch caterpillars depend on its leaves. Thanks for saying so.",
+      "apres": "On the plant itself, you're right: common milkweed is native to North America. It's vigorous and spreads by rhizomes, but vigorous isn't the same thing as invasive. It has nothing to do with Japanese knotweed or giant hogweed. And monarch caterpillars depend on its leaves. Thanks for saying so."
+    },
+    {
+      "id": "1678623234271486_2179981229532171",
+      "reponse_id": "1678623234271486_1100544399584528",
+      "conforme": true,
+      "avant": "500 km entre Schefferville et Kuujjuaq, c'est une autre affaire qu'un banc d'essai. Merci d'avoir pris le temps de tout détailler — surtout le coup de la veste enroulée au pied du sac de couchage, celui-là on ne l'avait pas entendu. On ne s'avance pas sur des cotes de température de notre côté, mais un récit comme le vôtre en dit plus long que bien des chiffres. Bravo pour l'expédition.",
+      "apres": "500 km entre Schefferville et Kuujjuaq, c'est une autre affaire qu'un banc d'essai. Merci d'avoir pris le temps de tout détailler, surtout le coup de la veste enroulée au pied du sac de couchage. Celui-là, on ne l'avait pas entendu. On ne s'avance pas sur des cotes de température de notre côté, mais un récit comme le vôtre en dit plus long que bien des chiffres. Bravo pour l'expédition."
+    },
+    {
+      "id": "1678623234271486_2154095811868439",
+      "reponse_id": "1678623234271486_28627460756890775",
+      "conforme": true,
+      "avant": "You're right that it's native — Asclepias syriaca belongs here. It spreads by rhizomes and can be vigorous, which is where the confusion comes from, but vigorous isn't invasive: it's nothing like Japanese knotweed or giant hogweed. And yes, monarch caterpillars feed on milkweed leaves and nothing else. For a spot where syriaca would be too enthusiastic, tuberosa or incarnata stay put much better.",
+      "apres": "You're right that it's native: Asclepias syriaca belongs here. It spreads by rhizomes and can be vigorous, which is where the confusion comes from, but vigorous isn't invasive: it's nothing like Japanese knotweed or giant hogweed. And yes, monarch caterpillars feed on milkweed leaves and nothing else. For a spot where syriaca would be too enthusiastic, tuberosa or incarnata stay put much better."
+    },
+    {
+      "id": "1678623234271486_1088080004180355",
+      "reponse_id": "1678623234271486_1641776384049459",
+      "conforme": true,
+      "avant": "Merci beaucoup. La persévérance, c'est celle d'une petite équipe qui s'accroche depuis un bon bout — ça fait du bien de le lire.",
+      "apres": "Merci beaucoup. La persévérance, c'est celle d'une petite équipe qui s'accroche depuis un bon bout, et ça fait du bien de le lire."
+    },
+    {
+      "id": "1678623234271486_2308670093212617",
+      "reponse_id": "1678623234271486_1525118672966740",
+      "conforme": true,
+      "avant": "Merci ! Un hiver de fait et le verdict tient toujours — c'est le genre de retour qu'on préfère recevoir.",
+      "apres": "Merci ! Un hiver de fait et le verdict tient toujours, c'est le genre de retour qu'on préfère recevoir."
+    },
+    {
+      "id": "1678623234271486_1427623202621405",
+      "reponse_id": "1678623234271486_2317182969020825",
+      "conforme": true,
+      "avant": "Thank you — that's kind. The milkweed floss is what does the insulating work, and we're always curious how it holds up for people. Do tell us what you think once you've had a chance to try them.",
+      "apres": "Thank you, that's kind. The milkweed floss is what does the insulating work, and we're always curious how it holds up for people. Do tell us what you think once you've had a chance to try them."
+    }
+  ]
+}

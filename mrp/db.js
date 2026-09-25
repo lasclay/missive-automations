@@ -1443,9 +1443,20 @@ function protocole(produitId, { generalCompris = true } = {}) {
        LEFT JOIN utilisateurs u ON u.id = q.cree_par
       WHERE (q.produit_id IS ?${generalCompris ? ' OR q.produit_id IS NULL' : ''})
         AND q.id NOT IN (SELECT point_id FROM qc_hors_sujet WHERE produit_id IS ?)
-      -- Le général passe en dernier : on lit d'abord ce qui est propre au
-      -- produit, l'emballage vient à la fin de toute façon.
-      ORDER BY (q.produit_id IS NULL), q.rang, q.id`).all(produitId, produitId);
+      -- Deux regroupements, dans cet ordre. D'abord le propre au produit, puis
+      -- le protocole général : l'atelier veut savoir ce que CETTE pièce demande
+      -- avant ce que tout le catalogue demande. Ensuite, par gravité : les
+      -- critiques en tête, les mesures et l'esthétique après. Mélanger un
+      -- point critique entre deux cotes fait lire la liste comme un inventaire
+      -- au lieu d'un ordre de priorité.
+      ORDER BY (q.produit_id IS NULL),
+               CASE q.type WHEN 'critique'   THEN 1
+                           WHEN 'probleme'   THEN 2
+                           WHEN 'cyclage'    THEN 3
+                           WHEN 'mesure'     THEN 4
+                           WHEN 'emballage'  THEN 5
+                           ELSE 6 END,
+               q.rang, q.id`).all(produitId, produitId);
   const par = {};
   for (const cle of Object.keys(TYPES_QC)) par[cle] = [];
   for (const q of l) (par[q.type] ||= []).push(q);
