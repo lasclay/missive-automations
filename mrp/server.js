@@ -192,6 +192,10 @@ const STATIQUES = {
   // on le recopie — le texte du point porte les mêmes fourchettes.
   '/schema/guide-tailles-mitaines.webp': ['image/webp',
     'public/schema-guide-tailles-mitaines.webp'],
+  // La charte des cotes finies des mitaines adultes, par taille. Dessinée par
+  // patrons/mitaines/charte.py à partir des DXF Lectra : le corps est le vrai
+  // contour de P1 en M, les valeurs sont celles des lignes de couture.
+  '/schema/cotes-mitaines.webp': ['image/webp', 'public/schema-cotes-mitaines.webp'],
 };
 
 // Les planches d'instruction, servies par nom. Le nom ne change pas d'une
