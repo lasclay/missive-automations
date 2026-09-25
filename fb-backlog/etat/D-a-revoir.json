@@ -11861,6 +11861,76 @@
       "motif": "Maturite des graines et moment de la recolte: non couverts par les faits verifies",
       "page_id": "114311920399404",
       "quand": "2026-09-25T11:39:26.423Z"
+    },
+    {
+      "id": "115591106938152_119976443166285",
+      "extrait": "Est-ce le lait de la plante qu'on applique sur la peau affectee?",
+      "motif": "Usage medicinal du latex sur la peau: absent des faits verifies, SUIVI HUMAIN REQUIS",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T12:41:03.808Z"
+    },
+    {
+      "id": "115591106938152_118719469958649",
+      "extrait": "Connaissez-vous le nom de cette exploitation?",
+      "motif": "Nous demande de nommer une exploitation tierce",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T12:41:03.808Z"
+    },
+    {
+      "id": "115833433580586_26285195041098815",
+      "extrait": "decue de Quartz Co qui a decide de cesser sa production",
+      "motif": "Entreprise tierce nommee, jamais relayee",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T12:41:03.808Z"
+    },
+    {
+      "id": "253527819811146_253613003135961",
+      "extrait": "ohhh!! Merci beaucoup!!",
+      "motif": "Remerciement sans contenu, dans un fil ou notre commentaire parlait deja de prix compares",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T12:41:03.808Z"
+    },
+    {
+      "id": "253527819811146_253555813141680",
+      "extrait": "j eleves de l oeuf au papillion",
+      "motif": "Elevage de monarques a la maison: absent des faits verifies",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T12:41:03.808Z"
+    },
+    {
+      "id": "253527819811146_253536049810323",
+      "extrait": "(un emoji de doigt pointe)",
+      "motif": "Aucun contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T12:41:03.808Z"
+    },
+    {
+      "id": "186001463230449_188939326269996",
+      "extrait": "Ya plus de small",
+      "motif": "Disponibilite et rupture de stock: ne se repond pas publiquement",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T12:41:03.808Z"
+    },
+    {
+      "id": "188698162960779_188855679611694",
+      "extrait": "si c'est effectivement un vrai nouveau site ca demontre de solides capacites d'adaptation",
+      "motif": "Etat des populations et nouveau site d'hivernage: hors faits verifies",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T12:41:03.808Z"
+    },
+    {
+      "id": "188698162960779_188830062947589",
+      "extrait": "Wow!Bonne nouvelle",
+      "motif": "Remerciement sans contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T12:41:03.808Z"
+    },
+    {
+      "id": "188698162960779_188810012949594",
+      "extrait": "Merci de partager cette bonne nouvelle!!!!",
+      "motif": "Remerciement sans contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T12:41:03.808Z"
     }
   ]
 }
