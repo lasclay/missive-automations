@@ -224,5 +224,41 @@ t('les quatre onglets existent, « tous » compris',
     db.prepare(`SELECT COUNT(*) n FROM qc_points WHERE produit_id = ?`).get(p).n === 1);
 }
 
+/* ======== un redémarrage ne doit rien effacer de ce que l'atelier a fait == */
+// L'import des protocoles tourne à CHAQUE démarrage du service. Il effaçait
+// puis réinsérait ses points : nouvel identifiant à chaque fois, et en cascade
+// les contrôles signés, les points écartés par une personne, le lien entre un
+// bris et sa consigne. Chaque déploiement vidait le travail de l'atelier.
+{
+  const { execFileSync } = require('node:child_process');
+  const importer = () => execFileSync(process.execPath,
+    ['--no-warnings', require('node:path').join(__dirname, '..', 'import_qualite.js'),
+     '--charte', '--squelettes', '--ecrire'],
+    { env: process.env, encoding: 'utf8' });
+  if (!db.prepare(`SELECT 1 FROM produits WHERE code = 'MIT-POLAR'`).get())
+    db.prepare(`INSERT INTO produits (code, nom, famille) VALUES ('MIT-POLAR','Mitaine polar','hiver')`).run();
+  const mp = db.prepare(`SELECT id FROM produits WHERE code = 'MIT-POLAR'`).get().id;
+  importer();
+  const pt = db.prepare(`SELECT id FROM qc_points WHERE produit_id = ? AND cree_par IS NULL
+                          ORDER BY id LIMIT 1`).get(mp);
+  const gen = db.prepare(`SELECT id FROM qc_points WHERE produit_id IS NULL AND cree_par IS NULL
+                           ORDER BY id LIMIT 1`).get();
+  const o = db.prepare(`INSERT INTO ordres (numero, titre, statut) VALUES (?,?, 'planifie')`)
+    .run(`OP-RED-${process.pid}`, 'Redémarrage').lastInsertRowid;
+  const it = db.prepare(`INSERT INTO ordre_items (ordre_id, produit_id, quantite) VALUES (?,?,?)`)
+    .run(o, mp, 10).lastInsertRowid;
+  db.prepare(`INSERT INTO qc_controles (item_id, point_id, verdict, utilisateur_id)
+              VALUES (?,?,'conforme',?)`).run(it, pt.id, u);
+  if (gen) db.prepare(`INSERT INTO qc_hors_sujet (produit_id, point_id, motif, cree_par)
+              VALUES (?,?,'essai',?)`).run(mp, gen.id, u);
+  importer();
+  t('un redémarrage garde les contrôles signés par l\'atelier',
+    db.prepare(`SELECT COUNT(*) n FROM qc_controles WHERE item_id = ?`).get(it).n === 1);
+  t('… et l\'identifiant du point ne change pas',
+    !!db.prepare(`SELECT 1 FROM qc_points WHERE id = ?`).get(pt.id));
+  t('… et un point écarté par une personne reste écarté',
+    !gen || db.prepare(`SELECT COUNT(*) n FROM qc_hors_sujet WHERE cree_par = ?`).get(u).n === 1);
+}
+
 console.log(`\n  ${ok} ok, ${ko} ko\n`);
 process.exit(ko ? 1 : 0);
