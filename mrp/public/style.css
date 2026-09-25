@@ -1714,3 +1714,5 @@ a.ck-td:hover .ck-pl{opacity:1}
   box-shadow:1px 0 0 var(--ligne)}
 .grille-cotes thead .gc-nom{background:var(--fond)}
 @media (max-width:620px){ .grille-cotes .gc-nom{min-width:128px;max-width:150px;font-size:13px} }
+.gc-portee{font-size:13px;font-weight:600;color:var(--encre2);margin:0 0 6px}
+.grille-cotes.gc-seul .gc-reel{border-left:2px solid var(--ligne)}

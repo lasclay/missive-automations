@@ -597,6 +597,9 @@ CREATE INDEX IF NOT EXISTS idx_hist_item      ON avancement_historique(item_id);
 CREATE INDEX IF NOT EXISTS idx_photos_produit ON produit_photos(produit_id);
 `;
 db.exec(SCHEMA);
+// Qui a mesuré, quand ce n'est pas un compte de l'app : une mesure transmise
+// par écrit (donnees/cotes-releves.tsv) garde son auteur.
+try { db.exec(`ALTER TABLE cotes_releves ADD COLUMN source TEXT NOT NULL DEFAULT ''`); } catch { /* déjà là */ }
 
 /**
  * Migrations. Le schéma se crée avec CREATE TABLE IF NOT EXISTS, ce qui ne
@@ -2267,19 +2270,23 @@ function ecartCote(theo, reel, tolerance) {
  * que voit l'atelier en contrôlant ce lot ; sans lui, le dernier relevé tous
  * lots confondus.
  */
-function grilleCotes(produitId, { itemId = null } = {}) {
+function grilleCotes(produitId, { itemId = null, horsLot = false } = {}) {
   const th = db.prepare(`SELECT * FROM cotes_theoriques WHERE produit_id = ?
     ORDER BY num, rang_taille`).all(produitId);
   if (!th.length) return null;
   const tailles = [...new Map(th.map(r => [r.taille, r.rang_taille])).entries()]
     .sort((a, b) => a[1] - b[1]).map(([t]) => t);
+  // Trois portées : un lot (ce que l'atelier contrôle), les mesures hors lot
+  // (échantillons, pièces étalon, mesures transmises), ou tout confondu.
+  const portee = itemId ? 'AND x.item_id = r.item_id AND r.item_id = ?'
+               : horsLot ? 'AND x.item_id IS NULL AND r.item_id IS NULL' : '';
   const rel = db.prepare(`SELECT r.num, r.taille, r.valeur_mm, r.cree_le, r.item_id,
-      u.nom AS par
+      COALESCE(u.nom, NULLIF(r.source, '')) AS par
       FROM cotes_releves r LEFT JOIN utilisateurs u ON u.id = r.utilisateur_id
-     WHERE r.produit_id = ? ${itemId ? 'AND r.item_id = ?' : ''}
+     WHERE r.produit_id = ?
        AND r.id = (SELECT MAX(x.id) FROM cotes_releves x
                     WHERE x.produit_id = r.produit_id AND x.num = r.num
-                      AND x.taille = r.taille ${itemId ? 'AND x.item_id = r.item_id' : ''})`)
+                      AND x.taille = r.taille ${portee})`)
     .all(...(itemId ? [produitId, itemId] : [produitId]));
   const releve = new Map(rel.map(r => [`${r.num}|${r.taille}`, r]));
   const lignes = [];

@@ -34,7 +34,6 @@ const { db } = require('./db.js');
 
 const ECRIRE = process.argv.includes('--ecrire');
 const DOSSIER = path.join(__dirname, 'donnees');
-const ORDRE_TAILLES = ['XS', 'S', 'M', 'L', 'XL', '2XL', '3XL'];
 
 function tsv(nom) {
   const l = fs.readFileSync(path.join(DOSSIER, nom), 'utf8').trim().split('\n')
@@ -60,13 +59,18 @@ function importer() {
     couture: r.couture_mm === '' ? null : Number(r.couture_mm),
   }));
   const produits = tsv('cotes-produits.tsv');
+  const ordre = new Map();
+  for (const c of patrons) {
+    const k = `${c.famille}|${c.taille}`;
+    if (!ordre.has(k)) ordre.set(k, [...ordre.keys()].filter(x => x.startsWith(c.famille + '|')).length);
+  }
 
   const idProduit = db.prepare(`SELECT id FROM produits WHERE code = ?`);
   const ins = db.prepare(`INSERT INTO cotes_theoriques
     (produit_id, num, nom, taille, rang_taille, couture_mm, valeur_mm, tolerance,
      titre_point, ep_statut, ep_detail) VALUES (?,?,?,?,?,?,?,?,?,?,?)`);
 
-  let n = 0; const inconnus = [];
+  let n = 0, releves = 0; const inconnus = [];
   if (ECRIRE) db.exec('BEGIN');
   try {
     if (ECRIRE) db.exec('DELETE FROM cotes_theoriques');
@@ -75,9 +79,12 @@ function importer() {
       if (!pr) { inconnus.push(p.produit); continue; }
       const ep = { corps: Number(p.ep_corps) || 0, pouce: Number(p.ep_pouce) || 0,
                    manchette: Number(p.ep_manchette) || 0, aucune: 0 };
-      const detail = `corps ${ep.corps} mm, pouce ${ep.pouce} mm, manchette ${ep.manchette} mm`;
+      const detail = (ep.corps || ep.pouce || ep.manchette)
+        ? `corps ${ep.corps} mm, pouce ${ep.pouce} mm, manchette ${ep.manchette} mm` : '';
       for (const c of patrons.filter(x => x.famille === p.famille)) {
-        const rang = ORDRE_TAILLES.indexOf(c.taille);
+        // L'ordre des tailles est celui du fichier : « 9F-7H » avant « 14H »
+        // ne se déduit d'aucun alphabet.
+        const rang = ordre.get(`${c.famille}|${c.taille}`);
         if (ECRIRE)
           ins.run(pr.id, c.num, c.nom, c.taille, rang < 0 ? 99 : rang, c.couture,
             coteFinie(c.couture, c.bords, ep[c.zone] ?? 0), c.tolerance,
@@ -85,10 +92,22 @@ function importer() {
         n++;
       }
     }
+    // Les mesures transmises par écrit : une fois chacune, jamais réécrites.
+    const existe = db.prepare(`SELECT 1 FROM cotes_releves WHERE produit_id = ? AND num = ?
+      AND taille = ? AND valeur_mm = ? AND item_id IS NULL AND substr(cree_le, 1, 10) = ?`);
+    const insR = db.prepare(`INSERT INTO cotes_releves
+      (produit_id, item_id, num, taille, valeur_mm, source, cree_le) VALUES (?,NULL,?,?,?,?,?)`);
+    for (const r of fs.existsSync(path.join(DOSSIER, 'cotes-releves.tsv')) ? tsv('cotes-releves.tsv') : []) {
+      const pr = idProduit.get(r.produit); const v = Number(r.valeur_mm);
+      if (!pr || !Number.isFinite(v) || !/^\d{4}-\d{2}-\d{2}$/.test(r.date)) continue;
+      if (existe.get(pr.id, Number(r.num), r.taille, v, r.date)) continue;
+      if (ECRIRE) insR.run(pr.id, Number(r.num), r.taille, v, r.source, `${r.date} 12:00:00`);
+      releves++;
+    }
     if (ECRIRE) db.exec('COMMIT');
   } catch (e) { if (ECRIRE) db.exec('ROLLBACK'); throw e; }
 
-  console.log(`${ECRIRE ? 'Écrit' : 'Aperçu'} — ${n} cotes théoriques`
+  console.log(`${ECRIRE ? 'Écrit' : 'Aperçu'} — ${n} cotes théoriques, ${releves} mesure(s) transmise(s) nouvelle(s)`
     + (inconnus.length ? ` (produits inconnus : ${inconnus.join(', ')})` : ''));
 }
 

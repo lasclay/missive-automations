@@ -861,13 +861,17 @@ function schemaQC(q, largeur) {
  * Aucun JavaScript : un formulaire, des champs, un bouton. La ligne tunisienne
  * décide de l'architecture.
  */
-function grilleCotesHTML(g, { action = null, retour = '' } = {}) {
+function grilleCotesHTML(g, { action = null, retour = '', titre = '' } = {}) {
   if (!g) return '';
+  // Sans aucune théorique (pas de patron numérisé), la colonne « théo. » ne
+  // dirait que « étalon » partout : on ne garde que le réel.
+  const sansTheo = g.lignes.every(l => g.tailles.every(t => (l.cases[t] || {}).theo == null));
   const nb = (v) => v === null || v === undefined ? '' :
     (Math.round(v * 10) / 10).toLocaleString('fr-CA');
   const tete = `<tr><th rowspan="2" class="gc-nom">Cote (mm)</th>${
-    g.tailles.map(t => `<th colspan="2" class="gc-t">${e(t)}</th>`).join('')}</tr>
-    <tr>${g.tailles.map(() => '<th class="gc-sous">théo.</th><th class="gc-sous">réel</th>').join('')}</tr>`;
+    g.tailles.map(t => `<th colspan="${sansTheo ? 1 : 2}" class="gc-t">${e(t)}</th>`).join('')}</tr>
+    <tr>${g.tailles.map(() => sansTheo ? '<th class="gc-sous">réel</th>'
+      : '<th class="gc-sous">théo.</th><th class="gc-sous">réel</th>').join('')}</tr>`;
   const corps = g.lignes.map(l => `<tr>
     <th class="gc-nom"><span class="gc-num">${l.num}</span> ${e(l.nom)}${
       l.tolerance ? ` <small>${e(l.tolerance)}</small>` : ''}</th>
@@ -885,19 +889,23 @@ function grilleCotesHTML(g, { action = null, retour = '' } = {}) {
              aria-label="${e(l.nom)}, ${e(t)}, mesure réelle">${ecart}</td>`
         : `<td class="gc-reel gc-${r ? c.etat : 'vide'}"${
              r ? ` title="${e(r.par || '')} · ${e(r.cree_le)}"` : ''}>${r ? nb(r.valeur_mm) : '—'}${ecart}</td>`;
-      return theo + reel;
+      return (sansTheo ? '' : theo) + reel;
     }).join('')}
   </tr>`).join('');
-  const note = `<p class="gc-note">Théorique = cote du patron sur la ligne de couture, moins
-    l'arrondi des bords sur l'épaisseur à plat (${e(g.epDetail)}${
-    g.epStatut === 'supposée' ? ', <b>épaisseur supposée — à mesurer sur une vraie pièce</b>' : ''}).
-    Vert : dans la tolérance. Rouge : hors tolérance.</p>`;
-  const table = `<div class="gc-defile"><table class="grille-cotes">
+  const note = sansTheo
+    ? `<p class="gc-note">Pas encore de cote théorique : aucun patron numérisé pour ce produit.
+        Les mesures s'enregistrent quand même, et se comparent d'une taille à la suivante.</p>`
+    : `<p class="gc-note">Théorique = cote du patron sur la ligne de couture${g.epDetail
+        ? `, moins l'arrondi des bords sur l'épaisseur à plat (${e(g.epDetail)}${
+          g.epStatut === 'supposée' ? ', <b>épaisseur supposée — à mesurer sur une vraie pièce</b>' : ''})` : ''}.
+        Vert : dans la tolérance. Rouge : hors tolérance.</p>`;
+  const portee = titre ? `<p class="gc-portee">${e(titre)}</p>` : '';
+  const table = `<div class="gc-defile"><table class="grille-cotes${sansTheo ? ' gc-seul' : ''}">
     <thead>${tete}</thead><tbody>${corps}</tbody></table></div>`;
-  if (!action) return `<div class="gc" id="cotes">${table}${note}</div>`;
+  if (!action) return `<div class="gc" id="cotes">${portee}${table}${note}</div>`;
   return `<form method="post" action="${e(action)}" class="gc" id="cotes">
     <input type="hidden" name="retour" value="${e(retour)}">
-    ${table}${note}
+    ${portee}${table}${note}
     <p><button class="btn">Enregistrer les mesures réelles</button></p>
   </form>`;
 }
@@ -925,7 +933,9 @@ function pointQC({ q, produitId, editable, action = null, unites, grille = null 
       ${q.appuis ? `<span class="qc-appui">${q.appuis} signalement${
         q.appuis > 1 ? 's' : ''} sur le terrain</span>` : ''}
       ${schemaQC(q, TAILLES.vignette)}
-      ${grille && q.titre === grille.titrePoint ? grilleCotesHTML(grille) : ''}
+      ${grille && q.titre === grille.titrePoint ? grilleCotesHTML(grille, {
+        action: `/qualite/${produitId}/cotes`, retour: `/qualite/${produitId}`,
+        titre: 'Mesures hors lot : échantillon, pièce étalon, mesure prise à l’atelier ou au bureau' }) : ''}
       ${PIC.planche(q.titre, { href: `/qualite/planche/${PIC.cle(q.titre)}` })}
       ${(() => {
         // Les morceaux du pied se joignent par « · ». Les concaténer avec un
@@ -1646,7 +1656,7 @@ function vueProtocole({ user, p, proto, msg, photos = [], bris = null, grille = 
            </div>`
         : `<ul class="qc-liste">${g.map(q =>
             pointQC({ q, produitId: p.id, editable: true,
-                      unites: user.unites })).join('')}</ul>`).join('')}
+                      unites: user.unites, grille })).join('')}</ul>`).join('')}
     </div>`;
   })()}
   ${volet('cyclage', 'Cyclage et tests',

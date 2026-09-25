@@ -315,5 +315,49 @@ t('les quatre onglets existent, « tous » compris',
   t('en lecture seule, pas de champ', !hl.includes('<input') && hl.includes('gc-ko'));
 }
 
+/* ======= semelles : mesures hors lot, et mesures transmises par écrit ===== */
+{
+  const D = require('../db.js');
+  const { execFileSync } = require('node:child_process');
+  if (!db.prepare(`SELECT 1 FROM produits WHERE code = 'SEMELLE-9'`).get())
+    db.prepare(`INSERT INTO produits (code, nom, famille) VALUES ('SEMELLE-9','Semelle 9F+','hiver')`).run();
+  const sp = db.prepare(`SELECT id FROM produits WHERE code = 'SEMELLE-9'`).get().id;
+  const lancer = () => execFileSync(process.execPath, ['--no-warnings',
+    require('node:path').join(__dirname, '..', 'import_cotes.js'), '--ecrire'],
+    { env: process.env, encoding: 'utf8' });
+  lancer(); lancer();
+  t('une mesure transmise par écrit n\'entre qu\'une fois, même après deux démarrages',
+    db.prepare(`SELECT COUNT(*) n FROM cotes_releves WHERE produit_id = ? AND taille = '12F-10H' AND num = 1`)
+      .get(sp).n === 1);
+  const g = D.grilleCotes(sp, { horsLot: true });
+  t('les pointures gardent l\'ordre du fichier',
+    g.tailles[0] === '9F-7H' && g.tailles[g.tailles.length - 1] === '14H', g.tailles.join(' '));
+  t('le 12F-10H porte ses 282 × 95 mm, sans théorique',
+    g.lignes[0].cases['12F-10H'].reel.valeur_mm === 282 && g.lignes[1].cases['12F-10H'].reel.valeur_mm === 95
+    && g.lignes[0].cases['12F-10H'].theo === null);
+  const o3 = db.prepare(`INSERT INTO ordres (numero, titre, statut) VALUES (?,?, 'planifie')`)
+    .run(`OP-SEM-${process.pid}`, 'Semelles').lastInsertRowid;
+  const lot = db.prepare(`INSERT INTO ordre_items (ordre_id, produit_id, quantite) VALUES (?,?,?)`)
+    .run(o3, sp, 10).lastInsertRowid;
+  D.enregistrerReleves(sp, lot, u, { 'v_1_12F-10H': '284' });
+  D.enregistrerReleves(sp, null, u, { 'v_2_9F-7H': '88' });
+  t('hors lot et lot ne se mélangent pas',
+    D.grilleCotes(sp, { horsLot: true }).lignes[0].cases['12F-10H'].reel.valeur_mm === 282
+    && D.grilleCotes(sp, { itemId: lot }).lignes[0].cases['12F-10H'].reel.valeur_mm === 284
+    && D.grilleCotes(sp, { itemId: lot }).lignes[1].cases['9F-7H'].reel === null);
+  const V = require('../vues.js');
+  // La page du protocole range les « mesure » à part (tableau par taille) :
+  // la grille doit passer par CE chemin aussi, pas seulement par la liste.
+  if (!db.prepare(`SELECT 1 FROM qc_points WHERE produit_id = ? AND titre = ?`).get(sp, g.titrePoint))
+    db.prepare(`INSERT INTO qc_points (produit_id, type, titre) VALUES (?, 'mesure', ?)`).run(sp, g.titrePoint);
+  const pageP = V.vueProtocole({ user: { nom: 'x', role: 'admin', unites: 'mm' }, msg: {},
+    p: db.prepare(`SELECT * FROM produits WHERE id = ?`).get(sp), proto: D.protocole(sp),
+    grille: D.grilleCotes(sp, { horsLot: true }) });
+  t('la page du protocole montre la grille, éditable hors lot',
+    pageP.includes('class="grille-cotes') && pageP.includes(`action="/qualite/${sp}/cotes"`));
+  t('sans patron, la grille le dit au lieu de parler d\'épaisseur',
+    V.grilleCotesHTML(g).includes('aucun patron numérisé') && !V.grilleCotesHTML(g).includes('épaisseur'));
+}
+
 console.log(`\n  ${ok} ok, ${ko} ko\n`);
 process.exit(ko ? 1 : 0);

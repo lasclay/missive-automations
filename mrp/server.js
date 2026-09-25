@@ -1150,7 +1150,11 @@ async function router(req, res, url, user) {
       if (lot && pp && lot.produit_id === pp.produit_id) {
         grille = grilleCotes(lot.produit_id, { itemId: lot.id });
         action = `/ordres/${lot.ordre_id}/items/${lot.id}/cotes`;
-      } else if (pp && pp.produit_id) grille = grilleCotes(pp.produit_id);
+      } else if (pp && pp.produit_id) {
+        // Sans lot : la grille des mesures hors lot, éditable elle aussi.
+        grille = grilleCotes(pp.produit_id, { horsLot: true });
+        action = `/qualite/${pp.produit_id}/cotes`;
+      }
       return html(res, V.vuePlanche({ user, msg, point, retour, grille, action,
         ici: req.url.replace(/[?&](ok|err)=[^&#]*/g, '').replace(/#.*$/, '') }));
     }
@@ -1287,6 +1291,26 @@ async function router(req, res, url, user) {
     }
   }
 
+  // Les mesures réelles HORS LOT d'un produit : échantillon, pièce étalon,
+  // mesure prise au bureau. Même grille que depuis un lot, sans lot rattaché.
+  {
+    const m = p.match(/^\/qualite\/(\d+)\/cotes$/);
+    if (m && req.method === 'POST') {
+      const prod = R.produit.get(Number(m[1]));
+      if (!prod) return vers(res, '/qualite?err=' + encodeURIComponent('Produit introuvable.'));
+      const f = await corpsFormulaire(req);
+      const r = enregistrerReleves(prod.id, null, user.id, f);
+      const rt = String(f.retour || '');
+      const base = /^\/[a-z0-9/?=&_%.-]{0,200}$/i.test(rt) && !rt.startsWith('//')
+        ? rt : `/qualite/${prod.id}`;
+      const avis = r.illisibles.length
+        ? 'err=' + encodeURIComponent(`${r.n} mesure(s) enregistrée(s) ; illisible(s) : ${r.illisibles.join(', ')}.`)
+        : 'ok=' + encodeURIComponent(r.n ? `${r.n} mesure${r.n > 1 ? 's' : ''} enregistrée${r.n > 1 ? 's' : ''}.`
+                                         : 'Aucune mesure nouvelle.');
+      return vers(res, base + (base.includes('?') ? '&' : '?') + avis + '#cotes');
+    }
+  }
+
   // Un tableau de mensurations d'un coup : une ligne par taille.
   {
     const m = p.match(/^\/qualite\/(\d+)\/mesures$/);
@@ -1352,7 +1376,7 @@ async function router(req, res, url, user) {
       }
       return html(res, V.vueProtocole({ user, msg, p: prod,
         proto: protocole(prod.id), photos: R.photos.all(prod.id),
-        grille: grilleCotes(prod.id),
+        grille: grilleCotes(prod.id, { horsLot: true }),
         bris: brisProduit(prod.id), appuis: brisParPoint(prod.id),
         ecartes: horsSujet(prod.id) }));
     }
