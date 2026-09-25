@@ -1,0 +1,16 @@
+# Photos des pièces qui ne sont PAS en vente sur Shopify.
+#
+# Les vignettes du MRP viennent de la boutique, par handle. Une pièce qui ne
+# se vend pas seule — un composant, comme le bandeau intérieur de la tuque de
+# ville — n'a pas de handle, donc pas de photo, et s'affichait « Pas de photo »
+# sur les cartes de contrôle. C'est pourtant une pièce que l'atelier fabrique
+# à 1 500 exemplaires.
+#
+# Ces lignes ne servent QUE quand la boutique n'a rien : un produit qui a des
+# photos Shopify garde les siennes. Et ce ne sont pas des schémas — ce sont de
+# vraies photos du produit, qui ont donc le droit d'être une vignette.
+#
+# `texte_alternatif` porte le même nom que dans shopify-images.tsv exprès :
+# l'import traite les deux sources avec le même code.
+produit	url	texte_alternatif
+BANDEAU-TUQUE	/schema/bandeau-tuque.png	Le bandeau intérieur de la tuque de ville, en place dans la tuque — la flèche rouge le désigne
