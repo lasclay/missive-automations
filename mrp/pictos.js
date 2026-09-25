@@ -534,20 +534,28 @@ const panneau = (d, i, classe = 'pi-p') =>
 // leurs vignettes sont là — une série trouée se lit plus mal qu'un pictogramme.
 const DOSSIER = require('node:path').join(__dirname, 'statique', 'planches');
 
+// Combien de panneaux porte chaque planche dessinée. Quatre au moins — une
+// planche incomplète ne s'affiche pas —, davantage si le geste le demande :
+// l'essai des mitaines finit sur ce que coûte une taille ratée, le retour et le
+// remboursement, et le couper pour tenir en quatre effacerait la raison du test.
+const PANNEAUX = new Map();
 const DESSINS = (() => {
   const fs = require('node:fs');
   const vus = new Set();
   let fichiers = [];
   try { fichiers = fs.readdirSync(DOSSIER); } catch { return vus; }
   const cles = new Set([...Object.keys(PLANCHES),
-    ...fichiers.map(f => f.replace(/-\d(?:-mini)?\.webp$/, ''))]);
+    ...fichiers.map(f => f.replace(/-\d+(?:-mini)?\.webp$/, ''))]);
+  const present = (k, i) =>
+    fichiers.includes(`${k}-${i}.webp`) && fichiers.includes(`${k}-${i}-mini.webp`);
   for (const k of cles) {
-    const complet = [1, 2, 3, 4].every(i =>
-      fichiers.includes(`${k}-${i}.webp`) && fichiers.includes(`${k}-${i}-mini.webp`));
-    if (complet) vus.add(k);
+    let n = 0;
+    while (present(k, n + 1)) n++;
+    if (n >= 4) { vus.add(k); PANNEAUX.set(k, n); }
   }
   return vus;
 })();
+const etapes = (k) => Array.from({ length: PANNEAUX.get(k) }, (_, i) => i);
 
 // Les images gardent leur nom d'une génération à l'autre : sans empreinte, un
 // navigateur qui a déjà la planche garderait l'ancienne après une correction.
@@ -555,7 +563,7 @@ const VERSION_PL = (() => {
   const fs = require('node:fs');
   const h = require('node:crypto').createHash('sha256');
   for (const k of [...DESSINS].sort())
-    for (let i = 1; i <= 4; i++) {
+    for (let i = 1; i <= PANNEAUX.get(k); i++) {
       const f = require('node:path').join(DOSSIER, `${k}-${i}.webp`);
       h.update(k + i + fs.statSync(f).size + fs.statSync(f).mtimeMs);
     }
@@ -571,7 +579,7 @@ function planche(titre, { href = null } = {}) {
   const k = cle(titre);
   if (!k) return '';
   const dessine = DESSINS.has(k);
-  const p = PLANCHES[k] || (dessine ? [0, 1, 2, 3] : null);
+  const p = PLANCHES[k] || (dessine ? etapes(k) : null);
   if (!p) return '';
   const corps = p.map((d, i) => {
     const vue = dessine ? img(k, i + 1, true) : panneau(d, i);
@@ -595,11 +603,11 @@ function plancheBD(titre) {
   const k = cle(titre);
   if (!k) return '';
   const dessine = DESSINS.has(k);
-  const p = PLANCHES[k] || (dessine ? [0, 1, 2, 3] : null);
+  const p = PLANCHES[k] || (dessine ? etapes(k) : null);
   if (!p) return '';
   return `<ol class="bd">${p.map((d, i) => `<li class="bd-p" id="p${i + 1}">
     ${dessine ? img(k, i + 1, false) : panneau(d, i, 'pi-g')}</li>`).join('')}</ol>`;
 }
 
-module.exports = { DESSINS, VERSION_PL, PLANCHES, PAR_TITRE, RUPTURES, planche, plancheBD,
+module.exports = { DESSINS, PANNEAUX, VERSION_PL, PLANCHES, PAR_TITRE, RUPTURES, planche, plancheBD,
   cle, empreinte };

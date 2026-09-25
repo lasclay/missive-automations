@@ -186,6 +186,12 @@ const STATIQUES = {
   // intacte, et reste la source. Comme les planches, c'est une donnée de
   // production, pas un cache.
   '/schema/bandeau-tuque.png': ['image/png', 'public/schema-bandeau-tuque.png'],
+  // Le guide des tailles des mitaines, tel que publié sur la boutique. Copié
+  // ici plutôt que lu au CDN : c'est l'outil de mesure de l'atelier pendant
+  // l'essai, il doit s'afficher sans dépendre du site. S'il change en ligne,
+  // on le recopie — le texte du point porte les mêmes fourchettes.
+  '/schema/guide-tailles-mitaines.webp': ['image/webp',
+    'public/schema-guide-tailles-mitaines.webp'],
 };
 
 // Les planches d'instruction, servies par nom. Le nom ne change pas d'une
@@ -1095,8 +1101,16 @@ async function router(req, res, url, user) {
       if (!PIC.PLANCHES[m[1]] && !PIC.DESSINS.has(m[1]))
         return vers(res, '/qualite?err='
           + encodeURIComponent('Planche inconnue.'));
-      const point = db.prepare(`SELECT titre, detail, consequence FROM qc_points`)
-        .all().find((q) => PIC.cle(q.titre) === m[1]);
+      // Le point précis dont on vient, quand le lien le nomme : quatre mitaines
+      // partagent la planche de l'essai, et c'est le point — pas la planche —
+      // qui porte l'image de référence (le guide des tailles). Sans lui, le
+      // premier point du titre qui en a une, puis le premier tout court.
+      const tous = db.prepare(
+        `SELECT id, titre, detail, consequence, schema_url FROM qc_points`)
+        .all().filter((q) => PIC.cle(q.titre) === m[1]);
+      const voulu = Number(q.get('point')) || 0;
+      const point = tous.find((x) => x.id === voulu)
+        || tous.find((x) => String(x.schema_url || '').trim()) || tous[0];
       if (!point) return vers(res, '/qualite?err='
         + encodeURIComponent("Ce geste n'est rattaché à aucun point de contrôle."));
       const r = String(q.get('retour') || '');

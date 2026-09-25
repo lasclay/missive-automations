@@ -357,9 +357,29 @@ console.log('\n  Silhouettes, anneaux et images\n');
   // geste manquant est justement celui qu'on ne devine pas.
   const dos = require('node:path').join(__dirname, '..', 'statique', 'planches');
   const sur = fs.existsSync(dos) ? fs.readdirSync(dos) : [];
-  t('toute planche annoncée dessinée a ses quatre panneaux et ses vignettes',
-    [...PIC.DESSINS].every(k => [1, 2, 3, 4].every(i =>
-      sur.includes(`${k}-${i}.webp`) && sur.includes(`${k}-${i}-mini.webp`))));
+  t('toute planche annoncée dessinée a au moins quatre panneaux et leurs vignettes',
+    [...PIC.DESSINS].every(k => PIC.PANNEAUX.get(k) >= 4
+      && Array.from({ length: PIC.PANNEAUX.get(k) }, (_, i) => i + 1).every(i =>
+        sur.includes(`${k}-${i}.webp`) && sur.includes(`${k}-${i}-mini.webp`))));
+
+  // L'essai des mitaines finit sur ce que coûte une taille ratée : le retour
+  // et le remboursement. Ce cinquième panneau ne doit pas être coupé par une
+  // bande ou une page restées à quatre.
+  const essai = 'Essai par une personne de chaque taille, mains mesurées';
+  t('une planche à cinq panneaux les montre tous, dans la bande et sur la page',
+    PIC.PANNEAUX.get('essai_mitaine') === 5
+    && (PIC.planche(essai).match(/class="pi-i"/g) || []).length === 5
+    && PIC.plancheBD(essai).includes('id="p5"'));
+
+  // Le guide des tailles vit sur le POINT, pas sur la planche. La liste à
+  // cocher mène à la page de la planche : si cette page ne montre que les
+  // dessins, l'ouvrière n'a pas le tableau sous les yeux au moment de mesurer.
+  const GUIDE = 'https://cdn.shopify.com/s/files/guide.png';
+  const pg = V.vuePlanche({ user: { nom: 'x', role: 'atelier' }, msg: {},
+    point: { id: 1, titre: essai, detail: '', consequence: '', schema_url: GUIDE },
+    retour: { href: '/qualite', texte: 'Revenir' } });
+  t('la page de la planche montre l\'image de référence du point',
+    pg.includes('class="bd-schema"') && pg.includes(GUIDE));
 
   // Le nom du fichier ne change pas quand on corrige un dessin : sans
   // empreinte, l'atelier garderait la planche fausse en cache.

@@ -1651,6 +1651,9 @@ a.pi-l:hover .pi-i{outline:2px solid #17140f;outline-offset:-2px}
 .bd-p{margin:0;scroll-margin-top:76px}
 .pi-g{width:min(100%,460px);height:auto;display:block}
 .bd-cons{margin:10px 0 0}
+/* Sur la page de la planche, l'image de référence du point se lit en grand :
+   le guide des tailles doit se lire à l'atelier sans l'ouvrir à part. */
+.bd-schema .qc-schema{max-width:720px;margin:16px 0 0;background:#fff}
 .bd-pied{margin:22px 0 0;text-align:center}
 @media (max-width:620px){ .pi-p{width:126px;height:100px} }
 

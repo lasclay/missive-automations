@@ -1350,8 +1350,8 @@ function vueQCOrdre({ user, msg, ordre, lignes, cat = 'tous', vue = 'cartes',
                 $c.unite ? ' ' + e($c.unite) : ''}</span>`
                 )(U.convertirMesure(q.valeur, q.unite, user.unites)) : ''}`;
               return k
-                ? `<a class="ck-t ck-td" href="/qualite/planche/${k}?retour=${
-                    encodeURIComponent(lien(l))}"
+                ? `<a class="ck-t ck-td" href="/qualite/planche/${k}?point=${
+                    q.id}&amp;retour=${encodeURIComponent(lien(l))}"
                     title="Voir le geste en images">${dedans}
                     <i class="ck-pl" aria-hidden="true"></i></a>`
                 : `<span class="ck-t">${dedans}</span>`;
@@ -1460,6 +1460,7 @@ function vuePlanche({ user, msg, point, retour }) {
   </div></div>
   ${point.consequence
     ? `<p class="qc-cons bd-cons">Sinon : ${e(point.consequence)}</p>` : ''}
+  <div class="bd-schema">${schemaQC(point, TAILLES.plein)}</div>
   ${PIC.plancheBD(point.titre)}
   <p class="bd-pied"><a class="btn sec" href="${e(retour.href)}">Revenir</a></p>`;
   return page({ titre: point.titre, user, corps, actif: 'qualite', msg });
