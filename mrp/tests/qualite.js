@@ -286,7 +286,7 @@ t('les quatre onglets existent, « tous » compris',
   const TITRE = 'Cotes hors-tout et incréments de gradation, contre le patron';
   insT.run(mp, 1, 'Largeur', 'S', 1, 133, 125, '± 3', TITRE, 'supposée', 'corps 14 mm');
   insT.run(mp, 1, 'Largeur', 'M', 2, 143, 135, '± 3', TITRE, 'supposée', 'corps 14 mm');
-  insT.run(mp, 5, 'Coin → bout du pouce', 'M', 2, null, null, '± 5', TITRE, 'supposée', 'corps 14 mm');
+  insT.run(mp, 3, 'Bout du pouce → bas, le long de la couture', 'M', 2, null, null, '± 5', TITRE, 'supposée', 'corps 14 mm');
   const o2 = db.prepare(`INSERT INTO ordres (numero, titre, statut) VALUES (?,?, 'planifie')`)
     .run(`OP-COT-${process.pid}`, 'Cotes').lastInsertRowid;
   const lotA = db.prepare(`INSERT INTO ordre_items (ordre_id, produit_id, quantite) VALUES (?,?,?)`)
@@ -294,7 +294,7 @@ t('les quatre onglets existent, « tous » compris',
   const lotB = db.prepare(`INSERT INTO ordre_items (ordre_id, produit_id, quantite) VALUES (?,?,?)`)
     .run(o2, mp, 5).lastInsertRowid;
   const r1 = D.enregistrerReleves(mp, lotA, u,
-    { v_1_M: '136,5', v_1_S: '', v_5_M: '202', v_9_M: '10', v_1_XL: '99', v_1_S2: 'x', retour: '/' });
+    { v_1_M: '136,5', v_1_S: '', v_3_M: '202', v_9_M: '10', v_1_XL: '99', v_1_S2: 'x', retour: '/' });
   t('la virgule décimale passe, une case vide n\'écrit rien, une cote inconnue est ignorée',
     r1.n === 2 && r1.illisibles.length === 0, JSON.stringify(r1));
   const r2 = D.enregistrerReleves(mp, lotA, u, { v_1_M: '136.5', v_1_S: 'abc' });
@@ -306,7 +306,7 @@ t('les quatre onglets existent, « tous » compris',
   const cM = (g, n) => g.lignes.find(l => l.num === n).cases.M;
   t('chaque lot voit SES mesures', cM(gA, 1).reel.valeur_mm === 136.5 && cM(gB, 1).reel.valeur_mm === 141);
   t('136,5 contre 135 ± 3 : vert ; 141 : rouge', cM(gA, 1).etat === 'ok' && cM(gB, 1).etat === 'ko');
-  t('la cote 5 sans théorique garde sa mesure', cM(gA, 5).theo === null && cM(gA, 5).reel.valeur_mm === 202);
+  t('la cote 3 sans théorique garde sa mesure', cM(gA, 3).theo === null && cM(gA, 3).reel.valeur_mm === 202);
   const h = V.grilleCotesHTML(gA, { action: '/ordres/1/items/1/cotes', retour: '/x' });
   t('la grille éditable a un champ par case, prérempli, et le bouton',
     h.includes('name="v_1_M"') && h.includes('value="136,5"') && h.includes('Enregistrer les mesures réelles'));
@@ -325,7 +325,17 @@ t('les quatre onglets existent, « tous » compris',
   const lancer = () => execFileSync(process.execPath, ['--no-warnings',
     require('node:path').join(__dirname, '..', 'import_cotes.js'), '--ecrire'],
     { env: process.env, encoding: 'utf8' });
+  // Les cotes 3-4-5 des mitaines ont changé de sens le 26/09/2026 : une mesure
+  // d'avant ne doit pas s'afficher sous la nouvelle définition.
+  const mpol = db.prepare(`SELECT id FROM produits WHERE code = 'MIT-POLAR'`).get().id;
+  const insR = db.prepare(`INSERT INTO cotes_releves (produit_id, num, taille, valeur_mm, cree_le)
+    VALUES (?,?,?,?,?)`);
+  const avant = insR.run(mpol, 4, 'M', 50, '2026-09-25 10:00:00').lastInsertRowid;
+  const apres = insR.run(mpol, 4, 'M', 53, '2026-09-27 10:00:00').lastInsertRowid;
   lancer(); lancer();
+  const numDe = (id) => db.prepare(`SELECT num FROM cotes_releves WHERE id = ?`).get(id).num;
+  t('une cote 4 de mitaine mesurée avant la redéfinition passe à 104, une d\'après reste 4',
+    numDe(avant) === 104 && numDe(apres) === 4, `${numDe(avant)} ${numDe(apres)}`);
   t('une mesure transmise par écrit n\'entre qu\'une fois, même après deux démarrages',
     db.prepare(`SELECT COUNT(*) n FROM cotes_releves WHERE produit_id = ? AND taille = '12F-10H' AND num = 1`)
       .get(sp).n === 1);

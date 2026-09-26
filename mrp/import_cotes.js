@@ -47,6 +47,9 @@ function tsv(nom) {
 
 const PERTE = Math.PI / 2 - 1;
 
+/** Heure UTC du changement de sens des cotes 3, 4, 5 des mitaines. */
+const REDEFINITION_MITAINES = '2026-09-26 11:29:00';
+
 /** La cote finie d'une ligne de patron pour une épaisseur donnée. */
 function coteFinie(couture, bords, epaisseur) {
   if (couture === null || !Number.isFinite(couture)) return null;
@@ -92,6 +95,18 @@ function importer() {
         n++;
       }
     }
+    // Le 26/09/2026, les cotes 3, 4 et 5 des mitaines ont changé de sens
+    // (fourche → bout, largeur à mi-pouce, coin → bout DEVENUS bout → bas le
+    // long de la couture, largeur à la jonction, largeur du haut). Une mesure
+    // prise avant ne doit pas s'afficher sous la nouvelle définition : elle
+    // passe à 103, 104, 105 — gardée, hors de la grille. Rejouable sans effet :
+    // seules les lignes antérieures au changement sont visées.
+    if (ECRIRE) db.prepare(`UPDATE cotes_releves SET num = num + 100
+       WHERE num IN (3, 4, 5) AND cree_le < ?
+         AND produit_id IN (SELECT id FROM produits WHERE code IN
+           (${produits.filter(p => p.famille === 'mitaines-adultes').map(() => '?').join(',') || "''"}))`)
+      .run(REDEFINITION_MITAINES, ...produits.filter(p => p.famille === 'mitaines-adultes').map(p => p.produit));
+
     // Les mesures transmises par écrit : une fois chacune, jamais réécrites.
     const existe = db.prepare(`SELECT 1 FROM cotes_releves WHERE produit_id = ? AND num = ?
       AND taille = ? AND valeur_mm = ? AND item_id IS NULL AND substr(cree_le, 1, 10) = ?`);
