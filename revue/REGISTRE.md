@@ -5,13 +5,23 @@ la source est `revue/registre.json`, et tout changement d'état passe par le scr
 
 | État | Nombre |
 | --- | --- |
-| proposee | 16 |
+| proposee | 17 |
 | approuvee | 0 |
 | appliquee | 0 |
 | refusee | 0 |
 | reportee | 2 |
 
-## En attente d'approbation (16)
+## En attente d'approbation (17)
+
+### R-20260925-01 — Journaliser chaque fermeture et chaque deplacement des menages de boites, comme les tirs Facebook journalisent leurs reponses
+
+- **Gravité** : majeur · **Effort** : 1 h 30 · **Proposé le** : 2026-09-25
+- **Source** : revue 2026-09-25
+- **Constat** : Les menages Operations et Admin ferment et deplacent des conversations Missive en production, trois fois par semaine, et n'ecrivent rien dans le depot. ops_triage.js fait 399 lignes sans writeFile ni appendFile ni dossier d'etat ; le menage Admin appelle missive_client.js close directement. Le proxy ne liste que les fils ouverts : une fois un fil ferme, la revue ne peut ni le retrouver, ni verifier qu'aucun fil de client n'est parti avec le bruit. Les quatre tirs Facebook journalisent chaque reponse avec sa confirmation chez Meta, et c'est ce qui permet de les auditer chaque soir.
+- **Preuve** : grep de writeFile, appendFile, journal et etat/ dans ops_triage.js (399 lignes) : aucune correspondance ; aucun fichier d'etat au depot pour le tri. trig_01SSRZnRvzCwVPQoo6M8AzDE tir du 2026-09-25T12:17:59Z SUCCEEDED (13 min) et trig_01G26EWgRP5xAqhiFdnLvNEe tir du 2026-09-25T11:17:43Z SUCCEEDED (10 min) : aucun commit correspondant sur main.
+- **Proposition** : Faire ecrire par ops_triage.js une ligne JSONL par fil ferme et par fil deplace dans un fichier versionne (id du fil, objet, expediteur, categorie, motif, horodatage, resultat de l'appel), ajouter la meme ecriture au chemin de fermeture du menage Admin, et faire committer ce journal par les deux routines a la fin de leur passage — pour que la collecte du soir puisse le lire comme elle lit les journaux des tirs.
+- **Portée** : ops_triage.js, un nouveau fichier d'etat versionne, les prompts des deux routines de menage (update_trigger), revue/collecte.js pour le lire
+- **Risque** : Le journal contiendra des objets de courriels et des noms d'expediteurs — des donnees de clients et de fournisseurs dans un depot Git. Il faut s'en tenir a l'objet, au domaine de l'expediteur et a l'identifiant du fil, sans corps de message, et ne jamais y ecrire d'adresse complete.
 
 ### R-20260924-01 — Mettre la campagne points de vente en pause le temps de trouver pourquoi ses tirs ne livrent rien
 
