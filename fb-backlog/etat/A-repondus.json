@@ -1784,8 +1784,24 @@
       "quand": "2026-09-24T21:07:40.000Z",
       "confirme": true,
       "texte": "L'idée est notée, merci. On évite par contre de s'engager sur ce qui n'existe pas encore : ce qui est offert se trouve sur lasclay.com, et les nouveautés passent d'abord par l'infolettre."
+    },
+    {
+      "id": "1678623234271486_1785439885929873",
+      "reponse_id": "1678623234271486_1108188131744749",
+      "page_id": "104242204750257",
+      "quand": "2026-09-25T15:08:57.184Z",
+      "confirme": true,
+      "texte": "Merci beaucoup! Ça fait plaisir de savoir que nos produits vous suivent déjà 🙂"
+    },
+    {
+      "id": "1678623234271486_1787528689068593",
+      "reponse_id": "1678623234271486_1125753946802091",
+      "page_id": "104242204750257",
+      "quand": "2026-09-25T18:08:06.900Z",
+      "confirme": true,
+      "texte": "It really does 🙂 That's the part nobody expects until they're standing next to it."
     }
   ],
-  "derniere_execution": "2026-09-24T21:07:40.000Z",
-  "total": 223
+  "derniere_execution": "2026-09-25T18:08:06.900Z",
+  "total": 225
 }

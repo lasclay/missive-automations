@@ -93,19 +93,34 @@ const insere = db.prepare(`INSERT INTO qc_points
    import_src)
   VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`);
 
-// On efface les trois sources par défaut ET toute source nommée dans les
-// fichiers. Sans ça, une ligne portant sa propre provenance — « atelier »,
-// pour une consigne donnée de vive voix — serait insérée à chaque import sans
-// jamais être retirée, et se dupliquerait à chaque démarrage du service.
+// Les points que l'import a posés la dernière fois : les trois sources par
+// défaut, toute source nommée dans les fichiers, et tout ce que ces fichiers se
+// réclament. On ne les EFFACE plus d'avance.
+//
+// POURQUOI. Effacer puis réinsérer donnait à chaque point un nouvel
+// identifiant à chaque démarrage du service — et trois tables y tiennent :
+// les contrôles signés par l'atelier (supprimés en cascade), les points
+// écartés d'un produit (supprimés en cascade) et le bris qui a fait écrire la
+// consigne (remis à vide). Chaque déploiement effaçait donc le travail de
+// l'atelier sans rien dire. Un point reconnu garde maintenant son identifiant :
+// on le met à jour sur place, et seul un point retiré du fichier disparaît.
+const existants = new Map();
 if (ECRIRE) {
-  const aEffacer = new Set([SOURCE]);
-  if (SQUELETTES) aEffacer.add(SOURCE_SQ);
-  if (CHARTE) aEffacer.add(SOURCE_CH);
-  for (const r of rangs) if (r.source) aEffacer.add(r.source);
-  for (const src of aEffacer) efface.run(src);
-  // Un passage peut lire jusqu'à quatre TSV : on n'efface que ceux-là.
-  for (const nom of FICHIERS) effaceFichier.run(nom);
+  const aReprendre = new Set([SOURCE]);
+  if (SQUELETTES) aReprendre.add(SOURCE_SQ);
+  if (CHARTE) aReprendre.add(SOURCE_CH);
+  for (const r of rangs) if (r.source) aReprendre.add(r.source);
+  const q = db.prepare(`SELECT id, produit_id, titre, variante FROM qc_points
+     WHERE cree_par IS NULL AND (source = ? OR import_src = ?)`);
+  for (const src of new Set([...aReprendre, ...FICHIERS]))
+    for (const x of q.all(src, src))
+      existants.set(`${x.produit_id ?? '*'}|${empreinte(x.titre)}|${empreinte(x.variante)}`, x.id);
 }
+const metAJour = db.prepare(`UPDATE qc_points SET
+  type = ?, titre = ?, detail = ?, consequence = ?, valeur = ?, tolerance = ?,
+  unite = ?, ech_type = ?, ech_valeur = ?, frequence = ?, source = ?, rang = ?,
+  schema_url = ?, variante = ?, import_src = ?, maj_le = datetime('now')
+  WHERE id = ?`);
 
 /**
  * Deux fichiers peuvent dire la même chose du même produit.
@@ -155,14 +170,25 @@ for (const r of rangs) {
   parProduit.set(cle, n);
   const ech = ['', 'tout', 'ratio', 'fixe', 'lot'].includes(r.ech_type) ? r.ech_type : '';
   const ev = Number(r.ech_valeur);
-  if (ECRIRE)
-    insere.run(p.id, r.volet, r.titre, r.detail, r.consequence,
+  if (ECRIRE) {
+    const champs = [r.volet, r.titre, r.detail, r.consequence,
       r.valeur, r.tolerance, r.unite, ech,
       Number.isInteger(ev) && ev > 0 ? ev : null,
       r.frequence, r.source || SOURCE, n, r.schema || '', r.variante || '',
-      r.__fichier || '');
+      r.__fichier || ''];
+    const id = existants.get(cleDoublon);
+    if (id) { metAJour.run(...champs, id); existants.delete(cleDoublon); }
+    else insere.run(p.id, ...champs);
+  }
   par[r.volet] = (par[r.volet] || 0) + 1;
   ajoutes++;
+}
+
+// Ce qui reste n'est plus dans aucun fichier : là, et là seulement, le point
+// disparaît — avec ses contrôles, puisque la consigne n'existe plus.
+if (ECRIRE) {
+  const retire = db.prepare(`DELETE FROM qc_points WHERE id = ?`);
+  for (const id of existants.values()) retire.run(id);
 }
 
 console.log(`\n${ECRIRE ? 'Écrit' : 'Aperçu'} — protocoles de contrôle qualité\n`);

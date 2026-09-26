@@ -224,5 +224,140 @@ t('les quatre onglets existent, « tous » compris',
     db.prepare(`SELECT COUNT(*) n FROM qc_points WHERE produit_id = ?`).get(p).n === 1);
 }
 
+/* ======== un redémarrage ne doit rien effacer de ce que l'atelier a fait == */
+// L'import des protocoles tourne à CHAQUE démarrage du service. Il effaçait
+// puis réinsérait ses points : nouvel identifiant à chaque fois, et en cascade
+// les contrôles signés, les points écartés par une personne, le lien entre un
+// bris et sa consigne. Chaque déploiement vidait le travail de l'atelier.
+{
+  const { execFileSync } = require('node:child_process');
+  const importer = () => execFileSync(process.execPath,
+    ['--no-warnings', require('node:path').join(__dirname, '..', 'import_qualite.js'),
+     '--charte', '--squelettes', '--ecrire'],
+    { env: process.env, encoding: 'utf8' });
+  if (!db.prepare(`SELECT 1 FROM produits WHERE code = 'MIT-POLAR'`).get())
+    db.prepare(`INSERT INTO produits (code, nom, famille) VALUES ('MIT-POLAR','Mitaine polar','hiver')`).run();
+  const mp = db.prepare(`SELECT id FROM produits WHERE code = 'MIT-POLAR'`).get().id;
+  importer();
+  const pt = db.prepare(`SELECT id FROM qc_points WHERE produit_id = ? AND cree_par IS NULL
+                          ORDER BY id LIMIT 1`).get(mp);
+  const gen = db.prepare(`SELECT id FROM qc_points WHERE produit_id IS NULL AND cree_par IS NULL
+                           ORDER BY id LIMIT 1`).get();
+  const o = db.prepare(`INSERT INTO ordres (numero, titre, statut) VALUES (?,?, 'planifie')`)
+    .run(`OP-RED-${process.pid}`, 'Redémarrage').lastInsertRowid;
+  const it = db.prepare(`INSERT INTO ordre_items (ordre_id, produit_id, quantite) VALUES (?,?,?)`)
+    .run(o, mp, 10).lastInsertRowid;
+  db.prepare(`INSERT INTO qc_controles (item_id, point_id, verdict, utilisateur_id)
+              VALUES (?,?,'conforme',?)`).run(it, pt.id, u);
+  if (gen) db.prepare(`INSERT INTO qc_hors_sujet (produit_id, point_id, motif, cree_par)
+              VALUES (?,?,'essai',?)`).run(mp, gen.id, u);
+  importer();
+  t('un redémarrage garde les contrôles signés par l\'atelier',
+    db.prepare(`SELECT COUNT(*) n FROM qc_controles WHERE item_id = ?`).get(it).n === 1);
+  t('… et l\'identifiant du point ne change pas',
+    !!db.prepare(`SELECT 1 FROM qc_points WHERE id = ?`).get(pt.id));
+  t('… et un point écarté par une personne reste écarté',
+    !gen || db.prepare(`SELECT COUNT(*) n FROM qc_hors_sujet WHERE cree_par = ?`).get(u).n === 1);
+}
+
+/* ============================== cotes : théorique à côté du réel ========= */
+{
+  const { coteFinie, PERTE } = require('../import_cotes.js');
+  const D = require('../db.js');
+  const V = require('../vues.js');
+  // La formule : une largeur perd (π/2 − 1) × épaisseur, une longueur fermée
+  // d'un seul bout la moitié, un diamètre rien.
+  t('une largeur à plat perd (π/2 − 1) × épaisseur',
+    Math.abs(coteFinie(143, 2, 16) - (143 - PERTE * 16)) < 0.06);
+  t('une longueur fermée d\'un bout n\'en perd que la moitié',
+    Math.abs(coteFinie(314, 1, 16) - (314 - PERTE * 8)) < 0.06);
+  t('sans cote de patron, pas de théorique (pièce étalon)', coteFinie(null, 1, 12) === null);
+  // Le jugement.
+  t('dans la tolérance = vert', D.ecartCote(134, 136, '± 3').etat === 'ok');
+  t('hors tolérance = rouge', D.ecartCote(134, 140, '± 3').etat === 'ko');
+  t('un minimum se juge par-dessous seulement',
+    D.ecartCote(140, 150, 'min').etat === 'ok' && D.ecartCote(140, 130, 'min').etat === 'ko');
+  t('sans théorique, on montre sans juger', D.ecartCote(null, 200, '± 5').etat === 'info');
+
+  const mp = db.prepare(`SELECT id FROM produits WHERE code = 'MIT-POLAR'`).get().id;
+  db.prepare(`DELETE FROM cotes_theoriques WHERE produit_id = ?`).run(mp);
+  const insT = db.prepare(`INSERT INTO cotes_theoriques (produit_id, num, nom, taille, rang_taille,
+    couture_mm, valeur_mm, tolerance, titre_point, ep_statut, ep_detail) VALUES (?,?,?,?,?,?,?,?,?,?,?)`);
+  const TITRE = 'Cotes hors-tout et incréments de gradation, contre le patron';
+  insT.run(mp, 1, 'Largeur', 'S', 1, 133, 125, '± 3', TITRE, 'supposée', 'corps 14 mm');
+  insT.run(mp, 1, 'Largeur', 'M', 2, 143, 135, '± 3', TITRE, 'supposée', 'corps 14 mm');
+  insT.run(mp, 5, 'Coin → bout du pouce', 'M', 2, null, null, '± 5', TITRE, 'supposée', 'corps 14 mm');
+  const o2 = db.prepare(`INSERT INTO ordres (numero, titre, statut) VALUES (?,?, 'planifie')`)
+    .run(`OP-COT-${process.pid}`, 'Cotes').lastInsertRowid;
+  const lotA = db.prepare(`INSERT INTO ordre_items (ordre_id, produit_id, quantite) VALUES (?,?,?)`)
+    .run(o2, mp, 5).lastInsertRowid;
+  const lotB = db.prepare(`INSERT INTO ordre_items (ordre_id, produit_id, quantite) VALUES (?,?,?)`)
+    .run(o2, mp, 5).lastInsertRowid;
+  const r1 = D.enregistrerReleves(mp, lotA, u,
+    { v_1_M: '136,5', v_1_S: '', v_5_M: '202', v_9_M: '10', v_1_XL: '99', v_1_S2: 'x', retour: '/' });
+  t('la virgule décimale passe, une case vide n\'écrit rien, une cote inconnue est ignorée',
+    r1.n === 2 && r1.illisibles.length === 0, JSON.stringify(r1));
+  const r2 = D.enregistrerReleves(mp, lotA, u, { v_1_M: '136.5', v_1_S: 'abc' });
+  t('une valeur inchangée n\'est pas une nouvelle mesure ; l\'illisible est nommé',
+    r2.n === 0 && r2.illisibles.length === 1, JSON.stringify(r2));
+  D.enregistrerReleves(mp, lotB, u, { v_1_M: '141' });
+  const gA = D.grilleCotes(mp, { itemId: lotA });
+  const gB = D.grilleCotes(mp, { itemId: lotB });
+  const cM = (g, n) => g.lignes.find(l => l.num === n).cases.M;
+  t('chaque lot voit SES mesures', cM(gA, 1).reel.valeur_mm === 136.5 && cM(gB, 1).reel.valeur_mm === 141);
+  t('136,5 contre 135 ± 3 : vert ; 141 : rouge', cM(gA, 1).etat === 'ok' && cM(gB, 1).etat === 'ko');
+  t('la cote 5 sans théorique garde sa mesure', cM(gA, 5).theo === null && cM(gA, 5).reel.valeur_mm === 202);
+  const h = V.grilleCotesHTML(gA, { action: '/ordres/1/items/1/cotes', retour: '/x' });
+  t('la grille éditable a un champ par case, prérempli, et le bouton',
+    h.includes('name="v_1_M"') && h.includes('value="136,5"') && h.includes('Enregistrer les mesures réelles'));
+  t('elle dit que l\'épaisseur est supposée', h.includes('épaisseur supposée'));
+  const hl = V.grilleCotesHTML(D.grilleCotes(mp));
+  t('en lecture seule, pas de champ', !hl.includes('<input') && hl.includes('gc-ko'));
+}
+
+/* ======= semelles : mesures hors lot, et mesures transmises par écrit ===== */
+{
+  const D = require('../db.js');
+  const { execFileSync } = require('node:child_process');
+  if (!db.prepare(`SELECT 1 FROM produits WHERE code = 'SEMELLE-9'`).get())
+    db.prepare(`INSERT INTO produits (code, nom, famille) VALUES ('SEMELLE-9','Semelle 9F+','hiver')`).run();
+  const sp = db.prepare(`SELECT id FROM produits WHERE code = 'SEMELLE-9'`).get().id;
+  const lancer = () => execFileSync(process.execPath, ['--no-warnings',
+    require('node:path').join(__dirname, '..', 'import_cotes.js'), '--ecrire'],
+    { env: process.env, encoding: 'utf8' });
+  lancer(); lancer();
+  t('une mesure transmise par écrit n\'entre qu\'une fois, même après deux démarrages',
+    db.prepare(`SELECT COUNT(*) n FROM cotes_releves WHERE produit_id = ? AND taille = '12F-10H' AND num = 1`)
+      .get(sp).n === 1);
+  const g = D.grilleCotes(sp, { horsLot: true });
+  t('les pointures gardent l\'ordre du fichier',
+    g.tailles[0] === '9F-7H' && g.tailles[g.tailles.length - 1] === '14H', g.tailles.join(' '));
+  t('le 12F-10H porte ses 282 × 95 mm, sans théorique',
+    g.lignes[0].cases['12F-10H'].reel.valeur_mm === 282 && g.lignes[1].cases['12F-10H'].reel.valeur_mm === 95
+    && g.lignes[0].cases['12F-10H'].theo === null);
+  const o3 = db.prepare(`INSERT INTO ordres (numero, titre, statut) VALUES (?,?, 'planifie')`)
+    .run(`OP-SEM-${process.pid}`, 'Semelles').lastInsertRowid;
+  const lot = db.prepare(`INSERT INTO ordre_items (ordre_id, produit_id, quantite) VALUES (?,?,?)`)
+    .run(o3, sp, 10).lastInsertRowid;
+  D.enregistrerReleves(sp, lot, u, { 'v_1_12F-10H': '284' });
+  D.enregistrerReleves(sp, null, u, { 'v_2_9F-7H': '88' });
+  t('hors lot et lot ne se mélangent pas',
+    D.grilleCotes(sp, { horsLot: true }).lignes[0].cases['12F-10H'].reel.valeur_mm === 282
+    && D.grilleCotes(sp, { itemId: lot }).lignes[0].cases['12F-10H'].reel.valeur_mm === 284
+    && D.grilleCotes(sp, { itemId: lot }).lignes[1].cases['9F-7H'].reel === null);
+  const V = require('../vues.js');
+  // La page du protocole range les « mesure » à part (tableau par taille) :
+  // la grille doit passer par CE chemin aussi, pas seulement par la liste.
+  if (!db.prepare(`SELECT 1 FROM qc_points WHERE produit_id = ? AND titre = ?`).get(sp, g.titrePoint))
+    db.prepare(`INSERT INTO qc_points (produit_id, type, titre) VALUES (?, 'mesure', ?)`).run(sp, g.titrePoint);
+  const pageP = V.vueProtocole({ user: { nom: 'x', role: 'admin', unites: 'mm' }, msg: {},
+    p: db.prepare(`SELECT * FROM produits WHERE id = ?`).get(sp), proto: D.protocole(sp),
+    grille: D.grilleCotes(sp, { horsLot: true }) });
+  t('la page du protocole montre la grille, éditable hors lot',
+    pageP.includes('class="grille-cotes') && pageP.includes(`action="/qualite/${sp}/cotes"`));
+  t('sans patron, la grille le dit au lieu de parler d\'épaisseur',
+    V.grilleCotesHTML(g).includes('aucun patron numérisé') && !V.grilleCotesHTML(g).includes('épaisseur'));
+}
+
 console.log(`\n  ${ok} ok, ${ko} ko\n`);
 process.exit(ko ? 1 : 0);

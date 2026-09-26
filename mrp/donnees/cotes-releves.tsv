@@ -1,0 +1,8 @@
+# Mesures réelles prises hors de l'app et transmises par écrit, à charger
+# telles quelles. Chaque ligne entre UNE fois : l'import ne la réécrit pas si
+# la même mesure (produit, cote, taille, valeur, date) est déjà en base.
+# Les mesures saisies dans l'app, elles, ne passent jamais par ce fichier.
+# valeur_mm en millimètres ; date AAAA-MM-JJ ; source : qui a mesuré.
+produit	num	taille	valeur_mm	date	source
+SEMELLE-9	1	12F-10H	282	2026-09-25	direction (Admin QC)
+SEMELLE-9	2	12F-10H	95	2026-09-25	direction (Admin QC)

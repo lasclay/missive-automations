@@ -29,7 +29,7 @@ const { db, prochainNumero, avancementOrdre, listeFabrication, dernieresMaj,
         apercuProduction,
         taches, tache, compteTaches, equipe,
         protocole, couvertureQC, TYPES_QC, charteProduit,
-        checklistItem, blocageQC, etatQCOrdre,
+        checklistItem, blocageQC, etatQCOrdre, grilleCotes, enregistrerReleves,
         horsSujet, poserHorsSujet, retirerHorsSujet,
         filOrdre, filEnAttente, demandeOuverte, reglerDemandes, reglerFil,
         modifierFil, supprimerFil,
@@ -186,6 +186,16 @@ const STATIQUES = {
   // intacte, et reste la source. Comme les planches, c'est une donnée de
   // production, pas un cache.
   '/schema/bandeau-tuque.png': ['image/png', 'public/schema-bandeau-tuque.png'],
+  // Le guide des tailles des mitaines, tel que publié sur la boutique. Copié
+  // ici plutôt que lu au CDN : c'est l'outil de mesure de l'atelier pendant
+  // l'essai, il doit s'afficher sans dépendre du site. S'il change en ligne,
+  // on le recopie — le texte du point porte les mêmes fourchettes.
+  '/schema/guide-tailles-mitaines.webp': ['image/webp',
+    'public/schema-guide-tailles-mitaines.webp'],
+  // La charte des cotes finies des mitaines adultes, par taille. Dessinée par
+  // patrons/mitaines/charte.py à partir des DXF Lectra : le corps est le vrai
+  // contour de P1 en M, les valeurs sont celles des lignes de couture.
+  '/schema/cotes-mitaines.webp': ['image/webp', 'public/schema-cotes-mitaines.webp'],
 };
 
 // Les planches d'instruction, servies par nom. Le nom ne change pas d'une
@@ -616,7 +626,27 @@ async function router(req, res, url, user) {
         }
 
         return html(res, V.vueChecklist({ user, msg, ordre: o,
-          c: checklistItem(it.id) }));
+          c: checklistItem(it.id), grille: grilleCotes(it.produit_id, { itemId: it.id }) }));
+      }
+    }
+
+    // ---- les mesures réelles d'un lot, à côté des cotes théoriques
+    // Ouvert aux deux rôles : c'est l'atelier qui a la pièce et le ruban.
+    {
+      const mc = reste.match(/^\/items\/(\d+)\/cotes$/);
+      if (mc && req.method === 'POST') {
+        const it = R.item.get(+mc[1], id);
+        if (!it) return vers(res, `/ordres/${id}?err=` + encodeURIComponent('Item introuvable.'));
+        const f = await corpsFormulaire(req);
+        const r = enregistrerReleves(it.produit_id, it.id, user.id, f);
+        const rt = String(f.retour || '');
+        const base = /^\/[a-z0-9/?=&_%.-]{0,200}$/i.test(rt) && !rt.startsWith('//')
+          ? rt : `/ordres/${id}/items/${it.id}/qualite`;
+        const avis = r.illisibles.length
+          ? 'err=' + encodeURIComponent(`${r.n} mesure(s) enregistrée(s) ; illisible(s) : ${r.illisibles.join(', ')}.`)
+          : 'ok=' + encodeURIComponent(r.n ? `${r.n} mesure${r.n > 1 ? 's' : ''} enregistrée${r.n > 1 ? 's' : ''}.`
+                                           : 'Aucune mesure nouvelle.');
+        return vers(res, base + (base.includes('?') ? '&' : '?') + avis + '#cotes');
       }
     }
 
@@ -1095,15 +1125,38 @@ async function router(req, res, url, user) {
       if (!PIC.PLANCHES[m[1]] && !PIC.DESSINS.has(m[1]))
         return vers(res, '/qualite?err='
           + encodeURIComponent('Planche inconnue.'));
-      const point = db.prepare(`SELECT titre, detail, consequence FROM qc_points`)
-        .all().find((q) => PIC.cle(q.titre) === m[1]);
+      // Le point précis dont on vient, quand le lien le nomme : quatre mitaines
+      // partagent la planche de l'essai, et c'est le point — pas la planche —
+      // qui porte l'image de référence (le guide des tailles). Sans lui, le
+      // premier point du titre qui en a une, puis le premier tout court.
+      const tous = db.prepare(
+        `SELECT id, titre, detail, consequence, schema_url FROM qc_points`)
+        .all().filter((q) => PIC.cle(q.titre) === m[1]);
+      const voulu = Number(q.get('point')) || 0;
+      const point = tous.find((x) => x.id === voulu)
+        || tous.find((x) => String(x.schema_url || '').trim()) || tous[0];
       if (!point) return vers(res, '/qualite?err='
         + encodeURIComponent("Ce geste n'est rattaché à aucun point de contrôle."));
       const r = String(q.get('retour') || '');
       const retour = /^\/[a-z0-9/?=&#_-]{0,120}$/i.test(r) && r
         ? { href: r, texte: 'Revenir à la liste' }
         : { href: '/qualite/general', texte: 'Procédés généraux' };
-      return html(res, V.vuePlanche({ user, msg, point, retour }));
+      // Arrivée depuis un lot (la liste à cocher passe `item`) : la grille des
+      // cotes y est éditable, pour saisir les mesures sans changer de page.
+      let grille = null, action = null;
+      const itemId = Number(q.get('item')) || 0;
+      const pp = db.prepare(`SELECT produit_id FROM qc_points WHERE id = ?`).get(point.id);
+      const lot = itemId ? db.prepare(`SELECT id, ordre_id, produit_id FROM ordre_items WHERE id = ?`).get(itemId) : null;
+      if (lot && pp && lot.produit_id === pp.produit_id) {
+        grille = grilleCotes(lot.produit_id, { itemId: lot.id });
+        action = `/ordres/${lot.ordre_id}/items/${lot.id}/cotes`;
+      } else if (pp && pp.produit_id) {
+        // Sans lot : la grille des mesures hors lot, éditable elle aussi.
+        grille = grilleCotes(pp.produit_id, { horsLot: true });
+        action = `/qualite/${pp.produit_id}/cotes`;
+      }
+      return html(res, V.vuePlanche({ user, msg, point, retour, grille, action,
+        ici: req.url.replace(/[?&](ok|err)=[^&#]*/g, '').replace(/#.*$/, '') }));
     }
   }
 
@@ -1238,6 +1291,26 @@ async function router(req, res, url, user) {
     }
   }
 
+  // Les mesures réelles HORS LOT d'un produit : échantillon, pièce étalon,
+  // mesure prise au bureau. Même grille que depuis un lot, sans lot rattaché.
+  {
+    const m = p.match(/^\/qualite\/(\d+)\/cotes$/);
+    if (m && req.method === 'POST') {
+      const prod = R.produit.get(Number(m[1]));
+      if (!prod) return vers(res, '/qualite?err=' + encodeURIComponent('Produit introuvable.'));
+      const f = await corpsFormulaire(req);
+      const r = enregistrerReleves(prod.id, null, user.id, f);
+      const rt = String(f.retour || '');
+      const base = /^\/[a-z0-9/?=&_%.-]{0,200}$/i.test(rt) && !rt.startsWith('//')
+        ? rt : `/qualite/${prod.id}`;
+      const avis = r.illisibles.length
+        ? 'err=' + encodeURIComponent(`${r.n} mesure(s) enregistrée(s) ; illisible(s) : ${r.illisibles.join(', ')}.`)
+        : 'ok=' + encodeURIComponent(r.n ? `${r.n} mesure${r.n > 1 ? 's' : ''} enregistrée${r.n > 1 ? 's' : ''}.`
+                                         : 'Aucune mesure nouvelle.');
+      return vers(res, base + (base.includes('?') ? '&' : '?') + avis + '#cotes');
+    }
+  }
+
   // Un tableau de mensurations d'un coup : une ligne par taille.
   {
     const m = p.match(/^\/qualite\/(\d+)\/mesures$/);
@@ -1303,6 +1376,7 @@ async function router(req, res, url, user) {
       }
       return html(res, V.vueProtocole({ user, msg, p: prod,
         proto: protocole(prod.id), photos: R.photos.all(prod.id),
+        grille: grilleCotes(prod.id, { horsLot: true }),
         bris: brisProduit(prod.id), appuis: brisParPoint(prod.id),
         ecartes: horsSujet(prod.id) }));
     }

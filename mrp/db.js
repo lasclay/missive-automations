@@ -397,6 +397,43 @@ CREATE TABLE IF NOT EXISTS qc_controles (
 );
 CREATE INDEX IF NOT EXISTS idx_qcc_item ON qc_controles(item_id, point_id, id);
 
+-- Les COTES d'un produit gradé : une grille cote × taille, la valeur théorique
+-- tirée des patrons, et à côté ce que l'atelier mesure vraiment.
+--
+-- Théorique : rechargée à chaque démarrage depuis donnees/cotes-*.tsv
+-- (import_cotes.js). Rien n'y est saisi à la main, rien n'y tient par clé
+-- étrangère : on peut la vider et la reremplir sans rien perdre.
+CREATE TABLE IF NOT EXISTS cotes_theoriques (
+  id          INTEGER PRIMARY KEY,
+  produit_id  INTEGER NOT NULL REFERENCES produits(id) ON DELETE CASCADE,
+  num         INTEGER NOT NULL,
+  nom         TEXT NOT NULL,
+  taille      TEXT NOT NULL,
+  rang_taille INTEGER NOT NULL DEFAULT 0,
+  couture_mm  REAL,            -- sur la ligne de couture du patron
+  valeur_mm   REAL,            -- la cote FINIE, épaisseur à plat déduite ; NULL = étalon
+  tolerance   TEXT NOT NULL DEFAULT '',
+  titre_point TEXT NOT NULL DEFAULT '',
+  ep_statut   TEXT NOT NULL DEFAULT '',
+  ep_detail   TEXT NOT NULL DEFAULT '',
+  UNIQUE (produit_id, num, taille)
+);
+-- Réel : chaque mesure prise par une personne, jamais écrasée — la dernière
+-- fait foi, les précédentes restent pour qu'on voie une dérive. Clé par
+-- produit, numéro de cote et taille, PAS par identifiant de point : ce qui est
+-- mesuré ne doit jamais dépendre d'un import.
+CREATE TABLE IF NOT EXISTS cotes_releves (
+  id             INTEGER PRIMARY KEY,
+  produit_id     INTEGER NOT NULL REFERENCES produits(id) ON DELETE CASCADE,
+  item_id        INTEGER REFERENCES ordre_items(id) ON DELETE SET NULL,
+  num            INTEGER NOT NULL,
+  taille         TEXT NOT NULL,
+  valeur_mm      REAL NOT NULL,
+  utilisateur_id INTEGER REFERENCES utilisateurs(id),
+  cree_le        TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE INDEX IF NOT EXISTS idx_releves ON cotes_releves(produit_id, num, taille, id);
+
 -- Le compte rendu qui FERME le contrôle qualité d'un lot.
 --
 -- Cocher une case dit « j'ai regardé ». Ça ne dit pas ce qu'on a vu. Un lot de
@@ -560,6 +597,9 @@ CREATE INDEX IF NOT EXISTS idx_hist_item      ON avancement_historique(item_id);
 CREATE INDEX IF NOT EXISTS idx_photos_produit ON produit_photos(produit_id);
 `;
 db.exec(SCHEMA);
+// Qui a mesuré, quand ce n'est pas un compte de l'app : une mesure transmise
+// par écrit (donnees/cotes-releves.tsv) garde son auteur.
+try { db.exec(`ALTER TABLE cotes_releves ADD COLUMN source TEXT NOT NULL DEFAULT ''`); } catch { /* déjà là */ }
 
 /**
  * Migrations. Le schéma se crée avec CREATE TABLE IF NOT EXISTS, ce qui ne
@@ -2196,7 +2236,112 @@ function couvertureRetro() {
     });
 }
 
+
+/* ================================================================ cotes === */
+
+/** « ± 3 » → 3 ; « min » → 'min' ; « ≈ » ou vide → null. */
+function lireTolerance(t) {
+  const s = String(t || '').trim();
+  if (/^min/i.test(s)) return 'min';
+  const m = s.replace(',', '.').match(/(\d+(?:\.\d+)?)/);
+  return m ? Number(m[1]) : null;
+}
+
+/**
+ * Où tombe une mesure réelle par rapport à la théorique.
+ *   'ok'     dans la tolérance (ou au-dessus du minimum)
+ *   'ko'     hors tolérance
+ *   'info'   pas de tolérance chiffrée (≈), ou pas de théorique : on affiche
+ *            l'écart sans juger
+ */
+function ecartCote(theo, reel, tolerance) {
+  if (reel === null || reel === undefined || theo === null || theo === undefined)
+    return { etat: 'info', ecart: null };
+  const ecart = Math.round((reel - theo) * 10) / 10;
+  const tol = lireTolerance(tolerance);
+  if (tol === 'min') return { etat: reel >= theo ? 'ok' : 'ko', ecart };
+  if (tol === null) return { etat: 'info', ecart };
+  return { etat: Math.abs(ecart) <= tol ? 'ok' : 'ko', ecart };
+}
+
+/**
+ * La grille d'un produit : ses cotes, ses tailles, la théorique et le dernier
+ * relevé de chaque case. `itemId` restreint les relevés à un lot — c'est ce
+ * que voit l'atelier en contrôlant ce lot ; sans lui, le dernier relevé tous
+ * lots confondus.
+ */
+function grilleCotes(produitId, { itemId = null, horsLot = false } = {}) {
+  const th = db.prepare(`SELECT * FROM cotes_theoriques WHERE produit_id = ?
+    ORDER BY num, rang_taille`).all(produitId);
+  if (!th.length) return null;
+  const tailles = [...new Map(th.map(r => [r.taille, r.rang_taille])).entries()]
+    .sort((a, b) => a[1] - b[1]).map(([t]) => t);
+  // Trois portées : un lot (ce que l'atelier contrôle), les mesures hors lot
+  // (échantillons, pièces étalon, mesures transmises), ou tout confondu.
+  const portee = itemId ? 'AND x.item_id = r.item_id AND r.item_id = ?'
+               : horsLot ? 'AND x.item_id IS NULL AND r.item_id IS NULL' : '';
+  const rel = db.prepare(`SELECT r.num, r.taille, r.valeur_mm, r.cree_le, r.item_id,
+      COALESCE(u.nom, NULLIF(r.source, '')) AS par
+      FROM cotes_releves r LEFT JOIN utilisateurs u ON u.id = r.utilisateur_id
+     WHERE r.produit_id = ?
+       AND r.id = (SELECT MAX(x.id) FROM cotes_releves x
+                    WHERE x.produit_id = r.produit_id AND x.num = r.num
+                      AND x.taille = r.taille ${portee})`)
+    .all(...(itemId ? [produitId, itemId] : [produitId]));
+  const releve = new Map(rel.map(r => [`${r.num}|${r.taille}`, r]));
+  const lignes = [];
+  for (const r of th) {
+    let l = lignes.find(x => x.num === r.num);
+    if (!l) { l = { num: r.num, nom: r.nom, tolerance: r.tolerance, cases: {} }; lignes.push(l); }
+    const re = releve.get(`${r.num}|${r.taille}`) || null;
+    l.cases[r.taille] = { theo: r.valeur_mm, couture: r.couture_mm, reel: re,
+      ...ecartCote(r.valeur_mm, re ? re.valeur_mm : null, r.tolerance) };
+  }
+  const t0 = th[0];
+  return { tailles, lignes, titrePoint: t0.titre_point,
+           epStatut: t0.ep_statut, epDetail: t0.ep_detail };
+}
+
+/**
+ * Enregistre les mesures d'un formulaire de grille. Les champs s'appellent
+ * `v_<num>_<taille>` ; une case vide n'écrit rien (on ne mesure pas toujours
+ * les cinq tailles d'un coup). Virgule ou point décimal, les deux passent.
+ * Renvoie le nombre de mesures écrites et les cases illisibles.
+ */
+function enregistrerReleves(produitId, itemId, userId, champs) {
+  const valides = new Set(db.prepare(
+    `SELECT num || '|' || taille k FROM cotes_theoriques WHERE produit_id = ?`)
+    .all(produitId).map(r => r.k));
+  const ins = db.prepare(`INSERT INTO cotes_releves
+    (produit_id, item_id, num, taille, valeur_mm, utilisateur_id) VALUES (?,?,?,?,?,?)`);
+  const derniere = db.prepare(`SELECT valeur_mm FROM cotes_releves
+    WHERE produit_id = ? AND num = ? AND taille = ? AND item_id IS ? ORDER BY id DESC LIMIT 1`);
+  let n = 0; const illisibles = [];
+  db.exec('BEGIN');
+  try {
+    for (const [k, brut] of Object.entries(champs)) {
+      const m = k.match(/^v_(\d+)_(.+)$/);
+      if (!m) continue;
+      const txt = String(brut ?? '').trim();
+      if (!txt) continue;
+      const cle = `${Number(m[1])}|${m[2]}`;
+      if (!valides.has(cle)) continue;
+      const v = Number(txt.replace(',', '.'));
+      if (!Number.isFinite(v) || v <= 0 || v > 5000) { illisibles.push(`${m[1]} ${m[2]} « ${txt} »`); continue; }
+      // Le formulaire renvoie les valeurs déjà saisies : une case inchangée
+      // n'est pas une nouvelle mesure.
+      const der = derniere.get(produitId, Number(m[1]), m[2], itemId || null);
+      if (der && der.valeur_mm === v) continue;
+      ins.run(produitId, itemId || null, Number(m[1]), m[2], v, userId || null);
+      n++;
+    }
+    db.exec('COMMIT');
+  } catch (e) { db.exec('ROLLBACK'); throw e; }
+  return { n, illisibles };
+}
+
 module.exports = {
+  grilleCotes, enregistrerReleves, ecartCote, lireTolerance,
   retroactionsProduit, couvertureRetro, familleRetro, FAMILLES_RETRO,
   deposerRapport, rapportItem, qcOrdre, compterMots,
   MOTS_RAPPORT, CATEGORIES_QC, SEUIL_VOLUME, db, prochainNumero, avancementOrdre, apercuProduction, CHEMIN,

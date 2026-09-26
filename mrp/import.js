@@ -122,6 +122,13 @@ for (const r of tsv('plan-variantes-2627.tsv')) {
   variantesPlan.get(r.produit).push(r);
 }
 
+const horsBoutique = new Map();
+for (const r of tsv('photos-hors-boutique.tsv')) {
+  if (!r.produit || !r.url) continue;
+  if (!horsBoutique.has(r.produit)) horsBoutique.set(r.produit, []);
+  horsBoutique.get(r.produit).push(r);
+}
+
 const imagesParHandle = new Map();
 for (const r of tsv('shopify-images.tsv')) {
   if (!imagesParHandle.has(r.handle)) imagesParHandle.set(r.handle, []);
@@ -284,7 +291,11 @@ const lignes = corresp.map(r => {
   const sh = r.handle_shopify ? shopify.get(r.handle_shopify) : null;
   const c = cogs.get(r.produit_production);
   const bom = bomParProduit.get(r.produit_production) || [];
-  const photos = (r.handle_shopify && imagesParHandle.get(r.handle_shopify) || [])
+  // La boutique d'abord. Une pièce qui ne se vend pas seule n'y a rien : elle
+  // prend alors ses photos dans photos-hors-boutique.tsv, sinon sa carte de
+  // contrôle affiche « Pas de photo » pour une pièce qu'on fabrique quand même.
+  const boutique = (r.handle_shopify && imagesParHandle.get(r.handle_shopify)) || [];
+  const photos = (boutique.length ? boutique : (horsBoutique.get(r.code) || []))
     .slice(0, 6);
 
   const notes = [];

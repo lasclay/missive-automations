@@ -11749,6 +11749,524 @@
       "motif": "Autocollant sans texte ni contenu: rien à quoi répondre",
       "page_id": "114311920399404",
       "quand": "2026-09-24T23:39:09.655Z"
+    },
+    {
+      "id": "118638713300058_143992150764714",
+      "extrait": "le prix des manteaux etait exorbitant ... a un cout raisonnable",
+      "motif": "Le commentaire porte pour l'essentiel sur le prix: aucun chiffre de prix ne se donne publiquement, et repondre a la seule derniere ligne serait evasif",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T11:39:26.423Z"
+    },
+    {
+      "id": "118638713300058_146757070488222",
+      "extrait": "combien d'alpagas sont morts d'avoir ete tondus pour leur laine ?",
+      "motif": "Prise de bec entre abonnes sur le bien-etre animal et la laine: hors faits verifies",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T11:39:26.423Z"
+    },
+    {
+      "id": "118638713300058_143695954127667",
+      "extrait": "on ne devrait pas payer les yeux de la tete pour en acheter",
+      "motif": "Question de prix",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T11:39:26.423Z"
+    },
+    {
+      "id": "118638713300058_142971250866804",
+      "extrait": "la transformation en fibre va beaucoup polluer ??? combien de litres d'eau potable",
+      "motif": "SUIVI HUMAIN REQUIS. Procede de fabrication et empreinte eau: absents des faits verifies",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T11:39:26.423Z"
+    },
+    {
+      "id": "118638713300058_144050390758890",
+      "extrait": "la meme arrogance avec lequel vous justifier un invasion d humains",
+      "motif": "Diatribe adressee a la Page",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T11:39:26.423Z"
+    },
+    {
+      "id": "118638713300058_145265017304094",
+      "extrait": "Je ne crois pas que la culture de l'asclepiade menace les papillons monarques",
+      "motif": "Abonne qui nous defend dans un fil polemique ou la Page est deja intervenue plusieurs fois: y revenir attiserait la dispute",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T11:39:26.423Z"
+    },
+    {
+      "id": "118638713300058_144215667409029",
+      "extrait": "Le monsieur fache doit etre nu, habiter dans une grotte",
+      "motif": "Insultes entre abonnes",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T11:39:26.423Z"
+    },
+    {
+      "id": "118638713300058_144100637420532",
+      "extrait": "et toi ton cerveau tu l'a laisse au vestiaire ??",
+      "motif": "Insultes entre abonnes",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T11:39:26.423Z"
+    },
+    {
+      "id": "118638713300058_144087410755188",
+      "extrait": "Le monsieur fache doit etre nu, habiter dans une grotte",
+      "motif": "Insultes entre abonnes",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T11:39:26.423Z"
+    },
+    {
+      "id": "118638713300058_144038504093412",
+      "extrait": "Et pourquoi le faire ????? Vous achetez deja chinois",
+      "motif": "Prise de bec entre abonnes, provenance et achat local, hors faits verifies",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T11:39:26.423Z"
+    },
+    {
+      "id": "118638713300058_144013100762619",
+      "extrait": "mentalite de colon-isateur ... rapacer la planete",
+      "motif": "Diatribe adressee a la Page",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T11:39:26.423Z"
+    },
+    {
+      "id": "118638713300058_144011137429482",
+      "extrait": "mentalite de colon-isateur ... rapacer la planete",
+      "motif": "Diatribe adressee a la Page (copie du meme message)",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T11:39:26.423Z"
+    },
+    {
+      "id": "118638713300058_144010977429498",
+      "extrait": "mentalite de colon-isateur ... rapacer la planete",
+      "motif": "Diatribe recopiee a un autre abonne",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T11:39:26.423Z"
+    },
+    {
+      "id": "118638713300058_141711620992767",
+      "extrait": "oui mais d apres vous ou se retrouve le plus gros des semences !?",
+      "motif": "Sous-entend que la recolte prend le gros des semences; repondre defendrait la recolte dans un fil polemique deja tres charge",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T11:39:26.423Z"
+    },
+    {
+      "id": "122652202898709_125309152633014",
+      "extrait": "Comment tu les appretes? Je suis curieuse?",
+      "motif": "NOTE-FAITS-VERIFIES-comestibilite. La comestibilite est absente des faits verifies, MAIS la question repond a un commentaire de NOTRE propre Page qui affirmait que les cosses videes se mangent et que c'est delicieux. Meme configuration que NOTE-FAITS-VERIFIES-odeur: la Page a deja avance publiquement un fait que le referentiel ne couvre pas. A trancher par un humain.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T11:39:26.423Z"
+    },
+    {
+      "id": "122652202898709_634115795045612",
+      "extrait": "oui car elles ne sont pas mures",
+      "motif": "Maturite des graines et moment de la recolte: non couverts par les faits verifies",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T11:39:26.423Z"
+    },
+    {
+      "id": "115591106938152_119976443166285",
+      "extrait": "Est-ce le lait de la plante qu'on applique sur la peau affectee?",
+      "motif": "Usage medicinal du latex sur la peau: absent des faits verifies, SUIVI HUMAIN REQUIS",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T12:41:03.808Z"
+    },
+    {
+      "id": "115591106938152_118719469958649",
+      "extrait": "Connaissez-vous le nom de cette exploitation?",
+      "motif": "Nous demande de nommer une exploitation tierce",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T12:41:03.808Z"
+    },
+    {
+      "id": "115833433580586_26285195041098815",
+      "extrait": "decue de Quartz Co qui a decide de cesser sa production",
+      "motif": "Entreprise tierce nommee, jamais relayee",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T12:41:03.808Z"
+    },
+    {
+      "id": "253527819811146_253613003135961",
+      "extrait": "ohhh!! Merci beaucoup!!",
+      "motif": "Remerciement sans contenu, dans un fil ou notre commentaire parlait deja de prix compares",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T12:41:03.808Z"
+    },
+    {
+      "id": "253527819811146_253555813141680",
+      "extrait": "j eleves de l oeuf au papillion",
+      "motif": "Elevage de monarques a la maison: absent des faits verifies",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T12:41:03.808Z"
+    },
+    {
+      "id": "253527819811146_253536049810323",
+      "extrait": "(un emoji de doigt pointe)",
+      "motif": "Aucun contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T12:41:03.808Z"
+    },
+    {
+      "id": "186001463230449_188939326269996",
+      "extrait": "Ya plus de small",
+      "motif": "Disponibilite et rupture de stock: ne se repond pas publiquement",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T12:41:03.808Z"
+    },
+    {
+      "id": "188698162960779_188855679611694",
+      "extrait": "si c'est effectivement un vrai nouveau site ca demontre de solides capacites d'adaptation",
+      "motif": "Etat des populations et nouveau site d'hivernage: hors faits verifies",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T12:41:03.808Z"
+    },
+    {
+      "id": "188698162960779_188830062947589",
+      "extrait": "Wow!Bonne nouvelle",
+      "motif": "Remerciement sans contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T12:41:03.808Z"
+    },
+    {
+      "id": "188698162960779_188810012949594",
+      "extrait": "Merci de partager cette bonne nouvelle!!!!",
+      "motif": "Remerciement sans contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T12:41:03.808Z"
+    },
+    {
+      "id": "186001463230449_186919853138610",
+      "extrait": "Tellement bien !",
+      "motif": "Echange entre abonnes, aucun contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T14:40:33.041Z"
+    },
+    {
+      "id": "186001463230449_186676419829620",
+      "extrait": "Oui, moi aussi c'est rejouissant! xxxxx",
+      "motif": "Echange entre amies, aucun contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T14:40:33.041Z"
+    },
+    {
+      "id": "179567347207194_179730137190915",
+      "extrait": "(aucun texte; photo d'une main sortie par la fenetre d'une auto en marche, route d'automne)",
+      "motif": "Photo sans texte et geste non identifiable avec certitude; si c'est un lacher de graines en bord de route, l'encourager toucherait a des regles municipales absentes des faits verifies",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T14:40:33.041Z"
+    },
+    {
+      "id": "179567347207194_179630570534205",
+      "extrait": "Calude Claude Talbot",
+      "motif": "Simple identification d'un ami",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T14:40:33.041Z"
+    },
+    {
+      "id": "179567347207194_179629157201013",
+      "extrait": "Une plante sauvage au doux parfum !",
+      "motif": "Odeur ou parfum: absent des faits verifies (NOTE-FAITS-VERIFIES-odeur)",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T14:40:33.041Z"
+    },
+    {
+      "id": "146195493877713_146786443818618",
+      "extrait": "Bravo a vous deux pour cette superbe initiative!",
+      "motif": "Felicitations sans contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T14:40:33.041Z"
+    },
+    {
+      "id": "118638713300058_146335367197059",
+      "extrait": "le miel produit de ses fleurs.. Woww (photo d'un pot MIEL D'ASCLEPIADE, produit de Coaticook, avec numero de telephone)",
+      "motif": "Photo d'un produit commercial tiers avec ses coordonnees, et le miel d'asclepiade est absent des faits verifies",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T14:40:33.041Z"
+    },
+    {
+      "id": "146195493877713_146273337203262",
+      "extrait": "Bravo mon cher Gab",
+      "motif": "Felicitations adressees personnellement au fondateur, sans contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T14:40:33.041Z"
+    },
+    {
+      "id": "146195493877713_146233690540560",
+      "extrait": "J'ai hate qu'il y ait des manteaux d'hiver.",
+      "motif": "Gamme de produits a venir: rien de verifie, et repondre laisserait entendre une promesse",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T14:40:33.041Z"
+    },
+    {
+      "id": "146195493877713_146229710540958",
+      "extrait": "Felicitations c'est vraiment genial.",
+      "motif": "Felicitations sans contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T14:40:33.041Z"
+    },
+    {
+      "id": "118638713300058_144101464087116",
+      "extrait": "dans la soie il y a les graines. Allez vous les planter ??",
+      "motif": "BLOQUE-CLASSIFICATEUR. Reponse redigee et prete (sachet gratuit dans chaque commande textile, ~10 millions de graines sur 5 campagnes, lien vers le guide de plantation), mais la commande de publication a ete refusee par le classificateur du mode auto le 25 septembre, motif Real-World Transactions. Consigne ici pour qu il cesse d occuper la premiere place de chaque lot; a publier quand un humain debloque la permission.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T16:38:58.289Z"
+    },
+    {
+      "id": "118638713300058_146042270559702",
+      "extrait": "Tant de babillage.... il faudra la cultiver pour pouvoir la commercialisation",
+      "motif": "Argumentaire entre abonnes dans le fil polemique; la Page y est deja intervenue plusieurs fois",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T18:39:23.742Z"
+    },
+    {
+      "id": "118638713300058_145934407237155",
+      "extrait": "Merci! Je fais de mon mieux! ;)",
+      "motif": "Echange entre abonnes, aucun contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T18:39:23.742Z"
+    },
+    {
+      "id": "118638713300058_145796830584246",
+      "extrait": "Normand Roberge",
+      "motif": "Simple identification, aucun contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T18:39:23.742Z"
+    },
+    {
+      "id": "118638713300058_145754917255104",
+      "extrait": "Normand Roberge faux!",
+      "motif": "Replique dans un sous-fil dont la racine est un APPEL AU BOYCOTT (« BOYCOTTONS CE PRODUIT QUI DETRUIT LES HABITATS DES PAPILLONS MONARQUES POUR S ENRICHIR »). A SIGNALER A UN HUMAIN: la Page ne peut pas repondre a un appel au boycott sans une position validee",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T18:39:23.742Z"
+    },
+    {
+      "id": "118638713300058_145753453921917",
+      "extrait": "bravo votre commentaire est tres positif",
+      "motif": "Echange entre abonnes, aucun contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T18:39:23.742Z"
+    },
+    {
+      "id": "118638713300058_145180517312544",
+      "extrait": "Si on vous dit que la fleur de pissenlits, frotter dans votre visage vous feras rajeunir de 30 ans",
+      "motif": "Sarcasme entre abonnes",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T18:39:23.742Z"
+    },
+    {
+      "id": "118638713300058_144994460664483",
+      "extrait": "(aucun texte; meme photo qu ailleurs, une main sortie par la fenetre d une auto en marche)",
+      "motif": "Photo sans texte repostee dans le fil polemique; geste non identifiable avec certitude",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T18:39:23.742Z"
+    },
+    {
+      "id": "118638713300058_144294850734444",
+      "extrait": "c'est tout de meme un manque de respect",
+      "motif": "Dispute entre abonnes",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T18:39:23.742Z"
+    },
+    {
+      "id": "118638713300058_144265177404078",
+      "extrait": "Vous etes crissement gossante",
+      "motif": "Insulte entre abonnes",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T18:39:23.742Z"
+    },
+    {
+      "id": "118638713300058_144223304074932",
+      "extrait": "une plante sauvage au doux parfum. de Marie.",
+      "motif": "Odeur ou parfum: absent des faits verifies (NOTE-FAITS-VERIFIES-odeur)",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T18:39:23.742Z"
+    },
+    {
+      "id": "118638713300058_144102694086993",
+      "extrait": "si c'est cultive au moins vous ne touchez pas a la nature. Donc dites le !",
+      "motif": "Nous somme de declarer si la matiere vient de culture ou de cueillette sauvage: notre approvisionnement n'est pas dans les faits verifies. A SIGNALER A UN HUMAIN",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T19:40:01.871Z"
+    },
+    {
+      "id": "118638713300058_144077620756167",
+      "extrait": "perdez pas votre temp a faire comprendre a des idiots",
+      "motif": "Insulte, meme si elle nous est favorable",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T19:40:01.871Z"
+    },
+    {
+      "id": "118638713300058_144038087426787",
+      "extrait": "(aucun texte)",
+      "motif": "Aucun contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T19:40:01.871Z"
+    },
+    {
+      "id": "118638713300058_144011924096070",
+      "extrait": "Cultive tes plantes / Laisse la nature tranquille / Exploitation",
+      "motif": "Diatribe adressee a la Page",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T19:40:01.871Z"
+    },
+    {
+      "id": "118638713300058_143997044097558",
+      "extrait": "Les pepinieres vendent la plante decorative ... Les graines sont identiques a ceux de la plante sauvage",
+      "motif": "Affirmation sur les semences vendues en pepiniere: ni confirmable ni corrigeable avec les faits verifies",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T19:40:01.871Z"
+    },
+    {
+      "id": "118638713300058_143916567438939",
+      "extrait": "Francine Dionne : *soupir*",
+      "motif": "Aucun contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T19:40:01.871Z"
+    },
+    {
+      "id": "118638713300058_143842600779669",
+      "extrait": "Claire Marcotte interessant!",
+      "motif": "Echange entre abonnes, aucun contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T19:40:01.871Z"
+    },
+    {
+      "id": "118638713300058_143595864137676",
+      "extrait": "c'est mieux ca que la fourrure ou le synthetique!",
+      "motif": "Comparaison de matieres: hors faits verifies, et dans le fil polemique",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T19:40:01.871Z"
+    },
+    {
+      "id": "118638713300058_142897017540894",
+      "extrait": "J'adore le parfum de ces fleurs",
+      "motif": "Odeur ou parfum: absent des faits verifies (NOTE-FAITS-VERIFIES-odeur)",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T19:40:01.871Z"
+    },
+    {
+      "id": "118638713300058_142065487624047",
+      "extrait": "Seul le fil est utilise comme isolant...les graines restantes serviront pour semence",
+      "motif": "Affirmations sur notre procede et notre rendement de culture: hors faits verifies",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T19:40:01.871Z"
+    },
+    {
+      "id": "118638713300058_142036910960238",
+      "extrait": "L'asclepiade etait melangee a la fibre de la laine tout en la filant a la main",
+      "motif": "Affirmation historique non verifiee",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T19:40:01.871Z"
+    },
+    {
+      "id": "118638713300058_141709794326283",
+      "extrait": "oui que l on repandait la semence a tout vent !",
+      "motif": "Souvenir echange entre abonnes, aucun contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T19:40:01.871Z"
+    },
+    {
+      "id": "118638713300058_141648737665722",
+      "extrait": "si on ne coupent pas les plans...ca n'affecte pas les monaques",
+      "motif": "Argumentaire entre abonnes dans le fil polemique",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T23:38:40.174Z"
+    },
+    {
+      "id": "118638713300058_141644170999512",
+      "extrait": "Et elle est impermeable",
+      "motif": "Affirme que la fibre est impermeable: propriete absente des faits verifies, la confirmer serait inventer",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T23:38:40.174Z"
+    },
+    {
+      "id": "118638713300058_141598867670709",
+      "extrait": "avec un peux d'inteligence ont peux l'aider a croire et ont peux le reproduire comme le coton",
+      "motif": "Argumentaire entre abonnes dans le fil polemique",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T23:38:40.174Z"
+    },
+    {
+      "id": "118638713300058_141558707674725",
+      "extrait": "cultivee dans des champs elles en nourriront beaucoup plus car c'est la fleur qu'ils butinent",
+      "motif": "Argumentaire entre abonnes; affirmation sur le butinage non verifiee",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T23:38:40.174Z"
+    },
+    {
+      "id": "118638713300058_141423061021623",
+      "extrait": "c'est ca que je te disais l'autre jours",
+      "motif": "Echange entre amies, aucun contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T23:38:40.174Z"
+    },
+    {
+      "id": "132458928584703_139289977901598",
+      "extrait": "tout ca tout ca",
+      "motif": "Reponse a une identification faite par le fondateur, aucun contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T23:38:40.174Z"
+    },
+    {
+      "id": "132458928584703_138671931296736",
+      "extrait": "C est aussi l antidote de l herbe a puce",
+      "motif": "Usage medicinal: absent des faits verifies, SUIVI HUMAIN REQUIS",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T23:41:08.255Z"
+    },
+    {
+      "id": "132458928584703_138133714683891",
+      "extrait": "Ca sent telllement bon!!",
+      "motif": "Odeur ou parfum: absent des faits verifies (NOTE-FAITS-VERIFIES-odeur)",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T23:41:08.255Z"
+    },
+    {
+      "id": "132458928584703_136933054803957",
+      "extrait": "en faire une meche pour une lampe a l'huile artisanale serait efficace",
+      "motif": "Absorption de l'huile non verifiee, et suggestion de meche de lampe: risque d'incendie, pas a nous d'encourager",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T23:41:08.255Z"
+    },
+    {
+      "id": "132458928584703_136609288169667",
+      "extrait": "wow ca a plein de proprietes interessantes!",
+      "motif": "Renvoie a des proprietes non precisees, aucune n'est verifiee",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T23:41:08.255Z"
+    },
+    {
+      "id": "132458928584703_136550741508855",
+      "extrait": "(emojis seulement)",
+      "motif": "Aucun contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T23:41:08.255Z"
+    },
+    {
+      "id": "132458928584703_136334531530476",
+      "extrait": "dommage il y a plaint de champs inoccupes",
+      "motif": "Sous-fil dont la racine demande s'il existe des manteaux FAITS AU QUEBEC: garde-fou 4, on ne dit ni l'un ni la correction",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T23:41:08.255Z"
+    },
+    {
+      "id": "132458928584703_136251758205420",
+      "extrait": "c'est la plante sur le terrain de golf",
+      "motif": "Identification d'une amie, aucun contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T23:41:08.255Z"
+    },
+    {
+      "id": "132458928584703_136110041552925",
+      "extrait": "ok merci",
+      "motif": "Remerciement sans contenu",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T23:41:08.255Z"
+    },
+    {
+      "id": "132458928584703_135651781598751",
+      "extrait": "une raison que je ne connaissais pas ! Ca me fait mille et deux raisons!",
+      "motif": "Enthousiasme sans contenu; le fil porte sur le latex utilise comme colle, usage non verifie",
+      "page_id": "114311920399404",
+      "quand": "2026-09-25T23:41:08.255Z"
     }
   ]
 }

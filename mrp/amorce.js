@@ -81,6 +81,9 @@ const ETAPES = [
   { script: 'import_qualite.js', args: ['--charte', '--squelettes', '--ecrire'],
     quoi: 'protocoles qualité' },
   { script: 'import_bris.js',    args: ['--ecrire'], quoi: 'bris signalés' },
+  // Les cotes théoriques des produits gradés : tout calculé, rien de saisi,
+  // rechargé à chaque démarrage. Les relevés de l'atelier sont ailleurs.
+  { script: 'import_cotes.js',   args: ['--ecrire'], quoi: 'cotes théoriques' },
   // Les schémas VIENNENT APRÈS le catalogue : ils s'accrochent aux produits.
   // Ils se rechargent à chaque démarrage comme la charte, et n'effacent que
   // les leurs — une image ajoutée dans l'app porte une source vide.

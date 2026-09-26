@@ -1651,6 +1651,9 @@ a.pi-l:hover .pi-i{outline:2px solid #17140f;outline-offset:-2px}
 .bd-p{margin:0;scroll-margin-top:76px}
 .pi-g{width:min(100%,460px);height:auto;display:block}
 .bd-cons{margin:10px 0 0}
+/* Sur la page de la planche, l'image de référence du point se lit en grand :
+   le guide des tailles doit se lire à l'atelier sans l'ouvrir à part. */
+.bd-schema .qc-schema{max-width:720px;margin:16px 0 0;background:#fff}
 .bd-pied{margin:22px 0 0;text-align:center}
 @media (max-width:620px){ .pi-p{width:126px;height:100px} }
 
@@ -1674,3 +1677,42 @@ a.ck-td:hover{color:var(--vert)}
   -webkit-mask-position:0 0,8px 0,0 8px,8px 8px;
   mask-position:0 0,8px 0,0 8px,8px 8px}
 a.ck-td:hover .ck-pl{opacity:1}
+
+/* La grille des cotes : théorique et réel côte à côte, taille par taille.
+   Dix colonnes de chiffres ne tiennent pas sur un téléphone : la grille
+   défile seule, la page non. */
+.gc{margin:12px 0 4px}
+.gc-defile{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--ligne);
+  border-radius:8px;background:var(--carte)}
+.grille-cotes{border-collapse:collapse;font-size:14px;min-width:100%}
+.grille-cotes th,.grille-cotes td{padding:6px 7px;border-bottom:1px solid var(--ligne);
+  text-align:center;white-space:nowrap}
+.grille-cotes thead th{background:var(--fond);font-weight:600}
+.grille-cotes .gc-t{border-left:2px solid var(--ligne)}
+.grille-cotes .gc-sous{font-weight:400;color:var(--gris);font-size:12px}
+.grille-cotes .gc-nom{text-align:left;white-space:normal;min-width:170px;font-weight:500}
+.grille-cotes .gc-nom small{color:var(--gris);font-weight:400}
+.gc-num{display:inline-block;min-width:20px;height:20px;line-height:20px;border-radius:10px;
+  background:var(--encre);color:var(--carte);font-size:12px;font-weight:700;text-align:center}
+.grille-cotes .gc-theo{border-left:2px solid var(--ligne);color:var(--encre2);font-variant-numeric:tabular-nums}
+.grille-cotes .gc-etalon{font-size:11px;color:var(--ambre);font-style:italic}
+.grille-cotes .gc-reel{font-variant-numeric:tabular-nums;font-weight:600}
+.grille-cotes .gc-reel input{width:4.2em;padding:4px 5px;font:inherit;text-align:center;
+  border:1px solid var(--piste-pleine);border-radius:5px;background:var(--champ);color:var(--encre)}
+.grille-cotes .gc-ok{background:var(--vert-pale);color:var(--vert)}
+.grille-cotes .gc-ko{background:var(--rouge-pale);color:var(--rouge)}
+.grille-cotes .gc-ko input{border-color:var(--rouge)}
+.grille-cotes .gc-vide{color:var(--gris);font-weight:400}
+.gc-ecart{display:block;font-size:11px;font-weight:500}
+.gc-note{font-size:13px;color:var(--encre2);margin:8px 0 0}
+.grille-cotes tbody th.gc-nom{text-transform:none;letter-spacing:0;font-size:14px;color:var(--encre);
+  font-weight:500}
+.grille-cotes thead th{text-transform:none;letter-spacing:0;font-size:13px;color:var(--encre)}
+/* La colonne des noms reste en place quand la grille défile : sur un
+   téléphone, on remplit la taille XL sans perdre de vue QUELLE cote. */
+.grille-cotes .gc-nom{position:sticky;left:0;z-index:1;background:var(--carte);
+  box-shadow:1px 0 0 var(--ligne)}
+.grille-cotes thead .gc-nom{background:var(--fond)}
+@media (max-width:620px){ .grille-cotes .gc-nom{min-width:128px;max-width:150px;font-size:13px} }
+.gc-portee{font-size:13px;font-weight:600;color:var(--encre2);margin:0 0 6px}
+.grille-cotes.gc-seul .gc-reel{border-left:2px solid var(--ligne)}
