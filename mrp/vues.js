@@ -32,11 +32,31 @@ const VERSION_CSS = require('node:crypto').createHash('sha256')
   .update(SIL.css())
   .digest('hex').slice(0, 10);
 const { CATEGORIES: CATEGORIES_M, qte: qteFR,
-        MOTS_RAPPORT } = require('./db.js');
+        MOTS_RAPPORT, avisActifs } = require('./db.js');
 
 // ------------------------------------------------------------------ utilitaires
 const e = (s) => String(s ?? '').replace(/[&<>"']/g,
   c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+
+/**
+ * Un avis de modification, en bandeau. Le lien mène au MESSAGE source — le
+ * commentaire avec photo sous le point de contrôle — sur la planche du point
+ * quand il en a une, sinon sur la fiche qualité du produit.
+ */
+function lienAvis(a) {
+  if (!a.point_id) return `/qualite/${a.produit_id}`;
+  const k = require('./pictos.js').cle(a.point_titre);
+  const ancre = a.message_id ? `#m${a.message_id}` : `#d${a.point_id}`;
+  return k ? `/qualite/planche/${k}?point=${a.point_id}&amp;produit=${a.produit_id}${ancre}`
+           : `/qualite/${a.produit_id}${ancre}`;
+}
+function avisHTML(liste, { compact = false } = {}) {
+  if (!liste || !liste.length) return '';
+  return liste.map(a => `<div class="avis${compact ? ' avis-c' : ''}">
+    <a href="${lienAvis(a)}"><b>${e(a.titre)}</b>${compact ? '' : `<span class="avis-t">${e(a.texte)}</span>`}
+    <span class="avis-l">${a.message_id ? 'Voir la photo et le commentaire' : 'Voir le point de contrôle'} ›</span></a>
+  </div>`).join('');
+}
 
 const STATUTS = { brouillon:'Brouillon', planifie:'Planifié', en_cours:'En cours',
                   termine:'Terminé', annule:'Annulé' };
@@ -690,7 +710,7 @@ function barreAssistant({ user, ia, salut = null }) {
  * l'écran. Sur la connexion tunisienne, la troisième rangée ne coûte rien
  * tant qu'on n'y descend pas.
  */
-function tuileProduit(x) {
+function tuileProduit(x, avis = null) {
   const etat = x.pct === 100 ? 'fini' : x.pct === 0 ? 'neuf' : 'route';
   const ailleurs = x.fabrication !== 'tunisie';
   return `<a class="tuile t-${etat}" href="/ordres/${x.ordre_id}#i${x.id}"
@@ -703,6 +723,7 @@ function tuileProduit(x) {
       <b class="tuile-pct">${x.pct}<i>&nbsp;%</i></b>
       ${ailleurs ? `<span class="tuile-lieu">${LIEUX[x.fabrication]
         || e(x.fabrication)}</span>` : ''}
+      ${avis && avis.has(x.produit_id ?? x.id) ? '<span class="tuile-avis">Modification</span>' : ''}
     </span>
     <span class="tuile-b">
       <b class="tuile-code">${silhouette(x.code, x.nom)}${e(x.code)}</b>
@@ -730,7 +751,7 @@ function grilleProduits(apercu) {
         <i class="lg lg-fini"></i>${finis} finie${finis > 1 ? 's' : ''}
       </span>
     </div>
-    <div class="tuiles">${apercu.map(tuileProduit).join('')}</div>
+    <div class="tuiles">${(() => { const av = avisActifs(); return apercu.map(x => tuileProduit(x, av)).join(''); })()}</div>
   </div>`;
 }
 
@@ -760,6 +781,14 @@ function vueAccueil({ user, ordres, jalons, ia = null, salut = null,
   </div>${user.role === 'admin'
     ? `<a class="btn" href="/ordres/nouveau">Nouvel ordre de production</a>` : ''}</div>
 
+  ${(() => {
+    // Les modifications de fabrication en cours : AVANT les chiffres, parce
+    // qu'une pièce faite à l'ancienne est une pièce à refaire.
+    const tous = [...avisActifs().values()].flat();
+    return tous.length ? `<div class="carte avis-carte"><h2>Modifications en cours</h2>
+      ${tous.map(a => `<p class="avis-p"><span class="avis-prod">${e(a.nom)}</span></p>${avisHTML([a])}`).join('')}
+    </div>` : '';
+  })()}
   ${unites ? `<div class="chiffres">
     <div class="c"><b>${restant.toLocaleString('fr-CA')}</b>pièces à faire</div>
     <div class="c"><b>${global} %</b>de l'ensemble fait</div>
@@ -941,7 +970,7 @@ function discussionHTML({ point, messages = [], user, produitId = null, itemId =
         <input type="hidden" name="retour" value="${e(retour)}">
         <input type="hidden" name="ancre" value="${ancre}">
         <button class="${classe}">${libelle}</button></form>`;
-    return `<li class="dq-m dq-${e(m.type)}${attente ? ' dq-attente' : ''}${m.regle_le ? ' dq-regle' : ''}">
+    return `<li id="m${m.id}" class="dq-m dq-${e(m.type)}${attente ? ' dq-attente' : ''}${m.regle_le ? ' dq-regle' : ''}">
       <div class="dq-tete"><b>${e(m.auteur || '—')}</b>${lieu ? ` <span class="dq-lieu">${lieu}</span>` : ''}
         ${m.type !== 'note' ? `<span class="dq-type">${TYPES_MSG[m.type]}</span>` : ''}
         <span class="dq-date">${dateHeureFR(m.cree_le)}</span></div>
@@ -1114,6 +1143,7 @@ function vueChecklist({ user, msg, ordre, c, grille = null, discussions = null, 
   };
 
   const corps = `
+  ${avisHTML(avisActifs().get(item.produit_id))}
   <div class="entete"><div>
     <p class="fil-ariane"><a href="/ordres/${ordre.id}">${e(ordre.numero)}</a> ·
       <a href="/qualite/${item.produit_id}">protocole du produit</a></p>
@@ -1423,6 +1453,7 @@ function vueQCOrdre({ user, msg, ordre, lignes, cat = 'tous', vue = 'cartes',
                       CATS, checklists = {}, ouvert = null, discussions = new Map(),
                       brouillon = { texte: '', medias: '' } }) {
   const nb = (n) => Number(n || 0).toLocaleString('fr-CA');
+  const avis = avisActifs();
   const restants = lignes.filter(l => !l.signe);
   const dans = (l, c) => c === 'tous' || l.categories.includes(c);
   const compte = (c) => restants.filter(l => dans(l, c)).length;
@@ -1471,6 +1502,7 @@ function vueQCOrdre({ user, msg, ordre, lignes, cat = 'tous', vue = 'cartes',
       <span class="qc-etiq">${l.categories.map(c =>
         `<i class="cat cat-${c}" title="${e(CATS[c].aide)}">${e(CATS[c].titre)}</i>`).join('')}</span>
       ${etat(l)}
+      ${avisHTML(avis.get(l.produit_id), { compact: true })}
       <a class="lien" href="/qualite/${l.produit_id}" target="_blank" rel="noopener"
         >Procédé du produit ↗</a>
     </div>
@@ -1479,7 +1511,8 @@ function vueQCOrdre({ user, msg, ordre, lignes, cat = 'tous', vue = 'cartes',
   const liste = (l) => {
     const c = checklists[l.id];
     const tete = `<span class="lot-nom"><b>${e(l.nom)}</b>
-          <span class="muted">${e(l.code)} · ${nb(l.quantite)} unités</span></span>
+          <span class="muted">${e(l.code)} · ${nb(l.quantite)} unités</span>
+          ${avis.has(l.produit_id) ? '<span class="avis-puce">Modification</span>' : ''}</span>
         ${etat(l)}`;
 
     // fermé : une ligne, rien de plus — même allure, un lien au lieu d'un pli
@@ -1490,6 +1523,7 @@ function vueQCOrdre({ user, msg, ordre, lignes, cat = 'tous', vue = 'cartes',
     return `<details class="lot" id="lot${l.id}" open>
       <summary>${tete}</summary>
       <div class="lot-corps">
+        ${avisHTML(avis.get(l.produit_id))}
         <p class="lot-liens">
           <a href="/qualite/${l.produit_id}" target="_blank" rel="noopener"
             >Protocole du produit ↗</a>
@@ -1689,6 +1723,7 @@ function vueProtocole({ user, p, proto, msg, photos = [], bris = null, grille = 
   </div>`;
 
   const corps = `
+  ${avisHTML(avisActifs().get(p.id))}
   <div class="entete"><div>
     <p class="fil-ariane"><a href="/qualite">Contrôle qualité</a> ·
       <a href="/produits/${p.id}">fiche produit</a></p>
@@ -2069,9 +2104,12 @@ function vueOrdre({ user, o, items, jalons, commentaires, produits, pct, msg,
                     qc = {}, fils = {}, enEdition = 0 }) {
   const admin = user.role === 'admin';
   const auj = new Date().toISOString().slice(0, 10);
+  const avis = avisActifs();
   // « 28 % » ne dit pas s'il reste trois cents pièces ou vingt-six mille.
-  const total = items.reduce((n, it) => n + it.quantite, 0);
-  const fait  = Math.round(items.reduce((n, it) => n + it.quantite * it.avancement, 0) / 100);
+  // Un item en attente n'est pas à faire : il ne compte pas.
+  const actifs = items.filter(it => !it.attente);
+  const total = actifs.reduce((n, it) => n + it.quantite, 0);
+  const fait  = Math.round(actifs.reduce((n, it) => n + it.quantite * it.avancement, 0) / 100);
 
   // sélecteur d'avancement : 0 → 100 par tranches de 10, un simple formulaire
   const selecteur = (it) => `<form class="av" method="post"
@@ -2107,16 +2145,21 @@ function vueOrdre({ user, o, items, jalons, commentaires, produits, pct, msg,
         <th style="min-width:290px">Avancement</th>
         <th style="min-width:250px">Notes et questions</th>${admin ? '<th></th>' : ''}</tr></thead>
     <tbody>
-    ${items.map(it => `<tr id="i${it.id}">
+    ${items.map(it => `<tr id="i${it.id}"${it.attente ? ' class="it-attente"' : ''}>
       <td><div class="avec-mini">${miniature(it.photo, it.produit_code, {
         zoom: { cle: `i${it.id}`, href: `/produits/${it.produit_id}`,
                 titre: it.produit_nom } })}<div>
         <a href="/produits/${it.produit_id}"><b>${e(it.produit_nom)}</b></a><br>
-        <span class="muted">${e(it.produit_code)}</span></div></div></td>
+        <span class="muted">${e(it.produit_code)}</span></div></div>
+        ${avisHTML(avis.get(it.produit_id), { compact: true })}</td>
       <td class="num">${it.quantite.toLocaleString('fr-CA')}
         ${it.variantes ? repartition(it.variantes) : ''}
       </td>
-      <td>
+      <td>${it.attente ? `<div class="attente-b"><b>En attente — ne pas produire</b>
+          <p>${e(it.attente)}</p>
+          ${admin ? `<form method="post" action="/ordres/${o.id}/items/${it.id}/attente">
+            <button class="btn sec min" name="lever" value="1">Lancer la production de ce lot</button></form>` : ''}
+        </div>` : `
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">
           ${jauge(it.avancement)}<span class="pct">${it.avancement} %</span>
         </div>
@@ -2137,7 +2180,7 @@ function vueOrdre({ user, o, items, jalons, commentaires, produits, pct, msg,
             >qualité ${q.verifies}/${q.total}</a></div>`;
         })()}
         ${it.maj_le ? `<div class="muted" style="margin-top:4px;font-size:12px">
-           Dernière mise à jour ${dateHeureFR(it.maj_le)}</div>` : ''}
+           Dernière mise à jour ${dateHeureFR(it.maj_le)}</div>` : ''}`}
       </td>
       <td class="note-c">
         ${it.note ? `<p class="it-note">${e(it.note)}</p>` : ''}
@@ -2474,6 +2517,7 @@ function vueProduit({ user, p, photos, materiaux, patrons, ordres, msg, qc = nul
   const nus = bris ? bris.tous.filter(b => !b.point_id).length : 0;
 
   const corps = `
+  ${avisHTML(avisActifs().get(p.id))}
   ${sousNavProduits('fiches')}
   <div class="entete"><div>
     <h1>${silhouette(p.code, p.nom)}${e(p.nom_court || p.nom)}</h1>
@@ -3381,6 +3425,7 @@ function urgence(jours, enRetard) {
 
 function vuePriorites({ user, msg, lignes, ailleurs = [], jours = 7 }) {
   const admin = user.role === 'admin';
+  const avis = avisActifs();
   const enRetard = lignes.filter(l => l.en_retard).length;
   const urgents  = lignes.filter(l => !l.en_retard && l.jours !== null && l.jours <= jours).length;
   const total    = lignes.reduce((n, l) => n + l.restant, 0);
@@ -3403,6 +3448,7 @@ function vuePriorites({ user, msg, lignes, ailleurs = [], jours = 7 }) {
         <span class="fam f-${l.famille}">${FAMILLES[l.famille] || l.famille}</span>
         <span class="sec">${e(l.nom)}</span>
         ${l.note ? `<span class="note">${e(l.note)}</span>` : ''}
+        ${avisHTML(avis.get(l.produit_id), { compact: true })}
       </div></div></td>
       <td class="qte"><b>${l.restant.toLocaleString('fr-CA')}</b>
         <span class="sec">sur ${l.quantite.toLocaleString('fr-CA')}</span></td>
@@ -3536,7 +3582,7 @@ function vueSuivi({ user, msg, recentes, immobiles, progression, jours }) {
   return page({ titre: 'Activité', user, corps, actif: 'suivi', msg });
 }
 
-module.exports = { e, grilleCotesHTML, discussionHTML, urlImage, urlAcceptable, img, miniature, silhouette,
+module.exports = { e, avisHTML, grilleCotesHTML, discussionHTML, urlImage, urlAcceptable, img, miniature, silhouette,
   vuePlanche,
   TAILLES, sousNavProduits,
   vueQualiteAccueil, vueQualiteProduits, vueQualiteGeneral, vueQCOrdres, vueQCOrdre, dateFR, dateHeureFR, jauge, page, vueConnexion,

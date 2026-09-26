@@ -422,6 +422,24 @@ CREATE TABLE IF NOT EXISTS cotes_theoriques (
 -- fait foi, les précédentes restent pour qu'on voie une dérive. Clé par
 -- produit, numéro de cote et taille, PAS par identifiant de point : ce qui est
 -- mesuré ne doit jamais dépendre d'un import.
+-- Les AVIS DE MODIFICATION : un changement de fabrication décidé en cours de
+-- route (« l'ouverture est trop petite, l'empiècement change »). Il doit se
+-- voir partout où l'on touche ce produit — l'ordre, « À fabriquer », le
+-- contrôle qualité, la fiche, le tableau de bord — et mener d'un clic au
+-- message, avec sa photo, qui en est la source. point_titre nomme le point de
+-- contrôle dont la discussion porte cette source.
+CREATE TABLE IF NOT EXISTS avis_modification (
+  id            INTEGER PRIMARY KEY,
+  produit_id    INTEGER NOT NULL REFERENCES produits(id) ON DELETE CASCADE,
+  titre         TEXT NOT NULL,
+  texte         TEXT NOT NULL DEFAULT '',
+  point_titre   TEXT NOT NULL DEFAULT '',
+  decide_le     TEXT NOT NULL DEFAULT '',
+  clos_le       TEXT,
+  cree_le       TEXT NOT NULL DEFAULT (datetime('now')),
+  UNIQUE (produit_id, titre)
+);
+
 CREATE TABLE IF NOT EXISTS cotes_releves (
   id             INTEGER PRIMARY KEY,
   produit_id     INTEGER NOT NULL REFERENCES produits(id) ON DELETE CASCADE,
@@ -652,6 +670,11 @@ for (const sql of [
   `ALTER TABLE produits ADD COLUMN seuil_alerte REAL NOT NULL DEFAULT 0`,
   `ALTER TABLE produits ADD COLUMN emplacement TEXT NOT NULL DEFAULT ''`,
   `ALTER TABLE item_variantes ADD COLUMN groupe TEXT NOT NULL DEFAULT ''`,
+  // Un item EN ATTENTE : prévu, mais conditionnel — il ne se fabrique que si
+  // une décision tombe d'un côté. Vide = actif. Non vide = la raison, affichée
+  // sur la ligne grisée. Un item en attente ne compte nulle part : ni charge,
+  // ni cédule, ni besoins, ni pièces restantes, ni contrôle qualité.
+  `ALTER TABLE ordre_items ADD COLUMN attente TEXT NOT NULL DEFAULT ''`,
 ]) { try { db.exec(sql); } catch { /* colonne déjà présente */ } }
 
 /**
@@ -933,7 +956,7 @@ function avancementOrdre(ordreId) {
     SELECT COALESCE(SUM(quantite * avancement), 0) AS num,
            COALESCE(SUM(quantite), 0)              AS den,
            COUNT(*)                                AS n
-    FROM ordre_items WHERE ordre_id = ?`).get(ordreId);
+    FROM ordre_items WHERE ordre_id = ? AND attente = ''`).get(ordreId);
   // Le pourcentage seul ne dit pas l'effort : 28 % de 300 pièces et 28 % de
   // 26 000 ne se planifient pas pareil. On rend aussi les unités, faites et
   // restantes, pour que l'écran puisse montrer la taille du morceau.
@@ -999,7 +1022,7 @@ function listeFabrication({ inclureTermines = false, lieu = 'tunisie' } = {}) {
     FROM ordre_items i
     JOIN ordres o   ON o.id = i.ordre_id
     JOIN produits p ON p.id = i.produit_id
-    WHERE o.statut IN ('planifie','en_cours')
+    WHERE o.statut IN ('planifie','en_cours') AND i.attente = ''
       ${inclureTermines ? '' : 'AND i.avancement < 100'}
       ${lieu ? 'AND p.fabrication = ?' : ''}`).all(...(lieu ? [lieu] : []));
 
@@ -1058,7 +1081,7 @@ function apercuProduction() {
       FROM ordre_items i
       JOIN ordres o   ON o.id = i.ordre_id
       JOIN produits p ON p.id = i.produit_id
-     WHERE o.statut IN ('planifie','en_cours')
+     WHERE o.statut IN ('planifie','en_cours') AND i.attente = ''
      GROUP BY p.id`).all()
     .map(l => {
       // L'avancement d'un produit réparti sur deux ordres se pondère par les
@@ -1106,7 +1129,7 @@ function sansMouvement(jours = 7) {
     -- les items avancent est du travail commencé, et son blocage doit se voir.
     -- Exiger 'en_cours' rendait le détecteur muet sur un ordre entier tant que
     -- personne n'avait pensé à changer son statut.
-    WHERE o.statut IN ('planifie','en_cours')
+    WHERE o.statut IN ('planifie','en_cours') AND i.attente = ''
       AND i.avancement > 0 AND i.avancement < 100
       AND julianday('now') - julianday(i.maj_le) >= ?
     ORDER BY jours_sans_maj DESC`).all(jours);
@@ -1130,7 +1153,7 @@ function fabriqueAilleurs() {
     FROM ordre_items i
     JOIN ordres o   ON o.id = i.ordre_id
     JOIN produits p ON p.id = i.produit_id
-    WHERE o.statut IN ('planifie','en_cours')
+    WHERE o.statut IN ('planifie','en_cours') AND i.attente = ''
       AND i.avancement < 100
       AND p.fabrication <> 'tunisie'
     ORDER BY i.quantite DESC`).all()
@@ -1255,7 +1278,7 @@ function besoinsMatieres() {
     FROM ordre_items i
     JOIN ordres o       ON o.id = i.ordre_id
     JOIN nomenclature n ON n.produit_id = i.produit_id
-    WHERE o.statut IN ('planifie','en_cours')
+    WHERE o.statut IN ('planifie','en_cours') AND i.attente = ''
       AND i.avancement < 100
       AND n.consommation IS NOT NULL
     GROUP BY n.matiere_id`).all();
@@ -1265,7 +1288,7 @@ function besoinsMatieres() {
     FROM ordre_items i
     JOIN ordres o       ON o.id = i.ordre_id
     JOIN nomenclature n ON n.produit_id = i.produit_id
-    WHERE o.statut IN ('planifie','en_cours')
+    WHERE o.statut IN ('planifie','en_cours') AND i.attente = ''
       AND i.avancement < 100
       AND n.consommation IS NULL
     GROUP BY n.matiere_id`).all();
@@ -1416,7 +1439,7 @@ function detailBesoin(matiereId) {
     JOIN ordres o       ON o.id = i.ordre_id
     JOIN produits p     ON p.id = i.produit_id
     JOIN nomenclature n ON n.produit_id = i.produit_id AND n.matiere_id = ?
-    WHERE o.statut IN ('planifie','en_cours') AND i.avancement < 100
+    WHERE o.statut IN ('planifie','en_cours') AND i.attente = '' AND i.avancement < 100
     ORDER BY besoin DESC NULLS LAST, p.nom`).all(matiereId);
 }
 
@@ -1774,7 +1797,7 @@ function couvertureQC({ lieu = 'tunisie' } = {}) {
            SUM(CASE WHEN q.type = 'esthetique' THEN 1 ELSE 0 END) AS esthetiques,
            (SELECT SUM(i.quantite) FROM ordre_items i
              JOIN ordres o ON o.id = i.ordre_id
-            WHERE i.produit_id = p.id AND o.statut IN ('planifie','en_cours')) AS a_produire,
+            WHERE i.produit_id = p.id AND o.statut IN ('planifie','en_cours') AND i.attente = '') AS a_produire,
            (SELECT f.url FROM produit_photos f WHERE f.produit_id = p.id
              AND f.type <> 'schema'
              ORDER BY CASE f.type WHEN 'studio' THEN 0 ELSE 1 END,
@@ -1976,7 +1999,7 @@ function qcOrdre(ordreId) {
            (SELECT COUNT(*) FROM qc_rapports r WHERE r.item_id = i.id) AS signe
       FROM ordre_items i
       JOIN produits p ON p.id = i.produit_id
-     WHERE i.ordre_id = ?
+     WHERE i.ordre_id = ? AND i.attente = ''
      ORDER BY i.rang, i.id`).all(ordreId);
 
   return lignes.map(l => {
@@ -2009,7 +2032,7 @@ const CATEGORIES_QC = {
 
 /** L'état qualité de chaque item d'un ordre, pour la page de l'ordre. */
 function etatQCOrdre(ordreId) {
-  const l = db.prepare(`SELECT id FROM ordre_items WHERE ordre_id = ?`).all(ordreId);
+  const l = db.prepare(`SELECT id FROM ordre_items WHERE ordre_id = ? AND attente = ''`).all(ordreId);
   const out = {};
   for (const { id } of l) {
     const c = checklistItem(id);
@@ -2444,7 +2467,36 @@ function imagesACorriger() {
     WHERE type = 'image' AND regle_le IS NULL AND point_id IS NOT NULL`).all().map(r => r.point_id));
 }
 
+/**
+ * Les avis de modification encore ouverts, par produit (Map produit_id → []).
+ * Chacun porte sa SOURCE : le point de contrôle nommé, et dans sa discussion
+ * le dernier message avec photo sur ce produit (sinon le dernier message tout
+ * court). C'est là que mène le clic — la preuve, pas un résumé de la preuve.
+ */
+function avisActifs() {
+  const out = new Map();
+  const lignes = db.prepare(`SELECT a.*, p.code, ${NOM_PRODUIT} AS nom
+      FROM avis_modification a JOIN produits p ON p.id = a.produit_id
+     WHERE a.clos_le IS NULL ORDER BY a.id DESC`).all();
+  const point = db.prepare(`SELECT id, titre FROM qc_points
+     WHERE titre = ? AND (produit_id = ? OR produit_id IS NULL)
+     ORDER BY produit_id IS NULL, id LIMIT 1`);
+  const message = db.prepare(`SELECT id FROM qc_discussion
+     WHERE (point_id = ? OR (point_id IS NULL AND point_titre = ?))
+       AND (produit_id = ? OR produit_id IS NULL)
+     ORDER BY (photo_fichier <> '') DESC, id DESC LIMIT 1`);
+  for (const a of lignes) {
+    const pt = a.point_titre ? point.get(a.point_titre, a.produit_id) : null;
+    const m = pt ? message.get(pt.id, pt.titre, a.produit_id) : null;
+    const x = { ...a, point_id: pt ? pt.id : null, message_id: m ? m.id : null };
+    if (!out.has(a.produit_id)) out.set(a.produit_id, []);
+    out.get(a.produit_id).push(x);
+  }
+  return out;
+}
+
 module.exports = {
+  avisActifs,
   discussionsPoints, ecrireDiscussion, reglerDiscussion, retirerDiscussion,
   imagesACorriger, TYPES_DISCUSSION,
   grilleCotes, enregistrerReleves, ecartCote, lireTolerance,

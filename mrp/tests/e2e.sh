@@ -1364,7 +1364,10 @@ sleep 1.5
 # jamais en production. C'est l'empreinte des fichiers qui tranche.
 kill $SRV 2>/dev/null; wait $SRV 2>/dev/null || true
 CAT=$(mktemp -d)/cat.db
-A(){ MRP_DB="$CAT" node --no-warnings -e "require('./amorce.js').amorcerDonnees()" 2>&1; }
+# La sortie est lue EN ENTIER avant d'y chercher : l'amorce est asynchrone, et
+# « grep -q » qui ferme le tuyau au premier résultat pouvait couper le
+# processus avant qu'il ait posé l'empreinte.
+A(){ MRP_DB="$CAT" node --no-warnings -e "require('./amorce.js').amorcerDonnees()" > "$CAT.log" 2>&1; cat "$CAT.log"; }
 
 A | grep -q 'catalogue : chargé (base vide)' \
   && ok "amorce : le catalogue se charge sur une base vide" \
@@ -1497,8 +1500,9 @@ S=$(MRP_DB="$CAT" node --no-warnings -e "
 # 26 133 → 26 633 le 24/09/2026, les t-shirts brodés — 370 à l'entrée au plan
 # (228 vendus en prévente, majorés), portés à 500 le jour même, aux mêmes
 # proportions. Avant : 24 633 → 26 133 le 16/09/2026, les 1 500 bandeaux de
-# la tuque de ville.
-[ "$(Z "SELECT SUM(quantite) n FROM ordre_items")" = 26633 ] \
+# la tuque de ville. Un item EN ATTENTE ne compte pas : le sous-lot conditionnel
+# de 200 mitaines de laine (26/09/2026) n'est pas à produire tant qu'il attend.
+[ "$(Z "SELECT SUM(quantite) n FROM ordre_items WHERE attente = ''")" = 26633 ] \
   && ok "découper une ligne du plan ne change pas le total à produire" \
   || ko "le total a bougé — la ligne d'origine compte encore"
 
@@ -1531,7 +1535,7 @@ T=$(MRP_DB="$CAT" node --no-warnings -e "
      WHERE p.code='TSHIRT-BRODE'\").get();
   const n=db.prepare('SELECT COUNT(*) n FROM ordres').get().n;
   const seul=db.prepare(\"SELECT COUNT(*) n FROM ordre_items i JOIN ordres o \
-     ON o.id=i.ordre_id WHERE o.titre LIKE 'T-shirts%'\").get().n;
+     ON o.id=i.ordre_id WHERE o.titre LIKE 'T-shirts%' AND i.attente = ''\").get().n;
   console.log((r?r.titre:'AUCUN')+'|'+n+'|'+seul);" 2>/dev/null)
 case "$T" in
   "T-shirts brodés — prévente automne 2026|2|1")

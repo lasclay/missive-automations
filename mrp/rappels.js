@@ -172,7 +172,7 @@ async function verifierRappels(maintenant = new Date()) {
   // Ce qui n'a jamais été déclaré : le chiffre qui donne envie d'ouvrir l'app.
   const restants = db.prepare(`
     SELECT COUNT(*) n FROM ordre_items i JOIN ordres o ON o.id = i.ordre_id
-     WHERE o.statut IN ('planifie','en_cours') AND i.avancement = 0`).get().n;
+     WHERE o.statut IN ('planifie','en_cours') AND i.avancement = 0 AND i.attente = ''`).get().n;
 
   const courriels = [];
   let auMoinsUn = false;

@@ -79,6 +79,10 @@ const ETAPES = [
         ? 'les fichiers de donnees/ ont changé' : null;
     },
     apres: () => etatPose('empreinte_donnees', empreinteDonnees()) },
+  // Les ajustements d'ordres que le plan ne porte pas (retrait, sous-lot en
+  // attente, avis de modification) : APRÈS le catalogue, qui crée les ordres.
+  // Chaque ligne ne s'applique qu'une fois.
+  { script: 'import_ajustements.js', args: ['--ecrire'], quoi: 'ajustements d\'ordres' },
   { script: 'import_charte.js',  args: ['--ecrire'], quoi: 'charte produits' },
   { script: 'import_qualite.js', args: ['--charte', '--squelettes', '--ecrire'],
     quoi: 'protocoles qualité' },
