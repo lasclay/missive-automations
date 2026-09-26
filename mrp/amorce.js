@@ -31,7 +31,9 @@
  * malformé fait échouer son import, pas le démarrage du service.
  */
 'use strict';
-const { execFileSync } = require('node:child_process');
+const { execFile } = require('node:child_process');
+const { promisify } = require('node:util');
+const lancer = promisify(execFile);
 const fs = require('node:fs');
 const crypto = require('node:crypto');
 const path = require('node:path');
@@ -97,7 +99,12 @@ const ETAPES = [
     quoi: 'rétroactions clients' },
 ];
 
-function amorcerDonnees() {
+// ASYNCHRONE : les imports tournaient en execFileSync, ce qui gelait le
+// serveur une vingtaine de secondes après chaque déploiement — il écoutait,
+// mais ne répondait plus, et Render affichait sa page 502. Les imports
+// tournent maintenant à côté ; la base est en WAL avec un busy_timeout, les
+// pages se servent pendant qu'ils écrivent.
+async function amorcerDonnees() {
   // Les tests de bout en bout partent d'une base vide et comptent les lignes
   // qu'ils écrivent eux-mêmes : charger trente-quatre produits et cent
   // trente-trois points de contrôle sous leurs pieds ferait échouer des
@@ -114,9 +121,9 @@ function amorcerDonnees() {
         console.log(`[mrp] ${e.quoi} : inchangé depuis le dernier chargement.`);
         continue;
       }
-      execFileSync(process.execPath,
+      await lancer(process.execPath,
         ['--no-warnings', path.join(__dirname, e.script), ...e.args],
-        { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'], timeout: 120000 });
+        { encoding: 'utf8', timeout: 120000, maxBuffer: 16 * 1024 * 1024 });
       // L'empreinte ne se pose qu'APRÈS un import réussi : un fichier
       // malformé doit être réessayé au prochain démarrage, pas oublié.
       if (e.apres) e.apres();
