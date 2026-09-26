@@ -968,7 +968,11 @@ function discussionHTML({ point, messages = [], user, produitId = null, itemId =
           name="type" value="${k}"${i === 0 ? ' checked' : ''}> ${v}</label>`).join('')}</div>
         <textarea name="texte" rows="3" maxlength="4000"
           placeholder="Ce que tu vois, ce que tu proposes, ce qui ne va pas…"></textarea>
-        <label class="dq-champ">Photo <input type="file" name="photo" accept="image/*"></label>
+        <div class="dq-photos">
+          <label class="dq-champ dq-camera">Prendre une photo
+            <input type="file" name="camera" accept="image/*" capture="environment"></label>
+          <label class="dq-champ">ou en choisir une <input type="file" name="photo" accept="image/*"></label>
+        </div>
         <label class="dq-champ">ou un lien <input type="url" name="lien" placeholder="https://…"></label>
         <button class="btn">Envoyer</button>
       </form></details>

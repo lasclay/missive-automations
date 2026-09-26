@@ -1413,7 +1413,9 @@ async function router(req, res, url, user) {
       const base = /^\/[a-z0-9/?=&_%.-]{0,300}$/i.test(rt) && !rt.startsWith('//') ? rt : '/qualite';
       const sep = base.includes('?') ? '&' : '?';
       let photoFichier = '', photoType = '';
-      const ph = fichiers.photo;
+      // Deux champs : « Prendre une photo » ouvre l'appareil de l'iPad
+      // (capture), l'autre la photothèque. La prise de vue passe d'abord.
+      const ph = [fichiers.camera, fichiers.photo].find(x => x && x.data && x.data.length);
       if (ph && ph.data.length) {
         const t = typeImage(ph.data);
         if (!t) return vers(res, base + sep + 'err=' + encodeURIComponent(

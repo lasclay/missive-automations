@@ -1296,6 +1296,19 @@ R=$(curl -s -b $CO2 -o /dev/null -w '%{redirect_url}' -X POST "$B/qualite/points
 case "$R" in *err=*) ko "message refusé ($R)" ;; *) ok "l'atelier écrit sous un point" ;; esac
 curl -s -b $CA "$B/qualite/planche/photo_boutique?point=$PB&item=1" | grep -q 'Ce n est pas la bonne image' \
   && ok "le message reste visible sur la planche, pour Québec" || ko "message invisible sur la planche"
+# « Prendre une photo » : le champ `camera` ouvre l'appareil de l'iPad
+# (capture="environment") ; sa photo doit être gardée comme l'autre.
+curl -s -b $CO2 "$B/qualite/planche/photo_boutique?point=$PB&item=1" \
+  | grep -q 'name="camera" accept="image/\*" capture="environment"' \
+  && ok "le message offre « Prendre une photo » (appareil de la tablette)" \
+  || ko "pas de prise de photo directe"
+IMG=$(mktemp).png
+node -e "require('fs').writeFileSync('$IMG', Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==','base64'))"
+curl -s -b $CO2 -o /dev/null -X POST "$B/qualite/points/$PB/discussion" \
+  -F type=note -F 'texte=Vue de la couture' -F "camera=@$IMG;type=image/png" -F "retour=/ordres/1/items/1/qualite"
+F=$(node --no-warnings -e "const{db}=require('./db.js');const r=db.prepare(\"SELECT photo_fichier f FROM qc_discussion WHERE texte='Vue de la couture'\").get();console.log(r?r.f:'')" 2>/dev/null)
+[ -n "$F" ] && [ "$(curl -s -b $CA -o /dev/null -w '%{http_code}' "$B/qc-photo/$F")" = 200 ] \
+  && ok "la photo prise à l'appareil est gardée et servie" || ko "photo de l'appareil perdue ($F)"
 R=$(curl -s -b $CO2 -o /dev/null -w '%{redirect_url}' -X POST "$B/qualite/points/$PB/discussion" \
   -F type=note -F 'texte=' -F "retour=/ordres/1/items/1/qualite")
 case "$R" in *err=*) ok "un message vide est refusé" ;; *) ko "message vide accepté" ;; esac
