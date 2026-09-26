@@ -1924,12 +1924,13 @@ if (require.main === module) {
     // Les données du dépôt entrent en base au démarrage — sans ça, elles
     // attendent qu'on ouvre un Shell Render, et personne ne l'ouvre.
     //
-    // APRÈS `listen`, jamais avant : les quatre imports prennent une vingtaine
-    // de secondes, et Render coupe une instance qui ne répond pas encore à sa
-    // sonde. Le service répond donc tout de suite, et les données arrivent
-    // quelques secondes plus tard. Sur une base déjà peuplée — le cas normal
+    // APRÈS `listen`, jamais avant, et SANS BLOQUER : les imports prennent une
+    // vingtaine de secondes, et Render coupe une instance qui ne répond pas à
+    // sa sonde. Le service répond donc tout de suite, et continue de répondre
+    // pendant que les données arrivent. Sur une base déjà peuplée — le cas normal
     // d'un redéploiement — rien ne change à l'écran pendant ce temps.
-    setImmediate(() => require('./amorce.js').amorcerDonnees());
+    setImmediate(() => require('./amorce.js').amorcerDonnees()
+      .catch(e => console.error('[mrp] amorce interrompue :', e.message)));
 
     // Le rappel hebdomadaire de l'atelier. Une minuterie horaire plutôt qu'un
     // cron : le service tourne déjà en continu, et un cron externe serait une
