@@ -12330,6 +12330,27 @@
       "motif": "A SIGNALER A UN HUMAIN. La repartition de l'asclepiade region par region au Quebec est ABSENTE de faits-verifies.json, et « etat des populations » y est explicitement absent. Or notre Page a affirme publiquement qu'il y en a « pas mal partout au Quebec », ce qu'au moins deux abonnes contestent par observation directe (Gaspesie, Bas-Saint-Laurent). Meme forme que NOTE-FAITS-VERIFIES-odeur et NOTE-FAITS-VERIFIES-comestibilite : soit la donnee entre dans la reference avec sa source, soit la Page arrete de l'affirmer.",
       "page_id": "114311920399404",
       "quand": "2026-09-26T13:40:04.681Z"
+    },
+    {
+      "id": "121337889696807_122946116202651",
+      "extrait": "Il faut prevenir ou arreter le petrole",
+      "motif": "Prise de position sur l'industrie petroliere. Toute comparaison entre la fibre d'asclepiade et les fibres petrolieres est ABSENTE de faits-verifies.json, et le procede de fabrication y est explicitement absent. Repondre reviendrait a endosser un argument qu'on ne peut pas etayer.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-26T14:39:03.345Z"
+    },
+    {
+      "id": "115591106938152_121604976336765",
+      "extrait": "j'avais lu que la cooperative n'avais pas reussie a fournir le volume pour les transformateur",
+      "motif": "Etat de la cooperative Monark et de l'industrie de transformation : ABSENT des faits verifies, et deja au bloc SUIVI HUMAIN REQUIS (COOP Monark). Notre Page a deja repondu une fois dans cet echange, avec une affirmation que je ne peux ni confirmer ni corriger.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-26T14:39:03.345Z"
+    },
+    {
+      "id": "115591106938152_119913556505907",
+      "extrait": "Les subventions sont normales pour le demarrage d'une entreprise",
+      "motif": "Sous-fil polemique enracine sur « Combien de $$$ pour le developpement ? Ou sont les subventions ? ». Le financement de l'entreprise et les subventions recues sont hors des faits verifies, et ce fil appartient au bloc SUIVI HUMAIN REQUIS (grappe sociofinancement / subventions).",
+      "page_id": "114311920399404",
+      "quand": "2026-09-26T14:39:03.345Z"
     }
   ]
 }
