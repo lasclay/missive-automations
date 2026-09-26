@@ -265,7 +265,7 @@ const OUTILS = [
       return {
         numero: o.numero, titre: o.titre, statut: o.statut, note: o.note,
         avancement: avancementOrdre(o.id).pct + ' %',
-        items: db.prepare(`SELECT p.code, p.nom, i.quantite, i.avancement, i.note
+        items: db.prepare(`SELECT p.code, p.nom, i.quantite, i.avancement, i.note, i.attente
             FROM ordre_items i JOIN produits p ON p.id = i.produit_id
             WHERE i.ordre_id = ? ORDER BY i.rang, i.id`).all(o.id),
         jalons: db.prepare(`SELECT titre, date, type, note FROM ordre_jalons
@@ -1129,7 +1129,7 @@ const OUTILS = [
         const r = db.prepare(`
           SELECT COALESCE(SUM(i.quantite * (100 - i.avancement) / 100.0), 0) AS reste
           FROM ordre_items i JOIN ordres o ON o.id = i.ordre_id
-          WHERE i.produit_id = ? AND o.statut IN ('planifie','en_cours')
+          WHERE i.produit_id = ? AND o.statut IN ('planifie','en_cours') AND i.attente = ''
             AND i.avancement < 100`).get(p.id);
         quantite = Math.round(r.reste);
         source = 'ce qu\'il reste à produire sur les ordres ouverts';

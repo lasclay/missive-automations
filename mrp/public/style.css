@@ -1794,3 +1794,28 @@ a.ck-td:hover .ck-pl{opacity:1}
   padding:12px 16px;margin-right:10px;border-radius:8px;border:1px solid var(--piste-pleine);
   background:var(--champ);color:var(--encre);cursor:pointer}
 .dq-camera input[type=file]::file-selector-button{background:var(--vert);border-color:var(--vert);color:#fff}
+
+/* Avis de modification : un changement de fabrication en cours. Ambre, bordé,
+   impossible à confondre avec une note — et tout le bandeau est le lien vers
+   la photo source. */
+.avis{margin:8px 0;border:2px solid #d98e04;border-left-width:6px;border-radius:8px;background:#fff6e0}
+.avis a{display:block;padding:8px 10px;color:#5a3b00;text-decoration:none}
+.avis a:hover{background:#ffedc2}
+.avis b{display:block;font-size:14px}
+.avis-t{display:block;font-size:13px;margin-top:3px;line-height:1.35}
+.avis-l{display:block;font-size:12px;margin-top:4px;font-weight:600;text-decoration:underline}
+.avis-c a{padding:5px 8px} .avis-c b{font-size:12.5px}
+.avis-carte h2{color:#9a6200}
+.avis-p{margin:10px 0 0;font-size:13px} .avis-prod{font-weight:700}
+.avis-puce{display:inline-block;margin-left:8px;padding:1px 7px;border-radius:9px;font-size:11.5px;
+  background:#ffe3a3;color:#6b4500;font-weight:700}
+@media (prefers-color-scheme: dark){
+  .avis{background:#2f2410;border-color:#c98a1c} .avis a{color:#ffd88a} .avis a:hover{background:#3b2d12}
+  .avis-puce{background:#5a4210;color:#ffd88a}
+}
+/* Un item en attente : grisé, et son sélecteur remplacé par la raison. */
+tr.it-attente .avec-mini,tr.it-attente td.num,tr.it-attente td.note-c{opacity:.5}
+tr.it-attente .attente-b{border:1px dashed var(--piste-pleine);border-radius:8px;padding:8px 10px;background:var(--media)}
+tr.it-attente .attente-b p{margin:4px 0 8px;font-size:13px;color:var(--encre2)}
+.tuile-avis{position:absolute;left:8px;top:8px;padding:2px 7px;border-radius:9px;font-size:11px;font-weight:700;
+  background:#ffcf6b;color:#4a2f00}

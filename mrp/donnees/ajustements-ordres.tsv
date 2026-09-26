@@ -1,0 +1,21 @@
+# Ajustements aux ordres de production décidés dans l'app ou par la direction,
+# que le plan (plan-*.tsv) ne peut pas porter. Rejoués à chaque démarrage par
+# import_ajustements.js, sans effet la deuxième fois.
+#
+# action :
+#   retirer  — sort un produit d'un ordre. Si le même produit a un item dans un
+#              autre ordre vivant, ce qui a été écrit sur le premier (fil,
+#              contrôles, mesures, historique) y est d'abord déplacé ; rien ne
+#              se perd. Sans autre item, un item déjà commencé n'est PAS retiré.
+#   sous-lot — crée un item de plus pour un produit, dans un autre ordre. La
+#              répartition par taille est celle de l'item nommé en `modele`,
+#              ramenée à la quantité. `attente` non vide = item en attente.
+#   avis     — un avis de modification sur un produit, affiché partout où il
+#              est fabriqué ; `point` nomme le point de contrôle dont la
+#              discussion porte la source (photo, commentaire).
+#
+# `ordre` et `modele` : le titre exact de l'ordre (voir ordres.tsv).
+action	ordre	produit	quantite	modele	attente	titre	texte	point	date
+retirer	Plan de production 26-27 — prévente automne	TSHIRT-BRODE							2026-09-26
+avis		MIT-LAINE				Modification majeure — ouverture trop petite	L'ouverture est trop petite : deux couches de laine bouillie n'ont aucune élasticité. L'empiècement est modifié pour agrandir l'ouverture, sur le lot en cours (OP-2026-0001). Si le résultat est laid, ce lot passe en imparfait et un sous-lot de 200 paires est produit avec l'empiècement modifié (OP-2026-0002, en attente).	Essai par une personne de chaque taille, mains mesurées	2026-09-26
+sous-lot	T-shirts brodés — prévente automne 2026	MIT-LAINE	200	Plan de production 26-27 — prévente automne	En attente du résultat de l'agrandissement de l'ouverture sur le lot d'origine (OP-2026-0001). Bon résultat : ce sous-lot ne se fait pas. Résultat laid : le lot d'origine passe en imparfait, et ces 200 paires se produisent avec l'empiècement modifié.					2026-09-26

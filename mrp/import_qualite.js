@@ -251,7 +251,7 @@ if (introuvables.length) {
 const nus = db.prepare(`
   SELECT p.code, (SELECT SUM(i.quantite) FROM ordre_items i
                     JOIN ordres o ON o.id = i.ordre_id
-                   WHERE i.produit_id = p.id AND o.statut IN ('planifie','en_cours')) AS q
+                   WHERE i.produit_id = p.id AND o.statut IN ('planifie','en_cours') AND i.attente = '') AS q
     FROM produits p
    WHERE p.actif = 1 AND p.fabrication = 'tunisie'
      AND NOT EXISTS (SELECT 1 FROM qc_points x WHERE x.produit_id = p.id)

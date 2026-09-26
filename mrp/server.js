@@ -618,6 +618,9 @@ async function router(req, res, url, user) {
       // Le contrôle qualité est obligatoire pour déclarer un lot fini. La règle
       // vit dans db.js, et l'assistant y passe aussi : aucun des deux chemins
       // ne peut contourner l'autre.
+      // Un lot en attente ne se fabrique pas : il n'a pas d'avancement.
+      if (it && it.attente) return vers(res, `/ordres/${id}?err=`
+        + encodeURIComponent('Ce lot est en attente : rien à déclarer tant que Québec ne l\'a pas lancé.') + `#i${it.id}`);
       const bloc = it ? blocageQC(it.id, v) : null;
       if (bloc)
         return vers(res, `/ordres/${id}/items/${it.id}/qualite?err=`
@@ -835,6 +838,12 @@ async function router(req, res, url, user) {
               VALUES (?,?,?,?, (SELECT COALESCE(MAX(rang),0)+1 FROM ordre_items WHERE ordre_id=?))`)
             .run(id, +f.produit_id, qte, (f.note || '').trim(), id);
         return vers(res, `/ordres/${id}`);
+      }
+      // Lever l'attente : Québec lance la production d'un lot conditionnel.
+      if ((mi = reste.match(/^\/items\/(\d+)\/attente$/)) && req.method === 'POST') {
+        const it = R.item.get(+mi[1], id);
+        if (it) db.prepare(`UPDATE ordre_items SET attente = '', maj_le = datetime('now') WHERE id = ?`).run(it.id);
+        return vers(res, `/ordres/${id}?ok=` + encodeURIComponent('Lot lancé : il compte maintenant dans la charge.') + `#i${+mi[1]}`);
       }
       if ((mi = reste.match(/^\/items\/(\d+)\/supprimer$/)) && req.method === 'POST') {
         db.prepare(`DELETE FROM ordre_items WHERE id = ? AND ordre_id = ?`).run(+mi[1], id);

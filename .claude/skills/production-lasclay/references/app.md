@@ -554,3 +554,24 @@ envoie tel quel. Largeurs demandées : 160 px miniatures d'édition, 320 px vign
 `format=webp` **n'est pas honoré** par le CDN Shopify — inutile de le demander. `?format=jpg` l'est,
 et divise par cinq (un cache-cou en 320 px passe de 33 à 7 Ko) : **c'est le plus gros gain qui
 reste**, mais la conversion aplatit la transparence, à vérifier avant de généraliser.
+
+## Items en attente, avis de modification, ajustements d'ordres (26/09/2026)
+
+- **Item en attente** — `ordre_items.attente` : vide = actif ; non vide = la raison. Un lot
+  conditionnel (« on ne le fait que si… ») reste visible dans son ordre, **grisé**, sa raison à la
+  place du sélecteur d'avancement, avec « Lancer la production de ce lot » (admin, route
+  `POST /ordres/:o/items/:i/attente`). Il ne compte **nulle part** : les requêtes du périmètre
+  vivant portent toutes `AND i.attente = ''` (charge, cédule, À fabriquer, besoins, tableau de
+  bord, contrôle qualité, avancement d'ordre). L'atelier ne peut pas y déclarer d'avancement.
+- **Avis de modification** — table `avis_modification` (produit, titre, texte, `point_titre`).
+  Bandeau ambre sur l'ordre, « À fabriquer », le contrôle qualité (lot et liste à cocher), la
+  fiche produit, la fiche qualité, et un bloc « Modifications en cours » en tête du tableau de
+  bord. Le clic mène au **message source** : dans la discussion du point nommé, le dernier message
+  AVEC photo pour ce produit (`avisActifs()`, ancre `#m<id>` sur la planche du point).
+- **Ajustements d'ordres** — `donnees/ajustements-ordres.tsv`, rejoué au démarrage par
+  `import_ajustements.js` (après le catalogue). Actions `retirer` (déplace fil, contrôles,
+  mesures, historique vers l'item du même produit dans l'autre ordre avant de retirer),
+  `sous-lot` (répartition du modèle ramenée à la quantité, `attente` possible), `avis`. Chaque
+  ligne ne s'applique **qu'une fois** (marqueur `ajustement:…` dans `amorce_etat`) : un sous-lot
+  retiré dans l'app ne renaît pas. C'est le chemin vers la base de production quand une décision
+  ne tient pas dans le plan.
