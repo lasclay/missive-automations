@@ -262,6 +262,17 @@ const STATIQUES = {
   // patrons/mitaines/charte.py à partir des DXF Lectra : le corps est le vrai
   // contour de P1 en M, les valeurs sont celles des lignes de couture.
   '/schema/cotes-mitaines.webp': ['image/webp', 'public/schema-cotes-mitaines.webp'],
+  // Les quatre attaches des bretelles de la glacière, sur la photo studio du
+  // dos (Shopify, 1638 px) avec un agrandissement de chacune. Remplace la
+  // capture Miro du Drive : une vignette agrandie dix fois, floue à la source.
+  '/schema/glaciere-bretelles.webp': ['image/webp', 'public/schema-glaciere-bretelles.webp'],
+  // Trois schémas de la charte, refaits le 26/09/2026 depuis les images
+  // ORIGINALES du tableau Miro (image_get_url) : les captures déposées au
+  // Drive étaient des vignettes agrandies, floues, et privées — hors session
+  // Google, l'atelier recevait la page de connexion au lieu de l'image.
+  '/schema/mitaine-etiquettes.webp': ['image/webp', 'public/schema-mitaine-etiquettes.webp'],
+  '/schema/semelle-decoupe.webp': ['image/webp', 'public/schema-semelle-decoupe.webp'],
+  '/schema/cache-cou-tailles.webp': ['image/webp', 'public/schema-cache-cou-tailles.webp'],
 };
 
 // Les planches d'instruction, servies par nom. Le nom ne change pas d'une

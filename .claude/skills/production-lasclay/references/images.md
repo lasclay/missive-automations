@@ -179,3 +179,16 @@ Pour en ajouter une : `mrp/planches/README.md` § « Les schémas Miro ».
   tolérance, sauf ce que `qc_points` porte déjà (cote, tolérance, unité).
 - **Le MRP plafonne les vignettes à ce que le CDN sert.** Pas de limite maison — c'est déjà mieux
   que MRPeasy, qui plafonne les icônes d'article à 50 Ko et 160 × 120 px.
+
+## Schémas de la charte : jamais une capture Miro, jamais un fichier Drive privé
+
+Le 26/09/2026, les quatre schémas de la charte qui pointaient au Drive (glacière bretelles, mitaine
+étiquettes, semelle découpe, cache-cou tailles) étaient **flous à la source** — des vignettes Miro
+agrandies dix fois, 2055 px de large pour ~200 px d'information — et **privés** : hors session
+Google, `lh3` renvoie une redirection vers la connexion, donc l'atelier ne voyait rien.
+
+Refaits depuis les **originaux** du tableau (`mcp__Miro__image_get_url` sur l'image, pas la capture
+de la frame) ou depuis la photo studio Shopify, puis servis par le MRP (`/schema/*.webp`, table
+`SCHEMAS` de `server.js`). Avant de citer une image du Drive, vérifier qu'elle répond **200
+image/…** sans session : `curl -s -o /dev/null -w '%{http_code}' https://lh3.googleusercontent.com/d/<id>=w200`.
+Le test e2e vérifie que chaque `/schema/…` cité par `donnees/` est bien servi.

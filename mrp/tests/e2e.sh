@@ -66,6 +66,15 @@ done
 [ -z "$RATE" ] && ok "chaque planche s'ouvre par sa route" \
   || ko "planches refusées par la route :$RATE"
 
+# Chaque schéma interne cité par les données doit être servi : un nom mal
+# recopié donnerait un cadre vide sur le point de contrôle, sans erreur.
+SCH=$(grep -rhoE '/schema/[a-z0-9-]+\.(png|jpe?g|webp|svg)' donnees/ | sort -u)
+MANQUE=""
+for S in $SCH; do
+  [ "$(curl -s -b $CO -o /dev/null -w '%{http_code}' "$B$S")" = 200 ] || MANQUE="$MANQUE $S"
+done
+[ -z "$MANQUE" ] && ok "chaque schéma interne cité est servi" || ko "schémas introuvables :$MANQUE"
+
 curl -s -b $CO -o /dev/null -X POST $B/ordres/1/items/2/supprimer
 N=$(node -e "const{db}=require('./db.js');console.log(db.prepare('SELECT COUNT(*) n FROM ordre_items').get().n)" 2>/dev/null)
 [ "$N" = 4 ] && ok "l'atelier ne peut pas supprimer d'item" || ko "item supprimé par l'atelier"

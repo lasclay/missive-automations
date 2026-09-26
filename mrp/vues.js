@@ -845,6 +845,7 @@ function schemaQC(q, largeur) {
   if (!schemaAcceptable(u)) return '';
   return `<a class="qc-schema" href="${e(u)}" rel="noopener"
      title="Ouvrir le schéma en taille réelle"><img src="${e(urlImage(u, largeur))}"
+     srcset="${e(urlImage(u, largeur))} 1x, ${e(urlImage(u, largeur * 2))} 2x"
      loading="lazy" alt="Schéma — ${e(q.titre)}"></a>`;
 }
 
