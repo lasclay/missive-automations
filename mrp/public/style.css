@@ -1716,3 +1716,71 @@ a.ck-td:hover .ck-pl{opacity:1}
 @media (max-width:620px){ .grille-cotes .gc-nom{min-width:128px;max-width:150px;font-size:13px} }
 .gc-portee{font-size:13px;font-weight:600;color:var(--encre2);margin:0 0 6px}
 .grille-cotes.gc-seul .gc-reel{border-left:2px solid var(--ligne)}
+
+/* La planche : dessins à gauche, discussion à droite. La colonne de droite
+   reste en vue pendant qu'on fait défiler les panneaux ; sur un téléphone,
+   elle passe dessous. */
+.bd-cols{display:grid;grid-template-columns:minmax(0,1fr);gap:22px;align-items:start}
+@media (min-width:1000px){
+  .bd-cols{grid-template-columns:minmax(0,1fr) minmax(320px,420px)}
+  .bd-droite{position:sticky;top:76px;max-height:calc(100vh - 92px);overflow:auto}
+  .bd-gauche .bd{align-items:flex-start}
+}
+
+/* La discussion d'un point. */
+.dq{margin:12px 0 4px;border:1px solid var(--ligne);border-radius:10px;background:var(--carte);
+  padding:12px 14px}
+.bd-droite .dq{margin-top:0}
+.dq-signal{border-color:var(--ambre);box-shadow:0 0 0 2px var(--ambre-pale)}
+.dq-titre{font-size:15px;margin:0 0 8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.dq-alerte{background:var(--ambre);color:#fff;font-size:12px;font-weight:600;padding:2px 8px;border-radius:10px}
+.dq-liste{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.dq-m{border-left:3px solid var(--ligne);padding:4px 0 4px 10px}
+.dq-question{border-left-color:var(--bleu)}
+.dq-image{border-left-color:var(--ambre)}
+.dq-attente{background:var(--ambre-pale);border-radius:0 6px 6px 0}
+.dq-question.dq-attente{background:var(--bleu-pale)}
+.dq-regle{opacity:.78}
+.dq-tete{font-size:13px;display:flex;gap:6px;flex-wrap:wrap;align-items:baseline}
+.dq-lieu{color:var(--gris)}
+.dq-type{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.03em;color:var(--ambre)}
+.dq-question .dq-type{color:var(--bleu)}
+.dq-date{color:var(--gris);font-size:12px;margin-left:auto}
+.dq-txt{margin:4px 0;font-size:14px;line-height:1.45;white-space:normal;overflow-wrap:anywhere}
+.dq-ph img{display:block;max-width:100%;max-height:280px;border-radius:6px;margin:6px 0;border:1px solid var(--ligne)}
+.dq-lien{margin:4px 0;font-size:13px;overflow-wrap:anywhere}
+.dq-pied{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:12px}
+.dq-ok{color:var(--vert)}
+.dq-act{display:inline;margin:0}
+.dq-vide{color:var(--gris);font-size:13px;margin:0 0 6px}
+.dq-ecrire{margin-top:10px}
+.dq-ecrire summary{cursor:pointer;font-weight:600;font-size:14px;color:var(--vert)}
+.dq-ecrire form{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.dq-ecrire textarea{width:100%;font:inherit;padding:8px;border:1px solid var(--piste-pleine);
+  border-radius:6px;background:var(--champ);color:var(--encre)}
+.dq-types{display:flex;gap:12px;flex-wrap:wrap;font-size:13px}
+.dq-champ{display:flex;flex-direction:column;gap:3px;font-size:13px;color:var(--encre2)}
+.dq-champ input[type=url]{font:inherit;padding:6px 8px;border:1px solid var(--piste-pleine);
+  border-radius:6px;background:var(--champ);color:var(--encre)}
+.dq-ecrire .btn{align-self:flex-start}
+
+/* Le verdict du lot sur la page de la planche. */
+.bd-verdict{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:14px 0;padding:10px 12px;
+  border:1px solid var(--ligne);border-radius:10px;background:var(--carte)}
+.bd-verdict input{flex:1 1 200px;font:inherit;padding:7px 9px;border:1px solid var(--piste-pleine);
+  border-radius:6px;background:var(--champ);color:var(--encre)}
+.bd-v-etat{flex:1 1 100%;font-size:14px;color:var(--encre2)}
+.bd-v-etat .ok{color:var(--vert)} .bd-v-etat .ko{color:var(--rouge)}
+.bd-verdict .rouge{background:var(--rouge);border-color:var(--rouge);color:#fff}
+/* Les photos de la boutique, en grand, pour comparer la pièce en main. */
+.bd-boutique{margin-top:14px}
+.bd-b-consigne{font-size:14px;margin:0 0 10px;color:var(--encre2)}
+.bd-b-photos{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:10px}
+.bd-b-photos img{width:100%;height:auto;display:block;border-radius:8px;border:1px solid var(--ligne);
+  background:var(--media)}
+.pi-boutique a.pi-l{flex:0 0 auto}
+.pi-boutique img{width:150px;height:150px;object-fit:cover;display:block;border-radius:10px;background:var(--media)}
+/* Le compte des échanges sous un point, dans la vue liste. */
+.ck-dq{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:9px;font-size:12px;
+  background:var(--piste);color:var(--encre2);white-space:nowrap}
+.ck-dq-img{background:#fff3cd;color:#7a5200}

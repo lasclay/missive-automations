@@ -443,8 +443,6 @@ const PAR_TITRE = new Map([
   ['Crochet métallique pour ganse',                   'ganse_crochets'],
   ['Sangle assemblée avec ses crochets métalliques, une par étui, placée à l\'intérieur du sac', 'ganse_crochets'],
   ['Lacet bien intégré pour la sangle',               'ganse_crochets'],
-  ['Presser la pochette avant d\'y insérer l\'isolant', 'presser_isolant'],
-  ['Presser le col avant d\'y insérer l\'isolant',      'presser_isolant'],
   ['Doublure de PVC sans trou',                       'doublure_trous'],
   ['Doublure de nylon sans trou',                     'doublure_trous'],
   ['Poche avant sans trou',                           'doublure_trous'],

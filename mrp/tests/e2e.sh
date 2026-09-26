@@ -1244,6 +1244,50 @@ curl -s -b $CO2 -o /dev/null -w '%{redirect_url}' -X POST $B/compte/nom \
   --data 'nom=X' | grep -q 'err=' \
   && ok "un nom d'un seul caractère est refusé" || ko "nom trop court accepté"
 
+# --- comparaison avec la boutique : les vraies photos, sur la planche -----
+# Le dessin générique montrait une mitaine même pour un cache-cou, et les
+# vraies photos étaient trois clics plus loin, dans Produits. La planche du
+# point, ouverte depuis un lot, doit montrer les photos de CE produit, et le
+# verdict doit s'y donner sans retourner à la liste. ($CO2 : la session de
+# $CO est tombée au changement de mot de passe.)
+PB=$(node --no-warnings -e "
+  const{db}=require('./db.js');
+  const it=db.prepare('SELECT produit_id FROM ordre_items WHERE id=1').get();
+  db.prepare(\"INSERT INTO produit_photos (produit_id,url,type,legende) VALUES (?,?,'studio','face')\")
+    .run(it.produit_id,'https://cdn.shopify.com/s/files/test/vraie-photo-e2e.jpg');
+  console.log(db.prepare(\"INSERT INTO qc_points (produit_id,type,titre) VALUES (NULL,'esthetique','Comparaison avec la photo de la boutique')\").run().lastInsertRowid);" 2>/dev/null)
+PL=$(curl -s -b $CO2 "$B/qualite/planche/photo_boutique?point=$PB&item=1&retour=%2Fordres%2F1%2Fitems%2F1%2Fqualite")
+echo "$PL" | grep -q 'vraie-photo-e2e' \
+  && ok "la planche de la boutique montre les vraies photos du produit du lot" \
+  || ko "la planche de la boutique ne montre pas les photos du produit"
+echo "$PL" | grep -q "action=\"/ordres/1/items/1/qualite/$PB\"" \
+  && ok "la planche ouverte depuis un lot porte Conforme / Non conforme" \
+  || ko "pas de verdict sur la planche"
+R=$(curl -s -b $CO2 -o /dev/null -w '%{redirect_url}' -X POST "$B/ordres/1/items/1/qualite/$PB" \
+  --data-urlencode 'verdict=conforme' \
+  --data-urlencode "retour_url=/qualite/planche/photo_boutique?point=$PB&item=1&retour=%2Fordres%2F1%2Fitems%2F1%2Fqualite")
+case "$R" in */qualite/planche/photo_boutique\?point=$PB*ok=*) ok "le verdict ramène à la planche" ;;
+  *) ko "le verdict ne ramène pas à la planche ($R)" ;; esac
+curl -s -b $CO2 "$B/qualite/planche/photo_boutique?point=$PB&item=1" | grep -q 'Dernier verdict : <b class="ok">conforme' \
+  && ok "la planche affiche le dernier verdict du lot" || ko "dernier verdict absent de la planche"
+R=$(curl -s -b $CO2 -o /dev/null -w '%{redirect_url}' -X POST "$B/ordres/1/items/1/qualite/$PB" \
+  --data-urlencode 'verdict=conforme' --data-urlencode 'retour_url=https://ailleurs.example/x')
+case "$R" in *ailleurs.example*) ko "retour_url extérieur suivi" ;; *) ok "un retour hors de la planche est ignoré" ;; esac
+curl -s -b $CO2 "$B/qualite/planche/photo_boutique?point=$PB" | grep -q 'vraie-photo-e2e' \
+  && ko "des photos sans produit en contexte" || ok "sans lot ni produit, la planche garde son dessin"
+
+# --- discussion d'un point ------------------------------------------------
+# Québec et l'atelier s'écrivent sous le point ; « ce n'est pas la bonne
+# image » reste visible tant que personne ne l'a réglé.
+R=$(curl -s -b $CO2 -o /dev/null -w '%{redirect_url}' -X POST "$B/qualite/points/$PB/discussion" \
+  -F type=image -F 'texte=Ce n est pas la bonne image' -F item=1 -F "retour=/ordres/1/items/1/qualite")
+case "$R" in *err=*) ko "message refusé ($R)" ;; *) ok "l'atelier écrit sous un point" ;; esac
+curl -s -b $CA "$B/qualite/planche/photo_boutique?point=$PB&item=1" | grep -q 'Ce n est pas la bonne image' \
+  && ok "le message reste visible sur la planche, pour Québec" || ko "message invisible sur la planche"
+R=$(curl -s -b $CO2 -o /dev/null -w '%{redirect_url}' -X POST "$B/qualite/points/$PB/discussion" \
+  -F type=note -F 'texte=' -F "retour=/ordres/1/items/1/qualite")
+case "$R" in *err=*) ok "un message vide est refusé" ;; *) ko "message vide accepté" ;; esac
+
 # --- amorce du premier compte -------------------------------------------
 # Un service fraîchement déployé n'a aucun utilisateur : sans amorce, personne
 # ne peut ouvrir de session, et sans shell c'est irrécupérable. L'amorce doit

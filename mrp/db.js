@@ -434,6 +434,40 @@ CREATE TABLE IF NOT EXISTS cotes_releves (
 );
 CREATE INDEX IF NOT EXISTS idx_releves ON cotes_releves(produit_id, num, taille, id);
 
+-- La DISCUSSION d'un point de contrôle : Québec et l'atelier y échangent,
+-- réfléchissent, envoient une photo. « Ce n'est pas la bonne image » s'écrit
+-- ICI, sous le point, et y reste : c'est là que la prochaine personne qui
+-- ouvre la planche le lira.
+--
+-- Le point est tenu par son identifiant ET par son titre, et point_id passe
+-- à NULL si le point disparaît : une discussion ne meurt jamais avec la
+-- consigne qu'elle critiquait. produit_id est le produit dont on parlait —
+-- un point général (l'étiquette, les fils) se discute produit par produit.
+--
+-- type : note (commentaire), question (attend une réponse), image (le dessin
+-- ou la photo du point est faux ; le point porte un signal jusqu'à réglé).
+CREATE TABLE IF NOT EXISTS qc_discussion (
+  id             INTEGER PRIMARY KEY,
+  point_id       INTEGER REFERENCES qc_points(id) ON DELETE SET NULL,
+  point_titre    TEXT NOT NULL DEFAULT '',
+  produit_id     INTEGER REFERENCES produits(id) ON DELETE SET NULL,
+  item_id        INTEGER REFERENCES ordre_items(id) ON DELETE SET NULL,
+  type           TEXT NOT NULL DEFAULT 'note' CHECK (type IN ('note','question','image')),
+  texte          TEXT NOT NULL DEFAULT '',
+  -- Une photo envoyée depuis le téléphone : le fichier vit sur le disque du
+  -- service (à côté de la base), jamais dans la base ni sur un CDN public.
+  photo_fichier  TEXT NOT NULL DEFAULT '',
+  photo_type     TEXT NOT NULL DEFAULT '',
+  -- Ou un lien : Drive, Miro, une photo déjà en ligne.
+  lien           TEXT NOT NULL DEFAULT '',
+  utilisateur_id INTEGER REFERENCES utilisateurs(id),
+  regle_le       TEXT,
+  regle_par      INTEGER REFERENCES utilisateurs(id),
+  cree_le        TEXT NOT NULL DEFAULT (datetime('now'))
+);
+CREATE INDEX IF NOT EXISTS idx_discussion_point ON qc_discussion(point_id, id);
+CREATE INDEX IF NOT EXISTS idx_discussion_titre ON qc_discussion(point_titre, id);
+
 -- Le compte rendu qui FERME le contrôle qualité d'un lot.
 --
 -- Cocher une case dit « j'ai regardé ». Ça ne dit pas ce qu'on a vu. Un lot de
@@ -2340,7 +2374,77 @@ function enregistrerReleves(produitId, itemId, userId, champs) {
   return { n, illisibles };
 }
 
+
+/* ======================================= discussion des points de contrôle */
+
+const TYPES_DISCUSSION = { note: 'Commentaire', question: 'Question', image: 'Image à corriger' };
+
+/**
+ * Les messages de plusieurs points d'un coup, pour une page qui en montre
+ * vingt. `produitId` : le contexte. Sur un point général, on ne montre que ce
+ * qui a été dit de CE produit, plus ce qui a été dit sans produit. Sans
+ * contexte (la planche ouverte seule), tout.
+ */
+function discussionsPoints(points, produitId = null) {
+  const out = new Map();
+  if (!points.length) return out;
+  const q = db.prepare(`SELECT d.*, u.nom AS auteur, u.role AS auteur_role, r.nom AS regle_nom
+      FROM qc_discussion d
+      LEFT JOIN utilisateurs u ON u.id = d.utilisateur_id
+      LEFT JOIN utilisateurs r ON r.id = d.regle_par
+     WHERE (d.point_id = ? OR (d.point_id IS NULL AND d.point_titre = ?))
+       AND (? IS NULL OR d.produit_id IS NULL OR d.produit_id = ?)
+     ORDER BY d.id`);
+  for (const p of points) out.set(p.id, q.all(p.id, p.titre, produitId, produitId));
+  return out;
+}
+
+/** Écrit un message. Renvoie { id } ou { erreur }. */
+function ecrireDiscussion({ pointId, produitId = null, itemId = null, type = 'note',
+                            texte = '', lien = '', photoFichier = '', photoType = '', userId }) {
+  const pt = db.prepare(`SELECT id, titre, produit_id FROM qc_points WHERE id = ?`).get(pointId);
+  if (!pt) return { erreur: 'Point introuvable.' };
+  const t = String(texte || '').trim().slice(0, 4000);
+  const l = String(lien || '').trim().slice(0, 500);
+  if (l && !/^https?:\/\/\S+$/i.test(l)) return { erreur: 'Le lien doit commencer par http:// ou https://.' };
+  if (!t && !l && !photoFichier) return { erreur: 'Message vide : écrire quelque chose, ou joindre une photo.' };
+  const ty = TYPES_DISCUSSION[type] ? type : 'note';
+  // Un point propre à un produit porte son produit ; un point général prend le
+  // produit dont on parlait (la page ou le lot d'où on écrit).
+  const prod = pt.produit_id || produitId || null;
+  const id = db.prepare(`INSERT INTO qc_discussion (point_id, point_titre, produit_id, item_id,
+      type, texte, photo_fichier, photo_type, lien, utilisateur_id)
+      VALUES (?,?,?,?,?,?,?,?,?,?)`).run(pt.id, pt.titre, prod, itemId || null, ty, t,
+      photoFichier || '', photoType || '', l, userId || null).lastInsertRowid;
+  return { id: Number(id) };
+}
+
+/** Marque réglé (ou rouvre) : le message reste, le signal disparaît. */
+function reglerDiscussion(id, userId, rouvrir = false) {
+  return db.prepare(rouvrir
+    ? `UPDATE qc_discussion SET regle_le = NULL, regle_par = NULL WHERE id = ?`
+    : `UPDATE qc_discussion SET regle_le = datetime('now'), regle_par = ? WHERE id = ?`)
+    .run(...(rouvrir ? [id] : [userId, id])).changes;
+}
+
+/** Retirer : l'auteur seul. Le message et sa photo disparaissent. */
+function retirerDiscussion(id, userId) {
+  const d = db.prepare(`SELECT utilisateur_id, photo_fichier FROM qc_discussion WHERE id = ?`).get(id);
+  if (!d) return { erreur: 'Message introuvable.' };
+  if (d.utilisateur_id !== userId) return { erreur: 'Seul l\'auteur peut retirer son message.' };
+  db.prepare(`DELETE FROM qc_discussion WHERE id = ?`).run(id);
+  return { fichier: d.photo_fichier };
+}
+
+/** Les signaux « image à corriger » encore ouverts, par identifiant de point. */
+function imagesACorriger() {
+  return new Set(db.prepare(`SELECT DISTINCT point_id FROM qc_discussion
+    WHERE type = 'image' AND regle_le IS NULL AND point_id IS NOT NULL`).all().map(r => r.point_id));
+}
+
 module.exports = {
+  discussionsPoints, ecrireDiscussion, reglerDiscussion, retirerDiscussion,
+  imagesACorriger, TYPES_DISCUSSION,
   grilleCotes, enregistrerReleves, ecartCote, lireTolerance,
   retroactionsProduit, couvertureRetro, familleRetro, FAMILLES_RETRO,
   deposerRapport, rapportItem, qcOrdre, compterMots,

@@ -133,8 +133,8 @@ C'est la moitié jaune du tableau, et la source de `donnees/qualite-charte.tsv`.
 la base** · fermeture bien tendue · **côté curseur : femme à gauche, homme à droit** · logo droit ·
 **taille sur l'étiquette = taille du patron**.
 Veste, en plus : ouverture de la manche égale des deux côtés · **éviter de mettre de l'asclépiade
-dans les coutures** · **le col doit être pressé avant d'y insérer l'isolant, sinon il fond et
-devient rigide**.
+dans les coutures**. *(« Presser le col avant d'y insérer l'isolant » : retiré le 26/09/2026,
+les produits n'ont plus d'isolant amovible.)*
 
 **Mitaine plein air** — assemblage jonction main/pouce solide · **couture de la patch de cuir solide
 et droite** · élastique au poignet pas trop serré · élastique à la hauteur de la base du pouce ·
@@ -156,8 +156,7 @@ jonction de la base du gant**.
 **Foulard** — matelassage droit.
 
 **Cache-cou** — droit fil / élasticité du bon côté · **boutonnière à l'arrière** · **élastique avec
-excédents de 1 po maximum** · **presser la pochette avant d'y insérer l'isolant** (rebord droit,
-sans plis) · vérification des dimensions finales **selon le schéma des tailles**.
+excédents de 1 po maximum** · vérification des dimensions finales **selon le schéma des tailles**.
 Trois pense-bêtes rouges sur la même frame : *« Petit enfant : pas de cord-lock, seulement étiquette
 pliée, NOIR SEULEMENT »* · *« Grand enfant »* · *« Adulte, taille unique »*.
 

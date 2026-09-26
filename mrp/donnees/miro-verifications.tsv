@@ -15,6 +15,9 @@
 #   manquant   le procédé le demande, le MRP ne le vérifie pas
 #   absent     le MRP le vérifie, le procédé ne le demande pas
 #
+#
+# RETIRÉ le 26/09/2026 (décision Admin QC) : les deux « Presser … AVANT d'y insérer
+# l'isolant » (chandail polar, cache-cou). Les produits n'ont plus d'isolant amovible.
 frame	produit	verification	etat
 28-29-30	Manteaux	Ouvrir et fermer chaque fermeture éclair	au_mrp
 28-29-30	Manteaux	Barre-tack (point de bride) présent à la base de la fermeture	manquant
@@ -26,7 +29,6 @@ frame	produit	verification	etat
 31	Chandail polar	Étiquette : logo droit, taille = taille du patron	manquant
 31	Chandail polar	Biais : ouverture de la manche égale des deux côtés	au_mrp
 31	Chandail polar	Éviter de mettre de l'asclépiade dans les coutures	manquant
-31	Chandail polar	Presser le col AVANT d'y insérer l'isolant, sinon il fond et devient rigide	manquant
 32	Mitaine plein air	Assemblage jonction main/pouce solide	au_mrp
 32	Mitaine plein air	Couture de la patch de cuir solide et droite	au_mrp
 32	Mitaine plein air	Élastique au poignet pas trop serré, et à la hauteur de la base du pouce	au_mrp
@@ -44,7 +46,6 @@ frame	produit	verification	etat
 41	Cache-cou	Droit fil / élasticité du bon côté	au_mrp
 41	Cache-cou	Boutonnière à l'arrière	manquant
 41	Cache-cou	Élastique avec excédents de 1 po maximum	manquant
-41	Cache-cou	Presser la pochette AVANT d'y insérer l'isolant (rebord droit, sans plis)	manquant
 41	Cache-cou	Dimensions finales selon le schéma des tailles	au_mrp
 42	Semelle	Collage adéquat	au_mrp
 42	Semelle	Emballage et estampe = bonne taille	au_mrp

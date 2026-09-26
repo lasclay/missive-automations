@@ -22,6 +22,7 @@
 'use strict';
 const http = require('node:http');
 const fs = require('node:fs');
+const crypto = require('node:crypto');
 const zlib = require('node:zlib');
 const path = require('node:path');
 const { db, prochainNumero, avancementOrdre, listeFabrication, dernieresMaj,
@@ -30,6 +31,8 @@ const { db, prochainNumero, avancementOrdre, listeFabrication, dernieresMaj,
         taches, tache, compteTaches, equipe,
         protocole, couvertureQC, TYPES_QC, charteProduit,
         checklistItem, blocageQC, etatQCOrdre, grilleCotes, enregistrerReleves,
+        discussionsPoints, ecrireDiscussion, reglerDiscussion, retirerDiscussion,
+        imagesACorriger, CHEMIN,
         horsSujet, poserHorsSujet, retirerHorsSujet,
         filOrdre, filEnAttente, demandeOuverte, reglerDemandes, reglerFil,
         modifierFil, supprimerFil,
@@ -74,6 +77,69 @@ function corpsFormulaire(req) {
     req.on('error', reject);
   });
 }
+
+/**
+ * Un formulaire AVEC fichier (multipart/form-data) : une photo prise au
+ * téléphone, sous un point de contrôle. Sans dépendance : on coupe le corps
+ * sur la frontière et on lit les en-têtes de chaque partie.
+ *
+ * 12 Mo au plus : une photo de téléphone en fait 2 à 5. Au-delà, on refuse
+ * plutôt que de remplir le disque.
+ */
+const MAX_PHOTO = 12e6;
+function corpsMultipart(req) {
+  return new Promise((resolve, reject) => {
+    const m = String(req.headers['content-type'] || '').match(/boundary=(?:"([^"]+)"|([^;]+))/i);
+    if (!m) return reject(new Error('frontière absente'));
+    const frontiere = Buffer.from('--' + (m[1] || m[2]));
+    const morceaux = []; let taille = 0;
+    req.on('data', c => {
+      taille += c.length;
+      if (taille > MAX_PHOTO + 1e5) { req.destroy(); reject(new Error('fichier trop volumineux (12 Mo au plus)')); return; }
+      morceaux.push(c);
+    });
+    req.on('error', reject);
+    req.on('end', () => {
+      const buf = Buffer.concat(morceaux);
+      const champs = {}, fichiers = {};
+      let debut = buf.indexOf(frontiere);
+      while (debut !== -1) {
+        const suivant = buf.indexOf(frontiere, debut + frontiere.length);
+        if (suivant === -1) break;
+        const partie = buf.subarray(debut + frontiere.length + 2, suivant - 2);   // \r\n de part et d'autre
+        const sep = partie.indexOf('\r\n\r\n');
+        if (sep !== -1) {
+          const tetes = partie.subarray(0, sep).toString('utf8');
+          const contenu = partie.subarray(sep + 4);
+          const nom = (tetes.match(/name="([^"]*)"/i) || [])[1];
+          const fichier = (tetes.match(/filename="([^"]*)"/i) || [])[1];
+          if (nom !== undefined) {
+            if (fichier !== undefined) { if (contenu.length) fichiers[nom] = { nom: fichier, data: contenu }; }
+            else champs[nom] = contenu.toString('utf8');
+          }
+        }
+        debut = suivant;
+      }
+      resolve({ champs, fichiers });
+    });
+  });
+}
+
+/** Le vrai type d'une image, lu dans ses premiers octets — pas dans son nom. */
+function typeImage(b) {
+  if (!b || b.length < 12) return null;
+  if (b[0] === 0xFF && b[1] === 0xD8 && b[2] === 0xFF) return { ext: 'jpg', mime: 'image/jpeg' };
+  if (b.subarray(0, 8).equals(Buffer.from([0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]))) return { ext: 'png', mime: 'image/png' };
+  if (b.subarray(0, 4).toString() === 'RIFF' && b.subarray(8, 12).toString() === 'WEBP') return { ext: 'webp', mime: 'image/webp' };
+  if (b.subarray(0, 4).toString() === 'GIF8') return { ext: 'gif', mime: 'image/gif' };
+  if (b.subarray(4, 8).toString() === 'ftyp' && /^(heic|heix|mif1|msf1|hevc)$/.test(b.subarray(8, 12).toString()))
+    return { ext: 'heic', mime: 'image/heic' };
+  return null;
+}
+// Les photos des discussions vivent à côté de la base, sur le disque persistant.
+const DOSSIER_PHOTOS_QC = path.join(path.dirname(CHEMIN), 'qc-photos');
+// Le point général qui compare la pièce aux photos de sa fiche en ligne.
+const TITRE_PHOTO_BOUTIQUE = 'Comparaison avec la photo de la boutique';
 
 /**
  * Compresse si le client le demande et si ça vaut la peine.
@@ -619,6 +685,10 @@ async function router(req, res, url, user) {
             ? 'Point vérifié.' : 'Écart enregistré.');
           // Le même geste part de deux pages. `retour=liste` dit d'où, pour
           // ramener l'atelier où il était plutôt que sur la fiche complète.
+          // Depuis la page de la planche : on y revient, avec l'avis.
+          const ru = String(f.retour_url || '');
+          if (/^\/qualite\/planche\/[a-z_]{1,30}\?[a-z0-9/?=&_%.#-]{0,300}$/i.test(ru))
+            return vers(res, ru + '&ok=' + avis);
           if (f.retour === 'liste')
             return vers(res, `/qualite/ordres/${id}?vue=liste&cat=${
               encodeURIComponent(String(f.cat || 'tous'))}&ouvert=${it.id}&ok=${avis}#lot${it.id}`);
@@ -626,7 +696,9 @@ async function router(req, res, url, user) {
         }
 
         return html(res, V.vueChecklist({ user, msg, ordre: o,
-          c: checklistItem(it.id), grille: grilleCotes(it.produit_id, { itemId: it.id }) }));
+          c: checklistItem(it.id), grille: grilleCotes(it.produit_id, { itemId: it.id }),
+          photos: R.photos.all(it.produit_id),
+          discussions: discussionsPoints(checklistItem(it.id).points, it.produit_id) }));
       }
     }
 
@@ -1155,8 +1227,31 @@ async function router(req, res, url, user) {
         grille = grilleCotes(pp.produit_id, { horsLot: true });
         action = `/qualite/${pp.produit_id}/cotes`;
       }
-      return html(res, V.vuePlanche({ user, msg, point, retour, grille, action,
-        ici: req.url.replace(/[?&](ok|err)=[^&#]*/g, '').replace(/#.*$/, '') }));
+      // Un point général (la photo de la boutique) n'a pas de produit : c'est
+      // le lot, ou la fiche d'où l'on vient (`produit`), qui le donne.
+      const depuis = Number(q.get('produit')) || 0;
+      const contexte = lot && pp && lot.produit_id === pp.produit_id ? lot.produit_id
+                     : (pp && pp.produit_id) || (lot ? lot.produit_id : null)
+                     || (depuis && db.prepare(`SELECT id FROM produits WHERE id = ?`).get(depuis) ? depuis : null);
+      // « Comparaison avec la photo de la boutique » : les VRAIES photos du
+      // produit, en grand, à la place du dessin générique. L'atelier tient la
+      // pièce devant l'écran et compare.
+      const photosBoutique = point.titre === TITRE_PHOTO_BOUTIQUE && contexte
+        ? db.prepare(`SELECT url, legende, type FROM produit_photos
+                       WHERE produit_id = ? AND type <> 'schema' ORDER BY
+                       CASE type WHEN 'studio' THEN 0 ELSE 1 END, rang, id LIMIT 8`).all(contexte)
+        : [];
+      // Depuis un lot, le verdict se donne ICI : comparer puis cocher, sans
+      // revenir à la liste pour le dernier geste.
+      const verdict = lot ? db.prepare(`SELECT c.verdict, c.cree_le, u.nom AS par FROM qc_controles c
+          LEFT JOIN utilisateurs u ON u.id = c.utilisateur_id
+         WHERE c.item_id = ? AND c.point_id = ? ORDER BY c.id DESC LIMIT 1`).get(lot.id, point.id) || null : null;
+      const ici = req.url.replace(/[?&](ok|err)=[^&#]*/g, '').replace(/#.*$/, '');
+      return html(res, V.vuePlanche({ user, msg, point, retour, grille, action, ici,
+        messages: discussionsPoints([point], contexte).get(point.id) || [],
+        produitId: contexte, itemId: lot ? lot.id : null, photosBoutique,
+        controle: lot ? { action: `/ordres/${lot.ordre_id}/items/${lot.id}/qualite/${point.id}`,
+                          verdict, retour: ici } : null }));
     }
   }
 
@@ -1179,8 +1274,13 @@ async function router(req, res, url, user) {
       // 300 Ko de HTML pour du contenu replié que personne ne lisait.
       const checklists = {};
       if (vue === 'liste' && ouvert) checklists[ouvert] = checklistItem(ouvert);
+      // Les échanges sous chaque point du lot ouvert : un compte et, s'il y en
+      // a un d'ouvert, le signal « image à corriger », visibles sans cliquer.
+      const lotOuvert = ouvert ? lignes.find(l => l.id === ouvert) : null;
+      const discussions = lotOuvert && checklists[ouvert]
+        ? discussionsPoints(checklists[ouvert].points, lotOuvert.produit_id) : new Map();
       return html(res, V.vueQCOrdre({ user, msg, ordre, lignes, cat, vue,
-        CATS, checklists, ouvert }));
+        CATS, checklists, ouvert, discussions }));
     }
   }
 
@@ -1291,6 +1391,71 @@ async function router(req, res, url, user) {
     }
   }
 
+  // ---- la discussion d'un point de contrôle : écrire, régler, retirer
+  {
+    const m = p.match(/^\/qualite\/points\/(\d+)\/discussion$/);
+    if (m && req.method === 'POST') {
+      const multi = /multipart\/form-data/i.test(String(req.headers['content-type'] || ''));
+      let f, fichiers = {};
+      try {
+        if (multi) ({ champs: f, fichiers } = await corpsMultipart(req));
+        else f = await corpsFormulaire(req);
+      } catch (e) {
+        return vers(res, '/qualite?err=' + encodeURIComponent('Envoi refusé : ' + e.message + '.'));
+      }
+      const rt = String(f.retour || '');
+      const base = /^\/[a-z0-9/?=&_%.-]{0,300}$/i.test(rt) && !rt.startsWith('//') ? rt : '/qualite';
+      const sep = base.includes('?') ? '&' : '?';
+      let photoFichier = '', photoType = '';
+      const ph = fichiers.photo;
+      if (ph && ph.data.length) {
+        const t = typeImage(ph.data);
+        if (!t) return vers(res, base + sep + 'err=' + encodeURIComponent(
+          'La pièce jointe n\'est pas une photo lisible (JPEG, PNG, WebP, GIF ou HEIC).') + `#d${m[1]}`);
+        fs.mkdirSync(DOSSIER_PHOTOS_QC, { recursive: true });
+        photoFichier = `${Date.now()}-${crypto.randomBytes(6).toString('hex')}.${t.ext}`;
+        fs.writeFileSync(path.join(DOSSIER_PHOTOS_QC, photoFichier), ph.data);
+        photoType = t.mime;
+      }
+      const r = ecrireDiscussion({ pointId: Number(m[1]), produitId: Number(f.produit) || null,
+        itemId: Number(f.item) || null, type: f.type, texte: f.texte, lien: f.lien,
+        photoFichier, photoType, userId: user.id });
+      if (r.erreur && photoFichier) fs.rmSync(path.join(DOSSIER_PHOTOS_QC, photoFichier), { force: true });
+      return vers(res, base + sep + (r.erreur ? 'err=' + encodeURIComponent(r.erreur)
+        : 'ok=' + encodeURIComponent('Message ajouté.')) + `#d${m[1]}`);
+    }
+  }
+  {
+    const m = p.match(/^\/qualite\/discussion\/(\d+)\/(regler|rouvrir|retirer)$/);
+    if (m && req.method === 'POST') {
+      const f = await corpsFormulaire(req);
+      const rt = String(f.retour || '');
+      const base = /^\/[a-z0-9/?=&_%.-]{0,300}$/i.test(rt) && !rt.startsWith('//') ? rt : '/qualite';
+      const sep = base.includes('?') ? '&' : '?';
+      let avis;
+      if (m[2] === 'retirer') {
+        const r = retirerDiscussion(Number(m[1]), user.id);
+        if (r.fichier) fs.rmSync(path.join(DOSSIER_PHOTOS_QC, path.basename(r.fichier)), { force: true });
+        avis = r.erreur ? 'err=' + encodeURIComponent(r.erreur) : 'ok=' + encodeURIComponent('Message retiré.');
+      } else {
+        reglerDiscussion(Number(m[1]), user.id, m[2] === 'rouvrir');
+        avis = 'ok=' + encodeURIComponent(m[2] === 'rouvrir' ? 'Rouvert.' : 'Marqué réglé.');
+      }
+      return vers(res, base + sep + avis + (f.ancre ? `#${String(f.ancre).replace(/[^a-z0-9]/gi, '')}` : ''));
+    }
+  }
+  // ---- les photos des discussions : jamais publiques, servies à qui est connecté
+  {
+    const m = p.match(/^\/qc-photo\/([0-9]+-[0-9a-f]{12}\.(jpg|png|webp|gif|heic))$/);
+    if (m) {
+      const f = path.join(DOSSIER_PHOTOS_QC, m[1]);
+      if (!fs.existsSync(f)) { res.writeHead(404); return res.end('Photo introuvable.'); }
+      const MIME = { jpg: 'image/jpeg', png: 'image/png', webp: 'image/webp', gif: 'image/gif', heic: 'image/heic' };
+      res.writeHead(200, { 'content-type': MIME[m[2]], 'cache-control': 'private, max-age=31536000, immutable' });
+      return res.end(fs.readFileSync(f));
+    }
+  }
+
   // Les mesures réelles HORS LOT d'un produit : échantillon, pièce étalon,
   // mesure prise au bureau. Même grille que depuis un lot, sans lot rattaché.
   {
@@ -1377,6 +1542,7 @@ async function router(req, res, url, user) {
       return html(res, V.vueProtocole({ user, msg, p: prod,
         proto: protocole(prod.id), photos: R.photos.all(prod.id),
         grille: grilleCotes(prod.id, { horsLot: true }),
+        discussions: discussionsPoints(protocole(prod.id).points, prod.id),
         bris: brisProduit(prod.id), appuis: brisParPoint(prod.id),
         ecartes: horsSujet(prod.id) }));
     }

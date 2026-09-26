@@ -910,7 +910,88 @@ function grilleCotesHTML(g, { action = null, retour = '', titre = '' } = {}) {
   </form>`;
 }
 
-function pointQC({ q, produitId, editable, action = null, unites, grille = null }) {
+
+/**
+ * La discussion d'un point de contrôle : Québec et l'atelier y écrivent, y
+ * posent une question, y envoient une photo, y signalent qu'une image est
+ * fausse. Les messages restent affichés, toujours : un « ce n'est pas la
+ * bonne image » replié dans un menu, personne ne le lit.
+ *
+ * Le formulaire, lui, se replie : il sert à qui veut écrire, les messages à
+ * tout le monde. Envoi de photo sans JavaScript : un champ fichier, et le
+ * téléphone propose l'appareil photo de lui-même.
+ */
+const TYPES_MSG = { note: 'Commentaire', question: 'Question', image: 'Image à corriger' };
+function discussionHTML({ point, messages = [], user, produitId = null, itemId = null,
+                          retour = '', ouvert = false }) {
+  if (!point || !user) return '';
+  const ancre = `d${point.id}`;
+  const signalOuvert = messages.some(m => m.type === 'image' && !m.regle_le);
+  const msg = (m) => {
+    const lieu = m.auteur_role === 'atelier' ? 'Atelier' : m.auteur_role === 'admin' ? 'Québec' : '';
+    const attente = (m.type === 'question' || m.type === 'image') && !m.regle_le;
+    const photo = m.photo_fichier
+      ? (m.photo_type === 'image/heic'
+          ? `<a class="dq-ph-lien" href="/qc-photo/${e(m.photo_fichier)}">Photo HEIC — ouvrir</a>`
+          : `<a class="dq-ph" href="/qc-photo/${e(m.photo_fichier)}"><img src="/qc-photo/${e(m.photo_fichier)}"
+               loading="lazy" alt="Photo jointe par ${e(m.auteur || '')}"></a>`) : '';
+    const action = (quoi, libelle, classe = 'lien') => `<form method="post"
+        action="/qualite/discussion/${m.id}/${quoi}" class="dq-act">
+        <input type="hidden" name="retour" value="${e(retour)}">
+        <input type="hidden" name="ancre" value="${ancre}">
+        <button class="${classe}">${libelle}</button></form>`;
+    return `<li class="dq-m dq-${e(m.type)}${attente ? ' dq-attente' : ''}${m.regle_le ? ' dq-regle' : ''}">
+      <div class="dq-tete"><b>${e(m.auteur || '—')}</b>${lieu ? ` <span class="dq-lieu">${lieu}</span>` : ''}
+        ${m.type !== 'note' ? `<span class="dq-type">${TYPES_MSG[m.type]}</span>` : ''}
+        <span class="dq-date">${dateHeureFR(m.cree_le)}</span></div>
+      ${m.texte ? `<p class="dq-txt">${e(m.texte).replace(/\n/g, '<br>')}</p>` : ''}
+      ${photo}
+      ${m.lien ? `<p class="dq-lien"><a href="${e(m.lien)}" rel="noopener" target="_blank">${e(m.lien.slice(0, 70))}${m.lien.length > 70 ? '…' : ''}</a></p>` : ''}
+      <div class="dq-pied">
+        ${m.regle_le ? `<span class="dq-ok">Réglé${m.regle_nom ? ` par ${e(m.regle_nom)}` : ''} · ${dateHeureFR(m.regle_le)}</span>
+                        ${action('rouvrir', 'Rouvrir')}`
+          : (m.type !== 'note' ? action('regler', 'Marquer réglé') : '')}
+        ${m.utilisateur_id === user.id ? action('retirer', 'Retirer', 'lien danger') : ''}
+      </div></li>`;
+  };
+  return `<section class="dq${signalOuvert ? ' dq-signal' : ''}" id="${ancre}">
+    <h3 class="dq-titre">Discussion${messages.length ? ` <span class="cpt">${messages.length}</span>` : ''}
+      ${signalOuvert ? '<span class="dq-alerte">Image à corriger</span>' : ''}</h3>
+    ${messages.length ? `<ol class="dq-liste">${messages.map(msg).join('')}</ol>`
+      : '<p class="dq-vide">Rien encore. Une remarque, une question, une photo : c\'est ici.</p>'}
+    <details class="dq-ecrire"${ouvert ? ' open' : ''}><summary>Écrire un message</summary>
+      <form method="post" action="/qualite/points/${point.id}/discussion" enctype="multipart/form-data">
+        <input type="hidden" name="retour" value="${e(retour)}">
+        ${produitId ? `<input type="hidden" name="produit" value="${produitId}">` : ''}
+        ${itemId ? `<input type="hidden" name="item" value="${itemId}">` : ''}
+        <div class="dq-types">${Object.entries(TYPES_MSG).map(([k, v], i) => `<label><input type="radio"
+          name="type" value="${k}"${i === 0 ? ' checked' : ''}> ${v}</label>`).join('')}</div>
+        <textarea name="texte" rows="3" maxlength="4000"
+          placeholder="Ce que tu vois, ce que tu proposes, ce qui ne va pas…"></textarea>
+        <label class="dq-champ">Photo <input type="file" name="photo" accept="image/*"></label>
+        <label class="dq-champ">ou un lien <input type="url" name="lien" placeholder="https://…"></label>
+        <button class="btn">Envoyer</button>
+      </form></details>
+  </section>`;
+}
+
+/**
+ * La procédure illustrée d'un point, ou — pour la comparaison avec la
+ * boutique — les vraies photos du produit : un dessin générique n'y montre
+ * jamais la bonne pièce, et aller les chercher dans Produits coûte trois clics.
+ */
+const TITRE_PHOTO_BOUTIQUE = 'Comparaison avec la photo de la boutique';
+function illustration(q, href, photos = []) {
+  const vraies = q.titre === TITRE_PHOTO_BOUTIQUE
+    ? photos.filter(ph => ph.type !== 'schema').slice(0, 4) : [];
+  if (!vraies.length) return PIC.planche(q.titre, { href });
+  return `<div class="pi pi-boutique">${vraies.map(ph => `<a class="pi-l" href="${href}"
+    aria-label="Comparer aux photos de la boutique, en grand"><img src="${e(urlImage(ph.url, 400))}"
+    alt="${e(ph.legende || 'Photo de la boutique')}" loading="lazy" referrerpolicy="no-referrer"></a>`).join('')}</div>`;
+}
+
+function pointQC({ q, produitId, editable, action = null, unites, grille = null,
+                  discussions = null, user = null, photos = [] }) {
   const mesure = q.type === 'mesure';
   // La cote porte son unité dans une colonne à part : « 1 » + « po ». Le
   // texte du détail, lui, peut en contenir en toutes lettres.
@@ -936,7 +1017,10 @@ function pointQC({ q, produitId, editable, action = null, unites, grille = null 
       ${grille && q.titre === grille.titrePoint ? grilleCotesHTML(grille, {
         action: `/qualite/${produitId}/cotes`, retour: `/qualite/${produitId}`,
         titre: 'Mesures hors lot : échantillon, pièce étalon, mesure prise à l’atelier ou au bureau' }) : ''}
-      ${PIC.planche(q.titre, { href: `/qualite/planche/${PIC.cle(q.titre)}` })}
+      ${illustration(q, `/qualite/planche/${PIC.cle(q.titre)}?point=${q.id}&amp;produit=${
+        produitId}&amp;retour=${encodeURIComponent(`/qualite/${produitId}`)}`, photos)}
+      ${discussions && user ? discussionHTML({ point: q, messages: discussions.get(q.id) || [], user,
+        produitId, retour: `/qualite/${produitId}` }) : ''}
       ${(() => {
         // Les morceaux du pied se joignent par « · ». Les concaténer avec un
         // séparateur en préfixe laisse un « · » orphelin dès que le premier
@@ -969,7 +1053,7 @@ function pointQC({ q, produitId, editable, action = null, unites, grille = null 
  * mieux que deux sur un téléphone d'atelier, et un verdict qui part tout seul
  * ne se perd pas quand la page se recharge sur une connexion capricieuse.
  */
-function vueChecklist({ user, msg, ordre, c, grille = null }) {
+function vueChecklist({ user, msg, ordre, c, grille = null, discussions = null, photos = [] }) {
   const { item, points, total, verifies, ecarts, restants, complet, vide } = c;
 
   const ligne = (q) => {
@@ -992,7 +1076,11 @@ function vueChecklist({ user, msg, ordre, c, grille = null }) {
       ${grille && q.titre === grille.titrePoint ? grilleCotesHTML(grille, {
         action: `/ordres/${ordre.id}/items/${item.id}/cotes`,
         retour: `/ordres/${ordre.id}/items/${item.id}/qualite` }) : ''}
-      ${PIC.planche(q.titre, { href: `/qualite/planche/${PIC.cle(q.titre)}` })}
+      ${illustration(q, `/qualite/planche/${PIC.cle(q.titre)}?point=${q.id}&amp;item=${
+        item.id}&amp;retour=${encodeURIComponent(`/ordres/${ordre.id}/items/${item.id}/qualite`)}`, photos)}
+      ${discussions ? discussionHTML({ point: q, messages: discussions.get(q.id) || [], user,
+        produitId: item.produit_id, itemId: item.id,
+        retour: `/ordres/${ordre.id}/items/${item.id}/qualite` }) : ''}
       ${q.ech && q.ech.pieces !== null ? `<p class="ck-ech">
         <b>${e(q.ech.texte)}</b>${q.ech.regle ? ` <span>(${e(q.ech.regle)})</span>` : ''}
       </p>` : ''}
@@ -1076,7 +1164,7 @@ function formulaireQC(action, { general = false } = {}) {
       <input id="qtitre${general ? 'g' : ''}" name="titre" required maxlength="200"
              placeholder="${general
                ? 'Plier en trois, sachet kraft, étiquette sur le rabat'
-               : "Presser le col avant d'insérer l'isolant"}"></div>
+               : 'Bretelle cousue en double piqûre, bartack aux deux bouts'}"></div>
     <div class="champ champ-large"><label for="qdetail${general ? 'g' : ''}">Comment</label>
       <input id="qdetail${general ? 'g' : ''}" name="detail" maxlength="500"
              placeholder="Facultatif — le geste, l'outil, le gabarit"></div>
@@ -1327,7 +1415,7 @@ function vueQCOrdres({ user, msg, ordres }) {
  * combien de lots RESTENT — un lot signé disparaît de partout à la fois.
  */
 function vueQCOrdre({ user, msg, ordre, lignes, cat = 'tous', vue = 'cartes',
-                      CATS, checklists = {}, ouvert = null }) {
+                      CATS, checklists = {}, ouvert = null, discussions = new Map() }) {
   const nb = (n) => Number(n || 0).toLocaleString('fr-CA');
   const restants = lignes.filter(l => !l.signe);
   const dans = (l, c) => c === 'tous' || l.categories.includes(c);
@@ -1416,7 +1504,11 @@ function vueQCOrdre({ user, msg, ordre, lignes, cat = 'tous', vue = 'cartes',
               ${q.general ? '<span class="ck-gen">général</span>' : ''}
               ${q.valeur ? (($c) => `<span class="ck-cible">${e($c.valeur)}${
                 $c.unite ? ' ' + e($c.unite) : ''}</span>`
-                )(U.convertirMesure(q.valeur, q.unite, user.unites)) : ''}`;
+                )(U.convertirMesure(q.valeur, q.unite, user.unites)) : ''}
+              ${(($m) => $m.length ? `<span class="ck-dq${$m.some(x => x.type === 'image' && !x.regle_le)
+                ? ' ck-dq-img' : ''}" title="Échanges sous ce point">${$m.length} message${$m.length > 1 ? 's' : ''}${
+                $m.some(x => x.type === 'image' && !x.regle_le) ? ' · image à corriger' : ''}</span>` : ''
+                )(discussions.get(q.id) || [])}`;
               return k
                 ? `<a class="ck-t ck-td" href="/qualite/planche/${k}?point=${
                     q.id}&amp;item=${l.id}&amp;retour=${encodeURIComponent(lien(l))}"
@@ -1519,7 +1611,35 @@ function rapportForm({ ordre, l, c }) {
  * dessus, en français, pour qui les lit ; les panneaux se suivent en dessous
  * et se comprennent sans.
  */
-function vuePlanche({ user, msg, point, retour, grille = null, action = null, ici = '' }) {
+function vuePlanche({ user, msg, point, retour, grille = null, action = null, ici = '',
+                      messages = [], produitId = null, itemId = null,
+                      photosBoutique = [], controle = null }) {
+  // Le verdict du lot, en haut : on compare, puis on coche sans quitter la page.
+  const blocControle = controle ? `<form method="post" action="${e(controle.action)}" class="bd-verdict">
+      <input type="hidden" name="retour_url" value="${e(controle.retour)}">
+      <span class="bd-v-etat">${controle.verdict
+        ? `Dernier verdict : <b class="${controle.verdict.verdict === 'conforme' ? 'ok' : 'ko'}">${
+            controle.verdict.verdict === 'conforme' ? 'conforme' : 'non conforme'}</b>${
+            controle.verdict.par ? ` — ${e(controle.verdict.par)}` : ''}, ${dateHeureFR(controle.verdict.cree_le)}`
+        : 'Pas encore vérifié pour ce lot.'}</span>
+      <input name="note" maxlength="200" placeholder="Commentaire (facultatif)">
+      <button name="verdict" value="conforme" class="btn">Conforme</button>
+      <button name="verdict" value="non_conforme" class="btn rouge">Non conforme</button>
+    </form>` : '';
+  // Les vraies photos de la fiche en ligne : grandes, pour tenir la pièce à
+  // côté de l'écran. Un clic ouvre la pleine taille.
+  const galerie = photosBoutique.length ? `<div class="bd-boutique">
+      <p class="bd-b-consigne">Tenir la pièce à côté de l'écran, à la même lumière. Comparer teinte,
+        proportions, broderie, finitions.${controle
+          ? ' Puis <b>Conforme</b> ou <b>Non conforme</b> en haut.'
+          : ' Le verdict se donne depuis la liste à cocher du lot.'}</p>
+      <div class="bd-b-photos">${photosBoutique.map(ph => `<a href="${e(urlImage(ph.url))}" target="_blank"
+        rel="noopener"><img src="${e(urlImage(ph.url, 900))}" alt="${e(ph.legende || 'Photo de la boutique')}"
+        referrerpolicy="no-referrer"></a>`).join('')}</div>
+    </div>` : '';
+  // Deux colonnes sur un écran large : les dessins à gauche, la discussion à
+  // droite, qui reste en vue pendant qu'on fait défiler les panneaux. Sur un
+  // téléphone, la discussion passe dessous.
   const corps = `
   <p class="fil-ariane"><a href="${e(retour.href)}">${e(retour.texte)}</a></p>
   <div class="entete"><div>
@@ -1528,15 +1648,24 @@ function vuePlanche({ user, msg, point, retour, grille = null, action = null, ic
   </div></div>
   ${point.consequence
     ? `<p class="qc-cons bd-cons">Sinon : ${e(point.consequence)}</p>` : ''}
-  <div class="bd-schema">${schemaQC(point, TAILLES.plein)}</div>
-  ${grille && point.titre === grille.titrePoint
-    ? grilleCotesHTML(grille, action ? { action, retour: ici } : {}) : ''}
-  ${PIC.plancheBD(point.titre)}
+  ${blocControle}
+  <div class="bd-cols">
+    <div class="bd-gauche">
+      <div class="bd-schema">${schemaQC(point, TAILLES.plein)}</div>
+      ${grille && point.titre === grille.titrePoint
+        ? grilleCotesHTML(grille, action ? { action, retour: ici } : {}) : ''}
+      ${galerie || PIC.plancheBD(point.titre)}
+    </div>
+    <aside class="bd-droite">
+      ${discussionHTML({ point, messages, user, produitId, itemId, retour: ici,
+                         ouvert: !messages.length })}
+    </aside>
+  </div>
   <p class="bd-pied"><a class="btn sec" href="${e(retour.href)}">Revenir</a></p>`;
   return page({ titre: point.titre, user, corps, actif: 'qualite', msg });
 }
 
-function vueProtocole({ user, p, proto, msg, photos = [], bris = null, grille = null,
+function vueProtocole({ user, p, proto, msg, photos = [], bris = null, grille = null, discussions = null,
                        appuis = {}, ecartes = [] }) {
   const editable = true;   // les deux rôles écrivent : c'est l'atelier qui voit les défauts
   // Chaque point sait combien de bris l'appuient : c'est ce qui le rend
@@ -1547,7 +1676,7 @@ function vueProtocole({ user, p, proto, msg, photos = [], bris = null, grille = 
       ${proto.par[cle].length ? `<span class="cpt">${proto.par[cle].length}</span>` : ''}</h2>
     ${proto.par[cle].length
       ? `<ul class="qc-liste">${proto.par[cle].map(q =>
-          pointQC({ q, produitId: p.id, editable, unites: user.unites, grille })).join('')}</ul>`
+          pointQC({ q, produitId: p.id, editable, unites: user.unites, grille, discussions, user, photos })).join('')}</ul>`
       : `<p class="vide">${aide}</p>`}
   </div>`;
 
@@ -1656,7 +1785,7 @@ function vueProtocole({ user, p, proto, msg, photos = [], bris = null, grille = 
            </div>`
         : `<ul class="qc-liste">${g.map(q =>
             pointQC({ q, produitId: p.id, editable: true,
-                      unites: user.unites, grille })).join('')}</ul>`).join('')}
+                      unites: user.unites, grille, discussions, user, photos })).join('')}</ul>`).join('')}
     </div>`;
   })()}
   ${volet('cyclage', 'Cyclage et tests',
@@ -3399,7 +3528,7 @@ function vueSuivi({ user, msg, recentes, immobiles, progression, jours }) {
   return page({ titre: 'Activité', user, corps, actif: 'suivi', msg });
 }
 
-module.exports = { e, grilleCotesHTML, urlImage, urlAcceptable, img, miniature, silhouette,
+module.exports = { e, grilleCotesHTML, discussionHTML, urlImage, urlAcceptable, img, miniature, silhouette,
   vuePlanche,
   TAILLES, sousNavProduits,
   vueQualiteAccueil, vueQualiteProduits, vueQualiteGeneral, vueQCOrdres, vueQCOrdre, dateFR, dateHeureFR, jauge, page, vueConnexion,
