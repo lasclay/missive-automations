@@ -632,7 +632,7 @@ async function router(req, res, url, user) {
       return vers(res, `/ordres/${id}#i${mi[1]}`);
     }
 
-    // ---- signature du contrôle qualité : le compte rendu d'au moins 50 mots.
+    // ---- signature du contrôle qualité : le compte rendu d'au moins MOTS_RAPPORT mots (10).
     // Vit ici, et non dans le routeur /qualite, parce que /ordres/:id/... est
     // capturé plus haut : une route posée plus bas serait injoignable (404).
     mi = reste.match(/^\/items\/(\d+)\/rapport$/);
@@ -645,8 +645,13 @@ async function router(req, res, url, user) {
         medias: f.medias, utilisateurId: user.id });
       // Un refus rouvre le lot : renvoyer la liste repliée ferait reprendre la
       // navigation à zéro, et le texte qu'on vient d'écrire est déjà perdu.
+      // Le refus s'affiche DANS le formulaire, et le texte tapé y revient :
+      // en haut de page, personne ne le voyait, et le texte était perdu.
       if (r.erreur) return vers(res, `${retour}&ouvert=${it.id}&err=`
-        + encodeURIComponent(r.erreur) + `#lot${it.id}`);
+        + encodeURIComponent(r.erreur)
+        + '&brouillon=' + encodeURIComponent(String(f.texte || '').slice(0, 3000))
+        + '&medias=' + encodeURIComponent(String(f.medias || '').slice(0, 1000))
+        + `#signer${it.id}`);
       return vers(res, retour + '&ok=' + encodeURIComponent(
         `Contrôle signé — ${r.mots} mots${r.medias ? `, ${r.medias} média(s)` : ''}.`));
     }
@@ -1280,7 +1285,8 @@ async function router(req, res, url, user) {
       const discussions = lotOuvert && checklists[ouvert]
         ? discussionsPoints(checklists[ouvert].points, lotOuvert.produit_id) : new Map();
       return html(res, V.vueQCOrdre({ user, msg, ordre, lignes, cat, vue,
-        CATS, checklists, ouvert, discussions }));
+        CATS, checklists, ouvert, discussions,
+        brouillon: { texte: q.get('brouillon') || '', medias: q.get('medias') || '' } }));
     }
   }
 

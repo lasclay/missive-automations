@@ -245,11 +245,12 @@ page aurait cassé le jour où un ordre grossit. Replié : 2,3 Ko, indépendant 
 **Signer demande d'écrire.** Trois refus, dans CET ordre (`deposerRapport`) :
 
 1. checklist incomplète ou non-conformité ouverte → le formulaire n'apparaît même pas ;
-2. compte rendu de moins de **50 mots** (`MOTS_RAPPORT`) ;
+2. compte rendu de moins de **10 mots** (`MOTS_RAPPORT`) ;
 3. média dont l'adresse n'est pas `http(s)` — l'app n'héberge aucun fichier.
 
 L'ordre compte : dire « il manque 40 mots » à quelqu'un qui n'a encore rien contrôlé l'envoie
-écrire au lieu d'aller regarder les pièces. Un refus **rouvre le lot** là où on était. Le compte
+écrire au lieu d'aller regarder les pièces. Un refus **rouvre le lot** là où on était, s'affiche DANS le formulaire
+et y remet le texte tapé (en haut de page, personne ne le voyait). Le compte
 rendu se réécrit et **remplace** le précédent (`qc_rapports`, `UNIQUE(item_id)`) : un lot a un
 compte rendu, pas un historique de brouillons. L'écran affiche `MOTS_RAPPORT`, jamais un nombre
 recopié — un seuil écrit deux fois finit par mentir.
