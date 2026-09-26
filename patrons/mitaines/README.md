@@ -5,7 +5,7 @@ incréments de gradation » des mitaines plein air, polar, laine et cuir, se tir
 
 ## Source
 
-Les DXF Lectra (AAMA, métrique, 2022) du Drive :
+Les DXF Lectra (AAMA, métrique, 2022) du Drive (fichiers du 20/10/2022, `SHELL_LEFT_<taille>.DXF`) :
 `POUR L LESSARD - MITAINES ASCLEPIADE - LASCLAY / Modele Plein air / Patrons DXF / 1. Xsmall … 5. XLarge`,
 fichiers `SHELL_LEFT_<taille>.DXF`. Ils ne sont pas versionnés ici. Pour regénérer la charte, déposer
 les cinq fichiers dans ce dossier.
@@ -36,12 +36,22 @@ mesurées sur une vraie pièce ; la grille le dit.
 ## Le pouce
 
 Les crans de P4 donnent son assemblage : son bord pointe → n0 → n1 → n2 (84 + 66 + 46 mm en M) se
-coud sur P3 de n3 à n4 (fourche), puis n5 (bout du pouce), puis n0. Les cotes 3 et 4 se lisent donc
-sur P3, entre ces crans.
+coud sur P3 de n3 à n4, puis n5 (bout du pouce), puis n0.
 
-La cote 5 (coin inférieur → bout du pouce) n'a **pas** de théorique. À plat, le pouce s'écarte vers le
-bord, alors que P3 étalé le mettrait au milieu de la paume : 246 mm si P3 était à plat, environ 206 mm
-sur la photo de la boutique. Elle se mesure sur la pièce étalon ; la grille l'affiche sans la juger.
+**Numérotation du 26/09/2026**, redéfinie par la direction sur photos de l'atelier. Les anciennes
+3 (fourche → bout), 4 (largeur à mi-longueur) et 5 (coin inférieur → bout) sont remplacées :
+
+- **3** — bout du pouce → bas de la mitaine, le long de la couture côté pouce. **Pas de
+  théorique** : le pouce pivote au montage, et la pièce à plat ne dit pas où tombe son bout (P3
+  étalée donnerait 298 mm en M le long de la couture, le dessin fini ~200 mm). Elle se mesure sur
+  la pièce étalon ; la grille l'affiche sans la juger.
+- **4** — largeur du pouce à la jonction avec la main : P3, largeur du lobe perpendiculaire à son
+  axe, à 15 % de la base (milieu des crans n4-n0) vers le bout n5.
+- **5** — largeur du haut du pouce, à 10 mm sous le bout, même méthode.
+- **8** — l'ouverture arrondie en cercle presque parfait, puis son diamètre : 2 × cote 7 / π.
+
+Les cotes 3, 4 et 5 ensemble disent l'angle et la forme du pouce. Les mesures saisies avant le
+changement sont renumérotées 103, 104, 105 par `import_cotes.js` : gardées, hors de la grille.
 
 ## Le dessin
 

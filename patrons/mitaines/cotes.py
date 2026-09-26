@@ -3,15 +3,23 @@
 Écrit les lignes `couture_mm` de mrp/donnees/cotes-patrons.tsv (num, taille, valeur).
 Les DXF Lectra (SHELL_LEFT_<taille>.DXF) doivent être dans ce dossier.
 
+Numérotation du 26/09/2026, redéfinie par la direction sur photos de l'atelier :
+
   1 largeur        largeur max de P1 (le dos)
   2 hauteur        longueur de P1, bout des doigts -> bas de manchette
-  3 pouce          P3, cran n4 (fourche) -> cran n5 (bout du pouce)
-  4 largeur pouce  P3, largeur du lobe à mi-chemin entre le milieu de la base
-                   (crans n4 et n0) et le bout n5, perpendiculaire à cet axe
-  5 coin -> bout   pas de valeur : le pouce s'écarte au montage (voir README)
+  3 pouce -> bas   bout du pouce -> bas de la mitaine, le long de la couture du
+                   côté pouce. Pas de valeur : le pouce pivote au montage, et la
+                   pièce à plat ne dit pas où tombe son bout (voir README)
+  4 base pouce     largeur du pouce à la jonction avec la main : P3, largeur du
+                   lobe perpendiculaire à son axe, à 15 % de la base (milieu des
+                   crans n4-n0) vers le bout n5
+  5 haut pouce     largeur du pouce à 10 mm sous le bout, même méthode
   6 poignet        largeur de P1 à la ligne des crans du poignet
   7 manchette      largeur de P1 au bas
-  8 diamètre       2 x cote 7 / pi
+  8 diamètre       ouverture arrondie en cercle : 2 x cote 7 / pi
+
+Les anciennes cotes 3 (fourche -> bout), 4 (largeur à mi-longueur) et 5 (coin
+inférieur -> bout) ne sont plus relevées.
 
 Les crans de P4 confirment l'assemblage du pouce : P4 n0->n1 (66 mm en M) = P3 n4->n5,
 P4 n1->n2 (46) = P3 n5->n0, P4 pointe->n0 (84) = P3 n3->n4.
@@ -40,8 +48,9 @@ for s in ['XS', 'S', 'M', 'L', 'XL']:
     base = ((f[0]+b[0])/2, (f[1]+b[1])/2); L = d(base, t)
     ax = ((t[0]-base[0])/L, (t[1]-base[1])/L); mil = ((base[0]+t[0])/2, (base[1]+t[1])/2)
     wc = width_at(p1, x1-2)
+    a_ = lambda u: (base[0]+ax[0]*u, base[1]+ax[1]*u)
     v = {1: max(width_at(p1, x0+(x1-x0)*i/100) for i in range(5, 99)), 2: x1-x0,
-         3: d(f, t), 4: largeur_perp(p3, mil, ax), 5: None,
+         3: None, 4: largeur_perp(p3, a_(0.15*L), ax), 5: largeur_perp(p3, a_(L-10), ax),
          6: width_at(p1, poignet), 7: wc, 8: 2*wc/math.pi}
     for k in range(1, 9):
         print(f'{k}\t{s}\t{"" if v[k] is None else round(v[k], 1)}')
