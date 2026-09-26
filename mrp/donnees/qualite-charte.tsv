@@ -54,7 +54,7 @@ MIT-PLEIN-AIR	mesure	Élastique au poignet pas trop serré							charte produits
 MIT-PLEIN-AIR	mesure	Élastique à la hauteur de la base du pouce							charte produits
 MIT-PLEIN-AIR	probleme	Lacet bien intégré au niveau du poignet							charte produits
 MIT-PLEIN-AIR	critique	La mitaine gauche est identique à la droite		Une paire dépareillée est invendable					charte produits
-MIT-PLEIN-AIR	probleme	Étiquettes de taille et de composition : même sens, à 1 po à l'intérieur	Les DEUX étiquettes — taille et composition — posées à 1 po à l'intérieur de la mitaine, toutes deux dans le même sens, sur toutes les pièces du lot. Position posée par Admin QC le 24/09/2026 ; la charte disait le sens, pas la distance. Une étiquette cousue trop haut dépasse, trop bas elle frotte la main.	Une étiquette à l'envers ou mal placée se voit dès le déballage					charte produits	https://drive.google.com/file/d/1VKNPGchhfZR98Q9L2WlvP_rivuXx05YO/view
+MIT-PLEIN-AIR	probleme	Étiquettes de taille et de composition : même sens, à 1 po à l'intérieur	Les DEUX étiquettes — taille et composition — posées à 1 po à l'intérieur de la mitaine, toutes deux dans le même sens, sur toutes les pièces du lot. Position posée par Admin QC le 24/09/2026 ; la charte disait le sens, pas la distance. Une étiquette cousue trop haut dépasse, trop bas elle frotte la main.	Une étiquette à l'envers ou mal placée se voit dès le déballage					charte produits	/schema/mitaine-etiquettes.webp
 MIT-POLAR	critique	Assemblage de la jonction main/pouce solide							charte produits
 MIT-POLAR	mesure	Élastique au poignet pas trop serré							charte produits
 MIT-POLAR	mesure	Élastique à la hauteur de la base du pouce							charte produits
@@ -79,10 +79,10 @@ FOULARD	critique	Matelassage droit							charte produits
 CACHE-COU	critique	Droit fil respecté, élasticité du bon côté							charte produits
 CACHE-COU	probleme	Boutonnière à l'arrière							charte produits
 CACHE-COU	mesure	Excédent d'élastique	Mesuré une fois le cord-lock posé.		1	max	po		charte produits
-CACHE-COU	mesure	Dimensions finales selon le schéma des tailles	Adulte, grand enfant, petit enfant : trois cotes différentes, voir le schéma de la charte.						charte produits	https://drive.google.com/file/d/1Fb2sl43qXrrpBvfb8W0Laqxdzx04Tad-/view
+CACHE-COU	mesure	Dimensions finales selon le schéma des tailles	Adulte, grand enfant, petit enfant : trois cotes différentes, voir le schéma de la charte.						charte produits	/schema/cache-cou-tailles.webp
 SEMELLE-678	critique	Collage adéquat		Une semelle décollée est le premier bris signalé sur ce produit					charte produits
 SEMELLE-678	mesure	Emballage et estampe = bonne taille		La mauvaise pointure dans la mauvaise boîte revient en échange					charte produits
-SEMELLE-678	critique	Découpe finale droite et lisse sur la ligne intérieure		Une découpe irrégulière s'effiloche et use la semelle par le bord					charte produits	https://drive.google.com/file/d/1VfCDc0SCWYScT9-aQRlxS-zm3yAn9lKv/view
+SEMELLE-678	critique	Découpe finale droite et lisse sur la ligne intérieure		Une découpe irrégulière s'effiloche et use la semelle par le bord					charte produits	/schema/semelle-decoupe.webp
 SEMELLE-678	emballage	Emballage dans le carton sans comprimer	ATTENTION DE NE PAS COMPRESSER POUR NE PAS DÉFORMER.	La semelle sort du carton déformée et ne reprend pas sa forme					charte produits
 SEMELLE-9	critique	Collage adéquat							charte produits
 SEMELLE-9	mesure	Emballage et estampe = bonne taille							charte produits
@@ -103,7 +103,7 @@ COUSSIN	critique	Début et fin du biais intégrés sous la sangle de rangement		
 COUSSIN	emballage	Plier et attacher le coussin en accordéon au velcro, étiquette visible vers le haut							charte produits
 COUSSIN	probleme	Pas de tache de colle sur le produit							charte produits
 GLACIERE	critique	Assemblage de la sangle résistant							charte produits
-GLACIERE	critique	Bretelles renforcées	Le point d'attache haut et le point d'attache bas, des deux côtés.	Dix clients ont signalé la même couture de bretelle décousue — c'est le bris le plus fréquent de tout le catalogue					charte produits	https://drive.google.com/file/d/1ZoywE60IWujaNgdX316R182fFNsRm7mJ/view
+GLACIERE	critique	Bretelles renforcées	Le point d'attache haut et le point d'attache bas, des deux côtés.	Dix clients ont signalé la même couture de bretelle décousue — c'est le bris le plus fréquent de tout le catalogue					charte produits	/schema/glaciere-bretelles.webp
 GLACIERE	probleme	Doublure de PVC sans trou							charte produits
 SAC-COUCHAGE-0	critique	Matelassage droit							charte produits
 SAC-COUCHAGE-0	critique	Fermeture droite et tendue							charte produits
@@ -113,8 +113,8 @@ OREILLER-CAMPING	critique	Répartition de la fibre et des retailles de vegeto un
 OREILLER	critique	La fermeture éclair ouvre et ferme facilement							charte produits
 OREILLER	critique	Pas de taches	Regarder la housse sous la lumière, des deux côtés, avant emballage.	Une housse blanche ne pardonne rien, et une tache ne se rattrape pas après coup : la pièce est perdue ou revient en retour.				chaque oreiller	charte produits
 CACHE-COU-ENF-18M4A	critique	Droit fil respecté, élasticité du bon côté							charte produits
-CACHE-COU-ENF-18M4A	mesure	Dimensions finales selon le schéma des tailles	Schéma « petit enfant » de la charte.						charte produits	https://drive.google.com/file/d/1Fb2sl43qXrrpBvfb8W0Laqxdzx04Tad-/view	
+CACHE-COU-ENF-18M4A	mesure	Dimensions finales selon le schéma des tailles	Schéma « petit enfant » de la charte.						charte produits	/schema/cache-cou-tailles.webp	
 CACHE-COU-ENF-5A13A	critique	Droit fil respecté, élasticité du bon côté							charte produits
 CACHE-COU-ENF-5A13A	probleme	Boutonnière à l'arrière							charte produits
 CACHE-COU-ENF-5A13A	mesure	Excédent d'élastique	Mesuré une fois le cord-lock posé.		1	max	po		charte produits
-CACHE-COU-ENF-5A13A	mesure	Dimensions finales selon le schéma des tailles	Schéma « grand enfant » de la charte.						charte produits	https://drive.google.com/file/d/1Fb2sl43qXrrpBvfb8W0Laqxdzx04Tad-/view	
+CACHE-COU-ENF-5A13A	mesure	Dimensions finales selon le schéma des tailles	Schéma « grand enfant » de la charte.						charte produits	/schema/cache-cou-tailles.webp	
