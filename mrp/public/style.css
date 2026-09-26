@@ -1784,3 +1784,13 @@ a.ck-td:hover .ck-pl{opacity:1}
 .ck-dq{display:inline-block;margin-left:6px;padding:1px 7px;border-radius:9px;font-size:12px;
   background:var(--piste);color:var(--encre2);white-space:nowrap}
 .ck-dq-img{background:#fff3cd;color:#7a5200}
+/* Photo dans la discussion : deux gros boutons, faits pour le doigt sur iPad.
+   « Prendre une photo » ouvre l'appareil (capture), l'autre la photothèque.
+   Le champ natif reste visible : il affiche le nom du fichier choisi, seul
+   retour possible sans JavaScript. */
+.dq-photos{display:flex;flex-wrap:wrap;gap:10px 18px}
+.dq-champ input[type=file]{font-size:13px;color:var(--encre2);max-width:100%}
+.dq-champ input[type=file]::file-selector-button{font:600 15px/1 system-ui,sans-serif;
+  padding:12px 16px;margin-right:10px;border-radius:8px;border:1px solid var(--piste-pleine);
+  background:var(--champ);color:var(--encre);cursor:pointer}
+.dq-camera input[type=file]::file-selector-button{background:var(--vert);border-color:var(--vert);color:#fff}
