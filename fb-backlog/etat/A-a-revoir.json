@@ -4502,6 +4502,16 @@
    "motif": "Demande le nom de la dragonne qui aurait fait une offre. Rien la-dessus dans faits-verifies.json: ni l'emission, ni l'offre, ni le nom de la personne. Garde-fou 6, on n'invente pas et on ne nomme personne. A reprendre par un humain qui sait ce qui peut etre dit publiquement.",
    "ecarte_le": "2026-09-25",
    "tir": "A"
+  },
+  {
+   "id": "1678623234271486_984466071342502",
+   "page_id": "104242204750257",
+   "date": "2026-09-25T22:14:31+0000",
+   "message": "Bonjour, j'ai tenté à 3 reprises de communiquer avec vous, mais aucun retour de votre part depuis mon achat que je n'ai jamais reçu depuis le mois de mai 2026. Il est possible d'avoir un retour!?",
+   "lien": "https://www.facebook.com/reel/1846709969671835/?comment_id=984466071342502",
+   "motif": "Plainte de commande: achat de mai 2026 jamais recu, trois tentatives de contact restees sans reponse. Garde-fou 7, aucune reponse publique et aucune date promise. A reprendre d'urgence par le support en prive: verifier Shopify + ShipStation et rappeler la personne.",
+   "ecarte_le": "2026-09-25",
+   "tir": "A"
   }
  ]
 }
