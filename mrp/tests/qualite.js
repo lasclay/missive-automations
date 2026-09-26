@@ -7,8 +7,8 @@
  *      court, puis média inhébergeable. L'ordre compte : dire « il manque 40
  *      mots » à quelqu'un qui n'a encore rien contrôlé l'envoie écrire au lieu
  *      d'aller regarder les pièces.
- *   2. Le seuil de 50 mots, compté sur des mots, pas des caractères. « ok ok ok
- *      ok… » cinquante fois passerait — c'est assumé : le seuil force à
+ *   2. Le seuil de MOTS_RAPPORT mots (10), compté sur des mots, pas des caractères. « ok ok ok
+ *      ok… » dix fois passerait — c'est assumé : le seuil force à
  *      raconter, il ne prétend pas juger.
  *   3. Les catégories ne sont pas exclusives. Un manteau de 1 200 unités est à
  *      la fois un grand volume et un produit gradué : il doit apparaître dans

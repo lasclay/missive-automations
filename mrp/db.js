@@ -476,7 +476,7 @@ CREATE INDEX IF NOT EXISTS idx_discussion_titre ON qc_discussion(point_titre, id
 -- seule chose qui permette de savoir ce qui s'est passé est une phrase écrite
 -- par celui qui avait les pièces en main.
 --
--- D'où le plancher de cinquante mots. Il n'est pas là pour faire écrire, il
+-- D'où le plancher de dix mots (cinquante jusqu'au 26/09/2026). Il n'est pas là pour faire écrire, il
 -- est là pour empêcher « ok » — qui est ce qu'on écrit quand on est pressé, et
 -- qui ne vaut rien six mois plus tard. Les médias sont des ADRESSES, jamais
 -- des fichiers : l'app n'héberge rien.
@@ -1887,7 +1887,9 @@ function blocageQC(itemId, valeur) {
 }
 
 /** Le plancher du compte rendu. Voir le commentaire de `qc_rapports`. */
-const MOTS_RAPPORT = 50;
+// Abaissé de 50 à 10 le 26/09/2026 : cinquante mots décourageaient la
+// signature. Dix suffisent à écarter le « ok » vide sans faire rédiger.
+const MOTS_RAPPORT = 10;
 
 /** Compte les mots d'un texte, à la façon dont un humain les compterait. */
 function compterMots(texte) {

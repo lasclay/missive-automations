@@ -1415,7 +1415,8 @@ function vueQCOrdres({ user, msg, ordres }) {
  * combien de lots RESTENT — un lot signé disparaît de partout à la fois.
  */
 function vueQCOrdre({ user, msg, ordre, lignes, cat = 'tous', vue = 'cartes',
-                      CATS, checklists = {}, ouvert = null, discussions = new Map() }) {
+                      CATS, checklists = {}, ouvert = null, discussions = new Map(),
+                      brouillon = { texte: '', medias: '' } }) {
   const nb = (n) => Number(n || 0).toLocaleString('fr-CA');
   const restants = lignes.filter(l => !l.signe);
   const dans = (l, c) => c === 'tous' || l.categories.includes(c);
@@ -1529,7 +1530,7 @@ function vueQCOrdre({ user, msg, ordre, lignes, cat = 'tous', vue = 'cartes',
           </li>`).join('')}
         </ul>` : `<p class="vide">Aucun protocole pour ce produit — rien n'est exigé.
           C'est un trou, pas une permission.</p>`}
-        ${rapportForm({ ordre, l, c })}
+        ${rapportForm({ ordre, l, c, refus: msg && msg.type === 'err' ? msg.texte : '', brouillon })}
       </div>
     </details>`;
   };
@@ -1581,7 +1582,7 @@ function vueQCOrdre({ user, msg, ordre, lignes, cat = 'tous', vue = 'cartes',
  * Le formulaire ne s'affiche que quand la liste est finie : proposer de signer
  * un lot dont six points ne sont pas regardés, c'est inviter à le faire.
  */
-function rapportForm({ ordre, l, c }) {
+function rapportForm({ ordre, l, c, refus = '', brouillon = { texte: '', medias: '' } }) {
   if (l.signe) return `<p class="lot-signe">Contrôle signé.
     <a class="lien" href="/ordres/${ordre.id}/items/${l.id}/qualite">Voir le compte rendu</a></p>`;
   const pret = !c || c.vide || (!c.restants.length && !c.ecarts.length);
@@ -1589,16 +1590,18 @@ function rapportForm({ ordre, l, c }) {
     ? `${c.ecarts.length} non-conformité${c.ecarts.length > 1 ? 's' : ''} à corriger`
     : `${c.restants.length} point${c.restants.length > 1 ? 's' : ''} à vérifier`}
     avant de pouvoir signer.</p>`;
-  return `<form class="rapport" method="post"
+  return `<form class="rapport" id="signer${l.id}" method="post"
         action="/ordres/${ordre.id}/items/${l.id}/rapport">
     <h4>Signer le contrôle</h4>
+    ${refus ? `<p class="msg err">Pas signé : ${e(refus)}</p>` : ''}
     <p class="muted">Ce que tu as vu : les pièces contrôlées, ce qui allait, ce
-    qui a demandé une reprise. <b>${MOTS_RAPPORT} mots minimum</b> — dans six mois,
-    quand un client signalera une couture, ce texte sera la seule chose qui dira
-    ce qui s'est passé.</p>
+    qui a demandé une reprise. <b>${MOTS_RAPPORT} mots minimum</b> — une ou deux
+    phrases. Dans six mois, quand un client signalera une couture, ce texte sera
+    la seule chose qui dira ce qui s'est passé.</p>
     <textarea name="texte" rows="5" required minlength="1"
-      placeholder="Sur les 3 500 cache-cous, j'ai contrôlé…"></textarea>
-    <input name="medias" placeholder="Adresses de photos ou vidéos, séparées par une espace">
+      placeholder="Sur les 3 500 cache-cous, j'ai contrôlé…">${e(refus ? brouillon.texte : '')}</textarea>
+    <input name="medias" value="${e(refus ? brouillon.medias : '')}"
+      placeholder="Adresses de photos ou vidéos, séparées par une espace">
     <button class="btn">Signer le contrôle</button>
   </form>`;
 }

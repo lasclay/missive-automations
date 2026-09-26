@@ -571,6 +571,18 @@ curl -s -b $CO -o /dev/null -w '%{redirect_url}' -X POST \
   && ok "un compte rendu trop court ne signe pas le contrôle" \
   || ko "le contrôle s'est signé sans compte rendu"
 
+# Le refus se lit DANS le formulaire, et le texte tapé y revient : affiché en
+# haut de page, l'atelier ne le voyait pas et croyait à une panne.
+R=$(curl -s -b $CO -o /dev/null -w '%{redirect_url}' -X POST \
+  $B/ordres/1/items/1/rapport --data 'texte=tout est beau')
+case "$R" in *brouillon=tout*'#signer1') ok "le refus ramène au formulaire avec le texte tapé" ;;
+  *) ko "refus sans brouillon ni ancre ($R)" ;; esac
+P=$(curl -s -b $CO "${R%%#*}")
+echo "$P" | grep -q 'Pas signé : Le compte rendu fait 3 mots' \
+  && echo "$P" | grep -q '>tout est beau</textarea>' \
+  && ok "le formulaire dit pourquoi et garde le texte" \
+  || ko "refus invisible ou texte perdu"
+
 PQ=$(MRP_DB="$DB" node --no-warnings -e "
 const{db}=require('./db.js');
 console.log(db.prepare('SELECT id FROM produits ORDER BY id LIMIT 1').get().id)" 2>/dev/null)
