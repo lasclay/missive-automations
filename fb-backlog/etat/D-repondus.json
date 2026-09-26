@@ -8812,8 +8812,24 @@
       "quand": "2026-09-26T14:45:49.402Z",
       "confirme": true,
       "texte": "Merci beaucoup pour ces bons mots, ça fait plaisir à lire 😊"
+    },
+    {
+      "id": "115591106938152_119879206509342",
+      "reponse_id": "115591106938152_2083555092251685",
+      "page_id": "114311920399404",
+      "quand": "2026-09-26T16:39:06.832Z",
+      "confirme": true,
+      "texte": "Merci pour ces observations, patiemment accumulées saison après saison. Nous n'avons rien de vérifié sur le lien entre l'humidité et la fructification, alors votre comparaison sur plusieurs années vaut mieux que nos impressions 🌿"
+    },
+    {
+      "id": "115591106938152_116949693468960",
+      "reponse_id": "115591106938152_1317598103655006",
+      "page_id": "114311920399404",
+      "quand": "2026-09-26T16:42:10.106Z",
+      "confirme": true,
+      "texte": "Contents que ça vous apprenne quelque chose 🌿"
     }
   ],
-  "total": 1101,
-  "derniere_execution": "2026-09-26T14:45:49.402Z"
+  "total": 1103,
+  "derniere_execution": "2026-09-26T16:42:10.106Z"
 }

@@ -12351,6 +12351,62 @@
       "motif": "Sous-fil polemique enracine sur « Combien de $$$ pour le developpement ? Ou sont les subventions ? ». Le financement de l'entreprise et les subventions recues sont hors des faits verifies, et ce fil appartient au bloc SUIVI HUMAIN REQUIS (grappe sociofinancement / subventions).",
       "page_id": "114311920399404",
       "quand": "2026-09-26T14:39:03.345Z"
+    },
+    {
+      "id": "115591106938152_119458826551380",
+      "extrait": "j'adore son parfum qui embaume les alentours",
+      "motif": "Odeur et parfum : ABSENTS de faits-verifies.json. Rattache a NOTE-FAITS-VERIFIES-odeur, deja ouverte (notre sachet de semences promet « une enivrante odeur florale »).",
+      "page_id": "114311920399404",
+      "quand": "2026-09-26T16:38:55.773Z"
+    },
+    {
+      "id": "115591106938152_119328589897737",
+      "extrait": "(message vide, seule l'identification de la Page)",
+      "motif": "Aucun contenu auquel repondre.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-26T16:38:55.773Z"
+    },
+    {
+      "id": "115591106938152_119195159911080",
+      "extrait": "la ferme Hubert leonard aux lac du cerf",
+      "motif": "Nomme une exploitation tierce. Rien de verifie sur ce tiers, et ce n'est pas a nous de confirmer ou d'infirmer publiquement.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-26T16:38:55.773Z"
+    },
+    {
+      "id": "115591106938152_118683256628937",
+      "extrait": "Cette plante devrait etre protegee, il en manque et ca sauve les abeilles",
+      "motif": "Deux affirmations absentes de la reference : l'etat des populations et le role pour les abeilles. Repondre exigerait d'endosser les deux.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-26T16:38:55.773Z"
+    },
+    {
+      "id": "115591106938152_116938106803452",
+      "extrait": "c'est le seul chose les Monarchs mange, mais juste les feuilles",
+      "motif": "L'alimentation exclusive de la chenille sur l'asclepiade est ABSENTE de faits-verifies.json (verifie par grep). Motif deja applique aux commentaires de meme nature.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-26T16:38:55.773Z"
+    },
+    {
+      "id": "115591106938152_116690663494863",
+      "extrait": "Et ca sauve les monarch et les abeilles",
+      "motif": "Les abeilles sont absentes de la reference, et le garde-fou interdit « acheter sauve un monarque » : acquiescer reviendrait a le dire.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-26T16:38:55.773Z"
+    },
+    {
+      "id": "115591106938152_116586273505302",
+      "extrait": "je connais une personne qui mange des l asclepiades",
+      "motif": "Comestibilite ABSENTE de la reference, avec en plus un enjeu de securite : repondre chaleureusement se lirait comme un encouragement a en manger. Rattache a NOTE-FAITS-VERIFIES-comestibilite.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-26T16:38:55.773Z"
+    },
+    {
+      "id": "115591106938152_116226023541327",
+      "extrait": "Il ne faut pas esperer construire une industrie viable si on a besoin de subvention",
+      "motif": "Meme sous-fil polemique sur les subventions que 115591106938152_119913556505907 (ecarte au tir de 10 h). Financement de l'entreprise hors des faits verifies, bloc SUIVI HUMAIN REQUIS.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-26T16:38:55.773Z"
     }
   ]
 }
