@@ -12274,6 +12274,62 @@
       "motif": "Sous-fil enracine sur « Est ce qu'il y a des manteaux fait au Quebec avec cet isolant? » : garde-fou 4 interdit la mention « fabrique au Quebec » ET sa correction. Une reponse amicale a cet endroit se lirait comme un engagement tacite dans cette question. Meme motif que le sous-fil ecarte le 25 septembre.",
       "page_id": "114311920399404",
       "quand": "2026-09-26T12:39:09.501Z"
+    },
+    {
+      "id": "132458928584703_134579565039306",
+      "extrait": "Josiane April / Ariane Veilleux",
+      "motif": "Identifications seules, aucun contenu auquel repondre.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-26T13:40:04.681Z"
+    },
+    {
+      "id": "132458928584703_134010288429567",
+      "extrait": "Ma tante semblait dire que son manteau quartz en etait fait",
+      "motif": "Tiers nomme (Quartz Co) ET sous-fil enracine sur « manteaux fait au Quebec » : garde-fou 4 interdit la mention comme la correction. Rien de verifie sur la composition des produits d'un tiers.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-26T13:40:04.681Z"
+    },
+    {
+      "id": "132458928584703_133852051778724",
+      "extrait": "Frans Van Dun c'est ce qu'elle disait Amelie Thivierge",
+      "motif": "Identifications et echange prive entre abonnes, aucun contenu auquel repondre.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-26T13:40:04.681Z"
+    },
+    {
+      "id": "132458928584703_133453185151944",
+      "extrait": "Louis-Charles Beaudoin",
+      "motif": "Identification seule, aucun contenu auquel repondre.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-26T13:40:04.681Z"
+    },
+    {
+      "id": "121337889696807_129442275553035",
+      "extrait": "Melissa Melissa Domingue",
+      "motif": "Identifications seules, aucun contenu auquel repondre.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-26T13:40:04.681Z"
+    },
+    {
+      "id": "122652202898709_125263865970876",
+      "extrait": "Kari Bou Gabriel Pigeon",
+      "motif": "Identifications seules, aucun contenu auquel repondre.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-26T13:40:04.681Z"
+    },
+    {
+      "id": "122652202898709_129615232202406",
+      "extrait": "cet ete je suis alle en Gaspesie et j en ai pas vu. Meme pas dans le bas Saint laurent",
+      "motif": "Meme echange, meme personne et meme constat que 122652202898709_130333615463901, qui recoit la reponse. Une seule intervention par echange.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-26T13:40:04.681Z"
+    },
+    {
+      "id": "NOTE-FAITS-VERIFIES-repartition-quebec",
+      "extrait": "Notre propre commentaire de Page : « Il y en a pas mal partout au Quebec :) »",
+      "motif": "A SIGNALER A UN HUMAIN. La repartition de l'asclepiade region par region au Quebec est ABSENTE de faits-verifies.json, et « etat des populations » y est explicitement absent. Or notre Page a affirme publiquement qu'il y en a « pas mal partout au Quebec », ce qu'au moins deux abonnes contestent par observation directe (Gaspesie, Bas-Saint-Laurent). Meme forme que NOTE-FAITS-VERIFIES-odeur et NOTE-FAITS-VERIFIES-comestibilite : soit la donnee entre dans la reference avec sa source, soit la Page arrete de l'affirmer.",
+      "page_id": "114311920399404",
+      "quand": "2026-09-26T13:40:04.681Z"
     }
   ]
 }
